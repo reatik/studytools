@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国象棋</title>
+    <style>
+        @font-face {
+            font-family: 'KaiTi';
+            src: local('KaiTi'), local('楷体');
+        }
+        
+        body {
+            font-family: 'KaiTi', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f0e6d2 url('https://img.freepik.com/free-photo/wooden-texture_1194-6151.jpg') center/cover;
+        }
+        
+        .game-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            background: rgba(210, 180, 140, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 8px solid #8B4513;
+        }
+        
+        h1 {
+            color: #5C3317;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+            margin: 0 0 10px 0;
+            font-family: 'KaiTi';
+            font-size: 28px;
+        }
+        
+        .chess-board {
+            position: relative;
+            width: 450px;
+            height: 500px;
+            background: #e8c887 url('https://img.freepik.com/free-photo/old-wooden-table-texture-background_53876-88628.jpg') center/cover;
+            border: 3px solid #5C3317;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .chess-piece {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            position: absolute;
+            z-index: 2;
+            transition: all 0.2s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            font-family: 'KaiTi';
+        }
+        
+        .chess-piece.red {
+            background: linear-gradient(135deg, #d10000, #a00000);
+            color: #fff;
+            border: 2px solid #800;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        
+        .chess-piece.black {
+            background: linear-gradient(135deg, #333, #000);
+            color: #fff;
+            border: 2px solid #222;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        
+        .chess-piece.selected {
+    transform: scale(1.1); /* 棋子放大10% */
+    position: relative;
+    z-index: 10;
+}
+
+/* 白色外圈（带柔光效果） */
+.chess-piece.selected::after {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.8); /* 半透明白色 */
+    box-shadow: 
+        0 0 8px rgba(255, 255, 255, 0.6), /* 内发光 */
+        0 0 12px rgba(255, 255, 255, 0.4); /* 外发光 */
+    pointer-events: none;
+    animation: float 2s ease-in-out infinite;
+}
+
+
+        .river {
+            position: absolute;
+            width: 100%;
+            height: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #5C3317;
+            background: rgba(173, 216, 230, 0.3);
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            font-family: 'KaiTi';
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background: linear-gradient(to bottom, #8B4513, #5C3317);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'KaiTi';
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .status {
+            font-weight: bold;
+            color: #5C3317;
+            text-align: center;
+            margin-bottom: 10px;
+            font-family: 'KaiTi';
+            font-size: 18px;
+        }
+        
+        .score {
+            font-family: 'KaiTi';
+            font-size: 16px;
+            color: #5C3317;
+            margin-bottom: 10px;
+        }
+        
+        .captured-pieces {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 120px;
+        }
+        
+        .captured-container {
+            background: rgba(210, 180, 140, 0.7);
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .captured-title {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px;
+            font-family: 'KaiTi';
+        }
+        
+        .captured-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+        }
+        
+        .captured-piece {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            font-family: 'KaiTi';
+        }
+        
+        .victory-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: gold;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 32px;
+            font-weight: bold;
+            z-index: 100;
+            display: none;
+            font-family: 'KaiTi';
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            animation: pulse 1.5s infinite;
+        }
+
+        #red-captured .captured-piece {
+    background: linear-gradient(135deg, #333, #000); /* 黑色渐变背景 */
+    color: white; /* 白色文字 */
+    border: 1px solid #222; /* 深色边框 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+#black-captured .captured-piece {
+    background: linear-gradient(135deg, #d10000, #a00000); /* 红色渐变 */
+    color: white; /* 白色文字 */
+    border: 1px solid #800; /* 深红色边框 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.2);
+}
+        
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        /* 棋盘线条 */
+        .board-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .board-lines line {
+            stroke: #5C3317;
+            stroke-width: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="captured-pieces">
+            <div class="captured-container">
+                <div class="captured-title">红方吃子</div>
+                <div class="captured-list" id="red-captured"></div>
+            </div>
+
+            <div class="score" id="score">红方 0 : 0 黑方</div>
+            <div class="controls">
+                <div class="status" id="status">红方回合</div>
+                <button id="reset-btn">重新开始</button>
+                <button id="undo-btn">悔棋</button>
+            </div>
+            <div class="captured-container">
+                <div class="captured-title">黑方吃子</div>
+                <div class="captured-list" id="black-captured"></div>
+            </div>
+        </div>
+        
+        <div class="chess-board">
+            <svg class="board-lines" viewBox="0 0 450 500">
+                <!-- 横线 -->
+                <line x1="25" y1="25" x2="425" y2="25"/>
+                <line x1="25" y1="75" x2="425" y2="75"/>
+                <line x1="25" y1="125" x2="425" y2="125"/>
+                <line x1="25" y1="175" x2="425" y2="175"/>
+                <line x1="25" y1="225" x2="425" y2="225"/>
+                <line x1="25" y1="275" x2="425" y2="275"/>
+                <line x1="25" y1="325" x2="425" y2="325"/>
+                <line x1="25" y1="375" x2="425" y2="375"/>
+                <line x1="25" y1="425" x2="425" y2="425"/>
+                <line x1="25" y1="475" x2="425" y2="475"/>
+            
+                <!-- 最外侧的竖线（完整） -->
+                <line x1="25" y1="25" x2="25" y2="475"/> <!-- 最左侧竖线 -->
+                <line x1="425" y1="25" x2="425" y2="475"/> <!-- 最右侧竖线 -->
+            
+                <!-- 中间的竖线（上半部分） -->
+                <line x1="75" y1="25" x2="75" y2="225"/>
+                <line x1="125" y1="25" x2="125" y2="225"/>
+                <line x1="175" y1="25" x2="175" y2="225"/>
+                <line x1="225" y1="25" x2="225" y2="225"/>
+                <line x1="275" y1="25" x2="275" y2="225"/>
+                <line x1="325" y1="25" x2="325" y2="225"/>
+                <line x1="375" y1="25" x2="375" y2="225"/>
+            
+                <!-- 中间的竖线（下半部分） -->
+                <line x1="75" y1="275" x2="75" y2="475"/>
+                <line x1="125" y1="275" x2="125" y2="475"/>
+                <line x1="175" y1="275" x2="175" y2="475"/>
+                <line x1="225" y1="275" x2="225" y2="475"/>
+                <line x1="275" y1="275" x2="275" y2="475"/>
+                <line x1="325" y1="275" x2="325" y2="475"/>
+                <line x1="375" y1="275" x2="375" y2="475"/>
+            
+                <!-- 九宫格斜线 -->
+                <line x1="175" y1="25" x2="275" y2="125"/>
+                <line x1="275" y1="25" x2="175" y2="125"/>
+                <line x1="175" y1="375" x2="275" y2="475"/>
+                <line x1="275" y1="375" x2="175" y2="475"/>
+            </svg>
+            
+            <!-- 楚河汉界 -->
+            <div class="river">楚河　　　　　　　　汉界</div>
+            
+            <!-- 棋子容器 -->
+            <div id="pieces-container"></div>
+        </div>
+    </div>
+    
+    <div class="victory-message" id="victory-message"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const piecesContainer = document.getElementById('pieces-container');
+            const statusDisplay = document.getElementById('status');
+            const resetBtn = document.getElementById('reset-btn');
+            const undoBtn = document.getElementById('undo-btn');
+            const redCapturedDisplay = document.getElementById('red-captured');
+            const blackCapturedDisplay = document.getElementById('black-captured');
+            const scoreDisplay = document.getElementById('score');
+            const victoryMessage = document.getElementById('victory-message');
+            
+            // 棋子初始位置
+            const initialPositions = [
+                // 红方（下方）
+                { type: '车', color: 'red', x: 0, y: 9 },
+                { type: '马', color: 'red', x: 1, y: 9 },
+                { type: '相', color: 'red', x: 2, y: 9 },
+                { type: '士', color: 'red', x: 3, y: 9 },
+                { type: '帅', color: 'red', x: 4, y: 9 },
+                { type: '士', color: 'red', x: 5, y: 9 },
+                { type: '相', color: 'red', x: 6, y: 9 },
+                { type: '马', color: 'red', x: 7, y: 9 },
+                { type: '车', color: 'red', x: 8, y: 9 },
+                { type: '炮', color: 'red', x: 1, y: 7 },
+                { type: '炮', color: 'red', x: 7, y: 7 },
+                { type: '兵', color: 'red', x: 0, y: 6 },
+                { type: '兵', color: 'red', x: 2, y: 6 },
+                { type: '兵', color: 'red', x: 4, y: 6 },
+                { type: '兵', color: 'red', x: 6, y: 6 },
+                { type: '兵', color: 'red', x: 8, y: 6 },
+                
+                // 黑方（上方）
+                { type: '车', color: 'black', x: 0, y: 0 },
+                { type: '马', color: 'black', x: 1, y: 0 },
+                { type: '象', color: 'black', x: 2, y: 0 },
+                { type: '士', color: 'black', x: 3, y: 0 },
+                { type: '将', color: 'black', x: 4, y: 0 },
+                { type: '士', color: 'black', x: 5, y: 0 },
+                { type: '象', color: 'black', x: 6, y: 0 },
+                { type: '马', color: 'black', x: 7, y: 0 },
+                { type: '车', color: 'black', x: 8, y: 0 },
+                { type: '炮', color: 'black', x: 1, y: 2 },
+                { type: '炮', color: 'black', x: 7, y: 2 },
+                { type: '卒', color: 'black', x: 0, y: 3 },
+                { type: '卒', color: 'black', x: 2, y: 3 },
+                { type: '卒', color: 'black', x: 4, y: 3 },
+                { type: '卒', color: 'black', x: 6, y: 3 },
+                { type: '卒', color: 'black', x: 8, y: 3 }
+            ];
+            
+            let pieces = [];
+            let moveHistory = [];
+            let currentPlayer = 'red';
+            let selectedPiece = null;
+            let gameOver = false;
+            let redScore = 0;
+            let blackScore = 0;
+            let redCapturedPieces = [];
+            let blackCapturedPieces = [];
+            
+            // 初始化棋盘
+            function initBoard() {
+                piecesContainer.innerHTML = '';
+                pieces = [];
+                moveHistory = [];
+                currentPlayer = 'red';
+                selectedPiece = null;
+                gameOver = false;
+                redCapturedPieces = [];
+                blackCapturedPieces = [];
+                
+                updateCapturedDisplay();
+                statusDisplay.textContent = '红方回合';
+                
+                initialPositions.forEach(pos => {
+                    createPiece(pos.type, pos.color, pos.x, pos.y);
+                });
+            }
+            
+            // 创建棋子
+            function createPiece(type, color, x, y) {
+                const piece = document.createElement('div');
+                piece.className = `chess-piece ${color}`;
+                piece.textContent = type;
+                piece.dataset.type = type;
+                piece.dataset.color = color;
+                piece.dataset.x = x;
+                piece.dataset.y = y;
+                
+                // 计算像素位置
+                const left = 25 + x * 50 - 22;
+                const top = 25 + y * 50 - 22;
+                
+                piece.style.left = `${left}px`;
+                piece.style.top = `${top}px`;
+                
+                // 点击选择棋子
+                piece.addEventListener('click', function() {
+                    if (gameOver) return;
+                    if (piece.dataset.color !== currentPlayer) return;
+                    
+                    // 选择当前棋子
+                    if (selectedPiece) {
+                        selectedPiece.classList.remove('selected');
+                    }
+                    
+                    selectedPiece = piece;
+                    piece.classList.add('selected');
+                });
+                
+                piecesContainer.appendChild(piece);
+                pieces.push({
+                    element: piece,
+                    type: type,
+                    color: color,
+                    x: x,
+                    y: y
+                });
+                
+                return piece;
+            }
+            
+            // 更新被吃掉的棋子显示
+            function updateCapturedDisplay() {
+                redCapturedDisplay.innerHTML = '';
+                blackCapturedDisplay.innerHTML = '';
+                
+                redCapturedPieces.forEach(piece => {
+                    const el = document.createElement('div');
+                    el.className = `captured-piece ${piece.color}`;
+                    el.textContent = piece.type;
+                    redCapturedDisplay.appendChild(el);
+                });
+                
+                blackCapturedPieces.forEach(piece => {
+                    const el = document.createElement('div');
+                    el.className = `captured-piece ${piece.color}`;
+                    el.textContent = piece.type;
+                    blackCapturedDisplay.appendChild(el);
+                });
+                
+                scoreDisplay.textContent = `红方 ${redScore} : ${blackScore} 黑方`;
+            }
+            
+            // 棋盘点击事件
+            document.querySelector('.chess-board').addEventListener('click', function(e) {
+                if (gameOver || !selectedPiece) return;
+                
+                // 获取点击位置
+                const rect = this.getBoundingClientRect();
+                const x = Math.round((e.clientX - rect.left - 25) / 50);
+                const y = Math.round((e.clientY - rect.top - 25) / 50);
+                
+                // 检查是否点击了有效位置
+                if (x < 0 || x > 8 || y < 0 || y > 9) return;
+                
+                // 检查移动是否合法
+                if (isValidMove(selectedPiece, x, y)) {
+                    // 执行移动
+                    movePiece(selectedPiece, x, y);
+                    
+                    // 检查游戏是否结束
+                    checkGameEnd();
+                }
+            });
+            
+            // 移动棋子
+            function movePiece(piece, toX, toY) {
+                const fromX = parseInt(piece.dataset.x);
+                const fromY = parseInt(piece.dataset.y);
+                
+                // 记录移动历史
+                const capturedPiece = getPieceAt(toX, toY);
+                moveHistory.push({
+                    piece: piece,
+                    fromX: fromX,
+                    fromY: fromY,
+                    toX: toX,
+                    toY: toY,
+                    captured: capturedPiece
+                });
+                
+                // 如果有吃子，移除被吃的棋子
+                if (capturedPiece) {
+                    capturedPiece.element.remove();
+                    pieces = pieces.filter(p => p !== capturedPiece);
+                    
+                    // 记录被吃的棋子
+                    if (currentPlayer === 'red') {
+                        redCapturedPieces.push(capturedPiece);
+                    } else {
+                        blackCapturedPieces.push(capturedPiece);
+                    }
+                    
+                    updateCapturedDisplay();
+                }
+                
+                // 更新棋子位置
+                piece.dataset.x = toX;
+                piece.dataset.y = toY;
+                
+                // 更新数据
+                const pieceData = pieces.find(p => p.element === piece);
+                if (pieceData) {
+                    pieceData.x = toX;
+                    pieceData.y = toY;
+                }
+                
+                // 计算像素位置
+                const left = 25 + toX * 50 - 22;
+                const top = 25 + toY * 50 - 22;
+                
+                piece.style.left = `${left}px`;
+                piece.style.top = `${top}px`;
+                
+                // 取消选择状态
+                piece.classList.remove('selected');
+                selectedPiece = null;
+                
+                // 切换玩家
+                currentPlayer = currentPlayer === 'red' ? 'black' : 'red';
+                statusDisplay.textContent = `${currentPlayer === 'red' ? '红' : '黑'}方回合`;
+            }
+            
+            // 检查移动是否合法
+            function isValidMove(piece, toX, toY) {
+                const fromX = parseInt(piece.dataset.x);
+                const fromY = parseInt(piece.dataset.y);
+                const type = piece.dataset.type;
+                const color = piece.dataset.color;
+                
+                // 检查目标位置是否在棋盘内
+                if (toX < 0 || toX > 8 || toY < 0 || toY > 9) {
+                    return false;
+                }
+                
+                // 检查是否原地不动
+                if (fromX === toX && fromY === toY) {
+                    return false;
+                }
+                
+                // 检查目标位置是否有己方棋子
+                const targetPiece = getPieceAt(toX, toY);
+                if (targetPiece && targetPiece.color === color) {
+                    return false;
+                }
+                
+                // 根据棋子类型检查移动规则
+                switch (type) {
+                    case '车':
+                        return checkRookMove(fromX, fromY, toX, toY);
+                    case '马':
+                        return checkHorseMove(fromX, fromY, toX, toY);
+                    case '相':
+                    case '象':
+                        return checkElephantMove(fromX, fromY, toX, toY, color);
+                    case '士':
+                        return checkAdvisorMove(fromX, fromY, toX, toY, color);
+                    case '帅':
+                    case '将':
+                        return checkKingMove(fromX, fromY, toX, toY, color);
+                    case '炮':
+                        return checkCannonMove(fromX, fromY, toX, toY);
+                    case '兵':
+                    case '卒':
+                        return checkPawnMove(fromX, fromY, toX, toY, color);
+                    default:
+                        return false;
+                }
+            }
+            
+            // 车移动规则
+            function checkRookMove(fromX, fromY, toX, toY) {
+                if (fromX !== toX && fromY !== toY) {
+                    return false; // 必须直线移动
+                }
+                
+                if (fromX === toX) {
+                    const start = Math.min(fromY, toY);
+                    const end = Math.max(fromY, toY);
+                    for (let y = start + 1; y < end; y++) {
+                        if (getPieceAt(fromX, y)) {
+                            return false; // 路径上有阻挡
+                        }
+                    }
+                } else {
+                    const start = Math.min(fromX, toX);
+                    const end = Math.max(fromX, toX);
+                    for (let x = start + 1; x < end; x++) {
+                        if (getPieceAt(x, fromY)) {
+                            return false; // 路径上有阻挡
+                        }
+                    }
+                }
+                
+                return true;
+            }
+            
+            // 马移动规则
+            function checkHorseMove(fromX, fromY, toX, toY) {
+                const dx = Math.abs(toX - fromX);
+                const dy = Math.abs(toY - fromY);
+                
+                // 马走日
+                if (!((dx === 1 && dy === 2) || (dx === 2 && dy === 1))) {
+                    return false;
+                }
+                
+                // 检查蹩马腿
+                if (dx === 2) {
+                    if (getPieceAt(fromX + (toX > fromX ? 1 : -1), fromY)) {
+                        return false;
+                    }
+                } else {
+                    if (getPieceAt(fromX, fromY + (toY > fromY ? 1 : -1))) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+            
+            // 相/象移动规则
+            function checkElephantMove(fromX, fromY, toX, toY, color) {
+                const dx = Math.abs(toX - fromX);
+                const dy = Math.abs(toY - fromY);
+                
+                // 相走田
+                if (dx !== 2 || dy !== 2) {
+                    return false;
+                }
+                
+                // 检查象眼
+                if (getPieceAt(fromX + (toX > fromX ? 1 : -1), fromY + (toY > fromY ? 1 : -1))) {
+                    return false;
+                }
+                
+                // 相/象不能过河
+                if (color === 'red' && toY < 5) {
+                    return false;
+                }
+                if (color === 'black' && toY > 4) {
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // 士移动规则
+            function checkAdvisorMove(fromX, fromY, toX, toY, color) {
+                const dx = Math.abs(toX - fromX);
+                const dy = Math.abs(toY - fromY);
+                
+                // 士走斜线一格
+                if (dx !== 1 || dy !== 1) {
+                    return false;
+                }
+                
+                // 士必须在九宫格内
+                if (color === 'red') {
+                    if (toY < 7 || toX < 3 || toX > 5) {
+                        return false;
+                    }
+                } else {
+                    if (toY > 2 || toX < 3 || toX > 5) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+            
+            // 将/帅移动规则
+            function checkKingMove(fromX, fromY, toX, toY, color) {
+                const dx = Math.abs(toX - fromX);
+                const dy = Math.abs(toY - fromY);
+                
+                // 将帅走一格
+                if ((dx === 1 && dy === 0) || (dx === 0 && dy === 1)) {
+                    // 必须在九宫格内
+                    if (color === 'red') {
+                        if (toY < 7 || toX < 3 || toX > 5) {
+                            return false;
+                        }
+                    } else {
+                        if (toY > 2 || toX < 3 || toX > 5) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                
+                // 将帅对脸特殊规则
+                if (fromX === toX && dy > 1) {
+                    if (color === 'red' && toY === 0) {
+                        // 检查中间是否有阻挡
+                        for (let y = fromY - 1; y > toY; y--) {
+                            if (getPieceAt(fromX, y)) {
+                                return false;
+                            }
+                        }
+                        // 检查目标位置是否有对方的将/帅
+                        const targetPiece = getPieceAt(toX, toY);
+                        if (targetPiece && targetPiece.type === (color === 'red' ? '将' : '帅')) {
+                            return true;
+                        }
+                    } else if (color === 'black' && toY === 9) {
+                        // 检查中间是否有阻挡
+                        for (let y = fromY + 1; y < toY; y++) {
+                            if (getPieceAt(fromX, y)) {
+                                return false;
+                            }
+                        }
+                        // 检查目标位置是否有对方的将/帅
+                        const targetPiece = getPieceAt(toX, toY);
+                        if (targetPiece && targetPiece.type === (color === 'red' ? '将' : '帅')) {
+                            return true;
+                        }
+                    }
+                }
+                
+                return false;
+            }
+            
+            // 炮移动规则
+            function checkCannonMove(fromX, fromY, toX, toY) {
+                if (fromX !== toX && fromY !== toY) {
+                    return false; // 必须直线移动
+                }
+                
+                const targetPiece = getPieceAt(toX, toY);
+                let piecesInBetween = 0;
+                
+                if (fromX === toX) {
+                    const start = Math.min(fromY, toY);
+                    const end = Math.max(fromY, toY);
+                    for (let y = start + 1; y < end; y++) {
+                        if (getPieceAt(fromX, y)) {
+                            piecesInBetween++;
+                        }
+                    }
+                } else {
+                    const start = Math.min(fromX, toX);
+                    const end = Math.max(fromX, toX);
+                    for (let x = start + 1; x < end; x++) {
+                        if (getPieceAt(x, fromY)) {
+                            piecesInBetween++;
+                        }
+                    }
+                }
+                
+                // 炮移动时中间必须无子
+                if (!targetPiece && piecesInBetween === 0) {
+                    return true;
+                }
+                
+                // 炮吃子时中间必须有一个子
+                if (targetPiece && piecesInBetween === 1) {
+                    return true;
+                }
+                
+                return false;
+            }
+            
+            // 兵/卒移动规则
+            function checkPawnMove(fromX, fromY, toX, toY, color) {
+                const dx = Math.abs(toX - fromX);
+                const dy = toY - fromY;
+                
+                // 兵/卒只能向前或过河后可以横向移动
+                if (color === 'red') {
+                    // 红方向上移动
+                    if (dy > 0) return false; // 不能后退
+                    
+                    if (fromY > 4) { // 未过河
+                        if (dx !== 0 || dy !== -1) {
+                            return false;
+                        }
+                    } else { // 已过河
+                        if ((dx === 1 && dy === 0) || (dx === 0 && dy === -1)) {
+                            return true;
+                        }
+                        return false;
+                    }
+                } else {
+                    // 黑方向下移动
+                    if (dy < 0) return false; // 不能后退
+                    
+                    if (fromY < 5) { // 未过河
+                        if (dx !== 0 || dy !== 1) {
+                            return false;
+                        }
+                    } else { // 已过河
+                        if ((dx === 1 && dy === 0) || (dx === 0 && dy === 1)) {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+            
+            // 获取指定位置的棋子
+            function getPieceAt(x, y) {
+                return pieces.find(p => p.x === x && p.y === y);
+            }
+            
+            // 检查游戏是否结束
+            function checkGameEnd() {
+                const redKing = pieces.find(p => p.type === '帅' && p.color === 'red');
+                const blackKing = pieces.find(p => p.type === '将' && p.color === 'black');
+                
+                if (!redKing) {
+                    gameOver = true;
+                    blackScore++;
+                    victoryMessage.textContent = '黑方胜利！';
+                    victoryMessage.style.display = 'block';
+                    setTimeout(() => {
+                        victoryMessage.style.display = 'none';
+                        initBoard();
+                    }, 3000);
+                } else if (!blackKing) {
+                    gameOver = true;
+                    redScore++;
+                    victoryMessage.textContent = '红方胜利！';
+                    victoryMessage.style.display = 'block';
+                    setTimeout(() => {
+                        victoryMessage.style.display = 'none';
+                        initBoard();
+                    }, 3000);
+                }
+                
+                updateCapturedDisplay();
+            }
+            
+            // 悔棋功能
+            undoBtn.addEventListener('click', function() {
+                if (gameOver || moveHistory.length === 0) return;
+                
+                const lastMove = moveHistory.pop();
+                const piece = lastMove.piece;
+                
+                // 恢复棋子位置
+                piece.dataset.x = lastMove.fromX;
+                piece.dataset.y = lastMove.fromY;
+                
+                // 更新数据
+                const pieceData = pieces.find(p => p.element === piece);
+                if (pieceData) {
+                    pieceData.x = lastMove.fromX;
+                    pieceData.y = lastMove.fromY;
+                }
+                
+                // 计算像素位置
+                const left = 25 + lastMove.fromX * 50 - 22;
+                const top = 25 + lastMove.fromY * 50 - 22;
+                
+                piece.style.left = `${left}px`;
+                piece.style.top = `${top}px`;
+                
+                // 如果有被吃的棋子，恢复它
+                if (lastMove.captured) {
+                    createPiece(
+                        lastMove.captured.type,
+                        lastMove.captured.color,
+                        lastMove.toX,
+                        lastMove.toY
+                    );
+                    
+                    // 从被吃棋子列表中移除
+                    if (currentPlayer === 'black') {
+                        redCapturedPieces = redCapturedPieces.filter(p => 
+                            !(p.type === lastMove.captured.type && 
+                              p.color === lastMove.captured.color &&
+                              p.x === lastMove.toX && 
+                              p.y === lastMove.toY)
+                        );
+                    } else {
+                        blackCapturedPieces = blackCapturedPieces.filter(p => 
+                            !(p.type === lastMove.captured.type && 
+                              p.color === lastMove.captured.color &&
+                              p.x === lastMove.toX && 
+                              p.y === lastMove.toY)
+                        );
+                    }
+                    
+                    updateCapturedDisplay();
+                }
+                
+                // 取消选择状态
+                if (selectedPiece) {
+                    selectedPiece.classList.remove('selected');
+                    selectedPiece = null;
+                }
+                
+                // 切换回上一个玩家
+                currentPlayer = currentPlayer === 'red' ? 'black' : 'red';
+                statusDisplay.textContent = `${currentPlayer === 'red' ? '红' : '黑'}方回合`;
+            });
+            
+            // 重新开始
+            resetBtn.addEventListener('click', initBoard);
+            
+            // 初始化游戏
+            initBoard();
+        });
+    </script>
+</body>
+</html>

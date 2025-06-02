@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多功能字帖生成器</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        
+        .settings-panel {
+            flex: 1;
+            min-width: 350px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .preview-panel {
+            flex: 2;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .zoom-controls button {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .preview-content {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        h1, h2 { 
+            color: #333;
+            margin-top: 0;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover { 
+            background-color: #45a049; 
+        }
+        
+        .a4-page {
+            width: 21cm;
+            height: 29.7cm;
+            margin-bottom: 20px;
+            background-color: white;
+            position: relative;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-origin: top center;
+        }
+        
+        /* 米字格样式 */
+        .rice-header-section {
+            height: 1.5cm;
+            display: flex;
+            justify-content: center;
+            gap: 1cm;  
+            align-items: flex-end;
+            padding: 0 1cm;
+            margin-top: 1.3cm;
+            margin-bottom: 0.1cm;
+            font-family: "SimHei", "黑体", sans-serif; 
+            font-size: 20px;
+        }
+        
+        .rice-grid-container {
+            display: grid;
+            grid-template-columns: repeat(11, 1.5cm);
+            grid-template-rows: repeat(16, 1.5cm);
+            width: calc(11 * 1.5cm);
+            box-sizing: border-box;
+            background-color: white;
+            margin-top: 0.5cm;
+        }
+        
+        .rice-grid-cell {
+            width: 1.5cm;
+            height: 1.5cm;
+            position: relative;
+            box-sizing: border-box;
+        }
+        
+        .rice-grid-cell .rice-pattern {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .rice-grid-cell .character-img {
+            width: 1.4cm;
+            height: 1.4cm;
+            position: absolute;
+            top: 0.05cm;
+            left: 0.05cm;
+            z-index: 2;
+            object-fit: contain;
+        }
+        
+        /* 方格样式 */
+        .square-header-section {
+            height: 1.5cm;
+            display: flex;
+            justify-content: center;
+            gap: 1cm;  
+            align-items: flex-end;
+            padding: 0 1cm;
+            margin-top: 1.3cm;
+            margin-bottom: 0.1cm;
+            font-family: "SimHei", "黑体", sans-serif; 
+            font-size: 20px;
+        }
+        
+        .square-grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1.2cm);
+            grid-template-rows: repeat(20, 1.2cm);
+            gap: 0;
+            width: 14.4cm;
+            height: 24cm;
+            box-sizing: border-box;
+            background-color: white;
+            margin: 0 auto;
+            margin-top: 0.5cm;
+            margin-bottom: auto;
+        }
+        
+        .square-grid-cell {
+            width: 1.2cm;
+            height: 1.2cm;
+            border: 0.03cm solid #353535;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+        
+        .square-grid-cell img {
+            width: 1.1m;
+            height: 1.1cm;
+            object-fit: contain;
+        }
+        
+        .setting-group { 
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        input[type="file"] { 
+            margin-bottom: 15px;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .status-message {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .success { background-color: #dff0d8; color: #3c763d; }
+        .info { background-color: #d9edf7; color: #31708f; }
+        .error { background-color: #f2dede; color: #a94442; }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        
+        .checkbox-label input { 
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .watermark {
+            position: absolute;
+            right: 0.4cm;
+            bottom: 0.4cm;
+            color: rgba(0, 0, 0, 0.3);
+            font-family: "KaiTi", "楷体", serif;
+            font-size: 18px;
+            pointer-events: none;
+        }
+        
+        .blank-grid-btn {
+            background-color: #2196F3;
+        }
+        
+        .blank-grid-btn:hover {
+            background-color: #0b7dda;
+        }
+        
+        .print-btn {
+            background-color: #ff9800;
+        }
+        
+        .print-btn:hover {
+            background-color: #e68a00;
+        }
+        
+        .button-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .mode-selector {
+            margin-bottom: 20px;
+        }
+        
+        .mode-selector label {
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        
+        .mode-selector input {
+            margin-right: 5px;
+        }
+
+        .zoom-btn {
+            background-color: #607d8b;
+        }
+
+        .zoom-btn:hover {
+            background-color: #455a64;
+        }
+
+        .zoom-value {
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* 页码样式 */
+.page-number {
+    position: absolute;
+    bottom: 1cm;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    height: 20px;
+    line-height: 20px;
+}
+
+/* 打印时隐藏不必要的元素 */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    /* 确保页码在打印时可见 */
+    .page-number {
+        color: #666 !important;
+    }
+}
+        
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .preview-content, .preview-content * {
+                visibility: visible;
+            }
+            .preview-content {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+                border: none;
+                padding: 0;
+                background-color: white;
+            }
+            .a4-page {
+                box-shadow: none;
+                margin: 0;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="settings-panel">
+            <h1>多功能字帖生成器</h1>
+            
+            <div class="setting-group mode-selector">
+                <h2>字帖模式</h2>
+                <label><input type="radio" name="gridMode" value="rice" checked> 米字格模式</label>
+                <label><input type="radio" name="gridMode" value="square"> 方格模式</label>
+            </div>
+            
+
+            
+            <div class="setting-group">
+                <h2>字帖内容</h2>
+                <label for="content">输入文字内容:</label>
+                <textarea id="content" placeholder="请输入您想练习的文字..."></textarea>
+                
+                <div id="riceSettings">
+                    <div class="checkbox-label">
+                        <input type="checkbox" id="alternateEmptyRow">
+                        <label for="alternateEmptyRow">启用空行间隔</label>
+                    </div>
+                    <div class="input-group" id="emptyRowControl" style="display:none;">
+                        <label for="emptyRowCount">空行数量:</label>
+                        <input type="number" id="emptyRowCount" min="0" max="3" value="1">
+                    </div>
+                </div>
+                
+                <div id="squareSettings" style="display:none;">
+                    <div class="checkbox-label">
+                        <input type="checkbox" id="indentParagraph" checked>
+                        <label for="indentParagraph">段落开头空两格</label>
+                    </div>
+                    <div class="checkbox-label">
+                        <input type="checkbox" id="showPunctuation" checked>
+                        <label for="showPunctuation">显示标点符号</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="setting-group">
+                <h2>图片字符</h2>
+                <label for="imageFolder">上传单字图片文件夹:</label>
+                <input type="file" id="imageFolder" webkitdirectory directory multiple accept="image/*">
+                <div id="imageStatus" class="status-message info">请上传单字图片</div>
+            </div>
+            
+            <div class="setting-group">
+                <h2>PDF设置</h2>
+                <div class="checkbox-label">
+                    <input type="checkbox" id="showHeader" checked>
+                    <label for="showHeader">显示学校/班级/姓名区域</label>
+                </div>
+                <div class="checkbox-label">
+                    <input type="checkbox" id="enableWatermark" checked>
+                    <label for="enableWatermark">添加水印</label>
+                </div>
+                <div class="button-group">
+                    <button id="generatePdf">生成PDF字帖</button>
+                    <button id="generateBlankPdf" class="blank-grid-btn">生成空白格纸</button>
+                    <button id="printBtn" class="print-btn">打印</button>
+                </div>
+                <div id="pdfStatus" class="status-message info">准备生成PDF</div>
+            </div>
+        </div>
+        
+        <div class="preview-panel">
+            <div class="preview-header">
+                <h2>实时预览</h2>
+                <div class="zoom-controls">
+                    <button id="zoomOut" class="zoom-btn" title="缩小">-</button>
+                    <span id="zoomValue" class="zoom-value">100%</span>
+                    <button id="zoomIn" class="zoom-btn" title="放大">+</button>
+                </div>
+            </div>
+            <div class="preview-content">
+                <div id="previewContainer">
+                    <div class="a4-page">
+                        <p style="text-align:center;">请输入内容以预览字帖</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+        
+        // 存储数据
+        let characterImages = {};
+        let ricePatternImage = null;
+        let currentContent = "";
+        let currentMode = "rice"; // 默认米字格模式
+        let currentZoom = 1.0; // 当前缩放比例
+        
+        // 获取页面元素
+        const contentTextarea = document.getElementById('content');
+        const imageFolderInput = document.getElementById('imageFolder');
+        const generatePdfButton = document.getElementById('generatePdf');
+        const generateBlankPdfButton = document.getElementById('generateBlankPdf');
+        const printBtn = document.getElementById('printBtn');
+        const previewContainer = document.getElementById('previewContainer');
+        const previewContent = document.querySelector('.preview-content');
+        const imageStatus = document.getElementById('imageStatus');
+        const pdfStatus = document.getElementById('pdfStatus');
+        const enableWatermarkCheckbox = document.getElementById('enableWatermark');
+        const showHeaderCheckbox = document.getElementById('showHeader');
+        const alternateEmptyRowCheckbox = document.getElementById('alternateEmptyRow');
+        const emptyRowCountInput = document.getElementById('emptyRowCount');
+        const emptyRowControlDiv = document.getElementById('emptyRowControl');
+        const indentParagraphCheckbox = document.getElementById('indentParagraph');
+        const showPunctuationCheckbox = document.getElementById('showPunctuation');
+        const riceSettingsDiv = document.getElementById('riceSettings');
+        const squareSettingsDiv = document.getElementById('squareSettings');
+        const modeRadios = document.querySelectorAll('input[name="gridMode"]');
+        const zoomOutBtn = document.getElementById('zoomOut');
+        const zoomInBtn = document.getElementById('zoomIn');
+        const zoomValue = document.getElementById('zoomValue');
+        
+        // 设置事件监听
+        contentTextarea.addEventListener('input', updatePreview);
+        imageFolderInput.addEventListener('change', handleImageUpload);
+        generatePdfButton.addEventListener('click', generatePdf);
+        generateBlankPdfButton.addEventListener('click', generateBlankPdf);
+        printBtn.addEventListener('click', printSheets);
+        enableWatermarkCheckbox.addEventListener('change', updatePreview);
+        showHeaderCheckbox.addEventListener('change', updatePreview);
+        alternateEmptyRowCheckbox.addEventListener('change', function() {
+            emptyRowControlDiv.style.display = this.checked ? 'block' : 'none';
+            updatePreview();
+        });
+        emptyRowCountInput.addEventListener('change', updatePreview);
+        indentParagraphCheckbox.addEventListener('change', updatePreview);
+        showPunctuationCheckbox.addEventListener('change', updatePreview);
+        zoomOutBtn.addEventListener('click', () => adjustZoom(-0.1));
+        zoomInBtn.addEventListener('click', () => adjustZoom(0.1));
+        
+        // 模式选择切换
+        modeRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                currentMode = this.value;
+                if (currentMode === "rice") {
+                    riceSettingsDiv.style.display = "block";
+                    squareSettingsDiv.style.display = "none";
+                } else {
+                    riceSettingsDiv.style.display = "none";
+                    squareSettingsDiv.style.display = "block";
+                }
+                updatePreview();
+            });
+        });
+
+        // 调整缩放比例
+        function adjustZoom(change) {
+            currentZoom = Math.max(0.3, Math.min(2.0, currentZoom + change));
+            applyZoom();
+        }
+
+        // 应用缩放
+        function applyZoom() {
+            const pages = document.querySelectorAll('.a4-page');
+            pages.forEach(page => {
+                page.style.transform = `scale(${currentZoom})`;
+            });
+            zoomValue.textContent = `${Math.round(currentZoom * 100)}%`;
+            
+            // 调整预览区域的滚动位置以保持居中
+            if (pages.length > 0) {
+                const firstPage = pages[0];
+                const containerRect = previewContent.getBoundingClientRect();
+                const pageRect = firstPage.getBoundingClientRect();
+                
+                previewContent.scrollLeft = (pageRect.width * currentZoom - containerRect.width) / 2;
+            }
+        }
+        
+        // 打印功能
+        function printSheets() {
+            if (!currentContent.trim() && !confirm('当前没有内容，确定要打印空白页吗？')) {
+                return;
+            }
+            window.print();
+        }
+        
+        function preprocessText(text) {
+            const punctuations = ['，', '。', '、', '；', '：', '？', '！', '「', '」', '『', '』', '《', '》', '（', '）', '—', '…', '·', '“', '”', '‘', '’'];
+            return text.split('').filter(char => !punctuations.includes(char)).join('').replace(/[^\S\n]/g, '');
+        }
+        
+        // 创建A4页面
+        function createA4Page() {
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'a4-page';
+    
+    // 始终创建头部容器（保留空间）
+    const headerDiv = document.createElement('div');
+    headerDiv.className = currentMode === "rice" ? 'rice-header-section' : 'square-header-section';
+    
+    // 根据复选框状态决定是否显示内容
+    if (showHeaderCheckbox.checked) {
+        const schoolSpan = document.createElement('span');
+        schoolSpan.textContent = '学校：__________';
+        
+        const classSpan = document.createElement('span');
+        classSpan.textContent = '班级：__________';
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = '姓名：__________';
+        
+        headerDiv.appendChild(schoolSpan);
+        headerDiv.appendChild(classSpan);
+        headerDiv.appendChild(nameSpan);
+    } else {
+        // 不显示内容时添加空span保持高度
+        const emptySpan = document.createElement('span');
+        emptySpan.innerHTML = '&nbsp;'; // 添加空格保持高度
+        headerDiv.appendChild(emptySpan);
+    }
+    
+    pageDiv.appendChild(headerDiv);
+    const pageNumberDiv = document.createElement('div');
+    pageNumberDiv.className = 'page-number';
+    pageDiv.appendChild(pageNumberDiv);
+    
+    return pageDiv;
+}
+        
+        // 创建米字格网格
+        function createRiceGrid() {
+            const gridContainer = document.createElement('div');
+            gridContainer.className = 'rice-grid-container';
+            return gridContainer;
+        }
+        
+        // 创建方格网格
+        function createSquareGrid() {
+            const gridContainer = document.createElement('div');
+            gridContainer.className = 'square-grid-container';
+            return gridContainer;
+        }
+        
+        // 创建米字格单元格
+        function createRiceCell(char, position) {
+            const cell = document.createElement('div');
+            cell.className = 'rice-grid-cell';
+            
+            // 添加米字格背景
+            if (ricePatternImage) {
+                const ricePattern = document.createElement('img');
+                ricePattern.className = 'rice-pattern';
+                ricePattern.src = ricePatternImage;
+                cell.appendChild(ricePattern);
+            }
+            
+            // 如果不是第一格、第二格或第七格，直接返回
+            if (![0, 1, 6].includes(position)) return cell;
+            
+            // 如果没有字符或空格，直接返回
+            if (!char || char === ' ') return cell;
+
+            // 添加字符图片
+            if (characterImages[char]) {
+                const img = document.createElement('img');
+                img.className = 'character-img';
+                img.src = characterImages[char];
+                img.alt = char;
+                
+                // 第二格和第七格设置透明度为50%
+                if (position === 1 || position === 6) {
+                    img.style.opacity = '0.5'; // 统一设置为50%透明度
+                }
+                
+                cell.appendChild(img);
+            } else {
+                // 如果没有图片，使用文字
+                const charSpan = document.createElement('span');
+                charSpan.textContent = char;
+                charSpan.style.position = 'absolute';
+                charSpan.style.top = '50%';
+                charSpan.style.left = '50%';
+                charSpan.style.transform = 'translate(-50%, -50%)';
+                charSpan.style.fontFamily = '"KaiTi", "楷体", serif';
+                charSpan.style.fontSize = '1.0cm';
+                charSpan.style.zIndex = '2';
+                
+                // 第二格和第七格设置透明度为50%
+                if (position === 1 || position === 6) {
+                    charSpan.style.opacity = '0.5'; // 统一设置为50%透明度
+                }
+                
+                cell.appendChild(charSpan);
+            }
+            
+            return cell;
+        }
+        
+        // 创建方格单元格
+        function createSquareCell(char) {
+            const cell = document.createElement('div');
+            cell.className = 'square-grid-cell';
+            
+            if (!char || char === ' ') return cell;
+
+            if (characterImages[char]) {
+                const img = document.createElement('img');
+                img.src = characterImages[char];
+                img.alt = char;
+                cell.appendChild(img);
+            } else {
+                cell.textContent = char;
+                cell.style.fontFamily = '"KaiTi", "楷体", serif';
+                cell.style.fontSize = '0.7cm';
+            }
+            return cell;
+        }
+        
+        // 判断是否是标点符号
+        function isPunctuation(char) {
+            const punctuations = ['，', '。', '、', '；', '：', '？', '！', '」', '』', '》', '）', '…', '—', '”', '’', 
+                                '「', '『', '《', '（', '—', '…', '·', '"', "'", ':', ';', ',', '.', '?', '!'];
+            return punctuations.includes(char);
+        }
+        
+        // 更新预览
+        function updatePreview() {
+            currentContent = contentTextarea.value;
+            previewContainer.innerHTML = '';
+            
+            if (!currentContent.trim()) {
+                const emptyPage = document.createElement('div');
+                emptyPage.className = 'a4-page';
+                emptyPage.innerHTML = '<p style="text-align:center;">请输入内容以预览字帖</p>';
+                previewContainer.appendChild(emptyPage);
+                applyZoom();
+                return;
+            }
+
+            if (currentMode === "rice") {
+                updateRicePreview();
+            } else {
+                updateSquarePreview();
+            }
+            
+            applyZoom();
+        }
+        
+        // 更新米字格预览
+        function updateRicePreview() {
+    const chars = Array.from(preprocessText(currentContent));
+    let charIndex = 0;
+    let pageCount = 0;
+    
+    const emptyRowCount = alternateEmptyRowCheckbox.checked ? parseInt(emptyRowCountInput.value) : 0;
+    
+    // 计算每页可以放置的字符数（空两行时每页5个单字）
+    const charsPerPage = emptyRowCount === 2 ? 5 : Math.floor(16 / (emptyRowCount + 1)) * 3;
+    
+    while (charIndex < chars.length || (chars.length === 0 && pageCount === 0)) {
+        // 创建新页面
+        const pageDiv = createA4Page();
+        const gridContainer = createRiceGrid();
+        pageDiv.appendChild(gridContainer);
+        
+        // 设置页码
+        const pageNumberDiv = pageDiv.querySelector('.page-number');
+        pageNumberDiv.textContent = `第 ${pageCount + 1} 页`;
+        
+        previewContainer.appendChild(pageDiv);
+        pageCount++;
+        
+        let row = 0;
+        let charsPlacedOnPage = 0;
+        
+        // 每页固定16行
+        while (row < 16) {
+            // 放置字符行
+            for (let col = 0; col < 11; col++) {
+                if ((col === 0 || col === 1 || col === 6) && 
+                    charIndex < chars.length && 
+                    charsPlacedOnPage < charsPerPage) {
+                    
+                    const cell = createRiceCell(chars[charIndex], col);
+                    gridContainer.appendChild(cell);
+                    
+                    // 只在第6列(第三个格子)增加字符索引
+                    if (col === 6) {
+                        charIndex++;
+                        charsPlacedOnPage++;
+                    }
+                } else {
+                    // 填充空白格子
+                    const cell = createRiceCell(null, -1);
+                    gridContainer.appendChild(cell);
+                }
+            }
+            row++;
+            
+            // 添加空行（如果启用）
+            if (alternateEmptyRowCheckbox.checked && row < 16) {
+                const currentEmptyRows = emptyRowCount;
+                
+                for (let i = 0; i < currentEmptyRows && row < 16; i++) {
+                    for (let col = 0; col < 11; col++) {
+                        const cell = createRiceCell(null, -1);
+                        gridContainer.appendChild(cell);
+                    }
+                    row++;
+                }
+            }
+        }
+        
+        // 添加水印到预览
+        if (enableWatermarkCheckbox.checked) {
+            const watermark = document.createElement('div');
+            watermark.className = 'watermark';
+            watermark.textContent = '巧思蓓晚托班';
+            pageDiv.appendChild(watermark);
+        }
+    }
+    
+    // 添加页数提示
+    const pageInfo = document.createElement('div');
+    pageInfo.style.marginTop = '10px';
+    pageInfo.style.fontSize = '14px';
+    pageInfo.style.color = '#666';
+    pageInfo.textContent = `共 ${pageCount} 页`;
+    previewContainer.appendChild(pageInfo);
+}
+        
+        function updateSquarePreview() {
+    // 标点符号规则定义
+    const PUNCTUATION_RULES = {
+        notStart: ['，', '。', '、', '；', '：', '？', '！', '」', '』', '》', '）', '…', '—', '”', '’'],
+        doubleWidth: ['——', '……'],
+        allPunctuation: ['，', '。', '、', '；', '：', '？', '！', '」', '』', '》', '）', '…', '—', '”', '’', 
+                        '「', '『', '《', '（', '—', '…', '·', '“', '”', '‘', '’']
+    };
+
+    // 标点位置样式定义
+    const PUNCTUATION_STYLES = {
+        '，': { right: '-0.2cm', bottom: '0.1cm', size: '0.5cm' },
+        '。': { right: '-0.2cm', bottom: '0.1cm', size: '0.5cm' },
+        '、': { right: '-0.2cm', bottom: '0.1cm', size: '0.5cm' },
+        '；': { right: '-0.2cm', top: '50%', size: '0.5cm' },
+        '：': { right: '-0.2cm', top: '50%', size: '0.5cm' },
+        '？': { right: '-0.2cm', top: '50%', size: '0.5cm' },
+        '！': { right: '-0.2cm', top: '50%', size: '0.5cm' },
+        '》': { right: '-0.2cm', top: '50%', size: '0.5cm' },
+        '「': { right: '-0.2cm', top: '0.1cm', size: '0.5cm' },
+        '」': { right: '-0.2cm', top: '0.1cm', size: '0.5cm' },
+        '『': { right: '-0.2cm', top: '0.1cm', size: '0.5cm' },
+        '』': { right: '-0.2cm', top: '0.1cm', size: '0.5cm' },
+        '“': { right: '-0.2cm', bottom: '0.5cm', size: '0.5cm' },
+        '”': { right: '-0.2cm', bottom: '0.5cm', size: '0.5cm' },
+        '‘': { right: '-0.2cm', top: '-0.2cm', size: '0.5cm' },
+        '’': { right: '-0.2cm', top: '-0.2cm', size: '0.5cm' }
+    };
+
+    // 处理原始文本
+    function processOriginalText(text) {
+        // 保留换行符，只移除其他空白字符
+        let processedText = text.replace(/[^\S\n]/g, '');
+        
+        // 如果不显示标点，过滤掉所有标点符号
+        if (!showPunctuationCheckbox.checked) {
+            const punctuationRegex = new RegExp(`[${PUNCTUATION_RULES.allPunctuation.join('')}]`, 'g');
+            processedText = processedText.replace(punctuationRegex, '');
+        }
+        
+        return processedText;
+    }
+
+    // 分割文本为字符数组（处理双宽度标点）
+    function splitTextToChars(text) {
+        const chars = [];
+        for (let i = 0; i < text.length; i++) {
+            const currentChar = text[i];
+            const nextChar = text[i + 1] || '';
+            
+            if (PUNCTUATION_RULES.doubleWidth.includes(currentChar + nextChar)) {
+                chars.push(currentChar + nextChar);
+                i++;
+            } else {
+                chars.push(currentChar);
+            }
+        }
+        return chars;
+    }
+
+    // 将字符数组组织为行
+    function organizeCharsToLines(chars) {
+        let allLines = [];
+        let currentLine = [];
+        let isNewParagraph = true;
+
+        for (let i = 0; i < chars.length; i++) {
+            const char = chars[i];
+            
+            // 处理换行符 - 作为段落分隔
+            if (char === '\n') {
+                // 保存当前行（如果有内容）
+                if (currentLine.length > 0) {
+                    allLines.push({
+                        content: currentLine,
+                        isNewParagraph: isNewParagraph
+                    });
+                    currentLine = [];
+                }
+                // 添加一个空行表示段落分隔
+                allLines.push({
+                    content: [],
+                    isNewParagraph: true
+                });
+                isNewParagraph = true;
+                continue;
+            }
+
+            // 检查是否会导致标点出现在行首
+            if (currentLine.length === 0 && PUNCTUATION_RULES.notStart.includes(char)) {
+                // 尝试将标点附加到上一行最后一个格子
+                if (allLines.length > 0) {
+                    const lastLine = allLines[allLines.length - 1];
+                    if (lastLine.content.length > 0) {
+                        // 将最后一个格子改为"文字+标点"组合
+                        const lastChar = lastLine.content[lastLine.content.length - 1];
+                        lastLine.content[lastLine.content.length - 1] = lastChar + char;
+                        continue;
+                    }
+                }
+                // 如果是第一行第一个字符是标点，无法调整，保留
+            }
+
+            // 如果是新段落且需要缩进，添加两个空格
+            if (isNewParagraph && indentParagraphCheckbox.checked && currentLine.length === 0) {
+                currentLine.push(' '); // 第一个空格
+                currentLine.push(' '); // 第二个空格
+                isNewParagraph = false; // 已经处理过缩进
+            }
+
+            currentLine.push(char);
+            
+            // 行满处理
+            if (currentLine.length === 12) {
+                allLines.push({
+                    content: currentLine,
+                    isNewParagraph: isNewParagraph
+                });
+                currentLine = [];
+                isNewParagraph = false; // 不是新段落
+            }
+        }
+
+        // 添加最后一行
+        if (currentLine.length > 0) {
+            while (currentLine.length < 12) {
+                currentLine.push(' '); // 用空格填充不足部分
+            }
+            allLines.push({
+                content: currentLine,
+                isNewParagraph: isNewParagraph
+            });
+        }
+
+        return allLines;
+    }
+
+    // 创建主文字元素
+    function createMainCharacterElement(char) {
+        const container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.width = '100%';
+        container.style.height = '100%';
+        container.style.left = '0';
+        container.style.top = '0';
+        
+        const charSpan = document.createElement('div');
+        charSpan.style.position = 'absolute';
+        charSpan.style.left = '50%';
+        charSpan.style.top = '50%';
+        charSpan.style.transform = 'translate(-50%, -50%)';
+        
+        if (characterImages[char]) {
+            const img = document.createElement('img');
+            img.src = characterImages[char];
+            img.alt = char;
+            img.style.width = '1.1cm';
+            img.style.height = '1.1cm';
+            img.style.position = 'relative';
+            img.style.top = '0.05cm';
+            charSpan.appendChild(img);
+        } else {
+            charSpan.textContent = char;
+            charSpan.style.fontFamily = '"KaiTi", "楷体", serif';
+            charSpan.style.fontSize = '0.7cm';
+        }
+        
+        container.appendChild(charSpan);
+        return container;
+    }
+
+    // 创建标点元素
+    function createPunctuationElement(punct) {
+        const position = PUNCTUATION_STYLES[punct];
+        const punctSpan = document.createElement('div');
+        punctSpan.style.position = 'absolute';
+        punctSpan.style.right = position.right;
+        punctSpan.style.bottom = position.bottom;
+        
+        if (characterImages[punct]) {
+            const img = document.createElement('img');
+            img.src = characterImages[punct];
+            img.alt = punct;
+            img.style.width = position.size;
+            img.style.height = position.size;
+            punctSpan.appendChild(img);
+        } else {
+            punctSpan.textContent = punct;
+            punctSpan.style.fontFamily = '"KaiTi", "楷体", serif';
+            punctSpan.style.fontSize = position.size;
+        }
+        
+        return punctSpan;
+    }
+
+    // 创建双宽度字符单元格
+    function createDoubleWidthCell(content) {
+        const isDash = content === '——';
+        const leftChar = isDash ? '—' : '…';
+        const rightChar = isDash ? '—' : '…';
+        
+        // 创建左半部分格子
+        const leftCell = document.createElement('div');
+        leftCell.className = 'square-grid-cell';
+        
+        // 创建右半部分格子
+        const rightCell = document.createElement('div');
+        rightCell.className = 'square-grid-cell';
+        
+        // 创建左半部分内容
+        const leftContent = document.createElement('div');
+        leftContent.style.position = 'absolute';
+        leftContent.style.width = '100%';
+        leftContent.style.height = '100%';
+        leftContent.style.left = '0';
+        leftContent.style.top = '0';
+        
+        const leftCharSpan = document.createElement('div');
+        leftCharSpan.style.position = 'absolute';
+        leftCharSpan.style.right = '0';
+        leftCharSpan.style.top = '50%';
+        leftCharSpan.style.transform = 'translateY(-50%)';
+        
+        if (characterImages[leftChar]) {
+            const img = document.createElement('img');
+            img.src = characterImages[leftChar];
+            img.alt = leftChar;
+            img.style.width = '0.9cm';
+            img.style.height = '1.0cm';
+            leftCharSpan.appendChild(img);
+        } else {
+            leftCharSpan.textContent = leftChar;
+            leftCharSpan.style.fontFamily = '"KaiTi", "楷体", serif';
+            leftCharSpan.style.fontSize = '0.9cm';
+        }
+        
+        leftContent.appendChild(leftCharSpan);
+        leftCell.appendChild(leftContent);
+        
+        // 创建右半部分内容
+        const rightContent = document.createElement('div');
+        rightContent.style.position = 'absolute';
+        rightContent.style.width = '100%';
+        rightContent.style.height = '100%';
+        rightContent.style.left = '0';
+        rightContent.style.top = '0';
+        
+        const rightCharSpan = document.createElement('div');
+        rightCharSpan.style.position = 'absolute';
+        rightCharSpan.style.left = '0';
+        rightCharSpan.style.top = '50%';
+        rightCharSpan.style.transform = 'translateY(-50%)';
+        
+        if (characterImages[rightChar]) {
+            const img = document.createElement('img');
+            img.src = characterImages[rightChar];
+            img.alt = rightChar;
+            img.style.width = '0.9cm';
+            img.style.height = '1.0cm';
+            rightCharSpan.appendChild(img);
+        } else {
+            rightCharSpan.textContent = rightChar;
+            rightCharSpan.style.fontFamily = '"KaiTi", "楷体", serif';
+            rightCharSpan.style.fontSize = '0.9cm';
+        }
+        
+        rightContent.appendChild(rightCharSpan);
+        rightCell.appendChild(rightContent);
+        
+        // 标记这两个单元格为特殊字符的一部分
+        leftCell.dataset.doubleChar = 'left';
+        rightCell.dataset.doubleChar = 'right';
+        
+        return [leftCell, rightCell];
+    }
+
+    // 创建带标点的格子
+    function createSquareCellWithPunctuation(content) {
+        const cell = document.createElement('div');
+        cell.className = 'square-grid-cell';
+        
+        // 如果不显示标点且内容是标点，返回空单元格
+        if (!showPunctuationCheckbox.checked && content && PUNCTUATION_RULES.allPunctuation.includes(content)) {
+            return cell;
+        }
+        
+        // 处理双宽度字符
+        if (content === '——' || content === '……') {
+            return createDoubleWidthCell(content);
+        }
+
+        // 处理组合字符（文字+标点）
+        if (content && content.length > 1 && PUNCTUATION_STYLES[content.slice(-1)]) {
+            const mainChar = content.slice(0, -1);
+            const punctuation = content.slice(-1);
+            
+            cell.appendChild(createMainCharacterElement(mainChar));
+            cell.appendChild(createPunctuationElement(punctuation));
+            return cell;
+        }
+
+        // 普通字符处理
+        if (content) {
+            cell.appendChild(createMainCharacterElement(content));
+        }
+        return cell;
+    }
+
+    // 生成预览页面
+    function generatePreviewPages(allLines) {
+        previewContainer.innerHTML = '';
+        let pageCount = 0;
+        let lineIndex = 0;
+        
+        while (pageCount === 0 || lineIndex < allLines.length) {
+            const pageDiv = createA4Page();
+            const gridContainer = createSquareGrid();
+            pageDiv.appendChild(gridContainer);
+            previewContainer.appendChild(pageDiv);
+            pageCount++;
+
+            // 填充当前页 (20行)
+            for (let row = 1; row <= 20; row++) {
+                // 如果已经没有更多行，填充空行
+                if (lineIndex >= allLines.length) {
+                    for (let i = 0; i < 12; i++) {
+                        gridContainer.appendChild(createSquareCellWithPunctuation(null));
+                    }
+                    continue;
+                }
+
+                const currentLine = allLines[lineIndex];
+                
+                if (row % 2 === 0) {
+                    // 空行（描红行）
+                    for (let i = 0; i < 12; i++) {
+                        gridContainer.appendChild(createSquareCellWithPunctuation(null));
+                    }
+                } else {
+                    // 处理行中的字符
+                    let colIndex = 0;
+                    let i = 0;
+                    
+                    // 如果是空行（段落分隔），直接跳过
+                    if (currentLine.content.length === 0) {
+                        lineIndex++;
+                        row--; // 补偿这一行，因为我们要跳过它
+                        continue;
+                    }
+                    
+                    while (i < currentLine.content.length && colIndex < 12) {
+                        const char = currentLine.content[i];
+                        const cells = createSquareCellWithPunctuation(char);
+                        
+                        if (Array.isArray(cells)) {
+                            gridContainer.appendChild(cells[0]);
+                            gridContainer.appendChild(cells[1]);
+                            colIndex += 2;
+                        } else {
+                            gridContainer.appendChild(cells);
+                            colIndex += 1;
+                        }
+                        i++;
+                    }
+
+                    // 填充剩余空白格子
+                    while (colIndex < 12) {
+                        gridContainer.appendChild(createSquareCellWithPunctuation(null));
+                        colIndex++;
+                    }
+
+                    lineIndex++;
+                }
+            }
+
+            // 添加水印
+            if (enableWatermarkCheckbox.checked) {
+                const watermark = document.createElement('div');
+                watermark.className = 'watermark';
+                watermark.textContent = '巧思蓓晚托班';
+                pageDiv.appendChild(watermark);
+            }
+        }
+
+        return pageCount;
+    }
+
+    // 主流程
+    let originalText = processOriginalText(currentContent);
+    
+    if (!originalText.trim()) {
+        previewContainer.innerHTML = '<div class="a4-page"><p style="text-align:center;">请输入内容以预览字帖</p></div>';
+        applyZoom();
+        return;
+    }
+
+    const chars = splitTextToChars(originalText);
+    const allLines = organizeCharsToLines(chars);
+    const pageCount = generatePreviewPages(allLines);
+
+    // 添加页数信息
+    const pageInfo = document.createElement('div');
+    pageInfo.textContent = `共 ${pageCount} 页`;
+    pageInfo.className = 'page-info';
+    previewContainer.appendChild(pageInfo);
+
+    applyZoom();
+}
+    
+    // 处理图片上传
+    function handleImageUpload(event) {
+        const files = event.target.files;
+        characterImages = {};
+        ricePatternImage = null;
+        let loadedCount = 0;
+        const totalImages = files.length;
+        
+        if (totalImages === 0) {
+            imageStatus.textContent = '请选择包含单字图片的文件夹';
+            imageStatus.className = 'status-message error';
+            return;
+        }
+        
+        imageStatus.textContent = `正在加载 ${totalImages} 张图片...`;
+        imageStatus.className = 'status-message info';
+        
+        Array.from(files).forEach(file => {
+            if (!file.type.startsWith('image/')) {
+                loadedCount++;
+                if (loadedCount === totalImages) updateImageStatus();
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const filename = file.name.toLowerCase();
+                if (filename === 'box.png') {
+                    ricePatternImage = e.target.result;
+                } else {
+                    const char = file.name.replace(/\..+$/, '');
+                    characterImages[char] = e.target.result;
+                }
+                loadedCount++;
+                if (loadedCount === totalImages) updateImageStatus();
+            };
+            reader.onerror = () => {
+                loadedCount++;
+                if (loadedCount === totalImages) updateImageStatus();
+            };
+            reader.readAsDataURL(file);
+        });
+        
+        function updateImageStatus() {
+            const loadedImages = Object.keys(characterImages).length;
+            if (currentMode === "rice") {
+                if (ricePatternImage) {
+                    if (loadedImages > 0) {
+                        imageStatus.textContent = `成功加载米字格和 ${loadedImages} 张单字图片`;
+                        imageStatus.className = 'status-message success';
+                    } else {
+                        imageStatus.textContent = '成功加载米字格，但没有加载到单字图片';
+                        imageStatus.className = 'status-message info';
+                    }
+                    updatePreview();
+                } else {
+                    if (loadedImages > 0) {
+                        imageStatus.textContent = `成功加载 ${loadedImages} 张单字图片，但没有找到box.png作为米字格`;
+                        imageStatus.className = 'status-message error';
+                    } else {
+                        imageStatus.textContent = '没有加载到有效的图片';
+                        imageStatus.className = 'status-message error';
+                    }
+                }
+            } else {
+                if (loadedImages > 0) {
+                    imageStatus.textContent = `成功加载 ${loadedImages} 张单字图片`;
+                    imageStatus.className = 'status-message success';
+                    updatePreview();
+                } else {
+                    imageStatus.textContent = '没有加载到有效的图片';
+                    imageStatus.className = 'status-message error';
+                }
+            }
+        }
+    }
+    
+    // 生成PDF
+    async function generatePdf() {
+        if (!currentContent.trim()) {
+            pdfStatus.textContent = '请输入内容以生成字帖';
+            pdfStatus.className = 'status-message error';
+            return;
+        }
+        
+        if (currentMode === "rice" && !ricePatternImage) {
+            pdfStatus.textContent = '没有找到米字格图片(box.png)';
+            pdfStatus.className = 'status-message error';
+            return;
+        }
+        
+        if (Object.keys(characterImages).length === 0) {
+            pdfStatus.textContent = '请先上传单字图片';
+            pdfStatus.className = 'status-message error';
+            return;
+        }
+        
+        pdfStatus.textContent = '正在生成PDF，请稍候...';
+        pdfStatus.className = 'status-message info';
+        
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'cm',
+            format: 'a4'
+        });
+        
+        const previewPages = document.querySelectorAll('.a4-page');
+        let pageCount = 0;
+        
+        for (const page of previewPages) {
+            try {
+                if (pageCount > 0) pdf.addPage();
+                
+                const canvas = await html2canvas(page, {
+                    scale: 2,
+                    logging: false,
+                    useCORS: true,
+                    width: 21 * 37.8, // 将cm转换为px
+                    height: 29.7 * 37.8,
+                });
+                
+                const imgData = canvas.toDataURL('image/png');
+                            // 如果不清晰了就改这里
+                pdf.addImage(imgData, 'PNG', 0, 0, 21, 29.7, undefined, 'FAST');
+                // 添加页码（灰色、居中、距底部1cm）
+pdf.setFontSize(10);
+pdf.setTextColor(100); // 灰色
+pdf.text(
+    `第 ${pageCount + 1} 页`, 
+    21 / 2, // 水平居中 (A4宽度21cm的一半)
+    29.7 - 1, // 距离底部1cm
+    { align: 'center' }
+);
+
+pageCount++;
+            } catch (error) {
+                console.error('生成PDF时出错:', error);
+                pdfStatus.textContent = '生成PDF时出错';
+                pdfStatus.className = 'status-message error';
+                return;
+            }
+        }
+        
+        pdf.save(currentMode === "rice" ? '米字格字帖.pdf' : '方格字帖.pdf');
+        pdfStatus.textContent = `PDF生成完成，共 ${pageCount} 页`;
+        pdfStatus.className = 'status-message success';
+    }
+    
+    // 生成空白格纸PDF
+    async function generateBlankPdf() {
+        if (currentMode === "rice" && !ricePatternImage) {
+            pdfStatus.textContent = '没有找到米字格图片(box.png)';
+            pdfStatus.className = 'status-message error';
+            return;
+        }
+        
+        pdfStatus.textContent = '正在生成空白格纸PDF，请稍候...';
+        pdfStatus.className = 'status-message info';
+        
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'cm',
+            format: 'a4'
+        });
+        
+        // 创建临时预览用于生成PDF
+        const tempPreview = document.createElement('div');
+        tempPreview.style.position = 'absolute';
+        tempPreview.style.left = '-9999px';
+        document.body.appendChild(tempPreview);
+        
+        const pageDiv = createA4Page();
+        
+        if (currentMode === "rice") {
+            const gridContainer = createRiceGrid();
+            pageDiv.appendChild(gridContainer);
+            
+            // 填充空白米字格 (16行 × 11列)
+            for (let row = 0; row < 16; row++) {
+                for (let col = 0; col < 11; col++) {
+                    const cell = createRiceCell(null, -1);
+                    gridContainer.appendChild(cell);
+                }
+                
+                // 如果启用空行间隔，添加空行
+                if (alternateEmptyRowCheckbox.checked && row < 15) {
+                    row++;
+                    for (let col = 0; col < 11; col++) {
+                        const cell = createRiceCell(null, -1);
+                        gridContainer.appendChild(cell);
+                    }
+                }
+            }
+        } else {
+            const gridContainer = createSquareGrid();
+            pageDiv.appendChild(gridContainer);
+            
+            // 填充空白方格 (20行 × 12列)
+            for (let i = 0; i < 240; i++) {
+                gridContainer.appendChild(createSquareCell(null));
+            }
+        }
+        
+        tempPreview.appendChild(pageDiv);
+        
+        // 添加水印
+        if (enableWatermarkCheckbox.checked) {
+            const watermark = document.createElement('div');
+            watermark.className = 'watermark';
+            watermark.textContent = '巧思蓓晚托班';
+            pageDiv.appendChild(watermark);
+        }
+        
+        try {
+            const canvas = await html2canvas(pageDiv, {
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                width: 21 * 37.8,
+                height: 29.7 * 37.8,
+                backgroundColor: '#FFFFFF' 
+                
+            });
+            
+            const imgData = canvas.toDataURL('image/png');
+            // 如果不清晰了就改这里
+            pdf.addImage(imgData, 'PNG', 0, 0, 21, 29.7, undefined, 'FAST');
+            
+            pdf.save(currentMode === "rice" ? '空白米字格.pdf' : '空白方格纸.pdf');
+            pdfStatus.textContent = '空白格纸PDF生成完成';
+            pdfStatus.className = 'status-message success';
+        } catch (error) {
+            console.error('生成PDF时出错:', error);
+            pdfStatus.textContent = '生成PDF时出错';
+            pdfStatus.className = 'status-message error';
+        } finally {
+            document.body.removeChild(tempPreview);
+        }
+    }
+    
+    // 初始化预览
+    updatePreview();
+</script>
+</body>
+</html>

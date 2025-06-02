@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>中英文对照朗读表格</title>
+    <style>
+        /* 保持原有样式不变 */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+            -webkit-text-size-adjust: 100%;
+        }
+        h1 {
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 10px 0;
+        }
+        h3 {
+            font-size: 1.1rem;
+            margin: 8px 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #3b90aa;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+            margin: 5px 0;
+        }
+        button:hover {
+            background-color: #3b90aa;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            table-layout: fixed;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+            word-break: break-word;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .cell-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+        .english, .chinese {
+            padding: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .english {
+            color: #0066cc;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        .chinese {
+            color: #333;
+            font-size: 0.9rem;
+        }
+        .english:hover, .chinese:hover {
+            background-color: #f0f8ff;
+        }
+        .info {
+            color: #666;
+            font-size: 0.8rem;
+            margin-top: 3px;
+        }
+        .full-row {
+            width: 100%;
+        }
+        .full-row td {
+            text-align: left;
+            padding: 10px;
+        }
+        .full-row .english {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        .full-row .chinese {
+            font-size: 0.95rem;
+        }
+        .error {
+            color: #ff4444;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 5px;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            textarea {
+                height: 150px;
+                font-size: 15px;
+            }
+            button {
+                padding: 10px;
+                font-size: 15px;
+            }
+            table {
+                font-size: 14px;
+            }
+            th, td {
+                padding: 6px 3px;
+            }
+            .english, .chinese {
+                font-size: 0.8rem;
+            }
+            .full-row .english {
+                font-size: 0.9rem;
+            }
+            .full-row .chinese {
+                font-size: 0.85rem;
+            }
+            
+            table tr:not(.full-row) td:nth-child(3),
+            table tr:not(.full-row) td:nth-child(4) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>中英文对照朗读表格</h1>
+    <div class="container">
+        <div>
+            <h3>请粘贴中英文对照文本：</h3>
+            <textarea id="inputText" placeholder="支持多种格式，例如：
+apple 苹果
+The sunlight filters through the leaves, creating a dappled pattern on the ground. 阳光透过树叶，在地上形成斑驳的图案。
+banana—香蕉
+orange、橙子
+cat 猫
+dog 狗"></textarea>
+            <p class="info">自动识别句子和短语，长句子会单独显示</p>
+            <p id="errorMessage" class="error" style="display:none;"></p>
+        </div>
+        <div>
+            <button id="generateBtn">生成表格</button>
+        </div>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputText = document.getElementById('inputText');
+            const generateBtn = document.getElementById('generateBtn');
+            const output = document.getElementById('output');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            let synth = window.speechSynthesis;
+            let isProcessing = false;
+            
+            function speak(text, lang) {
+                if (synth.speaking) {
+                    synth.cancel();
+                }
+                
+                const cleanText = text.replace(/["']/g, '');
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = lang || 'en-US';
+                
+                utterance.onerror = function(event) {
+                    console.error('语音合成错误:', event);
+                };
+                
+                synth.speak(utterance);
+            }
+            
+            function isChineseChar(char) {
+                const charCode = char.charCodeAt(0);
+                return (charCode >= 0x4E00 && charCode <= 0x9FFF) || 
+                       (charCode >= 0x3400 && charCode <= 0x4DBF) ||
+                       (charCode >= 0x20000 && charCode <= 0x2A6DF) ||
+                       (charCode >= 0x2A700 && charCode <= 0x2B73F) ||
+                       (charCode >= 0x2B740 && charCode <= 0x2B81F) ||
+                       (charCode >= 0x2B820 && charCode <= 0x2CEAF) ||
+                       (charCode >= 0xF900 && charCode <= 0xFAFF) ||
+                       (charCode >= 0x2F800 && charCode <= 0x2FA1F);
+            }
+            
+            function isCompleteSentence(text) {
+                const chinesePunctuation = ['。', '！', '？', '……'];
+                return chinesePunctuation.some(p => text.trim().endsWith(p));
+            }
+            
+            // 修改后的处理函数
+            function processLine(line) {
+                line = line.trim();
+                if (!line) return null;
+                
+                // 找到第一个中文字符的位置
+                let firstChinesePos = -1;
+                for (let i = 0; i < line.length; i++) {
+                    if (isChineseChar(line[i])) {
+                        firstChinesePos = i;
+                        break;
+                    }
+                }
+                
+                if (firstChinesePos === -1) return null;
+                
+                // 提取英文部分（第一个中文字符之前的所有内容）
+                const english = line.substring(0, firstChinesePos).trim();
+                // 提取中文部分（第一个中文字符及之后的所有内容）
+                let chinese = line.substring(firstChinesePos).trim();
+                
+                // 清理符号
+                chinese = chinese.replace(/^[-—、,，。：；？！\s]+/, '');
+                const cleanedEnglish = english.replace(/[-—、,，。：；？！\s]+$/, '');
+                
+                if (cleanedEnglish && chinese) {
+                    return { 
+                        english: cleanedEnglish, 
+                        chinese: chinese,
+                        isSentence: isCompleteSentence(chinese) || 
+                                  cleanedEnglish.length > 30 || 
+                                  chinese.length > 15
+                    };
+                }
+                
+                return null;
+            }
+            
+            generateBtn.addEventListener('click', function() {
+                if (isProcessing) return;
+                isProcessing = true;
+                
+                try {
+                    const text = inputText.value.trim();
+                    if (!text) {
+                        showError('请输入中英文对照文本');
+                        isProcessing = false;
+                        return;
+                    }
+                    
+                    const lines = text.split('\n');
+                    const pairs = [];
+                    let errorLines = [];
+                    
+                    lines.forEach((line, index) => {
+                        const pair = processLine(line);
+                        if (pair) {
+                            pairs.push(pair);
+                        } else if (line.trim()) {
+                            errorLines.push(index + 1);
+                        }
+                    });
+                    
+                    if (pairs.length === 0) {
+                        showError('无法解析文本，请确保每行包含英文和中文');
+                        isProcessing = false;
+                        return;
+                    }
+                    
+                    if (errorLines.length > 0) {
+                        showError(`以下行无法解析（行号：${errorLines.join(', ')}），已忽略这些行`, true);
+                    } else {
+                        hideError();
+                    }
+                    
+                    const isMobile = window.innerWidth <= 600;
+                    const columns = isMobile ? 2 : 4;
+                    
+                    let html = '<table><tbody>';
+                    let currentRow = [];
+                    
+                    for (let i = 0; i < pairs.length; i++) {
+                        const pair = pairs[i];
+                        
+                        if (pair.isSentence) {
+                            if (currentRow.length > 0) {
+                                html += '<tr>';
+                                for (let j = 0; j < columns; j++) {
+                                    if (j < currentRow.length) {
+                                        const p = currentRow[j];
+                                        html += `
+                                            <td>
+                                                <div class="cell-content">
+                                                    <div class="english" onclick="speakText('${escapeJsString(p.english)}', 'en-US')">${escapeHtml(p.english)}</div>
+                                                    <div class="chinese" onclick="speakText('${escapeJsString(p.chinese)}', 'zh-CN')">${escapeHtml(p.chinese)}</div>
+                                                </div>
+                                            </td>
+                                        `;
+                                    } else {
+                                        html += '<td></td>';
+                                    }
+                                }
+                                html += '</tr>';
+                                currentRow = [];
+                            }
+                            
+                            html += `
+                                <tr class="full-row">
+                                    <td colspan="${columns}">
+                                        <div class="cell-content">
+                                            <div class="english" onclick="speakText('${escapeJsString(pair.english)}', 'en-US')">${escapeHtml(pair.english)}</div>
+                                            <div class="chinese" onclick="speakText('${escapeJsString(pair.chinese)}', 'zh-CN')">${escapeHtml(pair.chinese)}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `;
+                        } else {
+                            currentRow.push(pair);
+                            
+                            if (currentRow.length === columns || i === pairs.length - 1) {
+                                html += '<tr>';
+                                for (let j = 0; j < columns; j++) {
+                                    if (j < currentRow.length) {
+                                        const p = currentRow[j];
+                                        html += `
+                                            <td>
+                                                <div class="cell-content">
+                                                    <div class="english" onclick="speakText('${escapeJsString(p.english)}', 'en-US')">${escapeHtml(p.english)}</div>
+                                                    <div class="chinese" onclick="speakText('${escapeJsString(p.chinese)}', 'zh-CN')">${escapeHtml(p.chinese)}</div>
+                                                </div>
+                                            </td>
+                                        `;
+                                    } else {
+                                        html += '<td></td>';
+                                    }
+                                }
+                                html += '</tr>';
+                                currentRow = [];
+                            }
+                        }
+                    }
+                    
+                    html += '</tbody></table>';
+                    output.innerHTML = html;
+                } catch (e) {
+                    console.error(e);
+                    showError('处理文本时发生错误: ' + e.message);
+                } finally {
+                    isProcessing = false;
+                }
+            });
+            
+            function showError(message, isWarning = false) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.style.color = isWarning ? '#ff9900' : '#ff4444';
+            }
+            
+            function hideError() {
+                errorMessage.style.display = 'none';
+            }
+            
+            function escapeHtml(unsafe) {
+                if (!unsafe) return '';
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+            
+            function escapeJsString(str) {
+                if (!str) return '';
+                return str
+                    .replace(/\\/g, '\\\\')
+                    .replace(/'/g, "\\'")
+                    .replace(/"/g, '\\"')
+                    .replace(/\n/g, '\\n')
+                    .replace(/\r/g, '\\r')
+                    .replace(/\t/g, '\\t');
+            }
+            
+            window.speakText = function(text, lang) {
+                const decodedText = decodeHtmlEntities(text);
+                speak(decodedText, lang);
+            };
+            
+            function decodeHtmlEntities(text) {
+                const textarea = document.createElement('textarea');
+                textarea.innerHTML = text;
+                return textarea.value;
+            }
+            
+            window.addEventListener('resize', function() {
+                if (output.innerHTML && !isProcessing) {
+                    generateBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

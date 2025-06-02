@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>五子棋游戏</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            touch-action: manipulation;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 10px;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        h1 {
+            color: #333;
+            margin: 10px 0;
+            font-size: 1.5rem;
+        }
+        
+        #game-container {
+            position: relative;
+            width: 90vw;
+            height: 90vw;
+            max-width: 80vh;
+            max-height: 80vh;
+            margin: 0 auto;
+        }
+        
+        #board {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: #e6c884;
+            border: 2px solid #8d6e3a;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            touch-action: none;
+        }
+        
+        #status {
+            font-size: 1.1rem;
+            margin: 10px 0;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+        }
+        
+        #score {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 450px;
+            margin: 10px 0;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .score-box {
+            text-align: center;
+            padding: 8px;
+            border-radius: 5px;
+            width: 45%;
+            font-weight: bold;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        #black-score {
+            background-color: #000;
+            color: white;
+        }
+        
+        #white-score {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #ddd;
+        }
+        
+        .score-value {
+            font-size: 1.5rem;
+            margin-top: 5px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 450px;
+            margin: 15px 0;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            #game-container {
+                width: 95vw;
+                max-width: 85vh;
+                max-height: 85vh;
+            }
+            
+            .score-box {
+                padding: 6px;
+            }
+            
+            .score-value {
+                font-size: 1.3rem;
+            }
+            
+            button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            #game-container {
+                width: 70vw;
+                max-width: 70vh;
+                max-height: 70vh;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            #game-container {
+                width: 60vw;
+                max-width: 65vh;
+                max-height: 65vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>五子棋游戏</h1>
+    <div id="score">
+        <div id="black-score" class="score-box">
+            <div>黑方</div>
+            <div class="score-value" id="black-points">0</div>
+        </div>
+        <div id="white-score" class="score-box">
+            <div>白方</div>
+            <div class="score-value" id="white-points">0</div>
+        </div>
+    </div>
+    <div id="status">黑方回合</div>
+    <div id="game-container">
+        <canvas id="board"></canvas>
+    </div>
+    <div class="controls">
+        <button id="restart">重新开始</button>
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d');
+    const statusDisplay = document.getElementById('status');
+    const restartButton = document.getElementById('restart');
+    const blackPointsDisplay = document.getElementById('black-points');
+    const whitePointsDisplay = document.getElementById('white-points');
+    const BOARD_SIZE = 15;
+
+    let CELL_SIZE;
+    let STONE_RADIUS;
+    let dpr = window.devicePixelRatio || 1;
+    
+    let board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
+    let currentPlayer = 1; // 1: 黑棋, 2: 白棋
+    let gameOver = false;
+    let blackScore = 0;
+    let whiteScore = 0;
+    
+    // 获取精确的canvas尺寸（考虑CSS缩放）
+    function getCanvasSize() {
+        const container = document.getElementById('game-container');
+        return Math.min(container.offsetWidth, container.offsetHeight);
+    }
+    
+    // 设置画布尺寸（核心修复）
+    function resizeCanvas() {
+        const size = getCanvasSize();
+        
+        // 设置canvas的CSS显示尺寸
+        canvas.style.width = size + 'px';
+        canvas.style.height = size + 'px';
+        
+        // 设置canvas的实际绘制尺寸（考虑设备像素比）
+        canvas.width = size * dpr;
+        canvas.height = size * dpr;
+        
+        // 缩放绘图上下文
+        ctx.scale(dpr, dpr);
+        
+        // 计算单元格和棋子大小
+        CELL_SIZE = size / (BOARD_SIZE + 1);
+        STONE_RADIUS = CELL_SIZE * 0.42;
+        
+        drawBoard();
+    }
+    
+    // 初始化棋盘
+    function initBoard() {
+        board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(0));
+        currentPlayer = 1;
+        gameOver = false;
+        statusDisplay.textContent = '黑方回合';
+        drawBoard();
+    }
+    
+    // 绘制棋盘
+    function drawBoard() {
+        const size = getCanvasSize();
+        
+        // 清空画布
+        ctx.clearRect(0, 0, size, size);
+        
+        // 绘制棋盘背景
+        ctx.fillStyle = '#e6c884';
+        ctx.fillRect(0, 0, size, size);
+        
+        // 绘制网格线（动态调整线条粗细）
+        ctx.strokeStyle = '#6b4e2b';
+        ctx.lineWidth = Math.max(1, CELL_SIZE * 0.05);
+        
+        for (let i = 0; i < BOARD_SIZE; i++) {
+            const pos = CELL_SIZE * (i + 1) + 0.5;
+            
+            // 横线
+            ctx.beginPath();
+            ctx.moveTo(CELL_SIZE + 0.5, pos);
+            ctx.lineTo(CELL_SIZE * BOARD_SIZE + 0.5, pos);
+            ctx.stroke();
+            
+            // 竖线
+            ctx.beginPath();
+            ctx.moveTo(pos, CELL_SIZE + 0.5);
+            ctx.lineTo(pos, CELL_SIZE * BOARD_SIZE + 0.5);
+            ctx.stroke();
+        }
+        
+        // 绘制天元和星位
+        const starPoints = [3, 7, 11];
+        ctx.fillStyle = '#6b4e2b';
+        const starSize = Math.max(3, CELL_SIZE * 0.12);
+        
+        for (let x of starPoints) {
+            for (let y of starPoints) {
+                ctx.beginPath();
+                ctx.arc(
+                    CELL_SIZE * (x + 1) + 0.5, 
+                    CELL_SIZE * (y + 1) + 0.5, 
+                    starSize,
+                    0, 
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
+        }
+        
+        // 绘制棋子（确保使用最新的CELL_SIZE）
+        for (let y = 0; y < BOARD_SIZE; y++) {
+            for (let x = 0; x < BOARD_SIZE; x++) {
+                if (board[y][x] === 1) {
+                    drawStone(x, y, 'black');
+                } else if (board[y][x] === 2) {
+                    drawStone(x, y, 'white');
+                }
+            }
+        }
+    }
+    
+    // 绘制棋子（精确位置计算）
+    function drawStone(x, y, color) {
+        const centerX = CELL_SIZE * (x + 1) + 0.5;
+        const centerY = CELL_SIZE * (y + 1) + 0.5;
+        
+        // 阴影
+        ctx.beginPath();
+        ctx.arc(centerX + STONE_RADIUS * 0.1, centerY + STONE_RADIUS * 0.1, STONE_RADIUS, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.15)';
+        ctx.fill();
+        
+        // 棋子主体
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, STONE_RADIUS, 0, Math.PI * 2);
+        
+        if (color === 'black') {
+            const gradient = ctx.createRadialGradient(
+                centerX - STONE_RADIUS * 0.3, 
+                centerY - STONE_RADIUS * 0.3, 
+                STONE_RADIUS * 0.1,
+                centerX, 
+                centerY, 
+                STONE_RADIUS
+            );
+            gradient.addColorStop(0, '#555');
+            gradient.addColorStop(1, '#000');
+            ctx.fillStyle = gradient;
+        } else {
+            const gradient = ctx.createRadialGradient(
+                centerX - STONE_RADIUS * 0.2, 
+                centerY - STONE_RADIUS * 0.2, 
+                STONE_RADIUS * 0.1,
+                centerX, 
+                centerY, 
+                STONE_RADIUS
+            );
+            gradient.addColorStop(0, '#fff');
+            gradient.addColorStop(1, '#ddd');
+            ctx.fillStyle = gradient;
+            ctx.strokeStyle = '#bbb';
+            ctx.lineWidth = Math.max(1, STONE_RADIUS * 0.08);
+            ctx.stroke();
+        }
+        
+        ctx.fill();
+    }
+    
+    // 检查胜利条件
+    function checkWin(x, y) {
+        const directions = [
+            [1, 0], [0, 1], [1, 1], [1, -1]
+        ];
+        
+        for (let [dx, dy] of directions) {
+            let count = 1;
+            
+            // 正向检查
+            for (let i = 1; i < 5; i++) {
+                const nx = x + dx * i;
+                const ny = y + dy * i;
+                
+                if (nx >= 0 && nx < BOARD_SIZE && ny >= 0 && ny < BOARD_SIZE && board[ny][nx] === currentPlayer) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            
+            // 反向检查
+            for (let i = 1; i < 5; i++) {
+                const nx = x - dx * i;
+                const ny = y - dy * i;
+                
+                if (nx >= 0 && nx < BOARD_SIZE && ny >= 0 && ny < BOARD_SIZE && board[ny][nx] === currentPlayer) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            
+            if (count >= 5) return true;
+        }
+        
+        return false;
+    }
+    
+    // 精确坐标转换（核心修复）
+    function getBoardPosition(clientX, clientY) {
+        const rect = canvas.getBoundingClientRect();
+        const size = getCanvasSize();
+        const scale = size / rect.width;
+        
+        // 转换为canvas坐标
+        const canvasX = (clientX - rect.left) * scale;
+        const canvasY = (clientY - rect.top) * scale;
+        
+        // 转换为棋盘格子坐标
+        const boardX = Math.round((canvasX - CELL_SIZE) / CELL_SIZE);
+        const boardY = Math.round((canvasY - CELL_SIZE) / CELL_SIZE);
+        
+        return { x: boardX, y: boardY };
+    }
+    
+    // 处理落子
+    function handleMove(clientX, clientY) {
+        if (gameOver) return;
+        
+        const { x, y } = getBoardPosition(clientX, clientY);
+        
+        if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE && board[y][x] === 0) {
+            board[y][x] = currentPlayer;
+            
+            if (checkWin(x, y)) {
+                if (currentPlayer === 1) {
+                    blackScore++;
+                    blackPointsDisplay.textContent = blackScore;
+                    statusDisplay.textContent = '黑方胜利!';
+                } else {
+                    whiteScore++;
+                    whitePointsDisplay.textContent = whiteScore;
+                    statusDisplay.textContent = '白方胜利!';
+                }
+                gameOver = true;
+            } else {
+                currentPlayer = currentPlayer === 1 ? 2 : 1;
+                statusDisplay.textContent = currentPlayer === 1 ? '黑方回合' : '白方回合';
+            }
+            
+            drawBoard();
+        }
+    }
+    
+    // 事件监听
+    canvas.addEventListener('click', function(e) {
+        handleMove(e.clientX, e.clientY);
+    });
+    
+    canvas.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        handleMove(touch.clientX, touch.clientY);
+    }, { passive: false });
+    
+    restartButton.addEventListener('click', initBoard);
+    
+    // 防抖的resize处理
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resizeCanvas, 100);
+    });
+    
+    // 使用ResizeObserver更精确的监听
+    const resizeObserver = new ResizeObserver(function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resizeCanvas, 100);
+    });
+    resizeObserver.observe(document.getElementById('game-container'));
+    
+    // 初始化
+    resizeCanvas();
+    initBoard();
+});
+    </script>
+</body>
+</html>

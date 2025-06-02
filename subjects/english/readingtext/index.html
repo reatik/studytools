@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Reader</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding: 10px;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 10px 0 20px;
+            color: #2c3e50;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            resize: none;
+            background-color: white;
+        }
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        .mode-btn {
+            padding: 8px 12px;
+            background-color: #e9ecef;
+            border-radius: 20px;
+            font-size: 14px;
+            white-space: nowrap;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .mode-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .content-panel {
+            display: none;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: white;
+            margin-top: 15px;
+            font-size: 18px;
+            line-height: 1.8;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .content-panel.active {
+            display: block;
+        }
+        .full-text-content {
+            white-space: pre-wrap;
+        }
+        .sentence-content {
+            white-space: pre-wrap;
+        }
+        .sentence {
+            display: inline;
+            padding: 2px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .word-content {
+            white-space: pre-wrap;
+        }
+        .word {
+            display: inline;
+            padding: 2px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .highlight {
+            background-color: rgba(52, 152, 219, 0.4);
+            transition: background-color 0.2s ease;
+        }
+        .current-sentence {
+            background-color: rgba(52, 152, 219, 0.6);
+        }
+        .punctuation {
+            display: inline;
+        }
+        @media (min-width: 768px) {
+            textarea {
+                height: 200px;
+            }
+            .content-panel {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>English Reader</h1>
+        
+        <textarea id="articleInput" placeholder="Paste or type English text here..."></textarea>
+        
+        <div class="mode-selector">
+            <div class="mode-btn active" data-mode="full">Full Text</div>
+            <div class="mode-btn" data-mode="sentence">Sentence</div>
+            <div class="mode-btn" data-mode="word">Word</div>
+        </div>
+        
+        <!-- Full Text Mode Panel -->
+        <div id="fullTextPanel" class="content-panel active">
+            <div class="full-text-content" id="fullTextContent"></div>
+        </div>
+        
+        <!-- Sentence Mode Panel -->
+        <div id="sentencePanel" class="content-panel">
+            <div class="sentence-content" id="sentenceContent"></div>
+        </div>
+        
+        <!-- Word Mode Panel -->
+        <div id="wordPanel" class="content-panel">
+            <div class="word-content" id="wordContent"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const articleInput = document.getElementById('articleInput');
+            const modeBtns = document.querySelectorAll('.mode-btn');
+            const fullTextContent = document.getElementById('fullTextContent');
+            const sentenceContent = document.getElementById('sentenceContent');
+            const wordContent = document.getElementById('wordContent');
+            const fullTextPanel = document.getElementById('fullTextPanel');
+            const sentencePanel = document.getElementById('sentencePanel');
+            const wordPanel = document.getElementById('wordPanel');
+            
+            const synth = window.speechSynthesis;
+            let currentMode = 'full';
+            let currentUtterance = null;
+            let fullText = '';
+            let sentences = [];
+            let wordsAndPunctuation = [];
+            let currentHighlight = null;
+            let currentSentenceHighlight = null;
+            let sentenceElements = [];
+            let currentSentenceIndex = -1;
+            
+            function initSpeech() {
+                if (!synth) {
+                    alert("Your browser doesn't support speech synthesis");
+                    return;
+                }
+                
+                modeBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        modeBtns.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        currentMode = this.dataset.mode;
+                        switchMode(currentMode);
+                    });
+                });
+                
+                articleInput.addEventListener('input', function() {
+                    fullText = articleInput.value;
+                    processText();
+                });
+                
+                // Initial setup
+                processText();
+            }
+            
+            function switchMode(mode) {
+                // Hide all panels
+                fullTextPanel.classList.remove('active');
+                sentencePanel.classList.remove('active');
+                wordPanel.classList.remove('active');
+                
+                // Show the selected panel
+                if (mode === 'full') {
+                    fullTextPanel.classList.add('active');
+                } else if (mode === 'sentence') {
+                    sentencePanel.classList.add('active');
+                } else if (mode === 'word') {
+                    wordPanel.classList.add('active');
+                }
+                
+                // Cancel any ongoing speech
+                synth.cancel();
+                removeHighlights();
+                currentSentenceIndex = -1;
+            }
+            
+            function processText() {
+                fullText = articleInput.value;
+                
+                // Update full text display
+                fullTextContent.textContent = fullText;
+                
+                // Process sentences
+                sentences = [];
+                sentenceContent.innerHTML = '';
+                sentenceElements = [];
+                const sentenceRegex = /[^.!?]*[a-zA-Z][^.!?]*[.!?]+[\s\n]*/g;
+                let match;
+                while ((match = sentenceRegex.exec(fullText)) !== null) {
+                    const sentence = match[0];
+                    sentences.push(sentence);
+                    
+                    // For sentence mode
+                    const sentenceElement = document.createElement('span');
+                    sentenceElement.className = 'sentence';
+                    sentenceElement.textContent = sentence;
+                    sentenceElement.addEventListener('click', () => handleSentenceClick(sentence));
+                    sentenceContent.appendChild(sentenceElement);
+                    
+                    // For full text mode
+                    sentenceElements.push({
+                        text: sentence,
+                        start: match.index,
+                        end: match.index + sentence.length
+                    });
+                }
+                
+                // Add click handler for full text mode
+                fullTextContent.addEventListener('click', handleFullTextClick);
+                
+                // Process words and punctuation (preserving all characters)
+                wordsAndPunctuation = [];
+                wordContent.innerHTML = '';
+                const tokens = fullText.match(/\b[\w']+\b|[^\w\s]|\s+/g) || [];
+                
+                tokens.forEach(token => {
+                    const isWord = /\b[\w']+\b/.test(token);
+                    
+                    if (isWord) {
+                        const wordElement = document.createElement('span');
+                        wordElement.className = 'word';
+                        wordElement.textContent = token;
+                        wordElement.addEventListener('click', () => handleWordClick(token));
+                        wordContent.appendChild(wordElement);
+                        wordsAndPunctuation.push({type: 'word', content: token});
+                    } else {
+                        const punctElement = document.createElement('span');
+                        punctElement.className = 'punctuation';
+                        punctElement.textContent = token;
+                        wordContent.appendChild(punctElement);
+                        wordsAndPunctuation.push({type: 'punctuation', content: token});
+                    }
+                });
+            }
+            
+            function handleFullTextClick(event) {
+                if (!fullText.trim()) return;
+                
+                const range = document.caretRangeFromPoint(event.clientX, event.clientY);
+                if (!range) return;
+                
+                const offset = range.startOffset;
+                const textNode = range.startContainer;
+                let charIndex = 0;
+                let node = fullTextContent.firstChild;
+                
+                while (node && node !== textNode) {
+                    charIndex += node.textContent.length;
+                    node = node.nextSibling;
+                }
+                charIndex += offset;
+                
+                // Find which sentence was clicked
+                const clickedSentenceIndex = sentenceElements.findIndex(s => 
+                    charIndex >= s.start && charIndex < s.end
+                );
+                
+                if (clickedSentenceIndex !== -1) {
+                    synth.cancel();
+                    removeHighlights();
+                    currentSentenceIndex = clickedSentenceIndex;
+                    readCurrentSentence();
+                }
+            }
+            
+            function readCurrentSentence() {
+                if (currentSentenceIndex < 0 || currentSentenceIndex >= sentences.length) return;
+                
+                const sentence = sentences[currentSentenceIndex];
+                
+                // Highlight the current sentence in full text
+                highlightCurrentSentence(currentSentenceIndex);
+                
+                // Read the current sentence
+                currentUtterance = new SpeechSynthesisUtterance(sentence);
+                currentUtterance.lang = 'en-US';
+                
+                // When finished, move to next sentence
+                currentUtterance.onend = () => {
+                    currentSentenceIndex++;
+                    if (currentSentenceIndex < sentences.length) {
+                        readCurrentSentence();
+                    } else {
+                        removeHighlights();
+                        currentSentenceIndex = -1;
+                    }
+                };
+                
+                synth.speak(currentUtterance);
+            }
+            
+            function highlightCurrentSentence(index) {
+                removeHighlights();
+                
+                const sentence = sentenceElements[index];
+                if (!sentence) return;
+                
+                // Create a range for the sentence
+                const range = document.createRange();
+                range.setStart(fullTextContent.firstChild, sentence.start);
+                range.setEnd(fullTextContent.firstChild, sentence.end);
+                
+                // Create a highlight element
+                const highlight = document.createElement('span');
+                highlight.className = 'current-sentence';
+                range.surroundContents(highlight);
+                currentSentenceHighlight = highlight;
+                
+                // Scroll to the sentence if needed
+                highlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            
+            function handleSentenceClick(sentence) {
+                synth.cancel();
+                removeHighlights();
+                
+                // Find and highlight the clicked sentence
+                const sentenceElements = document.querySelectorAll('.sentence');
+                for (const element of sentenceElements) {
+                    if (element.textContent === sentence) {
+                        element.classList.add('highlight');
+                        currentHighlight = element;
+                        break;
+                    }
+                }
+                
+                // Read the sentence
+                currentUtterance = new SpeechSynthesisUtterance(sentence);
+                currentUtterance.lang = 'en-US';
+                currentUtterance.onend = removeHighlights;
+                synth.speak(currentUtterance);
+            }
+            
+            function handleWordClick(word) {
+                synth.cancel();
+                removeHighlights();
+                
+                // Find and highlight the clicked word
+                const wordElements = document.querySelectorAll('.word');
+                for (const element of wordElements) {
+                    if (element.textContent === word) {
+                        element.classList.add('highlight');
+                        currentHighlight = element;
+                        break;
+                    }
+                }
+                
+                // Read the word
+                currentUtterance = new SpeechSynthesisUtterance(word);
+                currentUtterance.lang = 'en-US';
+                currentUtterance.onend = removeHighlights;
+                synth.speak(currentUtterance);
+            }
+            
+            function removeHighlights() {
+                // Remove sentence highlight in full text mode
+                if (currentSentenceHighlight) {
+                    const parent = currentSentenceHighlight.parentNode;
+                    parent.replaceChild(document.createTextNode(currentSentenceHighlight.textContent), currentSentenceHighlight);
+                    parent.normalize();
+                    currentSentenceHighlight = null;
+                }
+                
+                // Remove other highlights
+                if (currentHighlight) {
+                    if (currentHighlight.classList) {
+                        currentHighlight.classList.remove('highlight');
+                    } else {
+                        const parent = currentHighlight.parentNode;
+                        parent.replaceChild(document.createTextNode(currentHighlight.textContent), currentHighlight);
+                        parent.normalize();
+                    }
+                    currentHighlight = null;
+                }
+                
+                // Also clear any remaining highlights
+                document.querySelectorAll('.highlight, .current-sentence').forEach(el => {
+                    if (el.classList) {
+                        el.classList.remove('highlight', 'current-sentence');
+                    } else {
+                        const parent = el.parentNode;
+                        parent.replaceChild(document.createTextNode(el.textContent), el);
+                        parent.normalize();
+                    }
+                });
+            }
+            
+            initSpeech();
+        });
+    </script>
+</body>
+</html>
