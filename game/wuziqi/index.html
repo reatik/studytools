@@ -343,46 +343,100 @@
         }
 
         // 初始化游戏
-        function initGame() {
-            updateConnectionStatus('connecting', '连接服务器中...');
-            
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetRoomId = urlParams.get('room');
-            
-            roomId = targetRoomId || generateRoomId();
-            roomIdDisplay.textContent = roomId;
-            
-            // 初始化Pusher
-            pusher = new Pusher('2003183', {
-                cluster: 'ap3',
+function initGame() {
+    updateConnectionStatus('connecting', '连接服务器中...');
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetRoomId = urlParams.get('room');
+    
+    roomId = targetRoomId || generateRoomId();
+    roomIdDisplay.textContent = roomId;
+    
+    // 改进的Pusher初始化配置
+    pusher = new Pusher('2003183', {
+        cluster: 'ap3',
+        forceTLS: true,  // 强制使用TLS加密
+        enabledTransports: ['ws', 'wss'],  // 明确指定传输协议
+        disableStats: true,  // 禁用统计以减少流量
+        authTransport: 'jsonp',  // 解决跨域问题
+        authEndpoint: '/pusher/auth'  // 认证端点（需要后端支持）
+    });
 
-                enabledTransports: ['ws', 'wss']
-            });
-            
-            // 监听连接状态变化
-            pusher.connection.bind('state_change', (states) => {
-                switch(states.current) {
-                    case 'connecting':
-                        updateConnectionStatus('connecting', '连接服务器中...');
-                        break;
-                    case 'connected':
-                        updateConnectionStatus('connected', '已连接到服务器');
-                        break;
-                    case 'unavailable':
-                    case 'failed':
-                        updateConnectionStatus('error', '连接失败，请刷新重试');
-                        break;
-                }
-            });
-
-            if (targetRoomId) {
-                joinRoom(targetRoomId);
-            } else {
-                createRoom();
-            }
-            
-            window.history.replaceState({}, '', `?room=${roomId}`);
+    // 完整的连接状态监听
+    pusher.connection.bind('state_change', (states) => {
+        console.log('Pusher状态变化:', states);
+        switch(states.current) {
+            case 'connecting':
+                updateConnectionStatus('connecting', '连接服务器中...');
+                break;
+            case 'connected':
+                updateConnectionStatus('connected', '已连接到服务器');
+                // 连接成功后初始化频道
+                initChannel();
+                break;
+            case 'unavailable':
+                updateConnectionStatus('error', '服务不可用，请检查网络');
+                attemptReconnect();
+                break;
+            case 'failed':
+                updateConnectionStatus('error', '连接失败: ' + (states.error || '未知错误'));
+                attemptReconnect();
+                break;
+            case 'disconnected':
+                updateConnectionStatus('error', '连接已断开');
+                attemptReconnect();
+                break;
         }
+    });
+
+    // 错误监听
+    pusher.connection.bind('error', (err) => {
+        console.error('Pusher错误:', err);
+        updateConnectionStatus('error', `连接错误: ${err.error?.message || err.message}`);
+    });
+
+    if (targetRoomId) {
+        joinRoom(targetRoomId);
+    } else {
+        createRoom();
+    }
+    
+    window.history.replaceState({}, '', `?room=${roomId}`);
+}
+
+// 新增的频道初始化函数
+function initChannel() {
+    channel = pusher.subscribe(`presence-wuziqi-${roomId}`);
+    
+    channel.bind('pusher:subscription_succeeded', () => {
+        console.log('频道订阅成功');
+        updateConnectionStatus('connected', '准备开始游戏');
+    });
+    
+    channel.bind('pusher:subscription_error', (err) => {
+        console.error('频道订阅失败:', err);
+        updateConnectionStatus('error', '频道订阅失败: ' + err.error);
+    });
+}
+
+// 新增的重连函数
+let reconnectAttempts = 0;
+const MAX_RECONNECT_ATTEMPTS = 5;
+
+function attemptReconnect() {
+    if(reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+        reconnectAttempts++;
+        const delay = Math.min(1000 * reconnectAttempts, 10000); // 指数退避
+        
+        updateConnectionStatus('connecting', `尝试重新连接(${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})`);
+        
+        setTimeout(() => {
+            pusher.connect();
+        }, delay);
+    } else {
+        updateConnectionStatus('error', '连接失败，请刷新页面重试');
+    }
+}
 
         // 创建房间
         function createRoom() {
@@ -398,7 +452,7 @@
             channel.bind('pusher:member_added', (member) => {
                 waitingMessage.style.display = 'none';
                 statusDisplay.textContent = `对手已加入，你是黑方`;
-                initBoard();
+                waitingMessage.style.display = 'none';
             });
         }
 
@@ -416,17 +470,8 @@
                     myPlayerRole = 2;
                     statusDisplay.textContent = `已加入房间，你是白方`;
                     waitingMessage.style.display = 'none';
-                    
-                    // 通知房主有新玩家加入
-                    channel.trigger('client-player-joined', {});
                 }
                 initBoard();
-            });
-            
-            // 监听房主的响应
-            channel.bind('client-game-ready', () => {
-                waitingMessage.style.display = 'none';
-                statusDisplay.textContent = `已加入房间，你是白方`;
             });
         }
 
