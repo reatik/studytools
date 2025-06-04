@@ -355,13 +355,7 @@
             // 初始化Pusher
             pusher = new Pusher('2003183', {
                 cluster: 'ap3',
-                authEndpoint: '/api/pusher-auth',
-                auth: {
-                    params: {
-                        username: `Player_${Math.floor(Math.random() * 1000)}`,
-                        roomId: roomId
-                    }
-                },
+
                 enabledTransports: ['ws', 'wss']
             });
             
