@@ -343,7 +343,7 @@
         
         .timer {
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             margin: 1.5rem 0;
             color: var(--primary);
@@ -715,17 +715,15 @@
 
             /* 计时器缩小 */
             .timer {
-                font-size: 1.3rem;
+                font-size: 1.0rem;
                 margin: 1rem 0;
                 padding: 0.6rem;
                 border-radius: 8px;
             }
 
             .progress-container {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
+    margin: 0.5rem 0; /* 减少上下边距 */
+  }
             
             .question-count {
                 font-size: 0.95rem;
@@ -733,7 +731,8 @@
             }
             
             .progress-bar {
-                margin: 0 0.5rem;
+                max-width: 85%; /* 限制最大宽度 */
+    margin: 0 auto; 
             }
 
             /* 分数面板缩小 */
@@ -838,9 +837,9 @@
 
             /* 操作按钮区域缩小 */
             .action-buttons {
-                gap: 0.8rem;
-                margin-top: 1.2rem;
-            }
+    flex-direction: column; /* 垂直排列 */
+    gap: 0.8rem;
+  }
 
             /* 移除大背景 */
             body::before, body::after {
@@ -876,7 +875,7 @@
             }
             
             .timer {
-                font-size: 1.1rem;
+                font-size: 1.0rem;
                 padding: 0.5rem;
             }
             
@@ -900,10 +899,13 @@
             }
             
             .btn {
-                padding: 0.7rem 1rem;
-                font-size: 0.9rem;
-                min-height: 42px;
-            }
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    width: 100%; /* 全宽按钮 */
+    max-width: 280px; /* 限制最大宽度 */
+    margin: 0 auto; /* 居中显示 */
+  }
 
             .question-count {
                 font-size: 0.85rem;
