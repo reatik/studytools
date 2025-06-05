@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>知识问答大赛</title>
+    <script src="tiku.js"></script>
+    <title>知识问答大赛 - 优化版</title>
     <style>
         :root {
             --primary: #4361ee;
@@ -15,6 +16,9 @@
             --light: #f8f9fa;
             --gray: #adb5bd;
             --white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
         * {
@@ -25,16 +29,45 @@
         }
         
         body {
-            background-color: var(--light);
+            background: linear-gradient(135deg, #e0e7ff, #d1fae5, #ede9fe);
             color: var(--dark);
             min-height: 100vh;
             line-height: 1.6;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* 添加背景装饰元素 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(67, 97, 238, 0.1), rgba(76, 201, 240, 0.1));
+            z-index: -1;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -80px;
+            left: -80px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(247, 37, 133, 0.1), rgba(114, 9, 183, 0.1));
+            z-index: -1;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            width: 95%;
         }
         
         header {
@@ -43,24 +76,45 @@
         }
         
         h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 0.5rem;
             color: var(--primary);
-            font-weight: 700;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .subtitle {
             color: var(--gray);
-            font-size: 1.1rem;
+            font-size: 1.3rem;
+            margin-top: 1rem;
         }
         
+        /* 磨砂玻璃效果 */
         .card {
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-            padding: 2.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 3rem;
             margin-bottom: 2rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        /* 添加内部发光效果 */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+            border-radius: 20px 20px 0 0;
         }
         
         .screen {
@@ -81,14 +135,15 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.8rem 1.8rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
+            padding: 1rem 2.2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.2s ease;
             border: none;
             outline: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .btn-primary {
@@ -98,7 +153,8 @@
         
         .btn-primary:hover {
             background-color: var(--secondary);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
         
         .btn-secondary {
@@ -109,94 +165,128 @@
         
         .btn-secondary:hover {
             background-color: rgba(67, 97, 238, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: var(--white);
+        }
+        
+        .btn-danger:hover {
+            background-color: #d90452;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
         
         .btn-group {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
+            justify-content: center;
         }
         
         .btn-lg {
-            padding: 1rem 2.2rem;
-            font-size: 1.1rem;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.3rem;
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
             color: var(--dark);
+            font-size: 1.2rem;
         }
         
         select {
             width: 100%;
-            padding: 0.8rem 1rem;
-            border: 2px solid var(--gray);
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 1rem 1.2rem;
+            border: 2px solid rgba(173, 181, 189, 0.3);
+            border-radius: 12px;
+            font-size: 1.2rem;
             transition: border 0.2s ease;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         
         select:focus {
             border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
         }
         
         .question {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            line-height: 1.5;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            text-align: center;
+            padding: 0 2rem;
         }
         
         .options {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+        }
 
-.option {
-    background-color: var(--white);
-    border: 2px solid var(--gray);
-    border-radius: 8px;
-    padding: 1.2rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: 500;
-    width: 100%;
-}
+        /* 增强磨砂玻璃效果 */
+        .option {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08), 
+                        inset 0 0 12px rgba(255,255,255,0.7);
+            border-radius: 18px;
+            padding: 1.6rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            font-size: 1.3rem;
+        }
         
+        /* 选项悬浮效果 */
         .option:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15), 
+                        inset 0 0 20px rgba(255,255,255,0.8);
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.8);
         }
         
         .option.selected {
             border-color: var(--primary);
-            background-color: rgba(67, 97, 238, 0.1);
+            background-color: rgba(67, 97, 238, 0.2);
+            box-shadow: 0 6px 18px rgba(67, 97, 238, 0.25);
             font-weight: bold;
         }
         
         .option.correct {
             border-color: #28a745;
-            background-color: rgba(40, 167, 69, 0.15);
+            background-color: rgba(40, 167, 69, 0.2);
             color: #28a745;
             font-weight: bold;
-            animation: pulse 0.5s;
+            animation: pulse 0.8s;
         }
         
         .option.incorrect {
             border-color: #dc3545;
-            background-color: rgba(220, 53, 69, 0.15);
+            background-color: rgba(220, 53, 69, 0.2);
             color: #dc3545;
             font-weight: bold;
         }
@@ -207,28 +297,73 @@
             100% { transform: scale(1); }
         }
         
+        /* 题目解析样式 - 优化版 */
+        .explanation-container {
+            margin-top: 1.5rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 18px;
+            box-shadow: var(--glass-shadow);
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+            color: var(--dark);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+        
+        .explanation-title {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .explanation-title::before {
+            content: "✦";
+            margin-right: 10px;
+            font-size: 1.3em;
+        }
+        
+        .explanation-text {
+            color: var(--dark);
+            line-height: 1.7;
+            font-size: 1.3rem;
+        }
+        
         .timer {
             text-align: center;
             font-size: 1.8rem;
             font-weight: 700;
-            margin: 2rem 0;
+            margin: 1.5rem 0;
             color: var(--primary);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
         
         .timer.warning {
             color: var(--danger);
             animation: pulse 0.5s infinite;
+            font-weight: 800;
         }
         
         .progress-container {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
         }
         
         .progress-bar {
-            height: 8px;
+            height: 10px;
             background-color: rgba(67, 97, 238, 0.1);
-            border-radius: 4px;
+            border-radius: 5px;
             overflow: hidden;
+            flex-grow: 1;
+            margin: 0 1.5rem;
         }
         
         .progress {
@@ -236,82 +371,103 @@
             background: linear-gradient(90deg, var(--primary), var(--accent));
             width: 0%;
             transition: width 0.4s ease;
+            border-radius: 5px;
         }
         
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--gray);
+        .question-count {
+            font-weight: 700;
+            font-size: 1.3rem;
+            min-width: 160px;
+            text-align: center;
+            background: rgba(67, 97, 238, 0.15);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            color: var(--primary);
+        }
+        
+        .mode-indicator {
+            font-weight: 700;
+            font-size: 1.3rem;
+            min-width: 160px;
+            text-align: center;
+            background: rgba(76, 201, 240, 0.15);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            color: var(--accent);
         }
         
         .scoreboard {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin: 3rem 0;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 2rem;
+            margin: 3.5rem 0;
         }
         
         .team-score {
-            background-color: var(--white);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 18px;
+            padding: 2rem;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.4);
         }
         
         .team-score.leading {
-            border: 2px solid var(--success);
-            box-shadow: 0 5px 20px rgba(76, 201, 240, 0.2);
+            border: 3px solid var(--success);
+            box-shadow: 0 6px 24px rgba(76, 201, 240, 0.25);
         }
         
         .team-score.leading::after {
             content: "🏆";
             position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5rem;
+            top: 15px;
+            right: 15px;
+            font-size: 1.8rem;
         }
         
         .team-name {
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            text-align: center;
         }
         
         .team-points {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.5rem;
+            font-weight: 800;
             color: var(--dark);
+            text-align: center;
         }
         
         .winner-section {
             text-align: center;
-            margin: 2rem 0;
+            margin: 3rem 0;
         }
         
         .winner-title {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.5rem;
+            font-weight: 800;
             color: var(--primary);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         
         .winner-name {
-            font-size: 2.5rem;
-            font-weight: 800;
+            font-size: 3rem;
+            font-weight: 900;
             color: var(--danger);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             text-transform: uppercase;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
         }
         
         .confetti {
             position: fixed;
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             background-color: var(--primary);
             top: -10px;
             z-index: 999;
@@ -320,72 +476,78 @@
         
         .mode-selector {
             display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
         
         .mode-card {
             flex: 1;
-            padding: 1.5rem;
-            border: 2px solid var(--gray);
-            border-radius: 12px;
+            padding: 2rem;
+            border: 2px solid rgba(173, 181, 189, 0.3);
+            border-radius: 18px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            text-align: center;
         }
         
         .mode-card:hover {
             border-color: var(--primary);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
         
         .mode-card.selected {
             border-color: var(--primary);
-            background-color: rgba(67, 97, 238, 0.05);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
+            background-color: rgba(67, 97, 238, 0.15);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.15);
         }
         
         .mode-title {
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
             color: var(--primary);
         }
         
         .mode-desc {
             color: var(--gray);
-            font-size: 0.9rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
-        
         
         .buzzer-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
         }
         
         .buzzer-btn {
-            padding: 1.5rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.2rem;
+            padding: 1.8rem;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.4rem;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             border: none;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
         }
         
         .buzzer-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         
         .buzzer-btn:active {
-            transform: translateY(1px);
+            transform: translateY(2px);
         }
         
         .buzzer-btn.disabled {
@@ -394,13 +556,77 @@
         }
         
         .team-color {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        /* 队伍组件 - 优化版 */
+        .teams-bar {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
+.team-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 80px; /* 缩小宽度 */
+    height: 70px;    /* 缩小高度 */
+    padding: 0.6rem;
+    border-radius: 12px; /* 缩小圆角 */
+    background-color: var(--white); /* 白色背景 */
+    border: 1px solid transparent; /* 默认无边框 */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* 激活状态样式 */
+.team-block.active {
+    border: 2px solid; /* 边框颜色为队伍颜色 */
+
+}
+
+
+/* 积分数字样式 */
+.team-score-display {
+    font-size: 1.5rem; /* 适合新尺寸的字体 */
+    font-weight: 500;
+    color: #000; /* 默认黑色 */
+    text-shadow: 0 2px 2px rgba(0,0,0,0.1);
+    margin-top: 5px;
+    text-align: center;
+}
         
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        /* 按钮组统一优化 */
+        .action-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        /* 添加磨砂玻璃效果过渡动画 */
+        .card, .option, .team-score, .mode-card, .explanation-container, .team-block {
+            transition: all 0.3s ease;
+        }
         
         @media (max-width: 768px) {
             .container {
@@ -408,11 +634,20 @@
             }
             
             .card {
-                padding: 1.5rem;
+                padding: 1.8rem;
             }
             
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .question {
+                font-size: 1.5rem;
+                padding: 0;
             }
             
             .options {
@@ -422,6 +657,53 @@
             .mode-selector {
                 flex-direction: column;
             }
+            
+            .buzzer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            body::before, body::after {
+                display: none;
+            }
+            
+            .option {
+                font-size: 1.2rem;
+                padding: 1.4rem;
+            }
+            
+            .explanation-text {
+                font-size: 1.1rem;
+            }
+            
+            .teams-bar {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .team-block {
+        min-width: 70px;
+        height: 65px;
+    }
+    
+    .team-score-display {
+        font-size: 1.8rem;
+    }
+            
+            .progress-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .progress-bar {
+                width: 100%;
+                margin: 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
@@ -429,12 +711,13 @@
     <div class="container">
         <header>
             <h1>知识问答大赛</h1>
+            <div class="subtitle">磨砂玻璃风格 | 优化版界面 | 精美交互体验</div>
         </header>
         
         <div class="card">
             <!-- 设置屏幕 -->
             <div class="screen setup-screen active">
-                <h2>比赛设置</h2>
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">比赛设置</h2>
                 
                 <div class="form-group">
                     <label for="teamCount">队伍数量</label>
@@ -467,7 +750,7 @@
                     </select>
                 </div>
                 
-                <h3 style="margin-top: 2rem;">选择比赛模式</h3>
+                <h3 style="margin-top: 2.5rem; font-size: 1.6rem;">选择比赛模式</h3>
                 <div class="mode-selector">
                     <div class="mode-card selected" data-mode="turn">
                         <div class="mode-title">轮流答题</div>
@@ -486,16 +769,7 @@
             
             <!-- 问题屏幕 -->
             <div class="screen question-screen">
-                <div class="progress-container">
-                    <div class="progress-text">
-                        <span>第 <span id="currentQuestionNum">1</span> 题 / 共 <span id="totalQuestions">10</span> 题</span>
-                        <span id="currentModeText">轮流答题</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" id="progressBar"></div>
-                    </div>
-                </div>
-                
+                <div class="teams-bar" id="teamsBar"></div>
                 
                 <div class="question" id="questionText"></div>
                 
@@ -505,10 +779,27 @@
                 
                 <div class="options" id="optionsContainer"></div>
                 
+                <!-- 整合的进度条和题目计数 -->
+                <div class="progress-container">
+                    <div class="question-count">第 <span id="currentQuestionNum">1</span> / <span id="totalQuestions">10</span> 题</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progressBar"></div>
+                    </div>
+                    <div class="mode-indicator" id="currentModeText">轮流答题</div>
+                </div>
+                
+                <!-- 题目解析区域 -->
+                <div id="explanationContainer" class="explanation-container">
+                    <div class="explanation-title">题目解析</div>
+                    <div class="explanation-text" id="explanationText"></div>
+                </div>
+                
                 <div class="timer" id="timerDisplay"></div>
                 
-                <div class="btn-group">
-                    <button id="nextQuestion" class="btn btn-primary" style="display: none;">下一题</button>
+                <!-- 统一的底部按钮 -->
+                <div class="action-buttons">
+                    <button id="nextQuestion" class="btn btn-primary" style="display: none; min-width: 200px;">下一题</button>
+                    <button id="exitGame" class="btn btn-danger" style="display: none; min-width: 200px;">退出比赛</button>
                 </div>
             </div>
             
@@ -519,7 +810,7 @@
                     <div class="winner-name" id="winnerAnnouncement"></div>
                 </div>
                 
-                <h2>比赛结果</h2>
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">比赛结果</h2>
                 
                 <div class="scoreboard" id="scoreboard"></div>
                 
@@ -531,18 +822,14 @@
         </div>
     </div>
 
-    <!-- 引入外部题库文件 -->
-    <script src="tiku.js"></script>
-
     <script>
         // 游戏状态
-        const gameState = {
-            teams: [],
-            teamColors: ['#4361ee', '#f72585', '#4cc9f0', '#7209b7', '#4895ef', '#3a0ca3'],
-            teamNames: ['蓝队', '红队', '黄队', '绿队', '紫队', '橙队'],
-            questions: [],
-            currentQuestionIndex: 0,
-            scores: {},
+                const gameState = {
+                    teams: [],
+                    teamColors: ['#e74c3c', '#2ecc71', '#3498db', '#f1c40f', '#9b59b6', '#1abc9c'], // 更鲜明的对比色
+                    teamNames: ['红队', '绿队', '蓝队', '黄队', '紫队', '青队'], questions: [],
+                    currentQuestionIndex: 0,
+                    scores: {},
             selectedOption: null,
             timer: null,
             timeLeft: 0,
@@ -552,13 +839,9 @@
             activeTeamIndex: 0,
             buzzerLocked: false
         };
-        
-        // 使用外部导入的题库
-        // 假设zhishijingsai.js中定义了一个questionBank变量
-        // 如果没有定义，我们使用一个空数组作为后备
+
         const questionBank = window.questionBank || [];
-        
-        
+
         // DOM元素
         const setupScreen = document.querySelector('.setup-screen');
         const questionScreen = document.querySelector('.question-screen');
@@ -578,12 +861,14 @@
         const winnerSection = document.getElementById('winnerSection');
         const teamCountSelect = document.getElementById('teamCount');
         const currentModeText = document.getElementById('currentModeText');
-        const activeTeamDisplay = document.getElementById('activeTeamDisplay');
-        const activeTeamName = document.getElementById('activeTeamName');
         const buzzerModeUI = document.getElementById('buzzerModeUI');
         const buzzerContainer = document.getElementById('buzzerContainer');
         const modeCards = document.querySelectorAll('.mode-card');
-        
+        const explanationContainer = document.getElementById('explanationContainer');
+        const explanationText = document.getElementById('explanationText');
+        const exitGameBtn = document.getElementById('exitGame');
+        const teamsBar = document.getElementById('teamsBar');
+
         // 初始化游戏
         function initGame() {
             // 获取设置
@@ -621,6 +906,9 @@
             questionScreen.classList.add('active');
             scoreScreen.classList.remove('active');
             
+            // 隐藏解释区域
+            explanationContainer.style.display = 'none';
+            
             // 根据模式显示不同UI
             if (gameState.gameMode === 'buzzer') {
                 buzzerModeUI.style.display = 'block';
@@ -629,9 +917,49 @@
                 buzzerModeUI.style.display = 'none';
             }
             
+            // 更新队伍积分条
+            updateTeamsBar();
+            
             // 开始第一个问题
             showQuestion();
         }
+
+        function hexToRgba(hex, alpha) {
+    let r = parseInt(hex.slice(1, 3), 16);
+    let g = parseInt(hex.slice(3, 5), 16);
+    let b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+        
+function updateTeamsBar() {
+    teamsBar.innerHTML = '';
+    
+    gameState.teams.forEach((team, index) => {
+        const teamBlock = document.createElement('div');
+        teamBlock.className = 'team-block';
+        
+        // 添加底部小圆形（与图片一致）
+        const teamIcon = document.createElement('div');
+        teamIcon.className = 'team-icon';
+        teamIcon.style.backgroundColor = gameState.teamColors[index]; // 使用队伍颜色
+        
+        // 创建积分显示
+        const scoreDisplay = document.createElement('div');
+        scoreDisplay.className = 'team-score-display';
+        scoreDisplay.textContent = gameState.scores[team];
+        scoreDisplay.style.color = gameState.teamColors[index]; // 使用队伍颜色
+        
+        // 如果是当前活动队伍，添加active类
+        if(index === gameState.activeTeamIndex && gameState.gameMode === 'turn') {
+            teamBlock.classList.add('active');
+            teamBlock.style.borderColor = gameState.teamColors[index]; // 边框颜色
+        }
+        
+        teamBlock.appendChild(scoreDisplay);
+        teamBlock.appendChild(teamIcon);
+        teamsBar.appendChild(teamBlock);
+    });
+}
         
         // 设置抢答模式UI
         function setupBuzzerMode() {
@@ -666,119 +994,137 @@
                     btn.classList.add('disabled');
                 }
             });
+            
+            // 更新队伍积分条
+            updateTeamsBar();
+            
+            // 启动计时器
+            startTimer();
         }
-        
         
         // 显示当前问题
         function showQuestion() {
-    gameState.buzzerLocked = false;
-    const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-    
-    // 更新UI
-    currentQuestionNum.textContent = gameState.currentQuestionIndex + 1;
-    questionText.textContent = currentQuestion.question;
-    
-    // 更新进度条
-    progressBar.style.width = `${(gameState.currentQuestionIndex / gameState.totalQuestions) * 100}%`;
-    
-    // 清空选项
-    optionsContainer.innerHTML = '';
-    
-    // 添加选项（加上ABCD前缀）
-    const optionLetters = ['A', 'B', 'C', 'D'];
-    currentQuestion.options.forEach((option, index) => {
-        const optionElement = document.createElement('div');
-        optionElement.classList.add('option');
-        optionElement.textContent = `${optionLetters[index]}. ${option}`;
-        optionElement.dataset.index = index;
-        optionElement.addEventListener('click', selectOption);
-        optionsContainer.appendChild(optionElement);
-    });
-    
-    // 重置选择
-    gameState.selectedOption = null;
-    nextQuestionBtn.style.display = 'none';
-    
-    // 重置抢答按钮
-    if (gameState.gameMode === 'buzzer') {
-        const buzzerBtns = document.querySelectorAll('.buzzer-btn');
-        buzzerBtns.forEach(btn => {
-            btn.classList.remove('btn-success', 'disabled');
-        });
-        activeTeamDisplay.style.display = 'none';
-        timerDisplay.textContent = "";
-        timerDisplay.classList.remove('warning');
-    } else {
-        // 非抢答模式下启动计时器
-        startTimer();
-    }
-}
+            gameState.buzzerLocked = false;
+            const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
+            
+            // 更新UI
+            currentQuestionNum.textContent = gameState.currentQuestionIndex + 1;
+            questionText.textContent = currentQuestion.question;
+            
+            // 更新进度条
+            progressBar.style.width = `${(gameState.currentQuestionIndex / gameState.totalQuestions) * 100}%`;
+            
+            // 清空选项
+            optionsContainer.innerHTML = '';
+            
+            // 隐藏解释区域
+            explanationContainer.style.display = 'none';
+            
+            // 添加选项（加上ABCD前缀）
+            const optionLetters = ['A', 'B', 'C', 'D'];
+            currentQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = `${optionLetters[index]}. ${option}`;
+                optionElement.dataset.index = index;
+                optionElement.addEventListener('click', selectOption);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // 重置选择
+            gameState.selectedOption = null;
+            nextQuestionBtn.style.display = 'none';
+            exitGameBtn.style.display = 'none';
+            
+            // 重置抢答按钮
+            if (gameState.gameMode === 'buzzer') {
+                const buzzerBtns = document.querySelectorAll('.buzzer-btn');
+                buzzerBtns.forEach(btn => {
+                    btn.classList.remove('btn-success', 'disabled');
+                });
+                timerDisplay.textContent = "";
+                timerDisplay.classList.remove('warning');
+            } else {
+                // 非抢答模式下启动计时器
+                startTimer();
+            }
+            
+            // 更新队伍积分条
+            updateTeamsBar();
+        }
         
         // 选择选项
         function selectOption(e) {
-    if (gameState.selectedOption !== null) return;
+            if (gameState.selectedOption !== null) return;
+            
+            const selectedElement = e.currentTarget;
+            const selectedIndex = parseInt(selectedElement.dataset.index);
+            
+            gameState.selectedOption = selectedIndex;
+            selectedElement.classList.add('selected');
+            
+            // 检查答案
+            const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
+            const isCorrect = selectedIndex === currentQuestion.answer;
+            
+            // 显示正确答案
+            const correctElement = optionsContainer.children[currentQuestion.answer];
+            correctElement.classList.add('correct');
+            
+            if (!isCorrect) {
+                selectedElement.classList.add('incorrect');
+            }
+            
+            // 只在非抢答模式下停止计时器
+            if (gameState.gameMode !== 'buzzer') {
+                clearInterval(gameState.timer);
+            }
+            
+            // 更新分数
+            if (isCorrect) {
+    // 每题固定获得100分
+    const score = 100;
+    const teamName = gameState.teams[gameState.activeTeamIndex];
+    gameState.scores[teamName] += score;
     
-    const selectedElement = e.currentTarget;
-    const selectedIndex = parseInt(selectedElement.dataset.index);
-    
-    gameState.selectedOption = selectedIndex;
-    selectedElement.classList.add('selected');
-    
-    // 检查答案
-    const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-    const isCorrect = selectedIndex === currentQuestion.answer;
-    
-    // 显示正确答案
-    const correctElement = optionsContainer.children[currentQuestion.answer];
-    correctElement.classList.add('correct');
-    
-    if (!isCorrect) {
-        selectedElement.classList.add('incorrect');
-    }
-    
-    // 只在非抢答模式下停止计时器
-    if (gameState.gameMode !== 'buzzer') {
-        clearInterval(gameState.timer);
-    }
-    
-    // 更新分数
-    if (isCorrect) {
-        const score = gameState.gameMode === 'buzzer' ? 100 : Math.ceil(gameState.timeLeft / gameState.timeLimit * 100);
-        const teamName = gameState.teams[gameState.activeTeamIndex];
-        gameState.scores[teamName] += score;
-        
-        // 移除抢答模式下显示当前得分队伍的逻辑
-        // if (gameState.gameMode === 'buzzer') {
-        //     activeTeamDisplay.style.display = 'block';
-        // }
-    }
-    
-    // 显示下一题按钮
-    nextQuestionBtn.style.display = 'block';
+    updateTeamsBar();
 }
-
-        
-// 修改 startTimer 函数
-function startTimer() {
-    // 如果是抢答模式，不启动计时器
-    if (gameState.gameMode === 'buzzer') {
-        timerDisplay.textContent = "";  // 这里改为空字符串
-        return;
-    }
-    
-    gameState.timeLeft = gameState.timeLimit;
-    updateTimerDisplay();
-    
-    gameState.timer = setInterval(() => {
-        gameState.timeLeft--;
-        updateTimerDisplay();
-        
-        if (gameState.timeLeft <= 0) {
-            clearInterval(gameState.timer);
-            timeUp();
+            
+            // 显示题目解释
+            if (currentQuestion.explanation) {
+                explanationText.textContent = currentQuestion.explanation;
+                explanationContainer.style.display = 'block';
+            } else {
+                explanationText.textContent = "暂无题目解析";
+                explanationContainer.style.display = 'block';
+            }
+            
+            // 显示下一题按钮
+            nextQuestionBtn.style.display = 'block';
+            exitGameBtn.style.display = 'block';
         }
-    }, 1000);
-}
+        
+        // 修改 startTimer 函数
+        function startTimer() {
+            // 如果是抢答模式，不启动计时器
+            if (gameState.gameMode === 'buzzer' && !gameState.buzzerLocked) {
+                timerDisplay.textContent = "";
+                return;
+            }
+            
+            gameState.timeLeft = gameState.timeLimit;
+            updateTimerDisplay();
+            
+            gameState.timer = setInterval(() => {
+                gameState.timeLeft--;
+                updateTimerDisplay();
+                
+                if (gameState.timeLeft <= 0) {
+                    clearInterval(gameState.timer);
+                    timeUp();
+                }
+            }, 1000);
+        }
         
         // 更新时间显示
         function updateTimerDisplay() {
@@ -794,25 +1140,37 @@ function startTimer() {
         
         // 时间到
         function timeUp() {
-    // 如果是抢答模式，不自动结束
-    if (gameState.gameMode === 'buzzer') return;
-    
-    if (gameState.selectedOption !== null) return;
-    
-    // 禁用所有选项
-    const options = document.querySelectorAll('.option');
-    options.forEach(option => {
-        option.style.pointerEvents = 'none';
-    });
-    
-    // 显示正确答案（移除了✓符号）
-    const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-    const correctElement = optionsContainer.children[currentQuestion.answer];
-    correctElement.classList.add('correct');
-    
-    // 显示下一题按钮
-    nextQuestionBtn.style.display = 'block';
-}
+            // 如果是抢答模式，不自动结束
+            if (gameState.gameMode === 'buzzer') return;
+            
+            if极光
+            if (gameState.selectedOption !== null) return;
+            
+            // 禁用所有选项
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+            
+            // 显示正确答案
+            const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
+            const correctElement = optionsContainer.children[currentQuestion.answer];
+            correctElement.classList.add('correct');
+            
+            // 显示题目解释
+            if (currentQuestion.explanation) {
+                explanationText.textContent = currentQuestion.explanation;
+                explanationContainer.style.display = 'block';
+            } else {
+                explanationText.textContent = "暂无题目解析";
+                explanationContainer.style.display = '极光';
+                explanationContainer.style.display = 'block';
+            }
+            
+            // 显示下一题按钮
+            nextQuestionBtn.style.display = 'block';
+            exitGameBtn.style.display = 'block';
+        }
         
         // 下一题
         function nextQuestion() {
@@ -877,14 +1235,12 @@ function startTimer() {
             
             // 按分数排序
             teams.sort((a, b) => b[1] - a[1]);
-            
+
             // 检查是否有平局
             const topScore = teams[0][1];
-            const winners = teams.filter(team => team[1] === topScore);
-            
-            if (winners.length > 0) {
+            const winners = teams.filter(team => team[1] === topScore); if (winners.length > 0) {
                 winnerSection.style.display = 'block';
-                
+
                 if (winners.length === 1) {
                     // 单个获胜者
                     const winnerIndex = gameState.teams.indexOf(winners[0][0]);
@@ -931,6 +1287,20 @@ function startTimer() {
             }
         }
         
+        // 退出游戏确认
+        function confirmExit() {
+            if (confirm("确定要退出当前比赛吗？所有进度将丢失！")) {
+                // 回到设置屏幕
+                questionScreen.classList.remove('active');
+                setupScreen.classList.add('active');
+                
+                // 清除计时器
+                if (gameState.timer) {
+                    clearInterval(gameState.timer);
+                }
+            }
+        }
+        
         // 事件监听器
         startGameBtn.addEventListener('click', initGame);
         nextQuestionBtn.addEventListener('click', nextQuestion);
@@ -968,6 +1338,9 @@ function startTimer() {
                 card.classList.add('selected');
             });
         });
+        
+        // 退出按钮事件
+        exitGameBtn.addEventListener('click', confirmExit);
     </script>
 </body>
 </html>
