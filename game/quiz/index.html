@@ -29,7 +29,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #e0e7ff, #d1fae5, #ede9fe);
+            background: linear-gradient(135deg, #e0e7ff, #d1e7fa, #fae9fe);
             color: var(--dark);
             min-height: 100vh;
             line-height: 1.6;
@@ -72,22 +72,16 @@
         
         header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
         }
         
         h1 {
             font-size: 3rem;
-            margin-bottom: 0.5rem;
             color: var(--primary);
             font-weight: 800;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        .subtitle {
-            color: var(--gray);
-            font-size: 1.3rem;
-            margin-top: 1rem;
-        }
         
         /* 磨砂玻璃效果 */
         .card {
@@ -644,10 +638,6 @@
                 margin-bottom: 0.2rem;
             }
             
-            .subtitle {
-                font-size: 0.9rem;
-                margin-top: 0.3rem;
-            }
 
             /* 卡片缩进缩小 */
             .card {
@@ -853,9 +843,6 @@
                 font-size: 1.6rem;
             }
             
-            .subtitle {
-                font-size: 0.8rem;
-            }
             
             .card {
                 padding: 1rem;
@@ -916,7 +903,7 @@
         @media (min-width: 769px) {
             /* 大屏幕下保持原始设计 */
             .container {
-                max-width: 600px;
+                max-width: 1200px;
                 padding: 1rem;
             }
             
@@ -938,13 +925,12 @@
     <div class="container">
         <header>
             <h1>知识问答大赛</h1>
-            <div class="subtitle">磨砂玻璃风格 | 优化版界面 | 精美交互体验</div>
         </header>
         
         <div class="card">
             <!-- 设置屏幕 -->
             <div class="screen setup-screen active">
-                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">比赛设置</h2>
+                <h2 style="font-size: 1.3rem; margin-bottom: 1rem;">比赛设置</h2>
                 
                 <div class="form-group">
                     <label for="teamCount">队伍数量</label>
