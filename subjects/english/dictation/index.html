@@ -347,6 +347,82 @@ textarea:focus {
     .dictation-chinese.hidden {
         display: none;
     }
+    
+    /* 新增自动播报控制区域样式 */
+    .auto-play-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 12px;
+        width: 100%;
+    }
+    
+    .auto-play-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    .auto-play-label {
+        font-size: 13px;
+        color: var(--dark-gray);
+        white-space: nowrap;
+    }
+    
+    .auto-play-toggle {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--light-gray);
+        border-radius: 20px;
+        padding: 4px;
+        position: relative;
+        height: 32px;
+    }
+    
+    .auto-play-toggle-btn {
+        flex: 1;
+        text-align: center;
+        padding: 6px;
+        z-index: 1;
+        transition: all 0.3s;
+        border-radius: 16px;
+    }
+    
+    .auto-play-toggle-btn.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .auto-play-count {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .auto-play-count-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--light-gray);
+        font-size: 14px;
+    }
+    
+    .auto-play-count-btn.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .auto-play-count-value {
+        min-width: 20px;
+        text-align: center;
+        font-size: 13px;
+    }
     </style>
 </head>
 <body>
@@ -384,6 +460,25 @@ textarea:focus {
                 <button id="chineseModeBtn" class="language-btn">仅中文</button>
                 <button id="englishModeBtn" class="language-btn">仅英文</button>
                 <button id="toggleChineseBtn" class="language-btn">显示中文</button>
+            </div>
+            
+            <!-- 新增自动播报控制区域 -->
+            <div class="auto-play-controls">
+                <div class="auto-play-row">
+                    <span class="auto-play-label">自动播报</span>
+                    <div class="auto-play-toggle">
+                        <button id="autoPlayOnBtn" class="auto-play-toggle-btn active">开启</button>
+                        <button id="autoPlayOffBtn" class="auto-play-toggle-btn">关闭</button>
+                    </div>
+                </div>
+                <div class="auto-play-row">
+                    <span class="auto-play-label">朗读遍数</span>
+                    <div class="auto-play-count">
+                        <button id="decreaseCountBtn" class="auto-play-count-btn">-</button>
+                        <span id="repeatCountValue" class="auto-play-count-value">1</span>
+                        <button id="increaseCountBtn" class="auto-play-count-btn">+</button>
+                    </div>
+                </div>
             </div>
             
             <div class="dictation-content">
@@ -426,7 +521,13 @@ textarea:focus {
                 statusInfo: document.getElementById('statusInfo'),
                 dictationEnglish: document.getElementById('dictationEnglish'),
                 dictationChinese: document.getElementById('dictationChinese'),
-                toggleChineseBtn: document.getElementById('toggleChineseBtn')
+                toggleChineseBtn: document.getElementById('toggleChineseBtn'),
+                // 新增自动播报相关元素
+                autoPlayOnBtn: document.getElementById('autoPlayOnBtn'),
+                autoPlayOffBtn: document.getElementById('autoPlayOffBtn'),
+                decreaseCountBtn: document.getElementById('decreaseCountBtn'),
+                increaseCountBtn: document.getElementById('increaseCountBtn'),
+                repeatCountValue: document.getElementById('repeatCountValue')
             };
 
             // 语音合成
@@ -439,6 +540,12 @@ textarea:focus {
             let languageOrder = 'english-first'; // 默认英→中
             let currentUtterance = null;
             let showChinese = true; // 默认显示中文
+            
+            // 自动播报相关变量
+            let autoPlayEnabled = true; // 默认开启自动播报
+            let repeatCount = 1; // 默认朗读1遍
+            let currentRepeat = 0; // 当前朗读遍数
+            let autoPlayTimeout = null; // 自动播报定时器
             
             // 交互状态
             let selectedRows = []; // 存储被选中的行索引
@@ -724,11 +831,18 @@ textarea:focus {
                 }
                 
                 currentLineIndex = 0;
+                currentRepeat = 0;
                 elements.inputPanel.classList.add('hidden');
                 elements.dictationPanel.classList.remove('hidden');
                 updateProgress();
                 updateDictationContent();
-                readCurrentItem();
+                
+                // 开始自动播报
+                if (autoPlayEnabled) {
+                    startAutoPlay();
+                } else {
+                    readCurrentItem();
+                }
             });
 
             // 更新进度
@@ -743,7 +857,6 @@ textarea:focus {
                 const rowIndex = selectedRows[currentLineIndex];
                 const line = lines[rowIndex];
                 
-
                 elements.dictationChinese.textContent = line.chinese;
                 
                 // 根据显示设置更新中文显示状态
@@ -814,11 +927,38 @@ textarea:focus {
                 const voice = voices.find(v => v.lang.includes(lang === 'zh' ? 'zh' : 'en'));
                 if (voice) currentUtterance.voice = voice;
                 
-                if (onEnd) {
-                    currentUtterance.onend = onEnd;
-                }
+                currentUtterance.onend = function() {
+                    if (onEnd) {
+                        onEnd();
+                    }
+                    
+                    // 自动播报逻辑
+                    if (autoPlayEnabled) {
+                        // 计算停顿时间（基于字符数）
+                        const charCount = text.length;
+                        const pauseTime = calculatePauseTime(charCount);
+                        
+                        // 设置下一个自动播报
+                        autoPlayTimeout = setTimeout(() => {
+                            if (autoPlayEnabled) {
+                                handleAutoPlayNext();
+                            }
+                        }, pauseTime);
+                    }
+                };
                 
                 synth.speak(currentUtterance);
+            }
+            
+            // 根据字符数计算停顿时间
+            function calculatePauseTime(charCount) {
+                // 基础停顿时间（毫秒）
+                const baseTime = 1500;
+                // 每个字符增加的停顿时间
+                const perCharTime = 50;
+                
+                // 计算总停顿时间（最小1000ms，最大5000ms）
+                return Math.min(Math.max(baseTime + charCount * perCharTime, 1000), 5000);
             }
 
             // 停止朗读
@@ -827,34 +967,62 @@ textarea:focus {
                     synth.cancel();
                     currentUtterance = null;
                 }
+                clearTimeout(autoPlayTimeout);
             }
 
             // 上一个
             elements.prevBtn.addEventListener('click', function() {
                 if (currentLineIndex > 0) {
                     currentLineIndex--;
+                    currentRepeat = 0;
                     updateProgress();
                     updateDictationContent();
-                    readCurrentItem();
+                    
+                    if (autoPlayEnabled) {
+                        startAutoPlay();
+                    } else {
+                        readCurrentItem();
+                    }
                 }
             });
 
             // 下一个
             elements.nextBtn.addEventListener('click', function() {
+                handleNextItem();
+            });
+            
+            // 处理下一个项目
+            function handleNextItem() {
                 currentLineIndex++;
+                currentRepeat = 0;
+                
                 if (currentLineIndex >= selectedRows.length) {
                     alert('朗读已完成！');
                     currentLineIndex = selectedRows.length - 1;
                     updateProgress();
                     return;
                 }
+                
                 updateProgress();
                 updateDictationContent();
-                readCurrentItem();
-            });
+                
+                if (autoPlayEnabled) {
+                    startAutoPlay();
+                } else {
+                    readCurrentItem();
+                }
+            }
 
             // 朗读当前项
-            elements.readBtn.addEventListener('click', readCurrentItem);
+            elements.readBtn.addEventListener('click', function() {
+                // 如果自动播报开启，点击朗读会重置当前项的朗读遍数
+                if (autoPlayEnabled) {
+                    currentRepeat = 0;
+                    startAutoPlay();
+                } else {
+                    readCurrentItem();
+                }
+            });
 
             // 退出
             elements.exitBtn.addEventListener('click', exitDictation);
@@ -878,7 +1046,11 @@ textarea:focus {
                 updateLanguageButtons();
                 if (isReading) {
                     updateDictationContent();
-                    readCurrentItem();
+                    if (autoPlayEnabled) {
+                        startAutoPlay();
+                    } else {
+                        readCurrentItem();
+                    }
                 }
             });
             elements.cnToEnModeBtn.addEventListener('click', () => {
@@ -887,7 +1059,11 @@ textarea:focus {
                 updateLanguageButtons();
                 if (isReading) {
                     updateDictationContent();
-                    readCurrentItem();
+                    if (autoPlayEnabled) {
+                        startAutoPlay();
+                    } else {
+                        readCurrentItem();
+                    }
                 }
             });
             
@@ -905,7 +1081,11 @@ textarea:focus {
                 updateLanguageButtons();
                 if (isReading) {
                     updateDictationContent();
-                    readCurrentItem();
+                    if (autoPlayEnabled) {
+                        startAutoPlay();
+                    } else {
+                        readCurrentItem();
+                    }
                 }
             }
 
@@ -926,6 +1106,80 @@ textarea:focus {
                     } else {
                         elements.cnToEnModeBtn.classList.add('active');
                     }
+                }
+            }
+            
+            // 自动播报相关功能
+            // 切换自动播报状态
+            elements.autoPlayOnBtn.addEventListener('click', function() {
+                if (!autoPlayEnabled) {
+                    toggleAutoPlay(true);
+                }
+            });
+            
+            elements.autoPlayOffBtn.addEventListener('click', function() {
+                if (autoPlayEnabled) {
+                    toggleAutoPlay(false);
+                }
+            });
+            
+            // 调整朗读遍数
+            elements.decreaseCountBtn.addEventListener('click', function() {
+                if (repeatCount > 1) {
+                    repeatCount--;
+                    elements.repeatCountValue.textContent = repeatCount;
+                }
+            });
+            
+            elements.increaseCountBtn.addEventListener('click', function() {
+                if (repeatCount < 5) {
+                    repeatCount++;
+                    elements.repeatCountValue.textContent = repeatCount;
+                }
+            });
+            
+            // 切换自动播报状态
+            function toggleAutoPlay(enabled) {
+                autoPlayEnabled = enabled;
+                
+                if (enabled) {
+                    elements.autoPlayOnBtn.classList.add('active');
+                    elements.autoPlayOffBtn.classList.remove('active');
+                    
+                    // 如果当前在朗读模式，开始自动播报
+                    if (isReading) {
+                        startAutoPlay();
+                    }
+                } else {
+                    elements.autoPlayOnBtn.classList.remove('active');
+                    elements.autoPlayOffBtn.classList.add('active');
+                    
+                    // 停止自动播报
+                    clearTimeout(autoPlayTimeout);
+                    
+                    // 如果当前在朗读模式，停止自动播报
+                    if (isReading) {
+                        readCurrentItem();
+                    }
+                }
+            }
+            
+            // 开始自动播报
+            function startAutoPlay() {
+                clearTimeout(autoPlayTimeout);
+                readCurrentItem();
+            }
+            
+            // 处理自动播报下一个
+            function handleAutoPlayNext() {
+                currentRepeat++;
+                
+                if (currentRepeat < repeatCount) {
+                    // 继续朗读当前项
+                    readCurrentItem();
+                } else {
+                    // 当前项朗读完成，移动到下一项
+                    handleNextItem();
                 }
             }
         });
