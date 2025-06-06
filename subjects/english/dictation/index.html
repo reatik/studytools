@@ -5,424 +5,525 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>分组文字转语音</title>
     <style>
-    :root {
-        --primary-color: #1A73E8;
-        --secondary-color: #5F6368;
-        --light-gray: #F1F3F4;
-        --medium-gray: #DADCE0;
-        --dark-gray: #5F6368;
-        --success-color: #34A853;
-    }
-    
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    
-    body {
-        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background-color: #FAFAFA;
-        color: #202124;
-        line-height: 1.5;
-        padding: 0;
-        margin: 0;
-        -webkit-text-size-adjust: 100%;
-    }
-    
-    .container {
-        width: 100%;
-        padding: 8px;
-    }
-    
-    .panel {
-        background-color: white;
-        border-radius: 8px;
-        padding: 12px;
-        margin-bottom: 8px;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        width: 100%;
-        overflow: hidden;
-    }
-    
-    h2 {
-    /* 文字样式 */
+:root {
+    --primary-color: #1A73E8;
+    --secondary-color: #5F6368;
+    --light-gray: #F1F3F4;
+    --medium-gray: #DADCE0;
+    --dark-gray: #5F6368;
+    --success-color: #34A853;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background-color: #FAFAFA;
+    color: #202124;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
+    -webkit-text-size-adjust: 100%;
+}
+
+.container {
+    width: 100%;
+    padding: 8px;
+}
+
+.panel {
+    background-color: white;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    width: 100%;
+    overflow: hidden;
+}
+
+h2 {
     font-size: 1.6rem;
     font-weight: 600;
     letter-spacing: 0.5px;
-    
-    /* 渐变文字效果 */
     background: linear-gradient(90deg, var(--primary-color), var(--success-color));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    
-    /* 居中方案 */
     display: flex;
     justify-content: center;
     width: 100%;
     text-align: center;
     margin: 0 auto 25px;
     padding: 0;
-    
-    /* 装饰元素 */
     position: relative;
 }
 
-/* 添加装饰线 */
 h2::before,
 h2::after {
     content: "";
     flex: 1;
     align-self: center;
     height: 1px;
-    background: linear-gradient(90deg, 
-        transparent, 
-        var(--medium-gray), 
-        transparent);
+    background: linear-gradient(90deg, transparent, var(--medium-gray), transparent);
     margin: 0 15px;
 }
 
-
-
-    
 textarea {
-    /* 布局属性 */
     display: block;
     width: 100%;
-    
-    /* 盒模型属性 */
-    border: 1px solid var(--primary-color); /* 初始状态使用主色调 */
+    border: 1px solid var(--primary-color);
     border-radius: 6px;
     height: 100px;
     margin-bottom: 10px;
     padding: 10px;
     resize: vertical;
-    
-    /* 文本属性 */
     font-family: inherit;
     font-size: 14px;
     line-height: 1.5;
-    
-    /* 视觉属性 */
     background-color: white;
     color: inherit;
-    
-    /* 交互属性 */
-    transition: all 0.3s ease; /* 改为 all 让所有属性都有过渡效果 */
-    
-    /* 其他属性 */
+    transition: all 0.3s ease;
     overflow: auto;
 }
 
 textarea:focus {
-    border-color: var(--primary-color); /* 保持与初始状态一致 */
+    border-color: var(--primary-color);
     outline: none;
-    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.3); /* 加深阴影效果 */
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.3);
 }
-    
-    .button-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin-top: 12px;
-        width: 100%;
-    }
-    
-    .button-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        width: 100%;
-    }
-    
-    button {
-        padding: 8px 12px;
-        border: none;
-        border-radius: 6px;
-        font-size: 13px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s;
-        min-width: 60px;
-        flex: 1;
-        text-align: center;
-        white-space: nowrap;
-        background-color: var(--light-gray);
-        color: var(--dark-gray);
-    }
-    
-    .small-btn {
-        padding: 6px 10px;
-        font-size: 12px;
-    }
-    
-    button:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
-    
-    .btn-primary {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .btn-success {
-        background-color: var(--success-color);
-        color: white;
-    }
-    
-    .btn-secondary {
-        background-color: var(--secondary-color);
-        color: white;
-    }
-    
-    .hidden {
-        display: none;
-    }
-    
-    .content-list {
-        margin-top: 12px;
-        width: 100%;
-        overflow-x: auto;
-    }
-    
-    .content-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        width: 100%;
-    }
-    
-    .content-item {
-        display: flex;
-        flex-direction: column;
-        padding: 8px;
-        border: 1px solid var(--medium-gray);
-        border-radius: 6px;
-        background-color: white;
-        user-select: none;
-        position: relative;
-        min-height: 60px;
-        word-break: break-word;
-        height: 100%;
-    }
-    
-    .content-item.selected {
-        background-color: #E8F0FE;
-        border-color: var(--primary-color);
-    }
-    
-    /* 英语容器 */
-    .english-container {
-        font-weight: 500;
-        color: #202124;
-        white-space: pre-line;
-        padding: 4px 6px 2px 6px;
-        margin-bottom: 0;
-        display: block;
-        border-radius: 4px;
-        font-size: 12px;
-        line-height: 1.3;
-    }
 
-    /* 中文容器 */
-    .chinese-container {
-        color: var(--secondary-color);
-        white-space: pre-line;
-        padding: 2px 6px 4px 6px;
-        margin-top: 0;
-        display: block;
-        border-radius: 4px;
-        font-size: 11px;
-        line-height: 1.3;
-    }
-    
-    .dictation-controls {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-    
-    .dictation-btn {
-        width: 100%;
-        padding: 12px;
-        font-size: 14px;
-        font-weight: 500;
-        border-radius: 6px;
-        margin-top: 10px;
-        height: 48px; 
-    }
-    
-    .next-btn {
-        background-color: var(--primary-color);
-        color: white;
-        font-size: 15px;
-        padding: 16px;
-        font-weight: 500;
-    }
-    
-    .prev-btn {
-        background-color: var(--light-gray);
-        color: var(--dark-gray);
-    }
-    
-    .progress {
-        margin: 12px 0;
-        font-size: 13px;
-        color: var(--dark-gray);
-        text-align: center;
-    }
-    
-    .language-modes {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 12px;
-        justify-content: center;
-    }
-    
-    .language-btn {
-        padding: 6px 10px;
-        border-radius: 16px;
-        background-color: var(--light-gray);
-        color: var(--dark-gray);
-        font-size: 12px;
-        min-width: 70px;
-    }
-    
-    .language-btn.active {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .language-modes-row2 {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 6px;
-        justify-content: center;
-    }
-    
-    .status-info {
-        font-size: 13px;
-        color: var(--dark-gray);
-        margin: 8px 0;
-        text-align: center;
-    }
-    
-    .dictation-content {
-        margin: 20px 0;
-        padding: 15px;
-        border: 1px solid var(--medium-gray);
-        border-radius: 8px;
-        background-color: white;
-        min-height: 100px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    /* 听写英语文本 */
-    .dictation-english {
-        font-size: 1.2rem;
-        font-weight: 500;
-        margin-bottom: 10px;
-        text-align: center;
-        word-break: break-word;
-        white-space: pre-line;
-    }
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    width: 100%;
+}
 
-    /* 听写中文文本 */
-    .dictation-chinese {
-        font-size: 1rem;
-        color: var(--secondary-color);
-        text-align: center;
-        word-break: break-word;
-        white-space: pre-line;
-    }
-    
-    .dictation-chinese.hidden {
-        display: none;
-    }
-    
-    /* 新增自动播报控制区域样式 */
-    .auto-play-controls {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin-top: 12px;
-        width: 100%;
-    }
-    
-    .auto-play-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        width: 100%;
-    }
-    
-    .auto-play-label {
-        font-size: 13px;
-        color: var(--dark-gray);
-        white-space: nowrap;
-    }
-    
-    .auto-play-toggle {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background-color: var(--light-gray);
-        border-radius: 20px;
-        padding: 4px;
-        position: relative;
-        height: 32px;
-    }
-    
-    .auto-play-toggle-btn {
-        flex: 1;
-        text-align: center;
-        padding: 6px;
-        z-index: 1;
-        transition: all 0.3s;
-        border-radius: 16px;
-    }
-    
-    .auto-play-toggle-btn.active {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .auto-play-count {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    
-    .auto-play-count-btn {
-        width: 28px;
-        height: 28px;
-        border-radius: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--light-gray);
-        font-size: 14px;
-    }
-    
-    .auto-play-count-btn.active {
-        background-color: var(--primary-color);
-        color: white;
-    }
-    
-    .auto-play-count-value {
-        min-width: 20px;
-        text-align: center;
-        font-size: 13px;
-    }
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 60px;
+    flex: 1;
+    text-align: center;
+    white-space: nowrap;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+}
+
+.small-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+.content-list {
+    margin-top: 12px;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 100%;
+}
+
+.content-item {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    border: 1px solid var(--medium-gray);
+    border-radius: 6px;
+    background-color: white;
+    user-select: none;
+    position: relative;
+    min-height: 60px;
+    word-break: break-word;
+    height: 100%;
+}
+
+.content-item.selected {
+    background-color: #E8F0FE;
+    border-color: var(--primary-color);
+}
+
+.english-container {
+    font-weight: 500;
+    color: #202124;
+    white-space: pre-line;
+    padding: 4px 6px 2px 6px;
+    margin-bottom: 0;
+    display: block;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.chinese-container {
+    color: var(--secondary-color);
+    white-space: pre-line;
+    padding: 2px 6px 4px 6px;
+    margin-top: 0;
+    display: block;
+    border-radius: 4px;
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.dictation-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.dictation-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    margin-top: 10px;
+    height: 48px; 
+}
+
+.next-btn {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 15px;
+    padding: 16px;
+    font-weight: 500;
+}
+
+.prev-btn {
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+}
+
+.progress {
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--dark-gray);
+    text-align: center;
+}
+
+.language-modes {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    width: 100%;
+    white-space: nowrap; /* 防止换行 */
+}
+
+.language-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* 缩小间距使更紧凑 */
+}
+
+
+.language-btn {
+    padding: 6px 10px;
+    border-radius: 16px;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    font-size: 12px;
+    min-width: 70px;
+}
+
+.language-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.status-info {
+    font-size: 13px;
+    color: var(--dark-gray);
+    margin: 8px 0;
+    text-align: center;
+}
+
+.dictation-content {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid var(--medium-gray);
+    border-radius: 8px;
+    background-color: white;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dictation-english {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    text-align: center;
+    word-break: break-word;
+    white-space: pre-line;
+}
+
+.dictation-chinese {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    text-align: center;
+    word-break: break-word;
+    white-space: pre-line;
+}
+
+.dictation-chinese.hidden {
+    display: none;
+}
+
+/* 修改后的自动播报控制区域样式 */
+.auto-play-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    width: 100%;
+}
+
+.auto-play-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.combined-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.auto-play-count, 
+.auto-play-interval {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+}
+
+.auto-play-count-btn, 
+.auto-play-interval-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-gray);
+    font-size: 12px;
+    padding: 0;
+}
+
+.auto-play-count-value, 
+.auto-play-interval-value {
+    min-width: 24px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.auto-play-interval-value {
+    width: 50px;
+    padding: 2px;
+    font-size: 12px;
+}
+
+.auto-play-label {
+    font-size: 12px;
+    color: var(--dark-gray);
+    white-space: nowrap;
+    min-width: auto;
+    margin-right: 4px;
+}
+
+.auto-play-toggle {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.auto-play-toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 26px;
+}
+
+.auto-play-toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.auto-play-toggle-switch label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.auto-play-toggle-switch label:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.auto-play-toggle-switch input:checked + label {
+    background-color: var(--primary-color);
+}
+
+.auto-play-toggle-switch input:checked + label:before {
+    transform: translateX(26px);
+}
+
+
+
+.language-toggle-btn {
+    padding: 4px 8px; /* 更紧凑的内边距 */
+    border-radius: 4px;
+    background-color: transparent;
+    color: var(--dark-gray);
+    font-size: 13px;
+    min-width: 40px; /* 更小的最小宽度 */
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    border: 1px solid var(--medium-gray);
+}
+
+.language-toggle-btn.active {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background-color: rgba(26, 115, 232, 0.1);
+}
+
+.language-toggle-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.toggle-arrow {
+    font-size: 14px;
+    color: var(--dark-gray);
+    padding: 0 4px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-arrow:hover {
+    color: var(--primary-color);
+}
+
+.play-order-label {
+    font-size: 13px;
+    color: var(--dark-gray);
+    margin-right: 6px;
+}
+
+.order-toggle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.order-toggle-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    position: relative;
+}
+
+.order-toggle-btn:hover {
+    background-color: var(--medium-gray);
+}
+
+.order-toggle-btn::after {
+    content: "点击切换朗读顺序";
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--dark-gray);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+}
+
+.order-toggle-btn:hover::after {
+    opacity: 1;
+}
+
+.order-indicator {
+    display: none; /* 隐藏顺序指示器以节省空间 */
+}
     </style>
 </head>
 <body>
@@ -452,31 +553,36 @@ textarea:focus {
             </div>
             
             <div class="language-modes">
-                <button id="enToCnModeBtn" class="language-btn active">英→中</button>
-                <button id="cnToEnModeBtn" class="language-btn">中→英</button>
+                <div class="language-toggle-container">
+                    <span class="play-order-label">播放顺序</span>
+                    <div id="englishToggleBtn" class="language-toggle-btn active">英</div>
+                    <div id="toggleArrow" class="toggle-arrow">↔</div>
+                    <div id="chineseToggleBtn" class="language-toggle-btn active">中</div>
+                </div>
             </div>
             
-            <div class="language-modes-row2">
-                <button id="chineseModeBtn" class="language-btn">仅中文</button>
-                <button id="englishModeBtn" class="language-btn">仅英文</button>
-                <button id="toggleChineseBtn" class="language-btn">显示中文</button>
-            </div>
-            
-            <!-- 新增自动播报控制区域 -->
             <div class="auto-play-controls">
                 <div class="auto-play-row">
                     <span class="auto-play-label">自动播报</span>
                     <div class="auto-play-toggle">
-                        <button id="autoPlayOnBtn" class="auto-play-toggle-btn active">开启</button>
-                        <button id="autoPlayOffBtn" class="auto-play-toggle-btn">关闭</button>
+                        <div class="auto-play-toggle-switch">
+                            <input type="checkbox" id="autoPlayToggle" checked>
+                            <label for="autoPlayToggle"></label>
+                        </div>
                     </div>
                 </div>
-                <div class="auto-play-row">
-                    <span class="auto-play-label">朗读遍数</span>
+                <div class="auto-play-row combined-controls">
                     <div class="auto-play-count">
+                        <span class="auto-play-label">朗读遍数</span>
                         <button id="decreaseCountBtn" class="auto-play-count-btn">-</button>
                         <span id="repeatCountValue" class="auto-play-count-value">1</span>
                         <button id="increaseCountBtn" class="auto-play-count-btn">+</button>
+                    </div>
+                    <div class="auto-play-interval">
+                        <span class="auto-play-label">间隔(ms)</span>
+                        <button id="decreaseIntervalBtn" class="auto-play-interval-btn">-</button>
+                        <input type="number" id="intervalValue" class="auto-play-interval-value" value="300" min="100" max="1000">
+                        <button id="increaseIntervalBtn" class="auto-play-interval-btn">+</button>
                     </div>
                 </div>
             </div>
@@ -510,10 +616,6 @@ textarea:focus {
                 progressText: document.getElementById('progressText'),
                 contentList: document.getElementById('contentList'),
                 contentGrid: document.getElementById('contentGrid'),
-                chineseModeBtn: document.getElementById('chineseModeBtn'),
-                englishModeBtn: document.getElementById('englishModeBtn'),
-                enToCnModeBtn: document.getElementById('enToCnModeBtn'),
-                cnToEnModeBtn: document.getElementById('cnToEnModeBtn'),
                 toggleSelectAllBtn: document.getElementById('toggleSelectAllBtn'),
                 invertSelectionBtn: document.getElementById('invertSelectionBtn'),
                 clearBtn: document.getElementById('clearBtn'),
@@ -521,13 +623,19 @@ textarea:focus {
                 statusInfo: document.getElementById('statusInfo'),
                 dictationEnglish: document.getElementById('dictationEnglish'),
                 dictationChinese: document.getElementById('dictationChinese'),
-                toggleChineseBtn: document.getElementById('toggleChineseBtn'),
                 // 新增自动播报相关元素
-                autoPlayOnBtn: document.getElementById('autoPlayOnBtn'),
-                autoPlayOffBtn: document.getElementById('autoPlayOffBtn'),
+                autoPlayToggle: document.getElementById('autoPlayToggle'),
                 decreaseCountBtn: document.getElementById('decreaseCountBtn'),
                 increaseCountBtn: document.getElementById('increaseCountBtn'),
-                repeatCountValue: document.getElementById('repeatCountValue')
+                repeatCountValue: document.getElementById('repeatCountValue'),
+                // 新增间隔调节相关元素
+                decreaseIntervalBtn: document.getElementById('decreaseIntervalBtn'),
+                increaseIntervalBtn: document.getElementById('increaseIntervalBtn'),
+                intervalValue: document.getElementById('intervalValue'),
+                // 新增语言切换相关元素
+                englishToggleBtn: document.getElementById('englishToggleBtn'),
+                chineseToggleBtn: document.getElementById('chineseToggleBtn'),
+                toggleArrow: document.getElementById('toggleArrow')
             };
 
             // 语音合成
@@ -536,19 +644,22 @@ textarea:focus {
             let currentLineIndex = 0;
             let lines = [];
             let isReading = false;
-            let readingMode = 'both';
-            let languageOrder = 'english-first'; // 默认英→中
             let currentUtterance = null;
-            let showChinese = true; // 默认显示中文
             
             // 自动播报相关变量
             let autoPlayEnabled = true; // 默认开启自动播报
             let repeatCount = 1; // 默认朗读1遍
             let currentRepeat = 0; // 当前朗读遍数
             let autoPlayTimeout = null; // 自动播报定时器
+            let perCharInterval = 300; // 默认每个字符增加300ms间隔
             
             // 交互状态
             let selectedRows = []; // 存储被选中的行索引
+            
+            // 语言模式相关变量
+            let englishEnabled = true;
+            let chineseEnabled = true;
+            let languageOrder = 'english-first'; // 默认英语在前
             
             // 初始化语音
             function initVoices() {
@@ -857,14 +968,12 @@ textarea:focus {
                 const rowIndex = selectedRows[currentLineIndex];
                 const line = lines[rowIndex];
                 
-                elements.dictationChinese.textContent = line.chinese;
+
+
+                    elements.dictationChinese.textContent = line.chinese || '';
+                    elements.dictationChinese.style.display = 'block';
+
                 
-                // 根据显示设置更新中文显示状态
-                if (showChinese) {
-                    elements.dictationChinese.classList.remove('hidden');
-                } else {
-                    elements.dictationChinese.classList.add('hidden');
-                }
             }
 
             // 朗读当前项
@@ -886,13 +995,12 @@ textarea:focus {
 
             // 根据设置朗读内容
             function readContentWithSettings(line) {
-                if (readingMode === 'chinese') {
-                    if (line.chinese) readText(line.chinese, 'zh');
-                } else if (readingMode === 'english') {
-                    if (line.english) readText(line.english, 'en');
-                } else {
+                if (!englishEnabled && !chineseEnabled) return; // 理论上不会发生
+                
+                if (englishEnabled && chineseEnabled) {
+                    // 两种语言都启用
                     if (languageOrder === 'english-first') {
-                        // 英→中模式
+                        // 英语在前模式
                         if (line.english && line.chinese) {
                             readText(line.english, 'en', () => {
                                 setTimeout(() => readText(line.chinese, 'zh'), 500);
@@ -903,7 +1011,7 @@ textarea:focus {
                             readText(line.chinese, 'zh');
                         }
                     } else {
-                        // 中→英模式
+                        // 中文在前模式
                         if (line.chinese && line.english) {
                             readText(line.chinese, 'zh', () => {
                                 setTimeout(() => readText(line.english, 'en'), 500);
@@ -914,6 +1022,12 @@ textarea:focus {
                             readText(line.english, 'en');
                         }
                     }
+                } else if (englishEnabled) {
+                    // 仅英语模式
+                    if (line.english) readText(line.english, 'en');
+                } else if (chineseEnabled) {
+                    // 仅中文模式
+                    if (line.chinese) readText(line.chinese, 'zh');
                 }
             }
             
@@ -953,12 +1067,12 @@ textarea:focus {
             // 根据字符数计算停顿时间
             function calculatePauseTime(charCount) {
                 // 基础停顿时间（毫秒）
-                const baseTime = 1500;
-                // 每个字符增加的停顿时间
-                const perCharTime = 50;
+                const baseTime = 200;
+                // 使用用户设置的每个字符间隔时间
+                const perCharTime = perCharInterval;
                 
-                // 计算总停顿时间（最小1000ms，最大5000ms）
-                return Math.min(Math.max(baseTime + charCount * perCharTime, 1000), 5000);
+                // 计算总停顿时间（最小200ms，最大8000ms）
+                return Math.min(Math.max(baseTime + charCount * perCharTime, 200), 8000);
             }
 
             // 停止朗读
@@ -1037,89 +1151,81 @@ textarea:focus {
                 }
             }
 
-            // 语言模式切换
-            elements.chineseModeBtn.addEventListener('click', () => setReadingMode('chinese'));
-            elements.englishModeBtn.addEventListener('click', () => setReadingMode('english'));
-            elements.enToCnModeBtn.addEventListener('click', () => {
-                setReadingMode('both');
-                languageOrder = 'english-first';
-                updateLanguageButtons();
-                if (isReading) {
-                    updateDictationContent();
-                    if (autoPlayEnabled) {
-                        startAutoPlay();
-                    } else {
-                        readCurrentItem();
-                    }
-                }
-            });
-            elements.cnToEnModeBtn.addEventListener('click', () => {
-                setReadingMode('both');
-                languageOrder = 'chinese-first';
-                updateLanguageButtons();
-                if (isReading) {
-                    updateDictationContent();
-                    if (autoPlayEnabled) {
-                        startAutoPlay();
-                    } else {
-                        readCurrentItem();
-                    }
-                }
-            });
-            
-            // 切换中文显示
-            elements.toggleChineseBtn.addEventListener('click', toggleChineseDisplay);
-            
-            function toggleChineseDisplay() {
-                showChinese = !showChinese;
-                elements.toggleChineseBtn.textContent = showChinese ? '隐藏中文' : '显示中文';
-                updateDictationContent();
-            }
-
-            function setReadingMode(mode) {
-                readingMode = mode;
-                updateLanguageButtons();
-                if (isReading) {
-                    updateDictationContent();
-                    if (autoPlayEnabled) {
-                        startAutoPlay();
-                    } else {
-                        readCurrentItem();
-                    }
-                }
-            }
-
-            // 更新语言按钮状态
-            function updateLanguageButtons() {
-                elements.chineseModeBtn.classList.remove('active');
-                elements.englishModeBtn.classList.remove('active');
-                elements.enToCnModeBtn.classList.remove('active');
-                elements.cnToEnModeBtn.classList.remove('active');
+            // 切换英语状态
+            elements.englishToggleBtn.addEventListener('click', function() {
+                if (!chineseEnabled && englishEnabled) return; // 不能都关闭
                 
-                if (readingMode === 'chinese') {
-                    elements.chineseModeBtn.classList.add('active');
-                } else if (readingMode === 'english') {
-                    elements.englishModeBtn.classList.add('active');
-                } else {
-                    if (languageOrder === 'english-first') {
-                        elements.enToCnModeBtn.classList.add('active');
+                englishEnabled = !englishEnabled;
+                updateLanguageToggleButtons();
+                
+                if (isReading) {
+                    updateDictationContent();
+                    if (autoPlayEnabled) {
+                        startAutoPlay();
                     } else {
-                        elements.cnToEnModeBtn.classList.add('active');
+                        readCurrentItem();
                     }
-                }
-            }
-            
-            // 自动播报相关功能
-            // 切换自动播报状态
-            elements.autoPlayOnBtn.addEventListener('click', function() {
-                if (!autoPlayEnabled) {
-                    toggleAutoPlay(true);
                 }
             });
             
-            elements.autoPlayOffBtn.addEventListener('click', function() {
-                if (autoPlayEnabled) {
-                    toggleAutoPlay(false);
+            // 切换中文状态
+            elements.chineseToggleBtn.addEventListener('click', function() {
+                if (!englishEnabled && chineseEnabled) return; // 不能都关闭
+                
+                chineseEnabled = !chineseEnabled;
+                updateLanguageToggleButtons();
+                
+                if (isReading) {
+                    updateDictationContent();
+                    if (autoPlayEnabled) {
+                        startAutoPlay();
+                    } else {
+                        readCurrentItem();
+                    }
+                }
+            });
+            
+            // 切换语言顺序
+            elements.toggleArrow.addEventListener('click', function() {
+                languageOrder = languageOrder === 'english-first' ? 'chinese-first' : 'english-first';
+                updateLanguageToggleButtons();
+                
+                if (isReading) {
+                    updateDictationContent();
+                    if (autoPlayEnabled) {
+                        startAutoPlay();
+                    } else {
+                        readCurrentItem();
+                    }
+                }
+            });
+            
+            // 更新语言切换按钮状态
+            function updateLanguageToggleButtons() {
+                elements.englishToggleBtn.classList.toggle('active', englishEnabled);
+                elements.chineseToggleBtn.classList.toggle('active', chineseEnabled);
+                
+                // 如果只有一个启用，禁用另一个按钮
+                if (!englishEnabled || !chineseEnabled) {
+                    elements.englishToggleBtn.classList.toggle('disabled', !englishEnabled);
+                    elements.chineseToggleBtn.classList.toggle('disabled', !chineseEnabled);
+                } else {
+                    elements.englishToggleBtn.classList.remove('disabled');
+                    elements.chineseToggleBtn.classList.remove('disabled');
+                }
+                
+                // 更新箭头方向
+                elements.toggleArrow.textContent = languageOrder === 'english-first' ? '→' : '←';
+            }
+            
+            // 自动播报切换
+            elements.autoPlayToggle.addEventListener('change', function() {
+                autoPlayEnabled = this.checked;
+                
+                if (autoPlayEnabled && isReading) {
+                    startAutoPlay();
+                } else {
+                    clearTimeout(autoPlayTimeout);
                 }
             });
             
@@ -1137,32 +1243,29 @@ textarea:focus {
                     elements.repeatCountValue.textContent = repeatCount;
                 }
             });
-            
-            // 切换自动播报状态
-            function toggleAutoPlay(enabled) {
-                autoPlayEnabled = enabled;
-                
-                if (enabled) {
-                    elements.autoPlayOnBtn.classList.add('active');
-                    elements.autoPlayOffBtn.classList.remove('active');
-                    
-                    // 如果当前在朗读模式，开始自动播报
-                    if (isReading) {
-                        startAutoPlay();
-                    }
-                } else {
-                    elements.autoPlayOnBtn.classList.remove('active');
-                    elements.autoPlayOffBtn.classList.add('active');
-                    
-                    // 停止自动播报
-                    clearTimeout(autoPlayTimeout);
-                    
-                    // 如果当前在朗读模式，停止自动播报
-                    if (isReading) {
-                        readCurrentItem();
-                    }
-                }
-            }
+
+            // 间隔调节功能
+            elements.intervalValue.addEventListener('change', function() {
+                let value = parseInt(this.value);
+                if (isNaN(value)) value = 300;
+                value = Math.max(100, Math.min(1000, value));
+                this.value = value;
+                perCharInterval = value;
+            });
+
+            elements.decreaseIntervalBtn.addEventListener('click', function() {
+                let value = parseInt(elements.intervalValue.value) - 50;
+                value = Math.max(100, value);
+                elements.intervalValue.value = value;
+                perCharInterval = value;
+            });
+
+            elements.increaseIntervalBtn.addEventListener('click', function() {
+                let value = parseInt(elements.intervalValue.value) + 50;
+                value = Math.min(1000, value);
+                elements.intervalValue.value = value;
+                perCharInterval = value;
+            });
             
             // 开始自动播报
             function startAutoPlay() {
