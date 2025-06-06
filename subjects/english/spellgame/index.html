@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单词拼写练习</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            max-width: 100%;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #343a40;
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        .word-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+        }
+        .chinese {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: #343a40;
+            text-align: center;
+            font-weight: 500;
+        }
+        .spelling {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: #6c757d;
+            text-align: center;
+        }
+        .dashes-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0 0.5rem;
+        }
+        .dash-input {
+            width: 2.5rem;
+            height: 3.5rem;
+            border: none;
+            border-bottom: 2px solid #adb5bd;
+            margin: 0;
+            text-align: center;
+            font-size: 1.5rem;
+            background: transparent;
+            text-transform: lowercase;
+            padding: 0;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .dash-input:focus {
+            border-bottom-color: #007bff;
+        }
+        .dash-input.correct {
+            border-bottom-color: #28a745;
+            color: #28a745;
+            animation: correctPulse 0.5s ease-in-out;
+        }
+        .dash-input.incorrect {
+            border-bottom-color: #dc3545;
+            color: #dc3545;
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-4px); }
+            40% { transform: translateX(4px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        button {
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: 120px;
+            max-width: 160px;
+            background-color: #e9ecef;
+            color: #495057;
+            font-weight: 500;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        button:active {
+            transform: scale(0.98);
+            box-shadow: none;
+        }
+        #speak-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        #show-answer-btn {
+            background-color: #ffc107;
+            color: #343a40;
+        }
+        #next-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+        .result {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            min-height: 1.5rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background-color: rgba(0,123,255,0.1);
+            color: #007bff;
+            display: none;
+        }
+        .result.show {
+            display: block;
+        }
+        .correct-result {
+            background-color: rgba(40,167,69,0.1);
+            color: #28a745;
+        }
+        .incorrect-result {
+            background-color: rgba(220,53,69,0.1);
+            color: #dc3545;
+        }
+        .grade-selector {
+            margin: 0 auto 1.5rem;
+            max-width: 300px;
+        }
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            font-size: 1rem;
+        }
+        .fixed-char {
+            display: inline-block;
+            margin: 0 0.2rem;
+            color: #6c757d;
+            font-size: 1.5rem;
+        }
+        @media (max-width: 480px) {
+            .word-container {
+                padding: 1.2rem;
+            }
+            .chinese {
+                font-size: 1.3rem;
+                margin-bottom: 1.2rem;
+            }
+            .dash-input {
+                width: 1.8rem;
+                height: 2.8rem;
+                font-size: 1.2rem;
+            }
+            .dashes-container {
+                gap: 0.3rem;
+            }
+            button {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+                min-width: 100px;
+            }
+        }
+        @media (max-width: 360px) {
+            .dash-input {
+                width: 1.5rem;
+                height: 2.5rem;
+                font-size: 1.1rem;
+            }
+            .dashes-container {
+                gap: 0.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>单词拼写练习</h1>
+
+    <div class="grade-selector">
+        <select id="grade-select">
+            <option value="all">全部年级</option>
+        </select>
+    </div>
+    
+    <div class="word-container">
+        <div class="chinese" id="chinese-word"></div>
+        <div class="spelling" id="spelling"></div>
+        
+        <div class="dashes-container" id="dashes-container"></div>
+        
+        <div class="buttons">
+            <button id="speak-btn">朗读单词</button>
+            <button id="show-answer-btn">显示答案</button>
+            <button id="next-btn">下一个单词</button>
+        </div>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <!-- 先引入 words.js -->
+    <script src="words.js"></script>
+    
+    <!-- 主应用逻辑 -->
+    <script>
+        // 全局变量
+        let allWords = [];
+        let filteredWords = [];
+        let currentWordIndex = 0;
+        let currentWord = null;
+        let answerShown = false;
+        let isChecking = false;
+
+        // DOM元素
+        const chineseWordEl = document.getElementById('chinese-word');
+        const spellingEl = document.getElementById('spelling');
+        const dashesContainerEl = document.getElementById('dashes-container');
+        const resultEl = document.getElementById('result');
+        const speakBtn = document.getElementById('speak-btn');
+        const showAnswerBtn = document.getElementById('show-answer-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const gradeSelect = document.getElementById('grade-select');
+
+        // 加载单词数据
+        function loadWords() {
+            try {
+                if (typeof wordData !== 'undefined' && wordData.words) {
+                    console.log('成功加载单词库');
+                    return wordData.words;
+                } else {
+                    throw new Error('单词数据格式不正确');
+                }
+            } catch (error) {
+                console.error('加载单词库失败:', error);
+                // 备用数据
+                return [
+                    {"english":"apple","chinese":"苹果","grade":"三年级上","type":"word"},
+                    {"english":"book","chinese":"书","grade":"三年级上","type":"word"}
+                ];
+            }
+        }
+
+        // 根据年级筛选单词
+        function filterWordsByGrade(grade) {
+            if (grade === 'all') {
+                filteredWords = [...allWords];
+            } else {
+                filteredWords = allWords.filter(word => word.grade === grade);
+            }
+            
+            currentWordIndex = 0;
+            
+            if (filteredWords.length === 0) {
+                alert('该年级暂无单词数据，已显示全部单词');
+                filterWordsByGrade('all');
+                gradeSelect.value = 'all';
+            }
+        }
+
+        // 初始化当前单词
+        function init() {
+            if (filteredWords.length === 0) return;
+            
+            currentWord = filteredWords[currentWordIndex];
+            answerShown = false;
+            isChecking = false;
+            
+            chineseWordEl.textContent = currentWord.chinese;
+            spellingEl.textContent = '';
+            dashesContainerEl.innerHTML = '';
+            
+            if (currentWord.type === 'phrase') {
+                createPhraseInputs();
+            } else {
+                createWordInputs();
+            }
+            
+            focusFirstInput();
+            resultEl.textContent = '';
+            resultEl.className = 'result';
+            speakWord();
+        }
+
+        // 创建单词输入框
+        function createWordInputs() {
+            const letters = currentWord.english.toLowerCase().split('');
+            
+            letters.forEach((letter, i) => {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'dash-input';
+                input.maxLength = 1;
+                input.dataset.index = i;
+                input.dataset.correct = letter;
+                input.addEventListener('input', handleInput);
+                input.addEventListener('keydown', handleKeyDown);
+                dashesContainerEl.appendChild(input);
+            });
+        }
+
+        // 创建短语输入框
+        function createPhraseInputs() {
+            const chars = currentWord.english.split('');
+            
+            chars.forEach((char, i) => {
+                if (isFixedChar(char)) {
+                    const span = document.createElement('span');
+                    span.className = 'fixed-char';
+                    span.textContent = char;
+                    dashesContainerEl.appendChild(span);
+                } else {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'dash-input';
+                    input.maxLength = 1;
+                    input.dataset.index = i;
+                    input.dataset.correct = char.toLowerCase();
+                    input.addEventListener('input', handleInput);
+                    input.addEventListener('keydown', handleKeyDown);
+                    dashesContainerEl.appendChild(input);
+                }
+            });
+        }
+
+        // 判断固定字符
+        function isFixedChar(char) {
+            return char === ' ' || /[.,?!'"]/.test(char);
+        }
+
+        // 处理输入
+        function handleInput(e) {
+            const input = e.target;
+            const index = parseInt(input.dataset.index);
+            
+            input.value = input.value.toLowerCase();
+            
+            if (input.value && index < currentWord.english.length - 1) {
+                const nextInputs = dashesContainerEl.querySelectorAll('input');
+                const nextIndex = Array.from(nextInputs).findIndex(inp => 
+                    parseInt(inp.dataset.index) > index
+                );
+                if (nextIndex !== -1) nextInputs[nextIndex].focus();
+            }
+            
+            checkCompletion();
+        }
+
+        // 检查完成状态
+        function checkCompletion() {
+            if (answerShown || isChecking) return;
+            
+            const inputs = dashesContainerEl.querySelectorAll('input');
+            let allFilled = true;
+            
+            for (let i = 0; i < inputs.length; i++) {
+                if (!inputs[i].value) {
+                    allFilled = false;
+                    break;
+                }
+            }
+            
+            if (allFilled) checkAllAnswers();
+        }
+
+        // 处理键盘事件
+        function handleKeyDown(e) {
+            const input = e.target;
+            const index = parseInt(input.dataset.index);
+            
+            if (e.key === 'Backspace' && !input.value && index > 0) {
+                const inputs = dashesContainerEl.querySelectorAll('input');
+                const prevIndex = Array.from(inputs).findIndex(inp => 
+                    parseInt(inp.dataset.index) < index
+                );
+                if (prevIndex !== -1) inputs[prevIndex].focus();
+                e.preventDefault();
+            }
+        }
+
+        // 朗读单词
+        function speakWord() {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(currentWord.english);
+                utterance.lang = 'en-US';
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // 检查答案
+        function checkAllAnswers() {
+            if (answerShown || isChecking) return;
+            
+            isChecking = true;
+            let allCorrect = true;
+            const inputs = dashesContainerEl.querySelectorAll('input');
+            
+            inputs.forEach(input => {
+                const inputValue = input.value.toLowerCase();
+                const correctLetter = input.dataset.correct;
+                
+                if (inputValue === correctLetter) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                } else {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                    allCorrect = false;
+                }
+            });
+            
+            resultEl.classList.add('show');
+            
+            if (allCorrect) {
+                resultEl.textContent = '正确！';
+                resultEl.className = 'result show correct-result';
+                spellingEl.textContent = currentWord.english;
+                setTimeout(() => nextWord(), 2000);
+            } else {
+                resultEl.textContent = '有错误，请检查！';
+                resultEl.className = 'result show incorrect-result';
+            }
+            
+            isChecking = false;
+        }
+
+        // 显示答案
+        function showAnswer() {
+            if (answerShown || isChecking) return;
+            
+            answerShown = true;
+            spellingEl.textContent = currentWord.english;
+            
+            const inputs = dashesContainerEl.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.value = input.dataset.correct;
+                input.classList.add('incorrect');
+                input.disabled = true;
+            });
+            
+            resultEl.textContent = '已显示答案，本题不计分';
+            resultEl.className = 'result show incorrect-result';
+        }
+
+        // 下一个单词
+        function nextWord() {
+            currentWordIndex = (currentWordIndex + 1) % filteredWords.length;
+            init();
+        }
+
+        // 聚焦第一个输入框
+        function focusFirstInput() {
+            const firstInput = dashesContainerEl.querySelector('input');
+            if (firstInput) setTimeout(() => firstInput.focus(), 100);
+        }
+
+        function startApp() {
+    allWords = loadWords();
+    // 新增：动态生成年级选项
+    generateGradeOptions();
+    filterWordsByGrade('all');
+    init();
+}
+
+// 新增函数：动态生成年级选项
+function generateGradeOptions() {
+    const gradeSelect = document.getElementById('grade-select');
+    
+    // 获取所有不重复的年级值
+    const grades = [...new Set(allWords.map(word => word.grade))].filter(Boolean);
+    
+    // 清空现有选项（保留第一个"全部年级"选项）
+    while (gradeSelect.options.length > 1) {
+        gradeSelect.remove(1);
+    }
+    
+    // 添加动态选项
+    grades.forEach(grade => {
+        const option = document.createElement('option');
+        option.value = grade;
+        option.textContent = grade;
+        gradeSelect.appendChild(option);
+    });
+}
+
+        // 初始化事件监听器
+        function initEventListeners() {
+            gradeSelect.addEventListener('change', (e) => {
+                filterWordsByGrade(e.target.value);
+                init();
+            });
+            
+            speakBtn.addEventListener('click', speakWord);
+            showAnswerBtn.addEventListener('click', showAnswer);
+            nextBtn.addEventListener('click', nextWord);
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initEventListeners();
+            startApp();
+        });
+    </script>
+</body>
+</html>
