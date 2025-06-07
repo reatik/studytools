@@ -986,7 +986,7 @@
 
         // 生成年级选项
         function generateGradeOptions() {
-            const existingGrades = new Set(allWords.map(word => word.ggrade).filter(Boolean));
+            const existingGrades = new Set(allWords.map(word => word.grade).filter(Boolean));
             
             while (gradeSelect.options.length > 1) {
                 gradeSelect.remove(1);
