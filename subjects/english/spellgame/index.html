@@ -943,14 +943,15 @@ function init() {
             });
         }
 
-       function createPhraseInputs() {
+        function createPhraseInputs() {
     const chars = currentWord.english.split('');
     
     chars.forEach((char, i) => {
         if (isFixedChar(char)) {
+            // 创建固定显示的span元素
             const span = document.createElement('span');
             span.className = 'fixed-char';
-            // 如果是空格，添加额外类名
+            // 特殊处理空格
             if (char === ' ') {
                 span.classList.add('space-char');
                 span.innerHTML = '&nbsp;'; // 使用HTML空格实体
@@ -959,6 +960,7 @@ function init() {
             }
             dashesContainerEl.appendChild(span);
         } else {
+            // 创建需要填写的输入框
             const input = document.createElement('input');
             input.type = 'text';
             input.className = 'dash-input';
@@ -972,11 +974,20 @@ function init() {
     });
 }
 
-        // 判断固定字符
-        function isFixedChar(char) {
-    return char === ' ' || /[.,?!'"]/.test(char);
+function isFixedChar(char) {
+    // 明确列出所有固定字符
+    const fixedChars = new Set([
+        ' ', '　', // 空格和全角空格
+        '.', ',', '?', '!', "'", '"', '`', '‘', '’', '“', '”',
+        ':', ';', '-', '_', '—', '–', '…', 
+        '(', ')', '[', ']', '{', '}', '<', '>',
+        '/', '\\', '|', '@', '#', '$', '%', '^', '&', '*', '+', '=',
+        '~', '¡', '¿', '«', '»', '‹', '›',
+        '。', '，', '、', '？', '！', '：', '；', '「', '」', '『', '』',
+        '（', '）', '［', '］', '｛', '｝', '《', '》'
+    ]);
+    return fixedChars.has(char);
 }
-
         // 处理输入
         function handleInput(e) {
             const input = e.target;
@@ -1055,11 +1066,11 @@ function init() {
                     input.value = '';
                 }
             } 
-            else if (e.key === 'ArrowLeft' && index > 0) {
-                let prevIndex = index - 1;
-                while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
-                    prevIndex--;
-                }
+            if (e.key === 'ArrowLeft' && index > 0) {
+    let prevIndex = index - 1;
+    while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
+        prevIndex--;
+    }
                 
                 if (prevIndex >= 0) {
                     const prevInputIndex = Array.from(inputs).findIndex(inp => 
@@ -1070,12 +1081,12 @@ function init() {
                 e.preventDefault();
             } 
             else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
-                const nextChar = english[index + 1];
-                let jumpTo = index + 1;
-                
-                if (isFixedChar(nextChar)) {
-                    jumpTo = index + 2;
-                }
+    const nextChar = english[index + 1];
+    let jumpTo = index + 1;
+    
+    if (isFixedChar(nextChar)) {
+        jumpTo = index + 2;
+    }
                 
                 const nextInputIndex = Array.from(inputs).findIndex(inp => 
                     parseInt(inp.dataset.index) === jumpTo
