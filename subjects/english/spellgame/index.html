@@ -116,15 +116,18 @@
             background-color: white;
             color: #495057;
             font-weight: 500;
-            -webkit-tap-highlight-color: transparent; /* 添加这个属性解决移动端按钮状态问题 */
-        }
-        button:hover, button:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            -webkit-tap-highlight-color: transparent;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            -webkit-user-select: none;
+            user-select: none;
         }
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        button:active {
+            transform: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         #speak-btn {
             color: #007bff;
@@ -202,7 +205,7 @@
             font-size: 1.5rem;
         }
         
-        /* 错题本样式 - 修改后 */
+        /* 错题本样式 - 重新设计 */
         .wrong-words-container {
             display: none;
             background-color: white;
@@ -227,56 +230,65 @@
             margin-top: 1.5rem;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .wrong-words-list::-webkit-scrollbar {
+            display: none;
         }
         .wrong-word-item {
             padding: 1rem;
             border-bottom: 1px solid #eee;
             position: relative;
-            white-space: nowrap;
-            overflow-x: auto;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .wrong-word-item.selected {
+            background-color: rgba(91, 148, 206, 0.1);
+        }
+        .wrong-word-grid {
+            display: grid;
+            grid-template-columns: 30px 1fr;
+            gap: 0.5rem;
         }
         .wrong-word-number {
-            position: absolute;
-            left: 0.5rem;
-            top: 1rem;
             font-weight: bold;
             color: #5b94ce;
+            grid-row: 1 / span 3;
+            align-self: start;
         }
-        .wrong-word-info {
-            display: inline-block;
-            margin-left: 2rem;
-            min-width: calc(100% - 2rem);
+        .wrong-word-content {
+            display: grid;
+            grid-template-rows: auto auto auto;
+            gap: 0.3rem;
         }
         .wrong-word-row {
-            display: inline-flex;
-            margin-bottom: 0.5rem;
-            gap: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            align-items: center;
         }
         .wrong-word-english {
             font-weight: 600;
-            min-width: 120px;
-            display: inline-block;
+            color: #333;
         }
         .wrong-word-chinese {
             color: #555;
-            min-width: 100px;
-            display: inline-block;
         }
         .wrong-word-phonetic {
             color: #666;
-            min-width: 100px;
-            display: inline-block;
+            font-style: italic;
         }
         .wrong-word-pos {
             color: #666;
-            min-width: 60px;
-            display: inline-block;
+            font-size: 0.9rem;
         }
         .wrong-word-meta {
+            display: flex;
+            justify-content: space-between;
             color: #888;
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-left: 1rem;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
         }
         .wrong-words-actions {
             display: flex;
@@ -349,14 +361,6 @@
             font-size: 0.9rem;
             color: #6c757d;
         }
-        .word-checkbox {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-        }
         .select-actions {
             display: flex;
             justify-content: space-between;
@@ -415,14 +419,19 @@
                 font-size: 0.9rem;
                 padding: 0.5rem;
             }
-            .wrong-word-row {
-                gap: 0.8rem;
+            /* 移动端错题本布局优化 */
+            .wrong-word-content {
+                grid-template-rows: auto auto auto;
             }
-            .wrong-word-english, .wrong-word-chinese, .wrong-word-phonetic, .wrong-word-pos {
-                min-width: auto;
-                flex: none;
+            .wrong-word-row {
+                gap: 0.5rem;
+            }
+            .wrong-word-meta {
+                flex-direction: column;
+                gap: 0.3rem;
             }
         }
+        
         @media (max-width: 480px) {
             .word-container, .wrong-words-container {
                 padding: 1.2rem;
@@ -470,14 +479,26 @@
             .wrong-words-actions button {
                 width: 100%;
             }
-            .wrong-word-number {
-                left: 0.3rem;
-                top: 0.8rem;
+            /* 小屏幕错题本布局 */
+            .wrong-word-item {
+                padding: 0.8rem;
             }
-            .wrong-word-info {
-                margin-left: 1.5rem;
+            .wrong-word-grid {
+                grid-template-columns: 25px 1fr;
+            }
+            .wrong-word-english {
+                flex: 1 1 100%;
+                margin-bottom: 0.2rem;
+            }
+            .wrong-word-chinese {
+                flex: 1 1 100%;
+                margin-bottom: 0.3rem;
+            }
+            .wrong-word-phonetic, .wrong-word-pos {
+                font-size: 0.85rem;
             }
         }
+        
         @media (max-width: 360px) {
             .dash-input {
                 width: 1.2rem;
@@ -496,6 +517,27 @@
             }
             select {
                 font-size: 0.8rem;
+            }
+            .wrong-word-item {
+                padding: 0.6rem;
+            }
+            .wrong-word-number {
+                font-size: 0.9rem;
+            }
+            .wrong-word-phonetic, 
+            .wrong-word-pos,
+            .wrong-word-meta {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (hover: none) {
+            button:hover {
+                transform: none;
+            }
+            button:active {
+                transform: scale(0.98);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             }
         }
     </style>
@@ -580,8 +622,8 @@
         let currentSpeech = null; 
         let wrongWords = JSON.parse(localStorage.getItem('wrongWords')) || [];
         let selectedWrongWords = [];
-        let wrongWordsInRound = []; // 当前轮次的错题
-        let isPracticingWrongWords = false; // 是否正在练习错题
+        let wrongWordsInRound = [];
+        let isPracticingWrongWords = false;
 
         // DOM元素
         const chineseWordEl = document.getElementById('chinese-word');
@@ -790,22 +832,22 @@
             );
         }
 
-        // 创建单词输入框
-        function createWordInputs() {
-            const letters = currentWord.english.toLowerCase().split('');
-            
-            letters.forEach((letter, i) => {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.className = 'dash-input';
-                input.maxLength = 1;
-                input.dataset.index = i;
-                input.dataset.correct = letter;
-                input.addEventListener('input', handleInput);
-                input.addEventListener('keydown', handleKeyDown);
-                dashesContainerEl.appendChild(input);
-            });
-        }
+    // 创建单词输入框
+    function createWordInputs() {
+        const letters = currentWord.english.toLowerCase().split('');
+
+        letters.forEach((letter, i) => {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'dash-input';
+            input.maxLength = 1;
+            input.dataset.index = i;
+            input.dataset.correct = letter;
+            input.addEventListener('input', handleInput);
+            input.addEventListener('keydown', handleKeyDown);
+            dashesContainerEl.appendChild(input);
+        });
+    }
 
         // 创建短语输入框
         function createPhraseInputs() {
@@ -1190,7 +1232,7 @@
             unitSelect.disabled = false;
         }
 
-        // 渲染错题本列表 - 修改后的版本
+        // 渲染错题本列表 - 重新设计后的版本
         function renderWrongWordsList() {
             if (wrongWords.length === 0) {
                 wrongWordsList.innerHTML = '<div class="no-wrong-words">暂无错题记录</div>';
@@ -1206,45 +1248,64 @@
             
             let html = '';
             wrongWords.forEach((word, index) => {
+                const isSelected = selectedWrongWords.includes(index);
                 html += `
-                    <div class="wrong-word-item">
+                <div class="wrong-word-item ${isSelected ? 'selected' : ''}" data-index="${index}">
+                    <div class="wrong-word-grid">
                         <span class="wrong-word-number">${index + 1}.</span>
-                        <input type="checkbox" class="word-checkbox" data-index="${index}">
-                        <div class="wrong-word-info">
+                        <div class="wrong-word-content">
                             <div class="wrong-word-row">
                                 <span class="wrong-word-english">${word.english}</span>
                                 <span class="wrong-word-chinese">${word.chinese}</span>
+                            </div>
+                            <div class="wrong-word-row">
                                 <span class="wrong-word-phonetic">${word.phonetic || '-'}</span>
                                 <span class="wrong-word-pos">${word.pos || '-'}</span>
-                                <span class="wrong-word-meta">${word.grade || ''} ${word.unit || ''}</span>
+                            </div>
+                            <div class="wrong-word-meta">
+                                <span class="wrong-word-grade">${word.grade || ''}</span>
+                                <span class="wrong-word-unit">${word.unit || ''}</span>
                             </div>
                         </div>
                     </div>
+                </div>
                 `;
             });
             
             wrongWordsList.innerHTML = html;
             
-            // 添加复选框事件监听
-            const checkboxes = document.querySelectorAll('.word-checkbox');
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', updateSelectedWords);
+            // 添加点击事件监听
+            const wordItems = document.querySelectorAll('.wrong-word-item');
+            wordItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    toggleWordSelection(index);
+                });
             });
+            
+            updateSelectedWords();
+        }
+
+        // 切换单词选择状态
+        function toggleWordSelection(index) {
+            const itemIndex = selectedWrongWords.indexOf(index);
+            if (itemIndex === -1) {
+                selectedWrongWords.push(index);
+            } else {
+                selectedWrongWords.splice(itemIndex, 1);
+            }
+            
+            // 更新UI
+            const wordItem = document.querySelector(`.wrong-word-item[data-index="${index}"]`);
+            if (wordItem) {
+                wordItem.classList.toggle('selected');
+            }
             
             updateSelectedWords();
         }
 
         // 更新选中的单词
         function updateSelectedWords() {
-            selectedWrongWords = [];
-            const checkboxes = document.querySelectorAll('.word-checkbox');
-            
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    selectedWrongWords.push(parseInt(checkbox.dataset.index));
-                }
-            });
-            
             // 更新按钮状态
             if (selectedWrongWords.length > 0) {
                 practiceSelectedBtn.disabled = false;
@@ -1286,25 +1347,39 @@
                 
                 // 保存到本地存储
                 localStorage.setItem('wrongWords', JSON.stringify(wrongWords));
+                
+                // 重置选择
+                selectedWrongWords = [];
                 renderWrongWordsList();
             }
         }
 
         // 全选
         function selectAllWords() {
-            const checkboxes = document.querySelectorAll('.word-checkbox');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = true;
+            selectedWrongWords = [];
+            wrongWords.forEach((_, index) => {
+                selectedWrongWords.push(index);
             });
+            
+            // 更新UI
+            const wordItems = document.querySelectorAll('.wrong-word-item');
+            wordItems.forEach(item => {
+                item.classList.add('selected');
+            });
+            
             updateSelectedWords();
         }
 
         // 清除选择
         function clearSelection() {
-            const checkboxes = document.querySelectorAll('.word-checkbox');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = false;
+            selectedWrongWords = [];
+            
+            // 更新UI
+            const wordItems = document.querySelectorAll('.wrong-word-item');
+            wordItems.forEach(item => {
+                item.classList.remove('selected');
             });
+            
             updateSelectedWords();
         }
 
