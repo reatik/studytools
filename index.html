@@ -14,7 +14,7 @@
         }
         
         body {
-            background: white;
+            background: rgb(255, 255, 255);
             color: #333;
             min-height: 100vh;
         }
@@ -186,57 +186,46 @@
             justify-content: center;
             height: 120px;
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             text-decoration: none;
             transition: all 0.3s;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border: 2px solid #eee;
+            border: 2px solid #f1f1f1;
             position: relative;
         }
         
-        /* 原创标签样式 */
-        .original-tag {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: #ff9800;
-            color: white;
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
+
         
         /* 英语卡片 */
         .english-card {
             color: #007bff;
-            border-color: #007bff;
+
+
         }
         
         /* 语文卡片 */
         .chinese-card {
             color: #e74c3c;
-            border-color: #e74c3c;
+
         }
         
         /* 数学卡片 */
         .math-card {
             color: #2ecc71;
-            border-color: #2ecc71;
+
         }
         
         /* 工具卡片 */
         .tools-card {
             color: #ff9800;
-            border-color: #ff9800;
+
         }
         
         /* 游戏卡片 */
         .games-card {
             color: #9c27b0;
-            border-color: #9c27b0;
+
         }
         
         .feature-card:hover {
@@ -565,7 +554,6 @@
             </div>
             <div class="feature-cards">
                 <a href="zitie/index.html" class="feature-card tools-card" data-search="字帖生成 工具 原创">
-                    <span class="original-tag">原创</span>
                     <i class="fas fa-pen-fancy"></i>
                     <span>字帖生成</span>
                 </a>
