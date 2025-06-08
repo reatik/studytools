@@ -10,6 +10,11 @@
             margin: 0;
             padding: 0;
         }
+
+        html {
+    scroll-behavior: auto !important;
+    overflow-anchor: none;
+}
         body {
             background: linear-gradient(135deg, #f4fffa,#eef7ff , #e7f7f5);
             color: var(--dark);
@@ -17,7 +22,7 @@
             line-height: 1.6;
             padding: 20px;
             position: relative;
-            overflow-x: hidden;
+            overflow-anchor: none;
         }
         
         h1 {
@@ -941,11 +946,11 @@ function init() {
             );
         }
 
-        // 创建单词输入框
         function createWordInputs() {
     const chars = currentWord.english.split('');
     dashesContainerEl.innerHTML = '';
     
+    // 创建输入元素数组
     const elements = chars.map(char => {
         if (isFixedChar(char)) {
             const span = document.createElement('span');
@@ -959,63 +964,154 @@ function init() {
             input.className = 'dash-input';
             input.maxLength = 1;
             input.dataset.correct = char.toLowerCase();
+            
+            // 移动端专属属性
+            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+                input.autocapitalize = 'off';
+                input.autocomplete = 'off';
+                input.spellcheck = false;
+                input.inputmode = 'text'; // 避免数字键盘弹出
+            }
             return input;
         }
     });
 
+    // 渲染所有元素
     elements.forEach(el => dashesContainerEl.appendChild(el));
     
+    // 获取所有输入框
     const inputs = dashesContainerEl.querySelectorAll('input');
+    
+    // 为每个输入框添加事件监听
     inputs.forEach((input, index) => {
         input.dataset.index = index;
         
-        // 聚焦时自动准备覆盖（无视觉反馈）
+        // 聚焦处理（兼容移动端）
         input.addEventListener('focus', function() {
-            setTimeout(() => this.setSelectionRange(0, 1), 10);
+            // 确保选中内容且不触发滚动
+            setTimeout(() => {
+                try {
+                    this.setSelectionRange(0, 1);
+                    if ('scrollRestoration' in history) {
+                        history.scrollRestoration = 'manual';
+                    }
+                    
+                    // 移动端额外锁定
+                    if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+                        window.scrollTo(0, window.scrollY);
+                        document.documentElement.style.overflow = 'hidden';
+                    }
+                } catch(e) { /* 兼容性处理 */ }
+            }, 10);
         });
         
-        // 输入处理（直接覆盖）
+        // 输入处理
         input.addEventListener('input', function() {
-            // 强制只保留1个字母
+            // 强制小写并限制长度
             this.value = this.value.slice(-1).toLowerCase();
             
-            // 输入后自动跳转下一个
-            if (this.value && index < inputs.length - 1) {
-                inputs[index + 1].focus();
+            // 自动跳转下一个输入框（跳过固定字符）
+            if (this.value) {
+                let nextIndex = index + 1;
+                while (nextIndex < chars.length && isFixedChar(chars[nextIndex])) {
+                    nextIndex++;
+                }
+                
+                if (nextIndex < chars.length) {
+                    const nextInput = inputs[nextIndex];
+                    nextInput.focus({ preventScroll: true });
+                }
             }
+            
             checkCompletion();
         });
         
-        // 优化的删除逻辑
+        // 键盘事件处理
         input.addEventListener('keydown', function(e) {
+            // 后退键处理
             if (e.key === 'Backspace') {
-                if (this.value) {
-                    // 情况1：当前有内容，直接删除
-                    this.value = '';
-                } else {
-                    // 情况2：当前无内容，直接删除前一个并聚焦
-                    if (index > 0) {
-                        inputs[index - 1].value = '';
-                        inputs[index - 1].focus();
+                if (!this.value && index > 0) {
+                    let prevIndex = index - 1;
+                    while (prevIndex >= 0 && isFixedChar(chars[prevIndex])) {
+                        prevIndex--;
+                    }
+                    
+                    if (prevIndex >= 0) {
+                        inputs[prevIndex].value = '';
+                        inputs[prevIndex].focus({ preventScroll: true });
                     }
                 }
                 e.preventDefault();
-            }
-            // 保留左右箭头导航
-            else if (e.key === 'ArrowLeft' && index > 0) {
-                inputs[index - 1].focus();
+            } 
+            // 方向键处理
+            else if (e.key === 'ArrowLeft') {
+                let prevIndex = index - 1;
+                while (prevIndex >= 0 && isFixedChar(chars[prevIndex])) {
+                    prevIndex--;
+                }
+                
+                if (prevIndex >= 0) {
+                    inputs[prevIndex].focus({ preventScroll: true });
+                }
+                e.preventDefault();
+            } 
+            else if (e.key === 'ArrowRight') {
+                let nextIndex = index + 1;
+                while (nextIndex < chars.length && isFixedChar(chars[nextIndex])) {
+                    nextIndex++;
+                }
+                
+                if (nextIndex < chars.length) {
+                    inputs[nextIndex].focus({ preventScroll: true });
+                }
                 e.preventDefault();
             }
-            else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
-                inputs[index + 1].focus();
-                e.preventDefault();
+        });
+        
+        // 移动端失去焦点时恢复页面状态
+        input.addEventListener('blur', function() {
+            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+                document.documentElement.style.overflow = '';
             }
         });
     });
     
-    if (inputs.length > 0) {
-        setTimeout(() => inputs[0].focus(), 100);
+    // 初始聚焦（延迟确保DOM就绪）
+    setTimeout(() => {
+        if (inputs.length > 0) {
+            inputs[0].focus({ preventScroll: true });
+        }
+    }, 100);
+    
+    // 移动端初始化键盘处理器
+    if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+        setupMobileKeyboardHandlers();
     }
+}
+
+// 移动端键盘专属处理函数
+function setupMobileKeyboardHandlers() {
+    let activeInput = null;
+    const scrollPos = window.scrollY;
+    
+    window.addEventListener('resize', () => {
+        // 键盘弹出/收起时强制保持位置
+        if (activeInput) {
+            window.scrollTo(0, scrollPos);
+        }
+    });
+    
+    document.addEventListener('focusin', (e) => {
+        if (e.target.classList.contains('dash-input')) {
+            activeInput = e.target;
+            // iOS 键盘弹出后强制恢复位置
+            setTimeout(() => window.scrollTo(0, scrollPos), 100);
+        }
+    });
+
+    document.addEventListener('focusout', () => {
+        setTimeout(() => window.scrollTo(0, scrollPos), 100);
+    });
 }
 
 // 添加CSS隐藏选中高亮效果
@@ -1284,24 +1380,12 @@ function nextWord() {
         currentWordIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
     }
 
-    // 重置标记
     currentWordMarkedWrong = false;
     init();
     
-    // 恢复滚动位置或滚动到拼写区域中心
+    // 恢复滚动位置
     setTimeout(() => {
-        // 如果是移动设备，保持原位置
-        if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-            window.scrollTo(0, scrollY);
-        } else {
-            // 桌面设备滚动到拼写区域中心
-            const dashesRect = dashesContainerEl.getBoundingClientRect();
-            const centerY = dashesRect.top + dashesRect.height/2 - window.innerHeight/2;
-            window.scrollTo({
-                top: centerY,
-                behavior: 'smooth'
-            });
-        }
+        window.scrollTo(0, scrollY);
     }, 0);
 }
 
@@ -1377,11 +1461,20 @@ function nextWord() {
     });
 }
 
-        // 聚焦第一个输入框
-        function focusFirstInput() {
-            const firstInput = dashesContainerEl.querySelector('input');
-            if (firstInput) setTimeout(() => firstInput.focus(), 100);
-        }
+function focusFirstInput() {
+    const firstInput = dashesContainerEl.querySelector('input');
+    if (firstInput) {
+        // 使用更温和的聚焦方式
+        setTimeout(() => {
+            try {
+                firstInput.focus({ preventScroll: true });
+            } catch (e) {
+                // 兼容不支持preventScroll的浏览器
+                firstInput.focus();
+            }
+        }, 100);
+    }
+}
 
         // 生成年级选项
         function generateGradeOptions() {
