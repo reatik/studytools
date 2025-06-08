@@ -943,82 +943,134 @@ function init() {
 
         // 创建单词输入框
         function createWordInputs() {
-            const chars = currentWord.english.split('');
-            
-            chars.forEach((char, i) => {
-                if (isFixedChar(char)) {
-                    // 直接显示固定字符（如空格、括号、标点等）
-                    const span = document.createElement('span');
-                    span.className = 'fixed-char';
-                    
-                    // 特殊处理空格，避免显示为空
-                    if (char === ' ') {
-                        span.innerHTML = '&nbsp;'; // 用 HTML 空格占位
-                        span.classList.add('space-char'); // 可选：调整空格宽度
-                    } else {
-                        span.textContent = char; // 显示标点、括号等
-                    }
-                    
-                    dashesContainerEl.appendChild(span);
-                } else {
-                    // 字母部分：生成输入框
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.className = 'dash-input';
-                    input.maxLength = 1;
-                    input.dataset.index = i;
-                    input.dataset.correct = char.toLowerCase();
-                    input.addEventListener('input', handleInput);
-                    input.addEventListener('keydown', handleKeyDown);
-                    dashesContainerEl.appendChild(input);
-                }
-            });
+    const chars = currentWord.english.split('');
+    dashesContainerEl.innerHTML = '';
+    
+    const elements = chars.map(char => {
+        if (isFixedChar(char)) {
+            const span = document.createElement('span');
+            span.className = 'fixed-char';
+            span.textContent = char === ' ' ? ' ' : char;
+            if (char === ' ') span.classList.add('space-char');
+            return span;
+        } else {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'dash-input';
+            input.maxLength = 1;
+            input.dataset.correct = char.toLowerCase();
+            return input;
         }
+    });
 
-        function isFixedChar(char) {
-            // 明确列出所有固定字符（不需要用户填写的字符）
-            const fixedChars = new Set([
-                ' ', '　', // 空格和全角空格
-                '(', ')', '[', ']', '{', '}', '<', '>', // 各种括号
-                '.', ',', '?', '!', "'", '"', '`', '‘', '’', '“', '”', // 标点符号
-                ':', ';', '…', // 其他标点
-                '。', '，', '、', '？', '！', '：', '；', '「', '」', '『', '』', // 中文标点
-                '（', '）', '［', '］', '｛', '｝', '《', '》' // 中文括号
-            ]);
-            return fixedChars.has(char);
-        }
+    elements.forEach(el => dashesContainerEl.appendChild(el));
+    
+    const inputs = dashesContainerEl.querySelectorAll('input');
+    inputs.forEach((input, index) => {
+        input.dataset.index = index;
+        
+        // 聚焦时自动准备覆盖（无视觉反馈）
+        input.addEventListener('focus', function() {
+            setTimeout(() => this.setSelectionRange(0, 1), 10);
+        });
+        
+        // 输入处理（直接覆盖）
+        input.addEventListener('input', function() {
+            // 强制只保留1个字母
+            this.value = this.value.slice(-1).toLowerCase();
+            
+            // 输入后自动跳转下一个
+            if (this.value && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+            checkCompletion();
+        });
+        
+        // 优化的删除逻辑
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace') {
+                if (this.value) {
+                    // 情况1：当前有内容，直接删除
+                    this.value = '';
+                } else {
+                    // 情况2：当前无内容，直接删除前一个并聚焦
+                    if (index > 0) {
+                        inputs[index - 1].value = '';
+                        inputs[index - 1].focus();
+                    }
+                }
+                e.preventDefault();
+            }
+            // 保留左右箭头导航
+            else if (e.key === 'ArrowLeft' && index > 0) {
+                inputs[index - 1].focus();
+                e.preventDefault();
+            }
+            else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+                e.preventDefault();
+            }
+        });
+    });
+    
+    if (inputs.length > 0) {
+        setTimeout(() => inputs[0].focus(), 100);
+    }
+}
+
+// 添加CSS隐藏选中高亮效果
+const style = document.createElement('style');
+style.textContent = `
+    .dash-input::selection {
+        background: transparent;
+        color: inherit;
+    }
+    .dash-input::-moz-selection {
+        background: transparent;
+        color: inherit;
+    }
+`;
+document.head.appendChild(style);
+
+function isFixedChar(char) {
+    // 明确列出所有固定字符（不需要用户填写的字符）
+    const fixedChars = new Set([
+        ' ', '　', // 空格和全角空格
+        '(', ')', '[', ']', '{', '}', '<', '>', // 各种括号
+        '.', ',', '?', '!', "'", '"', '`', '‘', '’', '“', '”', // 标点符号
+        ':', ';', '…', '_', // 其他标点（移除了'-'）
+        '。', '，', '、', '？', '！', '：', '；', '「', '」', '『', '』', // 中文标点
+        '（', '）', '［', '］', '｛', '｝', '《', '》' // 中文括号
+    ]);
+    return fixedChars.has(char);
+}
 
         // 处理输入
         function handleInput(e) {
-            const input = e.target;
-            const index = parseInt(input.dataset.index);
-            const english = currentWord.english;
-            
-            input.value = input.value.toLowerCase();
-            
-            if (input.value && index < english.length - 1) {
-                const nextChar = english[index + 1];
-                
-                if (isFixedChar(nextChar)) {
-                    const nextInputs = dashesContainerEl.querySelectorAll('input');
-                    const nextIndex = Array.from(nextInputs).findIndex(inp => 
-                        parseInt(inp.dataset.index) === index + 2
-                    );
-                    if (nextIndex !== -1) {
-                        nextInputs[nextIndex].focus();
-                        return;
-                    }
-                }
-                
-                const nextInputs = dashesContainerEl.querySelectorAll('input');
-                const nextIndex = Array.from(nextInputs).findIndex(inp => 
-                    parseInt(inp.dataset.index) === index + 1
-                );
-                if (nextIndex !== -1) nextInputs[nextIndex].focus();
-            }
-            
-            checkCompletion();
+    const input = e.target;
+    const index = parseInt(input.dataset.index);
+    const english = currentWord.english;
+    
+    input.value = input.value.toLowerCase();
+    
+    if (input.value) {
+        // 查找下一个需要输入的字符位置（跳过标点）
+        let nextIndex = index + 1;
+        while (nextIndex < english.length && isFixedChar(english[nextIndex])) {
+            nextIndex++;
         }
+        
+        if (nextIndex < english.length) {
+            const nextInput = dashesContainerEl.querySelector(`input[data-index="${nextIndex}"]`);
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
+    
+    checkCompletion();
+}
+
 
         // 检查完成状态
         function checkCompletion() {
@@ -1039,63 +1091,61 @@ function init() {
 
         // 处理键盘事件
         function handleKeyDown(e) {
-            const input = e.target;
-            const index = parseInt(input.dataset.index);
-            const english = currentWord.english;
-            const inputs = dashesContainerEl.querySelectorAll('input');
-            
-            if (e.key === 'Backspace') {
-                if (!input.value && index > 0) {
-                    let prevIndex = index - 1;
-                    
-                    while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
-                        prevIndex--;
-                    }
-                    
-                    if (prevIndex >= 0) {
-                        const prevInputIndex = Array.from(inputs).findIndex(inp => 
-                            parseInt(inp.dataset.index) === prevIndex
-                        );
-                        if (prevInputIndex !== -1) {
-                            inputs[prevInputIndex].focus();
-                            inputs[prevInputIndex].value = '';
-                        }
-                    }
-                    e.preventDefault();
-                } else if (input.value) {
-                    input.value = '';
-                }
-            } 
-            if (e.key === 'ArrowLeft' && index > 0) {
-    let prevIndex = index - 1;
-    while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
-        prevIndex--;
-    }
-                
-                if (prevIndex >= 0) {
-                    const prevInputIndex = Array.from(inputs).findIndex(inp => 
-                        parseInt(inp.dataset.index) === prevIndex
-                    );
-                    if (prevInputIndex !== -1) inputs[prevInputIndex].focus();
-                }
-                e.preventDefault();
-            } 
-            else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
-    const nextChar = english[index + 1];
-    let jumpTo = index + 1;
+    const input = e.target;
+    const index = parseInt(input.dataset.index);
+    const english = currentWord.english;
     
-    if (isFixedChar(nextChar)) {
-        jumpTo = index + 2;
-    }
-                
-                const nextInputIndex = Array.from(inputs).findIndex(inp => 
-                    parseInt(inp.dataset.index) === jumpTo
-                );
-                if (nextInputIndex !== -1) inputs[nextInputIndex].focus();
+    if (e.key === 'Backspace') {
+        if (!input.value && index > 0) {
+            // 查找前一个需要输入的字符位置（跳过标点）
+            let prevIndex = index - 1;
+            while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
+                prevIndex--;
+            }
+            
+            if (prevIndex >= 0) {
+                const prevInput = dashesContainerEl.querySelector(`input[data-index="${prevIndex}"]`);
+                if (prevInput) {
+                    prevInput.focus();
+                    prevInput.value = '';
+                }
+            }
+            e.preventDefault();
+        } else if (input.value) {
+            input.value = '';
+        }
+    } 
+    else if (e.key === 'ArrowLeft' && index > 0) {
+        // 查找前一个需要输入的字符位置（跳过标点）
+        let prevIndex = index - 1;
+        while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
+            prevIndex--;
+        }
+        
+        if (prevIndex >= 0) {
+            const prevInput = dashesContainerEl.querySelector(`input[data-index="${prevIndex}"]`);
+            if (prevInput) {
+                prevInput.focus();
                 e.preventDefault();
             }
         }
-
+    } 
+    else if (e.key === 'ArrowRight' && index < english.length - 1) {
+        // 查找下一个需要输入的字符位置（跳过标点）
+        let nextIndex = index + 1;
+        while (nextIndex < english.length && isFixedChar(english[nextIndex])) {
+            nextIndex++;
+        }
+        
+        if (nextIndex < english.length) {
+            const nextInput = dashesContainerEl.querySelector(`input[data-index="${nextIndex}"]`);
+            if (nextInput) {
+                nextInput.focus();
+                e.preventDefault();
+            }
+        }
+    }
+}
         // 朗读单词 - 优化后的版本
         function speakWord() {
             if (currentSpeech) {
