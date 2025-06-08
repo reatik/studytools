@@ -11,11 +11,18 @@
             padding: 0;
         }
         body {
-            background: linear-gradient(135deg, #f4fffa,#eef7ff , #e7f7f5);
+            background: linear-gradient(120deg, 
+                #e0f7fa 0%,
+                #e8f5e9 25%,
+                #f3e5f5 50%,
+                #fff3e0 75%,
+                #e0f7fa 100%
+            );
+            background-attachment: fixed;
             color: var(--dark);
             min-height: 100vh;
             line-height: 1.6;
-            padding: 20px;
+            padding: 8px 20px 20px 20px;
             position: relative;
             overflow-x: hidden;
         }
@@ -23,16 +30,19 @@
         h1 {
             color: #5b94ce;
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 2rem;
+            margin-top: 1.5rem;
             margin-bottom: 1.5rem;
-            font-weight: 500;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .word-container {
             background-color: white;
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            margin: 2rem auto;
+            margin: 1rem auto;
             max-width: 800px;
             min-height: 400px;
             position: relative;
@@ -212,7 +222,7 @@
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            margin: 2rem auto;
+            margin: 1rem auto;
             max-width: 800px;
             min-height: 400px;
         }
@@ -427,6 +437,18 @@
         .back-to-main svg {
             display: none;
         }
+
+        .fixed-char {
+    display: inline-block;
+    font-size: 1.6rem; /* 和输入框字体一致 */
+    color: #333; /* 正常文本颜色 */
+    margin: 0 0.1rem; /* 适当间距 */
+}
+
+/* 调整空格宽度 */
+.fixed-char.space-char {
+    width: 0.8rem; /* 比普通字母稍窄 */
+}
         
         @media (max-width: 768px) {
             .word-container, .wrong-words-container {
@@ -478,6 +500,10 @@
             .wrong-word-meta {
                 flex-direction: column;
                 gap: 0.3rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.8rem;
             }
         }
         
@@ -555,6 +581,10 @@
             .wrong-word-grade, 
             .wrong-word-unit {
                 font-size: 0.85rem;
+            }
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 0.6rem;
             }
         }
         
@@ -835,6 +865,7 @@ function init() {
     
     // 自动朗读新单词
     setTimeout(speakWord, 300);
+    keepScrollPosition();
 }
 
         // 显示一轮完成
@@ -928,66 +959,51 @@ function init() {
 
         // 创建单词输入框
         function createWordInputs() {
-            const letters = currentWord.english.toLowerCase().split('');
-
-            letters.forEach((letter, i) => {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.className = 'dash-input';
-                input.maxLength = 1;
-                input.dataset.index = i;
-                input.dataset.correct = letter;
-                input.addEventListener('input', handleInput);
-                input.addEventListener('keydown', handleKeyDown);
-                dashesContainerEl.appendChild(input);
+            const chars = currentWord.english.split('');
+            
+            chars.forEach((char, i) => {
+                if (isFixedChar(char)) {
+                    // 直接显示固定字符（如空格、括号、标点等）
+                    const span = document.createElement('span');
+                    span.className = 'fixed-char';
+                    
+                    // 特殊处理空格，避免显示为空
+                    if (char === ' ') {
+                        span.innerHTML = '&nbsp;'; // 用 HTML 空格占位
+                        span.classList.add('space-char'); // 可选：调整空格宽度
+                    } else {
+                        span.textContent = char; // 显示标点、括号等
+                    }
+                    
+                    dashesContainerEl.appendChild(span);
+                } else {
+                    // 字母部分：生成输入框
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'dash-input';
+                    input.maxLength = 1;
+                    input.dataset.index = i;
+                    input.dataset.correct = char.toLowerCase();
+                    input.addEventListener('input', handleInput);
+                    input.addEventListener('keydown', handleKeyDown);
+                    dashesContainerEl.appendChild(input);
+                }
             });
         }
 
-        function createPhraseInputs() {
-    const chars = currentWord.english.split('');
-    
-    chars.forEach((char, i) => {
-        if (isFixedChar(char)) {
-            // 创建固定显示的span元素
-            const span = document.createElement('span');
-            span.className = 'fixed-char';
-            // 特殊处理空格
-            if (char === ' ') {
-                span.classList.add('space-char');
-                span.innerHTML = '&nbsp;'; // 使用HTML空格实体
-            } else {
-                span.textContent = char;
-            }
-            dashesContainerEl.appendChild(span);
-        } else {
-            // 创建需要填写的输入框
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.className = 'dash-input';
-            input.maxLength = 1;
-            input.dataset.index = i;
-            input.dataset.correct = char.toLowerCase();
-            input.addEventListener('input', handleInput);
-            input.addEventListener('keydown', handleKeyDown);
-            dashesContainerEl.appendChild(input);
+        function isFixedChar(char) {
+            // 明确列出所有固定字符（不需要用户填写的字符）
+            const fixedChars = new Set([
+                ' ', '　', // 空格和全角空格
+                '(', ')', '[', ']', '{', '}', '<', '>', // 各种括号
+                '.', ',', '?', '!', "'", '"', '`', '‘', '’', '“', '”', // 标点符号
+                ':', ';', '…', // 其他标点
+                '。', '，', '、', '？', '！', '：', '；', '「', '」', '『', '』', // 中文标点
+                '（', '）', '［', '］', '｛', '｝', '《', '》' // 中文括号
+            ]);
+            return fixedChars.has(char);
         }
-    });
-}
 
-function isFixedChar(char) {
-    // 明确列出所有固定字符
-    const fixedChars = new Set([
-        ' ', '　', // 空格和全角空格
-        '.', ',', '?', '!', "'", '"', '`', '‘', '’', '“', '”',
-        ':', ';', '-', '_', '—', '–', '…', 
-        '(', ')', '[', ']', '{', '}', '<', '>',
-        '/', '\\', '|', '@', '#', '$', '%', '^', '&', '*', '+', '=',
-        '~', '¡', '¿', '«', '»', '‹', '›',
-        '。', '，', '、', '？', '！', '：', '；', '「', '」', '『', '』',
-        '（', '）', '［', '］', '｛', '｝', '《', '》'
-    ]);
-    return fixedChars.has(char);
-}
         // 处理输入
         function handleInput(e) {
             const input = e.target;
@@ -996,25 +1012,22 @@ function isFixedChar(char) {
             
             input.value = input.value.toLowerCase();
             
-            if (input.value && index < english.length - 1) {
-                const nextChar = english[index + 1];
-                
-                if (isFixedChar(nextChar)) {
-                    const nextInputs = dashesContainerEl.querySelectorAll('input');
-                    const nextIndex = Array.from(nextInputs).findIndex(inp => 
-                        parseInt(inp.dataset.index) === index + 2
-                    );
-                    if (nextIndex !== -1) {
-                        nextInputs[nextIndex].focus();
-                        return;
-                    }
+            if (input.value) {
+                // 查找下一个需要输入的字符位置
+                let nextIndex = index + 1;
+                while (nextIndex < english.length && isFixedChar(english[nextIndex])) {
+                    nextIndex++;
                 }
                 
-                const nextInputs = dashesContainerEl.querySelectorAll('input');
-                const nextIndex = Array.from(nextInputs).findIndex(inp => 
-                    parseInt(inp.dataset.index) === index + 1
-                );
-                if (nextIndex !== -1) nextInputs[nextIndex].focus();
+                if (nextIndex < english.length) {
+                    const nextInputs = dashesContainerEl.querySelectorAll('input');
+                    const nextInputIndex = Array.from(nextInputs).findIndex(inp => 
+                        parseInt(inp.dataset.index) === nextIndex
+                    );
+                    if (nextInputIndex !== -1) {
+                        nextInputs[nextInputIndex].focus();
+                    }
+                }
             }
             
             checkCompletion();
@@ -1046,8 +1059,8 @@ function isFixedChar(char) {
             
             if (e.key === 'Backspace') {
                 if (!input.value && index > 0) {
+                    // 查找前一个需要输入的字符位置
                     let prevIndex = index - 1;
-                    
                     while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
                         prevIndex--;
                     }
@@ -1066,33 +1079,39 @@ function isFixedChar(char) {
                     input.value = '';
                 }
             } 
-            if (e.key === 'ArrowLeft' && index > 0) {
-    let prevIndex = index - 1;
-    while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
-        prevIndex--;
-    }
+            else if (e.key === 'ArrowLeft' && index > 0) {
+                // 查找前一个需要输入的字符位置
+                let prevIndex = index - 1;
+                while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
+                    prevIndex--;
+                }
                 
                 if (prevIndex >= 0) {
                     const prevInputIndex = Array.from(inputs).findIndex(inp => 
                         parseInt(inp.dataset.index) === prevIndex
                     );
-                    if (prevInputIndex !== -1) inputs[prevInputIndex].focus();
+                    if (prevInputIndex !== -1) {
+                        inputs[prevInputIndex].focus();
+                        e.preventDefault();
+                    }
                 }
-                e.preventDefault();
             } 
-            else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
-    const nextChar = english[index + 1];
-    let jumpTo = index + 1;
-    
-    if (isFixedChar(nextChar)) {
-        jumpTo = index + 2;
-    }
+            else if (e.key === 'ArrowRight' && index < english.length - 1) {
+                // 查找下一个需要输入的字符位置
+                let nextIndex = index + 1;
+                while (nextIndex < english.length && isFixedChar(english[nextIndex])) {
+                    nextIndex++;
+                }
                 
-                const nextInputIndex = Array.from(inputs).findIndex(inp => 
-                    parseInt(inp.dataset.index) === jumpTo
-                );
-                if (nextInputIndex !== -1) inputs[nextInputIndex].focus();
-                e.preventDefault();
+                if (nextIndex < english.length) {
+                    const nextInputIndex = Array.from(inputs).findIndex(inp => 
+                        parseInt(inp.dataset.index) === nextIndex
+                    );
+                    if (nextInputIndex !== -1) {
+                        inputs[nextInputIndex].focus();
+                        e.preventDefault();
+                    }
+                }
             }
         }
 
@@ -1234,6 +1253,7 @@ function nextWord() {
     // 重置标记
     currentWordMarkedWrong = false;
     init();
+    keepScrollPosition();
 }
 
         // 添加到错题本
@@ -1573,6 +1593,7 @@ function nextWord() {
         function showMainView() {
             wrongWordsContainer.style.display = 'none';
             mainContainer.style.display = 'block';
+            keepScrollPosition();
         }
 
         // 切换错题本状态
@@ -1628,6 +1649,14 @@ function nextWord() {
             initEventListeners();
             startApp();
         });
+
+        // 保持移动端滚动位置
+        function keepScrollPosition() {
+            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+                const scrollY = window.scrollY;
+                setTimeout(() => { window.scrollTo(0, scrollY); }, 0);
+            }
+        }
     </script>
 </body>
 </html>
