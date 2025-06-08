@@ -1049,48 +1049,54 @@
         }
 
         function init() {
-            // 重置当前单词的错误标记
-            currentWordMarkedWrong = false;
-            
-            if (filteredWords.length === 0) return;
-            
-            // 检查是否完成一轮练习
-            if (!isPracticingWrongWords && usedWordIndices.length >= filteredWords.length) {
-                showRoundComplete();
-                return;
-            }
-            
-            // 检查是否完成错题练习
-            if (isPracticingWrongWords && wrongWordsInRound.length === 0) {
-                showAllCorrect();
-                return;
-            }
-            
-            currentWord = isPracticingWrongWords ? wrongWordsInRound[currentWordIndex] : filteredWords[currentWordIndex];
-            answerShown = false;
-            isChecking = false;
-            
-            // 重置错题本按钮状态
-            addIconEl.classList.remove('active');
-            if (isWordInWrongWords(currentWord)) {
-                addIconEl.classList.add('active');
-            }
-            
-            chineseWordEl.textContent = currentWord.chinese;
-            spellingEl.textContent = '';
-            dashesContainerEl.innerHTML = '';
-            
-            createWordInputs();
-            
-            focusFirstInput();
-            resultEl.textContent = '';
-            resultEl.className = 'result';
-            
-            updateStats();
-            
-            // 自动朗读新单词
-            setTimeout(speakWord, 300);
-        }
+    // 重置当前单词的错误标记
+    currentWordMarkedWrong = false;
+    
+    if (filteredWords.length === 0) return;
+    
+    // 检查练习状态
+    if (!isPracticingWrongWords && usedWordIndices.length >= filteredWords.length) {
+        showRoundComplete();
+        return;
+    }
+    
+    if (isPracticingWrongWords && wrongWordsInRound.length === 0) {
+        showAllCorrect();
+        return;
+    }
+    
+    // 设置新单词
+    currentWord = isPracticingWrongWords ? wrongWordsInRound[currentWordIndex] : filteredWords[currentWordIndex];
+    answerShown = false;
+    isChecking = false;
+    
+    // 更新错题本按钮状态
+    addIconEl.classList.remove('active');
+    if (isWordInWrongWords(currentWord)) {
+        addIconEl.classList.add('active');
+    }
+    
+    // 更新DOM元素
+    chineseWordEl.textContent = currentWord.chinese;
+    spellingEl.textContent = '';
+    dashesContainerEl.innerHTML = '';
+    
+    // 创建输入框
+    createWordInputs();
+    
+    // 聚焦第一个输入框
+    focusFirstInput();
+    
+    // 重置结果展示
+    resultEl.textContent = '';
+    resultEl.className = 'result';
+    
+    // 更新统计信息
+    updateStats();
+    
+    // 朗读新单词
+    setTimeout(speakWord, 300);
+}
 
         // 显示一轮完成
         function showRoundComplete() {
@@ -1367,80 +1373,106 @@
     isChecking = false;
 }
 
-        function nextWord() {
-            // 保存当前滚动位置
-            const scrollY = window.scrollY;
-            
-            if (currentSpeech) {
-                speechSynthesis.cancel();
-                currentSpeech = null;
-            }
+        // 修改后的 nextWord 函数
+function nextWord() {
+    // 1. 保存当前精确的滚动位置
+    const scrollPosition = {
+        y: window.scrollY || window.pageYOffset,
+        time: Date.now()
+    };
 
-            // 检查用户是否已经拼对
-            const inputs = dashesContainerEl.querySelectorAll('input');
-            let allCorrect = true;
-            
-            inputs.forEach(input => {
-                const inputValue = input.value.toLowerCase();
-                const correctLetter = input.dataset.correct;
-                
-                if (inputValue !== correctLetter) {
-                    allCorrect = false;
-                }
-            });
-            
-            // 如果没有拼对且未被标记为错误
-            if (!allCorrect && !currentWordMarkedWrong) {
-                wrongCount++;
-                currentWordMarkedWrong = true;
-                updateStats();
-                
-                // 添加到错题本
-                addToWrongWords(currentWord);
-                addIconEl.classList.add('active');
-            }
+    // 2. 取消当前语音
+    if (currentSpeech) {
+        speechSynthesis.cancel();
+        currentSpeech = null;
+    }
 
-            if (isPracticingWrongWords) {
-                // 练习错题模式
-                usedWordIndices.push(currentWordIndex);
-                
-                if (wrongWordsInRound.length === 0) {
-                    // 所有错题都已答对
-                    showAllCorrect();
-                    return;
-                }
-                
-                // 随机选择下一个错题
-                currentWordIndex = Math.floor(Math.random() * wrongWordsInRound.length);
-            } else {
-                // 普通练习模式
-                usedWordIndices.push(currentWordIndex);
-                
-                if (usedWordIndices.length >= filteredWords.length) {
-                    // 一轮练习完成
-                    showRoundComplete();
-                    return;
-                }
-                
-                // 随机选择下一个单词（排除已用过的）
-                let availableIndices = [];
-                for (let i = 0; i < filteredWords.length; i++) {
-                    if (!usedWordIndices.includes(i)) {
-                        availableIndices.push(i);
-                    }
-                }
-                currentWordIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-            }
-
-            // 重置标记
-            currentWordMarkedWrong = false;
-            init();
-            
-            // 恢复滚动位置
-            setTimeout(() => {
-                window.scrollTo(0, scrollY);
-            }, 0);
+    // 3. 检查当前答案是否正确
+    const inputs = dashesContainerEl.querySelectorAll('input');
+    let allCorrect = true;
+    
+    inputs.forEach(input => {
+        const inputValue = input.value.toLowerCase();
+        const correctLetter = input.dataset.correct;
+        
+        if (inputValue !== correctLetter) {
+            allCorrect = false;
         }
+    });
+    
+    // 4. 更新统计信息
+    if (!allCorrect && !currentWordMarkedWrong) {
+        wrongCount++;
+        currentWordMarkedWrong = true;
+        updateStats();
+        addToWrongWords(currentWord);
+        addIconEl.classList.add('active');
+    }
+
+    // 5. 选择下一个单词
+    if (isPracticingWrongWords) {
+        usedWordIndices.push(currentWordIndex);
+        
+        if (wrongWordsInRound.length === 0) {
+            showAllCorrect();
+            return;
+        }
+        
+        currentWordIndex = Math.floor(Math.random() * wrongWordsInRound.length);
+    } else {
+        usedWordIndices.push(currentWordIndex);
+        
+        if (usedWordIndices.length >= filteredWords.length) {
+            showRoundComplete();
+            return;
+        }
+        
+        let availableIndices = [];
+        for (let i = 0; i < filteredWords.length; i++) {
+            if (!usedWordIndices.includes(i)) {
+                availableIndices.push(i);
+            }
+        }
+        currentWordIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+    }
+
+    // 6. 准备初始化新单词
+    currentWordMarkedWrong = false;
+    
+    // 临时禁用平滑滚动
+    document.documentElement.style.scrollBehavior = 'auto';
+    document.body.style.scrollBehavior = 'auto';
+    
+    // 7. 初始化新单词
+    init();
+    
+    // 8. 恢复滚动位置的函数
+    const restoreScroll = () => {
+        const currentY = window.scrollY || window.pageYOffset;
+        if (Math.abs(currentY - scrollPosition.y) > 5) {
+            window.scrollTo({
+                top: scrollPosition.y,
+                behavior: 'auto'
+            });
+        }
+        
+        // 如果1秒内仍未恢复，再试一次
+        if (Date.now() - scrollPosition.time < 1000) {
+            requestAnimationFrame(restoreScroll);
+        }
+    };
+    
+    // 9. 多种方式恢复滚动位置
+    setTimeout(restoreScroll, 50);
+    requestAnimationFrame(restoreScroll);
+    
+    // 10. 恢复平滑滚动
+    setTimeout(() => {
+        document.documentElement.style.scrollBehavior = '';
+        document.body.style.scrollBehavior = '';
+    }, 200);
+}
+
 
         // 添加到错题本
         function addToWrongWords(word) {
