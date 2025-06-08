@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,55 +10,33 @@
             margin: 0;
             padding: 0;
         }
-
         body {
-            background: linear-gradient(120deg,
-                    #e0f7fa 0%,
-                    #e8f5e9 25%,
-                    #f3e5f5 50%,
-                    #fff3e0 75%,
-                    #e0f7fa 100%);
-            background-attachment: fixed;
+            background: linear-gradient(135deg, #f4fffa,#eef7ff , #e7f7f5);
             color: var(--dark);
             min-height: 100vh;
             line-height: 1.6;
-            padding: 8px 20px 20px 20px;
+            padding: 20px;
             position: relative;
             overflow-x: hidden;
         }
-
+        
         h1 {
             color: #5b94ce;
             text-align: center;
-            font-size: 1.7rem;
-            margin-top: 1.5rem;
+            font-size: 1.5rem;
             margin-bottom: 1.5rem;
             font-weight: 500;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            letter-spacing: 0.5px;
         }
-
         .word-container {
             background-color: white;
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            margin: 1rem auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin: 2rem auto;
             max-width: 800px;
             min-height: 400px;
             position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
         }
-
         .chinese {
             font-size: 1.6rem;
             margin: 2rem 0;
@@ -67,14 +44,12 @@
             text-align: center;
             width: 100%;
         }
-
         .spelling {
             font-size: 1rem;
             margin-bottom: 1.5rem;
             color: #6c757d;
             text-align: center;
         }
-
         .dashes-container {
             display: flex;
             justify-content: center;
@@ -83,7 +58,6 @@
             gap: 0.3rem;
             padding: 0 0.5rem;
         }
-
         .dash-input {
             width: 1.8rem;
             height: 3.5rem;
@@ -98,59 +72,30 @@
             outline: none;
             transition: all 0.2s;
         }
-
         .dash-input:focus {
             border-bottom-color: #007bff;
         }
-
         .dash-input.correct {
             border-bottom-color: #28a745;
             color: #28a745;
             animation: correctPulse 0.4s ease-in-out;
         }
-
         .dash-input.incorrect {
             border-bottom-color: #dc3545;
             color: #dc3545;
             animation: shake 0.5s ease-in-out;
         }
-
         @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            20% {
-                transform: translateX(-4px);
-            }
-
-            40% {
-                transform: translateX(4px);
-            }
-
-            60% {
-                transform: translateX(-4px);
-            }
-
-            80% {
-                transform: translateX(4px);
-            }
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-4px); }
+            40% { transform: translateX(4px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
         }
-
         @keyframes checkFade {
-            0% {
-                opacity: 0;
-                transform: translateY(-50%) scale(0.5);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(-50%) scale(1);
-            }
+            0% { opacity: 0; transform: translateY(-50%) scale(0.5); }
+            100% { opacity: 1; transform: translateY(-50%) scale(1); }
         }
-
         .buttons {
             display: flex;
             flex-wrap: wrap;
@@ -158,7 +103,6 @@
             gap: 0.8rem;
             margin-bottom: 1.5rem;
         }
-
         button {
             padding: 0.8rem 1.2rem;
             font-size: 1rem;
@@ -173,53 +117,42 @@
             color: #495057;
             font-weight: 500;
             -webkit-tap-highlight-color: transparent;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
             -webkit-user-select: none;
             user-select: none;
         }
-
         button:not(:active) {
             transform: none;
             box-shadow: none;
         }
-
         button:active {
             transform: scale(0.98);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
         #speak-btn {
             color: #007bff;
         }
-
         #speak-btn:hover {
             border-color: #007bff;
         }
-
         #show-answer-btn {
             color: #ff9800;
         }
-
         #show-answer-btn:hover {
             border-color: #ff9800;
         }
-
         #next-btn {
             color: #6c757d;
         }
-
         #next-btn:hover {
             border-color: #6c757d;
         }
-
         #wrong-words-btn {
             color: #dc3545;
         }
-
         #wrong-words-btn:hover {
             border-color: #dc3545;
         }
-
         .result {
             text-align: center;
             font-size: 1.1rem;
@@ -227,128 +160,72 @@
             min-height: 1.5rem;
             padding: 0.8rem;
             border-radius: 8px;
-            background-color: rgba(0, 123, 255, 0.1);
+            background-color: rgba(0,123,255,0.1);
             color: #007bff;
             display: none;
         }
-
         .result.show {
             display: block;
         }
-
         .correct-result {
-            background-color: rgba(40, 167, 69, 0.1);
+            background-color: rgba(40,167,69,0.1);
             color: #28a745;
         }
-
         .incorrect-result {
-            background-color: rgba(220, 53, 69, 0.1);
+            background-color: rgba(220,53,69,0.1);
             color: #dc3545;
         }
-
         .round-complete {
             background-color: rgba(75, 192, 192, 0.1);
             color: #4bc0c0;
         }
-
         .filter-container {
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin: 0;
+            margin: 0 auto 1.5rem;
             max-width: 600px;
-            margin: 0 auto;
             flex-wrap: nowrap;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 0.8rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-
         .filter-group {
             flex: 1;
             min-width: 0;
-            position: relative;
         }
-
-        .filter-group select {
+        select {
             width: 100%;
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0.6rem;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
             font-size: 0.95rem;
-            color: #495057;
-            background-color: white;
-            cursor: pointer;
-            transition: all 0.2s;
-            appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235b94ce' d='M6 8.825L1.175 4 2.05 3.125 6 7.075 9.95 3.125 10.825 4z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.8rem center;
-            padding-right: 2rem;
         }
-
-        .filter-group select:hover {
-            border-color: #5b94ce;
-        }
-
-        .filter-group select:focus {
-            outline: none;
-            border-color: #5b94ce;
-            box-shadow: 0 0 0 2px rgba(91, 148, 206, 0.1);
-        }
-
-        .filter-group select:disabled {
-            background-color: #f8f9fa;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .content-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
         .d-char {
             display: inline-block;
             margin: 0 0.2rem;
             color: #6c757d;
             font-size: 1.5rem;
         }
-
+        
         /* 错题本样式 - 重新设计 */
         .wrong-words-container {
             display: none;
             background-color: white;
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            margin: 1rem auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin: 2rem auto;
             max-width: 800px;
             min-height: 400px;
         }
-
         .wrong-words-header {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
-            position: relative;
         }
-
         .wrong-words-title {
             font-size: 1.5rem;
             color: #5b94ce;
-            position: absolute;
-            right: 0;
         }
-
         .wrong-words-list {
             margin-top: 1.5rem;
             overflow-x: auto;
@@ -356,11 +233,9 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
-
         .wrong-words-list::-webkit-scrollbar {
             display: none;
         }
-
         .wrong-word-item {
             padding: 1rem;
             border-bottom: 1px solid #eee;
@@ -368,30 +243,25 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
-
         .wrong-word-item.selected {
             background-color: rgba(91, 148, 206, 0.1);
         }
-
         .wrong-word-grid {
             display: grid;
             grid-template-columns: 30px 1fr;
             gap: 0.5rem;
         }
-
         .wrong-word-number {
             font-weight: bold;
             color: #5b94ce;
             grid-row: 1 / span 3;
             align-self: start;
         }
-
         .wrong-word-content {
             display: grid;
             grid-template-rows: auto auto auto;
             gap: 0.5rem;
         }
-
         .wrong-word-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -402,7 +272,6 @@
             display: flex;
             align-items: center;
         }
-
         .wrong-word-english {
             font-weight: 600;
             color: #333;
@@ -411,7 +280,6 @@
         .wrong-word-chinese {
             color: #777;
         }
-
         .wrong-word-phonetic {
             color: #777;
             font-style: italic;
@@ -421,7 +289,7 @@
             color: #777;
         }
 
-        .wrong-word-grade,
+        .wrong-word-grade, 
         .wrong-word-unit {
             color: #999;
             font-size: 0.9rem;
@@ -434,14 +302,12 @@
             font-size: 0.85rem;
             margin-top: 0.3rem;
         }
-
         .wrong-words-actions {
             display: flex;
             justify-content: center;
             gap: 1rem;
             margin-top: 1.5rem;
         }
-
         .wrong-words-actions button {
             padding: 0.8rem 1.2rem;
             font-size: 1rem;
@@ -454,50 +320,42 @@
         }
 
         .fixed-char.space-char {
-            width: 1.2rem;
-            /* 调整空格宽度 */
-            display: inline-block;
-        }
+    width: 1.2rem; /* 调整空格宽度 */
+    display: inline-block;
+}
 
         .practice-all-btn {
             color: #007bff;
         }
-
         .practice-all-btn:hover {
             border-color: #007bff;
         }
-
         .remove-all-btn {
             color: #dc3545;
         }
-
         .remove-all-btn:hover {
             border-color: #dc3545;
         }
-
         .no-wrong-words {
             text-align: center;
             color: #6c757d;
             padding: 2rem;
             font-size: 1.1rem;
         }
-
         .back-to-main {
             color: #6c757d;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
-            position: absolute;
-            left: 0;
         }
-
         .back-to-main:hover {
             color: #007bff;
         }
-
         .add-to-wrong-words {
-            position: static;
+            position: absolute;
+            top: 20px;
+            right: 20px;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -505,38 +363,29 @@
             padding: 0.3rem 0.6rem;
             border-radius: 4px;
             transition: all 0.2s;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
-
         .add-to-wrong-words:hover {
-            background-color: rgba(0, 0, 0, 0.05);
+            background-color: rgba(0,0,0,0.05);
         }
-
         .add-icon {
             color: transparent;
             font-size: 1rem;
             transition: all 0.2s;
         }
-
         .add-icon.active {
             color: #28a745;
         }
-
         .add-text {
             font-size: 0.9rem;
             color: #6c757d;
         }
-
         .select-actions {
             display: flex;
             justify-content: center;
             gap: 1rem;
             margin-bottom: 1rem;
         }
-
-        .select-all-btn,
-        .clear-selection-btn {
+        .select-all-btn, .clear-selection-btn {
             color: #6c757d;
             cursor: pointer;
             display: inline-flex;
@@ -545,237 +394,209 @@
             background: none;
             border: none;
             padding: 0;
-            margin-left: 3.5rem;
-            /* 添加左边距使文字右移 */
+            margin-left: 3.5rem; /* 添加左边距使文字右移 */
         }
 
-        .select-all-btn:hover,
-        .clear-selection-btn:hover {
+        .select-all-btn:hover, .clear-selection-btn:hover {
             color: #007bff;
         }
-
         .stats-container {
-            position: static;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.2rem;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
 
-        #correct-count {
-            color: #28a745;
-            /* 正确绿色 */
-            font-weight: bold;
-        }
+#correct-count {
+    color: #28a745; /* 正确绿色 */
+    font-weight: bold;
+}
 
-        #wrong-count {
-            color: #dc3545;
-            /* 错误红色 */
-            font-weight: bold;
-        }
+#wrong-count {
+    color: #dc3545; /* 错误红色 */
+    font-weight: bold;
+}
 
-        #total-count {
-            color: #495057;
-            /* 总数黑色 */
-        }
-
+#total-count {
+    color: #495057; /* 总数黑色 */
+}
+        
         .back-to-main svg {
             display: none;
         }
 
         .fixed-char {
-            display: inline-block;
-            font-size: 1.6rem;
-            /* 和输入框字体一致 */
-            color: #333;
-            /* 正常文本颜色 */
-            margin: 0 0.1rem;
-            /* 适当间距 */
-        }
+    display: inline-block;
+    font-size: 1.6rem; /* 和输入框字体一致 */
+    color: #333; /* 正常文本颜色 */
+    margin: 0 0.1rem; /* 适当间距 */
+}
 
-        /* 调整空格宽度 */
-        .fixed-char.space-char {
-            width: 0.8rem;
-            /* 比普通字母稍窄 */
-        }
-
+/* 调整空格宽度 */
+.fixed-char.space-char {
+    width: 0.8rem; /* 比普通字母稍窄 */
+}
+        
         @media (max-width: 768px) {
-
-            .word-container,
-            .wrong-words-container {
-                padding: 1.5rem;
-                gap: 1rem;
+            .word-container, .wrong-words-container {
+                padding: 1.8rem;
+                min-height: 350px;
             }
-
-            .header-section {
-                padding-bottom: 0.8rem;
-            }
-
-            .header-section h1 {
-                font-size: 1.5rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .filter-container {
-                padding: 0.6rem;
-                gap: 0.8rem;
-            }
-
-            .filter-group select {
-                padding: 0.5rem 0.8rem;
-                font-size: 0.9rem;
-            }
-
             .chinese {
                 font-size: 1.5rem;
                 margin: 1.8rem 0;
             }
-
             .dash-input {
                 width: 1.6rem;
                 height: 3.2rem;
                 font-size: 1.4rem;
             }
-
             .dashes-container {
                 gap: 0.25rem;
             }
-
             .buttons {
                 flex-direction: column;
                 align-items: center;
             }
-
             button {
                 width: 100%;
                 max-width: 100%;
             }
-
             .filter-container {
                 flex-direction: row;
                 flex-wrap: nowrap;
                 gap: 0.5rem;
                 padding: 0 0.5rem;
             }
-
             .filter-group {
                 width: auto;
                 min-width: 0;
                 flex: 1;
             }
-
             select {
                 font-size: 0.85rem;
                 padding: 0.4rem;
             }
-
             /* 移动端错题本布局优化 */
             .wrong-word-content {
                 grid-template-rows: auto auto auto;
             }
-
             .wrong-word-row {
                 gap: 0.5rem;
             }
-
             .wrong-word-meta {
                 flex-direction: column;
                 gap: 0.3rem;
             }
         }
-
+        
         @media (max-width: 480px) {
-
-            .word-container,
-            .wrong-words-container {
+            .word-container, .wrong-words-container {
                 padding: 1.2rem;
-                gap: 0.8rem;
+                min-height: auto;
             }
-
-            .header-section h1 {
-                font-size: 1.3rem;
-                margin-bottom: 0.6rem;
-            }
-
-            .filter-container {
-                flex-direction: column;
-                padding: 0.5rem;
-                gap: 0.5rem;
-            }
-
-            .filter-group select {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.85rem;
-            }
-
             .chinese {
                 font-size: 1.3rem;
                 margin-bottom: 1.2rem;
             }
-
             .dash-input {
                 width: 1.4rem;
                 height: 2.8rem;
                 font-size: 1.2rem;
             }
-
             .dashes-container {
                 gap: 0.2rem;
             }
-
             .buttons {
                 flex-direction: row;
                 flex-wrap: wrap;
             }
-
             .filter-container {
                 gap: 0.3rem;
                 padding: 0 0.3rem;
             }
-
             select {
                 font-size: 0.8rem;
                 padding: 0.4rem;
             }
-
             button {
                 width: calc(50% - 0.4rem);
                 padding: 0.7rem 1rem;
                 font-size: 0.9rem;
             }
-
             .wrong-words-title {
                 font-size: 1.3rem;
             }
-
             .add-to-wrong-words {
                 top: 15px;
                 right: 15px;
             }
-
             .wrong-words-actions {
                 flex-direction: column;
                 align-items: center;
             }
-
             .wrong-words-actions button {
                 width: 100%;
             }
-
             /* 小屏幕错题本布局 */
             .wrong-word-item {
                 padding: 0.8rem;
             }
+            .wrong-word-grid {
+                grid-template-columns: 25px 1fr;
+            }
+            .wrong-word-english {
+                flex: 1 1 100%;
+                margin-bottom: 0.2rem;
+            }
+            .wrong-word-chinese {
+                flex: 1 1 100%;
+                margin-bottom: 0.3rem;
+            }
+            .wrong-word-phonetic, .wrong-word-pos {
+                font-size: 0.85rem;
+            }
 
+            .wrong-word-col {
+                margin-bottom: 0.2rem;
+            }
+            
+            .wrong-word-grade, 
+            .wrong-word-unit {
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .dash-input {
+                width: 1.2rem;
+                height: 2.5rem;
+                font-size: 1.1rem;
+            }
+            .dashes-container {
+                gap: 0.15rem;
+            }
+            .buttons {
+                gap: 0.5rem;
+            }
+            button {
+                min-width: 90px;
+                padding: 0.6rem 0.8rem;
+            }
+            select {
+                font-size: 0.75rem;
+                padding: 0.35rem;
+            }
+            .wrong-word-item {
+                padding: 0.6rem;
+            }
             .wrong-word-number {
                 font-size: 0.9rem;
             }
-
-            .wrong-word-phonetic,
+            .wrong-word-phonetic, 
             .wrong-word-pos,
             .wrong-word-meta {
                 font-size: 0.8rem;
@@ -786,101 +607,82 @@
             button:hover {
                 transform: none;
             }
-
             button:active {
                 transform: scale(0.98);
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             }
-        }
-
-        .divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1), transparent);
-            margin: 1rem 0;
-        }
-
-        .top-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0.5rem 0;
         }
     </style>
 </head>
-
 <body>
+    <h1>单词拼写练习</h1>
+
+    <div class="filter-container">
+        <div class="filter-group">
+            <select id="grade-select">
+                <option value="all">全部年级</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <select id="unit-select" disabled>
+                <option value="all">全部单元</option>
+            </select>
+        </div>
+    </div>
+    
     <div class="word-container" id="main-container">
-        <div class="header-section">
-            <h1>单词拼写练习</h1>
-            <div class="filter-container">
-                <div class="filter-group">
-                    <select id="grade-select">
-                        <option value="all">全部年级</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <select id="unit-select" disabled>
-                        <option value="all">全部单元</option>
-                    </select>
-                </div>
-            </div>
-            <div class="divider"></div>
-            <div class="top-controls">
-                <div class="stats-container" id="stats-container">
-                    <span id="correct-count">0</span>/<span id="wrong-count">0</span>/<span id="total-count">0</span>
-                </div>
-                <div class="add-to-wrong-words" id="add-to-wrong-words">
-                    <span class="add-icon" id="add-icon">✓</span>
-                    <span class="add-text">加入错题本</span>
-                </div>
-            </div>
+        <div class="stats-container" id="stats-container">
+            <span id="correct-count">0</span>/<span id="wrong-count">0</span>/<span id="total-count">0</span>
         </div>
-        <div class="content-section">
-            <div class="chinese" id="chinese-word"></div>
-            <div class="spelling" id="spelling"></div>
+        <div class="add-to-wrong-words" id="add-to-wrong-words">
+            <span class="add-icon" id="add-icon">✓</span>
+            <span class="add-text">加入错题本</span>
+        </div>
+        
+        <div class="chinese" id="chinese-word"></div>
+        <div class="spelling" id="spelling"></div>
+        
+        <div class="dashes-container" id="dashes-container"></div>
+        
+        <div class="buttons">
+            <button id="speak-btn">朗读单词</button>
+            <button id="show-answer-btn">显示答案</button>
+            <button id="next-btn">下一个单词</button>
+            <button id="wrong-words-btn">错题本</button>
+        </div>
+        
+        <div class="result" id="result"></div>
+    </div>
+    
+    <!-- 错题本容器 -->
+    <div class="wrong-words-container" id="wrong-words-container">
+        <div class="wrong-words-header">
+            <h2 class="wrong-words-title">错题本</h2>
+            <span class="back-to-main" id="back-to-main">返回练习</span>
+        </div>
+        
 
-            <div class="dashes-container" id="dashes-container"></div>
 
-            <div class="buttons">
-                <button id="speak-btn">朗读单词</button>
-                <button id="show-answer-btn">显示答案</button>
-                <button id="next-btn">下一个单词</button>
-                <button id="wrong-words-btn">错题本</button>
-            </div>
-
-            <div class="result" id="result"></div>
+        <div class="wrong-words-list" id="wrong-words-list">
+            <!-- 错题列表将通过JavaScript动态生成 -->
+        </div>
+        
+        <div class="select-actions">
+            <button class="select-all-btn" id="select-all-btn">全选</button>
+            <button class="clear-selection-btn" id="clear-selection-btn">清除选择</button>
         </div>
 
-        <!-- 错题本容器 -->
-        <div class="wrong-words-container" id="wrong-words-container">
-            <div class="wrong-words-header">
-                <h2 class="wrong-words-title">错题本</h2>
-                <span class="back-to-main" id="back-to-main">返回练习</span>
-            </div>
-
-
-
-            <div class="wrong-words-list" id="wrong-words-list">
-                <!-- 错题列表将通过JavaScript动态生成 -->
-            </div>
-
-            <div class="select-actions">
-                <button class="select-all-btn" id="select-all-btn">全选</button>
-                <button class="clear-selection-btn" id="clear-selection-btn">清除选择</button>
-            </div>
-
-            <div class="wrong-words-actions">
-                <button class="practice-all-btn" id="practice-selected-btn">练习选中单词</button>
-                <button class="remove-all-btn" id="remove-selected-btn">删除选中单词</button>
-            </div>
-
-
+        <div class="wrong-words-actions">
+            <button class="practice-all-btn" id="practice-selected-btn">练习选中单词</button>
+            <button class="remove-all-btn" id="remove-selected-btn">删除选中单词</button>
         </div>
+        
+
     </div>
 
     <!-- 先引入 words.js -->
     <script src="words.js"></script>
-
+    
     <!-- 主应用逻辑 -->
     <script>
         // 全局变量
@@ -890,8 +692,8 @@
         let currentWord = null;
         let answerShown = false;
         let isChecking = false;
-        let usedWordIndices = [];
-        let currentSpeech = null;
+        let usedWordIndices = []; 
+        let currentSpeech = null; 
         let wrongWords = JSON.parse(localStorage.getItem('wrongWords')) || [];
         let selectedWrongWords = [];
         let wrongWordsInRound = [];
@@ -938,10 +740,10 @@
                 console.error('加载单词库失败:', error);
                 // 备用数据
                 return [
-                    { "english": "apple", "chinese": "苹果", "grade": "三年级上", "unit": "Unit 1", "phonetic": "/ˈæp.əl/", "pos": "n.", "type": "word" },
-                    { "english": "book", "chinese": "书", "grade": "三年级上", "unit": "Unit 1", "phonetic": "/bʊk/", "pos": "n.", "type": "word" },
-                    { "english": "cat", "chinese": "猫", "grade": "三年级下", "unit": "Unit 1", "phonetic": "/kæt/", "pos": "n.", "type": "word" },
-                    { "english": "dog", "chinese": "狗", "grade": "三年级下", "unit": "Unit 1", "phonetic": "/dɒɡ/", "pos": "n.", "type": "word" }
+                    {"english":"apple","chinese":"苹果","grade":"三年级上","unit":"Unit 1","phonetic":"/ˈæp.əl/","pos":"n.","type":"word"},
+                    {"english":"book","chinese":"书","grade":"三年级上","unit":"Unit 1","phonetic":"/bʊk/","pos":"n.","type":"word"},
+                    {"english":"cat","chinese":"猫","grade":"三年级上","unit":"Unit 2","phonetic":"/kæt/","pos":"n.","type":"word"},
+                    {"english":"dog","chinese":"狗","grade":"三年级下","unit":"Unit 1","phonetic":"/dɒɡ/","pos":"n.","type":"word"}
                 ];
             }
         }
@@ -957,96 +759,98 @@
         }
 
         function filterWords() {
-            const grade = gradeSelect.value;
-            const unit = unitSelect.value;
+    const grade = gradeSelect.value;
+    const unit = unitSelect.value;
+    
+    let tempWords = [...allWords];
+    
+    if (grade !== 'all') {
+        tempWords = tempWords.filter(word => word.grade === grade);
+    }
+    
+    if (unit !== 'all') {
+        tempWords = tempWords.filter(word => word.unit === unit);
+    }
+    
+    filteredWords = shuffleArray(tempWords);
+    currentWordIndex = 0;
+    usedWordIndices = [];
+    isPracticingWrongWords = false;
+    
+    // 重置所有计数器
+    correctCount = 0;
+    wrongCount = 0;
+    totalCount = filteredWords.length;
+    currentWordMarkedWrong = false;
+    
+    updateStats();
+    
+    if (filteredWords.length === 0) {
+        alert('没有找到符合条件的单词，已显示全部单词');
+        gradeSelect.value = 'all';
+        unitSelect.value = 'all';
+        filterWords();
+    } else {
+        init();
+    }
+}
 
-            let tempWords = [...allWords];
+function updateStats() {
+    document.getElementById('correct-count').textContent = correctCount;
+    document.getElementById('wrong-count').textContent = wrongCount;
+    document.getElementById('total-count').textContent = totalCount;
+}
 
-            if (grade !== 'all') {
-                tempWords = tempWords.filter(word => word.grade === grade);
-            }
-
-            if (unit !== 'all') {
-                tempWords = tempWords.filter(word => word.unit === unit);
-            }
-
-            filteredWords = shuffleArray(tempWords);
-            currentWordIndex = 0;
-            usedWordIndices = [];
-            isPracticingWrongWords = false;
-
-            // 重置所有计数器
-            correctCount = 0;
-            wrongCount = 0;
-            totalCount = filteredWords.length;
-            currentWordMarkedWrong = false;
-
-            updateStats();
-
-            if (filteredWords.length === 0) {
-                alert('没有找到符合条件的单词，已显示全部单词');
-                gradeSelect.value = 'all';
-                unitSelect.value = 'all';
-                filterWords();
-            } else {
-                init();
-            }
-        }
-
-        function updateStats() {
-            document.getElementById('correct-count').textContent = correctCount;
-            document.getElementById('wrong-count').textContent = wrongCount;
-            document.getElementById('total-count').textContent = totalCount;
-        }
-
-        function init() {
-            // 重置当前单词的错误标记
-            currentWordMarkedWrong = false;
-
-            if (filteredWords.length === 0) return;
-
-            // 检查是否完成一轮练习
-            if (!isPracticingWrongWords && usedWordIndices.length >= filteredWords.length) {
-                showRoundComplete();
-                return;
-            }
-
-            // 检查是否完成错题练习
-            if (isPracticingWrongWords && wrongWordsInRound.length === 0) {
-                showAllCorrect();
-                return;
-            }
-
-            currentWord = isPracticingWrongWords ? wrongWordsInRound[currentWordIndex] : filteredWords[currentWordIndex];
-            answerShown = false;
-            isChecking = false;
-
-            // 重置错题本按钮状态
-            addIconEl.classList.remove('active');
-            if (isWordInWrongWords(currentWord)) {
-                addIconEl.classList.add('active');
-            }
-
-            chineseWordEl.textContent = currentWord.chinese;
-            spellingEl.textContent = '';
-            dashesContainerEl.innerHTML = '';
-
-            if (currentWord.type === 'phrase') {
-                createPhraseInputs();
-            } else {
-                createWordInputs();
-            }
-
-            focusFirstInput();
-            resultEl.textContent = '';
-            resultEl.className = 'result';
-
-            updateStats();
-
-            // 自动朗读新单词
-            setTimeout(speakWord, 300);
-            keepScrollPosition();
-        }
+function init() {
+    // 重置当前单词的错误标记
+    currentWordMarkedWrong = false;
+    
+    if (filteredWords.length === 0) return;
+    
+    // 检查是否完成一轮练习
+    if (!isPracticingWrongWords && usedWordIndices.length >= filteredWords.length) {
+        showRoundComplete();
+        return;
+    }
+    
+    // 检查是否完成错题练习
+    if (isPracticingWrongWords && wrongWordsInRound.length === 0) {
+        showAllCorrect();
+        return;
+    }
+    
+    currentWord = isPracticingWrongWords ? wrongWordsInRound[currentWordIndex] : filteredWords[currentWordIndex];
+    answerShown = false;
+    isChecking = false;
+    
+    // 重置错题本按钮状态
+    addIconEl.classList.remove('active');
+    if (isWordInWrongWords(currentWord)) {
+        addIconEl.classList.add('active');
+    }
+    
+    chineseWordEl.textContent = currentWord.chinese;
+    spellingEl.textContent = '';
+    dashesContainerEl.innerHTML = '';
+    
+    if (currentWord.type === 'phrase') {
+        createPhraseInputs();
+    } else {
+        createWordInputs();
+    }
+    
+    focusFirstInput();
+    resultEl.textContent = '';
+    resultEl.className = 'result';
+    
+    updateStats();
+    
+    // 自动朗读新单词
+    setTimeout(speakWord, 300);
+    
+    // 移除原来的 keepScrollPosition 调用
+    // 滚动控制现在由 nextWord 函数处理
+}
 
         // 显示一轮完成
         function showRoundComplete() {
@@ -1055,51 +859,51 @@
             dashesContainerEl.innerHTML = '';
             resultEl.textContent = '是否要练习错题？';
             resultEl.className = 'result show round-complete';
-
+            
             // 添加练习错题按钮
             const practiceWrongBtn = document.createElement('button');
             practiceWrongBtn.textContent = '练习错题';
             practiceWrongBtn.className = 'practice-all-btn';
             practiceWrongBtn.style.margin = '0.5rem auto';
             practiceWrongBtn.addEventListener('click', startPracticingWrongWords);
-
+            
             // 添加重新开始按钮
             const restartBtn = document.createElement('button');
             restartBtn.textContent = '重新开始';
             restartBtn.className = 'next-btn';
             restartBtn.style.margin = '0.5rem auto';
             restartBtn.addEventListener('click', restartPractice);
-
+            
             dashesContainerEl.appendChild(practiceWrongBtn);
             dashesContainerEl.appendChild(restartBtn);
         }
 
         // 开始练习错题
         function startPracticingWrongWords() {
-            // 获取当前错题本中的单词
-            wrongWordsInRound = [...wrongWords];
-
-            if (wrongWordsInRound.length === 0) {
-                resultEl.textContent = '错题本中没有单词可练习';
-                resultEl.className = 'result show incorrect-result';
-                return;
-            }
-
-            isPracticingWrongWords = true;
-            currentWordIndex = 0;
-            usedWordIndices = [];
-
-            // 重置所有计数器
-            correctCount = 0;
-            wrongCount = 0;
-            totalCount = wrongWordsInRound.length; // 总数为错题本中的单词数量
-            currentWordMarkedWrong = false; // 重置当前单词错误标记
-
-            updateStats();
-
-            // 初始化第一个错题
-            init();
-        }
+    // 获取当前错题本中的单词
+    wrongWordsInRound = [...wrongWords];
+    
+    if (wrongWordsInRound.length === 0) {
+        resultEl.textContent = '错题本中没有单词可练习';
+        resultEl.className = 'result show incorrect-result';
+        return;
+    }
+    
+    isPracticingWrongWords = true;
+    currentWordIndex = 0;
+    usedWordIndices = [];
+    
+    // 重置所有计数器
+    correctCount = 0;
+    wrongCount = 0;
+    totalCount = wrongWordsInRound.length; // 总数为错题本中的单词数量
+    currentWordMarkedWrong = false; // 重置当前单词错误标记
+    
+    updateStats();
+    
+    // 初始化第一个错题
+    init();
+}
 
         // 显示全部正确
         function showAllCorrect() {
@@ -1108,14 +912,14 @@
             dashesContainerEl.innerHTML = '';
             resultEl.textContent = '';
             resultEl.className = 'result';
-
+            
             // 添加重新开始按钮
             const restartBtn = document.createElement('button');
             restartBtn.textContent = '重新开始';
             restartBtn.className = 'next-btn';
             restartBtn.style.margin = '0.5rem auto';
             restartBtn.addEventListener('click', restartPractice);
-
+            
             dashesContainerEl.appendChild(restartBtn);
         }
 
@@ -1131,8 +935,8 @@
 
         // 检查单词是否已在错题本中
         function isWordInWrongWords(word) {
-            return wrongWords.some(w =>
-                w.english === word.english &&
+            return wrongWords.some(w => 
+                w.english === word.english && 
                 w.chinese === word.chinese
             );
         }
@@ -1140,13 +944,13 @@
         // 创建单词输入框
         function createWordInputs() {
             const chars = currentWord.english.split('');
-
+            
             chars.forEach((char, i) => {
                 if (isFixedChar(char)) {
                     // 直接显示固定字符（如空格、括号、标点等）
                     const span = document.createElement('span');
                     span.className = 'fixed-char';
-
+                    
                     // 特殊处理空格，避免显示为空
                     if (char === ' ') {
                         span.innerHTML = '&nbsp;'; // 用 HTML 空格占位
@@ -1154,7 +958,7 @@
                     } else {
                         span.textContent = char; // 显示标点、括号等
                     }
-
+                    
                     dashesContainerEl.appendChild(span);
                 } else {
                     // 字母部分：生成输入框
@@ -1189,44 +993,47 @@
             const input = e.target;
             const index = parseInt(input.dataset.index);
             const english = currentWord.english;
-
+            
             input.value = input.value.toLowerCase();
-
-            if (input.value) {
-                // 查找下一个需要输入的字符位置
-                let nextIndex = index + 1;
-                while (nextIndex < english.length && isFixedChar(english[nextIndex])) {
-                    nextIndex++;
-                }
-
-                if (nextIndex < english.length) {
+            
+            if (input.value && index < english.length - 1) {
+                const nextChar = english[index + 1];
+                
+                if (isFixedChar(nextChar)) {
                     const nextInputs = dashesContainerEl.querySelectorAll('input');
-                    const nextInputIndex = Array.from(nextInputs).findIndex(inp =>
-                        parseInt(inp.dataset.index) === nextIndex
+                    const nextIndex = Array.from(nextInputs).findIndex(inp => 
+                        parseInt(inp.dataset.index) === index + 2
                     );
-                    if (nextInputIndex !== -1) {
-                        nextInputs[nextInputIndex].focus();
+                    if (nextIndex !== -1) {
+                        nextInputs[nextIndex].focus();
+                        return;
                     }
                 }
+                
+                const nextInputs = dashesContainerEl.querySelectorAll('input');
+                const nextIndex = Array.from(nextInputs).findIndex(inp => 
+                    parseInt(inp.dataset.index) === index + 1
+                );
+                if (nextIndex !== -1) nextInputs[nextIndex].focus();
             }
-
+            
             checkCompletion();
         }
 
         // 检查完成状态
         function checkCompletion() {
             if (answerShown || isChecking) return;
-
+            
             const inputs = dashesContainerEl.querySelectorAll('input');
             let allFilled = true;
-
+            
             for (let i = 0; i < inputs.length; i++) {
                 if (!inputs[i].value) {
                     allFilled = false;
                     break;
                 }
             }
-
+            
             if (allFilled) checkAllAnswers();
         }
 
@@ -1236,17 +1043,17 @@
             const index = parseInt(input.dataset.index);
             const english = currentWord.english;
             const inputs = dashesContainerEl.querySelectorAll('input');
-
+            
             if (e.key === 'Backspace') {
                 if (!input.value && index > 0) {
-                    // 查找前一个需要输入的字符位置
                     let prevIndex = index - 1;
+                    
                     while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
                         prevIndex--;
                     }
-
+                    
                     if (prevIndex >= 0) {
-                        const prevInputIndex = Array.from(inputs).findIndex(inp =>
+                        const prevInputIndex = Array.from(inputs).findIndex(inp => 
                             parseInt(inp.dataset.index) === prevIndex
                         );
                         if (prevInputIndex !== -1) {
@@ -1258,40 +1065,34 @@
                 } else if (input.value) {
                     input.value = '';
                 }
-            }
-            else if (e.key === 'ArrowLeft' && index > 0) {
-                // 查找前一个需要输入的字符位置
-                let prevIndex = index - 1;
-                while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
-                    prevIndex--;
-                }
-
+            } 
+            if (e.key === 'ArrowLeft' && index > 0) {
+    let prevIndex = index - 1;
+    while (prevIndex >= 0 && isFixedChar(english[prevIndex])) {
+        prevIndex--;
+    }
+                
                 if (prevIndex >= 0) {
-                    const prevInputIndex = Array.from(inputs).findIndex(inp =>
+                    const prevInputIndex = Array.from(inputs).findIndex(inp => 
                         parseInt(inp.dataset.index) === prevIndex
                     );
-                    if (prevInputIndex !== -1) {
-                        inputs[prevInputIndex].focus();
-                        e.preventDefault();
-                    }
+                    if (prevInputIndex !== -1) inputs[prevInputIndex].focus();
                 }
-            }
-            else if (e.key === 'ArrowRight' && index < english.length - 1) {
-                // 查找下一个需要输入的字符位置
-                let nextIndex = index + 1;
-                while (nextIndex < english.length && isFixedChar(english[nextIndex])) {
-                    nextIndex++;
-                }
-
-                if (nextIndex < english.length) {
-                    const nextInputIndex = Array.from(inputs).findIndex(inp =>
-                        parseInt(inp.dataset.index) === nextIndex
-                    );
-                    if (nextInputIndex !== -1) {
-                        inputs[nextInputIndex].focus();
-                        e.preventDefault();
-                    }
-                }
+                e.preventDefault();
+            } 
+            else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
+    const nextChar = english[index + 1];
+    let jumpTo = index + 1;
+    
+    if (isFixedChar(nextChar)) {
+        jumpTo = index + 2;
+    }
+                
+                const nextInputIndex = Array.from(inputs).findIndex(inp => 
+                    parseInt(inp.dataset.index) === jumpTo
+                );
+                if (nextInputIndex !== -1) inputs[nextInputIndex].focus();
+                e.preventDefault();
             }
         }
 
@@ -1300,7 +1101,7 @@
             if (currentSpeech) {
                 speechSynthesis.cancel();
             }
-
+            
             if ('speechSynthesis' in window) {
                 currentSpeech = new SpeechSynthesisUtterance(currentWord.english);
                 currentSpeech.lang = 'en-US';
@@ -1310,137 +1111,155 @@
         }
 
         function checkAllAnswers() {
-            if (answerShown || isChecking) return;
-
-            isChecking = true;
-            let allCorrect = true;
-            const inputs = dashesContainerEl.querySelectorAll('input');
-
-            inputs.forEach(input => {
-                const inputValue = input.value.toLowerCase();
-                const correctLetter = input.dataset.correct;
-
-                if (inputValue === correctLetter) {
-                    input.classList.add('correct');
-                    input.classList.remove('incorrect');
-                } else {
-                    input.classList.add('incorrect');
-                    input.classList.remove('correct');
-                    allCorrect = false;
-                }
-            });
-
-            resultEl.classList.add('show');
-
-            if (allCorrect) {
-                correctCount++;
-                resultEl.textContent = '正确！';
-                resultEl.className = 'result show correct-result';
-
-                // 如果正在练习错题，从当前轮次中移除这个单词
-                if (isPracticingWrongWords) {
-                    const index = wrongWordsInRound.findIndex(w =>
-                        w.english === currentWord.english &&
-                        w.chinese === currentWord.chinese
-                    );
-                    if (index !== -1) {
-                        wrongWordsInRound.splice(index, 1);
-                    }
-                }
-
-                // 如果这个单词在错题本中，移除它
-                removeFromWrongWords(currentWord);
-
-                setTimeout(() => nextWord(), 2000);
-            } else if (!currentWordMarkedWrong) {
-                // 只有当当前单词未被标记为错误时才计数
-                wrongCount++;
-                currentWordMarkedWrong = true;
-                resultEl.textContent = '有错误，请修改！';
-                resultEl.className = 'result show incorrect-result';
-
-                // 添加到错题本
-                addToWrongWords(currentWord);
-                addIconEl.classList.add('active');
-            }
-
-            updateStats();
-            isChecking = false;
+    if (answerShown || isChecking) return;
+    
+    isChecking = true;
+    let allCorrect = true;
+    const inputs = dashesContainerEl.querySelectorAll('input');
+    
+    inputs.forEach(input => {
+        const inputValue = input.value.toLowerCase();
+        const correctLetter = input.dataset.correct;
+        
+        if (inputValue === correctLetter) {
+            input.classList.add('correct');
+            input.classList.remove('incorrect');
+        } else {
+            input.classList.add('incorrect');
+            input.classList.remove('correct');
+            allCorrect = false;
         }
-
-        function nextWord() {
-            if (currentSpeech) {
-                speechSynthesis.cancel();
-                currentSpeech = null;
+    });
+    
+    resultEl.classList.add('show');
+    
+    if (allCorrect) {
+        correctCount++;
+        resultEl.textContent = '正确！';
+        resultEl.className = 'result show correct-result';
+        
+        // 如果正在练习错题，从当前轮次中移除这个单词
+        if (isPracticingWrongWords) {
+            const index = wrongWordsInRound.findIndex(w => 
+                w.english === currentWord.english && 
+                w.chinese === currentWord.chinese
+            );
+            if (index !== -1) {
+                wrongWordsInRound.splice(index, 1);
             }
-
-            // 检查用户是否已经拼对
-            const inputs = dashesContainerEl.querySelectorAll('input');
-            let allCorrect = true;
-
-            inputs.forEach(input => {
-                const inputValue = input.value.toLowerCase();
-                const correctLetter = input.dataset.correct;
-
-                if (inputValue !== correctLetter) {
-                    allCorrect = false;
-                }
-            });
-
-            // 如果没有拼对且未被标记为错误
-            if (!allCorrect && !currentWordMarkedWrong) {
-                wrongCount++;
-                currentWordMarkedWrong = true;
-                updateStats();
-
-                // 添加到错题本
-                addToWrongWords(currentWord);
-                addIconEl.classList.add('active');
-            }
-
-            if (isPracticingWrongWords) {
-                // 练习错题模式
-                usedWordIndices.push(currentWordIndex);
-
-                if (wrongWordsInRound.length === 0) {
-                    // 所有错题都已答对
-                    showAllCorrect();
-                    return;
-                }
-
-                // 随机选择下一个错题
-                currentWordIndex = Math.floor(Math.random() * wrongWordsInRound.length);
-            } else {
-                // 普通练习模式
-                usedWordIndices.push(currentWordIndex);
-
-                if (usedWordIndices.length >= filteredWords.length) {
-                    // 一轮练习完成
-                    showRoundComplete();
-                    return;
-                }
-
-                // 随机选择下一个单词（排除已用过的）
-                let availableIndices = [];
-                for (let i = 0; i < filteredWords.length; i++) {
-                    if (!usedWordIndices.includes(i)) {
-                        availableIndices.push(i);
-                    }
-                }
-                currentWordIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-            }
-
-            // 重置标记
-            currentWordMarkedWrong = false;
-            init();
-            keepScrollPosition();
         }
+        
+        // 如果这个单词在错题本中，移除它
+        removeFromWrongWords(currentWord);
+        
+        setTimeout(() => nextWord(), 2000);
+    } else if (!currentWordMarkedWrong) {
+        // 只有当当前单词未被标记为错误时才计数
+        wrongCount++;
+        currentWordMarkedWrong = true;
+        resultEl.textContent = '有错误，请修改！';
+        resultEl.className = 'result show incorrect-result';
+        
+        // 添加到错题本
+        addToWrongWords(currentWord);
+        addIconEl.classList.add('active');
+    }
+    
+    updateStats();
+    isChecking = false;
+}
+
+function nextWord() {
+    // 保存当前滚动位置
+    const scrollY = window.scrollY;
+    
+    if (currentSpeech) {
+        speechSynthesis.cancel();
+        currentSpeech = null;
+    }
+
+    // 检查用户是否已经拼对
+    const inputs = dashesContainerEl.querySelectorAll('input');
+    let allCorrect = true;
+    
+    inputs.forEach(input => {
+        const inputValue = input.value.toLowerCase();
+        const correctLetter = input.dataset.correct;
+        
+        if (inputValue !== correctLetter) {
+            allCorrect = false;
+        }
+    });
+    
+    // 如果没有拼对且未被标记为错误
+    if (!allCorrect && !currentWordMarkedWrong) {
+        wrongCount++;
+        currentWordMarkedWrong = true;
+        updateStats();
+        
+        // 添加到错题本
+        addToWrongWords(currentWord);
+        addIconEl.classList.add('active');
+    }
+
+    if (isPracticingWrongWords) {
+        // 练习错题模式
+        usedWordIndices.push(currentWordIndex);
+        
+        if (wrongWordsInRound.length === 0) {
+            // 所有错题都已答对
+            showAllCorrect();
+            return;
+        }
+        
+        // 随机选择下一个错题
+        currentWordIndex = Math.floor(Math.random() * wrongWordsInRound.length);
+    } else {
+        // 普通练习模式
+        usedWordIndices.push(currentWordIndex);
+        
+        if (usedWordIndices.length >= filteredWords.length) {
+            // 一轮练习完成
+            showRoundComplete();
+            return;
+        }
+        
+        // 随机选择下一个单词（排除已用过的）
+        let availableIndices = [];
+        for (let i = 0; i < filteredWords.length; i++) {
+            if (!usedWordIndices.includes(i)) {
+                availableIndices.push(i);
+            }
+        }
+        currentWordIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+    }
+
+    // 重置标记
+    currentWordMarkedWrong = false;
+    init();
+    
+    // 恢复滚动位置或滚动到拼写区域中心
+    setTimeout(() => {
+        // 如果是移动设备，保持原位置
+        if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+            window.scrollTo(0, scrollY);
+        } else {
+            // 桌面设备滚动到拼写区域中心
+            const dashesRect = dashesContainerEl.getBoundingClientRect();
+            const centerY = dashesRect.top + dashesRect.height/2 - window.innerHeight/2;
+            window.scrollTo({
+                top: centerY,
+                behavior: 'smooth'
+            });
+        }
+    }, 0);
+}
 
         // 添加到错题本
         function addToWrongWords(word) {
             // 检查是否已经存在
             const exists = wrongWords.some(w => w.english === word.english && w.chinese === word.chinese);
-
+            
             if (!exists) {
                 wrongWords.push({
                     english: word.english,
@@ -1451,7 +1270,7 @@
                     pos: word.pos || '',
                     type: word.type || 'word'
                 });
-
+                
                 // 保存到本地存储
                 localStorage.setItem('wrongWords', JSON.stringify(wrongWords));
             }
@@ -1460,11 +1279,11 @@
         // 从错题本移除
         function removeFromWrongWords(word) {
             const index = wrongWords.findIndex(w => w.english === word.english && w.chinese === word.chinese);
-
+            
             if (index !== -1) {
                 wrongWords.splice(index, 1);
                 localStorage.setItem('wrongWords', JSON.stringify(wrongWords));
-
+                
                 // 如果当前在错题本视图，更新显示
                 if (wrongWordsContainer.style.display === 'block') {
                     renderWrongWordsList();
@@ -1473,40 +1292,40 @@
         }
 
         function showAnswer() {
-            if (answerShown || isChecking) return;
-
-            // 检查是否已经拼对
-            const inputs = dashesContainerEl.querySelectorAll('input');
-            let allCorrect = true;
-
-            inputs.forEach(input => {
-                const inputValue = input.value.toLowerCase();
-                const correctLetter = input.dataset.correct;
-
-                if (inputValue !== correctLetter) {
-                    allCorrect = false;
-                }
-            });
-
-            // 如果没有拼对且未被标记为错误
-            if (!allCorrect && !currentWordMarkedWrong) {
-                wrongCount++;
-                currentWordMarkedWrong = true;
-                updateStats();
-
-                // 添加到错题本
-                addToWrongWords(currentWord);
-                addIconEl.classList.add('active');
-            }
-
-            answerShown = true;
-
-            inputs.forEach(input => {
-                input.value = input.dataset.correct;
-                input.classList.add('correct');
-                input.disabled = true;
-            });
+    if (answerShown || isChecking) return;
+    
+    // 检查是否已经拼对
+    const inputs = dashesContainerEl.querySelectorAll('input');
+    let allCorrect = true;
+    
+    inputs.forEach(input => {
+        const inputValue = input.value.toLowerCase();
+        const correctLetter = input.dataset.correct;
+        
+        if (inputValue !== correctLetter) {
+            allCorrect = false;
         }
+    });
+    
+    // 如果没有拼对且未被标记为错误
+    if (!allCorrect && !currentWordMarkedWrong) {
+        wrongCount++;
+        currentWordMarkedWrong = true;
+        updateStats();
+        
+        // 添加到错题本
+        addToWrongWords(currentWord);
+        addIconEl.classList.add('active');
+    }
+    
+    answerShown = true;
+    
+    inputs.forEach(input => {
+        input.value = input.dataset.correct;
+        input.classList.add('correct');
+        input.disabled = true;
+    });
+}
 
         // 聚焦第一个输入框
         function focusFirstInput() {
@@ -1517,11 +1336,11 @@
         // 生成年级选项
         function generateGradeOptions() {
             const existingGrades = new Set(allWords.map(word => word.grade).filter(Boolean));
-
+            
             while (gradeSelect.options.length > 1) {
                 gradeSelect.remove(1);
             }
-
+            
             const strictGradeOrder = [
                 '一年级上', '一年级下',
                 '二年级上', '二年级下',
@@ -1536,7 +1355,7 @@
                 '高二上', '高二下',
                 '高三上', '高三下'
             ];
-
+            
             strictGradeOrder.forEach(grade => {
                 if (existingGrades.has(grade)) {
                     const option = document.createElement('option');
@@ -1553,15 +1372,15 @@
             while (unitSelect.options.length > 1) {
                 unitSelect.remove(1);
             }
-
+            
             // 禁用单元选择器
             unitSelect.disabled = true;
             unitSelect.value = 'all';
-
+            
             if (grade === 'all') {
                 return;
             }
-
+            
             // 获取该年级下的所有单元
             const units = new Set();
             allWords.forEach(word => {
@@ -1569,89 +1388,89 @@
                     units.add(word.unit);
                 }
             });
-
+            
             if (units.size === 0) {
                 return;
             }
-
+            
             // 按字母顺序排序单元
             const sortedUnits = Array.from(units).sort();
-
+            
             sortedUnits.forEach(unit => {
                 const option = document.createElement('option');
                 option.value = unit;
                 option.textContent = unit;
                 unitSelect.appendChild(option);
             });
-
+            
             // 启用单元选择器
             unitSelect.disabled = false;
         }
 
         function renderWrongWordsList() {
-            if (wrongWords.length === 0) {
-                wrongWordsList.innerHTML = '<div class="no-wrong-words">暂无错题记录</div>';
-                practiceSelectedBtn.style.display = 'none';
-                removeSelectedBtn.style.display = 'none';
-                document.querySelector('.select-actions').style.display = 'none';
-                return;
-            }
-
-            practiceSelectedBtn.style.display = 'block';
-            removeSelectedBtn.style.display = 'block';
-            document.querySelector('.select-actions').style.display = 'flex';
-
-            let html = '';
-            wrongWords.forEach((word, index) => {
-                const isSelected = selectedWrongWords.includes(index);
-                html += ``
-                    + `<div class="wrong-word-item ${isSelected ? 'selected' : ''}" data-index="${index}">`
-                    + `<div class="wrong-word-grid">`
-                    + `<span class="wrong-word-number">${index + 1}.</span>`
-                    + `<div class="wrong-word-content">`
-                    + `<div class="wrong-word-row">`
-                    + `<div class="wrong-word-col">`
-                    + `<span class="wrong-word-english">${word.english}</span>`
-                    + `</div>`
-                    + `<div class="wrong-word-col">`
-                    + `<span class="wrong-word-phonetic">${word.phonetic || '-'}</span>`
-                    + `</div>`
-                    + `</div>`
-                    + `<div class="wrong-word-row">`
-                    + `<div class="wrong-word-col">`
-                    + `<span class="wrong-word-chinese">${word.chinese}</span>`
-                    + `</div>`
-                    + `<div class="wrong-word-col">`
-                    + `<span class="wrong-word-pos">${word.pos || '-'}</span>`
-                    + `</div>`
-                    + `</div>`
-                    + `<div class="wrong-word-row">`
-                    + `<div class="wrong-word-col">`
-                    + `<span class="wrong-word-grade">${word.grade || ''}</span>`
-                    + `</div>`
-                    + `<div class="wrong-word-col">`
-                    + `<span class="wrong-word-unit">${word.unit || ''}</span>`
-                    + `</div>`
-                    + `</div>`
-                    + `</div>`
-                    + `</div>`
-                    + `</div>`
-                    + `</div>`;
+    if (wrongWords.length === 0) {
+        wrongWordsList.innerHTML = '<div class="no-wrong-words">暂无错题记录</div>';
+        practiceSelectedBtn.style.display = 'none';
+        removeSelectedBtn.style.display = 'none';
+        document.querySelector('.select-actions').style.display = 'none';
+        return;
+    }
+    
+    practiceSelectedBtn.style.display = 'block';
+    removeSelectedBtn.style.display = 'block';
+    document.querySelector('.select-actions').style.display = 'flex';
+    
+    let html = '';
+    wrongWords.forEach((word, index) => {
+        const isSelected = selectedWrongWords.includes(index);
+        html += `
+<div class="wrong-word-item ${isSelected ? 'selected' : ''}" data-index="${index}">
+    <div class="wrong-word-grid">
+        <span class="wrong-word-number">${index + 1}.</span>
+        <div class="wrong-word-content">
+            <div class="wrong-word-row">
+                <div class="wrong-word-col">
+                    <span class="wrong-word-english">${word.english}</span>
+                </div>
+                <div class="wrong-word-col">
+                    <span class="wrong-word-phonetic">${word.phonetic || '-'}</span>
+                </div>
+            </div>
+            <div class="wrong-word-row">
+                <div class="wrong-word-col">
+                    <span class="wrong-word-chinese">${word.chinese}</span>
+                </div>
+                <div class="wrong-word-col">
+                    <span class="wrong-word-pos">${word.pos || '-'}</span>
+                </div>
+            </div>
+            <div class="wrong-word-row">
+                <div class="wrong-word-col">
+                    <span class="wrong-word-grade">${word.grade || ''}</span>
+                </div>
+                <div class="wrong-word-col">
+                    <span class="wrong-word-unit">${word.unit || ''}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                `;
             });
-
+            
             wrongWordsList.innerHTML = html;
-
-            // 添加点击事件监听
-            const wordItems = document.querySelectorAll('.wrong-word-item');
-            wordItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    const index = parseInt(this.dataset.index);
-                    toggleWordSelection(index);
-                });
-            });
-
-            updateSelectedWords();
-        }
+    
+    // 添加点击事件监听
+    const wordItems = document.querySelectorAll('.wrong-word-item');
+    wordItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const index = parseInt(this.dataset.index);
+            toggleWordSelection(index);
+        });
+    });
+    
+    updateSelectedWords();
+}
 
         // 切换单词选择状态
         function toggleWordSelection(index) {
@@ -1661,72 +1480,72 @@
             } else {
                 selectedWrongWords.splice(itemIndex, 1);
             }
-
+            
             // 更新UI
             const wordItem = document.querySelector(`.wrong-word-item[data-index="${index}"]`);
             if (wordItem) {
                 wordItem.classList.toggle('selected');
             }
-
+            
             updateSelectedWords();
         }
 
         function updateSelectedWords() {
-            // 更新按钮状态
-            if (selectedWrongWords.length > 0) {
-                practiceSelectedBtn.disabled = false;
-                removeSelectedBtn.disabled = false;
-                // 更新练习按钮文本，显示选中的单词数量
-                practiceSelectedBtn.textContent = `练习选中单词 (${selectedWrongWords.length})`;
-            } else {
-                practiceSelectedBtn.disabled = true;
-                removeSelectedBtn.disabled = true;
-                practiceSelectedBtn.textContent = '练习选中单词';
-            }
-        }
+    // 更新按钮状态
+    if (selectedWrongWords.length > 0) {
+        practiceSelectedBtn.disabled = false;
+        removeSelectedBtn.disabled = false;
+        // 更新练习按钮文本，显示选中的单词数量
+        practiceSelectedBtn.textContent = `练习选中单词 (${selectedWrongWords.length})`;
+    } else {
+        practiceSelectedBtn.disabled = true;
+        removeSelectedBtn.disabled = true;
+        practiceSelectedBtn.textContent = '练习选中单词';
+    }
+}
 
         function practiceSelectedWords() {
-            if (selectedWrongWords.length === 0) return;
-
-            // 切换到主视图
-            showMainView();
-
-            // 设置当前练习为选中的错题
-            wrongWordsInRound = selectedWrongWords.map(index => wrongWords[index]);
-            isPracticingWrongWords = true;
-            currentWordIndex = 0;
-            usedWordIndices = [];
-
-            // 重置计数器，总数设置为选中的单词数量
-            correctCount = 0;
-            wrongCount = 0;
-            totalCount = wrongWordsInRound.length;
-            currentWordMarkedWrong = false;
-
-            updateStats();
-
-            // 清空选择
-            selectedWrongWords = [];
-
-            // 开始练习第一个选中的单词
-            init();
-        }
+    if (selectedWrongWords.length === 0) return;
+    
+    // 切换到主视图
+    showMainView();
+    
+    // 设置当前练习为选中的错题
+    wrongWordsInRound = selectedWrongWords.map(index => wrongWords[index]);
+    isPracticingWrongWords = true;
+    currentWordIndex = 0;
+    usedWordIndices = [];
+    
+    // 重置计数器，总数设置为选中的单词数量
+    correctCount = 0;
+    wrongCount = 0;
+    totalCount = wrongWordsInRound.length;
+    currentWordMarkedWrong = false;
+    
+    updateStats();
+    
+    // 清空选择
+    selectedWrongWords = [];
+    
+    // 开始练习第一个选中的单词
+    init();
+}
 
         // 删除选中的错题
         function removeSelectedWords() {
             if (selectedWrongWords.length === 0) return;
-
+            
             if (confirm(`确定要删除选中的 ${selectedWrongWords.length} 个错题吗？`)) {
                 // 从大到小排序索引，以便正确删除
                 const sortedIndices = [...selectedWrongWords].sort((a, b) => b - a);
-
+                
                 sortedIndices.forEach(index => {
                     wrongWords.splice(index, 1);
                 });
-
+                
                 // 保存到本地存储
                 localStorage.setItem('wrongWords', JSON.stringify(wrongWords));
-
+                
                 // 重置选择
                 selectedWrongWords = [];
                 renderWrongWordsList();
@@ -1739,26 +1558,26 @@
             wrongWords.forEach((_, index) => {
                 selectedWrongWords.push(index);
             });
-
+            
             // 更新UI
             const wordItems = document.querySelectorAll('.wrong-word-item');
             wordItems.forEach(item => {
                 item.classList.add('selected');
             });
-
+            
             updateSelectedWords();
         }
 
         // 清除选择
         function clearSelection() {
             selectedWrongWords = [];
-
+            
             // 更新UI
             const wordItems = document.querySelectorAll('.wrong-word-item');
             wordItems.forEach(item => {
                 item.classList.remove('selected');
             });
-
+            
             updateSelectedWords();
         }
 
@@ -1767,20 +1586,18 @@
             mainContainer.style.display = 'none';
             wrongWordsContainer.style.display = 'block';
             renderWrongWordsList();
-            keepScrollPosition();
         }
 
         // 显示主视图
         function showMainView() {
             wrongWordsContainer.style.display = 'none';
             mainContainer.style.display = 'block';
-            keepScrollPosition();
         }
 
         // 切换错题本状态
         function toggleAddToWrongWords() {
             addIconEl.classList.toggle('active');
-
+            
             if (addIconEl.classList.contains('active')) {
                 // 添加到错题本
                 addToWrongWords(currentWord);
@@ -1807,12 +1624,12 @@
                 filterWords();
                 init();
             });
-
+            
             unitSelect.addEventListener('change', () => {
                 filterWords();
                 init();
             });
-
+            
             speakBtn.addEventListener('click', speakWord);
             showAnswerBtn.addEventListener('click', showAnswer);
             nextBtn.addEventListener('click', nextWord);
@@ -1830,14 +1647,6 @@
             initEventListeners();
             startApp();
         });
-
-        // 保持移动端滚动位置
-        function keepScrollPosition() {
-            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-                const scrollY = window.scrollY;
-                setTimeout(() => { window.scrollTo(0, scrollY); }, 0);
-            }
-        }
     </script>
 </body>
 </html>
