@@ -10,11 +10,6 @@
             margin: 0;
             padding: 0;
         }
-
-        html {
-    scroll-behavior: auto !important;
-    overflow-anchor: none;
-}
         body {
             background: linear-gradient(135deg, #f4fffa,#eef7ff , #e7f7f5);
             color: var(--dark);
@@ -22,7 +17,7 @@
             line-height: 1.6;
             padding: 20px;
             position: relative;
-            overflow-anchor: none;
+            overflow-x: hidden;
         }
         
         h1 {
@@ -109,31 +104,37 @@
             margin-bottom: 1.5rem;
         }
         button {
-            padding: 0.8rem 1.2rem;
-            font-size: 1rem;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex: 1;
-            min-width: 120px;
-            max-width: 160px;
-            background-color: white;
-            color: #495057;
-            font-weight: 500;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        button:not(:active) {
-            transform: none;
-            box-shadow: none;
-        }
-        button:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-out; /* 改为更快的动画 */
+    flex: 1;
+    min-width: 120px;
+    max-width: 160px;
+    background-color: white;
+    color: #495057;
+    font-weight: 500;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    position: relative; /* 为突起效果做准备 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* 默认轻微阴影 */
+}
+
+button:active {
+    transform: translateY(-1px); /* 轻微上移 */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* 点击时阴影加深 */
+    border-color: #ddd; /* 边框颜色微调 */
+}
+
+/* 移除移动端长按菜单 */
+button {
+    -webkit-touch-callout: none;
+    user-select: none;
+}
+
+
         #speak-btn {
             color: #007bff;
         }
@@ -472,19 +473,38 @@
             }
             .filter-container {
                 flex-direction: row;
-                flex-wrap: nowrap;
-                gap: 0.5rem;
-                padding: 0 0.5rem;
+        gap: 0.5rem;
+        padding: 0;
+        margin-bottom: 1rem;
             }
             .filter-group {
                 width: auto;
                 min-width: 0;
                 flex: 1;
+                overflow: hidden;
             }
-            select {
-                font-size: 0.85rem;
-                padding: 0.4rem;
-            }
+            .filter-group {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    select {
+        font-size: 0.85rem; /* 适中的字体大小 */
+        padding: 0.5rem 0.7rem; /* 舒适的内边距 */
+        height: auto;
+        line-height: 1.4;
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+        background-color: white;
+        width: 100%;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+    select option {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.7rem;
+    }
             /* 移动端错题本布局优化 */
             .wrong-word-content {
                 grid-template-rows: auto auto auto;
@@ -520,13 +540,18 @@
                 flex-wrap: wrap;
             }
             .filter-container {
-                gap: 0.3rem;
-                padding: 0 0.3rem;
+                gap: 0.4rem;
+
             }
             select {
-                font-size: 0.8rem;
-                padding: 0.4rem;
-            }
+        font-size: 0.8rem;
+        padding: 0.45rem 0.6rem;
+    }
+
+    select option {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.6rem;
+    }
             button {
                 width: calc(50% - 0.4rem);
                 padding: 0.7rem 1rem;
@@ -592,9 +617,14 @@
                 padding: 0.6rem 0.8rem;
             }
             select {
-                font-size: 0.75rem;
-                padding: 0.35rem;
-            }
+        font-size: 0.75rem;
+        padding: 0.4rem 0.5rem;
+    }
+    
+    select option {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.5rem;
+    }
             .wrong-word-item {
                 padding: 0.6rem;
             }
@@ -838,11 +868,7 @@ function init() {
     spellingEl.textContent = '';
     dashesContainerEl.innerHTML = '';
     
-    if (currentWord.type === 'phrase') {
-        createPhraseInputs();
-    } else {
-        createWordInputs();
-    }
+    createWordInputs(); // 统一按单词方式处理
     
     focusFirstInput();
     resultEl.textContent = '';
@@ -852,9 +878,6 @@ function init() {
     
     // 自动朗读新单词
     setTimeout(speakWord, 300);
-    
-    // 移除原来的 keepScrollPosition 调用
-    // 滚动控制现在由 nextWord 函数处理
 }
 
         // 显示一轮完成
@@ -946,11 +969,11 @@ function init() {
             );
         }
 
-        function createWordInputs() {
+        // 创建单词输入框
+function createWordInputs() {
     const chars = currentWord.english.split('');
     dashesContainerEl.innerHTML = '';
     
-    // 创建输入元素数组
     const elements = chars.map(char => {
         if (isFixedChar(char)) {
             const span = document.createElement('span');
@@ -964,154 +987,63 @@ function init() {
             input.className = 'dash-input';
             input.maxLength = 1;
             input.dataset.correct = char.toLowerCase();
-            
-            // 移动端专属属性
-            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-                input.autocapitalize = 'off';
-                input.autocomplete = 'off';
-                input.spellcheck = false;
-                input.inputmode = 'text'; // 避免数字键盘弹出
-            }
             return input;
         }
     });
 
-    // 渲染所有元素
     elements.forEach(el => dashesContainerEl.appendChild(el));
     
-    // 获取所有输入框
     const inputs = dashesContainerEl.querySelectorAll('input');
-    
-    // 为每个输入框添加事件监听
     inputs.forEach((input, index) => {
         input.dataset.index = index;
         
-        // 聚焦处理（兼容移动端）
+        // 聚焦时自动准备覆盖（无视觉反馈）
         input.addEventListener('focus', function() {
-            // 确保选中内容且不触发滚动
-            setTimeout(() => {
-                try {
-                    this.setSelectionRange(0, 1);
-                    if ('scrollRestoration' in history) {
-                        history.scrollRestoration = 'manual';
-                    }
-                    
-                    // 移动端额外锁定
-                    if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-                        window.scrollTo(0, window.scrollY);
-                        document.documentElement.style.overflow = 'hidden';
-                    }
-                } catch(e) { /* 兼容性处理 */ }
-            }, 10);
+            setTimeout(() => this.setSelectionRange(0, 1), 10);
         });
         
-        // 输入处理
+        // 输入处理（直接覆盖）
         input.addEventListener('input', function() {
-            // 强制小写并限制长度
+            // 强制只保留1个字母
             this.value = this.value.slice(-1).toLowerCase();
             
-            // 自动跳转下一个输入框（跳过固定字符）
-            if (this.value) {
-                let nextIndex = index + 1;
-                while (nextIndex < chars.length && isFixedChar(chars[nextIndex])) {
-                    nextIndex++;
-                }
-                
-                if (nextIndex < chars.length) {
-                    const nextInput = inputs[nextIndex];
-                    nextInput.focus({ preventScroll: true });
-                }
+            // 输入后自动跳转下一个
+            if (this.value && index < inputs.length - 1) {
+                inputs[index + 1].focus();
             }
-            
             checkCompletion();
         });
         
-        // 键盘事件处理
+        // 优化的删除逻辑
         input.addEventListener('keydown', function(e) {
-            // 后退键处理
             if (e.key === 'Backspace') {
-                if (!this.value && index > 0) {
-                    let prevIndex = index - 1;
-                    while (prevIndex >= 0 && isFixedChar(chars[prevIndex])) {
-                        prevIndex--;
+                if (this.value) {
+                    // 情况1：当前有内容，直接删除
+                    this.value = '';
+                } else {
+                    // 情况2：当前无内容，直接删除前一个并聚焦
+                    if (index > 0) {
+                        inputs[index - 1].value = '';
+                        inputs[index - 1].focus();
                     }
-                    
-                    if (prevIndex >= 0) {
-                        inputs[prevIndex].value = '';
-                        inputs[prevIndex].focus({ preventScroll: true });
-                    }
-                }
-                e.preventDefault();
-            } 
-            // 方向键处理
-            else if (e.key === 'ArrowLeft') {
-                let prevIndex = index - 1;
-                while (prevIndex >= 0 && isFixedChar(chars[prevIndex])) {
-                    prevIndex--;
-                }
-                
-                if (prevIndex >= 0) {
-                    inputs[prevIndex].focus({ preventScroll: true });
-                }
-                e.preventDefault();
-            } 
-            else if (e.key === 'ArrowRight') {
-                let nextIndex = index + 1;
-                while (nextIndex < chars.length && isFixedChar(chars[nextIndex])) {
-                    nextIndex++;
-                }
-                
-                if (nextIndex < chars.length) {
-                    inputs[nextIndex].focus({ preventScroll: true });
                 }
                 e.preventDefault();
             }
-        });
-        
-        // 移动端失去焦点时恢复页面状态
-        input.addEventListener('blur', function() {
-            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-                document.documentElement.style.overflow = '';
+            // 保留左右箭头导航
+            else if (e.key === 'ArrowLeft' && index > 0) {
+                inputs[index - 1].focus();
+                e.preventDefault();
+            }
+            else if (e.key === 'ArrowRight' && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+                e.preventDefault();
             }
         });
     });
     
-    // 初始聚焦（延迟确保DOM就绪）
-    setTimeout(() => {
-        if (inputs.length > 0) {
-            inputs[0].focus({ preventScroll: true });
-        }
-    }, 100);
-    
-    // 移动端初始化键盘处理器
-    if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-        setupMobileKeyboardHandlers();
+    if (inputs.length > 0) {
+        setTimeout(() => inputs[0].focus(), 100);
     }
-}
-
-// 移动端键盘专属处理函数
-function setupMobileKeyboardHandlers() {
-    let activeInput = null;
-    const scrollPos = window.scrollY;
-    
-    window.addEventListener('resize', () => {
-        // 键盘弹出/收起时强制保持位置
-        if (activeInput) {
-            window.scrollTo(0, scrollPos);
-        }
-    });
-    
-    document.addEventListener('focusin', (e) => {
-        if (e.target.classList.contains('dash-input')) {
-            activeInput = e.target;
-            // iOS 键盘弹出后强制恢复位置
-            setTimeout(() => window.scrollTo(0, scrollPos), 100);
-        }
-    });
-
-    document.addEventListener('focusout', () => {
-        setTimeout(() => window.scrollTo(0, scrollPos), 100);
-    });
 }
 
 // 添加CSS隐藏选中高亮效果
@@ -1258,10 +1190,25 @@ function isFixedChar(char) {
 
         function checkAllAnswers() {
     if (answerShown || isChecking) return;
+
+    if ('ontouchstart' in window) {
+        const activeElement = document.activeElement;
+        if (activeElement && activeElement.classList.contains('dash-input')) {
+            // 如果用户正在输入，延迟检查
+            setTimeout(checkAllAnswers, 300);
+            return;
+        }
+    }
     
     isChecking = true;
     let allCorrect = true;
     const inputs = dashesContainerEl.querySelectorAll('input');
+
+    if ('ontouchstart' in window) {
+        inputs.forEach(input => {
+            input.classList.remove('incorrect');
+        });
+    }
     
     inputs.forEach(input => {
         const inputValue = input.value.toLowerCase();
@@ -1380,6 +1327,7 @@ function nextWord() {
         currentWordIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
     }
 
+    // 重置标记
     currentWordMarkedWrong = false;
     init();
     
@@ -1461,20 +1409,11 @@ function nextWord() {
     });
 }
 
-function focusFirstInput() {
-    const firstInput = dashesContainerEl.querySelector('input');
-    if (firstInput) {
-        // 使用更温和的聚焦方式
-        setTimeout(() => {
-            try {
-                firstInput.focus({ preventScroll: true });
-            } catch (e) {
-                // 兼容不支持preventScroll的浏览器
-                firstInput.focus();
-            }
-        }, 100);
-    }
-}
+        // 聚焦第一个输入框
+        function focusFirstInput() {
+            const firstInput = dashesContainerEl.querySelector('input');
+            if (firstInput) setTimeout(() => firstInput.focus(), 100);
+        }
 
         // 生成年级选项
         function generateGradeOptions() {
