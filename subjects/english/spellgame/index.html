@@ -1080,21 +1080,30 @@ function generateUnitOptions(grade) {
 
 // 更新选择范围文本
 function updateSelectionRangeText() {
-    let text = '';
-    if (selectedGrade && selectedUnit) {
-        text = `${selectedGrade}\n${selectedUnit}`;
-    } else if (selectedGrade) {
-        text = `${selectedGrade}\n全部`;
+    let lines = [];
+    
+    if (selectedGrade) {
+        lines.push(selectedGrade);
+        lines.push(selectedUnit || "全部");
     } else {
-        text = '选择范围';
+        lines.push("选择范围");
     }
     
-    // 限制文本长度
-    if (text.length > 20) {
-        text = text.substring(0, 18) + '...';
-    }
+    // 处理超长文本
+    lines = lines.map(line => {
+        if (line.length > 18) {
+            return line.substring(0, 15) + "...";
+        }
+        return line;
+    });
     
-    selectionRangeText.textContent = text;
+    // 用换行符连接
+    selectionRangeText.textContent = lines.join("\n");
+    
+    // 动态调整按钮高度
+    const lineCount = lines.length;
+    const btn = document.querySelector('.selection-range-btn');
+    btn.style.minHeight = `${30 + (lineCount - 1) * 16}px`;
 }
 
 function filterWords() {
