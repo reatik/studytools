@@ -832,7 +832,6 @@
     
     <!-- 主应用逻辑 -->
     <script>
-        // 全局变量
 let allWords = [];
 let filteredWords = [];
 let currentWordIndex = 0;
@@ -976,29 +975,6 @@ function generateGradeOptions() {
     // 清空现有选项
     gradeOptionsEl.innerHTML = '';
     
-    // 添加"全部年级"选项
-    const allGradeOption = document.createElement('div');
-    allGradeOption.className = 'selection-option active';
-    allGradeOption.textContent = '全部年级';
-    allGradeOption.dataset.value = '';
-    allGradeOption.addEventListener('click', () => {
-        gradeOptionsEl.querySelectorAll('.selection-option').forEach(opt => {
-            opt.classList.remove('active');
-        });
-        allGradeOption.classList.add('active');
-        selectedGrade = '';
-        
-        // 生成所有课程选项
-        generateUnitOptions('');
-        
-        // 更新选择范围文本
-        updateSelectionRangeText();
-        
-        // 应用筛选
-        applyFilter();
-    });
-    gradeOptionsEl.appendChild(allGradeOption);
-    
     const strictGradeOrder = [
         '一年级上', '一年级下',
         '二年级上', '二年级下',
@@ -1033,9 +1009,6 @@ function generateGradeOptions() {
                 
                 // 更新选择范围文本
                 updateSelectionRangeText();
-                
-                // 应用筛选
-                applyFilter();
             });
             gradeOptionsEl.appendChild(option);
         }
@@ -1047,40 +1020,7 @@ function generateUnitOptions(grade) {
     // 清空现有选项
     unitOptionsEl.innerHTML = '';
     
-    // 添加"全部课程"选项
-    const allUnitOption = document.createElement('div');
-    allUnitOption.className = 'selection-option active';
-    allUnitOption.textContent = '全部课程';
-    allUnitOption.dataset.value = '';
-    allUnitOption.addEventListener('click', () => {
-        unitOptionsEl.querySelectorAll('.selection-option').forEach(opt => {
-            opt.classList.remove('active');
-        });
-        allUnitOption.classList.add('active');
-        selectedUnit = '';
-        
-        // 更新选择范围文本
-        updateSelectionRangeText();
-        
-        // 应用筛选
-        applyFilter();
-    });
-    unitOptionsEl.appendChild(allUnitOption);
-    
     if (!grade) {
-        // 如果没有选择年级,获取所有课程
-        const allUnits = new Set();
-        allWords.forEach(word => {
-            if (word.unit) {
-                allUnits.add(word.unit);
-            }
-        });
-        
-        const sortedAllUnits = Array.from(allUnits).sort();
-        sortedAllUnits.forEach(unit => {
-            const option = createUnitOption(unit);
-            unitOptionsEl.appendChild(option);
-        });
         return;
     }
     
@@ -1100,32 +1040,23 @@ function generateUnitOptions(grade) {
     const sortedUnits = Array.from(units).sort();
     
     sortedUnits.forEach(unit => {
-        const option = createUnitOption(unit);
+        const option = document.createElement('div');
+        option.className = 'selection-option';
+        option.textContent = unit;
+        option.dataset.value = unit;
+        option.addEventListener('click', () => {
+            // 设置选中的课程
+            unitOptionsEl.querySelectorAll('.selection-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            option.classList.add('active');
+            selectedUnit = unit;
+            
+            // 更新选择范围文本
+            updateSelectionRangeText();
+        });
         unitOptionsEl.appendChild(option);
     });
-}
-
-// 创建课程选项的辅助函数
-function createUnitOption(unit) {
-    const option = document.createElement('div');
-    option.className = 'selection-option';
-    option.textContent = unit;
-    option.dataset.value = unit;
-    option.addEventListener('click', () => {
-        // 设置选中的课程
-        unitOptionsEl.querySelectorAll('.selection-option').forEach(opt => {
-            opt.classList.remove('active');
-        });
-        option.classList.add('active');
-        selectedUnit = unit;
-        
-        // 更新选择范围文本
-        updateSelectionRangeText();
-        
-        // 应用筛选
-        applyFilter();
-    });
-    return option;
 }
 
 // 更新选择范围文本
@@ -1135,8 +1066,6 @@ function updateSelectionRangeText() {
         text = `${selectedGrade} ${selectedUnit}`;
     } else if (selectedGrade) {
         text = selectedGrade;
-    } else if (selectedUnit) {
-        text = selectedUnit;
     } else {
         text = '选择范围';
     }
@@ -1149,42 +1078,36 @@ function updateSelectionRangeText() {
     selectionRangeText.textContent = text;
 }
 
-// 应用筛选
-function applyFilter() {
-    selectionPanel.style.display = 'none';
-    filterWords();
-}
-
 function filterWords() {
-    let tempWords = [...allWords];
-    
-    if (selectedGrade) {
-        tempWords = tempWords.filter(word => word.grade === selectedGrade);
-    }
-    
-    if (selectedUnit) {
-        tempWords = tempWords.filter(word => word.unit === selectedUnit);
-    }
-    
-    filteredWords = shuffleArray(tempWords);
-    currentWordIndex = 0;
-    usedWordIndices = [];
-    isPracticingWrongWords = false;
-    
-    // 重置计数器
-    correctCount = 0;
-    wrongCount = 0;
-    totalCount = filteredWords.length;
-    currentWordMarkedWrong = false;
-    
-    updateStats();
-    
-    if (filteredWords.length === 0) {
-        alert('没有找到符合条件的单词');
-    } else {
-        init(true); // 首次加载自动聚焦
-    }
-}
+            let tempWords = [...allWords];
+            
+            if (selectedGrade) {
+                tempWords = tempWords.filter(word => word.grade === selectedGrade);
+            }
+            
+            if (selectedUnit) {
+                tempWords = tempWords.filter(word => word.unit === selectedUnit);
+            }
+            
+            filteredWords = shuffleArray(tempWords);
+            currentWordIndex = 0;
+            usedWordIndices = [];
+            isPracticingWrongWords = false;
+            
+            // 重置计数器
+            correctCount = 0;
+            wrongCount = 0;
+            totalCount = filteredWords.length;
+            currentWordMarkedWrong = false;
+            
+            updateStats();
+            
+            if (filteredWords.length === 0) {
+                alert('没有找到符合条件的单词');
+            } else {
+                init(true); // 首次加载自动聚焦
+            }
+        }
 
 function updateStats() {
     document.getElementById('correct-count').textContent = correctCount;
@@ -1216,7 +1139,7 @@ function init(autoFocus = false) {
     
     // 重置错题本按钮状态
     addIconEl.classList.remove('active');
-    if (isWordInWrongWords(currentWord) && !isPracticingWrongWords) {
+    if (isWordInWrongWords(currentWord)) {
         addIconEl.classList.add('active');
     }
     
@@ -1443,7 +1366,7 @@ function speakWord() {
         currentSpeech = new SpeechSynthesisUtterance(currentWord.english);
         currentSpeech.lang = 'en-US';
         currentSpeech.rate = 0.9; // 稍微降低语速
-        speechSynthesis.sspeak(currentSpeech);
+        speechSynthesis.speak(currentSpeech);
     }
 }
 
@@ -1594,7 +1517,7 @@ function addToWrongWords(word) {
         });
         
         // 保存到本地存储
-        localStorage.setItem('wrongWords', JSON.stringify(wrongWords));
+        localStorage.setItem('wrongWords', JSON.stringify(wwrongWords));
     }
 }
 
@@ -1850,18 +1773,18 @@ function showMainView() {
     mainContainer.style.display = 'block';
 }
 
-    // 切换错题本状态
-    function toggleAddToWrongWords() {
-        addIconEl.classList.toggle('active');
-
-        if (addIconEl.classList.contains('active')) {
-            // 添加到错题本
-            addToWrongWords(currentWord);
-        } else {
-            // 从错题本移除
-            removeFromWrongWords(currentWord);
-        }
+// 切换错题本状态
+function toggleAddToWrongWords() {
+    addIconEl.classList.toggle('active');
+    
+    if (addIconEl.classList.contains('active')) {
+        // 添加到错题本
+        addToWrongWords(currentWord);
+    } else {
+        // 从错题本移除
+        removeFromWrongWords(currentWord);
     }
+}
 
 // 数组随机排序函数
 function shuffleArray(array) {
