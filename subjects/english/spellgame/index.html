@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>单词拼写练习</title>
+    <title>单词拼写练习1.0</title>
     <style>
         * {
             box-sizing: border-box;
@@ -1572,39 +1572,39 @@ function removeFromWrongWords(word) {
 }
 
 function showAnswer() {
-    if (answerShown || isChecking) return;
-    
-    // 检查是否已经拼对
-    const inputs = dashesContainerEl.querySelectorAll('input');
-    let allCorrect = true;
-    
-    inputs.forEach(input => {
-        const inputValue = input.value.toLowerCase();
-        const correctLetter = input.dataset.correct;
-        
-        if (inputValue !== correctLetter) {
-            allCorrect = false;
-        }
-    });
-    
-    // 如果没有拼对且未被标记为错误
-    if (!allCorrect && !currentWordMarkedWrong) {
-        wrongCount++;
-        currentWordMarkedWrong = true;
-        updateStats();
-        
-        // 添加到错题本
-        addToWrongWords(currentWord);
-        addIconEl.classList.add('active');
+    // 取消任何正在进行的语音
+    if (currentSpeech) {
+        speechSynthesis.cancel();
     }
-    
-    answerShown = true;
-    
+
+    // 清除所有输入框的状态
+    const inputs = dashesContainerEl.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.classList.remove('correct', 'incorrect');
+        input.disabled = false; // 确保输入框是可用的
+    });
+
+    // 填充正确答案
     inputs.forEach(input => {
         input.value = input.dataset.correct;
         input.classList.add('correct');
-        input.disabled = true;
     });
+
+    // 标记已显示答案
+    answerShown = true;
+
+    // 如果这个单词之前没有标记为错误，现在标记
+    if (!currentWordMarkedWrong) {
+        wrongCount++;
+        currentWordMarkedWrong = true;
+        updateStats();
+        addToWrongWords(currentWord);
+        addIconEl.classList.add('active');
+    }
+
+    // 显示结果消息
+    resultEl.textContent = '已显示答案';
+    resultEl.className = 'result show incorrect-result';
 }
 
 // 聚焦第一个输入框
