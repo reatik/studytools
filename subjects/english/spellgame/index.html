@@ -57,9 +57,9 @@
         .selection-range-btn {
             display: flex;
             align-items: center;
-            padding: 0.5rem 0.8rem;
-            font-size: 0.9rem;
-            border-radius: 8px;
+            padding: 0.4rem 0.6rem; /* 缩小内边距 */
+            font-size: 0.8rem; /* 缩小字体 */
+            border-radius: 6px;
             border: 1px solid #e0e0e0;
             background-color: white;
             color: #495057;
@@ -67,6 +67,9 @@
             transition: all 0.2s;
             width: 100%;
             justify-content: space-between;
+            white-space: nowrap; /* 防止文字换行 */
+            overflow: hidden; /* 隐藏溢出内容 */
+            text-overflow: ellipsis; /* 显示省略号 */
         }
         
         .selection-range-btn:hover {
@@ -84,13 +87,13 @@
         /* 统计信息居中 */
         .stats-container {
             flex: 1;
+            min-width: 80px; /* 设置最小宽度 */
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem; /* 缩小字体 */
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 0.2rem;
-            min-width: 100px;
         }
         
         #correct-count {
@@ -107,20 +110,25 @@
             color: #495057;
         }
         
-        /* 加入错题本按钮 */
-        .add-to-wrong-words {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            padding: 0.5rem 0.8rem;
-            border-radius: 8px;
-            transition: all 0.2s;
-            width: 120px;
-            justify-content: flex-end;
-        }
-        
+
+/* 加入错题本按钮样式 */
+.add-to-wrong-words {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+    width: auto; /* 改为自动宽度 */
+    min-width: 90px; /* 设置最小宽度 */
+    justify-content: flex-end;
+    font-size: 0.8rem;
+    white-space: nowrap; /* 确保文字不换行 */
+    overflow: hidden; /* 隐藏溢出内容 */
+    text-overflow: ellipsis; /* 文字过长显示省略号 */
+}
         .add-to-wrong-words:hover {
             background-color: rgba(0,0,0,0.05);
         }
@@ -554,16 +562,17 @@
             }
             
             .selection-range {
-                width: 100px;
+                width: 80px;
             }
             
             .stats-container {
-                min-width: 80px;
-                font-size: 0.85rem;
+                min-width: 70px;
+                font-size: 0.8rem;
             }
             
             .add-to-wrong-words {
-                width: 120px;
+                width: 80px;
+                font-size: 0.8rem;
             }
             
             .selection-panel {
@@ -617,7 +626,7 @@
             }
             
             .selection-range {
-                width: 80px;
+                width: 70px;
             }
             
             .stats-container {
@@ -626,7 +635,7 @@
             }
             
             .add-to-wrong-words {
-                width: 80px;
+                width: 70px;
             }
             
             .selection-range-btn,
@@ -706,7 +715,7 @@
             }
             
             .selection-range {
-                width: 70px;
+                width: 60px;
             }
             
             .stats-container {
