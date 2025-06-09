@@ -12,22 +12,36 @@
             padding: 0;
         }
         body {
-            background: linear-gradient(135deg, #f4fffa,#eef7ff , #e7f7f5);
-            color: var(--dark);
-            min-height: 100vh;
-            line-height: 1.6;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+            background: linear-gradient(135deg, 
+        #f9f5f0 0%,     /* 奶白色 */
+        #f0e6dc 50%,    /* 浅奶茶色 */
+        #e8d5c5 100%);  /* 浅咖色 */
+    color: #6b4f4b;     /* 深奶茶棕（文字） */
+    min-height: 100vh;
+    line-height: 1.6;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+    font-family: 'Comic Neue', cursive, sans-serif;
+}
         
-        h1 {
-            color: #284185;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 500;
-        }
-        
+h1 {
+    color: #6b4f4b;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 600;
+    font-family: 'Comic Neue', cursive;
+    margin: 1rem auto;
+    padding: 0 1rem; /* 控制文字与线的间距 */
+    position: relative;
+    max-width: 800px; /* 与.word-container同宽 */
+    width: 100%;
+}
+
+
+
+
+
         .word-container {
             background-color: white;
             padding: 2rem;
@@ -154,7 +168,7 @@
         
         .add-text {
             font-size: 0.9rem;
-            color: #6c757d;
+            color: #e06ee0;
         }
         
         .selection-panel {
@@ -326,11 +340,11 @@
         }
         
         #next-btn {
-            color: #6c757d;
+            color: #48927c;
         }
         
         #next-btn:hover {
-            border-color: #6c757d;
+            border-color: #48927c;
         }
 
         .add-to-wrong-words {
