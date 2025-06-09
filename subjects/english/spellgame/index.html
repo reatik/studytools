@@ -21,740 +21,728 @@
         }
         
         h1 {
-            color: #284185;
-            text-align: center;
+        color: #284185;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    
+    .word-container {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin: 1rem auto;
+        max-width: 800px;
+        min-height: 400px;
+        position: relative;
+    }
+    
+    .top-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        position: relative;
+        gap: 10px;
+    }
+    
+    .selection-range {
+        flex: 0 0 auto;
+        width: 120px;
+    }
+    
+    .selection-range-btn {
+        display: flex;
+        align-items: center;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.7rem;
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        background-color: white;
+        color: #495057;
+        cursor: pointer;
+        transition: all 0.2s;
+        width: 100%;
+        min-width: 0;
+        justify-content: space-between;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .selection-range-btn:hover {
+        border-color: #5b94ce;
+        color: #5b94ce;
+    }
+    
+    .selection-range-icon {
+        width: 14px;
+        height: 14px;
+        margin-left: 0.5rem;
+        fill: currentColor;
+    }
+    
+    .stats-container {
+        flex: 1;
+        min-width: 80px;
+        text-align: center;
+        font-size: 0.85rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.2rem;
+    }
+    
+    #correct-count {
+        color: #28a745;
+        font-weight: bold;
+    }
+    
+    #wrong-count {
+        color: #dc3545;
+        font-weight: bold;
+    }
+    
+    #total-count {
+        color: #495057;
+    }
+    
+    .add-to-wrong-words {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        cursor: pointer;
+        padding: 0.4rem 0.6rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+        width: auto;
+        min-width: 100px;
+        justify-content: flex-end;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .add-to-wrong-words:hover {
+        background-color: rgba(0,0,0,0.05);
+    }
+    
+    .add-icon {
+        color: transparent;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    
+    .add-icon.active {
+        color: #28a745;
+    }
+    
+    .add-text {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    .selection-panel {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        margin-top: 0.5rem;
+        z-index: 20;
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+    
+    .selection-panel-body {
+        padding: 0.8rem;
+    }
+    
+    .selection-section {
+        margin-bottom: 1rem;
+    }
+    
+    .selection-section-title {
+        font-size: 0.9rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    
+    .selection-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 0.4rem;
+    }
+    
+    .selection-option {
+        padding: 0.4rem 0.6rem;
+        border-radius: 4px;
+        background-color: #f5f5f5;
+        text-align: center;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .selection-option.active {
+        background-color: #5b94ce;
+        color: white;
+    }
+    
+    .chinese {
+        font-size: 1.6rem;
+        margin: 2rem 0;
+        padding-top: 1rem;
+        text-align: center;
+        width: 100%;
+    }
+    .spelling {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+        color: #6c757d;
+        text-align: center;
+    }
+    .dashes-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        padding: 0 0.5rem;
+    }
+    .dash-input {
+        width: 1.8rem;
+        height: 3.5rem;
+        border: none;
+        border-bottom: 2px solid #adb5bd;
+        margin: 0;
+        text-align: center;
+        font-size: 1.6rem;
+        background: transparent;
+        text-transform: lowercase;
+        padding: 0;
+        outline: none;
+        transition: all 0.2s;
+    }
+    .dash-input:focus {
+        border-bottom-color: #007bff;
+    }
+    .dash-input.correct {
+        border-bottom-color: #28a745;
+        color: #28a745;
+        animation: correctPulse 0.4s ease-in-out;
+    }
+    .dash-input.incorrect {
+        border-bottom-color: #dc3545;
+        color: #dc3545;
+        animation: shake 0.5s ease-in-out;
+    }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20% { transform: translateX(-4px); }
+        40% { transform: translateX(4px); }
+        60% { transform: translateX(-4px); }
+        80% { transform: translateX(4px); }
+    }
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+    button {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease-out;
+        flex: 1;
+        min-width: 120px;
+        max-width: 160px;
+        background-color: white;
+        color: #495057;
+        font-weight: 500;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        position: relative;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    button:active {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-color: #ddd;
+    }
+
+    button {
+        -webkit-touch-callout: none;
+        user-select: none;
+    }
+
+    #speak-btn {
+        color: #007bff;
+    }
+    #speak-btn:hover {
+        border-color: #007bff;
+    }
+    #show-answer-btn {
+        color: #ff9800;
+    }
+    #show-answer-btn:hover {
+        border-color: #ff9800;
+    }
+    #next-btn {
+        color: #6c757d;
+    }
+    #next-btn:hover {
+        border-color: #6c757d;
+    }
+    #wrong-words-btn {
+        color: #dc3545;
+    }
+    #wrong-words-btn:hover {
+        border-color: #dc3545;
+    }
+    .result {
+        text-align: center;
+        font-size: 1.1rem;
+        margin-top: 1rem;
+        min-height: 1.5rem;
+        padding: 0.8rem;
+        border-radius: 8px;
+        background-color: rgba(0,123,255,0.1);
+        color: #007bff;
+        display: none;
+    }
+    .result.show {
+        display: block;
+    }
+    .correct-result {
+        background-color: rgba(40,167,69,0.1);
+        color: #28a745;
+    }
+    .incorrect-result {
+        background-color: rgba(220,53,69,0.1);
+        color: #dc3545;
+    }
+    .round-complete {
+        background-color: rgba(75, 192, 192, 0.1);
+        color: #4bc0c0;
+    }
+    
+    .fixed-char {
+        display: inline-block;
+        font-size: 1.6rem;
+        color: #333;
+        margin: 0 0.1rem;
+    }
+
+    .fixed-char.space-char {
+        width: 0.8rem;
+    }
+    
+    .wrong-words-container {
+        display: none;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin: 2rem auto;
+        max-width: 800px;
+        min-height: 400px;
+    }
+    .wrong-words-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    .wrong-words-title {
+        font-size: 1.5rem;
+        color: #5b94ce;
+    }
+    .wrong-words-list {
+        margin-top: 1.5rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .wrong-words-list::-webkit-scrollbar {
+        display: none;
+    }
+    .wrong-word-item {
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .wrong-word-item.selected {
+        background-color: rgba(91, 148, 206, 0.1);
+    }
+    .wrong-word-grid {
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        gap: 0.5rem;
+    }
+    .wrong-word-number {
+        font-weight: bold;
+        color: #5b94ce;
+        grid-row: 1 / span 3;
+        align-self: start;
+    }
+    .wrong-word-content {
+        display: grid;
+        grid-template-rows: auto auto auto;
+        gap: 0.5rem;
+    }
+    .wrong-word-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+    }
+
+    .wrong-word-col {
+        display: flex;
+        align-items: center;
+    }
+    .wrong-word-english {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .wrong-word-chinese {
+        color: #777;
+    }
+    .wrong-word-phonetic {
+        color: #777;
+        font-style: italic;
+    }
+
+    .wrong-word-pos {
+        color: #777;
+    }
+
+    .wrong-word-grade, 
+    .wrong-word-unit {
+        color: #999;
+        font-size: 0.9rem;
+    }
+
+    .wrong-word-meta {
+        display: flex;
+        justify-content: space-between;
+        color: #777;
+        font-size: 0.85rem;
+        margin-top: 0.3rem;
+    }
+    .wrong-words-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    .wrong-words-actions button {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        min-width: 120px;
+        border: 1px solid #eee;
+        background-color: white;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .practice-all-btn {
+        color: #007bff;
+    }
+    .practice-all-btn:hover {
+        border-color: #007bff;
+    }
+    .remove-all-btn {
+        color: #dc3545;
+    }
+    .remove-all-btn:hover {
+        border-color: #dc3545;
+    }
+    .no-wrong-words {
+        text-align: center;
+        color: #6c757d;
+        padding: 2rem;
+        font-size: 1.1rem;
+    }
+    .back-to-main {
+        color: #6c757d;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    .back-to-main:hover {
+        color: #007bff;
+    }
+    
+    .select-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    .select-all-btn, .clear-selection-btn {
+        color: #6c757d;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        background: none;
+        border: none;
+        padding: 0;
+        margin-left: 3.5rem;
+    }
+
+    .select-all-btn:hover, .clear-selection-btn:hover {
+        color: #007bff;
+    }
+    
+    @media (max-width: 768px) {
+        .word-container, .wrong-words-container {
+            padding: 1.8rem;
+            min-height: 350px;
+        }
+        .chinese {
             font-size: 1.5rem;
-            font-weight: 500;
+            margin: 1.8rem 0;
         }
-        
-        /* 主练习容器 */
-        .word-container {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            margin: 1rem auto;
-            max-width: 800px;
-            min-height: 400px;
-            position: relative;
+        .dash-input {
+            width: 1.6rem;
+            height: 3.2rem;
+            font-size: 1.4rem;
         }
-        
-        /* 顶部控制栏样式 */
-        .top-controls {
-            display: flex;
-            justify-content: space-between;
+        .dashes-container {
+            gap: 0.25rem;
+        }
+        .buttons {
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 1.5rem;
-            position: relative;
-            gap: 10px;
+        }
+        button {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .top-controls {
+            flex-wrap: nowrap;
+            gap: 8px;
         }
         
         .selection-range {
-            flex: 0 0 auto;
-            width: 120px;
+            width: 30%;
+            min-width: 80px;
         }
         
-        .selection-range-btn {
-            display: flex;
-            align-items: center;
-            padding: 0.4rem 0.6rem; /* 缩小内边距 */
-            font-size: 0.7rem; /* 缩小字体 */
-            border-radius: 6px;
-            border: 1px solid #e0e0e0;
-            background-color: white;
-            color: #495057;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-            min-width: 0;
-            justify-content: space-between;
-            white-space: nowrap; /* 防止文字换行 */
-            overflow: hidden; /* 隐藏溢出内容 */
-            text-overflow: ellipsis; /* 显示省略号 */
-        }
-        
-        .selection-range-btn:hover {
-            border-color: #5b94ce;
-            color: #5b94ce;
-        }
-        
-        .selection-range-icon {
-            width: 14px;
-            height: 14px;
-            margin-left: 0.5rem;
-            fill: currentColor;
-        }
-        
-        /* 统计信息居中 */
         .stats-container {
-            flex: 1;
-            min-width: 80px; /* 设置最小宽度 */
-            text-align: center;
-            font-size: 0.85rem; /* 缩小字体 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.2rem;
+            flex: 0 0 auto;
+            width: auto;
+            min-width: 70px;
+            font-size: 0.8rem;
         }
         
-        #correct-count {
-            color: #28a745;
-            font-weight: bold;
+        .add-to-wrong-words {
+            width: 30%;
+            min-width: 80px;
+            font-size: 0.8rem;
+            justify-content: flex-end;
         }
         
-        #wrong-count {
-            color: #dc3545;
-            font-weight: bold;
-        }
-        
-        #total-count {
-            color: #495057;
-        }
-        
-
-/* 加入错题本按钮样式 */
-.add-to-wrong-words {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    cursor: pointer;
-    padding: 0.4rem 0.6rem;
-    border-radius: 6px;
-    transition: all 0.2s;
-    width: auto; /* 改为自动宽度 */
-    min-width: 90px; /* 设置最小宽度 */
-    justify-content: flex-end;
-    font-size: 0.8rem;
-    white-space: nowrap; /* 确保文字不换行 */
-    overflow: hidden; /* 隐藏溢出内容 */
-    text-overflow: ellipsis; /* 文字过长显示省略号 */
-}
-        .add-to-wrong-words:hover {
-            background-color: rgba(0,0,0,0.05);
-        }
-        
-        .add-icon {
-            color: transparent;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
-        
-        .add-icon.active {
-            color: #28a745;
-        }
-        
-        .add-text {
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
-        
-        /* 筛选面板样式 */
         .selection-panel {
-            display: none;
-            position: absolute;
-            top: 100%;
+            width: 280px;
             left: 0;
-            width: 100%;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            margin-top: 0.5rem;
-            z-index: 20;
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-        
-        .selection-panel-body {
-            padding: 0.8rem;
-        }
-        
-        .selection-section {
-            margin-bottom: 1rem;
-        }
-        
-        .selection-section-title {
-            font-size: 0.9rem;
-            color: #333;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
+            transform: none;
         }
         
         .selection-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 0.4rem;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
         }
         
-        .selection-option {
-            padding: 0.4rem 0.6rem;
-            border-radius: 4px;
-            background-color: #f5f5f5;
-            text-align: center;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .selection-option.active {
-            background-color: #5b94ce;
-            color: white;
-        }
-        
-        /* 其他原有样式保持不变 */
-        .chinese {
-            font-size: 1.6rem;
-            margin: 2rem 0;
-            padding-top: 1rem;
-            text-align: center;
-            width: 100%;
-        }
-        .spelling {
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            color: #6c757d;
-            text-align: center;
-        }
-        .dashes-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 0.3rem;
-            padding: 0 0.5rem;
-        }
-        .dash-input {
-            width: 1.8rem;
-            height: 3.5rem;
-            border: none;
-            border-bottom: 2px solid #adb5bd;
-            margin: 0;
-            text-align: center;
-            font-size: 1.6rem;
-            background: transparent;
-            text-transform: lowercase;
-            padding: 0;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .dash-input:focus {
-            border-bottom-color: #007bff;
-        }
-        .dash-input.correct {
-            border-bottom-color: #28a745;
-            color: #28a745;
-            animation: correctPulse 0.4s ease-in-out;
-        }
-        .dash-input.incorrect {
-            border-bottom-color: #dc3545;
-            color: #dc3545;
-            animation: shake 0.5s ease-in-out;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-4px); }
-            40% { transform: translateX(4px); }
-            60% { transform: translateX(-4px); }
-            80% { transform: translateX(4px); }
-        }
-        @keyframes checkFade {
-            0% { opacity: 0; transform: translateY(-50%) scale(0.5); }
-            100% { opacity: 1; transform: translateY(-50%) scale(1); }
-        }
-        .buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-        }
-        button {
-            padding: 0.8rem 1.2rem;
-            font-size: 1rem;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease-out;
-            flex: 1;
-            min-width: 120px;
-            max-width: 160px;
-            background-color: white;
-            color: #495057;
-            font-weight: 500;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        button:active {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-color: #ddd;
-        }
-
-        button {
-            -webkit-touch-callout: none;
-            user-select: none;
-        }
-
-        #speak-btn {
-            color: #007bff;
-        }
-        #speak-btn:hover {
-            border-color: #007bff;
-        }
-        #show-answer-btn {
-            color: #ff9800;
-        }
-        #show-answer-btn:hover {
-            border-color: #ff9800;
-        }
-        #next-btn {
-            color: #6c757d;
-        }
-        #next-btn:hover {
-            border-color: #6c757d;
-        }
-        #wrong-words-btn {
-            color: #dc3545;
-        }
-        #wrong-words-btn:hover {
-            border-color: #dc3545;
-        }
-        .result {
-            text-align: center;
-            font-size: 1.1rem;
-            margin-top: 1rem;
-            min-height: 1.5rem;
-            padding: 0.8rem;
-            border-radius: 8px;
-            background-color: rgba(0,123,255,0.1);
-            color: #007bff;
-            display: none;
-        }
-        .result.show {
-            display: block;
-        }
-        .correct-result {
-            background-color: rgba(40,167,69,0.1);
-            color: #28a745;
-        }
-        .incorrect-result {
-            background-color: rgba(220,53,69,0.1);
-            color: #dc3545;
-        }
-        .round-complete {
-            background-color: rgba(75, 192, 192, 0.1);
-            color: #4bc0c0;
-        }
-        
-        .back-to-main svg {
-            display: none;
-        }
-
-        .fixed-char {
-            display: inline-block;
-            font-size: 1.6rem;
-            color: #333;
-            margin: 0 0.1rem;
-        }
-
-        .fixed-char.space-char {
-            width: 0.8rem;
-        }
-        
-        /* 错题本样式 */
-        .wrong-words-container {
-            display: none;
-            background-color: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            margin: 2rem auto;
-            max-width: 800px;
-            min-height: 400px;
-        }
-        .wrong-words-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        .wrong-words-title {
-            font-size: 1.5rem;
-            color: #5b94ce;
-        }
-        .wrong-words-list {
-            margin-top: 1.5rem;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .wrong-words-list::-webkit-scrollbar {
-            display: none;
-        }
-        .wrong-word-item {
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-            position: relative;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .wrong-word-item.selected {
-            background-color: rgba(91, 148, 206, 0.1);
-        }
-        .wrong-word-grid {
-            display: grid;
-            grid-template-columns: 30px 1fr;
-            gap: 0.5rem;
-        }
-        .wrong-word-number {
-            font-weight: bold;
-            color: #5b94ce;
-            grid-row: 1 / span 3;
-            align-self: start;
-        }
         .wrong-word-content {
-            display: grid;
             grid-template-rows: auto auto auto;
-            gap: 0.5rem;
         }
         .wrong-word-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.8rem;
+            gap: 0.5rem;
+        }
+        .wrong-word-meta {
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .word-container, .wrong-words-container {
+            padding: 1.2rem;
+            min-height: auto;
+        }
+        .chinese {
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+        }
+        .dash-input {
+            width: 1.4rem;
+            height: 2.8rem;
+            font-size: 1.2rem;
+        }
+        .dashes-container {
+            gap: 0.2rem;
+        }
+        .buttons {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        
+        .top-controls {
+            gap: 6px;
+        }
+        
+        .selection-range {
+            width: 30%;
+            min-width: 70px;
+        }
+        
+        .stats-container {
+            min-width: 70px;
+            font-size: 0.8rem;
+        }
+        
+        .add-to-wrong-words {
+            width: 30%;
+            min-width: 80px;
+        }
+        
+        .selection-range-btn,
+        .add-to-wrong-words {
+            padding: 0.4rem 0.6rem;
+            font-size: 0.8rem;
+        }
+        
+        .selection-panel {
+            width: 260px;
+        }
+        
+        .selection-options {
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        }
+        
+        .wrong-words-title {
+            font-size: 1.3rem;
+        }
+        .wrong-words-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+        .wrong-words-actions button {
+            width: 100%;
+        }
+        
+        .wrong-word-item {
+            padding: 0.8rem;
+        }
+        .wrong-word-grid {
+            grid-template-columns: 25px 1fr;
+        }
+        .wrong-word-english {
+            flex: 1 1 100%;
+            margin-bottom: 0.2rem;
+        }
+        .wrong-word-chinese {
+            flex: 1 1 100%;
+            margin-bottom: 0.3rem;
+        }
+        .wrong-word-phonetic, .wrong-word-pos {
+            font-size: 0.85rem;
         }
 
         .wrong-word-col {
-            display: flex;
-            align-items: center;
+            margin-bottom: 0.2rem;
         }
-        .wrong-word-english {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .wrong-word-chinese {
-            color: #777;
-        }
-        .wrong-word-phonetic {
-            color: #777;
-            font-style: italic;
-        }
-
-        .wrong-word-pos {
-            color: #777;
-        }
-
+        
         .wrong-word-grade, 
         .wrong-word-unit {
-            color: #999;
-            font-size: 0.9rem;
-        }
-
-        .wrong-word-meta {
-            display: flex;
-            justify-content: space-between;
-            color: #777;
             font-size: 0.85rem;
-            margin-top: 0.3rem;
         }
-        .wrong-words-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        .wrong-words-actions button {
-            padding: 0.8rem 1.2rem;
-            font-size: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            min-width: 120px;
-            border: 1px solid #eee;
-            background-color: white;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .practice-all-btn {
-            color: #007bff;
-        }
-        .practice-all-btn:hover {
-            border-color: #007bff;
-        }
-        .remove-all-btn {
-            color: #dc3545;
-        }
-        .remove-all-btn:hover {
-            border-color: #dc3545;
-        }
-        .no-wrong-words {
-            text-align: center;
-            color: #6c757d;
-            padding: 2rem;
+    }
+    
+    @media (max-width: 360px) {
+        .dash-input {
+            width: 1.2rem;
+            height: 2.5rem;
             font-size: 1.1rem;
         }
-        .back-to-main {
-            color: #6c757d;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
+        .dashes-container {
+            gap: 0.15rem;
         }
-        .back-to-main:hover {
-            color: #007bff;
+        .buttons {
+            gap: 0.5rem;
+        }
+        button {
+            min-width: 90px;
+            padding: 0.6rem 0.8rem;
         }
         
-        .select-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
+        .top-controls {
+            gap: 4px;
         }
-        .select-all-btn, .clear-selection-btn {
-            color: #6c757d;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            background: none;
-            border: none;
-            padding: 0;
-            margin-left: 3.5rem;
+        
+        .selection-range {
+            width: 30%;
+            min-width: 60px;
         }
+        
+        .stats-container {
+            min-width: 60px;
+            font-size: 0.75rem;
+        }
+        
+        .add-to-wrong-words {
+            width: 30%;
+            min-width: 80px;
+        }
+        
+        .selection-range-btn,
+        .add-to-wrong-words {
+            padding: 0.3rem 0.5rem;
+        }
+        
+        .wrong-word-item {
+            padding: 0.6rem;
+        }
+        .wrong-word-number {
+            font-size: 0.9rem;
+        }
+        .wrong-word-phonetic, 
+        .wrong-word-pos,
+        .wrong-word-meta {
+            font-size: 0.8rem;
+        }
+    }
 
-        .select-all-btn:hover, .clear-selection-btn:hover {
-            color: #007bff;
+    @media (hover: none) {
+        button:hover {
+            transform: none;
         }
-        
-        /* 移动端适配 - 保持水平布局 */
-        @media (max-width: 768px) {
-            .word-container, .wrong-words-container {
-                padding: 1.8rem;
-                min-height: 350px;
-            }
-            .chinese {
-                font-size: 1.5rem;
-                margin: 1.8rem 0;
-            }
-            .dash-input {
-                width: 1.6rem;
-                height: 3.2rem;
-                font-size: 1.4rem;
-            }
-            .dashes-container {
-                gap: 0.25rem;
-            }
-            .buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            button {
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            /* 顶部控制栏在小屏幕上的调整 - 保持水平布局 */
-            .top-controls {
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-            
-            .selection-range {
-                width: 80px;
-            }
-            
-            .stats-container {
-                min-width: 70px;
-                font-size: 0.8rem;
-            }
-            
-            .add-to-wrong-words {
-                width: 80px;
-                font-size: 0.8rem;
-            }
-            
-            .selection-panel {
-                width: 280px;
-                left: 0;
-                transform: none;
-            }
-            
-            .selection-options {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            }
-            
-            /* 小屏幕错题本布局优化 */
-            .wrong-word-content {
-                grid-template-rows: auto auto auto;
-            }
-            .wrong-word-row {
-                gap: 0.5rem;
-            }
-            .wrong-word-meta {
-                flex-direction: column;
-                gap: 0.3rem;
-            }
+        button:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
-        @media (max-width: 480px) {
-            .word-container, .wrong-words-container {
-                padding: 1.2rem;
-                min-height: auto;
-            }
-            .chinese {
-                font-size: 1.3rem;
-                margin-bottom: 1.2rem;
-            }
-            .dash-input {
-                width: 1.4rem;
-                height: 2.8rem;
-                font-size: 1.2rem;
-            }
-            .dashes-container {
-                gap: 0.2rem;
-            }
-            .buttons {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            
-            /* 顶部控制栏在更小屏幕上的调整 - 保持水平布局 */
-            .top-controls {
-                gap: 6px;
-            }
-            
-            .selection-range {
-                width: 70px;
-            }
-            
-            .stats-container {
-                min-width: 70px;
-                font-size: 0.8rem;
-            }
-            
-            .add-to-wrong-words {
-                width: 70px;
-            }
-            
-            .selection-range-btn,
-            .add-to-wrong-words {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.8rem;
-            }
-            
-            .selection-panel {
-                width: 260px;
-            }
-            
-            .selection-options {
-                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            }
-            
-            .wrong-words-title {
-                font-size: 1.3rem;
-            }
-            .wrong-words-actions {
-                flex-direction: column;
-                align-items: center;
-            }
-            .wrong-words-actions button {
-                width: 100%;
-            }
-            
-            /* 小屏幕错题本布局 */
-            .wrong-word-item {
-                padding: 0.8rem;
-            }
-            .wrong-word-grid {
-                grid-template-columns: 25px 1fr;
-            }
-            .wrong-word-english {
-                flex: 1 1 100%;
-                margin-bottom: 0.2rem;
-            }
-            .wrong-word-chinese {
-                flex: 1 1 100%;
-                margin-bottom: 0.3rem;
-            }
-            .wrong-word-phonetic, .wrong-word-pos {
-                font-size: 0.85rem;
-            }
-
-            .wrong-word-col {
-                margin-bottom: 0.2rem;
-            }
-            
-            .wrong-word-grade, 
-            .wrong-word-unit {
-                font-size: 0.85rem;
-            }
-        }
-        
-        @media (max-width: 360px) {
-            .dash-input {
-                width: 1.2rem;
-                height: 2.5rem;
-                font-size: 1.1rem;
-            }
-            .dashes-container {
-                gap: 0.15rem;
-            }
-            .buttons {
-                gap: 0.5rem;
-            }
-            button {
-                min-width: 90px;
-                padding: 0.6rem 0.8rem;
-            }
-            
-            /* 在最小屏幕上进一步调整顶部控制栏 */
-            .top-controls {
-                gap: 4px;
-            }
-            
-            .selection-range {
-                width: 60px;
-            }
-            
-            .stats-container {
-                min-width: 60px;
-                font-size: 0.75rem;
-            }
-            
-            .add-to-wrong-words {
-                width: 70px;
-            }
-            
-            .selection-range-btn,
-            .add-to-wrong-words {
-                padding: 0.3rem 0.5rem;
-            }
-            
-            .wrong-word-item {
-                padding: 0.6rem;
-            }
-            .wrong-word-number {
-                font-size: 0.9rem;
-            }
-            .wrong-word-phonetic, 
-            .wrong-word-pos,
-            .wrong-word-meta {
-                font-size: 0.8rem;
-            }
-        }
-
-        @media (hover: none) {
-            button:hover {
-                transform: none;
-            }
-            button:active {
-                transform: scale(0.98);
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            }
-        }
+    }
     </style>
 </head>
 <body>
