@@ -163,7 +163,7 @@ h1 {
         }
         
         .add-icon.active {
-            color: #e06ee0;
+            color: #4ab465;
         }
         
         .add-text {
@@ -327,11 +327,11 @@ h1 {
         }
 
         #speak-btn {
-            color:#6b4f4b;
+            color:#3e73c2;
         }
         
         #speak-btn:hover {
-            border-color: #6b4f4b;
+            border-color: #3e73c2;
         }
         
         #show-answer-btn {
@@ -441,7 +441,7 @@ h1 {
         
         .wrong-words-title {
             font-size: 1.5rem;
-            color: #5b94ce;
+            color: #ce985b;
         }
         
         .wrong-words-list {
@@ -458,14 +458,14 @@ h1 {
         
         .wrong-word-item {
             padding: 1rem;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #e7bea5;
             position: relative;
             cursor: pointer;
             transition: background-color 0.2s;
         }
         
         .wrong-word-item.selected {
-            background-color: rgba(91, 148, 206, 0.1);
+            background-color: rgba(206, 166, 91, 0.1);
         }
         
         .wrong-word-grid {
@@ -476,7 +476,7 @@ h1 {
         
         .wrong-word-number {
             font-weight: bold;
-            color: #5b94ce;
+            color: #d8a367;
             grid-row: 1 / span 3;
             align-self: start;
         }
@@ -572,16 +572,33 @@ h1 {
         }
         
         .back-to-main {
-            color: #6c757d;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        
-        .back-to-main:hover {
-            color: #007bff;
-        }
+    color: #6c757d; /* 与其他按钮相同的文字颜色 */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.8rem 1.2rem; /* 与其他按钮相同的padding */
+    border-radius: 8px; /* 相同的圆角 */
+    background-color: white; /* 白色背景 */
+    transition: all 0.2s ease-out;
+    border: 1px solid #eee; /* 浅灰色边框 */
+    font-size: 1rem; /* 相同字体大小 */
+    font-weight: 500; /* 相同字重 */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    position: relative;
+    text-decoration: none; /* 移除下划线 */
+}
+
+.back-to-main:hover {
+    border-color: #ddd; /* 悬停时边框变深 */
+    color: #495057; /* 文字颜色变深 */
+
+}
+
+.back-to-main:active {
+    transform: translateY(-1px); /* 与其他按钮相同的点击效果 */
+}
         
         .select-actions {
             display: flex;
@@ -590,21 +607,22 @@ h1 {
             margin-bottom: 1rem;
         }
         
-        .select-all-btn, .clear-selection-btn {
-            color: #6c757d;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            background: none;
-            border: none;
-            padding: 0;
-            margin-left: 3.5rem;
-        }
+        .selection-actions {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center;    /* 垂直居中（如果需要） */
+    gap: 0.5rem;            /* 文字间距 */
+    margin-top: 1rem;       /* 与上方内容的间距 */
+}
 
-        .select-all-btn:hover, .clear-selection-btn:hover {
-            color: #007bff;
-        }
+.select-all-btn,
+.clear-selection-btn {
+    color: #6c757d;         /* 默认灰色 */
+    cursor: pointer;
+    font-size: inherit;     /* 继承父级文字大小 */
+}
+
+
         
         @media (max-width: 768px) {
             .word-container, .wrong-words-container {
@@ -905,8 +923,9 @@ h1 {
     <!-- 错题本容器 -->
     <div class="wrong-words-container" id="wrong-words-container">
         <div class="wrong-words-header">
-            <h2 class="wrong-words-title">错题本</h2>
             <span class="back-to-main" id="back-to-main">返回练习</span>
+            <h2 class="wrong-words-title">错题本</h2>
+
         </div>
         
         <div class="wrong-words-list" id="wrong-words-list">
