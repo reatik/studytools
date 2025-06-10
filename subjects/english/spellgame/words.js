@@ -1,6 +1,5 @@
 const wordData = {
    words: [
-      
 {"english":"a","phonetic":"/ə; eɪ/","chinese":"一；一个","pos":"art.","unit":"M1U1","grade":"三年级上","type":"word"},
 {"english":"after","phonetic":"/ˈɑːftə(r)/","chinese":"(时间) 在…… 后","pos":"prep.","unit":"M1U1","grade":"三年级上","type":"word"},
 {"english":"afternoon","phonetic":"/ˌɑːftəˈnuːn/","chinese":"下午","pos":"n.","unit":"M1U1","grade":"三年级上","type":"word"},
