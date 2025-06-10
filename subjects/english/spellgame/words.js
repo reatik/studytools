@@ -1,9 +1,6 @@
 const wordData = {
    words: [
-      {"english":"Children's Day","phonetic":"/ə; eɪ/","chinese":"一；一个","pos":"art.","unit":"M1U1","grade":"高一上","type":"word"},
-      {"english":"even though","phonetic":"/ˈiːvn ðəʊ/","chinese":"尽管；虽然","pos":"","unit":"Unit 4","grade":"高二上","type":"phrase"},
-      {"english":"be born","phonetic":"/ə; eɪ/","chinese":"一；一个","pos":"art.","unit":"M1U1","grade":"高三上","type":"word"},
-      {"english":"(be) born","phonetic":"/ə; eɪ/","chinese":"一；一个","pos":"art.","unit":"M1U1","grade":"高一上","type":"word"},
+      
 {"english":"a","phonetic":"/ə; eɪ/","chinese":"一；一个","pos":"art.","unit":"M1U1","grade":"三年级上","type":"word"},
 {"english":"after","phonetic":"/ˈɑːftə(r)/","chinese":"(时间) 在…… 后","pos":"prep.","unit":"M1U1","grade":"三年级上","type":"word"},
 {"english":"afternoon","phonetic":"/ˌɑːftəˈnuːn/","chinese":"下午","pos":"n.","unit":"M1U1","grade":"三年级上","type":"word"},

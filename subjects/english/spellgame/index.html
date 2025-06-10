@@ -875,6 +875,7 @@ h1 {
                         <path d="M7 10l5 5 5-5z"></path>
                     </svg>
                 </button>
+                </button>
                 <div class="selection-panel" id="selection-panel">
                     <div class="selection-panel-body">
                         <div class="selection-section">
@@ -1004,6 +1005,13 @@ h1 {
             // 事件监听
             selectionRangeBtn.addEventListener('click', toggleSelectionPanel);
             
+            // 确保点击按钮的任何部分都能触发
+document.querySelectorAll('.selection-range-btn *').forEach(el => {
+    el.addEventListener('click', (e) => {
+        e.stopPropagation(); // 阻止事件冒泡
+        toggleSelectionPanel();
+    });
+});
             // 点击面板外部关闭
             document.addEventListener('click', (e) => {
                 if (!selectionPanel.contains(e.target) && e.target !== selectionRangeBtn) {
@@ -1601,21 +1609,23 @@ function findPrevInput(inputs, currentIndex) {
 
         // 处理正确答案
         function handleCorrectAnswer(inputs) {
-            correctCount++;
-            resultEl.textContent = '正确！';
-            resultEl.className = 'result show correct-result';
-            
-            // 禁用输入框（防止误操作）
-            inputs.forEach(input => {
-                input.readOnly = true;
-            });
-            
-            // 从错题本移除
-            removeFromWrongWords(currentWord);
-            
-            // 自动下一题
-            setTimeout(() => nextWord(), 1500);
-        }
+    correctCount++;
+    resultEl.textContent = '正确！';
+    resultEl.className = 'result show correct-result';
+    
+    // 禁用输入框（防止误操作）
+    inputs.forEach(input => {
+        input.readOnly = true;
+    });
+    
+    // 只有在错题本练习模式下才从错题本移除
+    if (isPracticingWrongWords) {
+        removeFromWrongWords(currentWord);
+    }
+    
+    // 自动下一题
+    setTimeout(() => nextWord(), 1500);
+}
 
         // 处理错误答案
         function handleIncorrectAnswer() {
@@ -1636,113 +1646,129 @@ function findPrevInput(inputs, currentIndex) {
 
         // 下一个单词
         function nextWord() {
-            if (currentSpeech) {
-                speechSynthesis.cancel();
-                currentSpeech = null;
-            }
+    if (currentSpeech) {
+        speechSynthesis.cancel();
+        currentSpeech = null;
+    }
 
-            // 检查用户是否已经拼对
-            const inputs = dashesContainerEl.querySelectorAll('input');
-            let allCorrect = true;
-            
-            inputs.forEach(input => {
-                const inputValue = input.value.toLowerCase();
-                const correctLetter = input.dataset.correct;
-                
-                if (inputValue !== correctLetter) {
-                    allCorrect = false;
-                }
-            });
-            
-            // 如果没有拼对且未被标记为错误
-            if (!allCorrect && !currentWordMarkedWrong) {
-                wrongCount++;
-                currentWordMarkedWrong = true;
-                updateStats();
-                
-                // 添加到错题本
-                addToWrongWords(currentWord);
-                addIconEl.classList.add('active');
-            }
-
-            if (isPracticingWrongWords) {
-                // 练习错题模式
-                usedWordIndices.push(currentWordIndex);
-                
-                if (wrongWordsInRound.length === 0) {
-                    // 所有错题都已答对
-                    showAllCorrect();
-                    return;
-                }
-                
-                // 随机选择下一个错题
-                currentWordIndex = Math.floor(Math.random() * wrongWordsInRound.length);
-            } else {
-                // 普通练习模式
-                usedWordIndices.push(currentWordIndex);
-                
-                if (usedWordIndices.length >= filteredWords.length) {
-                    // 一轮练习完成
-                    showRoundComplete();
-                    return;
-                }
-                
-                // 随机选择下一个单词（排除已用过的）
-                let availableIndices = [];
-                for (let i = 0; i < filteredWords.length; i++) {
-                    if (!usedWordIndices.includes(i)) {
-                        availableIndices.push(i);
-                    }
-                }
-                currentWordIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-            }
-
-            // 重置标记
-            currentWordMarkedWrong = false;
-            init(true); // 自动聚焦
+    // 检查用户是否已经拼对
+    const inputs = dashesContainerEl.querySelectorAll('input');
+    let allCorrect = true;
+    
+    inputs.forEach(input => {
+        const inputValue = input.value.toLowerCase();
+        const correctLetter = input.dataset.correct;
+        
+        if (inputValue !== correctLetter) {
+            allCorrect = false;
         }
+    });
+    
+    // 如果没有拼对且未被标记为错误
+    if (!allCorrect && !currentWordMarkedWrong) {
+        wrongCount++;
+        currentWordMarkedWrong = true;
+        updateStats();
+        
+        // 添加到错题本
+        addToWrongWords(currentWord);
+        addIconEl.classList.add('active');
+    }
+
+    // 只有在错题本练习模式下答对才会从错题本移除
+    if (allCorrect && isPracticingWrongWords) {
+        removeFromWrongWords(currentWord);
+    }
+
+    if (isPracticingWrongWords) {
+        // 练习错题模式
+        usedWordIndices.push(currentWordIndex);
+        
+        if (wrongWordsInRound.length === 0) {
+            // 所有错题都已答对
+            showAllCorrect();
+            return;
+        }
+        
+        // 随机选择下一个错题
+        currentWordIndex = Math.floor(Math.random() * wrongWordsInRound.length);
+    } else {
+        // 普通练习模式
+        usedWordIndices.push(currentWordIndex);
+        
+        if (usedWordIndices.length >= filteredWords.length) {
+            // 一轮练习完成
+            showRoundComplete();
+            return;
+        }
+        
+        // 随机选择下一个单词（排除已用过的）
+        let availableIndices = [];
+        for (let i = 0; i < filteredWords.length; i++) {
+            if (!usedWordIndices.includes(i)) {
+                availableIndices.push(i);
+            }
+        }
+        currentWordIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+    }
+
+    // 重置标记
+    currentWordMarkedWrong = false;
+    init(true); // 自动聚焦
+}
 
         // 显示答案
-        function showAnswer() {
-            // 取消任何正在进行的语音
-            if (currentSpeech) {
-                speechSynthesis.cancel();
-            }
+        // 修改 showAnswer 函数（增加未完成答题时加入错题本的逻辑）
+function showAnswer() {
+    // 取消任何正在进行的语音
+    if (currentSpeech) {
+        speechSynthesis.cancel();
+    }
 
-            // 清除所有输入框的状态
-            const inputs = dashesContainerEl.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.classList.remove('correct', 'incorrect');
-                input.disabled = false; // 确保输入框是可用的
-            });
+    // 检查是否已完成答题（所有空格都填了）
+    const isCompleted = checkAllFilled();
+    
+    // 如果没有完成答题就点击显示答案，加入错题本
+    if (!isCompleted && !currentWordMarkedWrong) {
+        addToWrongWords(currentWord);
+        addIconEl.classList.add('active');
+        currentWordMarkedWrong = true;
+        wrongCount++;
+        updateStats();
+    }
 
-            // 填充正确答案
-            inputs.forEach(input => {
-                input.value = input.dataset.correct;
-                input.classList.add('correct');
-            });
+    // 清除所有输入框的状态
+    const inputs = dashesContainerEl.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.classList.remove('correct', 'incorrect');
+        input.disabled = false;
+    });
 
-            // 标记已显示答案
-            answerShown = true;
-            
-            // 更新结果显示
-            resultEl.textContent = '正确答案已显示';
-            resultEl.className = 'result show correct-result';
-            
-            // 禁用所有输入框
-            inputs.forEach(input => {
-                input.disabled = true;
-            });
-            
-            // 如果当前单词被标记为错误，现在纠正它
-            if (currentWordMarkedWrong) {
-                wrongCount--;
-                currentWordMarkedWrong = false;
-                removeFromWrongWords(currentWord);
-                addIconEl.classList.remove('active');
-                updateStats();
-            }
-        }
+    // 填充正确答案
+    inputs.forEach(input => {
+        input.value = input.dataset.correct;
+        input.classList.add('correct');
+    });
+
+    // 标记已显示答案
+    answerShown = true;
+    
+    // 更新结果显示
+    resultEl.textContent = isCompleted ? '正确答案已显示' : '未完成答题，已加入错题本';
+    resultEl.className = 'result show ' + (isCompleted ? 'correct-result' : 'incorrect-result');
+    
+    // 禁用所有输入框
+    inputs.forEach(input => {
+        input.disabled = true;
+    });
+    
+    // 如果之前标记为错误（现在显示答案了），更新标记但不删除记录
+    if (currentWordMarkedWrong) {
+        wrongCount--;
+        currentWordMarkedWrong = false;
+        updateStats();
+    }
+}
 
         // 添加到错题本
         function addToWrongWords(word) {
