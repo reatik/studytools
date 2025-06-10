@@ -345,7 +345,7 @@ button:disabled {
     display: flex;
     align-items: center;
     gap: 4px;
-    flex: 1;
+    width: 100%;
 }
 
 .auto-play-count-btn, 
@@ -554,7 +554,7 @@ button:disabled {
             
             <div class="language-modes">
                 <div class="language-toggle-container">
-                    <span class="play-order-label">播放顺序</span>
+                    <span class="play-order-label">播放模式</span>
                     <div id="englishToggleBtn" class="language-toggle-btn active">英</div>
                     <div id="toggleArrow" class="toggle-arrow">↔</div>
                     <div id="chineseToggleBtn" class="language-toggle-btn active">中</div>
@@ -562,30 +562,32 @@ button:disabled {
             </div>
             
             <div class="auto-play-controls">
-                <div class="auto-play-row">
-                    <span class="auto-play-label">自动播报</span>
-                    <div class="auto-play-toggle">
-                        <div class="auto-play-toggle-switch">
-                            <input type="checkbox" id="autoPlayToggle" checked>
-                            <label for="autoPlayToggle"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="auto-play-row combined-controls">
-                    <div class="auto-play-count">
-                        <span class="auto-play-label">朗读遍数</span>
-                        <button id="decreaseCountBtn" class="auto-play-count-btn">-</button>
-                        <span id="repeatCountValue" class="auto-play-count-value">1</span>
-                        <button id="increaseCountBtn" class="auto-play-count-btn">+</button>
-                    </div>
-                    <div class="auto-play-interval">
-                        <span class="auto-play-label">间隔(ms)</span>
-                        <button id="decreaseIntervalBtn" class="auto-play-interval-btn">-</button>
-                        <input type="number" id="intervalValue" class="auto-play-interval-value" value="300" min="100" max="1000">
-                        <button id="increaseIntervalBtn" class="auto-play-interval-btn">+</button>
-                    </div>
-                </div>
+    <div class="auto-play-row">
+        <span class="auto-play-label">自动播报</span>
+        <div class="auto-play-toggle">
+            <div class="auto-play-toggle-switch">
+                <input type="checkbox" id="autoPlayToggle" checked>
+                <label for="autoPlayToggle"></label>
             </div>
+        </div>
+    </div>
+    <div class="auto-play-row">
+        <div class="auto-play-count">
+            <span class="auto-play-label">朗读遍数</span>
+            <button id="decreaseCountBtn" class="auto-play-count-btn">-</button>
+            <span id="repeatCountValue" class="auto-play-count-value">1</span>
+            <button id="increaseCountBtn" class="auto-play-count-btn">+</button>
+        </div>
+    </div>
+    <div class="auto-play-row">
+        <div class="auto-play-interval">
+            <span class="auto-play-label">间隔(ms)</span>
+            <button id="decreaseIntervalBtn" class="auto-play-interval-btn">-</button>
+            <input type="number" id="intervalValue" class="auto-play-interval-value" value="300" min="100" max="1000">
+            <button id="increaseIntervalBtn" class="auto-play-interval-btn">+</button>
+        </div>
+    </div>
+</div>
             
             <div class="dictation-content">
                 <div id="dictationEnglish" class="dictation-english"></div>
@@ -948,12 +950,7 @@ button:disabled {
                 updateProgress();
                 updateDictationContent();
                 
-                // 开始自动播报
-                if (autoPlayEnabled) {
-                    startAutoPlay();
-                } else {
-                    readCurrentItem();
-                }
+
             });
 
             // 更新进度

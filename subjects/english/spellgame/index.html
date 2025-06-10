@@ -875,7 +875,6 @@ h1 {
                         <path d="M7 10l5 5 5-5z"></path>
                     </svg>
                 </button>
-                </button>
                 <div class="selection-panel" id="selection-panel">
                     <div class="selection-panel-body">
                         <div class="selection-section">
@@ -1005,13 +1004,6 @@ h1 {
             // 事件监听
             selectionRangeBtn.addEventListener('click', toggleSelectionPanel);
             
-            // 确保点击按钮的任何部分都能触发
-document.querySelectorAll('.selection-range-btn *').forEach(el => {
-    el.addEventListener('click', (e) => {
-        e.stopPropagation(); // 阻止事件冒泡
-        toggleSelectionPanel();
-    });
-});
             // 点击面板外部关闭
             document.addEventListener('click', (e) => {
                 if (!selectionPanel.contains(e.target) && e.target !== selectionRangeBtn) {
@@ -1717,8 +1709,6 @@ function findPrevInput(inputs, currentIndex) {
     init(true); // 自动聚焦
 }
 
-        // 显示答案
-        // 修改 showAnswer 函数（增加未完成答题时加入错题本的逻辑）
 function showAnswer() {
     // 取消任何正在进行的语音
     if (currentSpeech) {
@@ -1728,13 +1718,16 @@ function showAnswer() {
     // 检查是否已完成答题（所有空格都填了）
     const isCompleted = checkAllFilled();
     
-    // 如果没有完成答题就点击显示答案，加入错题本
-    if (!isCompleted && !currentWordMarkedWrong) {
-        addToWrongWords(currentWord);
-        addIconEl.classList.add('active');
-        currentWordMarkedWrong = true;
-        wrongCount++;
-        updateStats();
+    // 如果没有完成答题就点击显示答案
+    if (!isCompleted) {
+        // 如果之前未被标记为错误，才增加错误计数
+        if (!currentWordMarkedWrong) {
+            wrongCount++;  // 确保错误计数增加
+            currentWordMarkedWrong = true;
+            addToWrongWords(currentWord);  // 添加到错题本
+            addIconEl.classList.add('active');
+        }
+        updateStats();  // 立即更新统计显示
     }
 
     // 清除所有输入框的状态
@@ -1761,13 +1754,6 @@ function showAnswer() {
     inputs.forEach(input => {
         input.disabled = true;
     });
-    
-    // 如果之前标记为错误（现在显示答案了），更新标记但不删除记录
-    if (currentWordMarkedWrong) {
-        wrongCount--;
-        currentWordMarkedWrong = false;
-        updateStats();
-    }
 }
 
         // 添加到错题本
