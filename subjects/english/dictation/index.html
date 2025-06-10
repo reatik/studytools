@@ -826,14 +826,14 @@ button:disabled {
     elements.startBtn.classList.remove('hidden');
     updateStatusInfo();
     renderContentGrid();
-}
+            }
 
-            document.getElementById('copyPromptBtn').addEventListener('click', function() {
-    const promptText = "提取图片中的中英文内容，英语在前中文在后，中间用空格分割，一行一组。";
-    navigator.clipboard.writeText(promptText).then(() => {
-        alert('提示词已复制');
-    });
-});
+            document.getElementById('copyPromptBtn').addEventListener('click', function () {
+                const promptText = "提取图片中的中英文对照内容：\n英文内容置于中文内容之前，两者间以单个空格分隔\n保持原格式不拆分（包括连字符连接的单词）\n每组内容单独一行";
+                navigator.clipboard.writeText(promptText).then(() => {
+                    alert('提示词已复制');
+                });
+            });
 
             // 输入框事件监听
             let debounceTimer;
