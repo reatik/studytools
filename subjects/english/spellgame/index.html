@@ -967,6 +967,7 @@ h1 {
         let currentWordMarkedWrong = false;
         let selectedGrade = '';
         let selectedUnit = '';
+        let isFirstAttempt = true;
 
         // DOM元素
         const chineseWordEl = document.getElementById('chinese-word');
@@ -1282,6 +1283,7 @@ h1 {
         function init(autoFocus = false) {
             // 重置当前单词的错误标记
             currentWordMarkedWrong = false;
+            isFirstAttempt = true;
             
             if (filteredWords.length === 0) return;
             
@@ -1587,34 +1589,51 @@ function findPrevInput(inputs, currentIndex) {
 
         // 检查所有答案
         function checkAllAnswers() {
-            if (answerShown || isChecking) return;
-            
-            isChecking = true;
-            let allCorrect = true;
-            const inputs = dashesContainerEl.querySelectorAll('input');
+        if (answerShown || isChecking) return;
+        
+        isChecking = true;
+        let allCorrect = true;
+        const inputs = dashesContainerEl.querySelectorAll('input');
 
-            // 检查每个字母
-            inputs.forEach(input => {
-                const inputValue = input.value.toLowerCase();
-                const correctLetter = input.dataset.correct;
-                
-                if (inputValue === correctLetter) {
-                    input.classList.add('correct');
-                } else {
-                    input.classList.add('incorrect');
-                    allCorrect = false;
-                }
-            });
+        // 检查每个字母
+        inputs.forEach(input => {
+            const inputValue = input.value.toLowerCase();
+            const correctLetter = input.dataset.correct;
             
-            // 处理结果
-            if (allCorrect) {
+            if (inputValue === correctLetter) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+                allCorrect = false;
+            }
+        });
+        
+        // 处理结果
+        if (allCorrect) {
+            // 只有在第一次尝试就正确时才计数
+            if (isFirstAttempt) {
                 handleCorrectAnswer(inputs);
             } else {
-                handleIncorrectAnswer();
+                // 虽然不是第一次就正确，但仍然显示正确反馈
+                resultEl.textContent = '正确！(已修改)';
+                resultEl.className = 'result show correct-result';
+                
+                // 禁用输入框
+                inputs.forEach(input => {
+                    input.readOnly = true;
+                });
+                
+                // 自动下一题
+                setTimeout(() => nextWord(), 1500);
             }
-            
-            isChecking = false;
+        } else {
+            handleIncorrectAnswer();
         }
+        
+        // 标记已经不是第一次尝试了
+        isFirstAttempt = false;
+        isChecking = false;
+    }
 
         // 处理正确答案
         function handleCorrectAnswer(inputs) {
@@ -1655,20 +1674,18 @@ function findPrevInput(inputs, currentIndex) {
 
         // 处理错误答案
         function handleIncorrectAnswer() {
-            // 仅首次错误时计数
-            if (!currentWordMarkedWrong) {
-                wrongCount++;
-                currentWordMarkedWrong = true;
-                addToWrongWords(currentWord);
-                addIconEl.classList.add('active');
-                updateStats();
-            }
-            
-            resultEl.textContent = '有错误，请修改！';
-            resultEl.className = 'result show incorrect-result';
-            
-            // 不清除输入框状态，允许用户继续修改
+        // 仅首次错误时计数
+        if (!currentWordMarkedWrong) {
+            wrongCount++;
+            currentWordMarkedWrong = true;
+            addToWrongWords(currentWord);
+            addIconEl.classList.add('active');
+            updateStats();
         }
+        
+        resultEl.textContent = '有错误，请修改！';
+        resultEl.className = 'result show incorrect-result';
+    }
 
         // 下一个单词
         function nextWord() {
@@ -1755,6 +1772,7 @@ function findPrevInput(inputs, currentIndex) {
 
         // 重置标记
         currentWordMarkedWrong = false;
+        isFirstAttempt = true;
         init(true); // 自动聚焦
     }
 
