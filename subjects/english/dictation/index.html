@@ -225,14 +225,16 @@ button:disabled {
     font-weight: 500;
     border-radius: 6px;
     margin-top: 10px;
-    height: 48px; 
+    height: 48px;
+    background-color: var(--primary-color); /* 添加蓝色背景 */
+    color: white; /* 文字改为白色 */
 }
 
 .next-btn {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--light-gray); /* 改为浅灰色背景 */
+    color: var(--dark-gray); /* 改为深灰色文字 */
     font-size: 15px;
-    padding: 16px;
+    padding: 12px;
     font-weight: 500;
 }
 
@@ -524,13 +526,87 @@ button:disabled {
 .order-indicator {
     display: none; /* 隐藏顺序指示器以节省空间 */
 }
+
+.prompt-help {
+    background-color: var(--light-gray);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+
+}
+
+.prompt-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.prompt-title {
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: rgba(26, 115, 232, 0.1);
+    color: var(--primary-color);
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    float: right;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0; /* 防止按钮被压缩 */
+    white-space: nowrap; /* 防止文字换行 */
+}
+.prompt-help::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.copy-btn:hover {
+    background-color: rgba(26, 115, 232, 0.2);
+}
+
+.copy-icon {
+    font-size: 14px;
+    line-height: 1;
+}
+
+#exitBtn {
+    background-color: var(--light-gray); /* 改为浅灰色背景 */
+    color: var(--dark-gray); /* 改为深灰色文字 */
+}
+
     </style>
 </head>
 <body>
     <div class="container">
         <div id="inputPanel" class="panel">
             <h2>默写工具</h2>
-            <textarea id="inputText" placeholder="输入或粘贴中英文对照内容（每行一组）"></textarea>
+            <textarea id="inputText" placeholder="请将您需要默写的内容粘贴到此处，程序会自动生成默写格式"></textarea>
+
+            <!-- 新增的简单提示区域 -->
+            <div id="promptHelp" class="prompt-help">
+                <div class="prompt-title">AI提示词</div>
+                <p>提取图片中的中英文对照内容：<br>
+                    英文内容置于中文内容之前，两者间以单个空格分隔<br>
+                    保持原格式不拆分（包括连字符连接的单词）<br>
+                    每组内容单独一行</p>
+                <button id="copyPromptBtn" class="copy-btn">
+
+                    复制提示词
+                </button>
+            </div>
             
             <div class="button-group">
                 <div id="actionButtons" class="button-row hidden">
@@ -596,8 +672,8 @@ button:disabled {
             
             <div class="dictation-controls">
                 <button id="prevBtn" class="dictation-btn prev-btn">上一个</button>
-                <button id="nextBtn" class="dictation-btn next-btn">下一个</button>
                 <button id="readBtn" class="dictation-btn">朗读</button>
+                <button id="nextBtn" class="dictation-btn next-btn">下一个</button>
                 <button id="exitBtn" class="dictation-btn">退出</button>
             </div>
         </div>
@@ -675,81 +751,89 @@ button:disabled {
             
             // 清空内容
             elements.clearBtn.addEventListener('click', function() {
-                elements.inputText.value = '';
-                lines = [];
-                selectedRows = [];
-                elements.contentGrid.innerHTML = '';
-                elements.startBtn.classList.add('hidden');
-                elements.actionButtons.classList.add('hidden');
-                elements.statusInfo.classList.add('hidden');
-            });
+    selectedRows = []; // 清空选中的行索引
+    renderContentGrid(); // 重新渲染以更新UI
+    updateStatusInfo(); // 更新状态信息
+    updateToggleSelectAllButton(); // 更新全选按钮状态
+});
 
             // 自动导入函数
             function autoImportContent() {
-                const text = elements.inputText.value.trim();
-                if (!text) {
-                    // 如果输入框为空，隐藏相关UI
-                    lines = [];
-                    selectedRows = [];
-                    elements.contentGrid.innerHTML = '';
-                    elements.startBtn.classList.add('hidden');
-                    elements.actionButtons.classList.add('hidden');
-                    elements.statusInfo.classList.add('hidden');
-                    return;
-                }
-                
-                const rawLines = text.split('\n').filter(line => line.trim() !== '');
-                lines = [];
-                
-                rawLines.forEach(line => {
-                    line = line.trim();
-                    let english = '';
-                    let chinese = '';
-                    
-                    // 改进的分割逻辑 - 寻找第一个中文字符或中文标点符号
-                    let splitPos = -1;
-                    for (let i = 0; i < line.length; i++) {
-                        const char = line[i];
-                        // 如果遇到中文字符、中文标点或中文数字
-                        if (isChineseChar(char) || isChinesePunctuation(char) || 
-                            (isChineseNumber(char) && i > 0 && !isEnglishChar(line[i-1]))) {
-                            splitPos = i;
-                            break;
-                        }
-                    }
-                    
-                    if (splitPos > 0) {
-                        english = line.substring(0, splitPos).trim();
-                        chinese = line.substring(splitPos).trim();
-                        
-                        // 确保中文标点符号不会被单独留在英文部分
-                        if (english.endsWith('《') || english.endsWith('「') || 
-                            english.endsWith('（') || english.endsWith('【')) {
-                            chinese = english.slice(-1) + chinese;
-                            english = english.slice(0, -1).trim();
-                        }
-                    } else if (splitPos === 0) {
-                        // 整行都是中文
-                        chinese = line;
-                    } else {
-                        // 整行都是英文
-                        english = line;
-                    }
-                    
-                    lines.push({
-                        english: english,
-                        chinese: chinese
-                    });
-                });
-                
-                // 更新UI
-                selectedRows = Array.from({ length: lines.length }, (_, i) => i);
-                elements.actionButtons.classList.remove('hidden');
-                elements.statusInfo.classList.remove('hidden');
-                elements.startBtn.classList.remove('hidden');
-                updateStatusInfo();
-                renderContentGrid();
+    const text = elements.inputText.value.trim();
+
+    // 新增：根据输入框内容显示/隐藏提示区域
+    document.getElementById('promptHelp').style.display = text ? 'none' : 'block';
+
+    if (!text) {
+        // 如果输入框为空，隐藏相关UI
+        lines = [];
+        selectedRows = [];
+        elements.contentGrid.innerHTML = '';
+        elements.startBtn.classList.add('hidden');
+        elements.actionButtons.classList.add('hidden');
+        elements.statusInfo.classList.add('hidden');
+        return;
+    }
+    
+    const rawLines = text.split('\n').filter(line => line.trim() !== '');
+    lines = [];
+    
+    rawLines.forEach(line => {
+        line = line.trim();
+        let english = '';
+        let chinese = '';
+        
+        // 改进的分割逻辑 - 寻找第一个中文字符或中文标点符号
+        let splitPos = -1;
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            // 如果遇到中文字符、中文标点或中文数字
+            if (isChineseChar(char) || isChinesePunctuation(char) || 
+                (isChineseNumber(char) && i > 0 && !isEnglishChar(line[i-1]))) {
+                splitPos = i;
+                break;
             }
+        }
+        
+        if (splitPos > 0) {
+            english = line.substring(0, splitPos).trim();
+            chinese = line.substring(splitPos).trim();
+            
+            // 确保中文标点符号不会被单独留在英文部分
+            if (english.endsWith('《') || english.endsWith('「') || 
+                english.endsWith('（') || english.endsWith('【')) {
+                chinese = english.slice(-1) + chinese;
+                english = english.slice(0, -1).trim();
+            }
+        } else if (splitPos === 0) {
+            // 整行都是中文
+            chinese = line;
+        } else {
+            // 整行都是英文
+            english = line;
+        }
+        
+        lines.push({
+            english: english,
+            chinese: chinese
+        });
+    });
+    
+    // 更新UI
+    selectedRows = Array.from({ length: lines.length }, (_, i) => i);
+    elements.actionButtons.classList.remove('hidden');
+    elements.statusInfo.classList.remove('hidden');
+    elements.startBtn.classList.remove('hidden');
+    updateStatusInfo();
+    renderContentGrid();
+}
+
+            document.getElementById('copyPromptBtn').addEventListener('click', function() {
+    const promptText = "提取图片中的中英文内容，英语在前中文在后，中间用空格分割，一行一组。";
+    navigator.clipboard.writeText(promptText).then(() => {
+        alert('提示词已复制');
+    });
+});
 
             // 输入框事件监听
             let debounceTimer;
