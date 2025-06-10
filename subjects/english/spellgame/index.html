@@ -1003,6 +1003,13 @@ h1 {
             
             // 事件监听
             selectionRangeBtn.addEventListener('click', toggleSelectionPanel);
+
+            document.querySelectorAll('.selection-range-btn *').forEach(el => {
+    el.addEventListener('click', (e) => {
+        e.stopPropagation(); // 阻止事件冒泡
+        toggleSelectionPanel();
+    });
+});
             
             // 点击面板外部关闭
             document.addEventListener('click', (e) => {
