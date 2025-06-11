@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="words.js"></script>
+    <script src="../words.js"></script>
     <title>单词拼写练习1.0</title>
     <style>
         * {
@@ -262,7 +262,7 @@ h1 {
             text-align: center;
             font-size: 1.6rem;
             background: transparent;
-            text-transform: lowercase;
+            text-transform: none ;
             padding: 0;
             outline: none;
             transition: all 0.2s;
@@ -948,7 +948,7 @@ h1 {
     </div>
 
     <script>
-        // 全局变量
+
         let allWords = [];
         let filteredWords = [];
         let currentWordIndex = 0;
@@ -1441,7 +1441,7 @@ h1 {
             input.type = 'text';
             input.className = 'dash-input';
             input.maxLength = 1;
-            input.dataset.correct = char.toLowerCase();
+            input.dataset.correct = char; // 不再转为小写
             return input;
         }
     });
@@ -1460,34 +1460,39 @@ h1 {
         
         // 输入处理
         input.addEventListener('input', function() {
-            // 直接覆盖原有内容
-            this.value = this.value.slice(-1).toLowerCase();
-            this.classList.remove('incorrect');
-            
-            // 清除错误提示
-            if (resultEl.textContent.includes('错误')) {
-                resultEl.textContent = '';
-                resultEl.className = 'result';
-            }
-            
-            // 自动跳转到下一个可输入格子
-            if (this.value) {
-                const nextInput = findNextInput(inputs, index);
-                if (nextInput) {
-                    nextInput.focus();
-                    setTimeout(() => nextInput.setSelectionRange(0, 1));
-                }
-            }
-            
-            // 检查是否全部填满
-            if (checkAllFilled()) {
-                checkAllAnswers();
-            }
-        });
+    // 直接保留用户输入的原样，不再转为小写
+    this.value = this.value.slice(-1);  // 只保留最后一个字符
+    this.classList.remove('incorrect');
+    
+    // 清除错误提示
+    if (resultEl.textContent.includes('错误')) {
+        resultEl.textContent = '';
+        resultEl.className = 'result';
+    }
+    
+    // 自动跳转到下一个可输入格子
+    if (this.value) {
+        const nextInput = findNextInput(inputs, index);
+        if (nextInput) {
+            nextInput.focus();
+            setTimeout(() => nextInput.setSelectionRange(0, 1));
+        }
+    }
+    
+    // 检查是否全部填满
+    if (checkAllFilled()) {
+        checkAllAnswers();
+    }
+});
         
         // 键盘事件处理
         input.addEventListener('keydown', function(e) {
             const currentIndex = parseInt(this.dataset.index);
+
+    // 允许Shift键和其他修饰键
+    if (e.key === 'Shift' || e.key === 'Alt' || e.key === 'Control' || e.key === 'Meta') {
+        return;
+    }
             
             // 左箭头：移动到上一个可输入格子
             if (e.key === 'ArrowLeft') {
@@ -1566,7 +1571,7 @@ function findPrevInput(inputs, currentIndex) {
                 ' ', '　', // 空格和全角空格
                 '(', ')', '[', ']', '{', '}', '<', '>', // 各种括号
                 '.', ',', '?', '!', "'", '"', '`', '‘', '’', '“', '”', // 标点符号
-                ':', ';', '…', '_', // 其他标点（移除了'-'）
+                ':', ';', '…', '_', '-',// 其他标点（移除了'-'）
                 '。', '，', '、', '？', '！', '：', '；', '「', '」', '『', '』', // 中文标点
                 '（', '）', '［', '］', '｛', '｝', '《', '》' // 中文括号
             ]);
@@ -1587,26 +1592,25 @@ function findPrevInput(inputs, currentIndex) {
             }
         }
 
-        // 检查所有答案
         function checkAllAnswers() {
-        if (answerShown || isChecking) return;
-        
-        isChecking = true;
-        let allCorrect = true;
-        const inputs = dashesContainerEl.querySelectorAll('input');
+    if (answerShown || isChecking) return;
+    
+    isChecking = true;
+    let allCorrect = true;
+    const inputs = dashesContainerEl.querySelectorAll('input');
 
-        // 检查每个字母
-        inputs.forEach(input => {
-            const inputValue = input.value.toLowerCase();
-            const correctLetter = input.dataset.correct;
-            
-            if (inputValue === correctLetter) {
-                input.classList.add('correct');
-            } else {
-                input.classList.add('incorrect');
-                allCorrect = false;
-            }
-        });
+    // 检查每个字母（区分大小写）
+    inputs.forEach(input => {
+        const inputValue = input.value; // 保留原样
+        const correctLetter = input.dataset.correct; // 保留原样
+        
+        if (inputValue === correctLetter) { // 精确比较
+            input.classList.add('correct');
+        } else {
+            input.classList.add('incorrect');
+            allCorrect = false;
+        }
+    });
         
         // 处理结果
         if (allCorrect) {
@@ -1615,7 +1619,7 @@ function findPrevInput(inputs, currentIndex) {
                 handleCorrectAnswer(inputs);
             } else {
                 // 虽然不是第一次就正确，但仍然显示正确反馈
-                resultEl.textContent = '正确！(已修改)';
+                resultEl.textContent = '正确！';
                 resultEl.className = 'result show correct-result';
                 
                 // 禁用输入框
@@ -1689,92 +1693,96 @@ function findPrevInput(inputs, currentIndex) {
 
         // 下一个单词
         function nextWord() {
-        if (currentSpeech) {
-            speechSynthesis.cancel();
-            currentSpeech = null;
-        }
-
-        // 检查用户是否已经拼对
-        const inputs = dashesContainerEl.querySelectorAll('input');
-        let allCorrect = true;
-        
-        inputs.forEach(input => {
-            const inputValue = input.value.toLowerCase();
-            const correctLetter = input.dataset.correct;
-            
-            if (inputValue !== correctLetter) {
-                allCorrect = false;
-            }
-        });
-        
-        // 如果没有拼对且未被标记为错误
-        if (!allCorrect && !currentWordMarkedWrong) {
-            wrongCount++;
-            currentWordMarkedWrong = true;
-            updateStats();
-            
-            // 添加到错题本
-            addToWrongWords(currentWord);
-            addIconEl.classList.add('active');
-        }
-
-        // 只有在错题本练习模式下答对才会从错题本移除
-        if (allCorrect && isPracticingWrongWords) {
-            removeFromWrongWords(currentWord);
-            
-            // 从当前练习轮次中移除该单词
-            const index = wrongWordsInRound.findIndex(w => 
-                w.english === currentWord.english && 
-                w.chinese === currentWord.chinese
-            );
-            if (index !== -1) {
-                wrongWordsInRound.splice(index, 1);
-            }
-            
-            // 检查是否所有错题都已答对
-            if (wrongWordsInRound.length === 0) {
-                showAllCorrect();
-                return;
-            }
-        }
-
-        if (isPracticingWrongWords) {
-            // 练习错题模式
-            usedWordIndices.push(currentWordIndex);
-            
-            if (wrongWordsInRound.length === 0) {
-                // 所有错题都已答对
-                showAllCorrect();
-                return;
-            }
-            
-            // 随机选择下一个错题
-            currentWordIndex = Math.floor(Math.random() * wrongWordsInRound.length);
-        } else {
-            // 普通练习模式
-            usedWordIndices.push(currentWordIndex);
-            
-            if (usedWordIndices.length >= filteredWords.length) {
-                // 一轮练习完成
-                showRoundComplete();
-                return;
-            }
-            
-            // 随机选择下一个单词（排除已用过的）
-            let availableIndices = [];
-            for (let i = 0; i < filteredWords.length; i++) {
-                if (!usedWordIndices.includes(i)) {
-                    availableIndices.push(i);
-                }
-            }
-            currentWordIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-        }
-
-        // 重置标记
-        currentWordMarkedWrong = false;
-        isFirstAttempt = true;
-        init(true); // 自动聚焦
+    if (currentSpeech) {
+        speechSynthesis.cancel();
+        currentSpeech = null;
     }
+
+    const inputs = dashesContainerEl.querySelectorAll('input');
+    let allCorrect = true;
+    
+    inputs.forEach(input => {
+        const inputValue = input.value; // 保留原样
+        const correctLetter = input.dataset.correct; // 保留原样
+        
+        if (inputValue !== correctLetter) {
+            allCorrect = false;
+        }
+    });
+    
+    // 如果没有拼对且未被标记为错误
+    if (!allCorrect && !currentWordMarkedWrong) {
+        wrongCount++;
+        currentWordMarkedWrong = true;
+        updateStats();
+        
+        // 添加到错题本
+        addToWrongWords(currentWord);
+        addIconEl.classList.add('active');
+    }
+
+    // 只有在错题本练习模式下答对才会从错题本移除
+    if (allCorrect && isPracticingWrongWords) {
+        removeFromWrongWords(currentWord);
+        
+        // 从当前练习轮次中移除该单词
+        const index = wrongWordsInRound.findIndex(w => 
+            w.english === currentWord.english && 
+            w.chinese === currentWord.chinese
+        );
+        if (index !== -1) {
+            wrongWordsInRound.splice(index, 1);
+        }
+        
+        // 检查是否所有错题都已答对
+        if (wrongWordsInRound.length === 0) {
+            showAllCorrect();
+            return;
+        }
+    }
+
+    if (isPracticingWrongWords) {
+        // 练习错题模式 - 顺序出题
+        usedWordIndices.push(currentWordIndex);
+        
+        if (wrongWordsInRound.length === 0) {
+            // 所有错题都已答对
+            showAllCorrect();
+            return;
+        }
+        
+        // 顺序出题，全部出完后再从头开始
+        currentWordIndex = (currentWordIndex + 1) % wrongWordsInRound.length;
+        
+        // 如果已经全部出过一遍，重置usedWordIndices
+        if (usedWordIndices.length >= wrongWordsInRound.length) {
+            usedWordIndices = [];
+        }
+    } else {
+        // 普通练习模式
+        usedWordIndices.push(currentWordIndex);
+        
+        if (usedWordIndices.length >= filteredWords.length) {
+            // 一轮练习完成
+            showRoundComplete();
+            return;
+        }
+        
+        // 随机选择下一个单词（排除已用过的）
+        let availableIndices = [];
+        for (let i = 0; i < filteredWords.length; i++) {
+            if (!usedWordIndices.includes(i)) {
+                availableIndices.push(i);
+            }
+        }
+        currentWordIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+    }
+
+    // 重置标记
+    currentWordMarkedWrong = false;
+    isFirstAttempt = true;
+    init(true); // 自动聚焦
+}
 
 function showAnswer() {
     // 取消任何正在进行的语音
@@ -1804,9 +1812,8 @@ function showAnswer() {
         input.disabled = false;
     });
 
-    // 填充正确答案
     inputs.forEach(input => {
-        input.value = input.dataset.correct;
+        input.value = input.dataset.correct; // 保留原始大小写
         input.classList.add('correct');
     });
 
@@ -1984,31 +1991,32 @@ function showAnswer() {
 
         // 练习选中的单词
         function practiceSelectedWords() {
-            if (selectedWrongWords.length === 0) return;
-            
-            // 切换到主视图
-            showMainView();
-            
-            // 设置当前练习为选中的错题
-            wrongWordsInRound = selectedWrongWords.map(index => wrongWords[index]);
-            isPracticingWrongWords = true;
-            currentWordIndex = 0;
-            usedWordIndices = [];
-            
-            // 重置计数器
-            correctCount = 0;
-            wrongCount = 0;
-            totalCount = wrongWordsInRound.length;
-            currentWordMarkedWrong = false;
-            
-            updateStats();
-            
-            // 清空选择
-            selectedWrongWords = [];
-            
-            // 开始练习第一个选中的单词
-            init(true);
-        }
+    if (selectedWrongWords.length === 0) return;
+    
+    // 切换到主视图
+    showMainView();
+    
+    // 设置当前练习为选中的错题
+    wrongWordsInRound = selectedWrongWords.map(index => wrongWords[index]);
+    isPracticingWrongWords = true;
+    currentWordIndex = 0;
+    usedWordIndices = [];
+    
+    // 重置计数器
+    correctCount = 0;
+    wrongCount = 0;
+    totalCount = wrongWordsInRound.length;
+    currentWordMarkedWrong = false;
+    
+    updateStats();
+    
+    // 清空选择
+    selectedWrongWords = [];
+    
+    // 开始练习第一个选中的单词
+    init(true);
+}
+
 
         // 删除选中的错题
         function removeSelectedWords() {
@@ -2062,17 +2070,21 @@ function showAnswer() {
 
         // 聚焦第一个输入框
         function focusFirstInput() {
-            const firstInput = dashesContainerEl.querySelector('input');
-            if (firstInput) {
-                setTimeout(() => {
-                    firstInput.focus();
-                    // 确保输入法保持打开状态
-                    if ('virtualKeyboard' in navigator) {
-                        navigator.virtualKeyboard.show();
-                    }
-                }, 100);
+    const firstInput = dashesContainerEl.querySelector('input');
+    if (firstInput) {
+        setTimeout(() => {
+            firstInput.focus();
+            // 确保输入法保持打开状态
+            if ('virtualKeyboard' in navigator) {
+                navigator.virtualKeyboard.show();
             }
-        }
+            // 设置输入模式允许大写字母
+            firstInput.setAttribute('autocapitalize', 'none');
+            firstInput.setAttribute('autocorrect', 'off');
+            firstInput.setAttribute('spellcheck', 'false');
+        }, 100);
+    }
+}
 
         // 数组随机排序
         function shuffleArray(array) {
@@ -2085,4 +2097,4 @@ function showAnswer() {
         }
     </script>
 </body>
-</html>
+</html
