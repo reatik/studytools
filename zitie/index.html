@@ -210,7 +210,7 @@
         }
         
         .square-grid-cell img {
-            width: 1.1m;
+            width: 1.1cm;
             height: 1.1cm;
             object-fit: contain;
         }
@@ -227,23 +227,7 @@
             font-weight: bold;
         }
         
-        input[type="file"] { 
-            margin-bottom: 15px;
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .status-message {
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
-        
-        .success { background-color: #dff0d8; color: #3c763d; }
-        .info { background-color: #d9edf7; color: #31708f; }
-        .error { background-color: #f2dede; color: #a94442; }
+
         
         .checkbox-label {
             display: flex;
@@ -316,29 +300,29 @@
         }
 
         /* 页码样式 */
-.page-number {
-    position: absolute;
-    bottom: 1cm;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 12px;
-    color: #999;
-    height: 20px;
-    line-height: 20px;
-}
+        .page-number {
+            position: absolute;
+            bottom: 1cm;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            height: 20px;
+            line-height: 20px;
+        }
 
-/* 打印时隐藏不必要的元素 */
-@media print {
-    .no-print {
-        display: none !important;
-    }
-    
-    /* 确保页码在打印时可见 */
-    .page-number {
-        color: #666 !important;
-    }
-}
+        /* 打印时隐藏不必要的元素 */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            /* 确保页码在打印时可见 */
+            .page-number {
+                color: #666 !important;
+            }
+        }
         
 
         @media print {
@@ -377,8 +361,6 @@
                 <label><input type="radio" name="gridMode" value="square"> 方格模式</label>
             </div>
             
-
-            
             <div class="setting-group">
                 <h2>字帖内容</h2>
                 <label for="content">输入文字内容:</label>
@@ -407,12 +389,6 @@
                 </div>
             </div>
             
-            <div class="setting-group">
-                <h2>图片字符</h2>
-                <label for="imageFolder">上传单字图片文件夹:</label>
-                <input type="file" id="imageFolder" webkitdirectory directory multiple accept="image/*">
-                <div id="imageStatus" class="status-message info">请上传单字图片</div>
-            </div>
             
             <div class="setting-group">
                 <h2>PDF设置</h2>
@@ -454,113 +430,149 @@
 
     <script>
         const { jsPDF } = window.jspdf;
-        
-        // 存储数据
-        let characterImages = {};
-        let ricePatternImage = null;
-        let currentContent = "";
-        let currentMode = "rice"; // 默认米字格模式
-        let currentZoom = 1.0; // 当前缩放比例
-        
-        // 获取页面元素
-        const contentTextarea = document.getElementById('content');
-        const imageFolderInput = document.getElementById('imageFolder');
-        const generatePdfButton = document.getElementById('generatePdf');
-        const generateBlankPdfButton = document.getElementById('generateBlankPdf');
-        const printBtn = document.getElementById('printBtn');
-        const previewContainer = document.getElementById('previewContainer');
-        const previewContent = document.querySelector('.preview-content');
-        const imageStatus = document.getElementById('imageStatus');
-        const pdfStatus = document.getElementById('pdfStatus');
-        const enableWatermarkCheckbox = document.getElementById('enableWatermark');
-        const showHeaderCheckbox = document.getElementById('showHeader');
-        const alternateEmptyRowCheckbox = document.getElementById('alternateEmptyRow');
-        const emptyRowCountInput = document.getElementById('emptyRowCount');
-        const emptyRowControlDiv = document.getElementById('emptyRowControl');
-        const indentParagraphCheckbox = document.getElementById('indentParagraph');
-        const showPunctuationCheckbox = document.getElementById('showPunctuation');
-        const riceSettingsDiv = document.getElementById('riceSettings');
-        const squareSettingsDiv = document.getElementById('squareSettings');
-        const modeRadios = document.querySelectorAll('input[name="gridMode"]');
-        const zoomOutBtn = document.getElementById('zoomOut');
-        const zoomInBtn = document.getElementById('zoomIn');
-        const zoomValue = document.getElementById('zoomValue');
-        
-        // 设置事件监听
-        contentTextarea.addEventListener('input', updatePreview);
-        imageFolderInput.addEventListener('change', handleImageUpload);
-        generatePdfButton.addEventListener('click', generatePdf);
-        generateBlankPdfButton.addEventListener('click', generateBlankPdf);
-        printBtn.addEventListener('click', printSheets);
-        enableWatermarkCheckbox.addEventListener('change', updatePreview);
-        showHeaderCheckbox.addEventListener('change', updatePreview);
-        alternateEmptyRowCheckbox.addEventListener('change', function() {
-            emptyRowControlDiv.style.display = this.checked ? 'block' : 'none';
-            updatePreview();
-        });
-        emptyRowCountInput.addEventListener('change', updatePreview);
-        indentParagraphCheckbox.addEventListener('change', updatePreview);
-        showPunctuationCheckbox.addEventListener('change', updatePreview);
-        zoomOutBtn.addEventListener('click', () => adjustZoom(-0.1));
-        zoomInBtn.addEventListener('click', () => adjustZoom(0.1));
-        
-        // 模式选择切换
-        modeRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                currentMode = this.value;
-                if (currentMode === "rice") {
-                    riceSettingsDiv.style.display = "block";
-                    squareSettingsDiv.style.display = "none";
-                } else {
-                    riceSettingsDiv.style.display = "none";
-                    squareSettingsDiv.style.display = "block";
-                }
-                updatePreview();
-            });
-        });
 
-        // 调整缩放比例
-        function adjustZoom(change) {
-            currentZoom = Math.max(0.3, Math.min(2.0, currentZoom + change));
-            applyZoom();
-        }
+// 存储数据
+let characterImages = {};
+let ricePatternImage = '字库/box.png'; // 米字格背景图
+let currentContent = "";
+let currentMode = "rice"; // 默认米字格模式
+let currentZoom = 1.0; // 当前缩放比例
+const imageCache = {}; // 图片缓存
 
-        // 应用缩放
-        function applyZoom() {
-            const pages = document.querySelectorAll('.a4-page');
-            pages.forEach(page => {
-                page.style.transform = `scale(${currentZoom})`;
-            });
-            zoomValue.textContent = `${Math.round(currentZoom * 100)}%`;
-            
-            // 调整预览区域的滚动位置以保持居中
-            if (pages.length > 0) {
-                const firstPage = pages[0];
-                const containerRect = previewContent.getBoundingClientRect();
-                const pageRect = firstPage.getBoundingClientRect();
-                
-                previewContent.scrollLeft = (pageRect.width * currentZoom - containerRect.width) / 2;
-            }
+// 获取页面元素
+const contentTextarea = document.getElementById('content');
+const generatePdfButton = document.getElementById('generatePdf');
+const generateBlankPdfButton = document.getElementById('generateBlankPdf');
+const printBtn = document.getElementById('printBtn');
+const previewContainer = document.getElementById('previewContainer');
+const previewContent = document.querySelector('.preview-content');
+const imageStatus = document.getElementById('imageStatus');
+const pdfStatus = document.getElementById('pdfStatus');
+const enableWatermarkCheckbox = document.getElementById('enableWatermark');
+const showHeaderCheckbox = document.getElementById('showHeader');
+const alternateEmptyRowCheckbox = document.getElementById('alternateEmptyRow');
+const emptyRowCountInput = document.getElementById('emptyRowCount');
+const emptyRowControlDiv = document.getElementById('emptyRowControl');
+const indentParagraphCheckbox = document.getElementById('indentParagraph');
+const showPunctuationCheckbox = document.getElementById('showPunctuation');
+const riceSettingsDiv = document.getElementById('riceSettings');
+const squareSettingsDiv = document.getElementById('squareSettings');
+const modeRadios = document.querySelectorAll('input[name="gridMode"]');
+const zoomOutBtn = document.getElementById('zoomOut');
+const zoomInBtn = document.getElementById('zoomIn');
+const zoomValue = document.getElementById('zoomValue');
+
+// 设置事件监听
+contentTextarea.addEventListener('input', updatePreview);
+generatePdfButton.addEventListener('click', generatePdf);
+generateBlankPdfButton.addEventListener('click', generateBlankPdf);
+printBtn.addEventListener('click', printSheets);
+enableWatermarkCheckbox.addEventListener('change', updatePreview);
+showHeaderCheckbox.addEventListener('change', updatePreview);
+alternateEmptyRowCheckbox.addEventListener('change', function() {
+    emptyRowControlDiv.style.display = this.checked ? 'block' : 'none';
+    updatePreview();
+});
+emptyRowCountInput.addEventListener('change', updatePreview);
+indentParagraphCheckbox.addEventListener('change', updatePreview);
+showPunctuationCheckbox.addEventListener('change', updatePreview);
+zoomOutBtn.addEventListener('click', () => adjustZoom(-0.1));
+zoomInBtn.addEventListener('click', () => adjustZoom(0.1));
+
+// 模式选择切换
+modeRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+        currentMode = this.value;
+        if (currentMode === "rice") {
+            riceSettingsDiv.style.display = "block";
+            squareSettingsDiv.style.display = "none";
+        } else {
+            riceSettingsDiv.style.display = "none";
+            squareSettingsDiv.style.display = "block";
         }
-        
-        // 打印功能
-        function printSheets() {
-            if (!currentContent.trim() && !confirm('当前没有内容，确定要打印空白页吗？')) {
-                return;
-            }
-            window.print();
-        }
-        
-        function preprocessText(text) {
-            const punctuations = ['，', '。', '、', '；', '：', '？', '！', '「', '」', '『', '』', '《', '》', '（', '）', '—', '…', '·', '“', '”', '‘', '’'];
-            return text.split('').filter(char => !punctuations.includes(char)).join('').replace(/[^\S\n]/g, '');
-        }
-        
-        // 创建A4页面
-        function createA4Page() {
-            const pageDiv = document.createElement('div');
-            pageDiv.className = 'a4-page';
+        updatePreview();
+    });
+});
+
+// 动态加载字符图片
+async function loadCharacterImage(char) {
+    // 如果已经在缓存中，直接返回
+    if (imageCache[char]) {
+        return true;
+    }
     
+    // 如果是空格或空字符，不需要加载
+    if (!char || char === ' ') {
+        return false;
+    }
+
+    try {
+        // 假设图片路径规则是 "字库/[字符].png"
+        const imgPath = `字库/${char}.png`;
+        const img = new Image();
+        
+        // 使用 Promise 确保图片加载完成
+        await new Promise((resolve, reject) => {
+            img.onload = () => {
+                imageCache[char] = imgPath;
+                characterImages[char] = imgPath;
+                resolve(true);
+            };
+            img.onerror = () => {
+                console.warn(`图片加载失败: ${char}`);
+                reject(false);
+            };
+            img.src = imgPath;
+        });
+        return true;
+    } catch (error) {
+        console.warn(`无法加载字符图片: ${char}`, error);
+        return false;
+    }
+}
+
+// 调整缩放比例
+function adjustZoom(change) {
+    currentZoom = Math.max(0.3, Math.min(2.0, currentZoom + change));
+    applyZoom();
+}
+
+// 应用缩放
+function applyZoom() {
+    const pages = document.querySelectorAll('.a4-page');
+    pages.forEach(page => {
+        page.style.transform = `scale(${currentZoom})`;
+    });
+    zoomValue.textContent = `${Math.round(currentZoom * 100)}%`;
+    
+    // 调整预览区域的滚动位置以保持居中
+    if (pages.length > 0) {
+        const firstPage = pages[0];
+        const containerRect = previewContent.getBoundingClientRect();
+        const pageRect = firstPage.getBoundingClientRect();
+        
+        previewContent.scrollLeft = (pageRect.width * currentZoom - containerRect.width) / 2;
+    }
+}
+
+// 打印功能
+function printSheets() {
+    if (!currentContent.trim() && !confirm('当前没有内容，确定要打印空白页吗？')) {
+        return;
+    }
+    window.print();
+}
+
+function preprocessText(text) {
+    const punctuations = ['，', '。', '、', '；', '：', '？', '！', '「', '」', '『', '』', '《', '》', '（', '）', '—', '…', '·', '“', '”', '‘', '’'];
+    return text.split('').filter(char => !punctuations.includes(char)).join('').replace(/[^\S\n]/g, '');
+}
+
+// 创建A4页面
+function createA4Page() {
+    const pageDiv = document.createElement('div');
+    pageDiv.className = 'a4-page';
+
     // 始终创建头部容器（保留空间）
     const headerDiv = document.createElement('div');
     headerDiv.className = currentMode === "rice" ? 'rice-header-section' : 'square-header-section';
@@ -582,7 +594,7 @@
     } else {
         // 不显示内容时添加空span保持高度
         const emptySpan = document.createElement('span');
-        emptySpan.innerHTML = '&nbsp;'; // 添加空格保持高度
+        emptySpan.innerHTML = '&nbsp;';
         headerDiv.appendChild(emptySpan);
     }
     
@@ -593,128 +605,131 @@
     
     return pageDiv;
 }
-        
-        // 创建米字格网格
-        function createRiceGrid() {
-            const gridContainer = document.createElement('div');
-            gridContainer.className = 'rice-grid-container';
-            return gridContainer;
-        }
-        
-        // 创建方格网格
-        function createSquareGrid() {
-            const gridContainer = document.createElement('div');
-            gridContainer.className = 'square-grid-container';
-            return gridContainer;
-        }
-        
-        // 创建米字格单元格
-        function createRiceCell(char, position) {
-            const cell = document.createElement('div');
-            cell.className = 'rice-grid-cell';
-            
-            // 添加米字格背景
-            if (ricePatternImage) {
-                const ricePattern = document.createElement('img');
-                ricePattern.className = 'rice-pattern';
-                ricePattern.src = ricePatternImage;
-                cell.appendChild(ricePattern);
-            }
-            
-            // 如果不是第一格、第二格或第七格，直接返回
-            if (![0, 1, 6].includes(position)) return cell;
-            
-            // 如果没有字符或空格，直接返回
-            if (!char || char === ' ') return cell;
 
-            // 添加字符图片
-            if (characterImages[char]) {
-                const img = document.createElement('img');
-                img.className = 'character-img';
-                img.src = characterImages[char];
-                img.alt = char;
-                
-                // 第二格和第七格设置透明度为50%
-                if (position === 1 || position === 6) {
-                    img.style.opacity = '0.5'; // 统一设置为50%透明度
-                }
-                
-                cell.appendChild(img);
-            } else {
-                // 如果没有图片，使用文字
-                const charSpan = document.createElement('span');
-                charSpan.textContent = char;
-                charSpan.style.position = 'absolute';
-                charSpan.style.top = '50%';
-                charSpan.style.left = '50%';
-                charSpan.style.transform = 'translate(-50%, -50%)';
-                charSpan.style.fontFamily = '"KaiTi", "楷体", serif';
-                charSpan.style.fontSize = '1.0cm';
-                charSpan.style.zIndex = '2';
-                
-                // 第二格和第七格设置透明度为50%
-                if (position === 1 || position === 6) {
-                    charSpan.style.opacity = '0.5'; // 统一设置为50%透明度
-                }
-                
-                cell.appendChild(charSpan);
-            }
-            
-            return cell;
-        }
-        
-        // 创建方格单元格
-        function createSquareCell(char) {
-            const cell = document.createElement('div');
-            cell.className = 'square-grid-cell';
-            
-            if (!char || char === ' ') return cell;
+// 创建米字格网格
+function createRiceGrid() {
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'rice-grid-container';
+    return gridContainer;
+}
 
-            if (characterImages[char]) {
-                const img = document.createElement('img');
-                img.src = characterImages[char];
-                img.alt = char;
-                cell.appendChild(img);
-            } else {
-                cell.textContent = char;
-                cell.style.fontFamily = '"KaiTi", "楷体", serif';
-                cell.style.fontSize = '0.7cm';
-            }
-            return cell;
-        }
-        
-        // 判断是否是标点符号
-        function isPunctuation(char) {
-            const punctuations = ['，', '。', '、', '；', '：', '？', '！', '」', '』', '》', '）', '…', '—', '”', '’', 
-                                '「', '『', '《', '（', '—', '…', '·', '"', "'", ':', ';', ',', '.', '?', '!'];
-            return punctuations.includes(char);
-        }
-        
-        // 更新预览
-        function updatePreview() {
-            currentContent = contentTextarea.value;
-            previewContainer.innerHTML = '';
-            
-            if (!currentContent.trim()) {
-                const emptyPage = document.createElement('div');
-                emptyPage.className = 'a4-page';
-                emptyPage.innerHTML = '<p style="text-align:center;">请输入内容以预览字帖</p>';
-                previewContainer.appendChild(emptyPage);
-                applyZoom();
-                return;
-            }
+// 创建方格网格
+function createSquareGrid() {
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'square-grid-container';
+    return gridContainer;
+}
 
-            if (currentMode === "rice") {
-                updateRicePreview();
-            } else {
-                updateSquarePreview();
-            }
-            
-            applyZoom();
+// 创建米字格单元格
+async function createRiceCell(char, position) {
+    const cell = document.createElement('div');
+    cell.className = 'rice-grid-cell';
+    
+    // 添加米字格背景
+    if (ricePatternImage) {
+        const ricePattern = document.createElement('img');
+        ricePattern.className = 'rice-pattern';
+        ricePattern.src = ricePatternImage;
+        cell.appendChild(ricePattern);
+    }
+    
+    // 如果不是第一格、第二格或第七格，直接返回
+    if (![0, 1, 6].includes(position)) return cell;
+    
+    // 如果没有字符或空格，直接返回
+    if (!char || char === ' ') return cell;
+
+    // 尝试加载图片
+    const hasImage = await loadCharacterImage(char);
+    
+    if (hasImage && characterImages[char]) {
+        const img = document.createElement('img');
+        img.className = 'character-img';
+        img.src = characterImages[char];
+        img.alt = char;
+        
+        if (position === 1 || position === 6) {
+            img.style.opacity = '0.5';
         }
         
-        // 更新米字格预览
-        function updateRicePreview() {
+        cell.appendChild(img);
+    } else {
+        // 使用文字回退
+        const charSpan = document.createElement('span');
+        charSpan.textContent = char;
+        charSpan.style.position = 'absolute';
+        charSpan.style.top = '50%';
+        charSpan.style.left = '50%';
+        charSpan.style.transform = 'translate(-50%, -50%)';
+        charSpan.style.fontFamily = '"KaiTi", "楷体", serif';
+        charSpan.style.fontSize = '1.0cm';
+        charSpan.style.zIndex = '2';
+        
+        if (position === 1 || position === 6) {
+            charSpan.style.opacity = '0.5';
+        }
+        
+        cell.appendChild(charSpan);
+    }
+    
+    return cell;
+}
+
+// 创建方格单元格
+async function createSquareCell(char) {
+    const cell = document.createElement('div');
+    cell.className = 'square-grid-cell';
+    
+    if (!char || char === ' ') return cell;
+
+    // 尝试加载图片
+    const hasImage = await loadCharacterImage(char);
+    
+    if (hasImage && characterImages[char]) {
+        const img = document.createElement('img');
+        img.src = characterImages[char];
+        img.alt = char;
+        cell.appendChild(img);
+    } else {
+        cell.textContent = char;
+        cell.style.fontFamily = '"KaiTi", "楷体", serif';
+        cell.style.fontSize = '0.7cm';
+    }
+    return cell;
+}
+
+// 判断是否是标点符号
+function isPunctuation(char) {
+    const punctuations = ['，', '。', '、', '；', '：', '？', '！', '」', '』', '》', '）', '…', '—', '”', '’', 
+                        '「', '『', '《', '（', '—', '…', '·', '"', "'", ':', ';', ',', '.', '?', '!'];
+    return punctuations.includes(char);
+}
+
+// 更新预览
+async function updatePreview() {
+    currentContent = contentTextarea.value;
+    previewContainer.innerHTML = '';
+    
+    if (!currentContent.trim()) {
+        const emptyPage = document.createElement('div');
+        emptyPage.className = 'a4-page';
+        emptyPage.innerHTML = '<p style="text-align:center;">请输入内容以预览字帖</p>';
+        previewContainer.appendChild(emptyPage);
+        applyZoom();
+        return;
+    }
+
+    if (currentMode === "rice") {
+        await updateRicePreview();
+    } else {
+        await updateSquarePreview();
+    }
+    
+    applyZoom();
+}
+
+// 更新米字格预览
+async function updateRicePreview() {
     const chars = Array.from(preprocessText(currentContent));
     let charIndex = 0;
     let pageCount = 0;
@@ -748,7 +763,7 @@
                     charIndex < chars.length && 
                     charsPlacedOnPage < charsPerPage) {
                     
-                    const cell = createRiceCell(chars[charIndex], col);
+                    const cell = await createRiceCell(chars[charIndex], col);
                     gridContainer.appendChild(cell);
                     
                     // 只在第6列(第三个格子)增加字符索引
@@ -758,7 +773,7 @@
                     }
                 } else {
                     // 填充空白格子
-                    const cell = createRiceCell(null, -1);
+                    const cell = await createRiceCell(null, -1);
                     gridContainer.appendChild(cell);
                 }
             }
@@ -770,7 +785,7 @@
                 
                 for (let i = 0; i < currentEmptyRows && row < 16; i++) {
                     for (let col = 0; col < 11; col++) {
-                        const cell = createRiceCell(null, -1);
+                        const cell = await createRiceCell(null, -1);
                         gridContainer.appendChild(cell);
                     }
                     row++;
@@ -795,8 +810,9 @@
     pageInfo.textContent = `共 ${pageCount} 页`;
     previewContainer.appendChild(pageInfo);
 }
-        
-        function updateSquarePreview() {
+
+// 更新方格预览
+async function updateSquarePreview() {
     // 标点符号规则定义
     const PUNCTUATION_RULES = {
         notStart: ['，', '。', '、', '；', '：', '？', '！', '」', '』', '》', '）', '…', '—', '”', '’'],
@@ -934,7 +950,7 @@
     }
 
     // 创建主文字元素
-    function createMainCharacterElement(char) {
+    async function createMainCharacterElement(char) {
         const container = document.createElement('div');
         container.style.position = 'absolute';
         container.style.width = '100%';
@@ -948,7 +964,9 @@
         charSpan.style.top = '50%';
         charSpan.style.transform = 'translate(-50%, -50%)';
         
-        if (characterImages[char]) {
+        const hasImage = await loadCharacterImage(char);
+        
+        if (hasImage && characterImages[char]) {
             const img = document.createElement('img');
             img.src = characterImages[char];
             img.alt = char;
@@ -968,14 +986,16 @@
     }
 
     // 创建标点元素
-    function createPunctuationElement(punct) {
+    async function createPunctuationElement(punct) {
         const position = PUNCTUATION_STYLES[punct];
         const punctSpan = document.createElement('div');
         punctSpan.style.position = 'absolute';
         punctSpan.style.right = position.right;
         punctSpan.style.bottom = position.bottom;
         
-        if (characterImages[punct]) {
+        const hasImage = await loadCharacterImage(punct);
+        
+        if (hasImage && characterImages[punct]) {
             const img = document.createElement('img');
             img.src = characterImages[punct];
             img.alt = punct;
@@ -992,7 +1012,7 @@
     }
 
     // 创建双宽度字符单元格
-    function createDoubleWidthCell(content) {
+    async function createDoubleWidthCell(content) {
         const isDash = content === '——';
         const leftChar = isDash ? '—' : '…';
         const rightChar = isDash ? '—' : '…';
@@ -1019,7 +1039,9 @@
         leftCharSpan.style.top = '50%';
         leftCharSpan.style.transform = 'translateY(-50%)';
         
-        if (characterImages[leftChar]) {
+        const hasLeftImage = await loadCharacterImage(leftChar);
+        
+        if (hasLeftImage && characterImages[leftChar]) {
             const img = document.createElement('img');
             img.src = characterImages[leftChar];
             img.alt = leftChar;
@@ -1049,7 +1071,9 @@
         rightCharSpan.style.top = '50%';
         rightCharSpan.style.transform = 'translateY(-50%)';
         
-        if (characterImages[rightChar]) {
+        const hasRightImage = await loadCharacterImage(rightChar);
+        
+        if (hasRightImage && characterImages[rightChar]) {
             const img = document.createElement('img');
             img.src = characterImages[rightChar];
             img.alt = rightChar;
@@ -1073,7 +1097,7 @@
     }
 
     // 创建带标点的格子
-    function createSquareCellWithPunctuation(content) {
+    async function createSquareCellWithPunctuation(content) {
         const cell = document.createElement('div');
         cell.className = 'square-grid-cell';
         
@@ -1084,7 +1108,7 @@
         
         // 处理双宽度字符
         if (content === '——' || content === '……') {
-            return createDoubleWidthCell(content);
+            return await createDoubleWidthCell(content);
         }
 
         // 处理组合字符（文字+标点）
@@ -1092,20 +1116,20 @@
             const mainChar = content.slice(0, -1);
             const punctuation = content.slice(-1);
             
-            cell.appendChild(createMainCharacterElement(mainChar));
-            cell.appendChild(createPunctuationElement(punctuation));
+            cell.appendChild(await createMainCharacterElement(mainChar));
+            cell.appendChild(await createPunctuationElement(punctuation));
             return cell;
         }
 
         // 普通字符处理
         if (content) {
-            cell.appendChild(createMainCharacterElement(content));
+            cell.appendChild(await createMainCharacterElement(content));
         }
         return cell;
     }
 
     // 生成预览页面
-    function generatePreviewPages(allLines) {
+    async function generatePreviewPages(allLines) {
         previewContainer.innerHTML = '';
         let pageCount = 0;
         let lineIndex = 0;
@@ -1122,7 +1146,7 @@
                 // 如果已经没有更多行，填充空行
                 if (lineIndex >= allLines.length) {
                     for (let i = 0; i < 12; i++) {
-                        gridContainer.appendChild(createSquareCellWithPunctuation(null));
+                        gridContainer.appendChild(await createSquareCellWithPunctuation(null));
                     }
                     continue;
                 }
@@ -1132,7 +1156,7 @@
                 if (row % 2 === 0) {
                     // 空行（描红行）
                     for (let i = 0; i < 12; i++) {
-                        gridContainer.appendChild(createSquareCellWithPunctuation(null));
+                        gridContainer.appendChild(await createSquareCellWithPunctuation(null));
                     }
                 } else {
                     // 处理行中的字符
@@ -1148,7 +1172,7 @@
                     
                     while (i < currentLine.content.length && colIndex < 12) {
                         const char = currentLine.content[i];
-                        const cells = createSquareCellWithPunctuation(char);
+                        const cells = await createSquareCellWithPunctuation(char);
                         
                         if (Array.isArray(cells)) {
                             gridContainer.appendChild(cells[0]);
@@ -1163,7 +1187,7 @@
 
                     // 填充剩余空白格子
                     while (colIndex < 12) {
-                        gridContainer.appendChild(createSquareCellWithPunctuation(null));
+                        gridContainer.appendChild(await createSquareCellWithPunctuation(null));
                         colIndex++;
                     }
 
@@ -1194,7 +1218,7 @@
 
     const chars = splitTextToChars(originalText);
     const allLines = organizeCharsToLines(chars);
-    const pageCount = generatePreviewPages(allLines);
+    const pageCount = await generatePreviewPages(allLines);
 
     // 添加页数信息
     const pageInfo = document.createElement('div');
@@ -1204,249 +1228,171 @@
 
     applyZoom();
 }
-    
-    // 处理图片上传
-    function handleImageUpload(event) {
-        const files = event.target.files;
-        characterImages = {};
-        ricePatternImage = null;
-        let loadedCount = 0;
-        const totalImages = files.length;
-        
-        if (totalImages === 0) {
-            imageStatus.textContent = '请选择包含单字图片的文件夹';
-            imageStatus.className = 'status-message error';
-            return;
-        }
-        
-        imageStatus.textContent = `正在加载 ${totalImages} 张图片...`;
-        imageStatus.className = 'status-message info';
-        
-        Array.from(files).forEach(file => {
-            if (!file.type.startsWith('image/')) {
-                loadedCount++;
-                if (loadedCount === totalImages) updateImageStatus();
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const filename = file.name.toLowerCase();
-                if (filename === 'box.png') {
-                    ricePatternImage = e.target.result;
-                } else {
-                    const char = file.name.replace(/\..+$/, '');
-                    characterImages[char] = e.target.result;
-                }
-                loadedCount++;
-                if (loadedCount === totalImages) updateImageStatus();
-            };
-            reader.onerror = () => {
-                loadedCount++;
-                if (loadedCount === totalImages) updateImageStatus();
-            };
-            reader.readAsDataURL(file);
-        });
-        
-        function updateImageStatus() {
-            const loadedImages = Object.keys(characterImages).length;
-            if (currentMode === "rice") {
-                if (ricePatternImage) {
-                    if (loadedImages > 0) {
-                        imageStatus.textContent = `成功加载米字格和 ${loadedImages} 张单字图片`;
-                        imageStatus.className = 'status-message success';
-                    } else {
-                        imageStatus.textContent = '成功加载米字格，但没有加载到单字图片';
-                        imageStatus.className = 'status-message info';
-                    }
-                    updatePreview();
-                } else {
-                    if (loadedImages > 0) {
-                        imageStatus.textContent = `成功加载 ${loadedImages} 张单字图片，但没有找到box.png作为米字格`;
-                        imageStatus.className = 'status-message error';
-                    } else {
-                        imageStatus.textContent = '没有加载到有效的图片';
-                        imageStatus.className = 'status-message error';
-                    }
-                }
-            } else {
-                if (loadedImages > 0) {
-                    imageStatus.textContent = `成功加载 ${loadedImages} 张单字图片`;
-                    imageStatus.className = 'status-message success';
-                    updatePreview();
-                } else {
-                    imageStatus.textContent = '没有加载到有效的图片';
-                    imageStatus.className = 'status-message error';
-                }
-            }
-        }
-    }
-    
-    // 生成PDF
-    async function generatePdf() {
-        if (!currentContent.trim()) {
-            pdfStatus.textContent = '请输入内容以生成字帖';
-            pdfStatus.className = 'status-message error';
-            return;
-        }
-        
-        if (currentMode === "rice" && !ricePatternImage) {
-            pdfStatus.textContent = '没有找到米字格图片(box.png)';
-            pdfStatus.className = 'status-message error';
-            return;
-        }
-        
-        if (Object.keys(characterImages).length === 0) {
-            pdfStatus.textContent = '请先上传单字图片';
-            pdfStatus.className = 'status-message error';
-            return;
-        }
-        
-        pdfStatus.textContent = '正在生成PDF，请稍候...';
-        pdfStatus.className = 'status-message info';
-        
-        const pdf = new jsPDF({
-            orientation: 'portrait',
-            unit: 'cm',
-            format: 'a4'
-        });
-        
-        const previewPages = document.querySelectorAll('.a4-page');
-        let pageCount = 0;
-        
-        for (const page of previewPages) {
-            try {
-                if (pageCount > 0) pdf.addPage();
-                
-                const canvas = await html2canvas(page, {
-                    scale: 2,
-                    logging: false,
-                    useCORS: true,
-                    width: 21 * 37.8, // 将cm转换为px
-                    height: 29.7 * 37.8,
-                });
-                
-                const imgData = canvas.toDataURL('image/png');
-                            // 如果不清晰了就改这里
-                pdf.addImage(imgData, 'PNG', 0, 0, 21, 29.7, undefined, 'FAST');
-                // 添加页码（灰色、居中、距底部1cm）
-pdf.setFontSize(10);
-pdf.setTextColor(100); // 灰色
-pdf.text(
-    `第 ${pageCount + 1} 页`, 
-    21 / 2, // 水平居中 (A4宽度21cm的一半)
-    29.7 - 1, // 距离底部1cm
-    { align: 'center' }
-);
 
-pageCount++;
-            } catch (error) {
-                console.error('生成PDF时出错:', error);
-                pdfStatus.textContent = '生成PDF时出错';
-                pdfStatus.className = 'status-message error';
-                return;
-            }
-        }
-        
-        pdf.save(currentMode === "rice" ? '米字格字帖.pdf' : '方格字帖.pdf');
-        pdfStatus.textContent = `PDF生成完成，共 ${pageCount} 页`;
-        pdfStatus.className = 'status-message success';
+// 生成PDF
+async function generatePdf() {
+    if (!currentContent.trim()) {
+        pdfStatus.textContent = '请输入内容以生成字帖';
+        pdfStatus.className = 'status-message error';
+        return;
     }
     
-    // 生成空白格纸PDF
-    async function generateBlankPdf() {
-        if (currentMode === "rice" && !ricePatternImage) {
-            pdfStatus.textContent = '没有找到米字格图片(box.png)';
-            pdfStatus.className = 'status-message error';
-            return;
-        }
-        
-        pdfStatus.textContent = '正在生成空白格纸PDF，请稍候...';
-        pdfStatus.className = 'status-message info';
-        
-        const pdf = new jsPDF({
-            orientation: 'portrait',
-            unit: 'cm',
-            format: 'a4'
-        });
-        
-        // 创建临时预览用于生成PDF
-        const tempPreview = document.createElement('div');
-        tempPreview.style.position = 'absolute';
-        tempPreview.style.left = '-9999px';
-        document.body.appendChild(tempPreview);
-        
-        const pageDiv = createA4Page();
-        
-        if (currentMode === "rice") {
-            const gridContainer = createRiceGrid();
-            pageDiv.appendChild(gridContainer);
-            
-            // 填充空白米字格 (16行 × 11列)
-            for (let row = 0; row < 16; row++) {
-                for (let col = 0; col < 11; col++) {
-                    const cell = createRiceCell(null, -1);
-                    gridContainer.appendChild(cell);
-                }
-                
-                // 如果启用空行间隔，添加空行
-                if (alternateEmptyRowCheckbox.checked && row < 15) {
-                    row++;
-                    for (let col = 0; col < 11; col++) {
-                        const cell = createRiceCell(null, -1);
-                        gridContainer.appendChild(cell);
-                    }
-                }
-            }
-        } else {
-            const gridContainer = createSquareGrid();
-            pageDiv.appendChild(gridContainer);
-            
-            // 填充空白方格 (20行 × 12列)
-            for (let i = 0; i < 240; i++) {
-                gridContainer.appendChild(createSquareCell(null));
-            }
-        }
-        
-        tempPreview.appendChild(pageDiv);
-        
-        // 添加水印
-        if (enableWatermarkCheckbox.checked) {
-            const watermark = document.createElement('div');
-            watermark.className = 'watermark';
-            watermark.textContent = '巧思蓓晚托班';
-            pageDiv.appendChild(watermark);
-        }
-        
+    if (currentMode === "rice" && !ricePatternImage) {
+        pdfStatus.textContent = '没有找到米字格图片(box.png)';
+        pdfStatus.className = 'status-message error';
+        return;
+    }
+    
+    if (Object.keys(characterImages).length === 0) {
+        pdfStatus.textContent = '没有加载到单字图片';
+        pdfStatus.className = 'status-message error';
+        return;
+    }
+    
+    pdfStatus.textContent = '正在生成PDF，请稍候...';
+    pdfStatus.className = 'status-message info';
+    
+    const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'cm',
+        format: 'a4'
+    });
+    
+    const previewPages = document.querySelectorAll('.a4-page');
+    let pageCount = 0;
+    
+    for (const page of previewPages) {
         try {
-            const canvas = await html2canvas(pageDiv, {
+            if (pageCount > 0) pdf.addPage();
+            
+            const canvas = await html2canvas(page, {
                 scale: 2,
                 logging: false,
                 useCORS: true,
-                width: 21 * 37.8,
+                width: 21 * 37.8, // 将cm转换为px
                 height: 29.7 * 37.8,
-                backgroundColor: '#FFFFFF' 
-                
             });
             
             const imgData = canvas.toDataURL('image/png');
-            // 如果不清晰了就改这里
             pdf.addImage(imgData, 'PNG', 0, 0, 21, 29.7, undefined, 'FAST');
             
-            pdf.save(currentMode === "rice" ? '空白米字格.pdf' : '空白方格纸.pdf');
-            pdfStatus.textContent = '空白格纸PDF生成完成';
-            pdfStatus.className = 'status-message success';
+            // 添加页码（灰色、居中、距底部1cm）
+            pdf.setFontSize(10);
+            pdf.setTextColor(100); // 灰色
+            pdf.text(
+                `第 ${pageCount + 1} 页`, 
+                21 / 2, // 水平居中 (A4宽度21cm的一半)
+                29.7 - 1, // 距离底部1cm
+                { align: 'center' }
+            );
+
+            pageCount++;
         } catch (error) {
             console.error('生成PDF时出错:', error);
             pdfStatus.textContent = '生成PDF时出错';
             pdfStatus.className = 'status-message error';
-        } finally {
-            document.body.removeChild(tempPreview);
+            return;
         }
     }
     
-    // 初始化预览
-    updatePreview();
-</script>
+    pdf.save(currentMode === "rice" ? '米字格字帖.pdf' : '方格字帖.pdf');
+    pdfStatus.textContent = `PDF生成完成，共 ${pageCount} 页`;
+    pdfStatus.className = 'status-message success';
+}
+
+// 生成空白格纸PDF
+async function generateBlankPdf() {
+    if (currentMode === "rice" && !ricePatternImage) {
+        pdfStatus.textContent = '没有找到米字格图片(box.png)';
+        pdfStatus.className = 'status-message error';
+        return;
+    }
+    
+    pdfStatus.textContent = '正在生成空白格纸PDF，请稍候...';
+    pdfStatus.className = 'status-message info';
+    
+    const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'cm',
+        format: 'a4'
+    });
+    
+    // 创建临时预览用于生成PDF
+    const tempPreview = document.createElement('div');
+    tempPreview.style.position = 'absolute';
+    tempPreview.style.left = '-9999px';
+    document.body.appendChild(tempPreview);
+    
+    const pageDiv = createA4Page();
+    
+    if (currentMode === "rice") {
+        const gridContainer = createRiceGrid();
+        pageDiv.appendChild(gridContainer);
+        
+        // 填充空白米字格 (16行 × 11列)
+        for (let row = 0; row < 16; row++) {
+            for (let col = 0; col < 11; col++) {
+                const cell = await createRiceCell(null, -1);
+                gridContainer.appendChild(cell);
+            }
+            
+            // 如果启用空行间隔，添加空行
+            if (alternateEmptyRowCheckbox.checked && row < 15) {
+                row++;
+                for (let col = 0; col < 11; col++) {
+                    const cell = await createRiceCell(null, -1);
+                    gridContainer.appendChild(cell);
+                }
+            }
+        }
+    } else {
+        const gridContainer = createSquareGrid();
+        pageDiv.appendChild(gridContainer);
+        
+        // 填充空白方格 (20行 × 12列)
+        for (let i = 0; i < 240; i++) {
+            gridContainer.appendChild(await createSquareCell(null));
+        }
+    }
+    
+    tempPreview.appendChild(pageDiv);
+    
+    // 添加水印
+    if (enableWatermarkCheckbox.checked) {
+        const watermark = document.createElement('div');
+        watermark.className = 'watermark';
+        watermark.textContent = '余老师制作';
+        pageDiv.appendChild(watermark);
+    }
+    
+    try {
+        const canvas = await html2canvas(pageDiv, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            width: 21 * 37.8,
+            height: 29.7 * 37.8,
+            backgroundColor: '#FFFFFF' 
+            
+        });
+        
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', 0, 0, 21, 29.7, undefined, 'FAST');
+        
+        pdf.save(currentMode === "rice" ? '空白米字格.pdf' : '空白方格纸.pdf');
+        pdfStatus.textContent = '空白格纸PDF生成完成';
+        pdfStatus.className = 'status-message success';
+    } catch (error) {
+        console.error('生成PDF时出错:', error);
+        pdfStatus.textContent = '生成PDF时出错';
+        pdfStatus.className = 'status-message error';
+    } finally {
+        document.body.removeChild(tempPreview);
+    }
+}
+
+
+updatePreview();
+    </script>
 </body>
 </html>
