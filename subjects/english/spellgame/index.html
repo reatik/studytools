@@ -1441,7 +1441,13 @@ h1 {
             input.type = 'text';
             input.className = 'dash-input';
             input.maxLength = 1;
-            input.dataset.correct = char; // 不再转为小写
+            input.dataset.correct = char;
+            
+            // 添加这些属性来禁用iOS自动大写
+            input.autocapitalize = 'off';
+            input.autocorrect = 'off';
+            input.spellcheck = 'false';
+            
             return input;
         }
     });
