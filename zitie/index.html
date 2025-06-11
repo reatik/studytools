@@ -7,184 +7,474 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        :root {
-            --primary-color: #4CAF50;
-            --primary-hover: #45a049;
-            --secondary-color: #2196F3;
-            --secondary-hover: #0b7dda;
-            --print-color: #ff9800;
-            --print-hover: #e68a00;
-            --zoom-color: #607d8b;
-            --zoom-hover: #455a64;
-            --panel-bg: white;
-            --panel-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            --border-color: #ddd;
-            --text-color: #333;
-            --light-text: #666;
-            --error-color: #f44336;
-            --success-color: #4CAF50;
-            --info-color: #2196F3;
-        }
-        
-        * {
-            box-sizing: border-box;
-        }
-        
         body {
             margin: 0;
-            padding: 0;
+            padding: 20px;
             background-color: #f5f5f5;
             font-family: Arial, sans-serif;
-            color: var(--text-color);
         }
         
-        /* 基础布局 */
         .container {
             display: flex;
             max-width: 1200px;
             margin: 0 auto;
             gap: 20px;
-            padding: 20px;
-            flex-direction: column;
         }
         
         .settings-panel {
-            background-color: var(--panel-bg);
-            padding: 15px;
+            flex: 1;
+            min-width: 350px;
+            background-color: white;
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: var(--panel-shadow);
-            margin-bottom: 20px;
-        }
-        
-        .input-panel {
-            background-color: var(--panel-bg);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: var(--panel-shadow);
-            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .preview-panel {
-            background-color: var(--panel-bg);
-            padding: 15px;
+            flex: 2;
+            background-color: white;
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: var(--panel-shadow);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
         }
 
-        /* 其他原有样式保持不变... */
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .zoom-controls button {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .preview-content {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        h1, h2 { 
+            color: #333;
+            margin-top: 0;
+        }
         
-        /* 响应式设计 */
-        @media (min-width: 600px) {
-            /* 平板布局 */
-            .container {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            
-            .settings-panel {
-                flex: 0 0 100%;
-            }
-            
-            .input-panel {
-                flex: 1;
-                min-width: 300px;
-            }
-            
-            .preview-panel {
-                flex: 2;
-                min-width: 400px;
-            }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover { 
+            background-color: #45a049; 
+        }
+        
+        .a4-page {
+            width: 21cm;
+            height: 29.7cm;
+            margin-bottom: 20px;
+            background-color: white;
+            position: relative;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-origin: top center;
+        }
+        
+        /* 米字格样式 */
+        .rice-header-section {
+            height: 1.5cm;
+            display: flex;
+            justify-content: center;
+            gap: 1cm;  
+            align-items: flex-end;
+            padding: 0 1cm;
+            margin-top: 1.3cm;
+            margin-bottom: 0.1cm;
+            font-family: "SimHei", "黑体", sans-serif; 
+            font-size: 20px;
+        }
+        
+        .rice-grid-container {
+            display: grid;
+            grid-template-columns: repeat(11, 1.5cm);
+            grid-template-rows: repeat(16, 1.5cm);
+            width: calc(11 * 1.5cm);
+            box-sizing: border-box;
+            background-color: white;
+            margin-top: 0.5cm;
+        }
+        
+        .rice-grid-cell {
+            width: 1.5cm;
+            height: 1.5cm;
+            position: relative;
+            box-sizing: border-box;
+        }
+        
+        .rice-grid-cell .rice-pattern {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .rice-grid-cell .character-img {
+            width: 1.4cm;
+            height: 1.4cm;
+            position: absolute;
+            top: 0.05cm;
+            left: 0.05cm;
+            z-index: 2;
+            object-fit: contain;
+        }
+        
+        /* 方格样式 */
+        .square-header-section {
+            height: 1.5cm;
+            display: flex;
+            justify-content: center;
+            gap: 1cm;  
+            align-items: flex-end;
+            padding: 0 1cm;
+            margin-top: 1.3cm;
+            margin-bottom: 0.1cm;
+            font-family: "SimHei", "黑体", sans-serif; 
+            font-size: 20px;
+        }
+        
+        .square-grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1.2cm);
+            grid-template-rows: repeat(20, 1.2cm);
+            gap: 0;
+            width: 14.4cm;
+            height: 24cm;
+            box-sizing: border-box;
+            background-color: white;
+            margin: 0 auto;
+            margin-top: 0.5cm;
+            margin-bottom: auto;
+        }
+        
+        .square-grid-cell {
+            width: 1.2cm;
+            height: 1.2cm;
+            border: 0.03cm solid #353535;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+        
+        .square-grid-cell img {
+            width: 1.1cm;
+            height: 1.1cm;
+            object-fit: contain;
+        }
+        
+        .setting-group { 
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        
+        .checkbox-label input { 
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .watermark {
+            position: absolute;
+            right: 0.4cm;
+            bottom: 0.4cm;
+            color: rgba(0, 0, 0, 0.3);
+            font-family: "KaiTi", "楷体", serif;
+            font-size: 18px;
+            pointer-events: none;
+        }
+        
+        .blank-grid-btn {
+            background-color: #2196F3;
+        }
+        
+        .blank-grid-btn:hover {
+            background-color: #0b7dda;
+        }
+        
+        .print-btn {
+            background-color: #ff9800;
+        }
+        
+        .print-btn:hover {
+            background-color: #e68a00;
+        }
+        
+        .button-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .mode-selector {
+            margin-bottom: 20px;
+        }
+        
+        .mode-selector label {
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        
+        .mode-selector input {
+            margin-right: 5px;
         }
 
-        @media (min-width: 900px) {
-            /* 桌面布局 */
-            .container {
-                flex-wrap: nowrap;
+        .zoom-btn {
+            background-color: #607d8b;
+        }
+
+        .zoom-btn:hover {
+            background-color: #455a64;
+        }
+
+        .zoom-value {
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* 页码样式 */
+        .page-number {
+            position: absolute;
+            bottom: 1cm;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            height: 20px;
+            line-height: 20px;
+        }
+
+        /* 打印时隐藏不必要的元素 */
+        @media print {
+            .no-print {
+                display: none !important;
             }
             
-            .settings-panel {
-                flex: 1;
-                min-width: 250px;
+            /* 确保页码在打印时可见 */
+            .page-number {
+                color: #666 !important;
             }
-            
-            .input-panel {
-                flex: 1;
-                min-width: 300px;
+        }
+        
+        /* 加载界面样式 */
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        .loading-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .loading-content h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            height: 20px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        #loadingStatus {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
             }
-            
-            .preview-panel {
-                flex: 2;
+            .preview-content, .preview-content * {
+                visibility: visible;
+            }
+            .preview-content {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+                border: none;
+                padding: 0;
+                background-color: white;
+            }
+            .a4-page {
+                box-shadow: none;
+                margin: 0;
+                page-break-after: always;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 功能区面板 -->
         <div class="settings-panel">
             <h1>多功能字帖生成器</h1>
             
-            <!-- 功能区 - 模仿Office -->
-            <div class="ribbon">
-                <div class="ribbon-group">
-                    <span class="ribbon-group-title">模式</span>
-                    <label><input type="radio" name="gridMode" value="rice" checked> 米字格</label>
-                    <label><input type="radio" name="gridMode" value="square"> 方格</label>
+            <div class="setting-group mode-selector">
+                <h2>字帖模式</h2>
+                <label><input type="radio" name="gridMode" value="rice" checked> 米字格模式</label>
+                <label><input type="radio" name="gridMode" value="square"> 方格模式</label>
+            </div>
+            
+            <div class="setting-group">
+                <h2>字帖内容</h2>
+                <label for="content">输入文字内容:</label>
+                <textarea id="content" placeholder="请输入您想练习的文字..."></textarea>
+                
+                <div id="riceSettings">
+                    <div class="checkbox-label">
+                        <input type="checkbox" id="alternateEmptyRow">
+                        <label for="alternateEmptyRow">启用空行间隔</label>
+                    </div>
+                    <div class="input-group" id="emptyRowControl" style="display:none;">
+                        <label for="emptyRowCount">空行数量:</label>
+                        <input type="number" id="emptyRowCount" min="0" max="3" value="1">
+                    </div>
                 </div>
                 
-                <div class="ribbon-group">
-                    <span class="ribbon-group-title">PDF</span>
-                    <button id="generatePdf">生成PDF</button>
-                    <button id="generateBlankPdf" class="blank-grid-btn">空白格纸</button>
+                <div id="squareSettings" style="display:none;">
+                    <div class="checkbox-label">
+                        <input type="checkbox" id="indentParagraph" checked>
+                        <label for="indentParagraph">段落开头空两格</label>
+                    </div>
+                    <div class="checkbox-label">
+                        <input type="checkbox" id="showPunctuation" checked>
+                        <label for="showPunctuation">显示标点符号</label>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="setting-group">
+                <h2>PDF设置</h2>
+                <div class="checkbox-label">
+                    <input type="checkbox" id="showHeader" checked>
+                    <label for="showHeader">显示学校/班级/姓名区域</label>
+                </div>
+                <div class="checkbox-label">
+                    <input type="checkbox" id="enableWatermark" checked>
+                    <label for="enableWatermark">添加水印</label>
+                </div>
+                <div class="button-group">
+                    <button id="generatePdf">生成PDF字帖</button>
+                    <button id="generateBlankPdf" class="blank-grid-btn">生成空白格纸</button>
                     <button id="printBtn" class="print-btn">打印</button>
                 </div>
-                
-                <div class="ribbon-group">
-                    <span class="ribbon-group-title">选项</span>
-                    <div class="checkbox-label">
-                        <input type="checkbox" id="showHeader" checked>
-                        <label for="showHeader">标题区</label>
-                    </div>
-                    <div class="checkbox-label">
-                        <input type="checkbox" id="enableWatermark" checked>
-                        <label for="enableWatermark">水印</label>
-                    </div>
-                </div>
+                <div id="pdfStatus" class="status-message info">准备生成PDF</div>
             </div>
-            
-            <!-- 模式特定设置 -->
-            <div id="riceSettings">
-                <div class="checkbox-label">
-                    <input type="checkbox" id="alternateEmptyRow">
-                    <label for="alternateEmptyRow">空行间隔</label>
-                </div>
-                <div class="input-group" id="emptyRowControl" style="display:none;">
-                    <label for="emptyRowCount">空行数量:</label>
-                    <input type="number" id="emptyRowCount" min="0" max="3" value="1">
-                </div>
-            </div>
-            
-            <div id="squareSettings" style="display:none;">
-                <div class="checkbox-label">
-                    <input type="checkbox" id="indentParagraph" checked>
-                    <label for="indentParagraph">段落缩进</label>
-                </div>
-                <div class="checkbox-label">
-                    <input type="checkbox" id="showPunctuation" checked>
-                    <label for="showPunctuation">显示标点</label>
-                </div>
-            </div>
-            
-            <div id="pdfStatus" class="status-message info">准备生成PDF</div>
         </div>
         
-        <!-- 输入面板 -->
-        <div class="input-panel">
-            <h2>输入内容</h2>
-            <textarea id="content" placeholder="请输入您想练习的文字..."></textarea>
-        </div>
-        
-        <!-- 预览面板 -->
         <div class="preview-panel">
             <div class="preview-header">
                 <h2>实时预览</h2>
@@ -204,7 +494,6 @@
         </div>
     </div>
 
-    <!-- 加载界面 -->
     <div id="loadingContainer" class="loading-container">
         <div class="loading-content">
             <h3>正在预加载字库图片</h3>
@@ -215,9 +504,6 @@
             <p id="loadingStatus">准备开始加载...</p>
         </div>
     </div>
-
-</body>
-</html>
 
     <script>
         const { jsPDF } = window.jspdf;
