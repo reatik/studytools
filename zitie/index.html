@@ -322,43 +322,12 @@
             }
         }
         
-        /* 加载界面样式 */
-        .loading-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            font-family: 'Microsoft YaHei', sans-serif;
-        }
-
-        .loading-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        .loading-content h3 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-
-        .progress-container {
-            width: 100%;
+        /* 加载进度条样式 */
+        .loading-progress {
+            margin: 15px 0;
             background-color: #f0f0f0;
             border-radius: 10px;
             height: 20px;
-            margin-bottom: 15px;
             position: relative;
             overflow: hidden;
         }
@@ -388,7 +357,42 @@
         #loadingStatus {
             color: #666;
             font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .font-style-selector {
+            margin-bottom: 15px;
+        }
+
+        .font-style-selector label {
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .font-style-selector input {
+            margin-right: 5px;
+        }
+
+        .status-message {
+            padding: 8px 12px;
+            border-radius: 4px;
             margin-top: 10px;
+        }
+
+        .status-message.info {
+            background-color: #e7f3fe;
+            color: #2196F3;
+        }
+
+        .status-message.success {
+            background-color: #e8f5e9;
+            color: #4CAF50;
+        }
+
+        .status-message.error {
+            background-color: #ffebee;
+            color: #f44336;
         }
 
         @media print {
@@ -421,10 +425,26 @@
         <div class="settings-panel">
             <h1>多功能字帖生成器</h1>
             
+            <!-- 加载进度条 -->
+            <div class="setting-group">
+                <h2>字库加载状态</h2>
+                <div class="loading-progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+                <p id="loadingStatus">准备加载字库...</p>
+            </div>
+            
             <div class="setting-group mode-selector">
                 <h2>字帖模式</h2>
                 <label><input type="radio" name="gridMode" value="rice" checked> 米字格模式</label>
                 <label><input type="radio" name="gridMode" value="square"> 方格模式</label>
+            </div>
+            
+            <div class="setting-group font-style-selector">
+                <h2>字体样式</h2>
+                <label><input type="radio" name="fontStyle" value="print" checked> 印刷体</label>
+                <label><input type="radio" name="fontStyle" value="handwriting" id="handwritingOption" disabled> 手写体</label>
             </div>
             
             <div class="setting-group">
@@ -454,7 +474,6 @@
                     </div>
                 </div>
             </div>
-            
             
             <div class="setting-group">
                 <h2>PDF设置</h2>
@@ -494,17 +513,6 @@
         </div>
     </div>
 
-    <div id="loadingContainer" class="loading-container">
-        <div class="loading-content">
-            <h3>正在预加载字库图片</h3>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-                <div class="progress-text" id="progressText">0%</div>
-            </div>
-            <p id="loadingStatus">准备开始加载...</p>
-        </div>
-    </div>
-
     <script>
         const { jsPDF } = window.jspdf;
 
@@ -514,6 +522,7 @@
         let currentContent = "";
         let currentMode = "rice";
         let currentZoom = 1.0;
+        let currentFontStyle = "print"; // 默认使用印刷体
         const imageCache = {};
 
         // 获取页面元素
@@ -534,10 +543,11 @@
         const riceSettingsDiv = document.getElementById('riceSettings');
         const squareSettingsDiv = document.getElementById('squareSettings');
         const modeRadios = document.querySelectorAll('input[name="gridMode"]');
+        const fontStyleRadios = document.querySelectorAll('input[name="fontStyle"]');
+        const handwritingOption = document.getElementById('handwritingOption');
         const zoomOutBtn = document.getElementById('zoomOut');
         const zoomInBtn = document.getElementById('zoomIn');
         const zoomValue = document.getElementById('zoomValue');
-        const loadingContainer = document.getElementById('loadingContainer');
         const progressBar = document.getElementById('progressBar');
         const progressText = document.getElementById('progressText');
         const loadingStatus = document.getElementById('loadingStatus');
@@ -575,85 +585,91 @@
                 updatePreview();
             });
         });
+        
+
+        // 字体样式选择切换
+        fontStyleRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                currentFontStyle = this.value;
+                updatePreview();
+            });
+        });
 
         // 预加载所有字符图片
         async function preloadCharacterImages() {
-    loadingContainer.style.display = 'flex';
-    loadingStatus.textContent = '正在加载字库...';
-    
-    try {
-        // 1. 加载字符JSON数据
-        const response = await fetch('characters.json');
-        if (!response.ok) throw new Error('字符列表加载失败');
-        
-        const charMap = await response.json();
-        const existingChars = Object.keys(charMap);
-        const punctuations = ['，', '。', '、', '；', '：', '？', '！', '「', '」', '『', '』', '《', '》', '（', '）', '—', '…', '·', '“', '”', '‘', '’'];
-        const allChars = [...existingChars, ...punctuations];
-        
-        // 2. 更新进度显示
-        loadingStatus.textContent = `共 ${allChars.length} 个字符需要加载`;
-        
-        // 3. 分批加载（每批50个字符）
-        const batchSize = 50;
-        for (let i = 0; i < allChars.length; i += batchSize) {
-            const batch = allChars.slice(i, i + batchSize);
-            const results = await Promise.all(
-                batch.map(char => loadCharacterImage(char, charMap))
-            );
+            loadingStatus.textContent = '正在后台加载字库...';
             
-            // 更新进度
-            const loadedCount = Math.min(i + batchSize, allChars.length);
-            const progress = Math.round((loadedCount / allChars.length) * 100);
-            progressBar.style.width = `${progress}%`;
-            progressText.textContent = `${progress}%`;
-            loadingStatus.textContent = `已加载 ${loadedCount}/${allChars.length}`;
-            
-            await new Promise(resolve => setTimeout(resolve, 20));
+            try {
+                // 1. 加载字符JSON数据
+                const response = await fetch('characters.json');
+                if (!response.ok) throw new Error('字符列表加载失败');
+                
+                const charMap = await response.json();
+                const existingChars = Object.keys(charMap);
+                const punctuations = ['，', '。', '、', '；', '：', '？', '！', '「', '」', '『', '』', '《', '》', '（', '）', '—', '…', '·', '“', '”', '‘', '’'];
+                const allChars = [...existingChars, ...punctuations];
+                
+                // 2. 更新进度显示
+                loadingStatus.textContent = `共 ${allChars.length} 个字符需要加载`;
+                
+                // 3. 分批加载（每批50个字符）
+                const batchSize = 50;
+                for (let i = 0; i < allChars.length; i += batchSize) {
+                    const batch = allChars.slice(i, i + batchSize);
+                    const results = await Promise.all(
+                        batch.map(char => loadCharacterImage(char, charMap))
+                    );
+                    
+                    // 更新进度
+                    const loadedCount = Math.min(i + batchSize, allChars.length);
+                    const progress = Math.round((loadedCount / allChars.length) * 100);
+                    progressBar.style.width = `${progress}%`;
+                    progressText.textContent = `${progress}%`;
+                    loadingStatus.textContent = `已加载 ${loadedCount}/${allChars.length}`;
+                    
+                    await new Promise(resolve => setTimeout(resolve, 20));
+                }
+                
+                // 4. 完成处理
+                progressBar.style.width = '100%';
+                progressText.textContent = '100%';
+                loadingStatus.textContent = `预加载完成，共加载 ${allChars.length} 个字符`;
+                
+                // 启用手写体选项
+                handwritingOption.disabled = false;
+                pdfStatus.textContent = '字帖生成器已就绪';
+                pdfStatus.className = 'status-message success';
+                
+            } catch (error) {
+                console.error('预加载失败:', error);
+                loadingStatus.textContent = `加载失败: ${error.message}`;
+                progressBar.style.backgroundColor = '#ff6b6b';
+                
+                // 仍然启用手写体选项，但部分字符可能无法显示
+                handwritingOption.disabled = false;
+                pdfStatus.textContent = '字库加载失败，部分功能可能受限';
+                pdfStatus.className = 'status-message error';
+            }
         }
-        
-        // 4. 完成处理
-        progressBar.style.width = '100%';
-        progressText.textContent = '100%';
-        loadingStatus.textContent = `预加载完成，共加载 ${allChars.length} 个字符`;
-        
-        setTimeout(() => {
-            loadingContainer.style.display = 'none';
-            pdfStatus.textContent = '字帖生成器已就绪';
-            pdfStatus.className = 'status-message success';
-        }, 800);
-        
-    } catch (error) {
-        console.error('预加载失败:', error);
-        loadingStatus.textContent = `加载失败: ${error.message}`;
-        progressBar.style.backgroundColor = '#ff6b6b';
-        
-        setTimeout(() => {
-            loadingContainer.style.display = 'none';
-            pdfStatus.textContent = '字库加载失败，部分功能可能受限';
-            pdfStatus.className = 'status-message error';
-        }, 3000);
-    }
-}
 
         // 加载字符图片
         async function loadCharacterImage(char, charMap) {
-    if (imageCache[char]) return true;
-    if (!char || char === ' ') return false;
-    
-    const imgPath = charMap[char] || `字库/${char}.png`;
-    const img = new Image();
-    
-    return await new Promise((resolve) => {
-        img.onload = () => {
-            imageCache[char] = imgPath;
-            characterImages[char] = imgPath;
-            resolve(true);
-        };
-        img.onerror = () => resolve(false);
-        img.src = imgPath;
-    });
-}
+            if (imageCache[char]) return true;
+            if (!char || char === ' ') return false;
+            
+            const imgPath = charMap[char] || `字库/${char}.png`;
+            const img = new Image();
+            
+            return await new Promise((resolve) => {
+                img.onload = () => {
+                    imageCache[char] = imgPath;
+                    characterImages[char] = imgPath;
+                    resolve(true);
+                };
+                img.onerror = () => resolve(false);
+                img.src = imgPath;
+            });
+        }
 
         // 调整缩放比例
         function adjustZoom(change) {
@@ -746,50 +762,52 @@
 
         // 创建米字格单元格
         function createRiceCell(char, position) {
-    const cell = document.createElement('div');
-    cell.className = 'rice-grid-cell';
-    
-    if (ricePatternImage) {
-        const ricePattern = document.createElement('img');
-        ricePattern.className = 'rice-pattern';
-        ricePattern.src = ricePatternImage;
-        cell.appendChild(ricePattern);
-    }
-    
-    if (![0, 1, 6].includes(position)) return cell;
-    if (!char || char === ' ') return cell;
+            const cell = document.createElement('div');
+            cell.className = 'rice-grid-cell';
+            
+            if (ricePatternImage) {
+                const ricePattern = document.createElement('img');
+                ricePattern.className = 'rice-pattern';
+                ricePattern.src = ricePatternImage;
+                cell.appendChild(ricePattern);
+            }
+            
+            if (![0, 1, 6].includes(position)) return cell;
+            if (!char || char === ' ') return cell;
 
-    if (characterImages[char]) {
-        const img = document.createElement('img');
-        img.className = 'character-img';
-        img.src = characterImages[char];
-        img.alt = char;
-        
-        if (position === 1 || position === 6) {
-            img.style.opacity = '0.5';
+            // 使用印刷体或手写体
+            if (currentFontStyle === "handwriting" && characterImages[char]) {
+                const img = document.createElement('img');
+                img.className = 'character-img';
+                img.src = characterImages[char];
+                img.alt = char;
+                
+                if (position === 1 || position === 6) {
+                    img.style.opacity = '0.5';
+                }
+                
+                cell.appendChild(img);
+            } else {
+                // 使用印刷体
+                const charSpan = document.createElement('span');
+                charSpan.textContent = char;
+                charSpan.style.position = 'absolute';
+                charSpan.style.top = '50%';
+                charSpan.style.left = '50%';
+                charSpan.style.transform = 'translate(-50%, -50%)';
+                charSpan.style.fontFamily = '"KaiTi", "楷体", serif';
+                charSpan.style.fontSize = '1.0cm';
+                charSpan.style.zIndex = '2';
+                
+                if (position === 1 || position === 6) {
+                    charSpan.style.opacity = '0.5';
+                }
+                
+                cell.appendChild(charSpan);
+            }
+            
+            return cell;
         }
-        
-        cell.appendChild(img);
-    } else {
-        const charSpan = document.createElement('span');
-        charSpan.textContent = char;
-        charSpan.style.position = 'absolute';
-        charSpan.style.top = '50%';
-        charSpan.style.left = '50%';
-        charSpan.style.transform = 'translate(-50%, -50%)';
-        charSpan.style.fontFamily = '"KaiTi", "楷体", serif';
-        charSpan.style.fontSize = '1.0cm';
-        charSpan.style.zIndex = '2';
-        
-        if (position === 1 || position === 6) {
-            charSpan.style.opacity = '0.5';
-        }
-        
-        cell.appendChild(charSpan);
-    }
-    
-    return cell;
-}
 
         // 创建方格单元格
         async function createSquareCell(char) {
@@ -798,15 +816,24 @@
             
             if (!char || char === ' ') return cell;
 
-            // 尝试加载图片
-            const hasImage = await loadCharacterImage(char);
-            
-            if (hasImage && characterImages[char]) {
-                const img = document.createElement('img');
-                img.src = characterImages[char];
-                img.alt = char;
-                cell.appendChild(img);
+            // 使用印刷体或手写体
+            if (currentFontStyle === "handwriting") {
+                // 尝试加载图片
+                const hasImage = await loadCharacterImage(char);
+                
+                if (hasImage && characterImages[char]) {
+                    const img = document.createElement('img');
+                    img.src = characterImages[char];
+                    img.alt = char;
+                    cell.appendChild(img);
+                } else {
+                    // 如果没有手写体图片，使用印刷体
+                    cell.textContent = char;
+                    cell.style.fontFamily = '"KaiTi", "楷体", serif';
+                    cell.style.fontSize = '0.7cm';
+                }
             } else {
+                // 使用印刷体
                 cell.textContent = char;
                 cell.style.fontFamily = '"KaiTi", "楷体", serif';
                 cell.style.fontSize = '0.7cm';
@@ -931,7 +958,7 @@
         async function updateSquarePreview() {
             // 标点符号规则定义
             const PUNCTUATION_RULES = {
-                notStart: ['，', '。', '、', '；', '：', '？', '！', '」', '』', '》', '）', '…', '—', '”', '’'],
+                notStart: ['，', '。', '、', '；', '：', '？', '！', '」', '』', '》', '）', '…', '—', '」', '』', '》', '）', '…', '—', '”', '’'],
                 doubleWidth: ['——', '……'],
                 allPunctuation: ['，', '。', '、', '；', '：', '？', '！', '」', '』', '》', '）', '…', '—', '”', '’', 
                                 '「', '『', '《', '（', '—', '…', '·', '“', '”', '‘', '’']
@@ -1009,9 +1036,9 @@
                         }
                         // 添加一个空行表示段落分隔
                         allLines.push({
-                            content: [],
-                            isNewParagraph: true
-                        });
+                                content: [],
+                                isNewParagraph: true
+                            });
                         isNewParagraph = true;
                         continue;
                     }
@@ -1067,61 +1094,66 @@
 
             // 创建主文字元素
             function createMainCharacterElement(char) {
-    const container = document.createElement('div');
-    container.style.position = 'absolute';
-    container.style.width = '100%';
-    container.style.height = '100%';
-    container.style.left = '0';
-    container.style.top = '0';
-    
-    const charSpan = document.createElement('div');
-    charSpan.style.position = 'absolute';
-    charSpan.style.left = '50%';
-    charSpan.style.top = '50%';
-    charSpan.style.transform = 'translate(-50%, -50%)';
-    
-    if (characterImages[char]) {
-        const img = document.createElement('img');
-        img.src = characterImages[char];
-        img.alt = char;
-        img.style.width = '1.1cm';
-        img.style.height = '1.1cm';
-        img.style.position = 'relative';
-        img.style.top = '0.05cm';
-        charSpan.appendChild(img);
-    } else {
-        charSpan.textContent = char;
-        charSpan.style.fontFamily = '"KaiTi", "楷体", serif';
-        charSpan.style.fontSize = '0.7cm';
-    }
-    
-    container.appendChild(charSpan);
-    return container;
-}
+                const container = document.createElement('div');
+                container.style.position = 'absolute';
+                container.style.width = '100%';
+                container.style.height = '100%';
+                container.style.left = '0';
+                container.style.top = '0';
+                
+                const charSpan = document.createElement('div');
+                charSpan.style.position = 'absolute';
+                charSpan.style.left = '50%';
+                charSpan.style.top = '50%';
+                charSpan.style.transform = 'translate(-50%, -50%)';
+                
+                // 使用印刷体或手写体
+                if (currentFontStyle === "handwriting" && characterImages[char]) {
+                    const img = document.createElement('img');
+                    img.src = characterImages[char];
+                    img.alt = char;
+                    img.style.width = '1.1cm';
+                    img.style.height = '1.1cm';
+                    img.style.position = 'relative';
+                    img.style.top = '0.05cm';
+                    charSpan.appendChild(img);
+                } else {
+                    // 使用印刷体
+                    charSpan.textContent = char;
+                    charSpan.style.fontFamily = '"KaiTi", "楷体", serif';
+                    charSpan.style.fontSize = '0.7cm';
+                }
+                
+                container.appendChild(charSpan);
+                return container;
+            }
 
             // 创建标点元素
             function createPunctuationElement(punct) {
-    const position = PUNCTUATION_STYLES[punct];
-    const punctSpan = document.createElement('div');
-    punctSpan.style.position = 'absolute';
-    punctSpan.style.right = position.right;
-    punctSpan.style.bottom = position.bottom;
-    
-    if (characterImages[punct]) {
-        const img = document.createElement('img');
-        img.src = characterImages[punct];
-        img.alt = punct;
-        img.style.width = position.size;
-        img.style.height = position.size;
-        punctSpan.appendChild(img);
-    } else {
-        punctSpan.textContent = punct;
-        punctSpan.style.fontFamily = '"KaiTi", "楷体", serif';
-        punctSpan.style.fontSize = position.size;
-    }
-    
-    return punctSpan;
-}
+                const position = PUNCTUATION_STYLES[punct];
+                const punctSpan = document.createElement('div');
+                punctSpan.style.position = 'absolute';
+                punctSpan.style.right = position.right;
+                punctSpan.style.bottom = position.bottom;
+                
+                // 使用印刷体或手写体
+                if (currentFontStyle === "handwriting" && characterImages[punct]) {
+                    const img = document.createElement('img');
+                    img.src = characterImages[punct];
+                    img.alt = punct;
+                    img.style.width = position.size;
+                    img.style.height = position.size;
+                    punctSpan.appendChild(img);
+                } else {
+                    // 使用印刷体
+                    punctSpan.textContent = punct;
+                    punctSpan.style.fontFamily = '"KaiTi", "楷体", serif';
+                    punctSpan.style.fontSize = position.size;
+                }
+                
+                return punctSpan;
+            }
+
             // 创建双宽度字符单元格
             async function createDoubleWidthCell(content) {
                 const isDash = content === '——';
@@ -1150,9 +1182,8 @@
                 leftCharSpan.style.top = '50%';
                 leftCharSpan.style.transform = 'translateY(-50%)';
                 
-                const hasLeftImage = await loadCharacterImage(leftChar);
-                
-                if (hasLeftImage && characterImages[leftChar]) {
+                // 使用印刷体或手写体
+                if (currentFontStyle === "handwriting" && characterImages[leftChar]) {
                     const img = document.createElement('img');
                     img.src = characterImages[leftChar];
                     img.alt = leftChar;
@@ -1160,6 +1191,7 @@
                     img.style.height = '1.0cm';
                     leftCharSpan.appendChild(img);
                 } else {
+                    // 使用印刷体
                     leftCharSpan.textContent = leftChar;
                     leftCharSpan.style.fontFamily = '"KaiTi", "楷体", serif';
                     leftCharSpan.style.fontSize = '0.9cm';
@@ -1182,9 +1214,8 @@
                 rightCharSpan.style.top = '50%';
                 rightCharSpan.style.transform = 'translateY(-50%)';
                 
-                const hasRightImage = await loadCharacterImage(rightChar);
-                
-                if (hasRightImage && characterImages[rightChar]) {
+                // 使用印刷体或手写体
+                if (currentFontStyle === "handwriting" && characterImages[rightChar]) {
                     const img = document.createElement('img');
                     img.src = characterImages[rightChar];
                     img.alt = rightChar;
@@ -1192,6 +1223,7 @@
                     img.style.height = '1.0cm';
                     rightCharSpan.appendChild(img);
                 } else {
+                    // 使用印刷体
                     rightCharSpan.textContent = rightChar;
                     rightCharSpan.style.fontFamily = '"KaiTi", "楷体", serif';
                     rightCharSpan.style.fontSize = '0.9cm';
@@ -1342,75 +1374,65 @@
 
         // 生成PDF
         async function generatePdf() {
-            if (!currentContent.trim()) {
-                pdfStatus.textContent = '请输入内容以生成字帖';
-                pdfStatus.className = 'status-message error';
-                return;
-            }
+    if (!currentContent.trim()) {
+        pdfStatus.textContent = '请输入内容以生成字帖';
+        pdfStatus.className = 'status-message error';
+        return;
+    }
+    
+    if (currentMode === "rice" && !ricePatternImage) {
+        pdfStatus.textContent = '没有找到米字格图片(box.png)';
+        pdfStatus.className = 'status-message error';
+        return;
+    }
+    
+    if (currentFontStyle === "handwriting" && Object.keys(characterImages).length === 0) {
+        pdfStatus.textContent = '没有加载到单字图片';
+        pdfStatus.className = 'status-message error';
+        return;
+    }
+    
+    pdfStatus.textContent = '正在生成PDF，请稍候...';
+    pdfStatus.className = 'status-message info';
+    
+    const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'cm',
+        format: 'a4'
+    });
+    
+    const previewPages = document.querySelectorAll('.a4-page');
+    let pageCount = 0;
+    
+    for (const page of previewPages) {
+        try {
+            if (pageCount > 0) pdf.addPage();
             
-            if (currentMode === "rice" && !ricePatternImage) {
-                pdfStatus.textContent = '没有找到米字格图片(box.png)';
-                pdfStatus.className = 'status-message error';
-                return;
-            }
-            
-            if (Object.keys(characterImages).length === 0) {
-                pdfStatus.textContent = '没有加载到单字图片';
-                pdfStatus.className = 'status-message error';
-                return;
-            }
-            
-            pdfStatus.textContent = '正在生成PDF，请稍候...';
-            pdfStatus.className = 'status-message info';
-            
-            const pdf = new jsPDF({
-                orientation: 'portrait',
-                unit: 'cm',
-                format: 'a4'
+            const canvas = await html2canvas(page, {
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                width: 21 * 37.8,
+                height: 29.7 * 37.8,
             });
             
-            const previewPages = document.querySelectorAll('.a4-page');
-            let pageCount = 0;
+            const imgData = canvas.toDataURL('image/png');
+            pdf.addImage(imgData, 'PNG', 0, 0, 21, 29.7, undefined, 'FAST');
             
-            for (const page of previewPages) {
-                try {
-                    if (pageCount > 0) pdf.addPage();
-                    
-                    const canvas = await html2canvas(page, {
-                        scale: 2,
-                        logging: false,
-                        useCORS: true,
-                        width: 21 * 37.8, // 将cm转换为px
-                        height: 29.7 * 37.8,
-                    });
-                    
-                    const imgData = canvas.toDataURL('image/png');
-                    pdf.addImage(imgData, 'PNG', 0, 0, 21, 29.7, undefined, 'FAST');
-                    
-                    // 添加页码（灰色、居中、距底部1cm）
-                    pdf.setFontSize(10);
-                    pdf.setTextColor(100); // 灰色
-                    pdf.text(
-                        `第 ${pageCount + 1} 页`, 
-                        21 / 2, // 水平居中 (A4宽度21cm的一半)
-                        29.7 - 1, // 距离底部1cm
-                        { align: 'center' }
-                    );
-
-                    pageCount++;
-                } catch (error) {
-                    console.error('生成PDF时出错:', error);
-                    pdfStatus.textContent = '生成PDF时出错';
-                    pdfStatus.className = 'status-message error';
-                    return;
-                }
-            }
-            
-            pdf.save(currentMode === "rice" ? '米字格字帖.pdf' : '方格字帖.pdf');
-            pdfStatus.textContent = `PDF生成完成，共 ${pageCount} 页`;
-            pdfStatus.className = 'status-message success';
+            // 已移除页码添加代码
+            pageCount++;
+        } catch (error) {
+            console.error('生成PDF时出错:', error);
+            pdfStatus.textContent = '生成PDF时出错';
+            pdfStatus.className = 'status-message error';
+            return;
         }
-
+    }
+    
+    pdf.save(currentMode === "rice" ? '米字格字帖.pdf' : '方格字帖.pdf');
+    pdfStatus.textContent = `PDF生成完成，共 ${pageCount} 页`;
+    pdfStatus.className = 'status-message success';
+}
         // 生成空白格纸PDF
         async function generateBlankPdf() {
             if (currentMode === "rice" && !ricePatternImage) {
@@ -1472,7 +1494,7 @@
             if (enableWatermarkCheckbox.checked) {
                 const watermark = document.createElement('div');
                 watermark.className = 'watermark';
-                watermark.textContent = '余老师制作';
+                watermark.textContent = '巧思蓓晚托班';
                 pageDiv.appendChild(watermark);
             }
             
