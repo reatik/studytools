@@ -80,7 +80,7 @@
         }
         
         textarea {
-            width: 100%;
+            width: 95%;
             height: 150px;
             padding: 10px;
             border: 1px solid #ddd;
@@ -423,20 +423,10 @@
 <body>
     <div class="container">
         <div class="settings-panel">
-            <h1>多功能字帖生成器</h1>
-            
-            <!-- 加载进度条 -->
-            <div class="setting-group">
-                <h2>字库加载状态</h2>
-                <div class="loading-progress">
-                    <div class="progress-bar" id="progressBar"></div>
-                    <div class="progress-text" id="progressText">0%</div>
-                </div>
-                <p id="loadingStatus">准备加载字库...</p>
-            </div>
+            <h1>自制字帖工具</h1>
             
             <div class="setting-group mode-selector">
-                <h2>字帖模式</h2>
+
                 <label><input type="radio" name="gridMode" value="rice" checked> 米字格模式</label>
                 <label><input type="radio" name="gridMode" value="square"> 方格模式</label>
             </div>
@@ -445,17 +435,24 @@
                 <h2>字体样式</h2>
                 <label><input type="radio" name="fontStyle" value="print" checked> 印刷体</label>
                 <label><input type="radio" name="fontStyle" value="handwriting" id="handwritingOption" disabled> 手写体</label>
+                
+                <!-- 进度条移动到此处 -->
+                <div class="loading-progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+                <p id="loadingStatus">准备加载字库...</p>
             </div>
             
             <div class="setting-group">
-                <h2>字帖内容</h2>
+
                 <label for="content">输入文字内容:</label>
                 <textarea id="content" placeholder="请输入您想练习的文字..."></textarea>
                 
                 <div id="riceSettings">
                     <div class="checkbox-label">
                         <input type="checkbox" id="alternateEmptyRow">
-                        <label for="alternateEmptyRow">启用空行间隔</label>
+                        <label for="alternateEmptyRow">加入空行</label>
                     </div>
                     <div class="input-group" id="emptyRowControl" style="display:none;">
                         <label for="emptyRowCount">空行数量:</label>
@@ -625,7 +622,7 @@
                     const progress = Math.round((loadedCount / allChars.length) * 100);
                     progressBar.style.width = `${progress}%`;
                     progressText.textContent = `${progress}%`;
-                    loadingStatus.textContent = `已加载 ${loadedCount}/${allChars.length}`;
+                    loadingStatus.textContent = `正在加载手写体，已加载 ${loadedCount}/${allChars.length}`;
                     
                     await new Promise(resolve => setTimeout(resolve, 20));
                 }
@@ -633,11 +630,11 @@
                 // 4. 完成处理
                 progressBar.style.width = '100%';
                 progressText.textContent = '100%';
-                loadingStatus.textContent = `预加载完成，共加载 ${allChars.length} 个字符`;
+                loadingStatus.textContent = `手写体加载完成`;
                 
                 // 启用手写体选项
                 handwritingOption.disabled = false;
-                pdfStatus.textContent = '字帖生成器已就绪';
+                pdfStatus.textContent = '手写体导入完成';
                 pdfStatus.className = 'status-message success';
                 
             } catch (error) {

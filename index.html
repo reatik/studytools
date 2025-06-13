@@ -5,255 +5,280 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>中小学学习助手</title>
     <style>
-        /* 全局样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
-        }
-        
-        body {
-            background: #f8f9fa;
-            color: #333;
-            min-height: 100vh;
-        }
-        
-        /* 导航栏样式 */
-        .navbar {
-            background: linear-gradient(135deg, #4a6bff, #06bcfb);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        .logo {
-            color: white;
-            font-weight: 700;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-        }
-        
-        .logo i {
-            margin-right: 10px;
-        }
-        
-        /* 搜索框样式 */
-        .search-container {
-            position: relative;
-        }
-        
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 20px;
-            padding: 8px 15px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: blur(4px);
-        }
-        
-        .search-box:hover {
-            background: rgba(255, 255, 255, 0.35);
-        }
-        
-        .search-box input {
-            background: transparent;
-            border: none;
-            color: white;
-            width: 100%;
-            outline: none;
-        }
-        
-        .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .search-box i {
-            color: white;
-            margin-right: 8px;
-        }
-        
-        .search-results {
-            position: absolute;
-            top: 110%;
-            left: 0;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            z-index: 10;
-            display: none;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .search-results a {
-            display: block;
-            padding: 12px 18px;
-            color: #333;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        
-        .search-results a:hover {
-            background: #f5f7ff;
-        }
-        
-        /* 主要内容区 */
-        .main-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* 标签页导航 - 基础样式 */
-        .tab-nav {
-            display: flex;
-            background: white;
-            border-radius: 12px;
-            padding: 8px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        
-        .tab-btn {
-            padding: 10px 22px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            position: relative;
-            white-space: nowrap;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            margin: 0 4px;
-        }
-        
-        /* 标签页颜色 */
-        .tab-btn[data-tab="english"] { color: #246bca; }
-        .tab-btn[data-tab="chinese"] { color: #ff6b6b; }
-        .tab-btn[data-tab="math"] { color: #1eb386; }
-        .tab-btn[data-tab="tools"] { color: #ff922b; }
-        .tab-btn[data-tab="games"] { color: #9c36b5; }
-        
-        .tab-btn.active {
-            color: white;
-            font-weight: 600;
-        }
-        
-        /* 活动标签背景 */
-        .tab-btn[data-tab="english"].active { 
-            background: linear-gradient(135deg, #4a6bff, #6a8cff);
-            box-shadow: 0 4px 8px rgba(74, 107, 255, 0.2);
-        }
-        .tab-btn[data-tab="chinese"].active { 
-            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.2);
-        }
-        .tab-btn[data-tab="math"].active { 
-            background: linear-gradient(135deg, #20c997, #40d8a7);
-            box-shadow: 0 4px 8px rgba(32, 201, 151, 0.2);
-        }
-        .tab-btn[data-tab="tools"].active { 
-            background: linear-gradient(135deg, #ff922b, #ffab5c);
-            box-shadow: 0 4px 8px rgba(255, 146, 43, 0.2);
-        }
-        .tab-btn[data-tab="games"].active { 
-            background: linear-gradient(135deg, #9c36b5, #b359cc);
-            box-shadow: 0 4px 8px rgba(156, 54, 181, 0.2);
-        }
-        
-        /* 区域样式 */
-        .section-area {
-            margin: 25px 0;
-            display: none;
-        }
-        
-        .section-area.active {
-            display: block;
-        }
-        
-        /* 功能卡片样式 - PC端 */
-        .feature-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, 180px);
-            gap: 20px;
-            justify-content: center;
-            padding: 10px;
-        }
-        
-        .feature-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 180px;
-            height: 150px;
-            background: white;
-            border-radius: 12px;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            padding: 20px;
-            text-align: center;
-            border: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            position: relative;
-        }
-        
-        /* 卡片颜色 */
-        .english-card { color: #246bca; }
-        .chinese-card { color: #ff6b6b; }
-        .math-card { color: #1eb386; }
-        .tools-card { color: #ff922b; }
-        .games-card { color: #9c36b5; }
-        
-        /* 按钮文字颜色 */
-        .english-card span { color: #246bca !important; }
-        .chinese-card span { color: #c54f4f !important; }
-        .math-card span { color: #1c8a69 !important; }
-        .tools-card span { color: #ff922b !important; }
-        .games-card span { color: #9c36b5 !important; }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        }
-        
-        .feature-card i, .feature-card .custom-icon {
-            margin-bottom: 15px;
-        }
-        
-        .feature-card span {
-            font-weight: 500;
-        }
-        
-/* 开发中标签 */
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+}
+
+body {
+    background: #f8f9fa;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* 导航栏样式 */
+.navbar {
+    background: linear-gradient(135deg, #4a6bff, #06bcfb);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+/* 增大Logo文字（网页端） */
+.logo {
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 1.5rem; /* 新增：增大Logo文字 */
+}
+
+.logo i {
+    margin-right: 10px;
+}
+
+/* 搜索框样式 */
+.search-container {
+    position: relative;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    padding: 8px 15px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    backdrop-filter: blur(4px);
+}
+
+.search-box:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    color: white;
+    width: 100%;
+    outline: none;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.search-box i {
+    color: white;
+    margin-right: 8px;
+}
+
+.search-results {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    z-index: 10;
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.search-results a {
+    display: block;
+    padding: 12px 18px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.search-results a:hover {
+    background: #f5f7ff;
+}
+
+/* 主要内容区 */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 标签页导航 - 基础样式 */
+.tab-nav {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    padding: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* 增大导航标签文字（网页端） */
+.tab-btn {
+    padding: 12px 24px; /* 增大点击区域 */
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    position: relative;
+    white-space: nowrap;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin: 0 4px;
+    font-size: 1.1rem; /* 新增：增大导航文字 */
+}
+
+/* 标签页颜色 */
+.tab-btn[data-tab="english"] { color: #246bca; }
+.tab-btn[data-tab="chinese"] { color: #ff6b6b; }
+.tab-btn[data-tab="math"] { color: #1eb386; }
+.tab-btn[data-tab="tools"] { color: #ff922b; }
+.tab-btn[data-tab="games"] { color: #9c36b5; }
+
+.tab-btn.active {
+    color: white;
+    font-weight: 600;
+}
+
+/* 活动标签背景 */
+.tab-btn[data-tab="english"].active { 
+    background: linear-gradient(135deg, #4a6bff, #6a8cff);
+    box-shadow: 0 4px 8px rgba(74, 107, 255, 0.2);
+}
+.tab-btn[data-tab="chinese"].active { 
+    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.2);
+}
+.tab-btn[data-tab="math"].active { 
+    background: linear-gradient(135deg, #20c997, #40d8a7);
+    box-shadow: 0 4px 8px rgba(32, 201, 151, 0.2);
+}
+.tab-btn[data-tab="tools"].active { 
+    background: linear-gradient(135deg, #ff922b, #ffab5c);
+    box-shadow: 0 4px 8px rgba(255, 146, 43, 0.2);
+}
+.tab-btn[data-tab="games"].active { 
+    background: linear-gradient(135deg, #9c36b5, #b359cc);
+    box-shadow: 0 4px 8px rgba(156, 54, 181, 0.2);
+}
+
+/* 区域样式 */
+.section-area {
+    margin: 25px 0;
+    display: none;
+}
+
+.section-area.active {
+    display: block;
+}
+
+/* 功能卡片样式 - PC端 */
+.feature-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 180px);
+    gap: 20px;
+    justify-content: center;
+    padding: 10px;
+}
+
+.feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 180px; /* 恢复原始宽度 */
+    height: 160px; /* 增加高度以适应更大的间距 */
+    background: white;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 20px;
+    text-align: center;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: visible;
+}
+
+/* 卡片颜色 */
+.english-card { color: #246bca; }
+.chinese-card { color: #ff6b6b; }
+.math-card { color: #1eb386; }
+.tools-card { color: #ff922b; }
+.games-card { color: #9c36b5; }
+
+/* 按钮文字颜色 */
+.english-card span { color: #246bca !important; }
+.chinese-card span { color: #c54f4f !important; }
+.math-card span { color: #1c8a69 !important; }
+.tools-card span { color: #ff922b !important; }
+.games-card span { color: #9c36b5 !important; }
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.feature-card i,
+.feature-card .custom-icon {
+    font-size: 2rem;
+    margin-bottom: 25px; /* 统一增大图标与文字的间距 */
+    display: block; /* 确保图标独占一行 */
+}
+
+/* 统一文字样式 */
+.feature-card span {
+    font-weight: 500;
+    font-size: 1.1rem;
+    display: block; /* 确保文字独占一行 */
+    width: 100%; /* 确保文字不换行 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .feature-card .dev-tag {
     position: absolute;
     top: 8px;
     right: 8px;
     font-size: 0.65rem;
-    padding: 3px 8px;
+    padding: 3px 6px; /* 调整内边距 */
+    width: 50px; /* 固定宽度 */
+    text-align: center; /* 文字居中 */
     border-radius: 10px;
     background: linear-gradient(135deg, #ff922b, #ffab5c);
-    color: white;
+    color: white !important;
     font-weight: 600;
+    z-index: 1;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0;
+    line-height: 1.2;
+    box-sizing: border-box; /* 确保宽度包含padding */
+    white-space: nowrap; /* 防止文字换行 */
+    overflow: hidden; /* 隐藏超出部分 */
+    text-overflow: ellipsis; /* 文字过长显示省略号 */
 }
-        
+
 .feature-card.disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -263,135 +288,136 @@
     transform: none;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
-        
-        .custom-icon {
-            width: 36px;
-            height: 36px;
-            object-fit: contain;
-        }
-        
-        /* 移动端样式 */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 12px 0;
-            }
-            
-            .logo {
-                font-size: 1.1rem;
-                max-width: 50%;
-            }
-            
-            .logo i {
-                font-size: 1.2rem;
-                margin-right: 8px;
-            }
-            
-            .search-container {
-                width: 150px;
-            }
-            
-            .search-box {
-                padding: 6px 12px;
-            }
-            
-            .search-box input {
-                font-size: 0.8rem;
-            }
-            
-            .search-box i {
-                font-size: 0.9rem;
-            }
-            
-            /* 标签页导航 - 移动端 */
-            .tab-nav {
-                overflow-x: auto;
-                scrollbar-width: none;
-                position: relative;
-                padding-bottom: 15px;
-            }
-            
-            .tab-nav::-webkit-scrollbar {
-                display: none;
-            }
-            
-            /* 分段式指示条容器 */
-            .tab-indicator-container {
-                position: absolute;
-                bottom: 6px;
-                left: 8px;
-                right: 8px;
-                height: 3px;
-                display: flex;
-                background: #e9ecef;
-                border-radius: 2px;
-                overflow: hidden;
-            }
-            
-            /* 每个分段 */
-            .tab-indicator-segment {
-                flex: 1;
-                height: 100%;
-                position: relative;
-            }
-            
-            /* 活动分段指示器 */
-            .tab-indicator-segment::after {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 100%;
-                transform: scaleX(0);
-                transform-origin: left;
-                transition: transform 0.3s ease;
-            }
-            
-            /* 活动状态的指示器 */
-            .tab-indicator-segment.active::after {
-                transform: scaleX(1);
-            }
-            
-            /* 不同标签的颜色 */
-            .tab-indicator-segment[data-tab="english"]::after { background: #4a6bff; }
-            .tab-indicator-segment[data-tab="chinese"]::after { background: #ff6b6b; }
-            .tab-indicator-segment[data-tab="math"]::after { background: #20c997; }
-            .tab-indicator-segment[data-tab="tools"]::after { background: #ff922b; }
-            .tab-indicator-segment[data-tab="games"]::after { background: #9c36b5; }
-            
-            .tab-btn {
-                padding: 8px 16px;
-                font-size: 0.9rem;
-                margin: 0 3px;
-                flex-shrink: 0;
-            }
-            
-            /* 按钮区域 - 移动端 */
-            .feature-cards {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 12px;
-            }
-            
-            .feature-card {
-                width: 100%;
-                height: 110px;
-                padding: 12px;
-            }
-            
-            .feature-card i, .feature-card .custom-icon {
-                font-size: 1.4rem;
-                margin-bottom: 8px;
-            }
-            
-            .feature-card span {
-                font-size: 0.85rem;
-            }
-            
-            .custom-icon {
-                width: 28px;
-                height: 28px;
-            }
-        }
+
+.custom-icon {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    margin-bottom: 25px; /* 与Font Awesome图标保持一致 */
+}
+
+/* 移动端样式 - 保持不变 */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 12px 0;
+    }
+    
+    .logo {
+        font-size: 1.1rem;
+        max-width: 50%;
+    }
+    
+    .logo i {
+        font-size: 1.2rem;
+        margin-right: 8px;
+    }
+    
+    .search-container {
+        width: 150px;
+    }
+    
+    .search-box {
+        padding: 6px 12px;
+    }
+    
+    .search-box input {
+        font-size: 0.8rem;
+    }
+    
+    .search-box i {
+        font-size: 0.9rem;
+    }
+    
+    /* 标签页导航 - 移动端 */
+    .tab-nav {
+        overflow-x: auto;
+        scrollbar-width: none;
+        position: relative;
+        padding-bottom: 15px;
+    }
+    
+    .tab-nav::-webkit-scrollbar {
+        display: none;
+    }
+    
+    /* 分段式指示条容器 */
+    .tab-indicator-container {
+        position: absolute;
+        bottom: 6px;
+        left: 8px;
+        right: 8px;
+        height: 3px;
+        display: flex;
+        background: #e9ecef;
+        border-radius: 2px;
+        overflow: hidden;
+    }
+    
+    /* 每个分段 */
+    .tab-indicator-segment {
+        flex: 1;
+        height: 100%;
+        position: relative;
+    }
+    
+    /* 活动分段指示器 */
+    .tab-indicator-segment::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+    
+    /* 活动状态的指示器 */
+    .tab-indicator-segment.active::after {
+        transform: scaleX(1);
+    }
+    
+    /* 不同标签的颜色 */
+    .tab-indicator-segment[data-tab="english"]::after { background: #4a6bff; }
+    .tab-indicator-segment[data-tab="chinese"]::after { background: #ff6b6b; }
+    .tab-indicator-segment[data-tab="math"]::after { background: #20c997; }
+    .tab-indicator-segment[data-tab="tools"]::after { background: #ff922b; }
+    .tab-indicator-segment[data-tab="games"]::after { background: #9c36b5; }
+    
+    .tab-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        margin: 0 3px;
+        flex-shrink: 0;
+    }
+    
+    /* 按钮区域 - 移动端 */
+    .feature-cards {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+    
+    .feature-card {
+        width: 100%;
+        height: 120px;
+        padding: 12px;
+    }
+    
+    .feature-card i, .feature-card .custom-icon {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+    
+    .feature-card span {
+        font-size: 0.85rem;
+    }
+    
+    .custom-icon {
+        width: 36px;
+        height: 36px;
+    }
+}
     </style>
     <!-- Font Awesome 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -439,7 +465,7 @@
         <section id="english" class="section-area active">
             <div class="feature-cards">
                 <a href="subjects/english/dictation/index.html" class="feature-card english-card" data-search="单词听写 英语 听写">
-                    <img src="images/dancitingxie.png" class="custom-icon">
+                    <img src="images/tingxie.png" class="custom-icon">
                     <span>单词听写</span>
                 </a>
                 <a href="subjects/english/wordgame/index.html" class="feature-card english-card" data-search="单词配对 英语 配对">
@@ -467,7 +493,7 @@
                 <div class="feature-card chinese-card disabled">
                     <i class="fas fa-pencil-alt"></i>
                     <span>词语默写</span>
-                    <span class="dev-tag">开发中</span>
+                    <span class="dev-tag">开发中</span> <!-- 必须是.feature-card的直接子元素 -->
                 </div>
                 <div class="feature-card chinese-card disabled">
                     <i class="fas fa-font"></i>
