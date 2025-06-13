@@ -551,21 +551,21 @@ button:disabled {
 }
 
 .copy-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
     background-color: rgba(26, 115, 232, 0.1);
-    color: var(--primary-color);
-    margin-left: 10px;
+    color: #1A73E8;
     border: none;
     border-radius: 4px;
+    padding: 6px 12px;
     font-size: 13px;
-    float: right;
     cursor: pointer;
-    transition: all 0.2s;
-    flex-shrink: 0; /* 防止按钮被压缩 */
-    white-space: nowrap; /* 防止文字换行 */
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 .prompt-help::after {
     content: "";
@@ -573,13 +573,41 @@ button:disabled {
     clear: both;
 }
 
-.copy-btn:hover {
-    background-color: rgba(26, 115, 232, 0.2);
+.copy-text {
+    white-space: nowrap;
 }
 
 .copy-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.copy-notification {
+    position: fixed;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white; /* 改为白色背景 */
+    color: #202124; /* 深灰色文字 */
+    padding: 8px 16px;
+    border-radius: 4px; /* 减小圆角 */
     font-size: 14px;
-    line-height: 1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* 更柔和的阴影 */
+    z-index: 1000;
+    transition: bottom 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #DADCE0; /* 添加浅灰色边框 */
+}
+
+.copy-notification.show {
+    bottom: 20px;
+}
+
+.check-icon {
+    width: 16px;
+    height: 16px;
 }
 
 #exitBtn {
@@ -592,20 +620,57 @@ button:disabled {
 <body>
     <div class="container">
         <div id="inputPanel" class="panel">
-            <h2>默写工具</h2>
-            <textarea id="inputText" placeholder="请将您需要默写的内容粘贴到此处，程序会自动生成默写格式"></textarea>
+            <h2>听写工具</h2>
+            <textarea id="inputText" placeholder="请将默写的内容粘贴到此处"></textarea>
 
-            <!-- 新增的简单提示区域 -->
             <div id="promptHelp" class="prompt-help">
-                <div class="prompt-title">AI提示词</div>
-                <p>提取图片中的中英文对照内容：<br>
-                    英文内容置于中文内容之前，两者间以单个空格分隔<br>
-                    保持原格式不拆分（包括连字符连接的单词）<br>
-                    每组内容单独一行</p>
-                <button id="copyPromptBtn" class="copy-btn">
+                <div class="prompt-title">使用说明</div>
+                <p>
+                    <strong>1.准备默写内容</strong><br>
 
-                    复制提示词
-                </button>
+                    - 拍摄文本内容（确保光线充足、文字清晰）<br>
+                    - 将照片导入AI工具（如豆包、腾讯云等），使用以下提示词：
+                    <div style="background:#f8f9fa; padding:12px; border-radius:4px; margin:8px 0; position:relative; min-height:50px;">
+                        <div style="padding-right:100px; word-break:break-word; line-height:1.5;">
+                            提取图片中的中英文对照内容：英文在前中文在后，单空格分隔；保留原始格式（包括连字符单词）；每组独立成行
+                        </div>
+                        <button id="copyPromptBtn" class="copy-btn" title="复制提示词">
+                            <span class="copy-text">复制提示词</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+                                <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="#34A853"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div id="copyNotification" class="copy-notification">
+                        <svg class="check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="#34A853"/>
+                        </svg>
+                        <span>已复制</span>
+                    </div>
+                    <em>如果已准备好默写内容，可跳过此步骤直接粘贴</em><br><br>
+                    
+                    <strong>2.放入输入框</strong><br>
+                    将中英文内容粘贴到上方输入框中，注意：<br>
+                    - 每组"英文 中文"保持在同一行<br>
+                    - 中英文间用单个空格分隔<br>
+                    示例：<br>
+                    <code style="background:#f1f3f4; padding:2px 4px; border-radius:3px;">apple 苹果</code><br>
+                    <code style="background:#f1f3f4; padding:2px 4px; border-radius:3px;">banana 香蕉</code><br><br>
+                    
+                    <strong>4.选择内容</strong><br>
+                    系统会自动生成内容卡片：<br>
+                    - 点击单条切换选中状态（蓝色边框标识）<br>
+                    - 支持"全选/反选"批量操作<br><br>
+                    
+                    <strong>5.开始朗读</strong><br>
+                    点击"朗读"开始听写，可调整：<br>
+                    - 语言组合：中英/中文/英文<br>
+                    - 播报顺序：中→英 或 英→中<br>
+                    - 自动播报开关<br>
+                    - 重复次数（1-5遍）<br>
+                    - 播报间隔时间
+                </p>
             </div>
             
             <div class="button-group">
@@ -828,13 +893,47 @@ button:disabled {
     renderContentGrid();
             }
 
-            document.getElementById('copyPromptBtn').addEventListener('click', function () {
-                const promptText = "提取图片中的中英文对照内容：\n英文内容置于中文内容之前，两者间以单个空格分隔\n保持原格式不拆分（包括连字符连接的单词）\n每组内容单独一行";
-                navigator.clipboard.writeText(promptText).then(() => {
-                    alert('提示词已复制');
-                });
-            });
-
+            document.getElementById('copyPromptBtn').addEventListener('click', function() {
+    const promptText = "提取图片中的中英文对照内容：英文在前中文在后，单空格分隔；保留原始格式（包括连字符单词）；每组独立成行";
+    
+    // 创建临时textarea元素用于复制
+    const textarea = document.createElement('textarea');
+    textarea.value = promptText;
+    textarea.style.position = 'fixed';
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+        // 执行复制命令
+        const successful = document.execCommand('copy');
+        
+        if (successful) {
+            const btn = this;
+            const notification = document.getElementById('copyNotification');
+            const copyText = btn.querySelector('.copy-text');
+            const copyIcon = btn.querySelector('.copy-icon');
+            
+            // 隐藏文字，显示打勾图标
+            copyText.style.display = 'none';
+            copyIcon.style.display = 'block';
+            
+            // 显示通知
+            notification.classList.add('show');
+            
+            // 3秒后恢复原状
+            setTimeout(() => {
+                notification.classList.remove('show');
+                copyText.style.display = 'block';
+                copyIcon.style.display = 'none';
+            }, 2000);
+        }
+    } catch (err) {
+        console.error('复制失败:', err);
+    } finally {
+        // 移除临时textarea
+        document.body.removeChild(textarea);
+    }
+});
             // 输入框事件监听
             let debounceTimer;
             elements.inputText.addEventListener('input', function() {
