@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>古诗学习系统</title>
+    <title>小学古诗文</title>
     <style>
         :root {
-            --primary-color: #8b4513;
-            --secondary-color: #5a2c0a;
-            --accent-color: #7a1f1f;
-            --text-color: #5a3921;
-            --light-bg: #ffffff;
-            --card-bg: rgba(255, 254, 250, 0.9);
+            --tang-red: #8b1a1a;
+            --tang-dark-red: #5a0f0f;
+            --tang-gold: #c0a080;
+            --tang-light-gold: #f5f0e6;
+            --tang-cream: #fff;
+            --tang-brown: #5a3921;
+            --tang-light-brown: #d1c0a8;
         }
         
         * {
@@ -22,95 +23,108 @@
         
         body {
             font-family: 'KaiTi', 'SimSun', serif;
-            background-color: var(--light-bg);
-            background-size: cover;
-            background-attachment: fixed;
-            color: var(--text-color);
+            background-color: var(--tang-cream);
+            background-image: 
+                linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.9));
+            color: var(--tang-brown);
             min-height: 100vh;
             letter-spacing: 1px;
-            padding: 15px;
+            line-height: 1.6;
+            padding: 10px;
         }
         
         .main-container {
             max-width: 900px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            border-radius: 8px;
+            margin: 10px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 4px;
             padding: 20px;
-            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.15);
-            border: 1px solid rgba(217, 199, 167, 0.5);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--tang-light-gold);
+            position: relative;
         }
         
         .page-title {
             font-size: 1.8rem;
-            color: var(--secondary-color);
+            color: var(--tang-red);
             text-align: center;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.2);
+            margin: 10px 0 20px;
             position: relative;
-            padding: 0 60px;
+            padding: 0 30px;
+            letter-spacing: 3px;
         }
         
         .page-title:before, 
         .page-title:after {
-            content: "";
+            content: "|";
             position: absolute;
-            height: 2px;
-            width: 50px;
-            background: linear-gradient(to right, 
-                transparent, 
-                #c19a6b, 
-                transparent);
+            color: var(--tang-light-brown);
+            font-size: 1.2rem;
             top: 50%;
+            transform: translateY(-50%);
         }
-        .page-title:before { left: 0; }
-        .page-title:after { right: 0; }
+        .page-title:before { left: 10px; }
+        .page-title:after { right: 10px; }
         
-        /* 年级折叠面板 */
         .grade-accordion {
             margin-bottom: 15px;
-            border: 1px solid rgba(217, 199, 167, 0.5);
-            border-radius: 6px;
+            border: 1px solid rgba(209, 192, 168, 0.3);
+            border-radius: 4px;
             overflow: hidden;
+            background: rgba(255, 255, 255, 0.7);
         }
         
         .grade-header {
-            padding: 12px 15px;
-            background: rgba(236, 229, 217, 0.3);
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.9);
             cursor: pointer;
             position: relative;
-            font-size: 1.2rem;
-            color: var(--accent-color);
+            font-size: 1.1rem;
+            color: var(--tang-dark-red);
             transition: all 0.3s;
+            border: none;
+            width: 100%;
+            text-align: center;
+            font-family: 'KaiTi', 'SimSun', serif;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(209, 192, 168, 0.2);
         }
         
+        .grade-header.active {
+            background: rgba(245, 240, 230, 0.9);
+            border-bottom: 1px solid rgba(209, 192, 168, 0.5);
+        }
+
         .grade-header:hover {
-            background: rgba(217, 199, 167, 0.4);
+            background: rgba(245, 240, 230, 0.9);
         }
-        
+
         .grade-header:after {
             content: "›";
             position: absolute;
             right: 15px;
             top: 50%;
-            transform: translateY(-50%) rotate(90deg);
+            transform: translateY(-50%);
             transition: transform 0.3s;
-            font-size: 1.3rem;
-            color: var(--secondary-color);
+            font-size: 1.1rem;
+            color: var(--tang-red);
         }
-        
+
         .grade-header.active:after {
-            transform: translateY(-50%) rotate(-90deg);
+            transform: translateY(-50%) rotate(90deg);
+            color: var(--tang-dark-red);
         }
         
         .grade-content {
             display: none;
-            padding: 12px;
-            background: rgba(255, 253, 245, 0.7);
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.5);
         }
         
         .grade-content.active {
-            display: block;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
             animation: fadeIn 0.3s;
         }
         
@@ -119,321 +133,262 @@
             to { opacity: 1; }
         }
         
-        /* 古诗按钮 */
+        /* 古诗按钮样式 - 修改文字居中 */
         .poem-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
-            background: rgba(255, 253, 245, 0.9);
-            border: 1px solid rgba(217, 199, 167, 0.7);
-            border-radius: 4px;
-            font-family: inherit;
-            font-size: 1rem;
-            color: var(--text-color);
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .poem-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
-        }
-        
-        .poem-btn.selected {
-            background: rgba(139, 69, 19, 0.1);
-            border-color: var(--primary-color);
-            color: var(--secondary-color);
-        }
-        
-        .poem-name {
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        
-        .poem-author {
-            font-size: 0.85rem;
-            color: var(--primary-color);
-            font-style: italic;
-        }
-        
-        /* 详细页样式 */
-        #detail-page {
-            display: none;
-        }
-        
-        .poem-title {
-            font-size: 1.4rem;
-            color: var(--secondary-color);
-            text-align: center;
-            margin-bottom: 8px;
-            position: relative;
-        }
-        
-        .poem-title:after {
-            content: "";
-            display: block;
-            width: 80px;
-            height: 1px;
-            background: linear-gradient(to right, transparent, #c19a6b, transparent);
-            margin: 8px auto;
-        }
-        
-        .poem-author {
-            text-align: center;
-            color: var(--primary-color);
-            font-style: italic;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-        
-        .poem-content {
-            font-size: 1.1rem;
-            line-height: 1.1;
-            text-align: center;
-            margin: 20px 0;
-            padding: 20px 0;
-            border-top: 1px dashed #d9c7a7;
-            border-bottom: 1px dashed #d9c7a7;
-            white-space: pre-line; /* 保留换行符 */
-        }
-        
-        .section-title {
-            font-size: 1.1rem;
-            color: var(--accent-color);
-            margin: 18px 0 12px;
-            padding-bottom: 5px;
-            border-bottom: 1px dashed #d9c7a7;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title:after {
-            content: "";
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--primary-color);
-        }
-        
-        .note-item {
-            margin-bottom: 10px;
-            line-height: 1.5;
-            padding-left: 15px;
-            position: relative;
-            font-size: 0.95rem;
-        }
-        
-        .note-item:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: var(--accent-color);
-        }
-        
-        .note-term {
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-        
-        /* 译文部分样式 */
-        .translation-content {
-            white-space: pre-line; /* 保留换行符 */
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-        
-        /* ===== 古风导航按钮组 ===== */
-        .nav-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 确保内容垂直居中 */
+    align-items: center; /* 确保内容水平居中 */
+    padding: 8px 12px; /* 调整上下边距为8px，左右为12px */
+    background: rgba(255, 250, 241, 0.7);
+    border: 1px solid rgba(193, 154, 107, 0.4);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--tang-brown);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+    position: relative;
+    height: 60px;
+    box-shadow: 0 2px 4px rgba(139, 26, 26, 0.05);
+    line-height: 1.3; /* 调整行高 */
+}
+
+        /* 确保按钮内文字组合居中 */
+        .poem-btn > div {
             display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            gap: 15px;
-            position: relative;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
         }
-
-        /* 通用按钮样式 */
-        .nav-btn {
-            flex: 1;
-            padding: 12px 0;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-family: 'KaiTi', 'SimSun', serif;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
-            position: relative;
-            overflow: hidden;
-            background: transparent;
-            border: 2px solid;
-            letter-spacing: 2px;
-            
-            /* 书法字效果 */
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            
-            /* 宣纸纹理边框 */
-            border-image: 
-                linear-gradient(to bottom, 
-                    #d9c7a7 0%, 
-                    #c9b18c 50%, 
-                    #d9c7a7 100%) 1;
-            
-            /* 印章投影效果 */
+        
+        .poem-btn:hover,
+        .poem-btn.selected {
+            background: linear-gradient(135deg, 
+                rgba(184, 102, 102, 0.9) 0%, 
+                rgba(166, 78, 78, 0.9) 50%, 
+                rgba(139, 69, 19, 0.9) 100%);
+            color: var(--tang-cream);
+            border: 1px solid transparent;
             box-shadow: 
-                2px 2px 4px rgba(139, 69, 19, 0.15),
-                inset 0 -1px 1px rgba(255,255,255,0.5);
+                0 4px 12px rgba(122, 31, 31, 0.3),
+                inset 0 0 8px rgba(255, 215, 170, 0.4);
+            transform: translateY(-2px);
         }
-
-        /* 水墨背景效果 */
-        .nav-btn::after {
+        
+        .poem-btn:hover:before,
+        .poem-btn.selected:before {
             content: "";
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at center, 
-                rgba(255,255,255,0.1) 0%, 
-                rgba(0,0,0,0.2) 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
+            border: 1px solid transparent;
+            background: 
+                linear-gradient(to right, rgba(217, 199, 167, 0.7) 1px, transparent 1px) 0 0,
+                linear-gradient(to bottom, rgba(217, 199, 167, 0.7) 1px, transparent 1px) 0 0;
+            background-size: 12px 12px;
+            background-repeat: round;
+            mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
         }
-
-        /* 返回按钮 - 靛青色系 */
-        .back-btn {
-            color: #2a4a6b;
-            border-color: #5a7b9e;
-        }
-        .back-btn:hover {
-            color: #fff9e6;
-            background: linear-gradient(to bottom, 
-                rgba(42,74,107,0.9) 0%, 
-                rgba(26,54,83,0.9) 100%);
-        }
-
-        /* 导航按钮 - 朱砂色系 */
-        .prev-btn, .next-btn {
-            color: #7a1f1f;
-            border-color: #b75a5a;
-        }
-        .prev-btn:hover, .next-btn:hover {
-            color: #fff9e6;
-            background: linear-gradient(to bottom, 
-                rgba(122,31,31,0.9) 0%, 
-                rgba(94,24,24,0.9) 100%);
-        }
-
-        /* 按钮悬停效果 */
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                2px 4px 6px rgba(139,69,19,0.2),
-                inset 0 -1px 1px rgba(255,255,255,0.3);
-        }
-        .nav-btn:hover::after {
-            opacity: 1;
-        }
-
-        /* 按钮点击效果 */
-        .nav-btn:active {
-            transform: translateY(1px);
-            box-shadow: 
-                1px 1px 2px rgba(139,69,19,0.1),
-                inset 0 2px 3px rgba(0,0,0,0.2);
-        }
-
-        /* 按钮装饰元素 - 仿古书卷轴头 */
-        .nav-btn::before {
+        
+        .poem-btn:hover:after,
+        .poem-btn.selected:after {
             content: "";
             position: absolute;
-            top: -2px;
-            left: 50%;
-            width: 40px;
-            height: 4px;
-            background: #d9c7a7;
-            transform: translateX(-50%);
-            border-radius: 0 0 4px 4px;
-            opacity: 0.6;
-            transition: all 0.3s ease;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M20,20 Q30,10 40,20 T60,20 T80,20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>');
+            opacity: 0.3;
+            pointer-events: none;
         }
-        .nav-btn:hover::before {
-            width: 60px;
-            background: #c9b18c;
+        
+        .poem-name {
+            margin-top: 13px; 
+            font-weight: bold;
+            margin-bottom: 2px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .poem-author {
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        /* 修改悬停和选中文字颜色为纯白色 */
+        .poem-btn:hover .poem-name,
+        .poem-btn.selected .poem-name,
+        .poem-btn:hover .poem-author,
+        .poem-btn.selected .poem-author {
+            color: #ffffff;
+            text-shadow: 1px 1px 1px rgba(122, 31, 31, 0.3);
+        }
+        
+        #detail-page {
+            display: none;
+        }
+        
+        /* 详细页诗文样式 - 添加文字阴影 */
+        .poem-title {
+            font-size: 1.5rem;
+            color: var(--tang-red);
+            text-align: center;
+            margin: 15px 0 8px;
+            text-shadow: 0.5px 0.5px 1px rgba(139, 26, 26, 0.2);
+        }
+        
+        .poem-author {
+            text-align: center;
+            color: var(--tang-brown);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            text-shadow: 0.5px 0.5px 1px rgba(139, 26, 26, 0.1);
+        }
+        
+        .poem-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px 0;
+            border-top: 1px dashed var(--tang-light-brown);
+            border-bottom: 1px dashed var(--tang-light-brown);
+            white-space: pre-line;
+            text-shadow: 0.5px 0.5px 1px rgba(139, 26, 26, 0.1);
+        }
+        
+        /* 注释和译文标题样式 */
+        .section-title {
+            font-size: 1.1rem;
+            color: var(--tang-red);
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            display: inline-block;
+            position: relative;
+            letter-spacing: 1px;
+        }
+        
+        .section-title:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, 
+                var(--tang-red), 
+                var(--tang-light-brown));
+            transform: scaleX(0.8);
+            transform-origin: left;
+        }
+        
+        .note-item {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .note-term {
+            font-weight: bold;
+            color: var(--tang-dark-red);
+        }
+        
+        .translation-content {
+            white-space: pre-line;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        /* 导航按钮样式 */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            gap: 8px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 5px;
         }
 
-        /* 移动端适配 */
-        @media (max-width: 480px) {
-            .nav-buttons {
-                flex-direction: column;
-                gap: 12px;
-            }
-            .nav-btn {
-                padding: 10px 0;
-            }
+        .nav-btn {
+            flex: 1 0 auto;
+            min-width: 80px;
+            padding: 8px 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: 'KaiTi', 'SimSun', serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--tang-light-brown);
+            color: var(--tang-dark-red);
+            white-space: nowrap;
+            text-align: center;
         }
 
-        /* 桌面端样式 */
-        @media (min-width: 768px) {
-            body {
-                padding: 20px;
-                font-size: 16px;
-            }
-            
+        .nav-btn:hover {
+            background: rgba(245, 240, 230, 0.9);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        #back-btn {
+            flex: 0.5;
+            min-width: 60px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--tang-brown);
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
             .main-container {
-                padding: 25px;
-            }
-            
-            .page-title {
-                font-size: 2rem;
-                padding: 0 80px;
-            }
-            
-            .grade-header {
-                font-size: 1.3rem;
                 padding: 15px;
             }
             
+            .page-title {
+                font-size: 1.5rem;
+                padding: 0 25px;
+            }
+            
+            .grade-header {
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+            
+            .grade-content.active {
+                grid-template-columns: 1fr;
+            }
+            
             .poem-btn {
-                font-size: 1.1rem;
-                padding: 14px;
-            }
-            
-            .poem-name {
-                font-size: 1.1rem;
-            }
-            
-            .poem-author {
-                font-size: 0.9rem;
-            }
-            
-            .poem-title {
-                font-size: 1.6rem;
+                padding: 10px;
+                height: 65px;
             }
             
             .poem-content {
-                font-size: 1.3rem;
-                line-height: 2;
-            }
-            
-            .section-title {
-                font-size: 1.2rem;
-            }
-            
-            .note-item {
                 font-size: 1rem;
-            }
-            
-            .translation-content {
-                font-size: 1rem;
+                line-height: 1.6;
+                margin: 15px 0;
+                padding: 10px 0;
             }
             
             .nav-btn {
-                font-size: 1.1rem;
-                padding: 14px 0;
+                font-size: 0.85rem;
+                padding: 6px 0;
             }
         }
     </style>
@@ -441,10 +396,10 @@
 <body>
     <!-- 主页面 -->
     <div class="main-container" id="main-page">
-        <h1 class="page-title">古诗选集</h1>
+        <h1 class="page-title">小学古诗文</h1>
         
         <div id="content-list">
-            <div class="loading">正在加载数据...</div>
+            <div class="loading">正在载入诗卷...</div>
         </div>
     </div>
     
@@ -466,9 +421,9 @@
         </div>
         
         <div class="nav-buttons">
-            <button class="nav-btn prev-btn" id="prev-btn">〈 上一首</button>
-            <button class="nav-btn back-btn" id="back-btn">返回列表</button>
-            <button class="nav-btn next-btn" id="next-btn">下一首 〉</button>
+            <button class="nav-btn" id="prev-btn">〈 上一首</button>
+            <button class="nav-btn" id="back-btn">返回</button>
+            <button class="nav-btn" id="next-btn">下一首 〉</button>
         </div>
     </div>
 
@@ -507,7 +462,7 @@
                 .catch(error => {
                     console.error('加载失败:', error);
                     document.getElementById('content-list').innerHTML = 
-                        '<div class="error">加载数据失败，请检查控制台</div>';
+                        '<div class="error">载入诗卷失败，请稍后再试</div>';
                 });
         }
         
@@ -605,9 +560,8 @@
             document.getElementById('detail-author').textContent = 
                 poem.dynasty ? `${poem.dynasty}·${poem.author}` : poem.author;
             
-            // 设置古诗内容 - 只处理明确的换行符
+            // 设置古诗内容
             let poemContent = poem.content;
-            // 将单个换行符替换为双换行符(换行+空行)
             poemContent = poemContent.replace(/\n/g, '\n\n');
             document.getElementById('detail-content').textContent = poemContent;
             
@@ -618,7 +572,6 @@
                 
                 poem.notes.forEach(note => {
                     if (typeof note === 'string') {
-                        // 尝试分割术语和解释
                         const separatorIndex = note.indexOf('：');
                         if (separatorIndex > 0) {
                             const term = note.substring(0, separatorIndex);
@@ -645,9 +598,8 @@
                 notesContainer.innerHTML = '<div class="note-item">暂无注释</div>';
             }
             
-            // 设置译文 - 处理换行符
+            // 设置译文
             let translation = poem.translation || '暂无译文';
-            // 将单个换行符替换为双换行符(换行+空行)
             translation = translation.replace(/\n/g, '\n\n');
             document.getElementById('detail-translation').textContent = translation;
         }
