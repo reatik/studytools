@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古诗学习系统</title>
+    <style>
+        :root {
+            --primary-color: #8b4513;
+            --secondary-color: #5a2c0a;
+            --accent-color: #7a1f1f;
+            --text-color: #5a3921;
+            --light-bg: #f9f5e9;
+            --card-bg: rgba(255, 253, 245, 0.9);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'KaiTi', 'SimSun', serif;
+            background-color: var(--light-bg);
+            background-image: url('https://img.freepik.com/free-photo/chinese-paper-texture_1194-5417.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--text-color);
+            min-height: 100vh;
+            letter-spacing: 1px;
+            padding: 15px;
+        }
+        
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.15);
+            border: 1px solid rgba(217, 199, 167, 0.5);
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.2);
+            position: relative;
+            padding: 0 60px;
+        }
+        
+        .page-title:before, 
+        .page-title:after {
+            content: "";
+            position: absolute;
+            height: 2px;
+            width: 50px;
+            background: linear-gradient(to right, 
+                transparent, 
+                #c19a6b, 
+                transparent);
+            top: 50%;
+        }
+        .page-title:before { left: 0; }
+        .page-title:after { right: 0; }
+        
+        /* 年级折叠面板 */
+        .grade-accordion {
+            margin-bottom: 15px;
+            border: 1px solid rgba(217, 199, 167, 0.5);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .grade-header {
+            padding: 12px 15px;
+            background: rgba(217, 199, 167, 0.3);
+            cursor: pointer;
+            position: relative;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            transition: all 0.3s;
+        }
+        
+        .grade-header:hover {
+            background: rgba(217, 199, 167, 0.4);
+        }
+        
+        .grade-header:after {
+            content: "›";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+            transition: transform 0.3s;
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+        }
+        
+        .grade-header.active:after {
+            transform: translateY(-50%) rotate(-90deg);
+        }
+        
+        .grade-content {
+            display: none;
+            padding: 12px;
+            background: rgba(255, 253, 245, 0.7);
+        }
+        
+        .grade-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* 古诗按钮 */
+        .poem-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: rgba(255, 253, 245, 0.9);
+            border: 1px solid rgba(217, 199, 167, 0.7);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text-color);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .poem-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+        }
+        
+        .poem-btn.selected {
+            background: rgba(139, 69, 19, 0.1);
+            border-color: var(--primary-color);
+            color: var(--secondary-color);
+        }
+        
+        .poem-name {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .poem-author {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-style: italic;
+        }
+        
+        /* 详细页样式 */
+        #detail-page {
+            display: none;
+        }
+        
+        .poem-title {
+            font-size: 1.4rem;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .poem-title:after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #c19a6b, transparent);
+            margin: 8px auto;
+        }
+        
+        .poem-author {
+            text-align: center;
+            color: var(--primary-color);
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .poem-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px 0;
+            border-top: 1px dashed #d9c7a7;
+            border-bottom: 1px dashed #d9c7a7;
+            white-space: pre-line; /* 新增：保留换行符 */
+        }
+
+        .translation-content {
+            white-space: pre-line; /* 新增：保留换行符 */
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            margin: 18px 0 12px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #d9c7a7;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: "";
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 25px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+        
+        .note-item {
+            margin-bottom: 10px;
+            line-height: 1.5;
+            padding-left: 15px;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .note-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+        
+        .note-term {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .translation-content p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        /* ===== 古风导航按钮组 ===== */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+            position: relative;
+        }
+
+        /* 通用按钮样式 */
+        .nav-btn {
+            flex: 1;
+            padding: 12px 0;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'KaiTi', 'SimSun', serif;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+            border: 2px solid;
+            letter-spacing: 2px;
+            
+            /* 书法字效果 */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            
+            /* 宣纸纹理边框 */
+            border-image: 
+                linear-gradient(to bottom, 
+                    #d9c7a7 0%, 
+                    #c9b18c 50%, 
+                    #d9c7a7 100%) 1;
+            
+            /* 印章投影效果 */
+            box-shadow: 
+                2px 2px 4px rgba(139, 69, 19, 0.15),
+                inset 0 -1px 1px rgba(255,255,255,0.5);
+        }
+
+        /* 水墨背景效果 */
+        .nav-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, 
+                rgba(255,255,255,0.1) 0%, 
+                rgba(0,0,0,0.2) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* 返回按钮 - 靛青色系 */
+        .back-btn {
+            color: #2a4a6b;
+            border-color: #5a7b9e;
+        }
+        .back-btn:hover {
+            color: #fff9e6;
+            background: linear-gradient(to bottom, 
+                rgba(42,74,107,0.9) 0%, 
+                rgba(26,54,83,0.9) 100%);
+        }
+
+        /* 导航按钮 - 朱砂色系 */
+        .prev-btn, .next-btn {
+            color: #7a1f1f;
+            border-color: #b75a5a;
+        }
+        .prev-btn:hover, .next-btn:hover {
+            color: #fff9e6;
+            background: linear-gradient(to bottom, 
+                rgba(122,31,31,0.9) 0%, 
+                rgba(94,24,24,0.9) 100%);
+        }
+
+        /* 按钮悬停效果 */
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                2px 4px 6px rgba(139,69,19,0.2),
+                inset 0 -1px 1px rgba(255,255,255,0.3);
+        }
+        .nav-btn:hover::after {
+            opacity: 1;
+        }
+
+        /* 按钮点击效果 */
+        .nav-btn:active {
+            transform: translateY(1px);
+            box-shadow: 
+                1px 1px 2px rgba(139,69,19,0.1),
+                inset 0 2px 3px rgba(0,0,0,0.2);
+        }
+
+        /* 按钮装饰元素 - 仿古书卷轴头 */
+        .nav-btn::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            width: 40px;
+            height: 4px;
+            background: #d9c7a7;
+            transform: translateX(-50%);
+            border-radius: 0 0 4px 4px;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover::before {
+            width: 60px;
+            background: #c9b18c;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 480px) {
+            .nav-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .nav-btn {
+                padding: 10px 0;
+            }
+        }
+
+        /* 桌面端样式 */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+                font-size: 16px;
+            }
+            
+            .main-container {
+                padding: 25px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+                padding: 0 80px;
+            }
+            
+            .grade-header {
+                font-size: 1.3rem;
+                padding: 15px;
+            }
+            
+            .poem-btn {
+                font-size: 1.1rem;
+                padding: 14px;
+            }
+            
+            .poem-name {
+                font-size: 1.1rem;
+            }
+            
+            .poem-author {
+                font-size: 0.9rem;
+            }
+            
+            .poem-title {
+                font-size: 1.6rem;
+            }
+            
+            .poem-content {
+                font-size: 1.3rem;
+                line-height: 2;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .note-item {
+                font-size: 1rem;
+            }
+            
+            .translation-content p {
+                font-size: 1rem;
+            }
+            
+            .nav-btn {
+                font-size: 1.1rem;
+                padding: 14px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主页面 -->
+    <div class="main-container" id="main-page">
+        <h1 class="page-title">古诗选集</h1>
+        
+        <div id="content-list">
+            <div class="loading">正在加载数据...</div>
+        </div>
+    </div>
+    
+    <!-- 详细页 -->
+    <div class="main-container" id="detail-page">
+        <h2 class="poem-title" id="detail-title"></h2>
+        <div class="poem-author" id="detail-author"></div>
+        
+        <div class="poem-content" id="detail-content"></div>
+        
+        <div class="section-title">注释</div>
+        <div id="detail-notes"></div>
+        
+        <div class="section-title">译文</div>
+        <div class="translation-content" id="detail-translation"></div>
+        
+        <div class="nav-buttons">
+            <button class="nav-btn prev-btn" id="prev-btn">〈 上一首</button>
+            <button class="nav-btn back-btn" id="back-btn">返回列表</button>
+            <button class="nav-btn next-btn" id="next-btn">下一首 〉</button>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let poems = [];
+        let currentPoemId = null;
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const backBtn = document.getElementById('back-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            // 绑定事件
+            backBtn.addEventListener('click', backToList);
+            prevBtn.addEventListener('click', showPrevPoem);
+            nextBtn.addEventListener('click', showNextPoem);
+            
+            // 加载数据
+            loadPoems();
+        });
+        
+        // 加载数据
+        function loadPoems() {
+            fetch('duishi.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('网络响应不正常');
+                    return response.json();
+                })
+                .then(data => {
+                    poems = data;
+                    renderPoemList();
+                })
+                .catch(error => {
+                    console.error('加载失败:', error);
+                    document.getElementById('content-list').innerHTML = 
+                        '<div class="error">加载数据失败，请检查控制台</div>';
+                });
+        }
+        
+        // 渲染古诗列表
+        function renderPoemList() {
+            const contentList = document.getElementById('content-list');
+            
+            // 按年级分组
+            const gradeGroups = {};
+            poems.forEach(poem => {
+                if (!poem.grade) return;
+                
+                if (!gradeGroups[poem.grade]) {
+                    gradeGroups[poem.grade] = [];
+                }
+                
+                gradeGroups[poem.grade].push(poem);
+            });
+            
+            let html = '';
+            
+            // 按年级顺序显示
+            const gradeOrder = [
+                "一年级上册", "一年级下册",
+                "二年级上册", "二年级下册",
+                "三年级上册", "三年级下册",
+                "四年级上册", "四年级下册",
+                "五年级上册", "五年级下册"
+            ];
+            
+            gradeOrder.forEach(grade => {
+                if (gradeGroups[grade] && gradeGroups[grade].length > 0) {
+                    html += `
+                        <div class="grade-accordion">
+                            <div class="grade-header">${grade}</div>
+                            <div class="grade-content">
+                    `;
+                    
+                    gradeGroups[grade].forEach(poem => {
+                        const title = poem.title || '无题';
+                        const author = poem.dynasty ? `${poem.dynasty}·${poem.author}` : poem.author;
+                        
+                        html += `
+                            <button class="poem-btn" data-id="${poems.indexOf(poem)}">
+                                <div class="poem-name">${title}</div>
+                                <div class="poem-author">${author}</div>
+                            </button>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            contentList.innerHTML = html;
+            
+            // 为年级标题添加点击事件
+            document.querySelectorAll('.grade-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    content.classList.toggle('active');
+                });
+            });
+            
+            // 为每首诗添加点击事件
+            document.querySelectorAll('.poem-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除之前选中的样式
+                    document.querySelectorAll('.poem-btn').forEach(b => {
+                        b.classList.remove('selected');
+                    });
+                    
+                    // 添加当前选中样式
+                    this.classList.add('selected');
+                    
+                    const poemId = parseInt(this.getAttribute('data-id'));
+                    currentPoemId = poemId;
+                    showPoemDetail(poems[poemId]);
+                });
+            });
+        }
+        
+        // 显示古诗详情
+        function showPoemDetail(poem) {
+            // 切换到详情页
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('detail-page').style.display = 'block';
+            
+            // 设置标题和作者
+            document.getElementById('detail-title').textContent = poem.title || '无题';
+            document.getElementById('detail-author').textContent = 
+                poem.dynasty ? `${poem.dynasty}·${poem.author}` : poem.author;
+            
+            // 设置内容（保留原始换行）
+            document.getElementById('detail-content').textContent = poem.content;
+            
+            // 设置注释
+            const notesContainer = document.getElementById('detail-notes');
+            if (poem.notes && poem.notes.length > 0) {
+                let notesHtml = '';
+                
+                poem.notes.forEach(note => {
+                    if (typeof note === 'string') {
+                        // 尝试分割术语和解释
+                        const separatorIndex = note.indexOf('：');
+                        if (separatorIndex > 0) {
+                            const term = note.substring(0, separatorIndex);
+                            const explanation = note.substring(separatorIndex + 1);
+                            notesHtml += `
+                                <div class="note-item">
+                                    <span class="note-term">${term}：</span>${explanation}
+                                </div>
+                            `;
+                        } else {
+                            notesHtml += `<div class="note-item">${note}</div>`;
+                        }
+                    } else if (note.term && note.explanation) {
+                        notesHtml += `
+                            <div class="note-item">
+                                <span class="note-term">${note.term}：</span>${note.explanation}
+                            </div>
+                        `;
+                    }
+                });
+                
+                notesContainer.innerHTML = notesHtml;
+            } else {
+                notesContainer.innerHTML = '<div class="note-item">暂无注释</div>';
+            }
+            
+            // 设置译文（保留原始换行）
+            const translationContainer = document.getElementById('detail-translation');
+            if (poem.translation) {
+                translationContainer.textContent = poem.translation;
+            } else {
+                translationContainer.textContent = '暂无译文';
+            }
+        }
+        
+        // 显示上一首诗
+        function showPrevPoem() {
+            if (currentPoemId > 0) {
+                currentPoemId--;
+                showPoemDetail(poems[currentPoemId]);
+                
+                // 更新选中状态
+                updateSelectedState();
+            }
+        }
+        
+        // 显示下一首诗
+        function showNextPoem() {
+            if (currentPoemId < poems.length - 1) {
+                currentPoemId++;
+                showPoemDetail(poems[currentPoemId]);
+                
+                // 更新选中状态
+                updateSelectedState();
+            }
+        }
+        
+        // 更新选中状态
+        function updateSelectedState() {
+            // 移除所有选中状态
+            document.querySelectorAll('.poem-btn').forEach(b => {
+                b.classList.remove('selected');
+            });
+            
+            // 添加当前选中状态
+            const currentBtn = document.querySelector(`.poem-btn[data-id="${currentPoemId}"]`);
+            if (currentBtn) {
+                currentBtn.classList.add('selected');
+            }
+        }
+        
+        // 返回列表
+        function backToList() {
+            document.getElementById('main-page').style.display = 'block';
+            document.getElementById('detail-page').style.display = 'none';
+            
+            // 滚动到选中的诗
+            if (currentPoemId !== null) {
+                const selectedBtn = document.querySelector(`.poem-btn[data-id="${currentPoemId}"]`);
+                if (selectedBtn) {
+                    selectedBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+    </script>
+</body>
+</html>

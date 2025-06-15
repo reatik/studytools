@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古诗学习系统</title>
+    <style>
+        body {
+            font-family: 'KaiTi', '楷体', serif;
+            background-color: #f9f5e9;
+            color: #333;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://img.freepik.com/free-photo/chinese-paper-texture_1194-5417.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        
+        .main-container {
+            background-color: rgba(255, 253, 245, 0.85);
+            width: 100%;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.1);
+            border: 1px solid rgba(217, 199, 167, 0.5);
+        }
+        
+        /* ===== 大标题样式 ===== */
+        .home-title {
+            font-size: 42px;
+            font-weight: bold;
+            color: #5a2c0a;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+            letter-spacing: 4px;
+            text-shadow: 
+                2px 2px 3px rgba(139, 69, 19, 0.2),
+                0 0 10px rgba(255, 249, 230, 0.5);
+        }
+        
+        /* 标题装饰线 */
+        .home-title:before, .home-title:after {
+            content: "";
+            position: absolute;
+            height: 2px;
+            width: 60px;
+            background: linear-gradient(to right, 
+                transparent, 
+                #c19a6b, 
+                transparent);
+            top: 50%;
+        }
+        .home-title:before { left: -70px; }
+        .home-title:after { right: -70px; }
+        
+        /* ===== 小标题样式 ===== */
+        .home-subtitle {
+            font-size: 20px;
+            color: #7a5a44;
+            margin-bottom: 40px;
+            font-style: italic;
+            position: relative;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(255, 249, 230, 0.8);
+        }
+        
+        /* 小标题分隔符 - 仿古印章 */
+        .home-subtitle:after {
+            content: "❀";
+            display: block;
+            font-size: 16px;
+            color: #b75a5a;
+            margin: 15px auto;
+            text-shadow: none;
+            opacity: 0.8;
+        }
+        
+        /* ===== 古风质感按钮 ===== */
+        .btn {
+            display: inline-block;
+            padding: 16px 36px;
+            border-radius: 6px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+            font-family: 'KaiTi', 'SimSun', serif;
+            width: 240px;
+            text-decoration: none;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin: 15px 0;
+            
+            /* 无底色设计 */
+            background: transparent;
+            color: #5a3921;
+            border: 2px solid;
+            
+            /* 书法字效果 */
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            
+            /* 宣纸纹理边框 */
+            border-image: 
+                linear-gradient(to bottom, 
+                    #d9c7a7 0%, 
+                    #c9b18c 50%, 
+                    #d9c7a7 100%) 1;
+            
+            /* 印章投影效果 */
+            box-shadow: 
+                2px 2px 4px rgba(139, 69, 19, 0.15),
+                inset 0 -1px 1px rgba(255,255,255,0.5);
+        }
+
+        /* 悬停时的水墨扩散效果 */
+        .btn:hover {
+            color: #fff9e6 !important;
+            background-color: #8b4513;
+            border-color: #5a2c0a;
+            
+            /* 水墨纹理背景 */
+            background-image: 
+                radial-gradient(circle at 50% 50%, 
+                    rgba(255,255,255,0.1) 0%, 
+                    rgba(0,0,0,0.2) 100%),
+                linear-gradient(to bottom, 
+                    rgba(139, 69, 19, 0.9) 0%, 
+                    rgba(90, 44, 10, 0.9) 100%);
+            
+            /* 悬停时显示毛笔字迹效果 */
+            text-shadow: 
+                0 0 3px rgba(255, 249, 230, 0.8),
+                1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* 点击时的印章按压效果 */
+        .btn:active {
+            background-color: #5a2c0a;
+            transform: translateY(1px);
+            box-shadow: 
+                1px 1px 2px rgba(139, 69, 19, 0.2),
+                inset 0 2px 3px rgba(0,0,0,0.3);
+        }
+
+        /* 预习古诗按钮 - 朱砂色系 */
+        .home-buttons a:nth-child(1) {
+            color: #7a1f1f;
+            border-color: #b75a5a;
+        }
+        .home-buttons a:nth-child(1):hover {
+            background-color: #9e2b2b;
+            background-image: 
+                radial-gradient(circle at 50% 50%, 
+                    rgba(255,215,215,0.2) 0%, 
+                    rgba(158,43,43,0.9) 100%);
+            border-color: #7a1f1f;
+        }
+
+        /* 诗词对句按钮 - 靛青色系 */
+        .home-buttons a:nth-child(2) {
+            color: #2a4a6b;
+            border-color: #5a7b9e;
+        }
+        .home-buttons a:nth-child(2):hover {
+            background-color: #3a5a8b;
+            background-image: 
+                radial-gradient(circle at 50% 50%, 
+                    rgba(200,225,255,0.2) 0%, 
+                    rgba(58,90,139,0.9) 100%);
+            border-color: #2a4a6b;
+        }
+
+        /* 按钮装饰元素 - 仿古书卷轴头 */
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            width: 40px;
+            height: 4px;
+            background: #d9c7a7;
+            transform: translateX(-50%);
+            border-radius: 0 0 4px 4px;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        .btn:hover::before {
+            width: 60px;
+            background: #c9b18c;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .home-title {
+                font-size: 36px;
+            }
+            .home-subtitle {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .home-title {
+                font-size: 30px;
+                letter-spacing: 2px;
+            }
+            .home-title:before, 
+            .home-title:after {
+                width: 40px;
+            }
+            .home-title:before { left: -50px; }
+            .home-title:after { right: -50px; }
+            
+            .home-subtitle {
+                font-size: 16px;
+            }
+            
+            .btn {
+                width: 200px;
+                padding: 14px 28px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="home-container">
+            <h1 class="home-title">古诗学习</h1>
+            <p class="home-subtitle">传承千年文化 · 品味诗词之美</p>
+            
+            <div class="home-buttons">
+                <a href="yuxigushi.html" class="btn">预习古诗</a>
+                <a href="shiciduiju.html" class="btn">诗词对句</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

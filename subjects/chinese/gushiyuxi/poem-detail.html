@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古诗详情</title>
+    <style>
+        :root {
+            --primary-color: #8b4513;  /* 古铜色 */
+            --secondary-color: #5a2c0a; /* 深褐色 */
+            --accent-color: #7a1f1f;   /* 朱砂色 */
+            --text-color: #5a3921;     /* 古墨色 */
+            --light-bg: #f9f5e9;       /* 宣纸色 */
+            --card-bg: rgba(255, 253, 245, 0.9); /* 半透明米白 */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'KaiTi', 'SimSun', serif;
+            background-color: var(--light-bg);
+            background-image: url('https://img.freepik.com/free-photo/chinese-paper-texture_1194-5417.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .main-container {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 
+                0 4px 12px rgba(139, 69, 19, 0.15),
+                inset 0 0 20px rgba(217, 199, 167, 0.3);
+            border: 1px solid rgba(217, 199, 167, 0.5);
+        }
+        
+        /* ===== 返回按钮 ===== */
+        .back-btn {
+            display: inline-block;
+            padding: 10px 24px;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+            margin-bottom: 30px;
+            font-family: 'KaiTi', 'SimSun', serif;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .back-btn:hover {
+            color: #fff9e6;
+            background-color: var(--primary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        /* ===== 诗题与作者 ===== */
+        .poem-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .poem-title {
+            font-size: 2.4rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            text-shadow: 
+                1px 1px 2px rgba(139, 69, 19, 0.2),
+                0 0 10px rgba(255, 249, 230, 0.5);
+            letter-spacing: 4px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        /* 诗题装饰线 */
+        .poem-title:before, 
+        .poem-title:after {
+            content: "";
+            position: absolute;
+            height: 2px;
+            width: 60px;
+            background: linear-gradient(to right, 
+                transparent, 
+                #c19a6b, 
+                transparent);
+            top: 50%;
+        }
+        .poem-title:before { left: -70px; }
+        .poem-title:after { right: -70px; }
+        
+        .poem-info {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-style: italic;
+            text-shadow: 1px 1px 1px rgba(255, 249, 230, 0.8);
+        }
+        
+        /* ===== 诗文内容 ===== */
+        .poem-content {
+            font-size: 1.6rem;
+            line-height: 2.5;
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px 0;
+            border-top: 1px dashed #d9c7a7;
+            border-bottom: 1px dashed #d9c7a7;
+            background-image: 
+                linear-gradient(to bottom, 
+                    transparent 0%, 
+                    rgba(217, 199, 167, 0.1) 50%, 
+                    transparent 100%);
+        }
+        
+        /* ===== 各内容区块 ===== */
+        .section-container {
+            background: rgba(255, 253, 245, 0.7);
+            padding: 25px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(217, 199, 167, 0.3);
+            box-shadow: 
+                inset 0 0 15px rgba(217, 199, 167, 0.2),
+                0 2px 4px rgba(139, 69, 19, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        /* 区块标题装饰 */
+        .section-title:after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, 
+                transparent, 
+                #b75a5a, 
+                transparent);
+            margin: 10px auto 0;
+        }
+        
+        .section-content {
+            line-height: 1.8;
+            font-size: 1.15rem;
+            text-align: justify;
+            text-indent: 2em;
+        }
+        
+        .section-content p {
+            margin-bottom: 15px;
+        }
+        
+        /* 注释列表 */
+        .notes-list {
+            list-style: none;
+        }
+        
+        .notes-list li {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed rgba(139, 69, 19, 0.2);
+            position: relative;
+            padding-left: 1.5em;
+        }
+        
+        /* 注释项装饰点 */
+        .notes-list li:before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+        }
+        
+        .term {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        /* 加载提示 */
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-style: italic;
+        }
+        
+        /* ===== 响应式设计 ===== */
+        @media (max-width: 768px) {
+            .poem-title {
+                font-size: 2rem;
+            }
+            
+            .poem-content {
+                font-size: 1.4rem;
+                line-height: 2.2;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 20px;
+            }
+            
+            .poem-title {
+                font-size: 1.8rem;
+                letter-spacing: 2px;
+            }
+            
+            .poem-title:before, 
+            .poem-title:after {
+                width: 40px;
+            }
+            .poem-title:before { left: -50px; }
+            .poem-title:after { right: -50px; }
+            
+            .poem-content {
+                font-size: 1.3rem;
+                padding: 20px 0;
+            }
+            
+            .section-container {
+                padding: 18px;
+            }
+            
+            .section-content {
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <button id="backBtn" class="back-btn">返回</button>
+        
+        <div class="poem-header">
+            <h1 id="poemTitle" class="poem-title"></h1>
+            <div id="poemInfo" class="poem-info"></div>
+        </div>
+        
+        <div id="poemContent" class="poem-content"></div>
+        
+        <div class="section-container">
+            <h3 class="section-title">译文</h3>
+            <div id="translationContent" class="section-content"></div>
+        </div>
+        
+        <div class="section-container">
+            <h3 class="section-title">词语注释</h3>
+            <ul id="notesList" class="notes-list section-content"></ul>
+        </div>
+        
+        <div class="section-container">
+            <h3 class="section-title">创作背景</h3>
+            <div id="backgroundContent" class="section-content"></div>
+        </div>
+        
+        <div id="loading" class="loading">正在加载古诗数据...</div>
+    </div>
+
+    <script>
+        // 从URL获取参数
+        function getUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                id: urlParams.get('id'),
+                title: urlParams.get('title'),
+                author: urlParams.get('author')
+            };
+        }
+
+        // DOM元素
+        const domElements = {
+            loading: document.getElementById('loading'),
+            backBtn: document.getElementById('backBtn'),
+            poemTitle: document.getElementById('poemTitle'),
+            poemInfo: document.getElementById('poemInfo'),
+            poemContent: document.getElementById('poemContent'),
+            translationContent: document.getElementById('translationContent'),
+            notesList: document.getElementById('notesList'),
+            backgroundContent: document.getElementById('backgroundContent')
+        };
+
+        // 加载古诗数据
+        async function loadPoemsData() {
+            try {
+                const response = await fetch('duishi.json');
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('加载古诗数据失败:', error);
+                domElements.loading.textContent = '加载古诗数据失败，请刷新重试';
+                return null;
+            }
+        }
+
+        // 查找古诗
+        function findPoem(poemsData, params) {
+            if (!poemsData || !Array.isArray(poemsData)) {
+                return null;
+            }
+
+            // 优先使用ID查找
+            if (params.id) {
+                return poemsData.find(poem => poem.id == params.id);
+            }
+            
+            // 其次使用标题和作者组合查找
+            if (params.title && params.author) {
+                return poemsData.find(poem => 
+                    poem.title === params.title && poem.author === params.author
+                );
+            }
+            
+            // 最后只使用标题查找
+            if (params.title) {
+                return poemsData.find(poem => poem.title === params.title);
+            }
+            
+            return null;
+        }
+
+        // 格式化内容
+        function formatContent(content) {
+            if (!content) return '';
+            
+            if (Array.isArray(content)) {
+                return content.map(line => `<p>${line}</p>`).join('');
+            }
+            
+            if (typeof content === 'string') {
+                // 按句号分割并过滤空行
+                const lines = content.split(/[。！？]/)
+                    .filter(line => line.trim().length > 0)
+                    .map(line => line.trim() + '。');
+                return lines.map(line => `<p>${line}</p>`).join('');
+            }
+            
+            return '';
+        }
+
+        // 显示古诗详情
+        function displayPoemDetail(poem) {
+            if (!poem) {
+                domElements.loading.textContent = '未找到对应的古诗';
+                return;
+            }
+
+            // 显示基本信息
+            domElements.poemTitle.textContent = poem.title || '无题';
+            domElements.poemInfo.textContent = [
+                poem.dynasty || '未知朝代',
+                poem.author || '佚名'
+            ].filter(Boolean).join(' · ');
+
+            // 显示内容
+            domElements.poemContent.innerHTML = formatContent(poem.content) || '<p>暂无内容</p>';
+            
+            // 显示译文
+            domElements.translationContent.innerHTML = formatContent(poem.translation) || '<p>暂无译文</p>';
+            
+            // 显示注释
+            if (poem.notes && poem.notes.length > 0) {
+                domElements.notesList.innerHTML = poem.notes.map(note => {
+                    if (typeof note === 'string') {
+                        return `<li>${note}</li>`;
+                    }
+                    return `<li><span class="term">${note.term || ''}</span>：${note.explanation || ''}</li>`;
+                }).join('');
+            } else {
+                domElements.notesList.innerHTML = '<li>暂无注释</li>';
+            }
+            
+            // 显示创作背景
+            if (poem.background) {
+                domElements.backgroundContent.innerHTML = formatContent(poem.background);
+            } else {
+                domElements.backgroundContent.innerHTML = '<p>暂无创作背景</p>';
+            }
+            
+            // 隐藏加载提示
+            domElements.loading.style.display = 'none';
+        }
+
+        // 初始化页面
+        async function initPage() {
+            const params = getUrlParams();
+            
+            // 如果没有参数，显示错误
+            if (!params.id && !params.title) {
+                domElements.loading.textContent = '未指定古诗，请从列表页选择';
+                return;
+            }
+            
+            // 加载数据并显示
+            const poemsData = await loadPoemsData();
+            const poem = findPoem(poemsData, params);
+            displayPoemDetail(poem);
+        }
+
+        // 返回按钮事件
+        domElements.backBtn.addEventListener('click', () => {
+            window.location.href = 'yuxigushi.html';
+        });
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
