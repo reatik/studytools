@@ -13,6 +13,8 @@
             --tang-cream: #fff;
             --tang-brown: #5a3921;
             --tang-light-brown: #d1c0a8;
+            --teacher-green: #1a8b1a;
+            --teacher-dark-green: #0f5a0f;
         }
         
         * {
@@ -479,9 +481,9 @@
         }
         
         .teacher-btn {
-            background: var(--tang-gold);
-            color: var(--tang-dark-red);
-            border: 1px solid var(--tang-brown);
+            background: var(--teacher-green);
+            color: white;
+            border: 1px solid var(--teacher-dark-green);
             border-radius: 4px;
             padding: 8px 15px;
             font-size: 0.9rem;
@@ -492,13 +494,24 @@
         }
         
         .teacher-btn:hover {
-            background: var(--tang-red);
+            background: var(--teacher-dark-green);
             color: white;
         }
         
         .teacher-btn.active {
             background: var(--tang-red);
             color: white;
+        }
+        
+        .teacher-btn.cancel {
+            background: var(--tang-light-gold);
+            color: var(--tang-dark-red);
+            border: 1px solid var(--tang-light-brown);
+            margin-left: 10px;
+        }
+        
+        .teacher-btn.cancel:hover {
+            background: var(--tang-gold);
         }
         
         .password-modal {
@@ -533,13 +546,32 @@
         }
         
         .password-submit {
-            background: var(--tang-red);
+            background: var(--teacher-green);
             color: white;
             border: none;
             padding: 8px 15px;
             border-radius: 4px;
             cursor: pointer;
             font-family: 'KaiTi', 'SimSun', serif;
+            margin-right: 10px;
+        }
+        
+        .password-submit:hover {
+            background: var(--teacher-dark-green);
+        }
+        
+        .password-cancel {
+            background: var(--tang-light-gold);
+            color: var(--tang-dark-red);
+            border: 1px solid var(--tang-light-brown);
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'KaiTi', 'SimSun', serif;
+        }
+        
+        .password-cancel:hover {
+            background: var(--tang-gold);
         }
         
         .password-error {
@@ -607,7 +639,10 @@
             <input type="password" class="password-input" id="password-input" placeholder="输入密码">
             <div class="password-error" id="password-error">密码错误，请重试</div>
             <div class="password-success" id="password-success">密码正确，已进入教师模式</div>
-            <button class="password-submit" id="password-submit">确认</button>
+            <div style="margin-top: 15px;">
+                <button class="password-submit" id="password-submit">确认</button>
+                <button class="password-cancel" id="password-cancel">取消</button>
+            </div>
         </div>
     </div>
 
@@ -622,6 +657,7 @@
         <!-- 教师模式按钮放在列表底部 -->
         <div class="teacher-btn-container">
             <button class="teacher-btn" id="teacher-btn">教师模式</button>
+            <button class="teacher-btn cancel" id="teacher-cancel-btn" style="display: none;">取消</button>
         </div>
     </div>
     
@@ -688,7 +724,9 @@
             const nextQuestionBtn = document.getElementById('next-question-btn');
             const backToPoemBtn = document.getElementById('back-to-poem-btn');
             const teacherBtn = document.getElementById('teacher-btn');
+            const teacherCancelBtn = document.getElementById('teacher-cancel-btn');
             const passwordSubmit = document.getElementById('password-submit');
+            const passwordCancel = document.getElementById('password-cancel');
             const passwordInput = document.getElementById('password-input');
             const passwordError = document.getElementById('password-error');
             const passwordSuccess = document.getElementById('password-success');
@@ -703,7 +741,9 @@
             
             // 教师模式相关事件
             teacherBtn.addEventListener('click', toggleTeacherMode);
+            teacherCancelBtn.addEventListener('click', cancelTeacherMode);
             passwordSubmit.addEventListener('click', checkPassword);
+            passwordCancel.addEventListener('click', cancelPasswordInput);
             passwordInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     checkPassword();
@@ -720,6 +760,8 @@
                 // 退出教师模式
                 isTeacherMode = false;
                 document.getElementById('teacher-btn').classList.remove('active');
+                document.getElementById('teacher-btn').textContent = '教师模式';
+                document.getElementById('teacher-cancel-btn').style.display = 'none';
                 alert('已退出教师模式');
                 
                 // 如果当前在详情页，重新加载当前诗歌以恢复普通模式
@@ -732,7 +774,24 @@
                 document.getElementById('password-input').focus();
                 document.getElementById('password-error').style.display = 'none';
                 document.getElementById('password-success').style.display = 'none';
+                
+                // 显示取消按钮
+                document.getElementById('teacher-cancel-btn').style.display = 'inline-block';
             }
+        }
+        
+        // 取消教师模式
+        function cancelTeacherMode() {
+            document.getElementById('password-modal').style.display = 'none';
+            document.getElementById('teacher-cancel-btn').style.display = 'none';
+        }
+        
+        // 取消密码输入
+        function cancelPasswordInput() {
+            document.getElementById('password-modal').style.display = 'none';
+            document.getElementById('password-input').value = '';
+            document.getElementById('password-error').style.display = 'none';
+            document.getElementById('password-success').style.display = 'none';
         }
         
         // 检查密码
@@ -748,8 +807,10 @@
                 errorElement.style.display = 'none';
                 successElement.style.display = 'block';
                 
-                // 改变按钮样式
+                // 改变按钮样式和文本
                 document.getElementById('teacher-btn').classList.add('active');
+                document.getElementById('teacher-btn').textContent = '退出教师模式';
+                document.getElementById('teacher-cancel-btn').style.display = 'none';
                 
                 // 显示成功提示
                 setTimeout(() => {
