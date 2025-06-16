@@ -150,7 +150,7 @@
             justify-content: center;
             align-items: center;
             padding: 8px 12px;
-            background: rgba(255, 250, 241, 0.7);
+            background: rgba(255, 253, 249, 0.7);
             border: 1px solid rgba(193, 154, 107, 0.4);
             border-radius: 4px;
             font-family: inherit;
@@ -481,26 +481,28 @@
         }
         
         .teacher-btn {
-            background: var(--teacher-green);
-            color: white;
-            border: 1px solid var(--teacher-dark-green);
+            background: var(--tang-light-gold);
+            color: var(--tang-dark-red);
+            border: 1px solid var(--tang-light-brown);
             border-radius: 4px;
             padding: 8px 15px;
             font-size: 0.9rem;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             transition: all 0.3s;
             font-family: 'KaiTi', 'SimSun', serif;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            letter-spacing: 1px;
         }
         
         .teacher-btn:hover {
-            background: var(--teacher-dark-green);
-            color: white;
+            background: var(--tang-gold);
+            color: var(--tang-dark-red);
         }
         
         .teacher-btn.active {
             background: var(--tang-red);
-            color: white;
+            color: var(--tang-cream);
+            border-color: var(--tang-dark-red);
         }
         
         .teacher-btn.cancel {
@@ -546,7 +548,7 @@
         }
         
         .password-submit {
-            background: var(--teacher-green);
+            background: var(--tang-red);
             color: white;
             border: none;
             padding: 8px 15px;
@@ -554,10 +556,11 @@
             cursor: pointer;
             font-family: 'KaiTi', 'SimSun', serif;
             margin-right: 10px;
+            transition: all 0.3s;
         }
         
         .password-submit:hover {
-            background: var(--teacher-dark-green);
+            background: var(--tang-dark-red);
         }
         
         .password-cancel {
@@ -568,6 +571,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-family: 'KaiTi', 'SimSun', serif;
+            transition: all 0.3s;
         }
         
         .password-cancel:hover {
@@ -575,14 +579,14 @@
         }
         
         .password-error {
-            color: red;
+            color: var(--tang-red);
             font-size: 0.8rem;
             margin-top: 5px;
             display: none;
         }
         
         .password-success {
-            color: green;
+            color: var(--teacher-green);
             font-size: 0.9rem;
             margin-top: 10px;
             display: none;
@@ -648,7 +652,7 @@
 
     <!-- 主页面 -->
     <div class="main-container" id="main-page">
-        <h1 class="page-title">小学古诗文</h1>
+        <h1 class="page-title">中小学古诗文</h1>
         
         <div id="content-list">
             <div class="loading">正在载入诗卷...</div>
@@ -762,7 +766,6 @@
                 document.getElementById('teacher-btn').classList.remove('active');
                 document.getElementById('teacher-btn').textContent = '教师模式';
                 document.getElementById('teacher-cancel-btn').style.display = 'none';
-                alert('已退出教师模式');
                 
                 // 如果当前在详情页，重新加载当前诗歌以恢复普通模式
                 if (document.getElementById('detail-page').style.display === 'block' && currentPoemId !== null) {
