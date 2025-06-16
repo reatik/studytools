@@ -321,28 +321,28 @@
         
         /* 结果反馈 */
         .result {
-    text-align: center;
-    margin: 15px 0;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 16px;
-    color: white;
-    font-family: 'KaiTi', 'STKaiti', '楷体', serif;
-    height: 50px; /* 固定高度 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    box-sizing: border-box;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 16px;
+            color: white;
+            font-family: 'KaiTi', 'STKaiti', '楷体', serif;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-sizing: border-box;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-    .result.visible {
-        visibility: visible;
-        opacity: 1;
-    }
+        .result.visible {
+            visibility: visible;
+            opacity: 1;
+        }
         
         .correct {
             background-color: var(--correct);
@@ -357,6 +357,27 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        .toggle-all-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 12px;
+            margin-left: 10px;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+        }
+
+        .toggle-all-btn:hover {
+            background-color: rgba(140, 94, 58, 0.1);
+        }
+
+        .setting-group h3 {
+            display: flex;
+            align-items: center;
+        }
+
         /* 控制按钮 */
         .controls {
             display: grid;
@@ -463,14 +484,18 @@
                 <h2>设置</h2>
                 
                 <div class="setting-group">
-                    <h3>年级选择</h3>
+                    <h3>年级选择
+                        <button class="toggle-all-btn" id="toggle-grades">取消全选</button>
+                    </h3>
                     <div class="option-list" id="grade-options">
                         <!-- 通过JS动态生成 -->
                     </div>
                 </div>
                 
                 <div class="setting-group">
-                    <h3>类型选择</h3>
+                    <h3>类型选择
+                        <button class="toggle-all-btn" id="toggle-categories">取消全选</button>
+                    </h3>
                     <div class="option-list" id="category-options">
                         <!-- 通过JS动态生成 -->
                     </div>
@@ -535,202 +560,8 @@
     </div>
 
     <script>
-
-const poems = [
-{"title":"鹿柴","dynasty":"唐","author":"王维","content":"空山不见人，但闻人语响。返景入深林，复照青苔上。","category":"古诗","grade":"四年级上册"},
-    {"title":"","dynasty":"","author":"《尚书》","content":"好问则裕，自用则小。","category":"日积月累","grade":"四年级上册"},
-    {"title":"","dynasty":"","author":"《礼记》","content":"博学之，审问之，慎思之，明辨之，笃行之。","category":"日积月累","grade":"四年级上册"},
-    {"title":"","dynasty":"汉","author":"王充","content":"智能之士，不学不成，不问不知。","category":"日积月累","grade":"四年级上册"},
-    {"title":"","dynasty":"唐","author":"韩愈","content":"人非生而知之者，孰能无惑？","category":"日积月累","grade":"四年级上册"},
-    {"title":"暮江吟","dynasty":"唐","author":"白居易","content":"一道残阳铺水中，半江瑟瑟半江红。可怜九月初三夜，露似真珠月似弓。","category":"古诗","grade":"四年级上册"},
-    {"title":"题西林壁","dynasty":"宋","author":"苏轼","content":"横看成岭侧成峰，远近高低各不同。不识庐山真面目，只缘身在此山中。","category":"古诗","grade":"四年级上册"},
-    {"title":"雪梅","dynasty":"宋","author":"卢钺","content":"梅雪争春未肯降，骚人阁笔费评章。梅须逊雪三分白，雪却输梅一段香。","category":"古诗","grade":"四年级上册"},
-    {"title":"","dynasty":"","author":"","content":"立了秋，把扇丢。二八月，乱穿衣。夏雨少，秋霜早。八月里来雁门开，雁儿脚上带霜来。一场秋雨一场寒，十场秋雨要穿棉。八月暖，九月温，十月还有小阳春。","category":"日积月累","grade":"四年级上册"},
-    {"title":"精卫填海","dynasty":"","author":"《山海经》","content":"炎帝之少女，名曰女娃。女娃游于东海，溺而不返，故为精卫，常衔西山之木石，以堙于东海。","category":"古文","grade":"四年级上册"},
-    {"title":"嫦娥","dynasty":"唐","author":"李商隐","content":"云母屏风烛影深，长河渐落晓星沉。嫦娥应悔偷灵药，碧海青天夜夜心。","category":"古诗","grade":"四年级上册"},
-    {"title":"","dynasty":"","author":"","content":"尺有所短，寸有所长。","category":"日积月累","grade":"四年级上册"},
-    {"title":"","dynasty":"","author":"","content":"机不可失，时不再来。","category":"日积月累","grade":"四年级上册"},
-    {"title":"","dynasty":"","author":"","content":"差之毫厘，谬以千里。","category":"日积月累","grade":"四年级上册"},
-    {"title":"","dynasty":"","author":"","content":"病从口入，祸从口出。","category":"日积月累","grade":"四年级上册"},
-    {"title":"","dynasty":"","author":"","content":"一言既出，驷马难追。","category":"日积月累","grade":"四年级上册"},
-    {"title":"","dynasty":"","author":"","content":"比上不足，比下有余。","category":"日积月累","grade":"四年级上册"},
-    {"title":"出塞","dynasty":"唐","author":"王昌龄","content":"秦时明月汉时关，万里长征人未还。但使龙城飞将在，不教胡马度阴山。","category":"古诗","grade":"四年级上册"},
-    {"title":"凉州词","dynasty":"唐","author":"王翰","content":"葡萄美酒夜光杯，欲饮琵琶马上催。醉卧沙场君莫笑，古来征战几人回？","category":"古诗","grade":"四年级上册"},
-    {"title":"夏日绝句","dynasty":"宋","author":"李清照","content":"生当作人杰，死亦为鬼雄。至今思项羽，不肯过江东。","category":"古诗","grade":"四年级上册"},
-    {"title":"别董大","dynasty":"唐","author":"高适","content":"千里黄云白日曛，北风吹雁雪纷纷。莫愁前路无知己，天下谁人不识君？","category":"古诗","grade":"四年级上册"},
-    {"title": "王戎不取道旁李", "dynasty": "","author": "《世说新语》","content": "王戎七岁，尝与诸小儿游。看道边李树多子折枝，诸儿竞走取之，唯戎不动。人问之，答曰，\"树在道边而多子，此必苦李。\"取之，信然。","category": "古文","grade": "四年级上册"},
-    {"title":"所见","dynasty":"清","author":"袁枚","content":"牧童骑黄牛，歌声振林樾。意欲捕鸣蝉，忽然闭口立。","category":"古诗","grade":"三年级上册"},
-    {"title":"山行","dynasty":"唐","author":"杜牧","content":"远上寒山石径斜，白云生处有人家。停车坐爱枫林晚，霜叶红于二月花。","category":"古诗","grade":"三年级上册"},
-    {"title":"赠刘景文","dynasty":"宋","author":"苏轼","content":"荷尽已无擎雨盖，菊残犹有傲霜枝。一年好景君须记，最是橙黄橘绿时。","category":"古诗","grade":"三年级上册"},
-    {"title":"夜书所见","dynasty":"宋","author":"叶绍翁","content":"萧萧梧叶送寒声，江上秋风动客情。知有儿童挑促织，夜深篱落一灯明。","category":"古诗","grade":"三年级上册"},
-    {"title":"望天门山","dynasty":"唐","author":"李白","content":"天门中断楚江开，碧水东流至此回。两岸青山相对出，孤帆一片日边来。","category":"古诗","grade":"三年级上册"},
-    {"title":"饮湖上初晴后雨","dynasty":"宋","author":"苏轼","content":"水光潋滟晴方好，山色空蒙雨亦奇。欲把西湖比西子，淡妆浓抹总相宜。","category":"古诗","grade":"三年级上册"},
-    {"title":"望洞庭","dynasty":"唐","author":"刘禹锡","content":"湖光秋月两相和，潭面无风镜未磨。遥望洞庭山水翠，白银盘里一青螺。","category":"古诗","grade":"三年级上册"},
-    {"title":"早发白帝城","dynasty":"唐","author":"李白","content":"朝辞白帝彩云间，千里江陵一日还。两岸猿声啼不住，轻舟已过万重山。","category":"古诗","grade":"三年级上册"},
-    {"title":"采莲曲","dynasty":"唐","author":"王昌龄","content":"荷叶罗裙一色裁，芙蓉向脸两边开。乱入池中看不见，闻歌始觉有人来。","category":"古诗","grade":"三年级上册"},
-    {"title":"","dynasty":"","author":"","content":"灯不拨不亮，理不辩不明。","category":"日积月累","grade":"三年级上册"},
-    {"title":"","dynasty":"","author":"","content":"有理走遍天下，无理寸步难行。","category":"日积月累","grade":"三年级上册"},
-    {"title":"","dynasty":"","author":"","content":"一时强弱在于力，万古胜负在于理。","category":"日积月累","grade":"三年级上册"},
-    {"title":"","dynasty":"","author":"","content":"人心齐，泰山移。","category":"日积月累","grade":"三年级上册"},
-    {"title":"","dynasty":"","author":"","content":"二人同心，其利断金。","category":"日积月累","grade":"三年级上册"},
-    {"title":"","dynasty":"","author":"","content":"三个臭皮匠，顶个诸葛亮。","category":"日积月累","grade":"三年级上册"},
-    {"title":"","dynasty":"","author":"","content":"一个篱笆三个桩，一个好汉三个帮。","category":"日积月累","grade":"三年级上册"},
-    {"title":"","dynasty":"","author":"《论语》","content":"已所不欲，勿施于人。","category":"日积月累","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"《论语》","content":"与朋友交，言而有信。","category":"日积月累","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"《孟子》","content":"不以规矩，不能成方圆。","category":"日积月累","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"高尔基","content":"书籍是人类进步的阶梯。","category":"日积月累","grade":"二年级上册"},
-    {"title":"梅花","dynasty":"宋","author":"王安石","content":"墙角数枝梅，凌寒独自开。遥知不是雪，为有暗香来。","category":"古诗","grade":"二年级上册"},
-    {"title":"登鹳雀楼","dynasty":"唐","author":"王之涣","content":"白日依山尽，黄河入海流。欲穷千里目，更上一层楼。","category":"古诗","grade":"二年级上册"},
-    {"title":"望庐山瀑布","dynasty":"唐","author":"李白","content":"日照香炉生紫烟，遥看瀑布挂前川。飞流直下三千尺，疑是银河落九天。","category":"古诗","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"","content":"有山皆图画，无水不文章。","category":"日积月累","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"","content":"白马西风塞上，杏花烟雨江南。","category":"日积月累","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"","content":"清风明月本无价，近水远山皆有情。","category":"日积月累","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"","content":"雾锁山头山锁雾，天连水尾水连天。","category":"日积月累","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"","content":"枫树秋天叶儿红，松柏四季披绿装。","category":"日积月累","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"","content":"木棉喜暖在南方，桦树耐寒守北疆","category":"日积月累","grade":"二年级上册"},
-    {"title":"江雪","dynasty":"唐","author":"柳宗元","content":"千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。","category":"古诗","grade":"二年级上册"},
-    {"title":"夜宿山寺","dynasty":"唐","author":"李白","content":"危楼高百尺，手可摘星辰。不敢高声语，恐惊天上人。","category":"古诗","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"后汉书","content":"有志者事竟成。","category":"日积月累","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"诸葛亮","content":"志当存高远","category":"日积月累","grade":"二年级上册"},
-    {"title":"","dynasty":"","author":"王勃","content":"穷且益坚，不坠青云之志","category":"日积月累","grade":"二年级上册"},
-    {"title":"敕勒歌","dynasty":"","author":"北朝民歌","content":"敕勒川，阴山下。天似穹庐，笼盖四野。天苍苍，野茫茫，风吹草低见牛羊。","category":"古诗","grade":"二年级上册"},
-    {"title":"《咏鹅》","dynasty":"唐","author":"骆宾王","content":"鹅，鹅，鹅，曲项向天歌。白毛浮绿水，红掌拨清波","category":"古诗","grade":"一年级上册"},
-    {"title":"画","dynasty":"唐","author":"王维","content":"远看山有色，近听水无声。春去花还在，人来鸟不惊。","category":"古诗","grade":"一年级上册"},
-    {"title":"","dynasty":"","author":"汉乐府","content":"江南可采莲，莲叶何田田。鱼戏莲叶间，鱼戏莲叶东，鱼戏莲叶西，鱼戏莲叶南，鱼戏莲叶北。","category":"古诗","grade":"一年级上册"},
-    {"title":"风","dynasty":"唐","author":"李峤","content":"解落三秋叶，能开二月花。过江千尺浪，入竹万竿斜。","category":"古诗","grade":"一年级上册"},
-    {"title":"","dynasty":"","author":"","content":"种瓜得瓜，种豆得豆。","category":"日积月累","grade":"一年级上册"},
-    {"title":"","dynasty":"","author":"","content":"前人栽树，后人乘凉。","category":"日积月累","grade":"一年级上册"},
-    {"title":"","dynasty":"","author":"","content":"千里之行，始于足下。","category":"日积月累","grade":"一年级上册"},
-    {"title":"","dynasty":"","author":"","content":"百尺竿头，更进一步。","category":"日积月累","grade":"一年级上册"},
-    {"title":"古朗月行","dynasty":"唐","author":"李白","content":"小时不识月，呼作白玉盘。又疑瑶台镜，飞在青云端。","category":"古诗","grade":"一年级上册"},
-    {"title":"悯农（其二）","dynasty":"唐","author":"李绅","content":"锄禾日当午，汗滴禾下土。谁知盘中餐，粒粒皆辛苦。","category":"古诗","grade":"一年级上册"},
-    {"title":"黄鹤楼送孟浩然之广陵","dynasty":"唐","author":"李白","content":"故人西辞黄鹤楼，烟花三月下扬州。孤帆远影碧空尽，唯见长江天际流。","category":"古诗","grade":"五年级下册"},
-    {"title":"","dynasty":"晋","author":"陶渊明","content":"盛年不重来，一日难再晨。及时当勉励，岁月不待人。","category":"日积月累","grade":"五年级上册"},
-    {"title":"蝉","dynasty":"唐","author":"虞世南","content":"垂緌饮清露，流响出疏桐。居高声自远，非是藉秋风。","category":"古诗","grade":"五年级上册"},
-    {"title":"","dynasty":"宋","author":"岳飞","content":"莫等闲，白了少年头，空悲切。","category":"日积月累","grade":"五年级上册"},
-    {"title":"","dynasty":"宋","author":"朱熹","content":"少年易老学难成，一寸光阴不可轻。","category":"日积月累","grade":"五年级上册"},
-    {"title":"","dynasty":"","author":"毛泽东","content":"多少事，从来急；天地转，光阴迫。一万年太久，只争朝夕。","category":"日积月累","grade":"五年级上册"},
-    {"title":"乞巧","dynasty":"唐","author":"林杰","content":"七夕今宵看碧霄，牵牛织女渡河桥。家家乞巧望秋月，穿尽红丝几万条。","category":"古诗","grade":"五年级上册"},
-    {"title":"示儿","dynasty":"宋","author":"陆游","content":"死去元知万事空，但悲不见九州同。王师北定中原日，家祭无忘告乃翁。","category":"古诗","grade":"五年级上册"},
-    {"title":"题临安邸","dynasty":"宋","author":"林升","content":"山外青山楼外楼，西湖歌舞几时休？暖风熏得游人醉，直把杭州作汴州。","category":"古诗","grade":"五年级上册"},
-    {"title":"己亥杂诗","dynasty":"清","author":"龚自珍","content":"九州生气恃风雷，万马齐喑究可哀。我劝天公重抖擞，不拘一格降人才。","category":"古诗","grade":"五年级上册"},
-    {"title":"少年中国说","dynasty":"清","author":"梁启超","content":"故今日之责任，不在他人，而全在我少年。少年智则国智，少年富则国富；少年强则国强，少年独立则国独立；少年自由则国自由，少年进步则国进步；少年胜于欧洲则国胜于欧洲，少年雄于地球则国雄于地球。红日初升，其道大光。河出伏流，一泻汪洋。潜龙腾渊，鳞爪飞扬。乳虎啸谷，百兽震惶。鹰隼试翼，风尘翕张。奇花初胎，矞矞皇皇。干将发硎，有作其芒。天戴其苍，地履其黄。纵有千古，横有八荒。前途似海，来日方长。美哉，我少年中国，与天不老!壮哉，我中国少年，与国无疆!","category":"古文","grade":"五年级上册"},
-    {"title":"","dynasty":"唐","author":"魏征","content":"居安思危，戒奢以俭。","category":"日积月累","grade":"五年级上册"},
-    {"title":"","dynasty":"","author":"司马光","content":"由俭入奢易，由奢入俭难。","category":"日积月累","grade":"五年级上册"},
-    {"title":"","dynasty":"清","author":"朱用纯","content":"一粥一饭，当思来之不易；半丝半缕，恒念物力维艰。","category":"日积月累","grade":"五年级上册"},
-    {"title":"山居秋暝","dynasty":"唐","author":"王维","content":"空山新雨后，天气晚来秋。明月松间照，清泉石上流。竹喧归浣女，莲动下渔舟。随意春芳歇，王孙自可留。","category":"古诗","grade":"五年级上册"},
-    {"title":"枫桥夜泊","dynasty":"唐","author":"张继","content":"月落乌啼霜满天，江枫渔火对愁眠。姑苏城外寒山寺，夜半钟声到客船。","category":"古诗","grade":"五年级上册"},
-    {"title":"长相思","dynasty":"清","author":"纳兰性德","content":"山一程，水一程，身向榆关那畔行，夜深千帐灯。风一更，雪一更，聒碎乡心梦不成，故园无此声。","category":"古诗","grade":"五年级上册"},
-    {"title":"渔歌子","dynasty":"唐","author":"张志和","content":"西塞山前白鹭飞，桃花流水鳜鱼肥。青箬笠，绿蓑衣，斜风细雨不须归。","category":"古诗","grade":"五年级上册"},
-    {"title":"","dynasty":"","author":"《论语》","content":"敏而好学，不耻下问。知之为知之，不知为不知，是知也。默而识之，学而不厌，诲人不倦。吾尝终日不食,终夜不寝,以思,无益,不如学也。","category":"古文","grade":"五年级上册"},
-    {"title":"读书有三到","dynasty":"宋","author":"朱熹","content":"余尝谓，读书有三到，谓心到，眼到，口到。心不在此，则眼不看仔细，心眼既不专一，却只漫浪诵读，决不能记，记亦不能久也。三到之中，心到最急。心既到矣，眼口岂不到乎?","category":"古文","grade":"五年级上册"},
-    {"title":"观书有感（其一）","dynasty":"宋","author":"朱熹","content":"半亩方塘一鉴开，天光云影共徘徊。问渠那得清如许？为有源头活水来。","category":"古诗","grade":"五年级上册"},
-    {"title":"观书有感（其二）","dynasty":"宋","author":"朱熹","content":"昨夜江边春水生，蒙冲巨舰一毛轻。向来枉费推移力，此日中流自在行。","category":"古诗","grade":"五年级上册"},
-    {"title":"","dynasty":"","author":"《尚书》","content":"克勤于邦，克俭于家。","category":"日积月累","grade":"五年级上册"},
-    {"title":"宿新市徐公店","dynasty":"宋","author":"杨万里","content":"篱落疏疏一径深，树头新绿未成阴。儿童急走追黄蝶，飞入菜花无处寻。","category":"古诗","grade":"四年级下册"},
-    {"title":"四时田园杂兴(其二十五)","dynasty":"宋","author":"范成大","content":"梅子金黄杏子肥，麦花雪白菜花稀。日长篱落无人过，惟有蜻蜓蛱蝶飞。","category":"古诗","grade":"四年级下册"},
-    {"title":"清平乐·村居","dynasty":"宋","author":"辛弃疾","content":"茅檐低小，溪上青青草。醉里吴音相媚好，白发谁家翁媪？大儿锄豆溪东，中儿正织鸡笼。最喜小儿亡赖，溪头卧剥莲蓬。","category":"古诗","grade":"四年级下册"},
-    {"title":"卜算子·咏梅","dynasty":"现代","author":"毛泽东","content":"风雨送春归，飞雪迎春到。已是悬崖百丈冰，犹有花枝俏。俏也不争春，只把春来报。待到山花烂漫时，她在丛中笑。","category":"古诗","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"","content":"诗是人类向未来寄发的信息，诗给人类以朝向理想的勇气。——艾青","category":"日积月累","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"","content":"诗和音乐一样，生命全在节奏。——朱光潜","category":"日积月累","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"","content":"诗是强烈感情的自然流露，它源于宁静中回忆起来的情感。——[英国]华兹华斯","category":"日积月累","grade":"四年级下册"},
-    {"title":"蜂","dynasty":"唐","author":"罗隐","content":"不论平地与山尖，无限风光尽被占。采得百花成蜜后，为谁辛苦为谁甜？","category":"古诗","grade":"四年级下册"},
-    {"title":"独坐敬亭山","dynasty":"唐","author":"李白","content":"众鸟高飞尽，孤云独去闲。相看两不厌，只有敬亭山。","category":"古诗","grade":"四年级下册"},
-    {"title":"芙蓉楼送辛渐","dynasty":"唐","author":"王昌龄","content":"寒雨连江夜入吴，平明送客楚山孤。洛阳亲友如相问，一片冰心在玉壶。","category":"古诗","grade":"四年级下册"},
-    {"title":"塞下曲","dynasty":"唐","author":"卢纶","content":"月黑雁飞高，单于夜遁逃。欲将轻骑逐，大雪满弓刀。","category":"古诗","grade":"四年级下册"},
-    {"title":"墨梅","dynasty":"元","author":"王冕","content":"我家洗砚池头树，朵朵花开淡墨痕。不要人夸好颜色，只留清气满乾坤。","category":"古诗","grade":"四年级下册"},
-    {"title":"囊萤夜读","dynasty":"晋","author":"《晋书》","content":"胤恭勤不倦，博学多通。家贫不常得油，夏月则练囊盛数十萤火以照书，以夜继日焉。","category":"古文","grade":"四年级下册"},
-    {"title":"铁杵成针","dynasty":"宋","author":"《方舆胜览》","content":"磨针溪，在象耳山下。世传李太白读书山中，未成，弃去。过是溪，逢老媪方磨铁杵。问之，曰，\"欲作针。\"太白感其意，还卒业。","category":"古文","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"《周易》","content":"天行健，君子以自强不息。","category":"日积月累","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"《老子》","content":"胜人者有力，自胜者强。","category":"日积月累","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"《论语》","content":"不怨天，不尤人。","category":"日积月累","grade":"四年级下册"},
-    {"title":"江畔独步寻花","dynasty":"唐","author":"杜甫","content":"黄师塔前江水东，春光懒困倚微风。桃花一簇开无主，可爱深红爱浅红？","category":"古诗","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"《孟子》","content":"生于忧患而死于安乐。","category":"日积月累","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"","content":"少年不知勤学苦，老来方知读书迟。","category":"日积月累","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"","content":"一日读书一日功，一日不读十日空。","category":"日积月累","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"","content":"学习不怕根底浅，只要迈步总不迟。","category":"日积月累","grade":"四年级下册"},
-    {"title":"","dynasty":"","author":"","content":"书山有路勤为径，学海无涯苦作舟。","category":"日积月累","grade":"四年级下册"},
-    {"title":"绝句","dynasty":"唐","author":"杜甫","content":"迟日江山丽，春风花草香。泥融飞燕子，沙暖睡鸳鸯。","category":"古诗","grade":"三年级下册"},
-    {"title":"惠崇春江晚景","dynasty":"宋","author":"苏轼","content":"竹外桃花三两枝，春江水暖鸭先知。蒌蒿满地芦芽短，正是河豚欲上时。","category":"古诗","grade":"三年级下册"},
-    {"title":"三衢道中","dynasty":"宋","author":"曾几","content":"梅子黄时日日晴，小溪泛尽却山行。绿阴不减来时路，添得黄鹂四五声。","category":"古诗","grade":"三年级下册"},
-    {"title":"忆江南","dynasty":"唐","author":"白居易","content":"江南好，风景旧曾谙。日出江花红胜火，春来江水绿如蓝，能不忆江南？","category":"古诗","grade":"三年级下册"},
-    {"title":"守株待兔","dynasty":"战国","author":"《韩非子》","content":"宋人有耕者。田中有株。兔走触株，折颈而死。因释其耒而守株，冀复得兔。兔不可复得，而身为宋国笑。","category":"古文","grade":"三年级下册"},
-    {"title":"元日","dynasty":"宋","author":"王安石","content":"爆竹声中一岁除，春风送暖入屠苏。千门万户曈曈日，总把新桃换旧符。","category":"古诗","grade":"三年级下册"},
-    {"title":"清明","dynasty":"唐","author":"杜牧","content":"清明时节雨纷纷，路上行人欲断魂。借问酒家何处有？牧童遥指杏花村。","category":"古诗","grade":"三年级下册"},
-    {"title":"九月九日忆山东兄弟","dynasty":"唐","author":"王维","content":"独在异乡为异客，每逢佳节倍思亲。遥知兄弟登高处，遍插茱萸少一人。","category":"古诗","grade":"三年级下册"},
-    {"title":"","dynasty":"","author":"","content":"文房四宝，笔墨纸砚","category":"日积月累","grade":"三年级下册"},
-    {"title":"","dynasty":"","author":"","content":"雅人四好，琴棋书画","category":"日积月累","grade":"三年级下册"},
-    {"title":"","dynasty":"","author":"","content":"花中君子，梅兰竹菊","category":"日积月累","grade":"三年级下册"},
-    {"title":"","dynasty":"","author":"","content":"中医四诊，望闻问切","category":"日积月累","grade":"三年级下册"},
-    {"title":"滁州西涧","dynasty":"唐","author":"韦应物","content":"独怜幽草涧边生，上有黄鹂深树鸣。春潮带雨晚来急，野渡无人舟自横。","category":"古诗","grade":"三年级下册"},
-    {"title":"","dynasty":"先秦","author":"《周易》","content":"见善则迁，有过则改。","category":"日积月累","grade":"三年级下册"},
-    {"title":"","dynasty":"先秦","author":"《论语》","content":"过而不改，是谓过矣。","category":"日积月累","grade":"三年级下册"},
-    {"title":"","dynasty":"先秦","author":"《左传》","content":"人谁无过？过而能改，善莫大焉。","category":"日积月累","grade":"三年级下册"},
-    {"title":"","dynasty":"","author":"","content":"兵来将挡，水来土掩。","category":"日积月累","grade":"三年级下册"},
-    {"title":"","dynasty":"","author":"","content":"不入虎穴，焉得虎子。","category":"日积月累","grade":"三年级下册"},
-    {"title":"","dynasty":"","author":"","content":"眼见为实，耳听为虚。","category":"日积月累","grade":"三年级下册"},
-    {"title":"","dynasty":"","author":"","content":"近朱者赤，近墨者黑。","category":"日积月累","grade":"三年级下册"},
-    {"title":"大林寺桃花","dynasty":"唐","author":"白居易","content":"人间四月芳菲尽，山寺桃花始盛开。长恨春归无觅处，不知转入此中来。","category":"古诗","grade":"三年级下册"},
-    {"title":"村居","dynasty":"清","author":"高鼎","content":"草长莺飞二月天，拂堤杨柳醉春烟。儿童散学归来早，忙趁东风放纸鸢。","category":"古诗","grade":"二年级下册"},
-    {"title":"咏柳","dynasty":"唐","author":"贺知章","content":"碧玉妆成一树高，万条垂下绿丝绦。不知细叶谁裁出，二月春风似剪刀。","category":"古诗","grade":"二年级下册"},
-    {"title":"赋得古原草送别","dynasty":"唐","author":"白居易","content":"离离原上草，一岁一枯荣。野火烧不尽，春风吹又生。","category":"古诗","grade":"二年级下册"},
-    {"title":"","dynasty":"","author":"","content":"予人玫瑰，手有余香。平时肯帮人，急时有人帮。与其锦上添花，不如雪中送炭。","category":"日积月累","grade":"二年级下册"},
-    {"title":"","dynasty":"先秦","author":"《左传》","content":"失信不立。","category":"日积月累","grade":"二年级下册"},
-    {"title":"","dynasty":"先秦","author":"《管子》","content":"诚信者，天下之结也。","category":"日积月累","grade":"二年级下册"},
-    {"title":"","dynasty":"先秦","author":"《韩非子》","content":"小信成则大信立。","category":"日积月累","grade":"二年级下册"},
-    {"title":"悯农（其一）","dynasty":"唐","author":"李绅","content":"春种一粒粟，秋收万颗子。四海无闲田，农夫犹饿死。","category":"古诗","grade":"二年级下册"},
-    {"title":"舟夜书所见","dynasty":"清","author":"查慎行","content":"月黑见渔灯，孤光一点萤。微微风簇浪，散作满河星。","category":"古诗","grade":"二年级下册"},
-    {"title":"二十四节气歌","dynasty":"","author":"民间歌谣","content":"春雨惊春清谷天，夏满芒夏暑相连。秋处露秋寒霜降，冬雪雪冬小大寒。","category":"日积月累","grade":"二年级下册"},
-    {"title":"春晓","dynasty":"唐","author":"孟浩然","content":"春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。","category":"古诗","grade":"一年级下册"},
-    {"title":"赠汪伦","dynasty":"唐","author":"李白","content":"李白乘舟将欲行，忽闻岸上踏歌声。桃花潭水深千尺，不及汪伦送我情。","category":"古诗","grade":"一年级下册"},
-    {"title":"静夜思","dynasty":"唐","author":"李白","content":"床前明月光，疑是地上霜。举头望明月，低头思故乡。","category":"古诗","grade":"一年级下册"},
-    {"title":"寻隐者不遇","dynasty":"唐","author":"贾岛","content":"松下问童子，言师采药去。只在此山中，云深不知处。","category":"古诗","grade":"一年级下册"},
-    {"title":"","dynasty":"先秦","author":"《荀子》","content":"不知则问，不能则学。","category":"日积月累","grade":"一年级下册"},
-    {"title":"","dynasty":"东汉","author":"董遇","content":"读书百遍，而义自见。","category":"日积月累","grade":"一年级下册"},
-    {"title":"","dynasty":"明","author":"董其昌","content":"读万卷书，行万里路。","category":"日积月累","grade":"一年级下册"},
-    {"title":"画鸡","dynasty":"明","author":"唐寅","content":"头上红冠不用裁，满身雪白走将来。平生不敢轻言语，一叫千门万户开。","category":"古诗","grade":"一年级下册"},
-    {"title":"池上","dynasty":"唐","author":"白居易","content":"小娃撑小艇，偷采白莲回。不解藏踪迹，浮萍一道开。","category":"古诗","grade":"一年级下册"},
-    {"title":"小池","dynasty":"宋","author":"杨万里","content":"泉眼无声惜细流，树阴照水爱晴柔。小荷才露尖尖角，早有蜻蜓立上头。","category":"古诗","grade":"一年级下册"},
-    {"title":"晓出净慈寺送林子方","dynasty":"宋","author":"杨万里","content":"毕竟西湖六月中，风光不与四时同。接天莲叶无穷碧，映日荷花别样红。","category":"古诗","grade":"二年级下册"},
-    {"title":"绝句","dynasty":"唐","author":"杜甫","content":"两个黄鹂鸣翠柳，一行白鹭上青天。窗含西岭千秋雪，门泊东吴万里船。","category":"古诗","grade":"二年级下册"},
-    {"title":"四时田园杂兴（其三十一）","dynasty":"宋","author":"范成大","content":"昼出耘田夜绩麻，村庄儿女各当家。童孙未解供耕织，也傍桑阴学种瓜。","category":"古诗","grade":"五年级下册"},
-    {"title":"稚子弄冰","dynasty":"宋","author":"杨万里","content":"稚子金盆脱晓冰，彩丝穿取当银钲。敲成玉磬穿林响，忽作玻璃碎地声。","category":"古诗","grade":"五年级下册"},
-    {"title":"村晚","dynasty":"宋","author":"雷震","content":"草满池塘水满陂，山衔落日浸寒漪。牧童归去横牛背，短笛无腔信口吹。","category":"古诗","grade":"五年级下册"},
-    {"title":"从军行","dynasty":"唐","author":"王昌龄","content":"青海长云暗雪山，孤城遥望玉门关。黄沙百战穿金甲，不破楼兰终不还。","category":"古诗","grade":"五年级下册"},
-    {"title":"秋夜将晓出篱门迎凉有感","dynasty":"宋","author":"陆游","content":"三万里河东入海，五千仞岳上摩天。遗民泪尽胡尘里，南望王师又一年。","category":"古诗","grade":"五年级下册"},
-    {"title":"闻官军收河南河北","dynasty":"唐","author":"杜甫","content":"剑外忽传收蓟北，初闻涕泪满衣裳。却看妻子愁何在，漫卷诗书喜欲狂。","category":"古诗","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"","content":"白日放歌须纵酒，青春作伴好还乡。即从巴峡穿巫峡，便下襄阳向洛阳。","category":"古诗","grade":"五年级下册"},
-    {"title":"游子吟","dynasty":"唐","author":"孟郊","content":"慈母手中线，游子身上衣。临行密密缝，意恐迟迟归。谁言寸草心，报得三春晖。","category":"古诗","grade":"五年级下册"},
-    {"title":"鸟鸣涧","dynasty":"唐","author":"王维","content":"人闲桂花落，夜静春山空。月出惊山鸟，时鸣春涧中。","category":"古诗","grade":"五年级下册"},
-    {"title":"凉州词","dynasty":"唐","author":"王之涣","content":"羌笛何须怨杨柳，春风不度玉门关。","category":"古诗","grade":"五年级下册"},
-    {"title":"黄鹤楼送孟浩然之广陵","dynasty":"唐","author":"李白","content":"故人西辞黄鹤楼，烟花三月下扬州。孤帆远影碧空尽，唯见长江天际流。","category":"古诗","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"","content":"豆蔻年华，指女子十三四岁的年纪。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"","content":"及笄，指女子年满十五岁。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"","content":"弱冠，指男子二十岁左右的年纪。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"","content":"而立，指人三十岁。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"","content":"不惑，指人四十岁。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"","content":"花甲，指人六十岁。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"","content":"古稀，指人七十岁。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"","content":"期颐，指人一百岁。","category":"日积月累","grade":"五年级下册"},
-    {"title":"乡村四月","dynasty":"宋","author":"翁卷","content":"绿遍山原白满川，子规声里雨如烟。乡村四月闲人少，才了蚕桑又插田。","category":"古诗","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"《论语》","content":"君子喻于义，小人喻于利。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"《论语》","content":"君子坦荡荡，小人长戚戚。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"《孟子》","content":"恻隐之心，仁之端也。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"《左传》","content":"多行不义，必自毙。","category":"日积月累","grade":"五年级下册"},
-    {"title":"","dynasty":"","author":"《朱子语类》","content":"人有耻，则能有所不为。","category":"日积月累","grade":"五年级下册"},
-    {"title":"《采薇》（节选）","dynasty":"先秦","author":"《诗经》","content":"昔我往矣，杨柳依依。今我来思，雨雪霏霏。行道迟迟，载渴载饥。我心伤悲，莫知我哀！","category":"古诗","grade":"五年级下册"},
-    {"title":"《送元二使安西》","dynasty":"唐","author":"王维","content":"渭城朝雨浥轻尘，客舍青青柳色新。劝君更尽一杯酒，西出阳关无故人。","category":"古诗","grade":"五年级下册"},
-    {"title":"《春夜喜雨》","dynasty":"唐","author":"杜甫","content":"好雨知时节，当春乃发生。随风潜入夜，润物细无声。野径云俱黑，江船火独明。晓看红湿处，花重锦官城。","category":"古诗","grade":"五年级下册"},
-    {"title":"《早春呈水部张十八员外》","dynasty":"唐","author":"韩愈","content":"天街小雨润如酥，草色遥看近却无。最是一年春好处，绝胜烟柳满皇都。","category":"古诗","grade":"五年级下册"},
-    {"title":"《江上渔者》","dynasty":"宋","author":"范仲淹","content":"江上往来人，但爱鲈鱼美。君看一叶舟，出没风波里。","category":"古诗","grade":"五年级下册"},
-    {"title":"《泊船瓜洲》","dynasty":"宋","author":"王安石","content":"京口瓜洲一水间，钟山只隔数重山。春风又绿江南岸，明月何时照我还？","category":"古诗","grade":"五年级下册"},
-    {"title":"《游园不值》","dynasty":"宋","author":"叶绍翁","content":"应怜屐齿印苍苔，小扣柴扉久不开。春色满园关不住，一枝红杏出墙来。","category":"古诗","grade":"五年级下册"},
-    {"title":"《卜算子·送鲍浩然之浙东》","dynasty":"宋","author":"王观","content":"水是眼波横，山是眉峰聚。欲问行人去那边？眉眼盈盈处。才始送春归，又送君归去。若到江南赶上春，千万和春住。","category":"古诗","grade":"五年级下册"},
-    {"title":"《浣溪沙·游蕲水清泉寺》","dynasty":"宋","author":"苏轼","content":"山下兰芽短浸溪，松间沙路净无泥。萧萧暮雨子规啼。谁道人生无再少？门前流水尚能西！休将白发唱黄鸡。","category":"古诗","grade":"五年级下册"},
-    {"title":"《清平乐·春归何处》","dynasty":"宋","author":"黄庭坚","content":"春归何处？寂寞无行路。若有人知春去处，唤取归来同住。春无踪迹谁知？除非问取黄鹂。百啭无人能解，因风飞过蔷薇。","category":"古诗","grade":"五年级下册"}
-   
-];
         // 诗词数据
+        let poems = [];
         let filteredPoems = [];
         let currentQuestionIndex = 0;
         let correctCount = 0;
@@ -772,19 +603,61 @@ const poems = [
         const correctCountElement = document.getElementById('correct-count');
         const incorrectCountElement = document.getElementById('incorrect-count');
         
-// 初始化
-function init() {
-    // 初始化设置
-    initSettings();
-    
-    // 应用初始设置
-    applySettings();
-    
-    // 设置按钮事件
-    settingsBtn.addEventListener('click', toggleSettingsPanel);
-    historyBtn.addEventListener('click', toggleHistoryPanel);
-    document.addEventListener('click', closePanelsOnClickOutside);
-}
+        // 初始化
+        async function init() {
+            try {
+                // 加载诗词数据
+                const response = await fetch('duishi.json');
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                poems = await response.json();
+                
+                // 初始化设置
+                initSettings();
+                
+                // 应用初始设置
+                applySettings();
+                
+                // 设置按钮事件
+                settingsBtn.addEventListener('click', toggleSettingsPanel);
+                historyBtn.addEventListener('click', toggleHistoryPanel);
+                document.addEventListener('click', closePanelsOnClickOutside);
+                
+                // 添加全选/取消全选按钮事件
+                document.getElementById('toggle-grades').addEventListener('click', toggleAllGrades);
+                document.getElementById('toggle-categories').addEventListener('click', toggleAllCategories);
+            } catch (error) {
+                console.error('加载诗词数据失败:', error);
+                poemContentElement.textContent = '加载诗词数据失败，请刷新页面重试';
+            }
+        }
+        
+        // 新增函数：切换全选年级
+        function toggleAllGrades() {
+            const toggleBtn = document.getElementById('toggle-grades');
+            const checkboxes = gradeOptionsElement.querySelectorAll('input[type="checkbox"]');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            
+            checkboxes.forEach(cb => {
+                cb.checked = !allChecked;
+            });
+            
+            toggleBtn.textContent = allChecked ? '全选' : '取消全选';
+        }
+        
+        // 新增函数：切换全选类别
+        function toggleAllCategories() {
+            const toggleBtn = document.getElementById('toggle-categories');
+            const checkboxes = categoryOptionsElement.querySelectorAll('input[type="checkbox"]');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            
+            checkboxes.forEach(cb => {
+                cb.checked = !allChecked;
+            });
+            
+            toggleBtn.textContent = allChecked ? '全选' : '取消全选';
+        }
         
         // 切换设置面板显示
         function toggleSettingsPanel() {
@@ -813,71 +686,71 @@ function init() {
         }
         
         // 初始化设置选项
-function initSettings() {
-    // 获取所有年级
-    const allGrades = [...new Set(poems.map(p => p.grade))].filter(g => g);
-    
-    // 自动排序年级（从低到高）
-    allGrades.sort((a, b) => {
-        // 提取年级数字（如"一年级上" -> 1）
-        const getGradeNum = (grade) => {
-            const match = grade.match(/[一二三四五六七八九十]+/);
-            if (!match) return 0;
-            const chineseNum = match[0];
-            // 中文数字转阿拉伯数字
-            const numMap = {一:1, 二:2, 三:3, 四:4, 五:5, 六:6, 七:7, 八:8, 九:9, 十:10};
-            return numMap[chineseNum] || 0;
-        };
-        
-        // 提取学期顺序（"上"为1，"下"为2）
-        const getTermOrder = (grade) => {
-            if (grade.includes('上')) return 1;
-            if (grade.includes('下')) return 2;
-            return 0; // 没有学期信息
-        };
-        
-        const aNum = getGradeNum(a);
-        const bNum = getGradeNum(b);
-        
-        // 先按年级数字排序
-        if (aNum !== bNum) return aNum - bNum;
-        
-        // 同年级再按学期排序
-        return getTermOrder(a) - getTermOrder(b);
-    });
-    
-    settings.grades = allGrades;
-    
-    // 获取所有类别
-    const allCategories = [...new Set(poems.map(p => p.category))].filter(c => c);
-    settings.categories = allCategories;
-    
-    // 生成年级选项
-    gradeOptionsElement.innerHTML = '';
-    allGrades.forEach(grade => {
-        const id = `grade-${grade.replace(/\s+/g, '-')}`; // 替换空格为短横线，避免ID问题
-        const div = document.createElement('div');
-        div.className = 'option-item';
-        div.innerHTML = `
-            <input type="checkbox" id="${id}" checked>
-            <label for="${id}">${grade}</label>
-        `;
-        gradeOptionsElement.appendChild(div);
-    });
-    
-    // 生成类别选项（保持不变）
-    categoryOptionsElement.innerHTML = '';
-    allCategories.forEach(category => {
-        const id = `category-${category}`;
-        const div = document.createElement('div');
-        div.className = 'option-item';
-        div.innerHTML = `
-            <input type="checkbox" id="${id}" checked>
-            <label for="${id}">${category}</label>
-        `;
-        categoryOptionsElement.appendChild(div);
-    });
-}
+        function initSettings() {
+            // 获取所有年级
+            const allGrades = [...new Set(poems.map(p => p.grade))].filter(g => g);
+            
+            // 自动排序年级（从低到高）
+            allGrades.sort((a, b) => {
+                // 提取年级数字（如"一年级上" -> 1）
+                const getGradeNum = (grade) => {
+                    const match = grade.match(/[一二三四五六七八九十]+/);
+                    if (!match) return 0;
+                    const chineseNum = match[0];
+                    // 中文数字转阿拉伯数字
+                    const numMap = {一:1, 二:2, 三:3, 四:4, 五:5, 六:6, 七:7, 八:8, 九:9, 十:10};
+                    return numMap[chineseNum] || 0;
+                };
+                
+                // 提取学期顺序（"上"为1，"下"为2）
+                const getTermOrder = (grade) => {
+                    if (grade.includes('上')) return 1;
+                    if (grade.includes('下')) return 2;
+                    return 0; // 没有学期信息
+                };
+                
+                const aNum = getGradeNum(a);
+                const bNum = getGradeNum(b);
+                
+                // 先按年级数字排序
+                if (aNum !== bNum) return aNum - bNum;
+                
+                // 同年级再按学期排序
+                return getTermOrder(a) - getTermOrder(b);
+            });
+            
+            settings.grades = allGrades;
+            
+            // 获取所有类别
+            const allCategories = [...new Set(poems.map(p => p.category))].filter(c => c);
+            settings.categories = allCategories;
+            
+            // 生成年级选项
+            gradeOptionsElement.innerHTML = '';
+            allGrades.forEach(grade => {
+                const id = `grade-${grade.replace(/\s+/g, '-')}`; // 替换空格为短横线，避免ID问题
+                const div = document.createElement('div');
+                div.className = 'option-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="${id}" checked>
+                    <label for="${id}">${grade}</label>
+                `;
+                gradeOptionsElement.appendChild(div);
+            });
+            
+            // 生成类别选项
+            categoryOptionsElement.innerHTML = '';
+            allCategories.forEach(category => {
+                const id = `category-${category}`;
+                const div = document.createElement('div');
+                div.className = 'option-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="${id}" checked>
+                    <label for="${id}">${category}</label>
+                `;
+                categoryOptionsElement.appendChild(div);
+            });
+        }
         
         // 应用设置
         function applySettings() {
@@ -934,13 +807,11 @@ function initSettings() {
             filterInfoElement.textContent = `当前: ${gradeText} · ${categoryText}`;
         }
         
-        // 显示当前题目
         function showQuestion() {
-    // 修改隐藏方式
     resultElement.classList.remove('visible');
     resultElement.style.removeProperty('display');
     
-    answerShown = false; // 重置状态
+    answerShown = false;
     
     if (currentQuestionIndex >= filteredPoems.length) {
         poemTitleElement.textContent = '';
@@ -959,7 +830,8 @@ function initSettings() {
         fullContent: poem.content
     };
     
-    const sentences = splitIntoSentences(poem.content);
+    // 根据不同类型分割句子
+    const sentences = splitIntoSentences(poem.content, poem.category);
     if (sentences.length === 0) {
         currentQuestionIndex++;
         showQuestion();
@@ -972,14 +844,15 @@ function initSettings() {
     }
     
     const blankIndex = Math.floor(Math.random() * availableSentences.length);
-    blankText = availableSentences[blankIndex];
+    blankText = availableSentences[blankIndex].trim();
     
     poemTitleElement.textContent = poem.title || '';
     poemAuthorElement.textContent = poem.dynasty && poem.author 
         ? `${poem.dynasty}·${poem.author}` 
         : poem.author || '';
     
-    showFillBlankQuestion(poem.content, blankText);
+    // 显示题目时根据不同类型处理
+    showFillBlankQuestion(poem.content, blankText, poem.category);
     
     prevBtn.disabled = currentQuestionIndex === 0;
     nextBtn.disabled = false;
@@ -989,29 +862,66 @@ function initSettings() {
     updateStats();
 }
         
-        // 显示填空题
-        function showFillBlankQuestion(fullContent, blankText) {
-            // 根据空白文本长度设置输入框宽度
-            const blankLength = blankText.length;
-            const inputWidth = Math.max(90, blankLength * 18);
-            
-            // 创建题目内容
-            let displayedContent = fullContent.replace(blankText, 
-                `<span class="blank-input"><input type="text" id="user-answer" style="width:${inputWidth}px"></span>`);
-            
-            poemContentElement.innerHTML = displayedContent;
-            
-            // 获取输入框并聚焦
-            const inputElement = document.getElementById('user-answer');
-            if (inputElement) {
-                inputElement.focus();
-                
-                // 添加输入事件监听器
-                inputElement.addEventListener('input', function() {
-                    adjustInputWidth(this);
-                });
+function showFillBlankQuestion(fullContent, blankText, category) {
+    const inputWidth = Math.max(90, blankText.length * 18);
+    
+    if (category === "日积月累") {
+        // 日积月累特殊处理：保持行结构，精确替换分句
+        let displayedContent = '';
+        const lines = fullContent.split('\n');
+        
+        lines.forEach(line => {
+            if (line.includes(blankText)) {
+                // 确保只替换破折号前的部分
+                const parts = line.split('——');
+                const replaced = parts[0].replace(blankText, 
+                    `<span class="blank-input"><input type="text" id="user-answer" style="width:${inputWidth}px"></span>`);
+                displayedContent += replaced + (parts[1] ? '——' + parts[1] : '') + '\n';
+            } else {
+                displayedContent += line + '\n';
             }
-        }
+        });
+        
+        poemContentElement.innerHTML = displayedContent.trim();
+    } else {
+        // 古诗类型：直接替换内容中的blankText
+        poemContentElement.innerHTML = fullContent.replace(blankText, 
+            `<span class="blank-input"><input type="text" id="user-answer" style="width:${inputWidth}px"></span>`);
+    }
+    
+    // 获取输入框并聚焦
+    const inputElement = document.getElementById('user-answer');
+    if (inputElement) {
+        inputElement.focus();
+        inputElement.addEventListener('input', function() {
+            adjustInputWidth(this);
+        });
+    }
+}
+
+function splitSentences(content, category) {
+    if (category === "日积月累") {
+        // 日积月累类型：按行分割，每行取破折号前的内容，再按句号/分号分割
+        const lines = content.split('\n').filter(line => line.trim().length > 0);
+        let sentences = [];
+        
+        lines.forEach(line => {
+            // 取破折号前的内容
+            const text = line.split('——')[0].trim();
+            // 按句号/分号分割成完整分句
+            const subSentences = text.split(/[;；.。]/).filter(s => s.trim().length >= 2);
+            sentences.push(...subSentences);
+        });
+        
+        return sentences;
+    } else {
+        // 古诗类型：按标点符号分割（原有逻辑）
+        const singleLineContent = content.replace(/\n/g, '');
+        const sentenceRegex = /[^，。！？；,.;!?…]+/g;
+        const sentences = singleLineContent.match(sentenceRegex) || [];
+        return sentences.filter(s => s.trim().length >= 2);
+    }
+}
         
         // 调整输入框宽度
         function adjustInputWidth(inputElement) {
@@ -1035,114 +945,131 @@ function initSettings() {
             inputElement.style.width = `${newWidth}px`;
         }
         
-        // 将诗词内容分割成句子（忽略标点）
-        function splitIntoSentences(content) {
-            // 按标点符号分割，但忽略标点
-            const sentenceRegex = /[^，。！？；,.;!?…]+/g;
-            const sentences = content.match(sentenceRegex) || [];
-            
-            // 过滤掉过短或无意义的句子
-            return sentences.filter(s => s.trim().length > 2);
-        }
+        function splitIntoSentences(content, category) {
+    if (category === "日积月累") {
+        // 日积月累类型：按行分割，每行取破折号前的内容，再按逗号/分号分割
+        const lines = content.split('\n').filter(line => line.trim().length > 0);
+        let sentences = [];
+        
+        lines.forEach(line => {
+            // 取破折号前的内容
+            const text = line.split('——')[0].trim();
+            // 按逗号/分号分割成更小单元
+            const subSentences = text.split(/[,，;；]/).filter(s => s.trim().length >= 2);
+            sentences.push(...subSentences);
+        });
+        
+        return sentences;
+    } else {
+        // 古诗类型：按标点符号分割
+        const singleLineContent = content.replace(/\n/g, '');
+        const sentenceRegex = /[^，。！？；,.;!?…]+/g;
+        const sentences = singleLineContent.match(sentenceRegex) || [];
+        return sentences.filter(s => s.trim().length >= 2);
+    }
+}
         
         // 检查答案
         function checkAnswer() {
-    if (answerShown) return;
-    
-    const inputElement = document.getElementById('user-answer');
-    const userAnswer = inputElement ? inputElement.value.trim() : '';
-    const normalizedUserAnswer = userAnswer.replace(/[，。！？；,.;!?…]/g, '');
-    const normalizedCorrectAnswer = blankText.replace(/[，。！？；,.;!?…]/g, '');
-    
-    const isCorrect = normalizedUserAnswer === normalizedCorrectAnswer;
-    
-    if (isCorrect) {
-        resultElement.textContent = `${blankText}`;
-        resultElement.className = 'result correct visible';
-        correctCount++;
-    } else {
-        resultElement.textContent = `${blankText}`;
-        resultElement.className = 'result incorrect visible';
-        incorrectCount++;
-        
-        mistakeHistory.push({
-            poem: filteredPoems[currentQuestionIndex].title || '无题',
-            author: filteredPoems[currentQuestionIndex].author ? ` · ${filteredPoems[currentQuestionIndex].author}` : '',
-            mistake: blankText,
-            userAnswer: userAnswer,
-            fullContent: currentQuestionData.fullContent
-        });
-    }
-    
-    answerShown = true;
-    
-    if (inputElement) {
-        inputElement.disabled = true;
-    }
-    
-    updateStats();
-}
+            if (answerShown) return;
+            
+            const inputElement = document.getElementById('user-answer');
+            const userAnswer = inputElement ? inputElement.value.trim() : '';
+            
+            // 规范化比较：
+            const normalizeString = (str) => {
+                // 移除所有标点和空白字符
+                return str.replace(/[，。！？；,.;!?…\s]/g, '');
+            };
+            
+            const isCorrect = normalizeString(userAnswer) === normalizeString(blankText);
+            
+            if (isCorrect) {
+                resultElement.textContent = `${blankText}`;
+                resultElement.className = 'result correct visible';
+                correctCount++;
+            } else {
+                resultElement.textContent = `${blankText}`;
+                resultElement.className = 'result incorrect visible';
+                incorrectCount++;
+                
+                mistakeHistory.push({
+                    poem: filteredPoems[currentQuestionIndex].title || '无题',
+                    author: filteredPoems[currentQuestionIndex].author ? ` · ${filteredPoems[currentQuestionIndex].author}` : '',
+                    mistake: blankText,
+                    userAnswer: userAnswer,
+                    fullContent: currentQuestionData.fullContent
+                });
+            }
+            
+            answerShown = true;
+            
+            if (inputElement) {
+                inputElement.disabled = true;
+            }
+            
+            updateStats();
+        }
         
         // 显示答案
         function showAnswer() {
-    if (answerShown) return;
-    
-    const inputElement = document.getElementById('user-answer');
-    if (inputElement) {
-        inputElement.value = blankText;
-        inputElement.disabled = true;
-    }
-    
-    resultElement.textContent = `${blankText}`;
-    resultElement.className = 'result correct visible';
-    
-    answerShown = true;
-    incorrectCount++;
-    
-    mistakeHistory.push({
-        poem: filteredPoems[currentQuestionIndex].title || '无题',
-        author: filteredPoems[currentQuestionIndex].author ? ` · ${filteredPoems[currentQuestionIndex].author}` : '',
-        mistake: blankText,
-        userAnswer: '查看了答案',
-        fullContent: currentQuestionData.fullContent
-    });
-    
-    updateStats();
-}
+            if (answerShown) return;
+            
+            const inputElement = document.getElementById('user-answer');
+            if (inputElement) {
+                inputElement.value = blankText;
+                inputElement.disabled = true;
+            }
+            
+            resultElement.textContent = `${blankText}`;
+            resultElement.className = 'result correct visible';
+            
+            answerShown = true;
+            incorrectCount++;
+            
+            mistakeHistory.push({
+                poem: filteredPoems[currentQuestionIndex].title || '无题',
+                author: filteredPoems[currentQuestionIndex].author ? ` · ${filteredPoems[currentQuestionIndex].author}` : '',
+                mistake: blankText,
+                userAnswer: '查看了答案',
+                fullContent: currentQuestionData.fullContent
+            });
+            
+            updateStats();
+        }
         
         // 渲染历史记录列表
         function renderHistoryList() {
-    if (mistakeHistory.length === 0) {
-        historyListElement.innerHTML = '<div style="text-align:center;padding:20px;color:var(--ink-light)">暂无错误记录</div>';
-        return;
-    }
-    
-    historyListElement.innerHTML = '';
-    mistakeHistory.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'history-item';
-        
-        // 构建标题显示
-        const titleDisplay = item.poem === '无题' && !item.author ? '无题' : `${item.poem}${item.author || ''}`;
-        
-        // 高亮显示错误部分
-        let detailContent = item.fullContent.replace(item.mistake, 
-            `<span style="color:var(--incorrect);font-weight:bold;">${item.userAnswer || '未回答'}</span>`);
-        
-        div.innerHTML = `
-            <div class="history-header">
-                <span class="history-poem">${titleDisplay}</span>
-
-            </div>
-            <div class="history-content">
-                <div style="white-space:pre-line;font-family:KaiTi,STKaiti,楷体,serif;margin-bottom:8px;">${detailContent}</div>
-                <div style="color:var(--correct);font-weight:bold;">正确答案: ${item.mistake}</div>
-            </div>
-        `;
-        
-        historyListElement.appendChild(div);
-    });
-}
+            if (mistakeHistory.length === 0) {
+                historyListElement.innerHTML = '<div style="text-align:center;padding:20px;color:var(--ink-light)">暂无错误记录</div>';
+                return;
+            }
+            
+            historyListElement.innerHTML = '';
+            mistakeHistory.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                
+                // 构建标题显示
+                const titleDisplay = item.poem === '无题' && !item.author ? '无题' : `${item.poem}${item.author || ''}`;
+                
+                // 高亮显示错误部分
+                let detailContent = item.fullContent.replace(item.mistake, 
+                    `<span style="color:var(--incorrect);font-weight:bold;">${item.userAnswer || '未回答'}</span>`);
+                
+                div.innerHTML = `
+                    <div class="history-header">
+                        <span class="history-poem">${titleDisplay}</span>
+                    </div>
+                    <div class="history-content">
+                        <div style="white-space:pre-line;font-family:KaiTi,STKaiti,楷体,serif;margin-bottom:8px;">${detailContent}</div>
+                        <div style="color:var(--correct);font-weight:bold;">正确答案: ${item.mistake}</div>
+                    </div>
+                `;
+                
+                historyListElement.appendChild(div);
+            });
+        }
         
         // 下一题
         function nextQuestion() {

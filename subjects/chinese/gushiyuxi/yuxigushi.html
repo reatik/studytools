@@ -56,15 +56,24 @@
         
         .page-title:before, 
         .page-title:after {
-            content: "|";
+            content: "";
             position: absolute;
-            color: var(--tang-light-brown);
-            font-size: 1.2rem;
+            height: 2px;
+            width: 30%;
             top: 50%;
-            transform: translateY(-50%);
+            background: linear-gradient(90deg, 
+                rgba(139,26,26,0) 0%, 
+                var(--tang-red) 50%, 
+                rgba(139,26,26,0) 100%);
         }
-        .page-title:before { left: 10px; }
-        .page-title:after { right: 10px; }
+        .page-title:before { 
+            left: 0;
+            transform: translateX(-10px);
+        }
+        .page-title:after { 
+            right: 0;
+            transform: translateX(10px);
+        }
         
         .grade-accordion {
             margin-bottom: 15px;
@@ -133,29 +142,27 @@
             to { opacity: 1; }
         }
         
-        /* 古诗按钮样式 - 修改文字居中 */
         .poem-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* 确保内容垂直居中 */
-    align-items: center; /* 确保内容水平居中 */
-    padding: 8px 12px; /* 调整上下边距为8px，左右为12px */
-    background: rgba(255, 250, 241, 0.7);
-    border: 1px solid rgba(193, 154, 107, 0.4);
-    border-radius: 4px;
-    font-family: inherit;
-    font-size: 1rem;
-    color: var(--tang-brown);
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
-    position: relative;
-    height: 60px;
-    box-shadow: 0 2px 4px rgba(139, 26, 26, 0.05);
-    line-height: 1.3; /* 调整行高 */
-}
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(255, 250, 241, 0.7);
+            border: 1px solid rgba(193, 154, 107, 0.4);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--tang-brown);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+            position: relative;
+            height: 60px;
+            box-shadow: 0 2px 4px rgba(139, 26, 26, 0.05);
+            line-height: 1.3;
+        }
 
-        /* 确保按钮内文字组合居中 */
         .poem-btn > div {
             display: flex;
             flex-direction: column;
@@ -165,8 +172,7 @@
             height: 100%;
         }
         
-        .poem-btn:hover,
-        .poem-btn.selected {
+        .poem-btn:hover {
             background: linear-gradient(135deg, 
                 rgba(184, 102, 102, 0.9) 0%, 
                 rgba(166, 78, 78, 0.9) 50%, 
@@ -179,39 +185,9 @@
             transform: translateY(-2px);
         }
         
-        .poem-btn:hover:before,
-        .poem-btn.selected:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border: 1px solid transparent;
-            background: 
-                linear-gradient(to right, rgba(217, 199, 167, 0.7) 1px, transparent 1px) 0 0,
-                linear-gradient(to bottom, rgba(217, 199, 167, 0.7) 1px, transparent 1px) 0 0;
-            background-size: 12px 12px;
-            background-repeat: round;
-            mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
-            mask-composite: exclude;
-            pointer-events: none;
-        }
-        
-        .poem-btn:hover:after,
-        .poem-btn.selected:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M20,20 Q30,10 40,20 T60,20 T80,20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>');
-            opacity: 0.3;
-            pointer-events: none;
+        .poem-btn:active {
+            transform: translateY(1px);
+            box-shadow: inset 0 0 8px rgba(255, 215, 170, 0.4);
         }
         
         .poem-name {
@@ -227,20 +203,16 @@
             transition: all 0.3s;
         }
         
-        /* 修改悬停和选中文字颜色为纯白色 */
         .poem-btn:hover .poem-name,
-        .poem-btn.selected .poem-name,
-        .poem-btn:hover .poem-author,
-        .poem-btn.selected .poem-author {
+        .poem-btn:hover .poem-author {
             color: #ffffff;
             text-shadow: 1px 1px 1px rgba(122, 31, 31, 0.3);
         }
         
-        #detail-page {
+        #detail-page, #quiz-page {
             display: none;
         }
         
-        /* 详细页诗文样式 - 添加文字阴影 */
         .poem-title {
             font-size: 1.5rem;
             color: var(--tang-red);
@@ -259,7 +231,7 @@
         
         .poem-content {
             font-size: 1.1rem;
-            line-height: 1.8;
+            line-height: 1.1;
             text-align: center;
             margin: 20px 0;
             padding: 15px 0;
@@ -269,7 +241,6 @@
             text-shadow: 0.5px 0.5px 1px rgba(139, 26, 26, 0.1);
         }
         
-        /* 注释和译文标题样式 */
         .section-title {
             font-size: 1.1rem;
             color: var(--tang-red);
@@ -310,8 +281,154 @@
             line-height: 1.6;
             font-size: 0.95rem;
         }
-        
-        /* 导航按钮样式 */
+
+        .unlock-btn {
+            display: inline-block;
+            padding: 2px 8px;
+            margin-left: 10px;
+            background: var(--tang-light-gold);
+            color: var(--tang-dark-red);
+            border: 1px solid var(--tang-light-brown);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: default;
+            vertical-align: middle;
+            transition: all 0.2s;
+        }
+
+        .unlock-btn:hover {
+            background: var(--tang-gold);
+        }
+
+        .translation-header {
+            display: flex;
+            align-items: center;
+            margin: 20px 0 10px;
+        }
+
+        .section-title {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        #quiz-btn-container {
+            margin-top: 10px;
+        }
+
+        .quiz-progress {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 0.95rem;
+            color: var(--tang-dark-red);
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 250, 241, 0.7);
+            border-radius: 4px;
+            border: 1px solid rgba(193, 154, 107, 0.3);
+        }
+
+        .quiz-question-title {
+            font-size: 1.05rem;
+            color: var(--tang-dark-red);
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quiz-option {
+            display: block;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--tang-light-brown);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            background: rgba(245, 240, 230, 0.9);
+        }
+
+        .quiz-option.selected {
+            background: rgba(139, 26, 26, 0.1);
+            border-color: var(--tang-red);
+        }
+
+        .quiz-option.correct {
+            background: rgba(0, 128, 0, 0.1);
+            border-color: green;
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(255, 0, 0, 0.05);
+            border-color: rgba(255, 0, 0, 0.3);
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .quiz-nav-btn {
+            padding: 8px 15px;
+            background: var(--tang-light-gold);
+            color: var(--tang-dark-red);
+            border: 1px solid var(--tang-light-brown);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-nav-btn:hover {
+            background: var(--tang-gold);
+        }
+
+        .quiz-nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .correct-count {
+            color: var(--tang-red);
+            font-weight: bold;
+        }
+
+        .quiz-result {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+        }
+
+        .quiz-success {
+            background-color: rgba(0, 128, 0, 0.1);
+            color: darkgreen;
+        }
+
+        .quiz-failure {
+            background-color: rgba(255, 0, 0, 0.05);
+            color: darkred;
+        }
+
+        .quiz-message {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--tang-brown);
+        }
+
         .nav-buttons {
             display: flex;
             justify-content: space-between;
@@ -354,7 +471,91 @@
             color: var(--tang-brown);
             font-size: 1rem;
         }
+
+        /* 教师模式相关样式 */
+        .teacher-btn-container {
+            margin-top: 20px;
+            text-align: center;
+        }
         
+        .teacher-btn {
+            background: var(--tang-gold);
+            color: var(--tang-dark-red);
+            border: 1px solid var(--tang-brown);
+            border-radius: 4px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            font-family: 'KaiTi', 'SimSun', serif;
+        }
+        
+        .teacher-btn:hover {
+            background: var(--tang-red);
+            color: white;
+        }
+        
+        .teacher-btn.active {
+            background: var(--tang-red);
+            color: white;
+        }
+        
+        .password-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .password-box {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid var(--tang-light-brown);
+            border-radius: 4px;
+            font-family: 'KaiTi', 'SimSun', serif;
+        }
+        
+        .password-submit {
+            background: var(--tang-red);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'KaiTi', 'SimSun', serif;
+        }
+        
+        .password-error {
+            color: red;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .password-success {
+            color: green;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .main-container {
                 padding: 15px;
@@ -381,7 +582,7 @@
             
             .poem-content {
                 font-size: 1rem;
-                line-height: 1.6;
+                line-height: 1.1;
                 margin: 15px 0;
                 padding: 10px 0;
             }
@@ -390,16 +591,37 @@
                 font-size: 0.85rem;
                 padding: 6px 0;
             }
+            
+            .teacher-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 密码模态框 -->
+    <div class="password-modal" id="password-modal">
+        <div class="password-box">
+            <h3>请输入教师密码</h3>
+            <input type="password" class="password-input" id="password-input" placeholder="输入密码">
+            <div class="password-error" id="password-error">密码错误，请重试</div>
+            <div class="password-success" id="password-success">密码正确，已进入教师模式</div>
+            <button class="password-submit" id="password-submit">确认</button>
+        </div>
+    </div>
+
     <!-- 主页面 -->
     <div class="main-container" id="main-page">
         <h1 class="page-title">小学古诗文</h1>
         
         <div id="content-list">
             <div class="loading">正在载入诗卷...</div>
+        </div>
+        
+        <!-- 教师模式按钮放在列表底部 -->
+        <div class="teacher-btn-container">
+            <button class="teacher-btn" id="teacher-btn">教师模式</button>
         </div>
     </div>
     
@@ -416,8 +638,11 @@
         </div>
         
         <div>
-            <div class="section-title">译文</div>
-            <div class="translation-content" id="detail-translation"></div>
+            <div class="translation-header">
+                <div class="section-title">译文</div>
+            </div>
+            <div id="quiz-btn-container"></div>
+            <div class="translation-content" id="detail-translation" style="display: none;"></div>
         </div>
         
         <div class="nav-buttons">
@@ -427,10 +652,31 @@
         </div>
     </div>
 
+    <!-- 答题页 -->
+    <div class="main-container" id="quiz-page">
+        <h2 class="poem-title" id="quiz-poem-title"></h2>
+        
+        <div class="quiz-progress" id="quiz-progress"></div>
+        
+        <div id="quiz-questions-container"></div>
+        
+        <div class="quiz-nav">
+            <button class="quiz-nav-btn" id="prev-question-btn" disabled>〈 上一题</button>
+            <button class="quiz-nav-btn" id="back-to-poem-btn">返回诗文</button>
+            <button class="quiz-nav-btn" id="next-question-btn" disabled>下一题 〉</button>
+        </div>
+    </div>
+
     <script>
         // 全局变量
         let poems = [];
         let currentPoemId = null;
+        let currentQuiz = [];
+        let userAnswers = [];
+        let currentQuestionIndex = 0;
+        let correctCount = 0;
+        let autoNextTimer = null;
+        let isTeacherMode = false;
         
         // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
@@ -438,21 +684,95 @@
             const backBtn = document.getElementById('back-btn');
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
+            const prevQuestionBtn = document.getElementById('prev-question-btn');
+            const nextQuestionBtn = document.getElementById('next-question-btn');
+            const backToPoemBtn = document.getElementById('back-to-poem-btn');
+            const teacherBtn = document.getElementById('teacher-btn');
+            const passwordSubmit = document.getElementById('password-submit');
+            const passwordInput = document.getElementById('password-input');
+            const passwordError = document.getElementById('password-error');
+            const passwordSuccess = document.getElementById('password-success');
             
             // 绑定事件
             backBtn.addEventListener('click', backToList);
             prevBtn.addEventListener('click', showPrevPoem);
             nextBtn.addEventListener('click', showNextPoem);
+            prevQuestionBtn.addEventListener('click', goToPrevQuestion);
+            nextQuestionBtn.addEventListener('click', goToNextQuestion);
+            backToPoemBtn.addEventListener('click', backToPoemDetail);
+            
+            // 教师模式相关事件
+            teacherBtn.addEventListener('click', toggleTeacherMode);
+            passwordSubmit.addEventListener('click', checkPassword);
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
             
             // 加载数据
             loadPoems();
         });
         
+        // 切换教师模式
+        function toggleTeacherMode() {
+            if (isTeacherMode) {
+                // 退出教师模式
+                isTeacherMode = false;
+                document.getElementById('teacher-btn').classList.remove('active');
+                alert('已退出教师模式');
+                
+                // 如果当前在详情页，重新加载当前诗歌以恢复普通模式
+                if (document.getElementById('detail-page').style.display === 'block' && currentPoemId !== null) {
+                    showPoemDetail(poems[currentPoemId]);
+                }
+            } else {
+                // 显示密码输入框
+                document.getElementById('password-modal').style.display = 'flex';
+                document.getElementById('password-input').focus();
+                document.getElementById('password-error').style.display = 'none';
+                document.getElementById('password-success').style.display = 'none';
+            }
+        }
+        
+        // 检查密码
+        function checkPassword() {
+            const password = document.getElementById('password-input').value;
+            const errorElement = document.getElementById('password-error');
+            const successElement = document.getElementById('password-success');
+            
+            if (password === '1007') {
+                isTeacherMode = true;
+                document.getElementById('password-modal').style.display = 'none';
+                document.getElementById('password-input').value = '';
+                errorElement.style.display = 'none';
+                successElement.style.display = 'block';
+                
+                // 改变按钮样式
+                document.getElementById('teacher-btn').classList.add('active');
+                
+                // 显示成功提示
+                setTimeout(() => {
+                    successElement.style.display = 'none';
+                }, 2000);
+                
+                // 如果当前在详情页，重新加载当前诗歌以显示译文
+                if (document.getElementById('detail-page').style.display === 'block' && currentPoemId !== null) {
+                    showPoemDetail(poems[currentPoemId]);
+                }
+            } else {
+                errorElement.style.display = 'block';
+                successElement.style.display = 'none';
+            }
+        }
+        
         // 加载数据
         function loadPoems() {
             fetch('duishi.json')
                 .then(response => {
-                    if (!response.ok) throw new Error('网络响应不正常');
+                    if (!response.ok) {
+                        throw new Error('网络响应不正常');
+                    }
                     return response.json();
                 })
                 .then(data => {
@@ -463,6 +783,8 @@
                     console.error('加载失败:', error);
                     document.getElementById('content-list').innerHTML = 
                         '<div class="error">载入诗卷失败，请稍后再试</div>';
+                    document.getElementById('content-list').innerHTML += 
+                        `<div class="error-detail" style="color:#999;font-size:12px;">${error.message}</div>`;
                 });
         }
         
@@ -490,7 +812,8 @@
                 "二年级上册", "二年级下册",
                 "三年级上册", "三年级下册",
                 "四年级上册", "四年级下册",
-                "五年级上册", "五年级下册"
+                "五年级上册", "五年级下册",
+                "六年级上册", "六年级下册"
             ];
             
             gradeOrder.forEach(grade => {
@@ -534,14 +857,6 @@
             // 为每首诗添加点击事件
             document.querySelectorAll('.poem-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // 移除之前选中的样式
-                    document.querySelectorAll('.poem-btn').forEach(b => {
-                        b.classList.remove('selected');
-                    });
-                    
-                    // 添加当前选中样式
-                    this.classList.add('selected');
-                    
                     const poemId = parseInt(this.getAttribute('data-id'));
                     currentPoemId = poemId;
                     showPoemDetail(poems[poemId]);
@@ -549,11 +864,11 @@
             });
         }
         
-        // 显示古诗详情
         function showPoemDetail(poem) {
             // 切换到详情页
             document.getElementById('main-page').style.display = 'none';
             document.getElementById('detail-page').style.display = 'block';
+            document.getElementById('quiz-page').style.display = 'none';
             
             // 设置标题和作者
             document.getElementById('detail-title').textContent = poem.title || '无题';
@@ -567,41 +882,290 @@
             
             // 设置注释
             const notesContainer = document.getElementById('detail-notes');
+            notesContainer.innerHTML = '';
+            
             if (poem.notes && poem.notes.length > 0) {
-                let notesHtml = '';
-                
                 poem.notes.forEach(note => {
                     if (typeof note === 'string') {
                         const separatorIndex = note.indexOf('：');
                         if (separatorIndex > 0) {
                             const term = note.substring(0, separatorIndex);
                             const explanation = note.substring(separatorIndex + 1);
-                            notesHtml += `
+                            notesContainer.innerHTML += `
                                 <div class="note-item">
                                     <span class="note-term">${term}：</span>${explanation}
                                 </div>
                             `;
                         } else {
-                            notesHtml += `<div class="note-item">${note}</div>`;
+                            notesContainer.innerHTML += `<div class="note-item">${note}</div>`;
                         }
                     } else if (note.term && note.explanation) {
-                        notesHtml += `
+                        notesContainer.innerHTML += `
                             <div class="note-item">
                                 <span class="note-term">${note.term}：</span>${note.explanation}
                             </div>
                         `;
                     }
                 });
-                
-                notesContainer.innerHTML = notesHtml;
             } else {
                 notesContainer.innerHTML = '<div class="note-item">暂无注释</div>';
             }
             
-            // 设置译文
+            // 设置译文部分
+            const translationContainer = document.getElementById('detail-translation');
+            const quizBtnContainer = document.getElementById('quiz-btn-container');
+            const translationHeader = document.querySelector('.translation-header');
+            
+            // 清空容器
+            quizBtnContainer.innerHTML = '';
+            translationContainer.style.display = 'none';
+            
+            // 移除可能已存在的解锁按钮
+            const existingUnlockBtn = document.querySelector('.unlock-btn');
+            if (existingUnlockBtn) {
+                existingUnlockBtn.remove();
+            }
+            
+            // 检查是否有题目
+            if (isTeacherMode || (poem.quiz && poem.quiz.length > 0 && localStorage.getItem(`poem_${poem.id}_unlocked`) === 'true')) {
+                // 教师模式或已解锁，显示译文
+                const unlockBtn = document.createElement('button');
+                unlockBtn.className = 'unlock-btn';
+                unlockBtn.textContent = isTeacherMode ? '教师模式' : '已解锁';
+                translationHeader.appendChild(unlockBtn);
+                showTranslation(poem);
+            } else if (poem.quiz && poem.quiz.length > 0) {
+                // 未解锁，创建"答题解锁"按钮
+                const quizUnlockBtn = document.createElement('button');
+                quizUnlockBtn.className = 'unlock-btn';
+                quizUnlockBtn.textContent = '答题解锁';
+                quizUnlockBtn.addEventListener('click', function() {
+                    startQuiz(poem);
+                });
+                translationHeader.appendChild(quizUnlockBtn);
+            } else {
+                // 没有题目，直接显示译文
+                showTranslation(poem);
+            }
+            
+            // 更新当前诗歌ID
+            currentPoemId = poems.indexOf(poem);
+        }
+        
+        // 开始答题
+        function startQuiz(poem) {
+            // 清除之前的自动跳转计时器
+            if (autoNextTimer) {
+                clearTimeout(autoNextTimer);
+                autoNextTimer = null;
+            }
+            
+            // 切换到答题页
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('detail-page').style.display = 'none';
+            document.getElementById('quiz-page').style.display = 'block';
+            document.querySelector('.quiz-nav').style.display = 'flex';
+            
+            // 设置标题
+            document.getElementById('quiz-poem-title').textContent = poem.title || '无题';
+            
+            // 初始化答题数据
+            currentQuiz = poem.quiz;
+            userAnswers = new Array(currentQuiz.length).fill(null);
+            currentQuestionIndex = 0;
+            correctCount = 0;
+            
+            // 显示第一题
+            showQuestion(currentQuestionIndex);
+        }
+        
+        // 显示题目
+        function showQuestion(index) {
+            const questionsContainer = document.getElementById('quiz-questions-container');
+            const progressContainer = document.getElementById('quiz-progress');
+            
+            // 更新进度和正确数
+            updateProgress();
+            
+            // 获取当前题目
+            const question = currentQuiz[index];
+            
+            // 生成选项HTML
+            let optionsHtml = '';
+            question.options.forEach((option, i) => {
+                const isSelected = userAnswers[index] === i;
+                const isCorrectAnswer = i === question.answer;
+                const isIncorrect = userAnswers[index] !== null && userAnswers[index] !== question.answer && isSelected;
+                
+                let optionClass = 'quiz-option';
+                if (userAnswers[index] !== null) {
+                    if (isCorrectAnswer) optionClass += ' correct';
+                    if (isIncorrect) optionClass += ' incorrect';
+                    if (isSelected) optionClass += ' selected';
+                }
+                
+                optionsHtml += `
+                    <div class="${optionClass}" data-index="${i}">
+                        ${String.fromCharCode(65 + i)}. ${option}
+                    </div>
+                `;
+            });
+            
+            // 生成题目HTML
+            questionsContainer.innerHTML = `
+                <div class="quiz-question">
+                    <div class="quiz-question-title">${question.question}</div>
+                    <div class="quiz-options">
+                        ${optionsHtml}
+                    </div>
+                </div>
+            `;
+            
+            // 绑定选项点击事件
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    if (userAnswers[index] !== null) return;
+                    
+                    const selectedIndex = parseInt(this.getAttribute('data-index'));
+                    userAnswers[index] = selectedIndex;
+                    
+                    // 检查答案
+                    const isCorrect = selectedIndex === question.answer;
+                    if (isCorrect) {
+                        correctCount++;
+                        updateProgress();
+                    }
+                    
+                    // 显示正确答案和错误答案
+                    document.querySelectorAll('.quiz-option').forEach((opt, i) => {
+                        if (i === question.answer) {
+                            opt.classList.add('correct');
+                        } else if (i === selectedIndex && i !== question.answer) {
+                            opt.classList.add('incorrect');
+                        }
+                        if (i === selectedIndex) {
+                            opt.classList.add('selected');
+                        }
+                    });
+                    
+                    // 更新导航按钮状态
+                    updateNavButtons();
+                    
+                    // 设置自动跳转下一题
+                    if (autoNextTimer) {
+                        clearTimeout(autoNextTimer);
+                    }
+                    
+                    autoNextTimer = setTimeout(() => {
+                        if (currentQuestionIndex < currentQuiz.length - 1) {
+                            currentQuestionIndex++;
+                            showQuestion(currentQuestionIndex);
+                        } else {
+                            finishQuiz();
+                        }
+                    }, 1000);
+                });
+            });
+            
+            // 更新导航按钮状态
+            updateNavButtons();
+        }
+        
+        // 更新进度显示
+        function updateProgress() {
+            const progressContainer = document.getElementById('quiz-progress');
+            progressContainer.innerHTML = `
+                题目 ${currentQuestionIndex + 1}/${currentQuiz.length} 
+                | 已答对: <span class="correct-count">${correctCount}</span> 题
+                | 需答对 ${Math.ceil(currentQuiz.length / 2)} 题解锁译文
+            `;
+        }
+        
+        // 更新导航按钮状态
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prev-question-btn');
+            const nextBtn = document.getElementById('next-question-btn');
+            
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            // 如果是第五题或最后一题，禁用下一题按钮
+            const isFifthQuestion = currentQuestionIndex === 4; // 索引从0开始，所以4是第五题
+            const isLastQuestion = currentQuestionIndex === currentQuiz.length - 1;
+            
+            // 如果当前题目已回答，或者不是最后一题，则启用下一题按钮
+            // 但如果是第五题，则总是禁用
+            nextBtn.disabled = isFifthQuestion || 
+                            (userAnswers[currentQuestionIndex] === null && 
+                             !isLastQuestion);
+            
+            // 如果是最后一题且已回答，更改按钮文本
+            if (isLastQuestion && userAnswers[currentQuestionIndex] !== null) {
+                nextBtn.textContent = '查看结果';
+            } else {
+                nextBtn.textContent = '下一题 〉';
+            }
+        }
+        
+        // 进入上一题
+        function goToPrevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+        
+        // 进入下一题或完成答题
+        function goToNextQuestion() {
+            if (currentQuestionIndex < currentQuiz.length - 1) {
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+            } else {
+                finishQuiz();
+            }
+        }
+        
+        // 完成答题
+        function finishQuiz() {
+            const requiredCorrect = Math.ceil(currentQuiz.length / 2);
+            const passed = correctCount >= requiredCorrect;
+            
+            // 隐藏答题时的三个导航按钮
+            document.querySelector('.quiz-nav').style.display = 'none';
+            
+            // 显示结算界面
+            const questionsContainer = document.getElementById('quiz-questions-container');
+            questionsContainer.innerHTML = `
+                <div class="quiz-result ${passed ? 'quiz-success' : 'quiz-failure'}">
+                    ${passed ? '恭喜解锁成功！' : '解锁未成功'}
+                </div>
+                <div class="quiz-message">
+                    ${passed ? '您已掌握这首诗的知识点' : `答对 ${correctCount}/${currentQuiz.length} 题`}
+                </div>
+                <button class="nav-btn" 
+                        style="width:100%;margin-top:20px" 
+                        onclick="showPoemDetail(poems[${currentPoemId}])">
+                    返回诗文
+                </button>
+            `;
+
+            // 存储解锁状态
+            if (passed) {
+                localStorage.setItem(`poem_${poems[currentPoemId].id}_unlocked`, 'true');
+            }
+        }
+        
+        // 返回诗文详情
+        function backToPoemDetail() {
+            showPoemDetail(poems[currentPoemId]);
+        }
+        
+        // 显示译文
+        function showTranslation(poem) {
+            const translationContainer = document.getElementById('detail-translation');
             let translation = poem.translation || '暂无译文';
             translation = translation.replace(/\n/g, '\n\n');
-            document.getElementById('detail-translation').textContent = translation;
+            translationContainer.textContent = translation;
+            translationContainer.style.display = 'block';
         }
         
         // 显示上一首诗
@@ -609,9 +1173,6 @@
             if (currentPoemId > 0) {
                 currentPoemId--;
                 showPoemDetail(poems[currentPoemId]);
-                
-                // 更新选中状态
-                updateSelectedState();
             }
         }
         
@@ -620,23 +1181,6 @@
             if (currentPoemId < poems.length - 1) {
                 currentPoemId++;
                 showPoemDetail(poems[currentPoemId]);
-                
-                // 更新选中状态
-                updateSelectedState();
-            }
-        }
-        
-        // 更新选中状态
-        function updateSelectedState() {
-            // 移除所有选中状态
-            document.querySelectorAll('.poem-btn').forEach(b => {
-                b.classList.remove('selected');
-            });
-            
-            // 添加当前选中状态
-            const currentBtn = document.querySelector(`.poem-btn[data-id="${currentPoemId}"]`);
-            if (currentBtn) {
-                currentBtn.classList.add('selected');
             }
         }
         
@@ -644,6 +1188,7 @@
         function backToList() {
             document.getElementById('main-page').style.display = 'block';
             document.getElementById('detail-page').style.display = 'none';
+            document.getElementById('quiz-page').style.display = 'none';
             
             // 滚动到选中的诗
             if (currentPoemId !== null) {
