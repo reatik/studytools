@@ -1004,6 +1004,11 @@
             document.getElementById('main-page').style.display = 'none';
             document.getElementById('detail-page').style.display = 'block';
             document.getElementById('quiz-page').style.display = 'none';
+
+            window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
             
             // 设置标题和作者
             document.getElementById('detail-title').textContent = poem.title || '无题';
