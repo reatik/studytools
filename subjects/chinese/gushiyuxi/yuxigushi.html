@@ -505,16 +505,6 @@
             border-color: var(--tang-dark-red);
         }
         
-        .teacher-btn.cancel {
-            background: var(--tang-light-gold);
-            color: var(--tang-dark-red);
-            border: 1px solid var(--tang-light-brown);
-            margin-left: 10px;
-        }
-        
-        .teacher-btn.cancel:hover {
-            background: var(--tang-gold);
-        }
         
         .password-modal {
             display: none;
@@ -703,6 +693,7 @@
     <div class="password-box">
         <h3>请输入密码</h3>
         <input type="password" class="password-input" id="password-input" placeholder="输入密码">
+        <div style="font-size: 0.9rem; color: #666; margin: 5px 0 10px;">家长模式可查看所有译文和答案</div>
         
         <!-- 新增成功状态容器 -->
         <div class="password-state" id="password-state">
@@ -732,7 +723,7 @@
         <!-- 家长模式按钮放在列表底部 -->
         <div class="teacher-btn-container">
             <button class="teacher-btn" id="teacher-btn">家长模式</button>
-            <button class="teacher-btn cancel" id="teacher-cancel-btn" style="display: none;">取消</button>
+            
         </div>
     </div>
     
@@ -816,7 +807,7 @@
             
             // 家长模式相关事件
             teacherBtn.addEventListener('click', toggleTeacherMode);
-            teacherCancelBtn.addEventListener('click', cancelTeacherMode);
+
             passwordSubmit.addEventListener('click', checkPassword);
             passwordCancel.addEventListener('click', cancelPasswordInput);
             passwordInput.addEventListener('keypress', function(e) {
