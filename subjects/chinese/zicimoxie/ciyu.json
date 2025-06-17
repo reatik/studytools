@@ -1,0 +1,84 @@
+{
+    "grade": "一年级上册",
+    "total_characters": 280,
+    "sections": [
+      {
+        "type": "识字",
+        "lessons": [
+          {
+            "id": 1,
+            "pinyin": "tiān dì rén nǐ wǒ tā",
+            "characters": "天地人你我他"
+          },
+          {
+            "id": 2,
+            "pinyin": "yī èr sān sì wǔ shàng xià",
+            "characters": "一二三四五上下"
+          },
+          {
+            "id": 3,
+            "pinyin": "kǒu ěr mù shǒu zú zhàn zuò",
+            "characters": "口耳目手足站坐"
+          },
+          {
+            "id": 4,
+            "pinyin": "rì yuè shān chuān shuǐ huǒ tián hé",
+            "characters": "日月山川水火田禾"
+          }
+        ],
+        "garden": {
+          "name": "语文园地一",
+          "pinyin": "liù qī bā jiǔ shí",
+          "characters": "六七八九十"
+        }
+      },
+      {
+        "type": "汉语拼音",
+        "lessons": [
+          {
+            "id": 3,
+            "pinyin": "bà mā",
+            "characters": "爸妈"
+          },
+          {
+            "id": 4,
+            "pinyin": "dà mǎ lù tǔ",
+            "characters": "大马路土"
+          }
+        ],
+        "garden": {
+          "name": "语文园地二",
+          "characters": [
+            {
+              "pinyin": "běn xué xiào bān jí xìng míng wáng",
+              "characters": "本学校班级姓名王"
+            },
+            {
+              "pinyin": "gē dì huà huā",
+              "characters": "哥弟画花"
+            }
+          ]
+        }
+      },
+      {
+        "type": "阅读",
+        "lessons": [
+          {
+            "id": 1,
+            "pinyin": "qiū qì le shù yè huáng piàn cóng lái fēi",
+            "characters": "秋气了树叶黄片从来飞"
+          },
+          {
+            "id": 2,
+            "pinyin": "jiāng nán kě cǎi lián xì jiān dōng běi",
+            "characters": "江南可采莲戏间东北"
+          }
+        ],
+        "garden": {
+          "name": "语文园地五",
+          "characters": "男女关正反先后内外"
+        }
+      }
+    ]
+  }
+  

@@ -474,7 +474,7 @@
             font-size: 1rem;
         }
 
-        /* 教师模式相关样式 */
+        /* 家长模式相关样式 */
         .teacher-btn-container {
             margin-top: 20px;
             text-align: center;
@@ -539,13 +539,13 @@
         }
         
         .password-input {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            border: 1px solid var(--tang-light-brown);
-            border-radius: 4px;
-            font-family: 'KaiTi', 'SimSun', serif;
-        }
+    width: 100%;
+    padding: 10px;
+    margin: 0; /* 移除默认外边距 */
+    border: 1px solid #d1c0a8;
+    border-radius: 4px;
+    font-family: 'KaiTi', 'SimSun', serif;
+}
         
         .password-submit {
             background: var(--tang-red);
@@ -592,6 +592,68 @@
             display: none;
         }
 
+        /* 密码状态容器 */
+        .password-state {
+    height: 24px; /* 高度减小 */
+    margin: 4px 0; /* 上下边距从8px减到4px */
+    position: relative;
+}
+
+/* 错误/成功提示样式 */
+.password-error, 
+.password-success {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 0.85rem; 
+    padding: 3px 0;
+    border-radius: 4px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s;
+}
+
+.password-error {
+    background: rgba(255, 0, 0, 0.08);
+    color: #d32f2f;
+}
+
+.password-success {
+    background: rgba(0, 200, 0, 0.08);
+    color: #388e3c;
+}
+
+/* 图标样式 */
+.password-error i,
+.password-success i {
+    margin-right: 6px;
+    font-size: 1.1rem;
+}
+
+/* 成功动画 */
+@keyframes checkmark {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.password-success i {
+    animation: checkmark 0.5s;
+    color: #4caf50;
+}
+
+/* 错误动画 */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
+}
+
+.password-error {
+    animation: shake 0.4s;
+}
+
         @media (max-width: 768px) {
             .main-container {
                 padding: 15px;
@@ -637,30 +699,39 @@
 </head>
 <body>
     <!-- 密码模态框 -->
-    <div class="password-modal" id="password-modal">
-        <div class="password-box">
-            <h3>请输入教师密码</h3>
-            <input type="password" class="password-input" id="password-input" placeholder="输入密码">
-            <div class="password-error" id="password-error">密码错误，请重试</div>
-            <div class="password-success" id="password-success">密码正确，已进入教师模式</div>
-            <div style="margin-top: 15px;">
-                <button class="password-submit" id="password-submit">确认</button>
-                <button class="password-cancel" id="password-cancel">取消</button>
+<div class="password-modal" id="password-modal">
+    <div class="password-box">
+        <h3>请输入密码</h3>
+        <input type="password" class="password-input" id="password-input" placeholder="输入密码">
+        
+        <!-- 新增成功状态容器 -->
+        <div class="password-state" id="password-state">
+            <div class="password-error" id="password-error">
+                <i class="fas fa-times-circle"></i> 密码错误
+            </div>
+            <div class="password-success" id="password-success">
+                <i class="fas fa-check-circle"></i> 验证成功
             </div>
         </div>
+        
+        <div style="margin-top: 15px;">
+            <button class="password-submit" id="password-submit">确认</button>
+            <button class="password-cancel" id="password-cancel">取消</button>
+        </div>
     </div>
+</div>
 
     <!-- 主页面 -->
     <div class="main-container" id="main-page">
-        <h1 class="page-title">中小学古诗文</h1>
+        <h1 class="page-title">古诗词学习</h1>
         
         <div id="content-list">
             <div class="loading">正在载入诗卷...</div>
         </div>
         
-        <!-- 教师模式按钮放在列表底部 -->
+        <!-- 家长模式按钮放在列表底部 -->
         <div class="teacher-btn-container">
-            <button class="teacher-btn" id="teacher-btn">教师模式</button>
+            <button class="teacher-btn" id="teacher-btn">家长模式</button>
             <button class="teacher-btn cancel" id="teacher-cancel-btn" style="display: none;">取消</button>
         </div>
     </div>
@@ -743,7 +814,7 @@
             nextQuestionBtn.addEventListener('click', goToNextQuestion);
             backToPoemBtn.addEventListener('click', backToPoemDetail);
             
-            // 教师模式相关事件
+            // 家长模式相关事件
             teacherBtn.addEventListener('click', toggleTeacherMode);
             teacherCancelBtn.addEventListener('click', cancelTeacherMode);
             passwordSubmit.addEventListener('click', checkPassword);
@@ -758,13 +829,13 @@
             loadPoems();
         });
         
-        // 切换教师模式
+        // 切换家长模式
         function toggleTeacherMode() {
             if (isTeacherMode) {
-                // 退出教师模式
+                // 退出家长模式
                 isTeacherMode = false;
                 document.getElementById('teacher-btn').classList.remove('active');
-                document.getElementById('teacher-btn').textContent = '教师模式';
+                document.getElementById('teacher-btn').textContent = '家长模式';
                 document.getElementById('teacher-cancel-btn').style.display = 'none';
                 
                 // 如果当前在详情页，重新加载当前诗歌以恢复普通模式
@@ -783,7 +854,7 @@
             }
         }
         
-        // 取消教师模式
+        // 取消家长模式
         function cancelTeacherMode() {
             document.getElementById('password-modal').style.display = 'none';
             document.getElementById('teacher-cancel-btn').style.display = 'none';
@@ -799,36 +870,45 @@
         
         // 检查密码
         function checkPassword() {
-            const password = document.getElementById('password-input').value;
-            const errorElement = document.getElementById('password-error');
-            const successElement = document.getElementById('password-success');
+    const password = document.getElementById('password-input').value;
+    const errorElement = document.getElementById('password-error');
+    const successElement = document.getElementById('password-success');
+    const passwordInput = document.getElementById('password-input');
+    
+    // 先隐藏所有状态提示
+    errorElement.style.display = 'none';
+    successElement.style.display = 'none';
+    
+    if (password === '769') {
+        // 成功逻辑保持不变
+        successElement.style.display = 'flex';
+        
+        setTimeout(() => {
+            isTeacherMode = true;
+            document.getElementById('password-modal').style.display = 'none';
+            passwordInput.value = '';
             
-            if (password === '1007') {
-                isTeacherMode = true;
-                document.getElementById('password-modal').style.display = 'none';
-                document.getElementById('password-input').value = '';
-                errorElement.style.display = 'none';
-                successElement.style.display = 'block';
-                
-                // 改变按钮样式和文本
-                document.getElementById('teacher-btn').classList.add('active');
-                document.getElementById('teacher-btn').textContent = '退出教师模式';
-                document.getElementById('teacher-cancel-btn').style.display = 'none';
-                
-                // 显示成功提示
-                setTimeout(() => {
-                    successElement.style.display = 'none';
-                }, 2000);
-                
-                // 如果当前在详情页，重新加载当前诗歌以显示译文
-                if (document.getElementById('detail-page').style.display === 'block' && currentPoemId !== null) {
-                    showPoemDetail(poems[currentPoemId]);
-                }
-            } else {
-                errorElement.style.display = 'block';
-                successElement.style.display = 'none';
+            document.getElementById('teacher-btn').classList.add('active');
+            document.getElementById('teacher-btn').textContent = '退出家长模式';
+            document.getElementById('teacher-cancel-btn').style.display = 'none';
+            
+            if (document.getElementById('detail-page').style.display === 'block' && currentPoemId !== null) {
+                showPoemDetail(poems[currentPoemId]);
             }
-        }
+        }, 800);
+        
+    } else {
+        // 显示错误状态
+        errorElement.style.display = 'flex';
+        
+        // 2秒后自动重置
+        setTimeout(() => {
+            errorElement.style.display = 'none';
+            passwordInput.value = ''; // 清空输入框
+            passwordInput.focus();    // 重新聚焦
+        }, 1000);
+    }
+}
         
         // 加载数据
         function loadPoems() {
@@ -992,10 +1072,10 @@
             
             // 检查是否有题目
             if (isTeacherMode || (poem.quiz && poem.quiz.length > 0 && localStorage.getItem(`poem_${poem.id}_unlocked`) === 'true')) {
-                // 教师模式或已解锁，显示译文
+                // 家长模式或已解锁，显示译文
                 const unlockBtn = document.createElement('button');
                 unlockBtn.className = 'unlock-btn';
-                unlockBtn.textContent = isTeacherMode ? '教师模式' : '已解锁';
+                unlockBtn.textContent = isTeacherMode ? '家长模式' : '已解锁';
                 translationHeader.appendChild(unlockBtn);
                 showTranslation(poem);
             } else if (poem.quiz && poem.quiz.length > 0) {

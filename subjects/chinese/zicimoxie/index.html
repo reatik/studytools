@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小学语文识字表</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background-color: #FFF8E1;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #FF9800;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 2px solid #2196F3;
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .section-title {
+            color: #2196F3;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        .word-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        .word-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .word-item:hover {
+            background-color: #f5f5f5;
+        }
+        .word-item.selected {
+            background-color: #E3F2FD;
+        }
+        .pinyin {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #2196F3;
+        }
+        .character {
+            font-size: 20px;
+        }
+        .garden {
+            background-color: #FF9800;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .control-panel {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .control-btn {
+            padding: 8px 15px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .control-btn:hover {
+            background-color: #0b7dda;
+        }
+        .dictation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .dictation-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .dictation-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+        }
+        .dictation-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .close-btn {
+            margin-top: 20px;
+            padding: 8px 15px;
+            background-color: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>识字表</h1>
+        
+        <div class="control-panel">
+            <button class="control-btn" id="selectAll">全选</button>
+            <button class="control-btn" id="clearAll">取消全选</button>
+            <button class="control-btn" id="startDictation">开始默写</button>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">识字</div>
+            <div class="word-list" id="wordList">
+                <!-- 动态生成字词 -->
+            </div>
+        </div>
+        
+        <div class="dictation-modal" id="dictationModal">
+            <div class="dictation-content">
+                <h2>默写练习</h2>
+                <div class="dictation-list" id="dictationList"></div>
+                <button class="close-btn" id="closeDictation">返回</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 示例数据 - 实际应从ciyu.json导入
+        const wordData = [
+            { character: "天", pinyin: "tiān", lesson: 1 },
+            { character: "地", pinyin: "dì", lesson: 1 },
+            { character: "人", pinyin: "rén", lesson: 1 },
+            { character: "你", pinyin: "nǐ", lesson: 1 },
+            { character: "我", pinyin: "wǒ", lesson: 1 },
+            { character: "他", pinyin: "tā", lesson: 1 },
+            { character: "一", pinyin: "yī", lesson: 2 },
+            { character: "二", pinyin: "èr", lesson: 2 },
+            { character: "三", pinyin: "sān", lesson: 2 },
+            { character: "四", pinyin: "sì", lesson: 2 },
+            { character: "五", pinyin: "wǔ", lesson: 2 },
+            { character: "上", pinyin: "shàng", lesson: 2 },
+            { character: "下", pinyin: "xià", lesson: 2 }
+        ];
+
+        // 初始化字词列表
+        function initWordList() {
+            const wordListElement = document.getElementById('wordList');
+            wordListElement.innerHTML = '';
+            
+            wordData.forEach(word => {
+                const wordItem = document.createElement('div');
+                wordItem.className = 'word-item';
+                wordItem.dataset.character = word.character;
+                wordItem.dataset.pinyin = word.pinyin;
+                
+                wordItem.innerHTML = `
+                    <div class="pinyin">${word.pinyin}</div>
+                    <div class="character">${word.character}</div>
+                `;
+                
+                wordItem.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+                
+                wordListElement.appendChild(wordItem);
+            });
+        }
+
+        // 初始化默写功能
+        function initDictation() {
+            const selectAllBtn = document.getElementById('selectAll');
+            const clearAllBtn = document.getElementById('clearAll');
+            const startDictationBtn = document.getElementById('startDictation');
+            const closeDictationBtn = document.getElementById('closeDictation');
+            const dictationModal = document.getElementById('dictationModal');
+            
+            // 全选
+            selectAllBtn.addEventListener('click', function() {
+                document.querySelectorAll('.word-item').forEach(item => {
+                    item.classList.add('selected');
+                });
+            });
+            
+            // 取消全选
+            clearAllBtn.addEventListener('click', function() {
+                document.querySelectorAll('.word-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+            });
+            
+            // 开始默写
+            startDictationBtn.addEventListener('click', function() {
+                const selectedItems = document.querySelectorAll('.word-item.selected');
+                const dictationList = document.getElementById('dictationList');
+                dictationList.innerHTML = '';
+                
+                if (selectedItems.length === 0) {
+                    alert('请至少选择一个字词进行默写');
+                    return;
+                }
+                
+                selectedItems.forEach(item => {
+                    const dictationItem = document.createElement('div');
+                    dictationItem.className = 'dictation-item';
+                    dictationItem.innerHTML = `
+                        <div class="pinyin">${item.dataset.pinyin}</div>
+                        <div class="character" style="visibility: hidden;">${item.dataset.character}</div>
+                    `;
+                    dictationList.appendChild(dictationItem);
+                });
+                
+                dictationModal.style.display = 'flex';
+            });
+            
+            // 关闭默写窗口
+            closeDictationBtn.addEventListener('click', function() {
+                dictationModal.style.display = 'none';
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initWordList();
+            initDictation();
+            
+            // 实际应用中应从ciyu.json导入数据
+            // fetch('ciyu.json')
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         wordData = data;
+            //         initWordList();
+            //     });
+        });
+    </script>
+</body>
+</html>
