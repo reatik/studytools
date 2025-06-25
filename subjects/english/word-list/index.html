@@ -42,9 +42,10 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         
+        /* 筛选容器 - 关键修改部分 */
         .filter-container {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* 禁止换行 */
             gap: 15px;
             margin-bottom: 25px;
             padding: 15px;
@@ -52,10 +53,14 @@
             border-radius: 10px;
             color: white;
             justify-content: center;
+            overflow: hidden; /* 防止内容溢出 */
         }
         
+        /* 筛选按钮 - 关键修改部分 */
         .filter-btn {
-            padding: 10px 20px;
+            flex: 1; /* 平分宽度 */
+            min-width: 0; /* 允许内容压缩 */
+            padding: 10px 15px;
             background: rgba(255,255,255,0.2);
             border: 1px solid rgba(255,255,255,0.3);
             border-radius: 6px;
@@ -67,8 +72,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            min-width: 150px;
-            justify-content: center;
+            white-space: nowrap; /* 禁止文字换行 */
+            overflow: hidden; /* 隐藏溢出内容 */
         }
         
         .filter-btn:hover {
@@ -79,7 +84,7 @@
             flex: 1;
             text-align: center;
             overflow: hidden;
-            text-overflow: ellipsis;
+            text-overflow: ellipsis; /* 文字过长显示省略号 */
             white-space: nowrap;
         }
         
@@ -97,6 +102,18 @@
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px dashed var(--border-color);
+            position: relative;
+        }
+        
+        /* 列间虚线分隔线 */
+        th:not(:last-child):after,
+        td:not(:last-child):after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 10%;
+            height: 80%;
+            border-right: 1px dashed var(--border-color);
         }
         
         th {
@@ -108,7 +125,7 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
         
-        /* 添加斑马条纹效果 */
+        /* 斑马条纹效果 */
         tbody tr:nth-child(odd) {
             background-color: var(--card-bg);
         }
@@ -298,34 +315,24 @@
             margin-bottom: 10px;
         }
         
+        /* 移动端适配 - 关键修改部分 */
         @media (max-width: 768px) {
             .filter-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            th, td {
-                padding: 8px 10px;
-                font-size: 0.9rem;
-            }
-            
-            .practice-btn {
-                padding: 10px 20px;
-                font-size: 0.95rem;
-            }
-            
-            .modal-content {
-                width: 95%;
+                padding: 10px 8px; /* 缩小内边距 */
+                gap: 8px; /* 缩小按钮间距 */
             }
             
             .filter-btn {
-                min-width: 120px;
-                padding: 8px 12px;
+                padding: 8px 5px; /* 缩小按钮内边距 */
+                font-size: 0.85rem; /* 调小字体 */
+                min-width: 0; /* 允许进一步压缩 */
             }
+            
+            .filter-btn i {
+                font-size: 0.8em; /* 调小图标 */
+                margin-right: 2px; /* 缩小图标间距 */
+            }
+            
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -336,12 +343,12 @@
         
         <div class="filter-container">
             <button id="grade-btn" class="filter-btn">
-                <i class="fas fa-graduation-cap"></i>
+
                 <span class="filter-btn-text" id="grade-btn-text">选择年级</span>
             </button>
             
             <button id="unit-btn" class="filter-btn" disabled>
-                <i class="fas fa-layer-group"></i>
+
                 <span class="filter-btn-text" id="unit-btn-text">选择单元</span>
             </button>
         </div>
@@ -469,46 +476,45 @@
         }
         
         // 更新按钮显示文本
-// 更新按钮显示文本
-function updateButtonText() {
-    const gradeBtnText = document.getElementById('grade-btn-text');
-    const unitBtnText = document.getElementById('unit-btn-text');
-    const unitBtn = document.getElementById('unit-btn');
-    
-    if (selectedGrades.length === 0) {
-        gradeBtnText.textContent = '选择年级';
-        unitBtnText.textContent = '选择单元';
-        unitBtn.disabled = true;
-    } else {
-        // 检查是否选中了全部年级
-        if (selectedGrades.length === allGrades.length) {
-            gradeBtnText.textContent = '全部';
-        } else {
-            // 显示第一个选中的年级
-            gradeBtnText.textContent = selectedGrades[0];
-            if (selectedGrades.length > 1) {
-                gradeBtnText.textContent += '...';
-            }
-        }
-        
-        if (selectedUnits.length === 0) {
-            unitBtnText.textContent = '选择单元';
-        } else {
-            // 检查是否选中了全部单元
-            if (selectedUnits.length === allUnits.length) {
-                unitBtnText.textContent = '全部';
+        function updateButtonText() {
+            const gradeBtnText = document.getElementById('grade-btn-text');
+            const unitBtnText = document.getElementById('unit-btn-text');
+            const unitBtn = document.getElementById('unit-btn');
+            
+            if (selectedGrades.length === 0) {
+                gradeBtnText.textContent = '选择年级';
+                unitBtnText.textContent = '选择单元';
+                unitBtn.disabled = true;
             } else {
-                // 显示第一个选中的单元
-                unitBtnText.textContent = selectedUnits[0];
-                if (selectedUnits.length > 1) {
-                    unitBtnText.textContent += '...';
+                // 检查是否选中了全部年级
+                if (selectedGrades.length === allGrades.length) {
+                    gradeBtnText.textContent = '全部';
+                } else {
+                    // 显示第一个选中的年级
+                    gradeBtnText.textContent = selectedGrades[0];
+                    if (selectedGrades.length > 1) {
+                        gradeBtnText.textContent += '...';
+                    }
                 }
+                
+                if (selectedUnits.length === 0) {
+                    unitBtnText.textContent = '选择单元';
+                } else {
+                    // 检查是否选中了全部单元
+                    if (selectedUnits.length === allUnits.length) {
+                        unitBtnText.textContent = '全部';
+                    } else {
+                        // 显示第一个选中的单元
+                        unitBtnText.textContent = selectedUnits[0];
+                        if (selectedUnits.length > 1) {
+                            unitBtnText.textContent += '...';
+                        }
+                    }
+                }
+                
+                unitBtn.disabled = false;
             }
         }
-        
-        unitBtn.disabled = false;
-    }
-}
         
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
@@ -708,9 +714,9 @@ function updateButtonText() {
             data.forEach((word, index) => {
                 const row = document.createElement('tr');
                 
-                // 序号列
+                // 序号列（添加小数点）
                 const indexCell = document.createElement('td');
-                indexCell.textContent = index + 1;
+                indexCell.textContent = `${index + 1}.`;
                 row.appendChild(indexCell);
                 
                 // 英语列
