@@ -97,6 +97,24 @@ table {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    table-layout: fixed; /* 新增：固定表格布局 */
+}
+
+/* 列宽设置 */
+th:nth-child(1), td:nth-child(1) {
+    width: 8%; /* 序号列宽度 */
+}
+
+th:nth-child(2), td:nth-child(2) {
+    width: 36%; /* 英语列宽度 */
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 36%; /* 中文列宽度 */
+}
+
+th:nth-child(4), td:nth-child(4) {
+    width: 20%; /* 词性列宽度 */
 }
 
 th, td {
@@ -471,6 +489,11 @@ tr:hover {
 
 /* 移动端适配 */
 @media (max-width: 768px) {
+
+    table {
+        table-layout: fixed; /* 确保移动端也使用固定布局 */
+        width: 100%; /* 确保宽度100% */
+    }
     .filter-container {
         padding: 10px 8px;
         gap: 8px;
