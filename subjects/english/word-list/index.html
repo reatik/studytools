@@ -51,80 +51,75 @@
             background: var(--secondary-color);
             border-radius: 10px;
             color: white;
+            justify-content: center;
         }
         
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        label {
-            font-weight: 500;
-            font-size: 1rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-            width: 50px;
-        }
-        
-        select {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.3);
+        .filter-btn {
+            padding: 10px 20px;
             background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
             color: white;
             font-weight: 500;
             cursor: pointer;
             font-size: 0.95rem;
-            flex: 1;
-            min-width: 160px;
-            width: 100%;
-            box-sizing: border-box;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 150px;
+            justify-content: center;
         }
         
-        select option {
-            color: #333;
-            background: white;
+        .filter-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .filter-btn-text {
+            flex: 1;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         
         table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        background: var(--light-color);
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    
-    th, td {
-        padding: 12px 15px;
-        text-align: left;
-        border-bottom: 1px dashed var(--border-color);
-    }
-    
-    th {
-        background: var(--secondary-color);
-        color: white;
-        font-weight: 600;
-        position: sticky;
-        top: 0;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    }
-    
-    /* 添加斑马条纹效果 */
-    tbody tr:nth-child(odd) {
-        background-color: var(--card-bg); /* 白色 */
-    }
-    
-    tbody tr:nth-child(even) {
-        background-color: rgba(89, 192, 158, 0.1); /* 浅绿色，透明度10% */
-    }
-    
-    tr:hover {
-        background-color: var(--hover-bg) !important;
-    }
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: var(--light-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        th {
+            background: var(--secondary-color);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        /* 添加斑马条纹效果 */
+        tbody tr:nth-child(odd) {
+            background-color: var(--card-bg);
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: rgba(89, 192, 158, 0.1);
+        }
+        
+        tr:hover {
+            background-color: var(--hover-bg) !important;
+        }
         
         .english-cell {
             cursor: pointer;
@@ -196,13 +191,117 @@
             transform: translateX(3px);
         }
         
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .modal-body {
+            margin-bottom: 15px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .modal-btn {
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+        }
+        
+        .modal-btn-primary:hover {
+            background-color: #4aaf8a;
+        }
+        
+        .modal-btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+            border: none;
+        }
+        
+        .modal-btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+        
+        .select-all {
+            font-weight: bold;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+        
         @media (max-width: 768px) {
             .filter-container {
                 flex-direction: column;
-            }
-            
-            .filter-group {
-                width: 100%;
+                align-items: center;
             }
             
             h1 {
@@ -218,6 +317,15 @@
                 padding: 10px 20px;
                 font-size: 0.95rem;
             }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .filter-btn {
+                min-width: 120px;
+                padding: 8px 12px;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -227,19 +335,15 @@
         <h1>单词列表</h1>
         
         <div class="filter-container">
-            <div class="filter-group">
-                <label for="grade-filter">年级:</label>
-                <select id="grade-filter">
-                    <option value="">请选择年级</option>
-                </select>
-            </div>
+            <button id="grade-btn" class="filter-btn">
+                <i class="fas fa-graduation-cap"></i>
+                <span class="filter-btn-text" id="grade-btn-text">选择年级</span>
+            </button>
             
-            <div class="filter-group">
-                <label for="unit-filter">单元:</label>
-                <select id="unit-filter" disabled>
-                    <option value="">请先选择年级</option>
-                </select>
-            </div>
+            <button id="unit-btn" class="filter-btn" disabled>
+                <i class="fas fa-layer-group"></i>
+                <span class="filter-btn-text" id="unit-btn-text">选择单元</span>
+            </button>
         </div>
         
         <table id="words-table">
@@ -275,6 +379,48 @@
         </div>
     </div>
 
+    <!-- 年级选择弹窗 -->
+    <div id="grade-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">选择年级</div>
+                <button class="close-btn" id="close-grade-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="select-all checkbox-item">
+                    <input type="checkbox" id="select-all-grades">
+                    <label for="select-all-grades">全部年级</label>
+                </div>
+                <div class="checkbox-group" id="grade-checkboxes"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" id="cancel-grade">取消</button>
+                <button class="modal-btn modal-btn-primary" id="confirm-grade">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 单元选择弹窗 -->
+    <div id="unit-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">选择单元</div>
+                <button class="close-btn" id="close-unit-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="select-all checkbox-item">
+                    <input type="checkbox" id="select-all-units">
+                    <label for="select-all-units">全部单元</label>
+                </div>
+                <div class="checkbox-group" id="unit-checkboxes"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" id="cancel-unit">取消</button>
+                <button class="modal-btn modal-btn-primary" id="confirm-unit">确认</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 从words.js中获取单词数据
         const words = wordData.words;
@@ -282,6 +428,10 @@
         // 状态变量
         let englishVisible = true;
         let chineseVisible = true;
+        let selectedGrades = [];
+        let selectedUnits = [];
+        let allGrades = [];
+        let allUnits = [];
         
         // 自定义年级排序函数
         function sortGrades(a, b) {
@@ -309,66 +459,202 @@
             return a.localeCompare(b);
         }
         
+        // 自定义单元排序函数（按数字1,2,3...排序）
+        function sortUnits(a, b) {
+            // 提取数字部分
+            const aNum = parseInt(a.match(/\d+/)?.[0] || 0);
+            const bNum = parseInt(b.match(/\d+/)?.[0] || 0);
+            
+            return aNum - bNum;
+        }
+        
+        // 更新按钮显示文本
+// 更新按钮显示文本
+function updateButtonText() {
+    const gradeBtnText = document.getElementById('grade-btn-text');
+    const unitBtnText = document.getElementById('unit-btn-text');
+    const unitBtn = document.getElementById('unit-btn');
+    
+    if (selectedGrades.length === 0) {
+        gradeBtnText.textContent = '选择年级';
+        unitBtnText.textContent = '选择单元';
+        unitBtn.disabled = true;
+    } else {
+        // 检查是否选中了全部年级
+        if (selectedGrades.length === allGrades.length) {
+            gradeBtnText.textContent = '全部';
+        } else {
+            // 显示第一个选中的年级
+            gradeBtnText.textContent = selectedGrades[0];
+            if (selectedGrades.length > 1) {
+                gradeBtnText.textContent += '...';
+            }
+        }
+        
+        if (selectedUnits.length === 0) {
+            unitBtnText.textContent = '选择单元';
+        } else {
+            // 检查是否选中了全部单元
+            if (selectedUnits.length === allUnits.length) {
+                unitBtnText.textContent = '全部';
+            } else {
+                // 显示第一个选中的单元
+                unitBtnText.textContent = selectedUnits[0];
+                if (selectedUnits.length > 1) {
+                    unitBtnText.textContent += '...';
+                }
+            }
+        }
+        
+        unitBtn.disabled = false;
+    }
+}
+        
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
-            // 填充年级筛选选项
-            const gradeFilter = document.getElementById('grade-filter');
-            const grades = [...new Set(words.map(word => word.grade))].filter(grade => grade);
-            grades.sort(sortGrades);
+            // 获取所有年级并排序
+            allGrades = [...new Set(words.map(word => word.grade))].filter(grade => grade);
+            allGrades.sort(sortGrades);
             
-            grades.forEach(grade => {
-                const option = document.createElement('option');
-                option.value = grade;
-                option.textContent = grade;
-                gradeFilter.appendChild(option);
+            // 填充年级复选框
+            const gradeCheckboxes = document.getElementById('grade-checkboxes');
+            allGrades.forEach(grade => {
+                const div = document.createElement('div');
+                div.className = 'checkbox-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="grade-${grade}" value="${grade}">
+                    <label for="grade-${grade}">${grade}</label>
+                `;
+                gradeCheckboxes.appendChild(div);
             });
             
-            // 绑定年级筛选器变化事件
-            gradeFilter.addEventListener('change', function() {
-                const selectedGrade = this.value;
-                const unitFilter = document.getElementById('unit-filter');
+            // 绑定年级按钮点击事件
+            document.getElementById('grade-btn').addEventListener('click', function() {
+                // 打开年级弹窗
+                document.getElementById('grade-modal').style.display = 'flex';
                 
-                // 清空单元筛选器
-                unitFilter.innerHTML = '<option value="">请选择单元</option>';
+                // 设置已选中的年级
+                const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = selectedGrades.includes(checkbox.value);
+                });
                 
-                if (selectedGrade) {
-                    // 启用单元筛选器
-                    unitFilter.disabled = false;
-                    
-                    // 获取该年级下的所有单元
-                    const unitsInGrade = [...new Set(
-                        words.filter(word => word.grade === selectedGrade)
-                             .map(word => word.unit)
-                    )].filter(unit => unit);
-                    
-                    // 单元按数字排序
-                    unitsInGrade.sort((a, b) => {
-                        const aNum = parseInt(a.match(/\d+/)?.[0] || 0);
-                        const bNum = parseInt(b.match(/\d+/)?.[0] || 0);
-                        return aNum - bNum;
-                    });
-                    
-                    // 填充单元选项
-                    unitsInGrade.forEach(unit => {
-                        const option = document.createElement('option');
-                        option.value = unit;
-                        option.textContent = unit;
-                        unitFilter.appendChild(option);
-                    });
-                    
-                    // 如果没有选择单元，清空表格
-                    renderTable([]);
-                } else {
-                    // 如果没有选择年级，禁用单元筛选器并清空表格
-                    unitFilter.disabled = true;
-                    unitFilter.innerHTML = '<option value="">请先选择年级</option>';
-                    renderTable([]);
+                // 设置"全部年级"复选框状态
+                document.getElementById('select-all-grades').checked = 
+                    selectedGrades.length === allGrades.length && allGrades.length > 0;
+            });
+            
+            // 绑定单元按钮点击事件
+            document.getElementById('unit-btn').addEventListener('click', function() {
+                // 获取当前选中年级下的所有单元
+                const unitsInGrades = [...new Set(
+                    words.filter(word => selectedGrades.includes(word.grade))
+                         .map(word => word.unit)
+                )].filter(unit => unit);
+                
+                unitsInGrades.sort(sortUnits);
+                allUnits = unitsInGrades;
+                
+                // 填充单元复选框
+                const unitCheckboxes = document.getElementById('unit-checkboxes');
+                unitCheckboxes.innerHTML = '';
+                allUnits.forEach(unit => {
+                    const div = document.createElement('div');
+                    div.className = 'checkbox-item';
+                    div.innerHTML = `
+                        <input type="checkbox" id="unit-${unit}" value="${unit}">
+                        <label for="unit-${unit}">${unit}</label>
+                    `;
+                    unitCheckboxes.appendChild(div);
+                });
+                
+                // 打开单元弹窗
+                document.getElementById('unit-modal').style.display = 'flex';
+                
+                // 设置已选中的单元
+                const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = selectedUnits.includes(checkbox.value);
+                });
+                
+                // 设置"全部单元"复选框状态
+                document.getElementById('select-all-units').checked = 
+                    selectedUnits.length === allUnits.length && allUnits.length > 0;
+            });
+            
+            // 绑定"全部年级"复选框事件
+            document.getElementById('select-all-grades').addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+            
+            // 绑定"全部单元"复选框事件
+            document.getElementById('select-all-units').addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+            
+            // 绑定年级弹窗确认按钮
+            document.getElementById('confirm-grade').addEventListener('click', function() {
+                const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]:checked');
+                selectedGrades = Array.from(checkboxes).map(checkbox => checkbox.value);
+                
+                // 如果选中了"全部年级"
+                if (document.getElementById('select-all-grades').checked) {
+                    selectedGrades = [...allGrades];
                 }
+                
+                // 清空已选单元
+                selectedUnits = [];
+                updateButtonText();
+                applyFilters();
+                document.getElementById('grade-modal').style.display = 'none';
             });
             
-            // 绑定单元筛选器变化事件
-            document.getElementById('unit-filter').addEventListener('change', function() {
+            // 绑定单元弹窗确认按钮
+            document.getElementById('confirm-unit').addEventListener('click', function() {
+                const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]:checked');
+                selectedUnits = Array.from(checkboxes).map(checkbox => checkbox.value);
+                
+                // 如果选中了"全部单元"
+                if (document.getElementById('select-all-units').checked) {
+                    selectedUnits = [...allUnits];
+                }
+                
+                updateButtonText();
                 applyFilters();
+                document.getElementById('unit-modal').style.display = 'none';
+            });
+            
+            // 绑定弹窗关闭按钮
+            document.getElementById('close-grade-modal').addEventListener('click', function() {
+                document.getElementById('grade-modal').style.display = 'none';
+            });
+            
+            document.getElementById('close-unit-modal').addEventListener('click', function() {
+                document.getElementById('unit-modal').style.display = 'none';
+            });
+            
+            document.getElementById('cancel-grade').addEventListener('click', function() {
+                document.getElementById('grade-modal').style.display = 'none';
+            });
+            
+            document.getElementById('cancel-unit').addEventListener('click', function() {
+                document.getElementById('unit-modal').style.display = 'none';
+            });
+            
+            // 点击弹窗外部关闭弹窗
+            window.addEventListener('click', function(event) {
+                if (event.target === document.getElementById('grade-modal')) {
+                    document.getElementById('grade-modal').style.display = 'none';
+                }
+                if (event.target === document.getElementById('unit-modal')) {
+                    document.getElementById('unit-modal').style.display = 'none';
+                }
             });
             
             // 绑定点击事件（现在整个标题区域都可点击）
@@ -377,24 +663,29 @@
             
             // 绑定拼写练习按钮点击事件
             document.getElementById('practice-btn').addEventListener('click', function() {
-                const grade = document.getElementById('grade-filter').value;
-                const unit = document.getElementById('unit-filter').value;
-                
-                if (!grade) {
+                if (selectedGrades.length === 0) {
                     alert('请先选择年级');
                     return;
                 }
                 
                 // 构造URL参数
                 let params = new URLSearchParams();
-                params.append('grade', grade);
-                if (unit) {
-                    params.append('unit', unit);
+                selectedGrades.forEach(grade => {
+                    params.append('grade', grade);
+                });
+                
+                if (selectedUnits.length > 0) {
+                    selectedUnits.forEach(unit => {
+                        params.append('unit', unit);
+                    });
                 }
                 
                 // 跳转到拼写练习页面
                 window.location.href = '../spellgame/index.html?' + params.toString();
             });
+            
+            // 初始化按钮文本
+            updateButtonText();
         });
         
         // 渲染表格函数
@@ -406,7 +697,7 @@
                 tableBody.innerHTML = `
                     <tr>
                         <td colspan="4" class="empty-message">
-                            ${document.getElementById('grade-filter').value ? 
+                            ${selectedGrades.length > 0 ? 
                               '请选择单元' : '请先选择年级'}
                         </td>
                     </tr>
@@ -460,21 +751,24 @@
         
         // 应用筛选条件
         function applyFilters() {
-            const gradeFilter = document.getElementById('grade-filter').value;
-            const unitFilter = document.getElementById('unit-filter').value;
-            
-            if (!gradeFilter) {
+            if (selectedGrades.length === 0) {
                 renderTable([]);
                 return;
             }
             
-            let filteredWords = words.filter(word => word.grade === gradeFilter);
+            let filteredWords = words.filter(word => selectedGrades.includes(word.grade));
             
-            if (unitFilter) {
-                filteredWords = filteredWords.filter(word => word.unit === unitFilter);
+            if (selectedUnits.length > 0) {
+                filteredWords = filteredWords.filter(word => selectedUnits.includes(word.unit));
             }
             
-            filteredWords.sort((a, b) => a.unit.localeCompare(b.unit));
+            // 按年级和单元排序
+            filteredWords.sort((a, b) => {
+                const gradeCompare = sortGrades(a.grade, b.grade);
+                if (gradeCompare !== 0) return gradeCompare;
+                return sortUnits(a.unit, b.unit);
+            });
+            
             renderTable(filteredWords);
         }
         
