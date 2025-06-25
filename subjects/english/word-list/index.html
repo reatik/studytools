@@ -89,33 +89,42 @@
         }
         
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: var(--light-color);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px dashed var(--border-color);
-        }
-        
-        th {
-            background: var(--secondary-color);
-            color: white;
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-        
-        tr:hover {
-            background-color: var(--hover-bg);
-        }
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: var(--light-color);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px dashed var(--border-color);
+    }
+    
+    th {
+        background: var(--secondary-color);
+        color: white;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    /* 添加斑马条纹效果 */
+    tbody tr:nth-child(odd) {
+        background-color: var(--card-bg); /* 白色 */
+    }
+    
+    tbody tr:nth-child(even) {
+        background-color: rgba(89, 192, 158, 0.1); /* 浅绿色，透明度10% */
+    }
+    
+    tr:hover {
+        background-color: var(--hover-bg) !important;
+    }
         
         .english-cell {
             cursor: pointer;
