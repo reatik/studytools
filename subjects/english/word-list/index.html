@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../words.js"></script>
+    <title>单词列表</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #59c09e;
+            --accent-color: #FF6B6B;
+            --light-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #d9d9d9;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --hover-bg: rgba(110, 203, 99, 0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f9f5;
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #3e7563;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            padding: 15px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: var(--secondary-color);
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        label {
+            font-weight: 500;
+            font-size: 1rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            width: 50px;
+        }
+        
+        select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.95rem;
+            flex: 1;
+            min-width: 160px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        select option {
+            color: #333;
+            background: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: var(--light-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        th {
+            background: var(--secondary-color);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        tr:hover {
+            background-color: var(--hover-bg);
+        }
+        
+        .english-cell {
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .hidden-content {
+            color: transparent;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .column-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .eye-icon {
+            font-size: 0.8em;
+            opacity: 0.8;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .practice-btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .practice-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .practice-btn:hover {
+            background-color: #4aaf8a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .practice-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .practice-btn i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .practice-btn:hover i {
+            transform: translateX(3px);
+        }
+        
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .practice-btn {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>单词列表</h1>
+        
+        <div class="filter-container">
+            <div class="filter-group">
+                <label for="grade-filter">年级:</label>
+                <select id="grade-filter">
+                    <option value="">请选择年级</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="unit-filter">单元:</label>
+                <select id="unit-filter" disabled>
+                    <option value="">请先选择年级</option>
+                </select>
+            </div>
+        </div>
+        
+        <table id="words-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>
+                        <div class="column-header" id="toggle-english">
+                            <span>英语</span>
+                            <i class="fas fa-eye eye-icon" id="english-eye"></i>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="column-header" id="toggle-chinese">
+                            <span>中文</span>
+                            <i class="fas fa-eye eye-icon" id="chinese-eye"></i>
+                        </div>
+                    </th>
+                    <th>词性</th>
+                </tr>
+            </thead>
+            <tbody id="words-table-body">
+                <tr>
+                    <td colspan="4" class="empty-message">请先选择年级和单元</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="practice-btn-container">
+            <button id="practice-btn" class="practice-btn">
+                拼写练习 <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 从words.js中获取单词数据
+        const words = wordData.words;
+        
+        // 状态变量
+        let englishVisible = true;
+        let chineseVisible = true;
+        
+        // 自定义年级排序函数
+        function sortGrades(a, b) {
+            // 定义年级顺序
+            const gradeOrder = [
+                "一年级上", "一年级下",
+                "二年级上", "二年级下",
+                "三年级上", "三年级下",
+                "四年级上", "四年级下",
+                "五年级上", "五年级下",
+                "六年级上", "六年级下",
+                "七年级上", "七年级下"
+            ];
+            
+            // 获取年级在预定义顺序中的索引
+            const aIndex = gradeOrder.indexOf(a);
+            const bIndex = gradeOrder.indexOf(b);
+            
+            // 如果年级在预定义列表中，按列表顺序排序
+            if (aIndex !== -1 && bIndex !== -1) {
+                return aIndex - bIndex;
+            }
+            
+            // 不在列表中的年级按字符串排序
+            return a.localeCompare(b);
+        }
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 填充年级筛选选项
+            const gradeFilter = document.getElementById('grade-filter');
+            const grades = [...new Set(words.map(word => word.grade))].filter(grade => grade);
+            grades.sort(sortGrades);
+            
+            grades.forEach(grade => {
+                const option = document.createElement('option');
+                option.value = grade;
+                option.textContent = grade;
+                gradeFilter.appendChild(option);
+            });
+            
+            // 绑定年级筛选器变化事件
+            gradeFilter.addEventListener('change', function() {
+                const selectedGrade = this.value;
+                const unitFilter = document.getElementById('unit-filter');
+                
+                // 清空单元筛选器
+                unitFilter.innerHTML = '<option value="">请选择单元</option>';
+                
+                if (selectedGrade) {
+                    // 启用单元筛选器
+                    unitFilter.disabled = false;
+                    
+                    // 获取该年级下的所有单元
+                    const unitsInGrade = [...new Set(
+                        words.filter(word => word.grade === selectedGrade)
+                             .map(word => word.unit)
+                    )].filter(unit => unit);
+                    
+                    // 单元按数字排序
+                    unitsInGrade.sort((a, b) => {
+                        const aNum = parseInt(a.match(/\d+/)?.[0] || 0);
+                        const bNum = parseInt(b.match(/\d+/)?.[0] || 0);
+                        return aNum - bNum;
+                    });
+                    
+                    // 填充单元选项
+                    unitsInGrade.forEach(unit => {
+                        const option = document.createElement('option');
+                        option.value = unit;
+                        option.textContent = unit;
+                        unitFilter.appendChild(option);
+                    });
+                    
+                    // 如果没有选择单元，清空表格
+                    renderTable([]);
+                } else {
+                    // 如果没有选择年级，禁用单元筛选器并清空表格
+                    unitFilter.disabled = true;
+                    unitFilter.innerHTML = '<option value="">请先选择年级</option>';
+                    renderTable([]);
+                }
+            });
+            
+            // 绑定单元筛选器变化事件
+            document.getElementById('unit-filter').addEventListener('change', function() {
+                applyFilters();
+            });
+            
+            // 绑定点击事件（现在整个标题区域都可点击）
+            document.getElementById('toggle-english').addEventListener('click', toggleEnglish);
+            document.getElementById('toggle-chinese').addEventListener('click', toggleChinese);
+            
+            // 绑定拼写练习按钮点击事件
+            document.getElementById('practice-btn').addEventListener('click', function() {
+                const grade = document.getElementById('grade-filter').value;
+                const unit = document.getElementById('unit-filter').value;
+                
+                if (!grade) {
+                    alert('请先选择年级');
+                    return;
+                }
+                
+                // 构造URL参数
+                let params = new URLSearchParams();
+                params.append('grade', grade);
+                if (unit) {
+                    params.append('unit', unit);
+                }
+                
+                // 跳转到拼写练习页面
+                window.location.href = '../spellgame/index.html?' + params.toString();
+            });
+        });
+        
+        // 渲染表格函数
+        function renderTable(data) {
+            const tableBody = document.getElementById('words-table-body');
+            tableBody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="empty-message">
+                            ${document.getElementById('grade-filter').value ? 
+                              '请选择单元' : '请先选择年级'}
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            data.forEach((word, index) => {
+                const row = document.createElement('tr');
+                
+                // 序号列
+                const indexCell = document.createElement('td');
+                indexCell.textContent = index + 1;
+                row.appendChild(indexCell);
+                
+                // 英语列
+                const englishCell = document.createElement('td');
+                englishCell.className = 'english-cell';
+                englishCell.textContent = word.english;
+                if (!englishVisible) englishCell.classList.add('hidden-content');
+                englishCell.addEventListener('click', () => {
+                    speakWord(word.english);
+                    if (englishCell.classList.contains('hidden-content')) {
+                        englishCell.classList.remove('hidden-content');
+                    }
+                });
+                row.appendChild(englishCell);
+                
+                // 中文列
+                const chineseCell = document.createElement('td');
+                chineseCell.textContent = word.chinese;
+                if (!chineseVisible) chineseCell.classList.add('hidden-content');
+                chineseCell.addEventListener('click', () => {
+                    if (chineseCell.classList.contains('hidden-content')) {
+                        chineseCell.classList.remove('hidden-content');
+                    }
+                });
+                row.appendChild(chineseCell);
+                
+                // 词性列
+                const posCell = document.createElement('td');
+                posCell.textContent = word.pos;
+                row.appendChild(posCell);
+                
+                tableBody.appendChild(row);
+            });
+            
+            // 更新眼睛图标状态
+            updateEyeIcons();
+        }
+        
+        // 应用筛选条件
+        function applyFilters() {
+            const gradeFilter = document.getElementById('grade-filter').value;
+            const unitFilter = document.getElementById('unit-filter').value;
+            
+            if (!gradeFilter) {
+                renderTable([]);
+                return;
+            }
+            
+            let filteredWords = words.filter(word => word.grade === gradeFilter);
+            
+            if (unitFilter) {
+                filteredWords = filteredWords.filter(word => word.unit === unitFilter);
+            }
+            
+            filteredWords.sort((a, b) => a.unit.localeCompare(b.unit));
+            renderTable(filteredWords);
+        }
+        
+        // 切换英语列显示
+        function toggleEnglish() {
+            englishVisible = !englishVisible;
+            const englishCells = document.querySelectorAll('.english-cell');
+            
+            englishCells.forEach(cell => {
+                if (englishVisible) {
+                    cell.classList.remove('hidden-content');
+                } else {
+                    cell.classList.add('hidden-content');
+                }
+            });
+            
+            updateEyeIcons();
+        }
+        
+        // 切换中文列显示
+        function toggleChinese() {
+            chineseVisible = !chineseVisible;
+            const chineseCells = document.querySelectorAll('td:nth-child(3)');
+            
+            chineseCells.forEach(cell => {
+                if (chineseVisible) {
+                    cell.classList.remove('hidden-content');
+                } else {
+                    cell.classList.add('hidden-content');
+                }
+            });
+            
+            updateEyeIcons();
+        }
+        
+        // 更新眼睛图标状态
+        function updateEyeIcons() {
+            const englishEye = document.getElementById('english-eye');
+            const chineseEye = document.getElementById('chinese-eye');
+            
+            englishEye.className = englishVisible ? 'fas fa-eye eye-icon' : 'fas fa-eye-slash eye-icon';
+            chineseEye.className = chineseVisible ? 'fas fa-eye eye-icon' : 'fas fa-eye-slash eye-icon';
+        }
+        
+        // 朗读单词
+        function speakWord(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+    </script>
+</body>
+</html>
