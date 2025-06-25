@@ -97,31 +97,37 @@ table {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    table-layout: fixed; /* 新增：固定表格布局 */
+    table-layout: fixed;
+    font-size: 0.8rem;
 }
 
 /* 列宽设置 */
 th:nth-child(1), td:nth-child(1) {
-    width: 8%; /* 序号列宽度 */
+    width: 5%;
+    white-space: nowrap;
 }
 
 th:nth-child(2), td:nth-child(2) {
-    width: 36%; /* 英语列宽度 */
+    width: 36%;
 }
 
 th:nth-child(3), td:nth-child(3) {
-    width: 36%; /* 中文列宽度 */
+    width: 36%;
 }
 
 th:nth-child(4), td:nth-child(4) {
-    width: 20%; /* 词性列宽度 */
+    width: 20%;
 }
 
+/* 基础单元格样式 */
 th, td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px dashed var(--border-color);
     position: relative;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 th:not(:last-child):after,
@@ -158,6 +164,7 @@ tr:hover {
 .english-cell {
     cursor: pointer;
     font-weight: 500;
+    position: relative;
 }
 
 .hidden-content {
@@ -182,6 +189,54 @@ tr:hover {
     padding: 20px;
     color: #666;
     font-style: italic;
+}
+
+.phonetic-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white; /* 改为白色背景 */
+    color: var(--text-color); /* 使用主文本颜色 */
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border: 1px solid var(--border-color); /* 添加边框 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加阴影 */
+}
+
+.english-cell:hover .phonetic-tooltip {
+    opacity: 1;
+}
+
+/* 移动端长按提示 */
+@media (max-width: 768px) {
+    .phonetic-tooltip {
+        display: none;
+    }
+    
+    .phonetic-tooltip-mobile {
+    position: fixed;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white; /* 改为白色背景 */
+    color: var(--text-color); /* 使用主文本颜色 */
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 1rem;
+    z-index: 100;
+    text-align: center;
+    max-width: 80%;
+    word-break: break-word;
+    border: 1px solid var(--border-color); /* 添加边框 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* 添加阴影 */
+}
 }
 
 /* 练习按钮 */
@@ -270,7 +325,7 @@ tr:hover {
     min-width: 0;
 }
 
-/* 单元选择容器 - 优化布局 */
+/* 单元选择容器 */
 .unit-container {
     display: flex;
     flex-wrap: wrap;
@@ -280,7 +335,6 @@ tr:hover {
     box-sizing: border-box;
 }
 
-/* 单元项 - 精确计算宽度确保每行两个 */
 .unit-item {
     flex: 0 0 calc(50% - 6px);
     box-sizing: border-box;
@@ -288,7 +342,7 @@ tr:hover {
     transition: all 0.2s ease;
 }
 
-/* 复选框项 - 增强点击区域 */
+/* 复选框项 */
 .checkbox-item {
     width: 100%;
     box-sizing: border-box;
@@ -311,47 +365,9 @@ tr:hover {
     border-color: var(--secondary-color);
 }
 
-/* 隐藏原生复选框，使用自定义样式 */
-.checkbox-item input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    margin: 0;
-    cursor: pointer;
-    z-index: 1;
-}
-
-/* 自定义复选框样式 */
-.checkbox-item label {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-}
-
-.checkbox-item label::before {
-    content: "";
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    border: 2px solid var(--secondary-color);
-    border-radius: 4px;
+.checkbox-item input {
     margin-right: 10px;
-    background-color: white;
-    transition: all 0.2s ease;
-}
-
-.checkbox-item input[type="checkbox"]:checked + label::before {
-    background-color: var(--secondary-color);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 12px;
+    accent-color: var(--secondary-color);
 }
 
 /* 全选样式 */
@@ -364,46 +380,10 @@ tr:hover {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
-    position: relative;
 }
 
-.select-all input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    margin: 0;
-    cursor: pointer;
-    z-index: 1;
-}
-
-.select-all label {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    cursor: pointer;
-}
-
-.select-all label::before {
-    content: "";
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    border: 2px solid var(--secondary-color);
-    border-radius: 4px;
+.select-all input {
     margin-right: 10px;
-    background-color: white;
-    transition: all 0.2s ease;
-}
-
-.select-all input[type="checkbox"]:checked + label::before {
-    background-color: var(--secondary-color);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 12px;
 }
 
 /* 弹窗头部和底部 */
@@ -468,32 +448,13 @@ tr:hover {
     background-color: #e0e0e0;
 }
 
-/* 滚动条样式 */
-.unit-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.unit-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-
-.unit-container::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 3px;
-}
-
-.unit-container::-webkit-scrollbar-thumb:hover {
-    background: #aaa;
-}
-
 /* 移动端适配 */
 @media (max-width: 768px) {
-
     table {
-        table-layout: fixed; /* 确保移动端也使用固定布局 */
-        width: 100%; /* 确保宽度100% */
+        table-layout: fixed;
+        width: 100%;
     }
+    
     .filter-container {
         padding: 10px 8px;
         gap: 8px;
@@ -510,6 +471,26 @@ tr:hover {
         margin-right: 2px;
     }
     
+    th:nth-child(1), td:nth-child(1) {
+        width: 8%;
+    }
+    
+    th:nth-child(2), td:nth-child(2) {
+        width: 40%;
+    }
+    
+    th:nth-child(3), td:nth-child(3) {
+        width: 40%;
+    }
+    
+    th:nth-child(4), td:nth-child(4) {
+        width: 12%;
+    }
+    
+    th, td {
+        padding: 10px 8px;
+    }
+    
     .unit-item {
         flex: 0 0 100%;
     }
@@ -523,7 +504,6 @@ tr:hover {
         padding: 10px 12px;
     }
 }
-
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -568,6 +548,9 @@ tr:hover {
         </table>
         
         <div class="practice-btn-container">
+            <button id="match-btn" class="practice-btn">
+                中英配对 <i class="fas fa-arrow-right"></i>
+            </button>
             <button id="practice-btn" class="practice-btn">
                 拼写练习 <i class="fas fa-arrow-right"></i>
             </button>
@@ -616,421 +599,483 @@ tr:hover {
         </div>
     </div>
 
+    <!-- 移动端音标提示 -->
+    <div id="phonetic-tooltip-mobile" class="phonetic-tooltip-mobile" style="display: none;"></div>
+
     <script>
-        // 从words.js中获取单词数据
-        const words = wordData.words;
-        
-        // 状态变量
-        let englishVisible = true;
-        let chineseVisible = true;
-        let selectedGrades = [];
-        let selectedUnits = [];
-        let allGrades = [];
-        let allUnits = [];
-        
-        // 自定义年级排序函数
-        function sortGrades(a, b) {
-            const gradeOrder = [
-                "一年级上", "一年级下",
-                "二年级上", "二年级下",
-                "三年级上", "三年级下",
-                "四年级上", "四年级下",
-                "五年级上", "五年级下",
-                "六年级上", "六年级下",
-                "七年级上", "七年级下"
-            ];
-            
-            const aIndex = gradeOrder.indexOf(a);
-            const bIndex = gradeOrder.indexOf(b);
-            
-            if (aIndex !== -1 && bIndex !== -1) {
-                return aIndex - bIndex;
+// 从words.js中获取单词数据
+const words = wordData.words;
+
+// 状态变量
+let englishVisible = true;
+let chineseVisible = true;
+let selectedGrades = [];
+let selectedUnits = [];
+let allGrades = [];
+let allUnits = [];
+let longPressTimer = null;
+const mobileTooltip = document.getElementById('phonetic-tooltip-mobile');
+
+// 自定义年级排序函数
+function sortGrades(a, b) {
+    const gradeOrder = [
+        "一年级上", "一年级下",
+        "二年级上", "二年级下",
+        "三年级上", "三年级下",
+        "四年级上", "四年级下",
+        "五年级上", "五年级下",
+        "六年级上", "六年级下",
+        "七年级上", "七年级下"
+    ];
+    
+    const aIndex = gradeOrder.indexOf(a);
+    const bIndex = gradeOrder.indexOf(b);
+    
+    if (aIndex !== -1 && bIndex !== -1) {
+        return aIndex - bIndex;
+    }
+    
+    return a.localeCompare(b);
+}
+
+// 自定义单元排序函数
+function sortUnits(a, b) {
+    const aNum = parseInt(a.match(/\d+/)?.[0] || 0);
+    const bNum = parseInt(b.match(/\d+/)?.[0] || 0);
+    return aNum - bNum;
+}
+
+// 更新按钮显示文本
+function updateButtonText() {
+    const gradeBtnText = document.getElementById('grade-btn-text');
+    const unitBtnText = document.getElementById('unit-btn-text');
+    const unitBtn = document.getElementById('unit-btn');
+    
+    if (selectedGrades.length === 0) {
+        gradeBtnText.textContent = '选择年级';
+        unitBtnText.textContent = '选择单元';
+        unitBtn.disabled = true;
+    } else {
+        if (selectedGrades.length === allGrades.length) {
+            gradeBtnText.textContent = '全部';
+        } else {
+            gradeBtnText.textContent = selectedGrades[0];
+            if (selectedGrades.length > 1) {
+                gradeBtnText.textContent += '...';
             }
-            
-            return a.localeCompare(b);
         }
         
-        // 自定义单元排序函数
-        function sortUnits(a, b) {
-            const aNum = parseInt(a.match(/\d+/)?.[0] || 0);
-            const bNum = parseInt(b.match(/\d+/)?.[0] || 0);
-            return aNum - bNum;
-        }
-        
-        // 更新按钮显示文本
-        function updateButtonText() {
-            const gradeBtnText = document.getElementById('grade-btn-text');
-            const unitBtnText = document.getElementById('unit-btn-text');
-            const unitBtn = document.getElementById('unit-btn');
-            
-            if (selectedGrades.length === 0) {
-                gradeBtnText.textContent = '选择年级';
-                unitBtnText.textContent = '选择单元';
-                unitBtn.disabled = true;
+        if (selectedUnits.length === 0) {
+            unitBtnText.textContent = '选择单元';
+        } else {
+            if (selectedUnits.length === allUnits.length) {
+                unitBtnText.textContent = '全部';
             } else {
-                if (selectedGrades.length === allGrades.length) {
-                    gradeBtnText.textContent = '全部';
-                } else {
-                    gradeBtnText.textContent = selectedGrades[0];
-                    if (selectedGrades.length > 1) {
-                        gradeBtnText.textContent += '...';
-                    }
+                unitBtnText.textContent = selectedUnits[0];
+                if (selectedUnits.length > 1) {
+                    unitBtnText.textContent += '...';
                 }
-                
-                if (selectedUnits.length === 0) {
-                    unitBtnText.textContent = '选择单元';
-                } else {
-                    if (selectedUnits.length === allUnits.length) {
-                        unitBtnText.textContent = '全部';
-                    } else {
-                        unitBtnText.textContent = selectedUnits[0];
-                        if (selectedUnits.length > 1) {
-                            unitBtnText.textContent += '...';
-                        }
-                    }
-                }
-                
-                unitBtn.disabled = false;
             }
         }
         
-        // 填充年级复选框（上下学期放在同一行）
-        function populateGradeCheckboxes() {
-            const gradeCheckboxes = document.getElementById('grade-checkboxes');
-            gradeCheckboxes.innerHTML = '';
-            
-            // 按年级分组（上、下）
-            const gradeMap = {};
-            allGrades.forEach(grade => {
-                const baseGrade = grade.replace(/[上下]$/, '');
-                if (!gradeMap[baseGrade]) {
-                    gradeMap[baseGrade] = [];
-                }
-                gradeMap[baseGrade].push(grade);
-            });
-            
-            // 创建年级复选框
-            Object.entries(gradeMap).forEach(([baseGrade, grades]) => {
-                const gradeRow = document.createElement('div');
-                gradeRow.className = 'grade-item';
-                
-                grades.forEach(grade => {
-                    const div = document.createElement('div');
-                    div.className = 'checkbox-item';
-                    div.innerHTML = `
-                        <input type="checkbox" id="grade-${grade}" value="${grade}">
-                        <label for="grade-${grade}">${grade}</label>
-                    `;
-                    gradeRow.appendChild(div);
-                });
-                
-                gradeCheckboxes.appendChild(gradeRow);
-            });
+        unitBtn.disabled = false;
+    }
+}
+
+// 填充年级复选框（上下学期放在同一行）
+function populateGradeCheckboxes() {
+    const gradeCheckboxes = document.getElementById('grade-checkboxes');
+    gradeCheckboxes.innerHTML = '';
+    
+    // 按年级分组（上、下）
+    const gradeMap = {};
+    allGrades.forEach(grade => {
+        const baseGrade = grade.replace(/[上下]$/, '');
+        if (!gradeMap[baseGrade]) {
+            gradeMap[baseGrade] = [];
         }
+        gradeMap[baseGrade].push(grade);
+    });
+    
+    // 创建年级复选框
+    Object.entries(gradeMap).forEach(([baseGrade, grades]) => {
+        const gradeRow = document.createElement('div');
+        gradeRow.className = 'grade-item';
         
-        // 填充单元复选框（从左到右，从上到下排列）
-        function populateUnitCheckboxes() {
-            const unitCheckboxes = document.getElementById('unit-checkboxes');
-            unitCheckboxes.innerHTML = '';
-            
-            if (allUnits.length === 0) return;
-            
-            const container = document.createElement('div');
-            container.className = 'unit-container';
-            
-            allUnits.forEach(unit => {
-                const div = document.createElement('div');
-                div.className = 'unit-item';
-                div.innerHTML = `
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="unit-${unit}" value="${unit}">
-                        <label for="unit-${unit}">${unit}</label>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-            
-            unitCheckboxes.appendChild(container);
-        }
-        
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', function() {
-            // 获取所有年级并排序
-            allGrades = [...new Set(words.map(word => word.grade))].filter(grade => grade);
-            allGrades.sort(sortGrades);
-            
-            // 填充年级复选框
-            populateGradeCheckboxes();
-            
-            // 绑定年级按钮点击事件
-            document.getElementById('grade-btn').addEventListener('click', function() {
-                document.getElementById('grade-modal').style.display = 'flex';
-                
-                const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = selectedGrades.includes(checkbox.value);
-                });
-                
-                document.getElementById('select-all-grades').checked = 
-                    selectedGrades.length === allGrades.length && allGrades.length > 0;
-            });
-            
-            // 绑定单元按钮点击事件
-            document.getElementById('unit-btn').addEventListener('click', function() {
-                const unitsInGrades = [...new Set(
-                    words.filter(word => selectedGrades.includes(word.grade))
-                         .map(word => word.unit)
-                )].filter(unit => unit);
-                
-                unitsInGrades.sort(sortUnits);
-                allUnits = unitsInGrades;
-                
-                // 填充单元复选框
-                populateUnitCheckboxes();
-                
-                document.getElementById('unit-modal').style.display = 'flex';
-                
-                const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = selectedUnits.includes(checkbox.value);
-                });
-                
-                document.getElementById('select-all-units').checked = 
-                    selectedUnits.length === allUnits.length && allUnits.length > 0;
-            });
-            
-            // 绑定"全部年级"复选框事件
-            document.getElementById('select-all-grades').addEventListener('change', function() {
-                const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = this.checked;
-                });
-            });
-            
-            // 绑定"全部单元"复选框事件
-            document.getElementById('select-all-units').addEventListener('change', function() {
-                const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = this.checked;
-                });
-            });
-            
-            // 绑定年级弹窗确认按钮
-            document.getElementById('confirm-grade').addEventListener('click', function() {
-                const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]:checked');
-                selectedGrades = Array.from(checkboxes).map(checkbox => checkbox.value);
-                
-                if (document.getElementById('select-all-grades').checked) {
-                    selectedGrades = [...allGrades];
-                }
-                
-                selectedUnits = [];
-                updateButtonText();
-                applyFilters();
-                document.getElementById('grade-modal').style.display = 'none';
-            });
-            
-            // 绑定单元弹窗确认按钮
-            document.getElementById('confirm-unit').addEventListener('click', function() {
-                const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]:checked');
-                selectedUnits = Array.from(checkboxes).map(checkbox => checkbox.value);
-                
-                if (document.getElementById('select-all-units').checked) {
-                    selectedUnits = [...allUnits];
-                }
-                
-                updateButtonText();
-                applyFilters();
-                document.getElementById('unit-modal').style.display = 'none';
-            });
-            
-            // 绑定弹窗关闭按钮
-            document.getElementById('close-grade-modal').addEventListener('click', function() {
-                document.getElementById('grade-modal').style.display = 'none';
-            });
-            
-            document.getElementById('close-unit-modal').addEventListener('click', function() {
-                document.getElementById('unit-modal').style.display = 'none';
-            });
-            
-            document.getElementById('cancel-grade').addEventListener('click', function() {
-                document.getElementById('grade-modal').style.display = 'none';
-            });
-            
-            document.getElementById('cancel-unit').addEventListener('click', function() {
-                document.getElementById('unit-modal').style.display = 'none';
-            });
-            
-            // 点击弹窗外部关闭弹窗
-            window.addEventListener('click', function(event) {
-                if (event.target === document.getElementById('grade-modal')) {
-                    document.getElementById('grade-modal').style.display = 'none';
-                }
-                if (event.target === document.getElementById('unit-modal')) {
-                    document.getElementById('unit-modal').style.display = 'none';
-                }
-            });
-            
-            // 绑定点击事件
-            document.getElementById('toggle-english').addEventListener('click', toggleEnglish);
-            document.getElementById('toggle-chinese').addEventListener('click', toggleChinese);
-            
-            // 绑定拼写练习按钮点击事件
-            document.getElementById('practice-btn').addEventListener('click', function() {
-                if (selectedGrades.length === 0) {
-                    alert('请先选择年级');
-                    return;
-                }
-                
-                let params = new URLSearchParams();
-                selectedGrades.forEach(grade => {
-                    params.append('grade', grade);
-                });
-                
-                if (selectedUnits.length > 0) {
-                    selectedUnits.forEach(unit => {
-                        params.append('unit', unit);
-                    });
-                }
-                
-                window.location.href = '../spellgame/index.html?' + params.toString();
-            });
-            
-            updateButtonText();
+        grades.forEach(grade => {
+            const div = document.createElement('div');
+            div.className = 'checkbox-item';
+            div.innerHTML = `
+                <input type="checkbox" id="grade-${grade}" value="${grade}">
+                <label for="grade-${grade}">${grade}</label>
+            `;
+            gradeRow.appendChild(div);
         });
         
-        // 渲染表格函数
-        function renderTable(data) {
-            const tableBody = document.getElementById('words-table-body');
-            tableBody.innerHTML = '';
-            
-            if (data.length === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="empty-message">
-                            ${selectedGrades.length > 0 ? 
-                              '请选择单元' : '请先选择年级'}
-                        </td>
-                    </tr>
-                `;
-                return;
+        gradeCheckboxes.appendChild(gradeRow);
+    });
+}
+
+// 填充单元复选框（从左到右，从上到下排列）
+function populateUnitCheckboxes() {
+    const unitCheckboxes = document.getElementById('unit-checkboxes');
+    unitCheckboxes.innerHTML = '';
+    
+    if (allUnits.length === 0) return;
+    
+    const container = document.createElement('div');
+    container.className = 'unit-container';
+    
+    allUnits.forEach(unit => {
+        const div = document.createElement('div');
+        div.className = 'unit-item';
+        div.innerHTML = `
+            <div class="checkbox-item">
+                <input type="checkbox" id="unit-${unit}" value="${unit}">
+                <label for="unit-${unit}">${unit}</label>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+    
+    unitCheckboxes.appendChild(container);
+}
+
+// 初始化页面
+document.addEventListener('DOMContentLoaded', function() {
+    // 获取所有年级并排序
+    allGrades = [...new Set(words.map(word => word.grade))].filter(grade => grade);
+    allGrades.sort(sortGrades);
+    
+    // 填充年级复选框
+    populateGradeCheckboxes();
+    
+    // 绑定年级按钮点击事件
+    document.getElementById('grade-btn').addEventListener('click', function() {
+        document.getElementById('grade-modal').style.display = 'flex';
+        
+        const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectedGrades.includes(checkbox.value);
+        });
+        
+        document.getElementById('select-all-grades').checked = 
+            selectedGrades.length === allGrades.length && allGrades.length > 0;
+    });
+    
+    // 绑定单元按钮点击事件
+    document.getElementById('unit-btn').addEventListener('click', function() {
+        const unitsInGrades = [...new Set(
+            words.filter(word => selectedGrades.includes(word.grade))
+                 .map(word => word.unit)
+        )].filter(unit => unit);
+        
+        unitsInGrades.sort(sortUnits);
+        allUnits = unitsInGrades;
+        
+        // 填充单元复选框
+        populateUnitCheckboxes();
+        
+        document.getElementById('unit-modal').style.display = 'flex';
+        
+        const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectedUnits.includes(checkbox.value);
+        });
+        
+        document.getElementById('select-all-units').checked = 
+            selectedUnits.length === allUnits.length && allUnits.length > 0;
+    });
+    
+    // 绑定"全部年级"复选框事件
+    document.getElementById('select-all-grades').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+    
+    // 绑定"全部单元"复选框事件
+    document.getElementById('select-all-units').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+    
+    // 绑定年级弹窗确认按钮
+    document.getElementById('confirm-grade').addEventListener('click', function() {
+        const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]:checked');
+        selectedGrades = Array.from(checkboxes).map(checkbox => checkbox.value);
+        
+        if (document.getElementById('select-all-grades').checked) {
+            selectedGrades = [...allGrades];
+        }
+        
+        selectedUnits = [];
+        updateButtonText();
+        applyFilters();
+        document.getElementById('grade-modal').style.display = 'none';
+    });
+    
+    // 绑定单元弹窗确认按钮
+    document.getElementById('confirm-unit').addEventListener('click', function() {
+        const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]:checked');
+        selectedUnits = Array.from(checkboxes).map(checkbox => checkbox.value);
+        
+        if (document.getElementById('select-all-units').checked) {
+            selectedUnits = [...allUnits];
+        }
+        
+        updateButtonText();
+        applyFilters();
+        document.getElementById('unit-modal').style.display = 'none';
+    });
+    
+    // 绑定弹窗关闭按钮
+    document.getElementById('close-grade-modal').addEventListener('click', function() {
+        document.getElementById('grade-modal').style.display = 'none';
+    });
+    
+    document.getElementById('close-unit-modal').addEventListener('click', function() {
+        document.getElementById('unit-modal').style.display = 'none';
+    });
+    
+    document.getElementById('cancel-grade').addEventListener('click', function() {
+        document.getElementById('grade-modal').style.display = 'none';
+    });
+    
+    document.getElementById('cancel-unit').addEventListener('click', function() {
+        document.getElementById('unit-modal').style.display = 'none';
+    });
+    
+    // 点击弹窗外部关闭弹窗
+    window.addEventListener('click', function(event) {
+        if (event.target === document.getElementById('grade-modal')) {
+            document.getElementById('grade-modal').style.display = 'none';
+        }
+        if (event.target === document.getElementById('unit-modal')) {
+            document.getElementById('unit-modal').style.display = 'none';
+        }
+    });
+    
+    // 绑定点击事件
+    document.getElementById('toggle-english').addEventListener('click', toggleEnglish);
+    document.getElementById('toggle-chinese').addEventListener('click', toggleChinese);
+    
+    // 绑定拼写练习按钮点击事件 - 直接跳转
+    document.getElementById('practice-btn').addEventListener('click', function() {
+        window.location.href = '../spellgame/index.html';
+    });
+    
+    // 绑定中英配对按钮点击事件 - 直接跳转
+    document.getElementById('match-btn').addEventListener('click', function() {
+        window.location.href = '../wordgame/index.html';
+    });
+    
+    updateButtonText();
+});
+
+// 渲染表格函数
+function renderTable(data) {
+    const tableBody = document.getElementById('words-table-body');
+    tableBody.innerHTML = '';
+    
+    if (data.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="4" class="empty-message">
+                    ${selectedGrades.length > 0 ? 
+                      '请选择单元' : '请先选择年级'}
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    data.forEach((word, index) => {
+        const row = document.createElement('tr');
+        
+        // 序号列
+        const indexCell = document.createElement('td');
+        indexCell.textContent = `${index + 1}.`;
+        row.appendChild(indexCell);
+        
+        // 英语列
+        const englishCell = document.createElement('td');
+        englishCell.className = 'english-cell';
+        englishCell.textContent = word.english;
+        
+        // 添加音标提示
+        if (word.phonetic) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'phonetic-tooltip';
+            tooltip.textContent = word.phonetic;
+            englishCell.appendChild(tooltip);
+        }
+        
+        if (!englishVisible) englishCell.classList.add('hidden-content');
+        
+        // 网页端悬停事件
+        englishCell.addEventListener('mouseenter', function() {
+            if (word.phonetic && window.innerWidth > 768) {
+                const tooltip = this.querySelector('.phonetic-tooltip');
+                if (tooltip) tooltip.style.opacity = '1';
             }
-            
-            data.forEach((word, index) => {
-                const row = document.createElement('tr');
-                
-                // 序号列
-                const indexCell = document.createElement('td');
-                indexCell.textContent = `${index + 1}.`;
-                row.appendChild(indexCell);
-                
-                // 英语列
-                const englishCell = document.createElement('td');
-                englishCell.className = 'english-cell';
-                englishCell.textContent = word.english;
-                if (!englishVisible) englishCell.classList.add('hidden-content');
-                englishCell.addEventListener('click', () => {
-                    speakWord(word.english);
-                    if (englishCell.classList.contains('hidden-content')) {
-                        englishCell.classList.remove('hidden-content');
-                    }
-                });
-                row.appendChild(englishCell);
-                
-                // 中文列
-                const chineseCell = document.createElement('td');
-                chineseCell.textContent = word.chinese;
-                if (!chineseVisible) chineseCell.classList.add('hidden-content');
-                chineseCell.addEventListener('click', () => {
-                    if (chineseCell.classList.contains('hidden-content')) {
-                        chineseCell.classList.remove('hidden-content');
-                    }
-                });
-                row.appendChild(chineseCell);
-                
-                // 词性列
-                const posCell = document.createElement('td');
-                posCell.textContent = word.pos;
-                row.appendChild(posCell);
-                
-                tableBody.appendChild(row);
-            });
-            
-            updateEyeIcons();
-        }
+        });
         
-        // 应用筛选条件
-        function applyFilters() {
-            if (selectedGrades.length === 0) {
-                renderTable([]);
-                return;
+        englishCell.addEventListener('mouseleave', function() {
+            if (word.phonetic && window.innerWidth > 768) {
+                const tooltip = this.querySelector('.phonetic-tooltip');
+                if (tooltip) tooltip.style.opacity = '0';
             }
-            
-            let filteredWords = words.filter(word => selectedGrades.includes(word.grade));
-            
-            if (selectedUnits.length > 0) {
-                filteredWords = filteredWords.filter(word => selectedUnits.includes(word.unit));
+        });
+        
+        // 移动端长按事件
+        englishCell.addEventListener('touchstart', function(e) {
+            if (window.innerWidth <= 768 && word.phonetic) {
+                longPressTimer = setTimeout(() => {
+                    showMobileTooltip(word.phonetic);
+                    e.preventDefault();
+                }, 500);
             }
-            
-            filteredWords.sort((a, b) => {
-                const gradeCompare = sortGrades(a.grade, b.grade);
-                if (gradeCompare !== 0) return gradeCompare;
-                return sortUnits(a.unit, b.unit);
-            });
-            
-            renderTable(filteredWords);
-        }
+        });
         
-        // 切换英语列显示
-        function toggleEnglish() {
-            englishVisible = !englishVisible;
-            const englishCells = document.querySelectorAll('.english-cell');
-            
-            englishCells.forEach(cell => {
-                if (englishVisible) {
-                    cell.classList.remove('hidden-content');
-                } else {
-                    cell.classList.add('hidden-content');
-                }
-            });
-            
-            updateEyeIcons();
-        }
-        
-        // 切换中文列显示
-        function toggleChinese() {
-            chineseVisible = !chineseVisible;
-            const chineseCells = document.querySelectorAll('td:nth-child(3)');
-            
-            chineseCells.forEach(cell => {
-                if (chineseVisible) {
-                    cell.classList.remove('hidden-content');
-                } else {
-                    cell.classList.add('hidden-content');
-                }
-            });
-            
-            updateEyeIcons();
-        }
-        
-        // 更新眼睛图标状态
-        function updateEyeIcons() {
-            const englishEye = document.getElementById('english-eye');
-            const chineseEye = document.getElementById('chinese-eye');
-            
-            englishEye.className = englishVisible ? 'fas fa-eye eye-icon' : 'fas fa-eye-slash eye-icon';
-            chineseEye.className = chineseVisible ? 'fas fa-eye eye-icon' : 'fas fa-eye-slash eye-icon';
-        }
-        
-        // 朗读单词
-        function speakWord(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.9;
-                window.speechSynthesis.speak(utterance);
+        englishCell.addEventListener('touchend', function() {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
             }
+            hideMobileTooltip();
+        });
+        
+        englishCell.addEventListener('touchmove', function() {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+            hideMobileTooltip();
+        });
+        
+        englishCell.addEventListener('click', () => {
+            speakWord(word.english);
+            if (englishCell.classList.contains('hidden-content')) {
+                englishCell.classList.remove('hidden-content');
+            }
+        });
+        
+        row.appendChild(englishCell);
+        
+        // 中文列
+        const chineseCell = document.createElement('td');
+        chineseCell.textContent = word.chinese;
+        if (!chineseVisible) chineseCell.classList.add('hidden-content');
+        chineseCell.addEventListener('click', () => {
+            if (chineseCell.classList.contains('hidden-content')) {
+                chineseCell.classList.remove('hidden-content');
+            }
+        });
+        row.appendChild(chineseCell);
+        
+        // 词性列
+        const posCell = document.createElement('td');
+        posCell.textContent = word.pos;
+        row.appendChild(posCell);
+        
+        tableBody.appendChild(row);
+    });
+    
+    updateEyeIcons();
+}
+
+// 显示移动端音标提示
+function showMobileTooltip(phonetic) {
+    mobileTooltip.textContent = phonetic;
+    mobileTooltip.style.display = 'block';
+    
+    // 3秒后自动隐藏
+    setTimeout(() => {
+        mobileTooltip.style.display = 'none';
+    }, 3000);
+}
+
+// 隐藏移动端音标提示
+function hideMobileTooltip() {
+    mobileTooltip.style.display = 'none';
+}
+
+// 应用筛选条件
+function applyFilters() {
+    if (selectedGrades.length === 0) {
+        renderTable([]);
+        return;
+    }
+    
+    let filteredWords = words.filter(word => selectedGrades.includes(word.grade));
+    
+    if (selectedUnits.length > 0) {
+        filteredWords = filteredWords.filter(word => selectedUnits.includes(word.unit));
+    }
+    
+    filteredWords.sort((a, b) => {
+        const gradeCompare = sortGrades(a.grade, b.grade);
+        if (gradeCompare !== 0) return gradeCompare;
+        return sortUnits(a.unit, b.unit);
+    });
+    
+    renderTable(filteredWords);
+}
+
+// 切换英语列显示
+function toggleEnglish() {
+    englishVisible = !englishVisible;
+    const englishCells = document.querySelectorAll('.english-cell');
+    
+    englishCells.forEach(cell => {
+        if (englishVisible) {
+            cell.classList.remove('hidden-content');
+        } else {
+            cell.classList.add('hidden-content');
         }
+    });
+    
+    updateEyeIcons();
+}
+
+// 切换中文列显示
+function toggleChinese() {
+    chineseVisible = !chineseVisible;
+    const chineseCells = document.querySelectorAll('td:nth-child(3)');
+    
+    chineseCells.forEach(cell => {
+        if (chineseVisible) {
+            cell.classList.remove('hidden-content');
+        } else {
+            cell.classList.add('hidden-content');
+        }
+    });
+    
+    updateEyeIcons();
+}
+
+// 更新眼睛图标状态
+function updateEyeIcons() {
+    const englishEye = document.getElementById('english-eye');
+    const chineseEye = document.getElementById('chinese-eye');
+    
+    englishEye.className = englishVisible ? 'fas fa-eye eye-icon' : 'fas fa-eye-slash eye-icon';
+    chineseEye.className = chineseVisible ? 'fas fa-eye eye-icon' : 'fas fa-eye-slash eye-icon';
+}
+
+// 朗读单词
+function speakWord(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+    }
+}
     </script>
 </body>
 </html>
