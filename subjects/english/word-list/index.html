@@ -6,334 +6,501 @@
     <script src="../words.js"></script>
     <title>单词列表</title>
     <style>
-        :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #59c09e;
-            --accent-color: #FF6B6B;
-            --light-color: #ffffff;
-            --text-color: #333333;
-            --border-color: #d9d9d9;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --hover-bg: rgba(110, 203, 99, 0.1);
-        }
-        
-        body {
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f9f5;
-            color: var(--text-color);
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        h1 {
-            text-align: center;
-            color: #3e7563;
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            font-weight: 600;
-            padding: 15px 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        /* 筛选容器 - 关键修改部分 */
-        .filter-container {
-            display: flex;
-            flex-wrap: nowrap; /* 禁止换行 */
-            gap: 15px;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: var(--secondary-color);
-            border-radius: 10px;
-            color: white;
-            justify-content: center;
-            overflow: hidden; /* 防止内容溢出 */
-        }
-        
-        /* 筛选按钮 - 关键修改部分 */
-        .filter-btn {
-            flex: 1; /* 平分宽度 */
-            min-width: 0; /* 允许内容压缩 */
-            padding: 10px 15px;
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 6px;
-            color: white;
-            font-weight: 500;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap; /* 禁止文字换行 */
-            overflow: hidden; /* 隐藏溢出内容 */
-        }
-        
-        .filter-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .filter-btn-text {
-            flex: 1;
-            text-align: center;
-            overflow: hidden;
-            text-overflow: ellipsis; /* 文字过长显示省略号 */
-            white-space: nowrap;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: var(--light-color);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px dashed var(--border-color);
-            position: relative;
-        }
-        
-        /* 列间虚线分隔线 */
-        th:not(:last-child):after,
-        td:not(:last-child):after {
-            content: "";
-            position: absolute;
-            right: 0;
-            top: 10%;
-            height: 80%;
-            border-right: 1px dashed var(--border-color);
-        }
-        
-        th {
-            background: var(--secondary-color);
-            color: white;
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-        
-        /* 斑马条纹效果 */
-        tbody tr:nth-child(odd) {
-            background-color: var(--card-bg);
-        }
-        
-        tbody tr:nth-child(even) {
-            background-color: rgba(89, 192, 158, 0.1);
-        }
-        
-        tr:hover {
-            background-color: var(--hover-bg) !important;
-        }
-        
-        .english-cell {
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        .hidden-content {
-            color: transparent;
-            text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        .column-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-        
-        .eye-icon {
-            font-size: 0.8em;
-            opacity: 0.8;
-        }
-        
-        .empty-message {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-style: italic;
-        }
-        
-        .practice-btn-container {
-            text-align: center;
-            margin-top: 30px;
-        }
-        
-        .practice-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 24px;
-            background-color: var(--secondary-color);
-            color: white;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .practice-btn:hover {
-            background-color: #4aaf8a;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        
-        .practice-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .practice-btn i {
-            margin-left: 8px;
-            transition: transform 0.3s ease;
-        }
-        
-        .practice-btn:hover i {
-            transform: translateX(3px);
-        }
-        
-        /* 弹窗样式 */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .modal-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--secondary-color);
-        }
-        
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-        }
-        
-        .modal-body {
-            margin-bottom: 15px;
-        }
-        
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        
-        .modal-btn {
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        
-        .modal-btn-primary {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-        }
-        
-        .modal-btn-primary:hover {
-            background-color: #4aaf8a;
-        }
-        
-        .modal-btn-secondary {
-            background-color: #f0f0f0;
-            color: #333;
-            border: none;
-        }
-        
-        .modal-btn-secondary:hover {
-            background-color: #e0e0e0;
-        }
-        
-        .checkbox-group {
-            margin-top: 10px;
-        }
-        
-        .checkbox-item {
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .checkbox-item input {
-            margin-right: 10px;
-        }
-        
-        .select-all {
-            font-weight: bold;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 10px;
-        }
-        
-        /* 移动端适配 - 关键修改部分 */
-        @media (max-width: 768px) {
-            .filter-container {
-                padding: 10px 8px; /* 缩小内边距 */
-                gap: 8px; /* 缩小按钮间距 */
-            }
-            
-            .filter-btn {
-                padding: 8px 5px; /* 缩小按钮内边距 */
-                font-size: 0.85rem; /* 调小字体 */
-                min-width: 0; /* 允许进一步压缩 */
-            }
-            
-            .filter-btn i {
-                font-size: 0.8em; /* 调小图标 */
-                margin-right: 2px; /* 缩小图标间距 */
-            }
-            
-        }
+:root {
+    --primary-color: #4a6fa5;
+    --secondary-color: #59c09e;
+    --accent-color: #FF6B6B;
+    --light-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #d9d9d9;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --hover-bg: rgba(110, 203, 99, 0.1);
+}
+
+/* 基础样式 */
+body {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f9f5;
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #3e7563;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    padding: 15px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* 筛选容器 */
+.filter-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: var(--secondary-color);
+    border-radius: 10px;
+    color: white;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.filter-btn {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 15px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.filter-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.filter-btn-text {
+    flex: 1;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: var(--light-color);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px dashed var(--border-color);
+    position: relative;
+}
+
+th:not(:last-child):after,
+td:not(:last-child):after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 80%;
+    border-right: 1px dashed var(--border-color);
+}
+
+th {
+    background: var(--secondary-color);
+    color: white;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+tbody tr:nth-child(odd) {
+    background-color: var(--card-bg);
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(89, 192, 158, 0.1);
+}
+
+tr:hover {
+    background-color: var(--hover-bg) !important;
+}
+
+.english-cell {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.hidden-content {
+    color: transparent;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.column-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.eye-icon {
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+/* 练习按钮 */
+.practice-btn-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.practice-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.practice-btn:hover {
+    background-color: #4aaf8a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.practice-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.practice-btn i {
+    margin-left: 8px;
+    transition: transform 0.3s;
+}
+
+.practice-btn:hover i {
+    transform: translateX(3px);
+}
+
+/* 弹窗样式 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+}
+
+/* 年级分组容器 */
+.grade-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.grade-item {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.grade-item > div {
+    flex: 1;
+    min-width: 0;
+}
+
+/* 单元选择容器 - 优化布局 */
+.unit-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 单元项 - 精确计算宽度确保每行两个 */
+.unit-item {
+    flex: 0 0 calc(50% - 6px);
+    box-sizing: border-box;
+    min-width: 0;
+    transition: all 0.2s ease;
+}
+
+/* 复选框项 - 增强点击区域 */
+.checkbox-item {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 15px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+
+.checkbox-item:hover {
+    background: #f0f0f0;
+    border-color: var(--secondary-color);
+}
+
+/* 隐藏原生复选框，使用自定义样式 */
+.checkbox-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    margin: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+/* 自定义复选框样式 */
+.checkbox-item label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+}
+
+.checkbox-item label::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 4px;
+    margin-right: 10px;
+    background-color: white;
+    transition: all 0.2s ease;
+}
+
+.checkbox-item input[type="checkbox"]:checked + label::before {
+    background-color: var(--secondary-color);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px;
+}
+
+/* 全选样式 */
+.select-all {
+    font-weight: bold;
+    padding: 12px 15px;
+    background: white;
+    border-radius: 6px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.select-all input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    margin: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.select-all label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+.select-all label::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 4px;
+    margin-right: 10px;
+    background-color: white;
+    transition: all 0.2s ease;
+}
+
+.select-all input[type="checkbox"]:checked + label::before {
+    background-color: var(--secondary-color);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px;
+}
+
+/* 弹窗头部和底部 */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+}
+
+.modal-body {
+    margin-bottom: 15px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-btn {
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.modal-btn-primary {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+}
+
+.modal-btn-primary:hover {
+    background-color: #4aaf8a;
+}
+
+.modal-btn-secondary {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+}
+
+.modal-btn-secondary:hover {
+    background-color: #e0e0e0;
+}
+
+/* 滚动条样式 */
+.unit-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.unit-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.unit-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.unit-container::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .filter-container {
+        padding: 10px 8px;
+        gap: 8px;
+    }
+    
+    .filter-btn {
+        padding: 8px 5px;
+        font-size: 0.85rem;
+        min-width: 0;
+    }
+    
+    .filter-btn i {
+        font-size: 0.8em;
+        margin-right: 2px;
+    }
+    
+    .unit-item {
+        flex: 0 0 100%;
+    }
+    
+    .unit-container {
+        gap: 8px;
+        padding: 8px;
+    }
+    
+    .checkbox-item {
+        padding: 10px 12px;
+    }
+}
+
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -343,12 +510,10 @@
         
         <div class="filter-container">
             <button id="grade-btn" class="filter-btn">
-
                 <span class="filter-btn-text" id="grade-btn-text">选择年级</span>
             </button>
             
             <button id="unit-btn" class="filter-btn" disabled>
-
                 <span class="filter-btn-text" id="unit-btn-text">选择单元</span>
             </button>
         </div>
@@ -394,11 +559,11 @@
                 <button class="close-btn" id="close-grade-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="select-all checkbox-item">
+                <div class="select-all">
                     <input type="checkbox" id="select-all-grades">
                     <label for="select-all-grades">全部年级</label>
                 </div>
-                <div class="checkbox-group" id="grade-checkboxes"></div>
+                <div class="grade-group" id="grade-checkboxes"></div>
             </div>
             <div class="modal-footer">
                 <button class="modal-btn modal-btn-secondary" id="cancel-grade">取消</button>
@@ -415,11 +580,11 @@
                 <button class="close-btn" id="close-unit-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="select-all checkbox-item">
+                <div class="select-all">
                     <input type="checkbox" id="select-all-units">
                     <label for="select-all-units">全部单元</label>
                 </div>
-                <div class="checkbox-group" id="unit-checkboxes"></div>
+                <div class="unit-container" id="unit-checkboxes"></div>
             </div>
             <div class="modal-footer">
                 <button class="modal-btn modal-btn-secondary" id="cancel-unit">取消</button>
@@ -442,7 +607,6 @@
         
         // 自定义年级排序函数
         function sortGrades(a, b) {
-            // 定义年级顺序
             const gradeOrder = [
                 "一年级上", "一年级下",
                 "二年级上", "二年级下",
@@ -453,25 +617,20 @@
                 "七年级上", "七年级下"
             ];
             
-            // 获取年级在预定义顺序中的索引
             const aIndex = gradeOrder.indexOf(a);
             const bIndex = gradeOrder.indexOf(b);
             
-            // 如果年级在预定义列表中，按列表顺序排序
             if (aIndex !== -1 && bIndex !== -1) {
                 return aIndex - bIndex;
             }
             
-            // 不在列表中的年级按字符串排序
             return a.localeCompare(b);
         }
         
-        // 自定义单元排序函数（按数字1,2,3...排序）
+        // 自定义单元排序函数
         function sortUnits(a, b) {
-            // 提取数字部分
             const aNum = parseInt(a.match(/\d+/)?.[0] || 0);
             const bNum = parseInt(b.match(/\d+/)?.[0] || 0);
-            
             return aNum - bNum;
         }
         
@@ -486,11 +645,9 @@
                 unitBtnText.textContent = '选择单元';
                 unitBtn.disabled = true;
             } else {
-                // 检查是否选中了全部年级
                 if (selectedGrades.length === allGrades.length) {
                     gradeBtnText.textContent = '全部';
                 } else {
-                    // 显示第一个选中的年级
                     gradeBtnText.textContent = selectedGrades[0];
                     if (selectedGrades.length > 1) {
                         gradeBtnText.textContent += '...';
@@ -500,11 +657,9 @@
                 if (selectedUnits.length === 0) {
                     unitBtnText.textContent = '选择单元';
                 } else {
-                    // 检查是否选中了全部单元
                     if (selectedUnits.length === allUnits.length) {
                         unitBtnText.textContent = '全部';
                     } else {
-                        // 显示第一个选中的单元
                         unitBtnText.textContent = selectedUnits[0];
                         if (selectedUnits.length > 1) {
                             unitBtnText.textContent += '...';
@@ -516,6 +671,65 @@
             }
         }
         
+        // 填充年级复选框（上下学期放在同一行）
+        function populateGradeCheckboxes() {
+            const gradeCheckboxes = document.getElementById('grade-checkboxes');
+            gradeCheckboxes.innerHTML = '';
+            
+            // 按年级分组（上、下）
+            const gradeMap = {};
+            allGrades.forEach(grade => {
+                const baseGrade = grade.replace(/[上下]$/, '');
+                if (!gradeMap[baseGrade]) {
+                    gradeMap[baseGrade] = [];
+                }
+                gradeMap[baseGrade].push(grade);
+            });
+            
+            // 创建年级复选框
+            Object.entries(gradeMap).forEach(([baseGrade, grades]) => {
+                const gradeRow = document.createElement('div');
+                gradeRow.className = 'grade-item';
+                
+                grades.forEach(grade => {
+                    const div = document.createElement('div');
+                    div.className = 'checkbox-item';
+                    div.innerHTML = `
+                        <input type="checkbox" id="grade-${grade}" value="${grade}">
+                        <label for="grade-${grade}">${grade}</label>
+                    `;
+                    gradeRow.appendChild(div);
+                });
+                
+                gradeCheckboxes.appendChild(gradeRow);
+            });
+        }
+        
+        // 填充单元复选框（从左到右，从上到下排列）
+        function populateUnitCheckboxes() {
+            const unitCheckboxes = document.getElementById('unit-checkboxes');
+            unitCheckboxes.innerHTML = '';
+            
+            if (allUnits.length === 0) return;
+            
+            const container = document.createElement('div');
+            container.className = 'unit-container';
+            
+            allUnits.forEach(unit => {
+                const div = document.createElement('div');
+                div.className = 'unit-item';
+                div.innerHTML = `
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="unit-${unit}" value="${unit}">
+                        <label for="unit-${unit}">${unit}</label>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            
+            unitCheckboxes.appendChild(container);
+        }
+        
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
             // 获取所有年级并排序
@@ -523,36 +737,23 @@
             allGrades.sort(sortGrades);
             
             // 填充年级复选框
-            const gradeCheckboxes = document.getElementById('grade-checkboxes');
-            allGrades.forEach(grade => {
-                const div = document.createElement('div');
-                div.className = 'checkbox-item';
-                div.innerHTML = `
-                    <input type="checkbox" id="grade-${grade}" value="${grade}">
-                    <label for="grade-${grade}">${grade}</label>
-                `;
-                gradeCheckboxes.appendChild(div);
-            });
+            populateGradeCheckboxes();
             
             // 绑定年级按钮点击事件
             document.getElementById('grade-btn').addEventListener('click', function() {
-                // 打开年级弹窗
                 document.getElementById('grade-modal').style.display = 'flex';
                 
-                // 设置已选中的年级
                 const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]');
                 checkboxes.forEach(checkbox => {
                     checkbox.checked = selectedGrades.includes(checkbox.value);
                 });
                 
-                // 设置"全部年级"复选框状态
                 document.getElementById('select-all-grades').checked = 
                     selectedGrades.length === allGrades.length && allGrades.length > 0;
             });
             
             // 绑定单元按钮点击事件
             document.getElementById('unit-btn').addEventListener('click', function() {
-                // 获取当前选中年级下的所有单元
                 const unitsInGrades = [...new Set(
                     words.filter(word => selectedGrades.includes(word.grade))
                          .map(word => word.unit)
@@ -562,28 +763,15 @@
                 allUnits = unitsInGrades;
                 
                 // 填充单元复选框
-                const unitCheckboxes = document.getElementById('unit-checkboxes');
-                unitCheckboxes.innerHTML = '';
-                allUnits.forEach(unit => {
-                    const div = document.createElement('div');
-                    div.className = 'checkbox-item';
-                    div.innerHTML = `
-                        <input type="checkbox" id="unit-${unit}" value="${unit}">
-                        <label for="unit-${unit}">${unit}</label>
-                    `;
-                    unitCheckboxes.appendChild(div);
-                });
+                populateUnitCheckboxes();
                 
-                // 打开单元弹窗
                 document.getElementById('unit-modal').style.display = 'flex';
                 
-                // 设置已选中的单元
                 const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]');
                 checkboxes.forEach(checkbox => {
                     checkbox.checked = selectedUnits.includes(checkbox.value);
                 });
                 
-                // 设置"全部单元"复选框状态
                 document.getElementById('select-all-units').checked = 
                     selectedUnits.length === allUnits.length && allUnits.length > 0;
             });
@@ -609,12 +797,10 @@
                 const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]:checked');
                 selectedGrades = Array.from(checkboxes).map(checkbox => checkbox.value);
                 
-                // 如果选中了"全部年级"
                 if (document.getElementById('select-all-grades').checked) {
                     selectedGrades = [...allGrades];
                 }
                 
-                // 清空已选单元
                 selectedUnits = [];
                 updateButtonText();
                 applyFilters();
@@ -626,7 +812,6 @@
                 const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]:checked');
                 selectedUnits = Array.from(checkboxes).map(checkbox => checkbox.value);
                 
-                // 如果选中了"全部单元"
                 if (document.getElementById('select-all-units').checked) {
                     selectedUnits = [...allUnits];
                 }
@@ -663,7 +848,7 @@
                 }
             });
             
-            // 绑定点击事件（现在整个标题区域都可点击）
+            // 绑定点击事件
             document.getElementById('toggle-english').addEventListener('click', toggleEnglish);
             document.getElementById('toggle-chinese').addEventListener('click', toggleChinese);
             
@@ -674,7 +859,6 @@
                     return;
                 }
                 
-                // 构造URL参数
                 let params = new URLSearchParams();
                 selectedGrades.forEach(grade => {
                     params.append('grade', grade);
@@ -686,11 +870,9 @@
                     });
                 }
                 
-                // 跳转到拼写练习页面
                 window.location.href = '../spellgame/index.html?' + params.toString();
             });
             
-            // 初始化按钮文本
             updateButtonText();
         });
         
@@ -714,7 +896,7 @@
             data.forEach((word, index) => {
                 const row = document.createElement('tr');
                 
-                // 序号列（添加小数点）
+                // 序号列
                 const indexCell = document.createElement('td');
                 indexCell.textContent = `${index + 1}.`;
                 row.appendChild(indexCell);
@@ -751,7 +933,6 @@
                 tableBody.appendChild(row);
             });
             
-            // 更新眼睛图标状态
             updateEyeIcons();
         }
         
@@ -768,7 +949,6 @@
                 filteredWords = filteredWords.filter(word => selectedUnits.includes(word.unit));
             }
             
-            // 按年级和单元排序
             filteredWords.sort((a, b) => {
                 const gradeCompare = sortGrades(a.grade, b.grade);
                 if (gradeCompare !== 0) return gradeCompare;
