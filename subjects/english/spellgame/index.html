@@ -12,10 +12,7 @@
             padding: 0;
         }
         body {
-            background: linear-gradient(135deg, 
-        #f9f5f0 0%,     /* 奶白色 */
-        #f0e6dc 50%,    /* 浅奶茶色 */
-        #e8d5c5 100%);  /* 浅咖色 */
+            background-color: #fafffa;
     color: #6b4f4b;     /* 深奶茶棕（文字） */
     min-height: 100vh;
     line-height: 1.6;
@@ -26,16 +23,14 @@
 }
         
 h1 {
-    color: #6b4f4b;
     text-align: center;
-    font-size: 1.6rem;
+    color: #3e7563;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
     font-weight: 600;
-    font-family: 'Comic Neue', cursive;
-    margin: 1rem auto;
-    padding: 0 1rem; /* 控制文字与线的间距 */
-    position: relative;
-    max-width: 800px; /* 与.word-container同宽 */
-    width: 100%;
+    padding: 15px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
 
@@ -99,8 +94,8 @@ h1 {
 }
         
         .selection-range-btn:hover {
-            border-color: #5b94ce;
-            color: #5b94ce;
+            border-color: #5bcece;
+            color: #5bb7ce;
         }
         
         .selection-range-icon {
@@ -172,7 +167,7 @@ h1 {
         
         .add-text {
             font-size: 0.9rem;
-            color: #8c5e5a;
+            color: #5a848c;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
                 "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", 
                 "Segoe UI Emoji", "Segoe UI Symbol";
@@ -203,7 +198,7 @@ h1 {
         
         .selection-section-title {
             font-size: 0.9rem;
-            color: #333;
+            color: #275f53;
             margin-bottom: 0.5rem;
             font-weight: 500;
         }
@@ -222,17 +217,19 @@ h1 {
             font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
+            color: #186d51;
         }
         
         .selection-option.active {
-            background-color: #5b94ce;
+            background-color: #5bcebf;
             color: white;
+            
         }
         
         .chinese {
             font-size: 1.6rem;
             margin: 2rem 0;
-
+            color: #2a6652; 
             text-align: center;
             width: 100%;
         }
@@ -445,7 +442,7 @@ h1 {
         
         .wrong-words-title {
             font-size: 1.5rem;
-            color: #ce985b;
+            color: #5bceb1;
         }
         
         .wrong-words-list {
@@ -462,14 +459,14 @@ h1 {
         
         .wrong-word-item {
             padding: 1rem;
-            border-bottom: 1px solid #e7bea5;
+            border-bottom: 1px dashed #006400;
             position: relative;
             cursor: pointer;
             transition: background-color 0.2s;
         }
         
         .wrong-word-item.selected {
-            background-color: rgba(206, 166, 91, 0.1);
+            background-color: rgba(91, 206, 181, 0.1);
         }
         
         .wrong-word-grid {
@@ -480,7 +477,7 @@ h1 {
         
         .wrong-word-number {
             font-weight: bold;
-            color: #d8a367;
+            color: #43927e;
             grid-row: 1 / span 3;
             align-self: start;
         }
@@ -553,11 +550,11 @@ h1 {
         }
 
         .practice-all-btn {
-            color: #007bff;
+            color: #4ab8a0;
         }
         
         .practice-all-btn:hover {
-            border-color: #007bff;
+            border-color: #4ab8a0;
         }
         
         .remove-all-btn {
@@ -928,7 +925,7 @@ h1 {
     <div class="wrong-words-container" id="wrong-words-container">
         <div class="wrong-words-header">
             <span class="back-to-main" id="back-to-main">返回练习</span>
-            <h2 class="wrong-words-title">错题本</h2>
+
 
         </div>
         
@@ -1014,6 +1011,18 @@ h1 {
         e.stopPropagation(); // 阻止事件冒泡
         toggleSelectionPanel();
     });
+});
+
+document.getElementById('wrong-words-btn').addEventListener('click', function() {
+    document.querySelector('h1').textContent = '错题本';
+    document.getElementById('main-container').style.display = 'none';
+    document.getElementById('wrong-words-container').style.display = 'block';
+});
+
+document.getElementById('back-to-main').addEventListener('click', function() {
+    document.querySelector('h1').textContent = '单词拼写练习';
+    document.getElementById('main-container').style.display = 'block';
+    document.getElementById('wrong-words-container').style.display = 'none';
 });
             
             // 点击面板外部关闭
@@ -1131,63 +1140,86 @@ h1 {
             });
         }
 
-        // 生成课程选项
         function generateUnitOptions(grade) {
-            // 清空现有选项
-            unitOptionsEl.innerHTML = '';
-            
-            if (!grade) return;
+    // 清空现有选项
+    unitOptionsEl.innerHTML = '';
+    
+    if (!grade) return;
 
-            // 添加"全部"选项
-            const allOption = document.createElement('div');
-            allOption.className = 'selection-option';
-            allOption.textContent = '全部';
-            allOption.dataset.value = '';
-            allOption.addEventListener('click', () => {
-                unitOptionsEl.querySelectorAll('.selection-option').forEach(opt => {
-                    opt.classList.remove('active');
-                });
-                allOption.classList.add('active');
-                selectedUnit = ''; // 设置为空表示选择全部
-                updateSelectionRangeText();
-                selectionPanel.style.display = 'none'; // 关闭面板
-                filterWords(); // 刷新单词
-            });
-            unitOptionsEl.appendChild(allOption);
+    // 添加"全部"选项
+    const allOption = document.createElement('div');
+    allOption.className = 'selection-option';
+    allOption.textContent = '全部';
+    allOption.dataset.value = '';
+    allOption.addEventListener('click', () => {
+        unitOptionsEl.querySelectorAll('.selection-option').forEach(opt => {
+            opt.classList.remove('active');
+        });
+        allOption.classList.add('active');
+        selectedUnit = ''; // 设置为空表示选择全部
+        updateSelectionRangeText();
+        selectionPanel.style.display = 'none'; // 关闭面板
+        filterWords(); // 刷新单词
+    });
+    unitOptionsEl.appendChild(allOption);
 
-            // 获取该年级下的所有课程
-            const units = new Set();
-            allWords.forEach(word => {
-                if (word.grade === grade && word.unit) {
-                    units.add(word.unit);
-                }
-            });
-
-            if (units.size === 0) return;
-
-            // 按字母顺序排序课程
-            const sortedUnits = Array.from(units).sort();
-            
-            sortedUnits.forEach(unit => {
-                const option = document.createElement('div');
-                option.className = 'selection-option';
-                option.textContent = unit;
-                option.dataset.value = unit;
-                option.addEventListener('click', () => {
-                    // 设置选中的课程
-                    unitOptionsEl.querySelectorAll('.selection-option').forEach(opt => {
-                        opt.classList.remove('active');
-                    });
-                    option.classList.add('active');
-                    selectedUnit = unit;
-                    updateSelectionRangeText();
-                    selectionPanel.style.display = 'none'; // 选择课程后自动关闭面板
-                    filterWords(); // 刷新单词
-                });
-                unitOptionsEl.appendChild(option);
-            });
+    // 获取该年级下的所有课程
+    const units = new Set();
+    allWords.forEach(word => {
+        if (word.grade === grade && word.unit) {
+            units.add(word.unit);
         }
+    });
 
+    if (units.size === 0) return;
+
+    // 使用自定义排序规则排序课程
+    const sortedUnits = Array.from(units).sort(sortUnits);
+    
+    sortedUnits.forEach(unit => {
+        const option = document.createElement('div');
+        option.className = 'selection-option';
+        option.textContent = unit;
+        option.dataset.value = unit;
+        option.addEventListener('click', () => {
+            // 设置选中的课程
+            unitOptionsEl.querySelectorAll('.selection-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            option.classList.add('active');
+            selectedUnit = unit;
+            updateSelectionRangeText();
+            selectionPanel.style.display = 'none'; // 选择课程后自动关闭面板
+            filterWords(); // 刷新单词
+        });
+        unitOptionsEl.appendChild(option);
+    });
+}
+
+// 课程排序函数
+function sortUnits(a, b) {
+    // 提取数字的函数，支持M几U几和Unit几两种格式
+    const extractNumber = (str) => {
+        // 尝试匹配M几U几格式
+        const mFormat = str.match(/M(\d+)U(\d+)/i);
+        if (mFormat) return [parseInt(mFormat[1]), parseInt(mFormat[2])];
+        
+        // 尝试匹配Unit几格式
+        const unitFormat = str.match(/Unit\s*(\d+)/i);
+        if (unitFormat) return [0, parseInt(unitFormat[1])]; // 默认模块号为0
+        
+        return [0, 0]; // 默认值
+    };
+    
+    const [aModule, aUnit] = extractNumber(a);
+    const [bModule, bUnit] = extractNumber(b);
+    
+    // 先比较模块号，再比较单元号
+    if (aModule !== bModule) {
+        return aModule - bModule;
+    }
+    return aUnit - bUnit;
+}
         // 更新选择范围文本
         function updateSelectionRangeText() {
             let lines = [];
