@@ -640,10 +640,29 @@ function sortGrades(a, b) {
 
 // 自定义单元排序函数
 function sortUnits(a, b) {
-    const aNum = parseInt(a.match(/\d+/)?.[0] || 0);
-    const bNum = parseInt(b.match(/\d+/)?.[0] || 0);
-    return aNum - bNum;
+    // 提取数字的函数，支持M几U几和Unit几两种格式
+    const extractNumber = (str) => {
+        // 尝试匹配M几U几格式
+        const mFormat = str.match(/M(\d+)U(\d+)/i);
+        if (mFormat) return [parseInt(mFormat[1]), parseInt(mFormat[2])];
+        
+        // 尝试匹配Unit几格式
+        const unitFormat = str.match(/Unit\s*(\d+)/i);
+        if (unitFormat) return [0, parseInt(unitFormat[1])]; // 默认模块号为0
+        
+        return [0, 0]; // 默认值
+    };
+    
+    const [aModule, aUnit] = extractNumber(a);
+    const [bModule, bUnit] = extractNumber(b);
+    
+    // 先比较模块号，再比较单元号
+    if (aModule !== bModule) {
+        return aModule - bModule;
+    }
+    return aUnit - bUnit;
 }
+
 
 // 更新按钮显示文本
 function updateButtonText() {
