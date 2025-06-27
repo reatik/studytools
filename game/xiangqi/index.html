@@ -15,122 +15,129 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background: #f0e6d2 url('https://img.freepik.com/free-photo/wooden-texture_1194-6151.jpg') center/cover;
         }
         
         .game-container {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             align-items: center;
-            gap: 20px;
             background: rgba(210, 180, 140, 0.8);
-            padding: 20px;
+            padding: 10px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            border: 8px solid #8B4513;
+            border: 5px solid #8B4513;
+            max-width: 100%;
+            box-sizing: border-box;
         }
         
         h1 {
             color: #5C3317;
             text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
             font-family: 'KaiTi';
-            font-size: 28px;
+            font-size: 22px;
         }
         
         .chess-board {
             position: relative;
-            width: 450px;
-            height: 500px;
+            width: 300px;
+            height: 333px;
             background: #e8c887 url('https://img.freepik.com/free-photo/old-wooden-table-texture-background_53876-88628.jpg') center/cover;
-            border: 3px solid #5C3317;
+            border: 2px solid #5C3317;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
         }
         
         .chess-piece {
-            width: 44px;
-            height: 44px;
+            width: 29px;
+            height: 29px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 22px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
             user-select: none;
             position: absolute;
             z-index: 2;
             transition: all 0.2s;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
             font-family: 'KaiTi';
         }
         
         .chess-piece.red {
             background: linear-gradient(135deg, #d10000, #a00000);
             color: #fff;
-            border: 2px solid #800;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            border: 1px solid #800;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(255, 255, 255, 0.2);
         }
         
         .chess-piece.black {
             background: linear-gradient(135deg, #333, #000);
             color: #fff;
-            border: 2px solid #222;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+            border: 1px solid #222;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(255, 255, 255, 0.1);
         }
         
         .chess-piece.selected {
-    transform: scale(1.1); /* 棋子放大10% */
-    position: relative;
-    z-index: 10;
-}
+            transform: scale(1.1);
+            position: relative;
+            z-index: 10;
+        }
 
-/* 白色外圈（带柔光效果） */
-.chess-piece.selected::after {
-    content: "";
-    position: absolute;
-    top: -6px;
-    left: -6px;
-    right: -6px;
-    bottom: -6px;
-    border-radius: 50%;
-    border: 4px solid rgba(255, 255, 255, 0.8); /* 半透明白色 */
-    box-shadow: 
-        0 0 8px rgba(255, 255, 255, 0.6), /* 内发光 */
-        0 0 12px rgba(255, 255, 255, 0.4); /* 外发光 */
-    pointer-events: none;
-    animation: float 2s ease-in-out infinite;
-}
-
+        .chess-piece.selected::after {
+            content: "";
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 
+                0 0 6px rgba(255, 255, 255, 0.6),
+                0 0 8px rgba(255, 255, 255, 0.4);
+            pointer-events: none;
+            animation: float 2s ease-in-out infinite;
+        }
 
         .river {
             position: absolute;
             width: 100%;
-            height: 50px;
+            height: 33px;
             top: 50%;
             transform: translateY(-50%);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
+            font-size: 16px;
             font-weight: bold;
             color: #5C3317;
             background: rgba(173, 216, 230, 0.3);
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
             font-family: 'KaiTi';
         }
         
         .controls {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .button-group {
+            display: flex;
             gap: 10px;
+            margin-top: 5px;
         }
         
         button {
-            padding: 8px 16px;
+            padding: 6px 12px;
             background: linear-gradient(to bottom, #8B4513, #5C3317);
             color: white;
             border: none;
@@ -138,68 +145,22 @@
             cursor: pointer;
             font-weight: bold;
             font-family: 'KaiTi';
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+            font-size: 14px;
         }
         
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
         }
         
         .status {
             font-weight: bold;
             color: #5C3317;
             text-align: center;
-            margin-bottom: 10px;
-            font-family: 'KaiTi';
-            font-size: 18px;
-        }
-        
-        .score {
-            font-family: 'KaiTi';
-            font-size: 16px;
-            color: #5C3317;
-            margin-bottom: 10px;
-        }
-        
-        .captured-pieces {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 120px;
-        }
-        
-        .captured-container {
-            background: rgba(210, 180, 140, 0.7);
-            border-radius: 5px;
-            padding: 10px;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        .captured-title {
-            font-weight: bold;
-            text-align: center;
             margin-bottom: 5px;
             font-family: 'KaiTi';
-        }
-        
-        .captured-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            justify-content: center;
-        }
-        
-        .captured-piece {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 14px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            font-family: 'KaiTi';
+            font-size: 16px;
         }
         
         .victory-message {
@@ -209,34 +170,20 @@
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.8);
             color: gold;
-            padding: 20px 40px;
-            border-radius: 10px;
-            font-size: 32px;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 24px;
             font-weight: bold;
             z-index: 100;
             display: none;
             font-family: 'KaiTi';
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
             animation: pulse 1.5s infinite;
         }
-
-        #red-captured .captured-piece {
-    background: linear-gradient(135deg, #333, #000); /* 黑色渐变背景 */
-    color: white; /* 白色文字 */
-    border: 1px solid #222; /* 深色边框 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.1);
-}
-
-#black-captured .captured-piece {
-    background: linear-gradient(135deg, #d10000, #a00000); /* 红色渐变 */
-    color: white; /* 白色文字 */
-    border: 1px solid #800; /* 深红色边框 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.2);
-}
         
         @keyframes pulse {
             0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
         
@@ -250,78 +197,70 @@
         
         .board-lines line {
             stroke: #5C3317;
-            stroke-width: 2;
+            stroke-width: 1.5;
         }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <div class="captured-pieces">
-            <div class="captured-container">
-                <div class="captured-title">红方吃子</div>
-                <div class="captured-list" id="red-captured"></div>
-            </div>
-
-            <div class="score" id="score">红方 0 : 0 黑方</div>
-            <div class="controls">
-                <div class="status" id="status">红方回合</div>
-                <button id="reset-btn">重新开始</button>
-                <button id="undo-btn">悔棋</button>
-            </div>
-            <div class="captured-container">
-                <div class="captured-title">黑方吃子</div>
-                <div class="captured-list" id="black-captured"></div>
-            </div>
-        </div>
+        <h1>中国象棋</h1>
         
         <div class="chess-board">
-            <svg class="board-lines" viewBox="0 0 450 500">
+            <svg class="board-lines" viewBox="0 0 300 333">
                 <!-- 横线 -->
-                <line x1="25" y1="25" x2="425" y2="25"/>
-                <line x1="25" y1="75" x2="425" y2="75"/>
-                <line x1="25" y1="125" x2="425" y2="125"/>
-                <line x1="25" y1="175" x2="425" y2="175"/>
-                <line x1="25" y1="225" x2="425" y2="225"/>
-                <line x1="25" y1="275" x2="425" y2="275"/>
-                <line x1="25" y1="325" x2="425" y2="325"/>
-                <line x1="25" y1="375" x2="425" y2="375"/>
-                <line x1="25" y1="425" x2="425" y2="425"/>
-                <line x1="25" y1="475" x2="425" y2="475"/>
+                <line x1="16" y1="16" x2="283" y2="16"/>
+                <line x1="16" y1="50" x2="283" y2="50"/>
+                <line x1="16" y1="83" x2="283" y2="83"/>
+                <line x1="16" y1="116" x2="283" y2="116"/>
+                <line x1="16" y1="150" x2="283" y2="150"/>
+                <line x1="16" y1="183" x2="283" y2="183"/>
+                <line x1="16" y1="216" x2="283" y2="216"/>
+                <line x1="16" y1="250" x2="283" y2="250"/>
+                <line x1="16" y1="283" x2="283" y2="283"/>
+                <line x1="16" y1="316" x2="283" y2="316"/>
             
                 <!-- 最外侧的竖线（完整） -->
-                <line x1="25" y1="25" x2="25" y2="475"/> <!-- 最左侧竖线 -->
-                <line x1="425" y1="25" x2="425" y2="475"/> <!-- 最右侧竖线 -->
+                <line x1="16" y1="16" x2="16" y2="316"/>
+                <line x1="283" y1="16" x2="283" y2="316"/>
             
                 <!-- 中间的竖线（上半部分） -->
-                <line x1="75" y1="25" x2="75" y2="225"/>
-                <line x1="125" y1="25" x2="125" y2="225"/>
-                <line x1="175" y1="25" x2="175" y2="225"/>
-                <line x1="225" y1="25" x2="225" y2="225"/>
-                <line x1="275" y1="25" x2="275" y2="225"/>
-                <line x1="325" y1="25" x2="325" y2="225"/>
-                <line x1="375" y1="25" x2="375" y2="225"/>
+                <line x1="50" y1="16" x2="50" y2="150"/>
+                <line x1="83" y1="16" x2="83" y2="150"/>
+                <line x1="116" y1="16" x2="116" y2="150"/>
+                <line x1="150" y1="16" x2="150" y2="150"/>
+                <line x1="183" y1="16" x2="183" y2="150"/>
+                <line x1="216" y1="16" x2="216" y2="150"/>
+                <line x1="250" y1="16" x2="250" y2="150"/>
             
                 <!-- 中间的竖线（下半部分） -->
-                <line x1="75" y1="275" x2="75" y2="475"/>
-                <line x1="125" y1="275" x2="125" y2="475"/>
-                <line x1="175" y1="275" x2="175" y2="475"/>
-                <line x1="225" y1="275" x2="225" y2="475"/>
-                <line x1="275" y1="275" x2="275" y2="475"/>
-                <line x1="325" y1="275" x2="325" y2="475"/>
-                <line x1="375" y1="275" x2="375" y2="475"/>
+                <line x1="50" y1="183" x2="50" y2="316"/>
+                <line x1="83" y1="183" x2="83" y2="316"/>
+                <line x1="116" y1="183" x2="116" y2="316"/>
+                <line x1="150" y1="183" x2="150" y2="316"/>
+                <line x1="183" y1="183" x2="183" y2="316"/>
+                <line x1="216" y1="183" x2="216" y2="316"/>
+                <line x1="250" y1="183" x2="250" y2="316"/>
             
                 <!-- 九宫格斜线 -->
-                <line x1="175" y1="25" x2="275" y2="125"/>
-                <line x1="275" y1="25" x2="175" y2="125"/>
-                <line x1="175" y1="375" x2="275" y2="475"/>
-                <line x1="275" y1="375" x2="175" y2="475"/>
+                <line x1="116" y1="16" x2="183" y2="83"/>
+                <line x1="183" y1="16" x2="116" y2="83"/>
+                <line x1="116" y1="250" x2="183" y2="316"/>
+                <line x1="183" y1="250" x2="116" y2="316"/>
             </svg>
             
             <!-- 楚河汉界 -->
-            <div class="river">楚河　　　　　　　　汉界</div>
+            <div class="river">楚河　　汉界</div>
             
             <!-- 棋子容器 -->
             <div id="pieces-container"></div>
+        </div>
+        
+        <div class="controls">
+            <div class="status" id="status">红方回合</div>
+            <div class="button-group">
+                <button id="reset-btn">重新开始</button>
+                <button id="undo-btn">悔棋</button>
+            </div>
         </div>
     </div>
     
@@ -333,9 +272,6 @@
             const statusDisplay = document.getElementById('status');
             const resetBtn = document.getElementById('reset-btn');
             const undoBtn = document.getElementById('undo-btn');
-            const redCapturedDisplay = document.getElementById('red-captured');
-            const blackCapturedDisplay = document.getElementById('black-captured');
-            const scoreDisplay = document.getElementById('score');
             const victoryMessage = document.getElementById('victory-message');
             
             // 棋子初始位置
@@ -382,10 +318,6 @@
             let currentPlayer = 'red';
             let selectedPiece = null;
             let gameOver = false;
-            let redScore = 0;
-            let blackScore = 0;
-            let redCapturedPieces = [];
-            let blackCapturedPieces = [];
             
             // 初始化棋盘
             function initBoard() {
@@ -395,10 +327,7 @@
                 currentPlayer = 'red';
                 selectedPiece = null;
                 gameOver = false;
-                redCapturedPieces = [];
-                blackCapturedPieces = [];
                 
-                updateCapturedDisplay();
                 statusDisplay.textContent = '红方回合';
                 
                 initialPositions.forEach(pos => {
@@ -417,8 +346,8 @@
                 piece.dataset.y = y;
                 
                 // 计算像素位置
-                const left = 25 + x * 50 - 22;
-                const top = 25 + y * 50 - 22;
+                const left = 16 + x * 33.3 - 14.5;
+                const top = 16 + y * 33.3 - 14.5;
                 
                 piece.style.left = `${left}px`;
                 piece.style.top = `${top}px`;
@@ -449,36 +378,14 @@
                 return piece;
             }
             
-            // 更新被吃掉的棋子显示
-            function updateCapturedDisplay() {
-                redCapturedDisplay.innerHTML = '';
-                blackCapturedDisplay.innerHTML = '';
-                
-                redCapturedPieces.forEach(piece => {
-                    const el = document.createElement('div');
-                    el.className = `captured-piece ${piece.color}`;
-                    el.textContent = piece.type;
-                    redCapturedDisplay.appendChild(el);
-                });
-                
-                blackCapturedPieces.forEach(piece => {
-                    const el = document.createElement('div');
-                    el.className = `captured-piece ${piece.color}`;
-                    el.textContent = piece.type;
-                    blackCapturedDisplay.appendChild(el);
-                });
-                
-                scoreDisplay.textContent = `红方 ${redScore} : ${blackScore} 黑方`;
-            }
-            
             // 棋盘点击事件
             document.querySelector('.chess-board').addEventListener('click', function(e) {
                 if (gameOver || !selectedPiece) return;
                 
                 // 获取点击位置
                 const rect = this.getBoundingClientRect();
-                const x = Math.round((e.clientX - rect.left - 25) / 50);
-                const y = Math.round((e.clientY - rect.top - 25) / 50);
+                const x = Math.round((e.clientX - rect.left - 16) / 33.3);
+                const y = Math.round((e.clientY - rect.top - 16) / 33.3);
                 
                 // 检查是否点击了有效位置
                 if (x < 0 || x > 8 || y < 0 || y > 9) return;
@@ -513,15 +420,6 @@
                 if (capturedPiece) {
                     capturedPiece.element.remove();
                     pieces = pieces.filter(p => p !== capturedPiece);
-                    
-                    // 记录被吃的棋子
-                    if (currentPlayer === 'red') {
-                        redCapturedPieces.push(capturedPiece);
-                    } else {
-                        blackCapturedPieces.push(capturedPiece);
-                    }
-                    
-                    updateCapturedDisplay();
                 }
                 
                 // 更新棋子位置
@@ -536,8 +434,8 @@
                 }
                 
                 // 计算像素位置
-                const left = 25 + toX * 50 - 22;
-                const top = 25 + toY * 50 - 22;
+                const left = 16 + toX * 33.3 - 14.5;
+                const top = 16 + toY * 33.3 - 14.5;
                 
                 piece.style.left = `${left}px`;
                 piece.style.top = `${top}px`;
@@ -645,7 +543,7 @@
                         return false;
                     }
                 }
-                
+                    
                 return true;
             }
             
@@ -658,15 +556,13 @@
                 if (dx !== 2 || dy !== 2) {
                     return false;
                 }
-                
+
                 // 检查象眼
                 if (getPieceAt(fromX + (toX > fromX ? 1 : -1), fromY + (toY > fromY ? 1 : -1))) {
                     return false;
-                }
-                
-                // 相/象不能过河
+                }                // 相/象不能过河
                 if (color === 'red' && toY < 5) {
-                    return false;
+                   return false;
                 }
                 if (color === 'black' && toY > 4) {
                     return false;
@@ -842,7 +738,6 @@
                 
                 if (!redKing) {
                     gameOver = true;
-                    blackScore++;
                     victoryMessage.textContent = '黑方胜利！';
                     victoryMessage.style.display = 'block';
                     setTimeout(() => {
@@ -851,7 +746,6 @@
                     }, 3000);
                 } else if (!blackKing) {
                     gameOver = true;
-                    redScore++;
                     victoryMessage.textContent = '红方胜利！';
                     victoryMessage.style.display = 'block';
                     setTimeout(() => {
@@ -859,8 +753,6 @@
                         initBoard();
                     }, 3000);
                 }
-                
-                updateCapturedDisplay();
             }
             
             // 悔棋功能
@@ -882,8 +774,8 @@
                 }
                 
                 // 计算像素位置
-                const left = 25 + lastMove.fromX * 50 - 22;
-                const top = 25 + lastMove.fromY * 50 - 22;
+                const left = 16 + lastMove.fromX * 33.3 - 14.5;
+                const top = 16 + lastMove.fromY * 33.3 - 14.5;
                 
                 piece.style.left = `${left}px`;
                 piece.style.top = `${top}px`;
@@ -896,25 +788,6 @@
                         lastMove.toX,
                         lastMove.toY
                     );
-                    
-                    // 从被吃棋子列表中移除
-                    if (currentPlayer === 'black') {
-                        redCapturedPieces = redCapturedPieces.filter(p => 
-                            !(p.type === lastMove.captured.type && 
-                              p.color === lastMove.captured.color &&
-                              p.x === lastMove.toX && 
-                              p.y === lastMove.toY)
-                        );
-                    } else {
-                        blackCapturedPieces = blackCapturedPieces.filter(p => 
-                            !(p.type === lastMove.captured.type && 
-                              p.color === lastMove.captured.color &&
-                              p.x === lastMove.toX && 
-                              p.y === lastMove.toY)
-                        );
-                    }
-                    
-                    updateCapturedDisplay();
                 }
                 
                 // 取消选择状态
