@@ -15,7 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
             background: #f0e6d2 url('https://img.freepik.com/free-photo/wooden-texture_1194-6151.jpg') center/cover;
         }
@@ -26,27 +26,47 @@
             align-items: center;
             background: rgba(210, 180, 140, 0.8);
             padding: 10px;
-            border-radius: 10px;
+            border-radius: 5px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            border: 5px solid #8B4513;
-            max-width: 100%;
-            box-sizing: border-box;
+            border: 1px solid #8B4513;
         }
         
-        h1 {
-            color: #5C3317;
-            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
-            margin: 0 0 5px 0;
+        .score-button {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 0;
+            width: 120px;
+            text-align: center;
             font-family: 'KaiTi';
-            font-size: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
         }
+        
+        #black-score {
+    background: linear-gradient(135deg, #333, #000);
+    color: white;
+
+
+}
+        
+#red-score {
+    background: linear-gradient(135deg, #d10000, #a00000);
+    color: white;
+
+
+}
         
         .chess-board {
             position: relative;
             width: 300px;
             height: 333px;
             background: #e8c887 url('https://img.freepik.com/free-photo/old-wooden-table-texture-background_53876-88628.jpg') center/cover;
-            border: 2px solid #5C3317;
+            border: 1px solid #5C3317;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
         }
         
@@ -64,23 +84,23 @@
             position: absolute;
             z-index: 2;
             transition: all 0.2s;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
             font-family: 'KaiTi';
         }
         
         .chess-piece.red {
             background: linear-gradient(135deg, #d10000, #a00000);
             color: #fff;
-            border: 1px solid #800;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(255, 255, 255, 0.2);
+            border: 2px solid #800;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.2);
         }
         
         .chess-piece.black {
             background: linear-gradient(135deg, #333, #000);
             color: #fff;
-            border: 1px solid #222;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(255, 255, 255, 0.1);
+            border: 2px solid #222;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
         }
         
         .chess-piece.selected {
@@ -92,15 +112,15 @@
         .chess-piece.selected::after {
             content: "";
             position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
             border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.8);
+            border: 4px solid rgba(255, 255, 255, 0.8);
             box-shadow: 
-                0 0 6px rgba(255, 255, 255, 0.6),
-                0 0 8px rgba(255, 255, 255, 0.4);
+                0 0 8px rgba(255, 255, 255, 0.6),
+                0 0 12px rgba(255, 255, 255, 0.4);
             pointer-events: none;
             animation: float 2s ease-in-out infinite;
         }
@@ -118,7 +138,7 @@
             font-weight: bold;
             color: #5C3317;
             background: rgba(173, 216, 230, 0.3);
-            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
             font-family: 'KaiTi';
         }
         
@@ -130,38 +150,59 @@
             margin-top: 10px;
         }
         
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 5px;
-        }
+        .button-row {
+    display: flex;
+    justify-content: space-between;
+    width: 280px; /* 从300px缩小 */
+    margin: 5px 0; /* 增加上下边距 */
+    align-items: center;
+}
+/* 统一按钮宽度 */
+.score-button, #reset-btn, #undo-btn {
+    width: 120px; /* 从140px缩小 */
+    height: 20px;
+    box-sizing: border-box;
+}
+        
+.button-group {
+    display: flex;
+    gap: 8px; /* 从10px缩小 */
+    margin-top: 5px;
+    justify-content: center;
+}
         
         button {
             padding: 6px 12px;
-            background: linear-gradient(to bottom, #8B4513, #5C3317);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: 'KaiTi';
-            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-            font-size: 14px;
+            height: 10px;
+            min-width: 100px;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'KaiTi';
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    height: 40px;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
         }
+
+/* 控制按钮样式 */
+#undo-btn, #reset-btn {
+    background: #8B4513;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
         
         button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-        }
-        
-        .status {
-            font-weight: bold;
-            color: #5C3317;
-            text-align: center;
-            margin-bottom: 5px;
-            font-family: 'KaiTi';
-            font-size: 16px;
-        }
+            transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
         
         .victory-message {
             position: fixed;
@@ -170,20 +211,88 @@
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.8);
             color: gold;
-            padding: 15px 30px;
-            border-radius: 8px;
+            padding: 20px 40px;
+            border-radius: 10px;
             font-size: 24px;
             font-weight: bold;
             z-index: 100;
             display: none;
             font-family: 'KaiTi';
-            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
             animation: pulse 1.5s infinite;
+        }
+
+        .captured-pieces {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(210, 180, 140, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            display: none;
+            max-width: 70%;
+            max-height: 70%;
+            overflow-y: auto;
+            border: 1px solid #8B4513;
+        }
+        
+        .captured-title {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+        
+        .captured-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+        }
+        
+        .captured-piece {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        #red-captured .captured-piece {
+            background: linear-gradient(135deg, #333, #000);
+            color: white;
+            border: 1px solid #222;
+        }
+        
+        #black-captured .captured-piece {
+            background: linear-gradient(135deg, #d10000, #a00000);
+            color: white;
+            border: 1px solid #800;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+            cursor: pointer;
         }
         
         @keyframes pulse {
             0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.05); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
         
@@ -197,13 +306,16 @@
         
         .board-lines line {
             stroke: #5C3317;
-            stroke-width: 1.5;
+            stroke-width: 2;
         }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <h1>中国象棋</h1>
+        <div class="button-row">
+            <button class="score-button" id="black-score">黑方: 0</button>
+            <button class="score-button" id="red-score">红方: 0</button>
+        </div>
         
         <div class="chess-board">
             <svg class="board-lines" viewBox="0 0 300 333">
@@ -249,30 +361,41 @@
             </svg>
             
             <!-- 楚河汉界 -->
-            <div class="river">楚河　　汉界</div>
+            <div class="river">楚河　　　　　　　　汉界</div>
             
             <!-- 棋子容器 -->
             <div id="pieces-container"></div>
         </div>
         
-        <div class="controls">
-            <div class="status" id="status">红方回合</div>
-            <div class="button-group">
-                <button id="reset-btn">重新开始</button>
-                <button id="undo-btn">悔棋</button>
-            </div>
+        <div class="button-row">
+            <button id="undo-btn">悔棋</button>
+
+            <button id="reset-btn">重新开始</button>
         </div>
     </div>
     
     <div class="victory-message" id="victory-message"></div>
+    
+    <div class="captured-pieces" id="red-captured">
+        <div class="captured-title">红方吃子</div>
+        <div class="captured-list" id="red-captured-list"></div>
+    </div>
+    
+    <div class="captured-pieces" id="black-captured">
+        <div class="captured-title">黑方吃子</div>
+        <div class="captured-list" id="black-captured-list"></div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const piecesContainer = document.getElementById('pieces-container');
-            const statusDisplay = document.getElementById('status');
             const resetBtn = document.getElementById('reset-btn');
             const undoBtn = document.getElementById('undo-btn');
             const victoryMessage = document.getElementById('victory-message');
+            const redScoreBtn = document.getElementById('red-score');
+            const blackScoreBtn = document.getElementById('black-score');
+            const redCapturedList = document.getElementById('red-captured-list');
+            const blackCapturedList = document.getElementById('black-captured-list');
             
             // 棋子初始位置
             const initialPositions = [
@@ -318,6 +441,10 @@
             let currentPlayer = 'red';
             let selectedPiece = null;
             let gameOver = false;
+            let redScore = 0;
+            let blackScore = 0;
+            let redCapturedPieces = [];
+            let blackCapturedPieces = [];
             
             // 初始化棋盘
             function initBoard() {
@@ -327,8 +454,12 @@
                 currentPlayer = 'red';
                 selectedPiece = null;
                 gameOver = false;
+                redCapturedPieces = [];
+                blackCapturedPieces = [];
                 
-                statusDisplay.textContent = '红方回合';
+                updateScoreDisplay();
+                redCapturedList.innerHTML = '';
+                blackCapturedList.innerHTML = '';
                 
                 initialPositions.forEach(pos => {
                     createPiece(pos.type, pos.color, pos.x, pos.y);
@@ -378,6 +509,32 @@
                 return piece;
             }
             
+            // 更新比分显示
+            function updateScoreDisplay() {
+                redScoreBtn.textContent = `红方: ${redScore}`;
+                blackScoreBtn.textContent = `黑方: ${blackScore}`;
+            }
+            
+            // 更新被吃掉的棋子显示
+            function updateCapturedDisplay() {
+                redCapturedList.innerHTML = '';
+                blackCapturedList.innerHTML = '';
+                
+                redCapturedPieces.forEach(piece => {
+                    const el = document.createElement('div');
+                    el.className = `captured-piece ${piece.color}`;
+                    el.textContent = piece.type;
+                    redCapturedList.appendChild(el);
+                });
+                
+                blackCapturedPieces.forEach(piece => {
+                    const el = document.createElement('div');
+                    el.className = `captured-piece ${piece.color}`;
+                    el.textContent = piece.type;
+                    blackCapturedList.appendChild(el);
+                });
+            }
+            
             // 棋盘点击事件
             document.querySelector('.chess-board').addEventListener('click', function(e) {
                 if (gameOver || !selectedPiece) return;
@@ -420,6 +577,15 @@
                 if (capturedPiece) {
                     capturedPiece.element.remove();
                     pieces = pieces.filter(p => p !== capturedPiece);
+                    
+                    // 记录被吃的棋子
+                    if (currentPlayer === 'red') {
+                        redCapturedPieces.push(capturedPiece);
+                    } else {
+                        blackCapturedPieces.push(capturedPiece);
+                    }
+                    
+                    updateCapturedDisplay();
                 }
                 
                 // 更新棋子位置
@@ -446,7 +612,6 @@
                 
                 // 切换玩家
                 currentPlayer = currentPlayer === 'red' ? 'black' : 'red';
-                statusDisplay.textContent = `${currentPlayer === 'red' ? '红' : '黑'}方回合`;
             }
             
             // 检查移动是否合法
@@ -543,7 +708,7 @@
                         return false;
                     }
                 }
-                    
+                
                 return true;
             }
             
@@ -556,13 +721,15 @@
                 if (dx !== 2 || dy !== 2) {
                     return false;
                 }
-
+                
                 // 检查象眼
                 if (getPieceAt(fromX + (toX > fromX ? 1 : -1), fromY + (toY > fromY ? 1 : -1))) {
                     return false;
-                }                // 相/象不能过河
+                }
+                
+                // 相/象不能过河
                 if (color === 'red' && toY < 5) {
-                   return false;
+                    return false;
                 }
                 if (color === 'black' && toY > 4) {
                     return false;
@@ -738,6 +905,7 @@
                 
                 if (!redKing) {
                     gameOver = true;
+                    blackScore++;
                     victoryMessage.textContent = '黑方胜利！';
                     victoryMessage.style.display = 'block';
                     setTimeout(() => {
@@ -746,6 +914,7 @@
                     }, 3000);
                 } else if (!blackKing) {
                     gameOver = true;
+                    redScore++;
                     victoryMessage.textContent = '红方胜利！';
                     victoryMessage.style.display = 'block';
                     setTimeout(() => {
@@ -753,6 +922,8 @@
                         initBoard();
                     }, 3000);
                 }
+                
+                updateScoreDisplay();
             }
             
             // 悔棋功能
@@ -788,6 +959,25 @@
                         lastMove.toX,
                         lastMove.toY
                     );
+                    
+                    // 从被吃棋子列表中移除
+                    if (currentPlayer === 'black') {
+                        redCapturedPieces = redCapturedPieces.filter(p => 
+                            !(p.type === lastMove.captured.type && 
+                              p.color === lastMove.captured.color &&
+                              p.x === lastMove.toX && 
+                              p.y === lastMove.toY)
+                        );
+                    } else {
+                        blackCapturedPieces = blackCapturedPieces.filter(p => 
+                            !(p.type === lastMove.captured.type && 
+                              p.color === lastMove.captured.color &&
+                              p.x === lastMove.toX && 
+                              p.y === lastMove.toY)
+                        );
+                    }
+                    
+                    updateCapturedDisplay();
                 }
                 
                 // 取消选择状态
@@ -798,11 +988,46 @@
                 
                 // 切换回上一个玩家
                 currentPlayer = currentPlayer === 'red' ? 'black' : 'red';
-                statusDisplay.textContent = `${currentPlayer === 'red' ? '红' : '黑'}方回合`;
             });
             
             // 重新开始
             resetBtn.addEventListener('click', initBoard);
+            
+            // 长按显示吃子情况
+            let longPressTimer;
+            const longPressDelay = 500; // 长按时间阈值
+            
+            redScoreBtn.addEventListener('mousedown', function() {
+                longPressTimer = setTimeout(() => {
+                    document.getElementById('red-captured').style.display = 'block';
+                }, longPressDelay);
+            });
+            
+            redScoreBtn.addEventListener('mouseup', function() {
+                clearTimeout(longPressTimer);
+                document.getElementById('red-captured').style.display = 'none';
+            });
+            
+            redScoreBtn.addEventListener('mouseleave', function() {
+                clearTimeout(longPressTimer);
+                document.getElementById('red-captured').style.display = 'none';
+            });
+            
+            blackScoreBtn.addEventListener('mousedown', function() {
+                longPressTimer = setTimeout(() => {
+                    document.getElementById('black-captured').style.display = 'block';
+                }, longPressDelay);
+            });
+            
+            blackScoreBtn.addEventListener('mouseup', function() {
+                clearTimeout(longPressTimer);
+                document.getElementById('black-captured').style.display = 'none';
+            });
+            
+            blackScoreBtn.addEventListener('mouseleave', function() {
+                clearTimeout(longPressTimer);
+                document.getElementById('black-captured').style.display = 'none';
+            });
             
             // 初始化游戏
             initBoard();
