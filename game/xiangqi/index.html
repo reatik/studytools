@@ -31,35 +31,22 @@
             border: 1px solid #8B4513;
         }
         
-        .score-button {
-            padding: 8px 16px;
-            font-size: 12px;
+        .score-display {
+            font-size: 16px;
             font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px 0;
-            width: 120px;
+            margin: 10px 0;
+            color: #5C3317;
             text-align: center;
-            font-family: 'KaiTi';
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
+            width: 100%;
         }
         
-        #black-score {
-    background: linear-gradient(135deg, #333, #000);
-    color: white;
-
-
-}
+        .red-score {
+            color: #d10000;
+        }
         
-#red-score {
-    background: linear-gradient(135deg, #d10000, #a00000);
-    color: white;
-
-
-}
+        .black-score {
+            color: #000;
+        }
         
         .chess-board {
             position: relative;
@@ -101,12 +88,20 @@
             color: #fff;
             border: 2px solid #222;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+            transform: rotate(180deg);
         }
         
         .chess-piece.selected {
             transform: scale(1.1);
             position: relative;
             z-index: 10;
+        }
+
+        .chess-piece.black.selected {
+            transform: scale(1.1);
+            position: relative;
+            z-index: 10;
+            transform: rotate(180deg);
         }
 
         .chess-piece.selected::after {
@@ -122,7 +117,7 @@
                 0 0 8px rgba(255, 255, 255, 0.6),
                 0 0 12px rgba(255, 255, 255, 0.4);
             pointer-events: none;
-            animation: float 2s ease-in-out infinite;
+            animation: fade 0.5s ease-in-out;
         }
 
         .river {
@@ -151,58 +146,42 @@
         }
         
         .button-row {
-    display: flex;
-    justify-content: space-between;
-    width: 280px; /* 从300px缩小 */
-    margin: 5px 0; /* 增加上下边距 */
-    align-items: center;
-}
-/* 统一按钮宽度 */
-.score-button, #reset-btn, #undo-btn {
-    width: 120px; /* 从140px缩小 */
-    height: 20px;
-    box-sizing: border-box;
-}
-        
-.button-group {
-    display: flex;
-    gap: 8px; /* 从10px缩小 */
-    margin-top: 5px;
-    justify-content: center;
-}
+            display: flex;
+            justify-content: space-between;
+            width: 280px;
+            margin: 5px 0;
+            align-items: center;
+        }
         
         button {
             padding: 6px 12px;
-            height: 10px;
+            height: 20px;
             min-width: 100px;
-    font-size: 12px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: 'KaiTi';
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    height: 40px;
-    min-width: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+            font-size: 10px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'KaiTi';
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
-/* 控制按钮样式 */
-#undo-btn, #reset-btn {
-    background: #8B4513;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
+        #undo-btn, #reset-btn {
+            background: #8B4513;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
         
         button:hover {
             transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
         
         .victory-message {
             position: fixed;
@@ -211,92 +190,17 @@
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.8);
             color: gold;
-            padding: 20px 40px;
+            padding: 10px 20px;
             border-radius: 10px;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
             z-index: 100;
             display: none;
             font-family: 'KaiTi';
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-            animation: pulse 1.5s infinite;
+            animation: fade 0.5s ease-in-out;
         }
 
-        .captured-pieces {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(210, 180, 140, 0.95);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            z-index: 100;
-            display: none;
-            max-width: 70%;
-            max-height: 70%;
-            overflow-y: auto;
-            border: 1px solid #8B4513;
-        }
-        
-        .captured-title {
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 10px;
-        }
-        
-        .captured-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            justify-content: center;
-        }
-        
-        .captured-piece {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        #red-captured .captured-piece {
-            background: linear-gradient(135deg, #333, #000);
-            color: white;
-            border: 1px solid #222;
-        }
-        
-        #black-captured .captured-piece {
-            background: linear-gradient(135deg, #d10000, #a00000);
-            color: white;
-            border: 1px solid #800;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #8B4513;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
-            100% { transform: translate(-50%, -50%) scale(1); }
-        }
-        
-        /* 棋盘线条 */
         .board-lines {
             position: absolute;
             width: 100%;
@@ -308,13 +212,21 @@
             stroke: #5C3317;
             stroke-width: 2;
         }
+        
+        @keyframes fade {
+            0% { 
+                opacity: 0;
+            }
+            100% { 
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <div class="button-row">
-            <button class="score-button" id="black-score">黑方: 0</button>
-            <button class="score-button" id="red-score">红方: 0</button>
+        <div class="score-display">
+            <span class="red-score" id="red-score">0</span>:<span class="black-score" id="black-score">0</span>
         </div>
         
         <div class="chess-board">
@@ -369,33 +281,20 @@
         
         <div class="button-row">
             <button id="undo-btn">悔棋</button>
-
             <button id="reset-btn">重新开始</button>
         </div>
     </div>
     
     <div class="victory-message" id="victory-message"></div>
     
-    <div class="captured-pieces" id="red-captured">
-        <div class="captured-title">红方吃子</div>
-        <div class="captured-list" id="red-captured-list"></div>
-    </div>
-    
-    <div class="captured-pieces" id="black-captured">
-        <div class="captured-title">黑方吃子</div>
-        <div class="captured-list" id="black-captured-list"></div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const piecesContainer = document.getElementById('pieces-container');
             const resetBtn = document.getElementById('reset-btn');
             const undoBtn = document.getElementById('undo-btn');
             const victoryMessage = document.getElementById('victory-message');
-            const redScoreBtn = document.getElementById('red-score');
-            const blackScoreBtn = document.getElementById('black-score');
-            const redCapturedList = document.getElementById('red-captured-list');
-            const blackCapturedList = document.getElementById('black-captured-list');
+            const redScoreElement = document.getElementById('red-score');
+            const blackScoreElement = document.getElementById('black-score');
             
             // 棋子初始位置
             const initialPositions = [
@@ -443,8 +342,6 @@
             let gameOver = false;
             let redScore = 0;
             let blackScore = 0;
-            let redCapturedPieces = [];
-            let blackCapturedPieces = [];
             
             // 初始化棋盘
             function initBoard() {
@@ -454,12 +351,8 @@
                 currentPlayer = 'red';
                 selectedPiece = null;
                 gameOver = false;
-                redCapturedPieces = [];
-                blackCapturedPieces = [];
                 
                 updateScoreDisplay();
-                redCapturedList.innerHTML = '';
-                blackCapturedList.innerHTML = '';
                 
                 initialPositions.forEach(pos => {
                     createPiece(pos.type, pos.color, pos.x, pos.y);
@@ -470,7 +363,7 @@
             function createPiece(type, color, x, y) {
                 const piece = document.createElement('div');
                 piece.className = `chess-piece ${color}`;
-                piece.textContent = type;
+                piece.innerHTML = `<span style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">${type}</span>`;
                 piece.dataset.type = type;
                 piece.dataset.color = color;
                 piece.dataset.x = x;
@@ -511,28 +404,8 @@
             
             // 更新比分显示
             function updateScoreDisplay() {
-                redScoreBtn.textContent = `红方: ${redScore}`;
-                blackScoreBtn.textContent = `黑方: ${blackScore}`;
-            }
-            
-            // 更新被吃掉的棋子显示
-            function updateCapturedDisplay() {
-                redCapturedList.innerHTML = '';
-                blackCapturedList.innerHTML = '';
-                
-                redCapturedPieces.forEach(piece => {
-                    const el = document.createElement('div');
-                    el.className = `captured-piece ${piece.color}`;
-                    el.textContent = piece.type;
-                    redCapturedList.appendChild(el);
-                });
-                
-                blackCapturedPieces.forEach(piece => {
-                    const el = document.createElement('div');
-                    el.className = `captured-piece ${piece.color}`;
-                    el.textContent = piece.type;
-                    blackCapturedList.appendChild(el);
-                });
+                redScoreElement.textContent = redScore;
+                blackScoreElement.textContent = blackScore;
             }
             
             // 棋盘点击事件
@@ -562,30 +435,29 @@
                 const fromX = parseInt(piece.dataset.x);
                 const fromY = parseInt(piece.dataset.y);
                 
-                // 记录移动历史
+                // 获取目标位置的棋子（如果有）
                 const capturedPiece = getPieceAt(toX, toY);
+                
+                // 记录移动历史（包含完整的棋子数据）
                 moveHistory.push({
                     piece: piece,
                     fromX: fromX,
                     fromY: fromY,
                     toX: toX,
                     toY: toY,
-                    captured: capturedPiece
+                    captured: capturedPiece ? {
+                        element: capturedPiece.element,
+                        type: capturedPiece.type,
+                        color: capturedPiece.color,
+                        x: capturedPiece.x,
+                        y: capturedPiece.y
+                    } : null
                 });
                 
-                // 如果有吃子，移除被吃的棋子
+                // 如果有吃子，隐藏被吃的棋子
                 if (capturedPiece) {
-                    capturedPiece.element.remove();
+                    capturedPiece.element.style.display = 'none';
                     pieces = pieces.filter(p => p !== capturedPiece);
-                    
-                    // 记录被吃的棋子
-                    if (currentPlayer === 'red') {
-                        redCapturedPieces.push(capturedPiece);
-                    } else {
-                        blackCapturedPieces.push(capturedPiece);
-                    }
-                    
-                    updateCapturedDisplay();
                 }
                 
                 // 更新棋子位置
@@ -704,7 +576,7 @@
                         return false;
                     }
                 } else {
-                    if (getPieceAt(fromX, fromY + (toY > fromY ? 1 : -1))) {
+                    if (getPieceAt(fromX, fromY + (toY > fromY ? 1 : -1)) ) {
                         return false;
                     }
                 }
@@ -951,33 +823,25 @@
                 piece.style.left = `${left}px`;
                 piece.style.top = `${top}px`;
                 
+                // 确保文字居中
+                if (!piece.querySelector('span')) {
+                    piece.innerHTML = `<span style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">${piece.dataset.type}</span>`;
+                }
+                
                 // 如果有被吃的棋子，恢复它
                 if (lastMove.captured) {
-                    createPiece(
-                        lastMove.captured.type,
-                        lastMove.captured.color,
-                        lastMove.toX,
-                        lastMove.toY
-                    );
+                    const capturedPiece = lastMove.captured;
+                    capturedPiece.element.style.display = 'block';
                     
-                    // 从被吃棋子列表中移除
-                    if (currentPlayer === 'black') {
-                        redCapturedPieces = redCapturedPieces.filter(p => 
-                            !(p.type === lastMove.captured.type && 
-                              p.color === lastMove.captured.color &&
-                              p.x === lastMove.toX && 
-                              p.y === lastMove.toY)
-                        );
-                    } else {
-                        blackCapturedPieces = blackCapturedPieces.filter(p => 
-                            !(p.type === lastMove.captured.type && 
-                              p.color === lastMove.captured.color &&
-                              p.x === lastMove.toX && 
-                              p.y === lastMove.toY)
-                        );
+                    // 确保被吃棋子文字居中
+                    if (!capturedPiece.element.querySelector('span')) {
+                        capturedPiece.element.innerHTML = `<span style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">${capturedPiece.type}</span>`;
                     }
                     
-                    updateCapturedDisplay();
+                    // 将被吃棋子添加回pieces数组
+                    if (!pieces.some(p => p.element === capturedPiece.element)) {
+                        pieces.push(capturedPiece);
+                    }
                 }
                 
                 // 取消选择状态
@@ -992,42 +856,6 @@
             
             // 重新开始
             resetBtn.addEventListener('click', initBoard);
-            
-            // 长按显示吃子情况
-            let longPressTimer;
-            const longPressDelay = 500; // 长按时间阈值
-            
-            redScoreBtn.addEventListener('mousedown', function() {
-                longPressTimer = setTimeout(() => {
-                    document.getElementById('red-captured').style.display = 'block';
-                }, longPressDelay);
-            });
-            
-            redScoreBtn.addEventListener('mouseup', function() {
-                clearTimeout(longPressTimer);
-                document.getElementById('red-captured').style.display = 'none';
-            });
-            
-            redScoreBtn.addEventListener('mouseleave', function() {
-                clearTimeout(longPressTimer);
-                document.getElementById('red-captured').style.display = 'none';
-            });
-            
-            blackScoreBtn.addEventListener('mousedown', function() {
-                longPressTimer = setTimeout(() => {
-                    document.getElementById('black-captured').style.display = 'block';
-                }, longPressDelay);
-            });
-            
-            blackScoreBtn.addEventListener('mouseup', function() {
-                clearTimeout(longPressTimer);
-                document.getElementById('black-captured').style.display = 'none';
-            });
-            
-            blackScoreBtn.addEventListener('mouseleave', function() {
-                clearTimeout(longPressTimer);
-                document.getElementById('black-captured').style.display = 'none';
-            });
             
             // 初始化游戏
             initBoard();
