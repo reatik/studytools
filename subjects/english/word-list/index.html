@@ -193,12 +193,12 @@ tr:hover {
 
 .phonetic-tooltip {
     position: absolute;
-    top: -10px;
-    right: 0;
-    transform: translateY(-100%);
-    background-color: white;
-    color: var(--text-color);
-    padding: 4px 8px;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white; /* 改为白色背景 */
+    color: var(--text-color); /* 使用主文本颜色 */
+    padding: 6px 12px;
     border-radius: 4px;
     font-size: 0.9rem;
     white-space: nowrap;
@@ -206,8 +206,8 @@ tr:hover {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.2s;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color); /* 添加边框 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加阴影 */
 }
 
 .english-cell:hover .phonetic-tooltip {
@@ -222,10 +222,11 @@ tr:hover {
     
     .phonetic-tooltip-mobile {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: white;
-    color: var(--text-color);
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white; /* 改为白色背景 */
+    color: var(--text-color); /* 使用主文本颜色 */
     padding: 10px 16px;
     border-radius: 6px;
     font-size: 1rem;
@@ -233,9 +234,8 @@ tr:hover {
     text-align: center;
     max-width: 80%;
     word-break: break-word;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    display: none;
+    border: 1px solid var(--border-color); /* 添加边框 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* 添加阴影 */
 }
 }
 
@@ -895,6 +895,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateButtonText();
 });
 
+// 渲染表格函数
 function renderTable(data) {
     const tableBody = document.getElementById('words-table-body');
     tableBody.innerHTML = '';
@@ -934,7 +935,7 @@ function renderTable(data) {
         
         if (!englishVisible) englishCell.classList.add('hidden-content');
         
-        // 网页端悬停事件（保留在英语单元格）
+        // 网页端悬停事件
         englishCell.addEventListener('mouseenter', function() {
             if (word.phonetic && window.innerWidth > 768) {
                 const tooltip = this.querySelector('.phonetic-tooltip');
@@ -949,49 +950,32 @@ function renderTable(data) {
             }
         });
         
-        row.appendChild(englishCell);
+        // 移动端长按事件
+        englishCell.addEventListener('touchstart', function(e) {
+            if (window.innerWidth <= 768 && word.phonetic) {
+                longPressTimer = setTimeout(() => {
+                    showMobileTooltip(word.phonetic);
+                    e.preventDefault();
+                }, 500);
+            }
+        });
         
-        // 中文列
-        const chineseCell = document.createElement('td');
-        chineseCell.textContent = word.chinese;
-        if (!chineseVisible) chineseCell.classList.add('hidden-content');
-        row.appendChild(chineseCell);
+        englishCell.addEventListener('touchend', function() {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+            hideMobileTooltip();
+        });
         
-        // 词性列
-        const posCell = document.createElement('td');
-        posCell.textContent = word.pos;
-        row.appendChild(posCell);
+        englishCell.addEventListener('touchmove', function() {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+            hideMobileTooltip();
+        });
         
-        // 将长按事件从英语单元格移到整行
-        if (word.phonetic) {
-            // 移动端长按事件 - 整行
-            row.addEventListener('touchstart', function(e) {
-                if (window.innerWidth <= 768) {
-                    longPressTimer = setTimeout(() => {
-                        showMobileTooltip(word.phonetic);
-                        e.preventDefault();
-                    }, 500);
-                }
-            });
-            
-            row.addEventListener('touchend', function() {
-                if (longPressTimer) {
-                    clearTimeout(longPressTimer);
-                    longPressTimer = null;
-                }
-                hideMobileTooltip();
-            });
-            
-            row.addEventListener('touchmove', function() {
-                if (longPressTimer) {
-                    clearTimeout(longPressTimer);
-                    longPressTimer = null;
-                }
-                hideMobileTooltip();
-            });
-        }
-        
-        // 点击英语单元格朗读单词
         englishCell.addEventListener('click', () => {
             speakWord(word.english);
             if (englishCell.classList.contains('hidden-content')) {
@@ -999,12 +983,23 @@ function renderTable(data) {
             }
         });
         
-        // 点击中文单元格显示内容
+        row.appendChild(englishCell);
+        
+        // 中文列
+        const chineseCell = document.createElement('td');
+        chineseCell.textContent = word.chinese;
+        if (!chineseVisible) chineseCell.classList.add('hidden-content');
         chineseCell.addEventListener('click', () => {
             if (chineseCell.classList.contains('hidden-content')) {
                 chineseCell.classList.remove('hidden-content');
             }
         });
+        row.appendChild(chineseCell);
+        
+        // 词性列
+        const posCell = document.createElement('td');
+        posCell.textContent = word.pos;
+        row.appendChild(posCell);
         
         tableBody.appendChild(row);
     });
@@ -1016,9 +1011,14 @@ function renderTable(data) {
 function showMobileTooltip(phonetic) {
     mobileTooltip.textContent = phonetic;
     mobileTooltip.style.display = 'block';
-    // 移除自动隐藏的setTimeout
+    
+    // 3秒后自动隐藏
+    setTimeout(() => {
+        mobileTooltip.style.display = 'none';
+    }, 3000);
 }
 
+// 隐藏移动端音标提示
 function hideMobileTooltip() {
     mobileTooltip.style.display = 'none';
 }
