@@ -196,8 +196,8 @@ tr:hover {
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: white; /* 改为白色背景 */
-    color: var(--text-color); /* 使用主文本颜色 */
+    background-color: white;
+    color: var(--text-color);
     padding: 6px 12px;
     border-radius: 4px;
     font-size: 0.9rem;
@@ -206,27 +206,19 @@ tr:hover {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.2s;
-    border: 1px solid var(--border-color); /* 添加边框 */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加阴影 */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .english-cell:hover .phonetic-tooltip {
     opacity: 1;
 }
 
-/* 移动端长按提示 */
-@media (max-width: 768px) {
-    .phonetic-tooltip {
-        display: none;
-    }
-    
-    .phonetic-tooltip-mobile {
+/* 移动端点击音标提示 */
+.phonetic-tooltip-mobile {
     position: fixed;
-    bottom: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white; /* 改为白色背景 */
-    color: var(--text-color); /* 使用主文本颜色 */
+    background-color: white;
+    color: var(--text-color);
     padding: 10px 16px;
     border-radius: 6px;
     font-size: 1rem;
@@ -234,9 +226,10 @@ tr:hover {
     text-align: center;
     max-width: 80%;
     word-break: break-word;
-    border: 1px solid var(--border-color); /* 添加边框 */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* 添加阴影 */
-}
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    display: none;
+    transform: translate(-50%, -50%);
 }
 
 /* 练习按钮 */
@@ -600,7 +593,7 @@ tr:hover {
     </div>
 
     <!-- 移动端音标提示 -->
-    <div id="phonetic-tooltip-mobile" class="phonetic-tooltip-mobile" style="display: none;"></div>
+    <div id="phonetic-tooltip-mobile" class="phonetic-tooltip-mobile"></div>
 
     <script>
 // 从words.js中获取单词数据
@@ -613,7 +606,6 @@ let selectedGrades = [];
 let selectedUnits = [];
 let allGrades = [];
 let allUnits = [];
-let longPressTimer = null;
 const mobileTooltip = document.getElementById('phonetic-tooltip-mobile');
 
 // 自定义年级排序函数
@@ -662,7 +654,6 @@ function sortUnits(a, b) {
     }
     return aUnit - bUnit;
 }
-
 
 // 更新按钮显示文本
 function updateButtonText() {
@@ -950,34 +941,32 @@ function renderTable(data) {
             }
         });
         
-        // 移动端长按事件
-        englishCell.addEventListener('touchstart', function(e) {
+        // 移动端点击事件
+        englishCell.addEventListener('click', function(e) {
             if (window.innerWidth <= 768 && word.phonetic) {
-                longPressTimer = setTimeout(() => {
-                    showMobileTooltip(word.phonetic);
-                    e.preventDefault();
-                }, 500);
+                // 显示音标提示
+                mobileTooltip.textContent = word.phonetic;
+                mobileTooltip.style.display = 'block';
+                
+                // 计算位置
+                const rect = this.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top - 10; // 显示在单词上方
+                
+                mobileTooltip.style.left = `${x}px`;
+                mobileTooltip.style.top = `${y}px`;
+                mobileTooltip.style.transform = 'translate(-50%, -100%)';
+                
+                // 3秒后自动隐藏
+                setTimeout(() => {
+                    mobileTooltip.style.display = 'none';
+                }, 3000);
             }
-        });
-        
-        englishCell.addEventListener('touchend', function() {
-            if (longPressTimer) {
-                clearTimeout(longPressTimer);
-                longPressTimer = null;
-            }
-            hideMobileTooltip();
-        });
-        
-        englishCell.addEventListener('touchmove', function() {
-            if (longPressTimer) {
-                clearTimeout(longPressTimer);
-                longPressTimer = null;
-            }
-            hideMobileTooltip();
-        });
-        
-        englishCell.addEventListener('click', () => {
+            
+            // 朗读单词
             speakWord(word.english);
+            
+            // 如果内容被隐藏，点击后显示
             if (englishCell.classList.contains('hidden-content')) {
                 englishCell.classList.remove('hidden-content');
             }
@@ -1005,22 +994,6 @@ function renderTable(data) {
     });
     
     updateEyeIcons();
-}
-
-// 显示移动端音标提示
-function showMobileTooltip(phonetic) {
-    mobileTooltip.textContent = phonetic;
-    mobileTooltip.style.display = 'block';
-    
-    // 3秒后自动隐藏
-    setTimeout(() => {
-        mobileTooltip.style.display = 'none';
-    }, 3000);
-}
-
-// 隐藏移动端音标提示
-function hideMobileTooltip() {
-    mobileTooltip.style.display = 'none';
 }
 
 // 应用筛选条件
