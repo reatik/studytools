@@ -193,12 +193,12 @@ tr:hover {
 
 .phonetic-tooltip {
     position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white; /* 改为白色背景 */
-    color: var(--text-color); /* 使用主文本颜色 */
-    padding: 6px 12px;
+    top: -10px;
+    right: 0;
+    transform: translateY(-100%);
+    background-color: white;
+    color: var(--text-color);
+    padding: 4px 8px;
     border-radius: 4px;
     font-size: 0.9rem;
     white-space: nowrap;
@@ -206,8 +206,8 @@ tr:hover {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.2s;
-    border: 1px solid var(--border-color); /* 添加边框 */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加阴影 */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .english-cell:hover .phonetic-tooltip {
@@ -222,11 +222,10 @@ tr:hover {
     
     .phonetic-tooltip-mobile {
     position: fixed;
-    bottom: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white; /* 改为白色背景 */
-    color: var(--text-color); /* 使用主文本颜色 */
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    color: var(--text-color);
     padding: 10px 16px;
     border-radius: 6px;
     font-size: 1rem;
@@ -234,8 +233,9 @@ tr:hover {
     text-align: center;
     max-width: 80%;
     word-break: break-word;
-    border: 1px solid var(--border-color); /* 添加边框 */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* 添加阴影 */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    display: none;
 }
 }
 
@@ -895,7 +895,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateButtonText();
 });
 
-// 渲染表格函数
 function renderTable(data) {
     const tableBody = document.getElementById('words-table-body');
     tableBody.innerHTML = '';
@@ -1017,14 +1016,9 @@ function renderTable(data) {
 function showMobileTooltip(phonetic) {
     mobileTooltip.textContent = phonetic;
     mobileTooltip.style.display = 'block';
-    
-    // 3秒后自动隐藏
-    setTimeout(() => {
-        mobileTooltip.style.display = 'none';
-    }, 3000);
+    // 移除自动隐藏的setTimeout
 }
 
-// 隐藏移动端音标提示
 function hideMobileTooltip() {
     mobileTooltip.style.display = 'none';
 }
