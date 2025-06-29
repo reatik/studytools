@@ -935,7 +935,7 @@ function renderTable(data) {
         
         if (!englishVisible) englishCell.classList.add('hidden-content');
         
-        // 网页端悬停事件
+        // 网页端悬停事件（保留在英语单元格）
         englishCell.addEventListener('mouseenter', function() {
             if (word.phonetic && window.innerWidth > 768) {
                 const tooltip = this.querySelector('.phonetic-tooltip');
@@ -950,32 +950,49 @@ function renderTable(data) {
             }
         });
         
-        // 移动端长按事件
-        englishCell.addEventListener('touchstart', function(e) {
-            if (window.innerWidth <= 768 && word.phonetic) {
-                longPressTimer = setTimeout(() => {
-                    showMobileTooltip(word.phonetic);
-                    e.preventDefault();
-                }, 500);
-            }
-        });
+        row.appendChild(englishCell);
         
-        englishCell.addEventListener('touchend', function() {
-            if (longPressTimer) {
-                clearTimeout(longPressTimer);
-                longPressTimer = null;
-            }
-            hideMobileTooltip();
-        });
+        // 中文列
+        const chineseCell = document.createElement('td');
+        chineseCell.textContent = word.chinese;
+        if (!chineseVisible) chineseCell.classList.add('hidden-content');
+        row.appendChild(chineseCell);
         
-        englishCell.addEventListener('touchmove', function() {
-            if (longPressTimer) {
-                clearTimeout(longPressTimer);
-                longPressTimer = null;
-            }
-            hideMobileTooltip();
-        });
+        // 词性列
+        const posCell = document.createElement('td');
+        posCell.textContent = word.pos;
+        row.appendChild(posCell);
         
+        // 将长按事件从英语单元格移到整行
+        if (word.phonetic) {
+            // 移动端长按事件 - 整行
+            row.addEventListener('touchstart', function(e) {
+                if (window.innerWidth <= 768) {
+                    longPressTimer = setTimeout(() => {
+                        showMobileTooltip(word.phonetic);
+                        e.preventDefault();
+                    }, 500);
+                }
+            });
+            
+            row.addEventListener('touchend', function() {
+                if (longPressTimer) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = null;
+                }
+                hideMobileTooltip();
+            });
+            
+            row.addEventListener('touchmove', function() {
+                if (longPressTimer) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = null;
+                }
+                hideMobileTooltip();
+            });
+        }
+        
+        // 点击英语单元格朗读单词
         englishCell.addEventListener('click', () => {
             speakWord(word.english);
             if (englishCell.classList.contains('hidden-content')) {
@@ -983,23 +1000,12 @@ function renderTable(data) {
             }
         });
         
-        row.appendChild(englishCell);
-        
-        // 中文列
-        const chineseCell = document.createElement('td');
-        chineseCell.textContent = word.chinese;
-        if (!chineseVisible) chineseCell.classList.add('hidden-content');
+        // 点击中文单元格显示内容
         chineseCell.addEventListener('click', () => {
             if (chineseCell.classList.contains('hidden-content')) {
                 chineseCell.classList.remove('hidden-content');
             }
         });
-        row.appendChild(chineseCell);
-        
-        // 词性列
-        const posCell = document.createElement('td');
-        posCell.textContent = word.pos;
-        row.appendChild(posCell);
         
         tableBody.appendChild(row);
     });
