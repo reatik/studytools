@@ -1195,197 +1195,193 @@
             });
         }
         
-        // 处理抢答按钮按下
         function handleBuzzerPress(teamIndex) {
-            if (gameState.buzzerLocked) return;
-            
-            gameState.buzzerLocked = true;
-            gameState.activeTeamIndex = teamIndex;
-            
-            // 高亮抢到的队伍按钮
-            const buzzerBtns = document.querySelectorAll('.buzzer-btn');
-            buzzerBtns.forEach((btn, idx) => {
-                if (idx === teamIndex) {
-                    btn.classList.add('btn-success');
-                } else {
-                    btn.classList.add('disabled');
-                }
-            });
-            
-            // 更新队伍积分条
-            updateTeamsBar();
-            
-            // 启动计时器
-            startTimer();
+    if (gameState.buzzerLocked) return;
+    
+    gameState.buzzerLocked = true;
+    gameState.activeTeamIndex = teamIndex;
+    
+    // 高亮抢到的队伍按钮
+    const buzzerBtns = document.querySelectorAll('.buzzer-btn');
+    buzzerBtns.forEach((btn, idx) => {
+        if (idx === teamIndex) {
+            btn.classList.add('btn-success');
+        } else {
+            btn.classList.add('disabled');
+        }
+    });
+    
+    // 启用选项点击
+    const options = document.querySelectorAll('.option');
+    options.forEach(option => {
+        option.style.pointerEvents = 'auto';
+    });
+    
+    // 启动计时器
+    startTimer();
+    
+    // 更新队伍积分条
+    updateTeamsBar();
+}
+        
+function showQuestion() {
+    gameState.buzzerLocked = false;
+    const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
+    
+    // 更新UI
+    currentQuestionNum.textContent = gameState.currentQuestionIndex + 1;
+    questionText.textContent = currentQuestion.question;
+    progressBar.style.width = `${(gameState.currentQuestionIndex / gameState.totalQuestions) * 100}%`;
+    
+    // 清空选项
+    optionsContainer.innerHTML = '';
+    
+    // 添加选项
+    const optionLetters = ['A', 'B', 'C', 'D'];
+    currentQuestion.options.forEach((option, index) => {
+        const optionElement = document.createElement('div');
+        optionElement.classList.add('option');
+        optionElement.textContent = `${optionLetters[index]}. ${option}`;
+        optionElement.dataset.index = index;
+        
+        // 抢答模式下初始禁用选项点击
+        if (gameState.gameMode === 'buzzer') {
+            optionElement.style.pointerEvents = 'none';
         }
         
-        // 显示当前问题
-        function showQuestion() {
-            gameState.buzzerLocked = false;
-            const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-            
-            // 更新UI
-            currentQuestionNum.textContent = gameState.currentQuestionIndex + 1;
-            questionText.textContent = currentQuestion.question;
-            
-            // 更新进度条
-            progressBar.style.width = `${(gameState.currentQuestionIndex / gameState.totalQuestions) * 100}%`;
-            
-            // 清空选项
-            optionsContainer.innerHTML = '';
-            
-            // 隐藏解释区域
-            explanationContainer.style.display = 'none';
-            
-            // 添加选项（加上ABCD前缀）
-            const optionLetters = ['A', 'B', 'C', 'D'];
-            currentQuestion.options.forEach((option, index) => {
-                const optionElement = document.createElement('div');
-                optionElement.classList.add('option');
-                optionElement.textContent = `${optionLetters[index]}. ${option}`;
-                optionElement.dataset.index = index;
-                optionElement.addEventListener('click', selectOption);
-                optionsContainer.appendChild(optionElement);
-            });
-            
-            // 重置选择
-            gameState.selectedOption = null;
-            nextQuestionBtn.style.display = 'none';
-            exitGameBtn.style.display = 'none';
-            
-            // 重置抢答按钮
-            if (gameState.gameMode === 'buzzer') {
-                const buzzerBtns = document.querySelectorAll('.buzzer-btn');
-                buzzerBtns.forEach(btn => {
-                    btn.classList.remove('btn-success', 'disabled');
-                });
-                timerDisplay.textContent = "";
-                timerDisplay.classList.remove('warning');
-            } else {
-                // 非抢答模式下启动计时器
-                startTimer();
-            }
-            
-            // 更新队伍积分条
-            updateTeamsBar();
-        }
+        optionElement.addEventListener('click', selectOption);
+        optionsContainer.appendChild(optionElement);
+    });
+    
+    // 重置状态
+    gameState.selectedOption = null;
+    nextQuestionBtn.style.display = 'none';
+    exitGameBtn.style.display = 'none';
+    explanationContainer.style.display = 'none';
+    
+    // 设置计时器初始状态
+    updateTimerDisplay();
+    
+    // 重置抢答按钮状态
+    if (gameState.gameMode === 'buzzer') {
+        const buzzerBtns = document.querySelectorAll('.buzzer-btn');
+        buzzerBtns.forEach(btn => {
+            btn.classList.remove('btn-success', 'disabled');
+        });
+    } else {
+        startTimer();
+    }
+    
+    updateTeamsBar();
+}
+
         
-        // 选择选项
-        function selectOption(e) {
-            if (gameState.selectedOption !== null) return;
-            
-            const selectedElement = e.currentTarget;
-            const selectedIndex = parseInt(selectedElement.dataset.index);
-            
-            gameState.selectedOption = selectedIndex;
-            selectedElement.classList.add('selected');
-            
-            // 检查答案
-            const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-            const isCorrect = selectedIndex === currentQuestion.answer;
-            
-            // 显示正确答案
-            const correctElement = optionsContainer.children[currentQuestion.answer];
-            correctElement.classList.add('correct');
-            
-            if (!isCorrect) {
-                selectedElement.classList.add('incorrect');
-            }
-            
-            // 只在非抢答模式下停止计时器
-            if (gameState.gameMode !== 'buzzer') {
-                clearInterval(gameState.timer);
-            }
-            
-            // 更新分数
-            if (isCorrect) {
-                // 每题固定获得100分
-                const score = 100;
-                const teamName = gameState.teams[gameState.activeTeamIndex];
-                gameState.scores[teamName] += score;
-                
-                updateTeamsBar();
-            }
-            
-            // 显示题目解释
-            if (currentQuestion.explanation) {
-                explanationText.textContent = currentQuestion.explanation;
-                explanationContainer.style.display = 'block';
-            } else {
-                explanationText.textContent = "暂无题目解析";
-                explanationContainer.style.display = 'block';
-            }
-            
-            // 显示下一题按钮
-            nextQuestionBtn.style.display = 'block';
-            exitGameBtn.style.display = 'block';
-        }
+function selectOption(e) {
+    // 抢答模式下必须有队伍抢答才能选择答案
+    if (gameState.gameMode === 'buzzer' && !gameState.buzzerLocked) {
+        return;
+    }
+    
+    if (gameState.selectedOption !== null) return;
+    
+    const selectedElement = e.currentTarget;
+    const selectedIndex = parseInt(selectedElement.dataset.index);
+    
+    gameState.selectedOption = selectedIndex;
+    selectedElement.classList.add('selected');
+    
+    // 检查答案
+    const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
+    const isCorrect = selectedIndex === currentQuestion.answer;
+    
+    // 显示正确答案
+    const correctElement = optionsContainer.children[currentQuestion.answer];
+    correctElement.classList.add('correct');
+    
+    if (!isCorrect) {
+        selectedElement.classList.add('incorrect');
+    }
+    
+    // 停止计时器
+    clearInterval(gameState.timer);
+    
+    // 更新分数
+    if (isCorrect) {
+        const score = 100;
+        const teamName = gameState.teams[gameState.activeTeamIndex];
+        gameState.scores[teamName] += score;
+        updateTeamsBar();
+    }
+    
+    // 显示题目解释
+    explanationText.textContent = currentQuestion.explanation || "暂无题目解析";
+    explanationContainer.style.display = 'block';
+    
+    // 显示下一题按钮
+    nextQuestionBtn.style.display = 'block';
+    exitGameBtn.style.display = 'block';
+}
         
-        // 修改 startTimer 函数
-        function startTimer() {
-            // 如果是抢答模式，不启动计时器
-            if (gameState.gameMode === 'buzzer' && !gameState.buzzerLocked) {
-                timerDisplay.textContent = "";
-                return;
-            }
-            
-            gameState.timeLeft = gameState.timeLimit;
-            updateTimerDisplay();
-            
-            gameState.timer = setInterval(() => {
-                gameState.timeLeft--;
-                updateTimerDisplay();
-                
-                if (gameState.timeLeft <= 0) {
-                    clearInterval(gameState.timer);
-                    timeUp();
-                }
-            }, 1000);
-        }
+function startTimer() {
+    // 清除现有计时器
+    if (gameState.timer) {
+        clearInterval(gameState.timer);
+    }
+    
+    gameState.timeLeft = gameState.timeLimit;
+    updateTimerDisplay();
+    
+    gameState.timer = setInterval(() => {
+        gameState.timeLeft--;
+        updateTimerDisplay();
         
-        // 更新时间显示
-        function updateTimerDisplay() {
-            timerDisplay.textContent = `剩余时间: ${gameState.timeLeft}秒`;
-            
-            // 根据剩余时间改变样式
-            if (gameState.timeLeft <= 5) {
-                timerDisplay.classList.add('warning');
-            } else {
-                timerDisplay.classList.remove('warning');
-            }
+        if (gameState.timeLeft <= 0) {
+            clearInterval(gameState.timer);
+            timeUp();
         }
+    }, 1000);
+}
         
-        // 时间到
-        function timeUp() {
-            // 如果是抢答模式，不自动结束
-            if (gameState.gameMode === 'buzzer') return;
-            
-            if (gameState.selectedOption !== null) return;
-            
-            // 禁用所有选项
-            const options = document.querySelectorAll('.option');
-            options.forEach(option => {
-                option.style.pointerEvents = 'none';
-            });
-            
-            // 显示正确答案
-            const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-            const correctElement = optionsContainer.children[currentQuestion.answer];
-            correctElement.classList.add('correct');
-            
-            // 显示题目解释
-            if (currentQuestion.explanation) {
-                explanationText.textContent = currentQuestion.explanation;
-                explanationContainer.style.display = 'block';
-            } else {
-                explanationText.textContent = "暂无题目解析";
-                explanationContainer.style.display = 'block';
-            }
-            
-            // 显示下一题按钮
-            nextQuestionBtn.style.display = 'block';
-            exitGameBtn.style.display = 'block';
+function updateTimerDisplay() {
+    if (gameState.gameMode === 'buzzer' && !gameState.buzzerLocked) {
+        timerDisplay.textContent = "等待抢答...";
+        timerDisplay.classList.remove('warning');
+    } else {
+        timerDisplay.textContent = `剩余时间: ${gameState.timeLeft}秒`;
+        
+        if (gameState.timeLeft <= 5) {
+            timerDisplay.classList.add('warning');
+        } else {
+            timerDisplay.classList.remove('warning');
         }
+    }
+}
+        
+function timeUp() {
+    if (gameState.selectedOption !== null) return;
+    
+    // 停止计时器
+    clearInterval(gameState.timer);
+    
+    // 禁用所有选项
+    const options = document.querySelectorAll('.option');
+    options.forEach(option => {
+        option.style.pointerEvents = 'none';
+    });
+    
+    // 显示正确答案
+    const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
+    const correctElement = optionsContainer.children[currentQuestion.answer];
+    correctElement.classList.add('correct');
+    
+    // 显示题目解释
+    explanationText.textContent = currentQuestion.explanation || "暂无题目解析";
+    explanationContainer.style.display = 'block';
+    
+    // 显示下一题按钮
+    nextQuestionBtn.style.display = 'block';
+    exitGameBtn.style.display = 'block';
+}
         
         // 下一题
         function nextQuestion() {
