@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日作业情况记录</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            position: relative;
+            padding-bottom: 80px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .classroom-selector {
+            display: flex;
+            gap: 10px;
+        }
+        .classroom-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .classroom-btn.active {
+            color: white;
+        }
+        .classroom-89-btn {
+            background-color: #E3F2FD;
+            color: #1976D2;
+        }
+        .classroom-89-btn.active {
+            background-color: #1976D2;
+        }
+        .classroom-137-btn {
+            background-color: #F3E5F5;
+            color: #9C27B0;
+        }
+        .classroom-137-btn.active {
+            background-color: #9C27B0;
+        }
+        .date-picker {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .classroom {
+            margin-bottom: 30px;
+            display: none;
+        }
+        .classroom.active {
+            display: block;
+        }
+        .classroom h2 {
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 0;
+            text-align: center;
+        }
+        .classroom-89 h2 {
+            background-color: #1976D2;
+        }
+        .classroom-137 h2 {
+            background-color: #9C27B0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            text-align: center;
+        }
+        td {
+            text-align: center;
+        }
+        td.name-cell {
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .interactive-cell {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .interactive-cell.checked {
+            background-color: #e8f5e9;
+            position: relative;
+        }
+        .interactive-cell.checked::after {
+            content: "✓";
+            color: #4CAF50;
+            font-size: 16px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .action-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            color: white;
+        }
+        .clear-today-btn {
+            background-color: #ff7043;
+        }
+        .clear-today-btn:hover {
+            background-color: #f4511e;
+        }
+        .clear-all-btn {
+            background-color: #e53935;
+        }
+        .clear-all-btn:hover {
+            background-color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-controls">
+            <div class="classroom-selector">
+                <button class="classroom-btn classroom-89-btn active" onclick="showClassroom('89')">89号教室</button>
+                <button class="classroom-btn classroom-137-btn" onclick="showClassroom('137')">137号教室</button>
+            </div>
+            <input type="date" id="datePicker" class="date-picker" onchange="loadDailyRecord()">
+        </div>
+        
+        <h1>每日作业情况记录</h1>
+        
+        <div class="classroom classroom-89 active">
+            <h2>89号教室</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>语文作业</th>
+                        <th>数学作业</th>
+                        <th>英语作业</th>
+                        <th>学校作业</th>
+                        <th>自己作业</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="name-cell">濮谨丰</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">张佳倪</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">易杜谦</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">陈曜扬</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">韩依依</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">黄子芮</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">周牧坤</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">许晨熙</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">阚宇杰</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">刘宗淇</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">韩壹</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">季俊澄</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="classroom classroom-137">
+            <h2>137号教室</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>语文作业</th>
+                        <th>数学作业</th>
+                        <th>英语作业</th>
+                        <th>学校作业</th>
+                        <th>自己作业</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="name-cell">叶子涵</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">倪晨茜</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">何梓惜</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">倪梓淇</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">倪梓悦</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">赵雨乐</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">申翊菡</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                    <tr>
+                        <td class="name-cell">冯熙晴</td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                        <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 右下角操作按钮 -->
+    <div class="action-buttons">
+        <button class="action-btn clear-today-btn" onclick="clearTodayRecord()">清除当日记录</button>
+        <button class="action-btn clear-all-btn" onclick="clearAllRecords()">清除所有记录</button>
+    </div>
+
+    <script>
+        // 存储每日记录的本地存储键
+        const STORAGE_KEY = 'dailyHomeworkRecords';
+        
+        function showClassroom(classroom) {
+            // 更新按钮样式
+            document.querySelectorAll('.classroom-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (classroom === '89') {
+                document.querySelector('.classroom-89-btn').classList.add('active');
+            } else {
+                document.querySelector('.classroom-137-btn').classList.add('active');
+            }
+            
+            // 更新教室显示
+            document.querySelectorAll('.classroom').forEach(classroom => {
+                classroom.classList.remove('active');
+            });
+            
+            document.querySelector(`.classroom-${classroom}`).classList.add('active');
+        }
+
+        function toggleCell(cell) {
+            cell.classList.toggle('checked');
+            saveDailyRecord();
+        }
+
+        function loadDailyRecord() {
+            const datePicker = document.getElementById('datePicker');
+            const selectedDate = datePicker.value;
+            
+            if (!selectedDate) return;
+            
+            // 从本地存储加载记录
+            const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            const dailyRecord = records[selectedDate];
+            
+            if (dailyRecord) {
+                // 恢复记录状态
+                document.querySelectorAll('.interactive-cell').forEach((cell, index) => {
+                    if (dailyRecord[index]) {
+                        cell.classList.add('checked');
+                    } else {
+                        cell.classList.remove('checked');
+                    }
+                });
+            } else {
+                // 新日期，清空所有记录
+                document.querySelectorAll('.interactive-cell').forEach(cell => {
+                    cell.classList.remove('checked');
+                });
+            }
+        }
+
+        function saveDailyRecord() {
+            const datePicker = document.getElementById('datePicker');
+            const selectedDate = datePicker.value;
+            
+            if (!selectedDate) return;
+            
+            const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            const checkedStates = [];
+            
+            document.querySelectorAll('.interactive-cell').forEach(cell => {
+                checkedStates.push(cell.classList.contains('checked'));
+            });
+            
+            records[selectedDate] = checkedStates;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return `${date.getMonth() + 1}月${date.getDate()}日`;
+        }
+
+        // 初始化日期选择器
+        function initDatePicker() {
+            const datePicker = document.getElementById('datePicker');
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            
+            // 设置最小和最大日期（今年7月1日到8月31日）
+            const minDate = new Date(currentYear, 6, 1); // 7月（月份从0开始）
+            const maxDate = new Date(currentYear, 8, 0); // 8月最后一天
+            
+            datePicker.min = formatDateForInput(minDate);
+            datePicker.max = formatDateForInput(maxDate);
+            
+            // 设置默认日期为今天（如果在7-8月范围内）
+            if (now >= minDate && now <= maxDate) {
+                datePicker.valueAsDate = now;
+            } else {
+                // 如果当前不在7-8月，设置为7月1日
+                datePicker.valueAsDate = minDate;
+            }
+            
+            // 禁用周末
+            disableWeekends(datePicker);
+            
+            // 加载当天的记录
+            loadDailyRecord();
+        }
+
+        function formatDateForInput(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function disableWeekends(datePicker) {
+            // 监听日期输入事件
+            datePicker.addEventListener('input', function() {
+                const selectedDate = new Date(this.value);
+                const dayOfWeek = selectedDate.getDay();
+                
+                // 0是周日，6是周六
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    alert('周末不可选择，请选择工作日');
+                    this.value = '';
+                }
+            });
+        }
+
+        // 清除当日记录
+        function clearTodayRecord() {
+            const datePicker = document.getElementById('datePicker');
+            const selectedDate = datePicker.value;
+            
+            if (!selectedDate) {
+                alert('请先选择日期');
+                return;
+            }
+            
+            if (!confirm('确定要清除当日的所有记录吗？此操作不可撤销！')) {
+                return;
+            }
+            
+            const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            delete records[selectedDate];
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+            
+            // 重新加载当日记录
+            loadDailyRecord();
+            alert('当日记录已清除');
+        }
+
+        // 清除所有记录
+        function clearAllRecords() {
+            if (!confirm('确定要清除所有记录吗？此操作不可撤销！')) {
+                return;
+            }
+            
+            localStorage.removeItem(STORAGE_KEY);
+            alert('所有记录已清除');
+            
+            // 重新加载当日记录
+            loadDailyRecord();
+        }
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initDatePicker();
+        });
+    </script>
+</body>
+</html>
