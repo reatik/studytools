@@ -2,54 +2,59 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>每日作业情况记录</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Microsoft YaHei', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             background-color: #f5f5f5;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            -webkit-text-size-adjust: 100%;
         }
         .container {
-            max-width: 1000px;
+            width: 100%;
             margin: 0 auto;
             background-color: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
             flex: 1;
-            width: 100%;
         }
         h1 {
             color: #2c3e50;
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
         }
         .header-controls {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 15px;
         }
         .classroom-selector {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             overflow-x: auto;
             padding-bottom: 5px;
+            -webkit-overflow-scrolling: touch;
         }
         .classroom-btn {
-            padding: 8px 16px;
+            padding: 8px 12px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
             white-space: nowrap;
+            font-size: 0.9rem;
         }
         .classroom-btn.active {
             color: white;
@@ -72,11 +77,11 @@
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 0.9rem;
             width: 100%;
         }
         .classroom {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             display: none;
         }
         .classroom.active {
@@ -84,26 +89,26 @@
         }
         .classroom h2 {
             color: white;
-            padding: 10px;
+            padding: 8px;
             border-radius: 4px;
             margin-top: 0;
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
         .classroom-89 h2 {
             background-color: #1976D2;
         }
         .classroom-137 h2 {
-            background-color: #9C27B5;
+            background-color: #9C27B0;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 0.9rem;
+            margin-top: 10px;
+            font-size: 0.85rem;
         }
         th, td {
-            padding: 8px 10px;
+            padding: 6px 8px;
             border: 1px solid #ddd;
             position: relative;
             text-align: center;
@@ -111,6 +116,7 @@
         th {
             background-color: #f2f2f2;
             font-weight: bold;
+            font-size: 0.9rem;
         }
         td.name-cell {
             font-weight: bold;
@@ -122,11 +128,12 @@
         .interactive-cell {
             cursor: pointer;
             transition: background-color 0.3s;
-            min-width: 40px;
+            min-width: 35px;
+            height: 35px;
+            position: relative;
         }
         .interactive-cell.checked {
             background-color: #e8f5e9;
-            position: relative;
         }
         .interactive-cell.checked::after {
             content: "✓";
@@ -137,15 +144,26 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        .interactive-cell.has-note {
+            background-color: #fff3e0;
+        }
+        .interactive-cell.has-note::before {
+            content: "✎";
+            color: #FF9800;
+            font-size: 10px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
         .action-buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            padding-top: 20px;
+            gap: 8px;
+            margin-top: 15px;
+            padding-top: 15px;
             border-top: 1px solid #eee;
         }
         .action-btn {
-            padding: 10px 16px;
+            padding: 8px 12px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -154,6 +172,7 @@
             color: white;
             flex: 1;
             text-align: center;
+            font-size: 0.9rem;
         }
         .clear-today-btn {
             background-color: #ff7043;
@@ -167,9 +186,130 @@
         .clear-all-btn:hover {
             background-color: #c62828;
         }
+        .note-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        .note-content {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .note-textarea {
+            width: 100%;
+            height: 120px;
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: none;
+            font-size: 0.9rem;
+        }
+        .note-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .note-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .note-save {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .note-cancel {
+            background-color: #f44336;
+            color: white;
+        }
+        .long-press-tip {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.8rem;
+            background-color: rgba(255,255,255,0.8);
+            padding: 5px;
+            border-radius: 4px;
+            margin: 0 20px;
+            z-index: 100;
+        }
+        .custom-alert {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-alert-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .custom-alert-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .custom-alert-message {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            color: #555;
+            line-height: 1.4;
+        }
+        .custom-alert-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .custom-alert-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            min-width: 80px;
+        }
+        .custom-alert-confirm {
+            background-color: #1976D2;
+            color: white;
+        }
+        .custom-alert-cancel {
+            background-color: #f5f5f5;
+            color: #333;
+        }
 
-        /* 桌面端布局 */
         @media (min-width: 768px) {
+            .container {
+                max-width: 900px;
+                padding: 20px;
+            }
             .header-controls {
                 flex-direction: row;
                 justify-content: space-between;
@@ -179,13 +319,13 @@
                 width: auto;
             }
             h1 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
             .classroom h2 {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
             }
             th, td {
-                padding: 12px 15px;
+                padding: 8px 10px;
             }
         }
     </style>
@@ -219,99 +359,99 @@
                     <tbody>
                         <tr>
                             <td class="name-cell">濮谨丰</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">张佳倪</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">易杜谦</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">陈曜扬</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">韩依依</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">黄子芮</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">周牧坤</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">许晨熙</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">阚宇杰</td>
-                            <td class="极interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">刘宗淇</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell极" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">韩壹</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">季俊澄</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -335,86 +475,110 @@
                     <tbody>
                         <tr>
                             <td class="name-cell">叶子涵</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">倪晨茜</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">何梓惜</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">倪梓淇</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">倪梓悦</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">赵雨乐</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">申翊菡</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                         <tr>
                             <td class="name-cell">冯熙晴</td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
-                            <td class="interactive-cell" onclick="toggleCell(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
+                            <td class="interactive-cell" onclick="handleCellClick(this)" ontouchstart="handleTouchStart(this)" ontouchend="handleTouchEnd(this)"></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 底部操作按钮 -->
         <div class="action-buttons">
             <button class="action-btn clear-today-btn" onclick="clearTodayRecord()">清除本日记录</button>
             <button class="action-btn clear-all-btn" onclick="clearAllRecords()">清除所有记录</button>
         </div>
     </div>
 
+    <div class="note-modal" id="noteModal">
+        <div class="note-content">
+            <h3>添加备注</h3>
+            <textarea class="note-textarea" id="noteTextarea" placeholder="请输入备注内容..."></textarea>
+            <div class="note-buttons">
+                <button class="note-btn note-cancel" onclick="closeNoteModal()">取消</button>
+                <button class="note-btn note-save" onclick="saveNote()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-alert" id="customAlert">
+        <div class="custom-alert-content">
+            <div class="custom-alert-title" id="alertTitle">提示</div>
+            <div class="custom-alert-message" id="alertMessage"></div>
+            <div class="custom-alert-buttons">
+                <button class="custom-alert-btn custom-alert-confirm" id="alertConfirmBtn">确定</button>
+                <button class="custom-alert-btn custom-alert-cancel" id="alertCancelBtn">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="long-press-tip" id="longPressTip">长按单元格可添加备注</div>
+
     <script>
-        // 存储每日记录的本地存储键
         const STORAGE_KEY = 'dailyHomeworkRecords';
+        let currentCell = null;
+        let longPressTimer = null;
+        const LONG_PRESS_DURATION = 500;
         
         function showClassroom(classroom) {
-            // 更新按钮样式
             document.querySelectorAll('.classroom-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -425,17 +589,100 @@
                 document.querySelector('.classroom-137-btn').classList.add('active');
             }
             
-            // 更新教室显示
-            document.querySelectorAll('.classroom').forEach(classroom => {
-                classroom.classList.remove('active');
+            document.querySelectorAll('.classroom').forEach(cls => {
+                cls.classList.remove('active');
             });
             
             document.querySelector(`.classroom-${classroom}`).classList.add('active');
         }
 
+        function handleCellClick(cell) {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+                return;
+            }
+            toggleCell(cell);
+        }
+
+        function handleTouchStart(cell) {
+            longPressTimer = setTimeout(() => {
+                openNoteModal(cell);
+                longPressTimer = null;
+            }, LONG_PRESS_DURATION);
+        }
+
+        function handleTouchEnd() {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+        }
+
         function toggleCell(cell) {
             cell.classList.toggle('checked');
             saveDailyRecord();
+        }
+
+        function openNoteModal(cell) {
+            currentCell = cell;
+            const modal = document.getElementById('noteModal');
+            const textarea = document.getElementById('noteTextarea');
+            
+            const datePicker = document.getElementById('datePicker');
+            const selectedDate = datePicker.value;
+            const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            const dailyRecord = records[selectedDate] || {};
+            
+            const cellIndex = Array.from(document.querySelectorAll('.interactive-cell')).indexOf(cell);
+            textarea.value = dailyRecord.notes ? (dailyRecord.notes[cellIndex] || '') : '';
+            
+            modal.style.display = 'flex';
+            textarea.focus();
+            
+            document.getElementById('longPressTip').style.display = 'none';
+        }
+
+        function closeNoteModal() {
+            document.getElementById('noteModal').style.display = 'none';
+            currentCell = null;
+            
+            setTimeout(() => {
+                document.getElementById('longPressTip').style.display = 'block';
+            }, 3000);
+        }
+
+        function saveNote() {
+            const textarea = document.getElementById('noteTextarea');
+            const note = textarea.value.trim();
+            const datePicker = document.getElementById('datePicker');
+            const selectedDate = datePicker.value;
+            
+            if (!selectedDate) {
+                showAlert('提示', '请先选择日期');
+                return;
+            }
+            
+            const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            const dailyRecord = records[selectedDate] || {};
+            
+            if (!dailyRecord.notes) {
+                dailyRecord.notes = [];
+            }
+            
+            const cellIndex = Array.from(document.querySelectorAll('.interactive-cell')).indexOf(currentCell);
+            dailyRecord.notes[cellIndex] = note;
+            
+            if (note) {
+                currentCell.classList.add('has-note');
+            } else {
+                currentCell.classList.remove('has-note');
+            }
+            
+            records[selectedDate] = dailyRecord;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+            
+            closeNoteModal();
         }
 
         function loadDailyRecord() {
@@ -444,41 +691,69 @@
             
             if (!selectedDate) return;
             
-            // 从本地存储加载记录
             const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
             const dailyRecord = records[selectedDate];
             
             if (dailyRecord) {
-                // 恢复记录状态
-                document.querySelectorAll('.interactive-cell').forEach((cell, index) => {
-                    if (dailyRecord[index]) {
-                        cell.classList.add('checked');
-                    } else {
-                        cell.classList.remove('checked');
+                const cells = document.querySelectorAll('.interactive-cell');
+                if (Array.isArray(dailyRecord)) {
+                    cells.forEach((cell, index) => {
+                        if (dailyRecord[index]) {
+                            cell.classList.add('checked');
+                        } else {
+                            cell.classList.remove('checked');
+                        }
+                        cell.classList.remove('has-note');
+                    });
+                } else {
+                    if (dailyRecord.checkedStates) {
+                        cells.forEach((cell, index) => {
+                            if (dailyRecord.checkedStates[index]) {
+                                cell.classList.add('checked');
+                            } else {
+                                cell.classList.remove('checked');
+                            }
+                        });
                     }
-                });
+                    
+                    if (dailyRecord.notes) {
+                        cells.forEach((cell, index) => {
+                            if (dailyRecord.notes[index]) {
+                                cell.classList.add('has-note');
+                            } else {
+                                cell.classList.remove('has-note');
+                            }
+                        });
+                    }
+                }
             } else {
-                // 新日期，清空所有记录
                 document.querySelectorAll('.interactive-cell').forEach(cell => {
                     cell.classList.remove('checked');
+                    cell.classList.remove('has-note');
                 });
             }
         }
 
         function saveDailyRecord() {
             const datePicker = document.getElementById('datePicker');
-            const selectedDate极 = datePicker.value;
+            const selectedDate = datePicker.value;
             
             if (!selectedDate) return;
             
             const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-            const checkedStates = [];
+            let dailyRecord = records[selectedDate] || {};
             
+            const checkedStates = [];
             document.querySelectorAll('.interactive-cell').forEach(cell => {
                 checkedStates.push(cell.classList.contains('checked'));
             });
+            dailyRecord.checkedStates = checkedStates;
             
-            records[selectedDate] = checkedStates;
+            if (!dailyRecord.notes) {
+                dailyRecord.notes = [];
+            }
+            
+            records[selectedDate] = dailyRecord;
             localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
         }
 
@@ -487,31 +762,24 @@
             return `${date.getMonth() + 1}月${date.getDate()}日`;
         }
 
-        // 初始化日期选择器
         function initDatePicker() {
             const datePicker = document.getElementById('datePicker');
             const now = new Date();
             const currentYear = now.getFullYear();
             
-            // 设置最小和最大日期（今年7月1日到8月31日）
-            const minDate = new Date(currentYear, 6, 1); // 7月（月份从0开始）
-            const maxDate = new Date(currentYear, 8, 0); // 8月最后一天
+            const minDate = new Date(currentYear, 6, 1);
+            const maxDate = new Date(currentYear, 8, 0);
             
             datePicker.min = formatDateForInput(minDate);
             datePicker.max = formatDateForInput(maxDate);
             
-            // 设置默认日期为今天（如果在7-8月范围内）
             if (now >= minDate && now <= maxDate) {
                 datePicker.valueAsDate = now;
             } else {
-                // 如果当前不在7-8月，设置为7月1日
                 datePicker.valueAsDate = minDate;
             }
             
-            // 禁用周末
             disableWeekends(datePicker);
-            
-            // 加载当天的记录
             loadDailyRecord();
         }
 
@@ -523,58 +791,73 @@
         }
 
         function disableWeekends(datePicker) {
-            // 监听日期输入事件
             datePicker.addEventListener('input', function() {
                 const selectedDate = new Date(this.value);
                 const dayOfWeek = selectedDate.getDay();
                 
-                // 0是周日，6是周六
                 if (dayOfWeek === 0 || dayOfWeek === 6) {
-                    alert('周末不可选择，请选择工作日');
-                    this.value = '';
+                    showAlert('提示', '周末不可选择，请选择工作日', function() {
+                        this.value = '';
+                    }.bind(this));
                 }
             });
         }
 
-        // 清除当日记录
+        function showAlert(title, message, confirmCallback, cancelCallback) {
+            const alertBox = document.getElementById('customAlert');
+            const alertTitle = document.getElementById('alertTitle');
+            const alertMessage = document.getElementById('alertMessage');
+            const confirmBtn = document.getElementById('alertConfirmBtn');
+            const cancelBtn = document.getElementById('alertCancelBtn');
+            
+            alertTitle.textContent = title;
+            alertMessage.textContent = message;
+            alertBox.style.display = 'flex';
+            
+            confirmBtn.onclick = function() {
+                alertBox.style.display = 'none';
+                if (confirmCallback) confirmCallback();
+            };
+            
+            cancelBtn.onclick = function() {
+                alertBox.style.display = 'none';
+                if (cancelCallback) cancelCallback();
+            };
+        }
+
         function clearTodayRecord() {
             const datePicker = document.getElementById('datePicker');
             const selectedDate = datePicker.value;
             
             if (!selectedDate) {
-                alert('请先选择日期');
+                showAlert('提示', '请先选择日期');
                 return;
             }
             
-            if (!confirm('确定要清除当日的所有记录吗？此操作不可撤销！')) {
-                return;
-            }
-            
-            const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-            delete records[selectedDate];
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-            
-            // 重新加载当日记录
-            loadDailyRecord();
-            alert('当日记录已清除');
+            showAlert('确认', '确定要清除当日的所有记录吗？此操作不可撤销！', function() {
+                const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+                delete records[selectedDate];
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+                
+                loadDailyRecord();
+                showAlert('成功', '当日记录已清除');
+            });
         }
 
-        // 清除所有记录
         function clearAllRecords() {
-            if (!confirm('确定要清除所有记录吗？此操作不可撤销！')) {
-                return;
-            }
-            
-            localStorage.removeItem(STORAGE_KEY);
-            alert('所有记录已清除');
-            
-            // 重新加载当日记录
-            loadDailyRecord();
+            showAlert('确认', '确定要清除所有记录吗？此操作不可撤销！', function() {
+                localStorage.removeItem(STORAGE_KEY);
+                showAlert('成功', '所有记录已清除');
+                loadDailyRecord();
+            });
         }
 
-        // 页面加载时初始化
         document.addEventListener('DOMContentLoaded', function() {
             initDatePicker();
+            
+            setTimeout(() => {
+                document.getElementById('longPressTip').style.display = 'none';
+            }, 3000);
         });
     </script>
 </body>
