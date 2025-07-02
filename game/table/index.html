@@ -236,20 +236,6 @@
             background-color: #f44336;
             color: white;
         }
-        .long-press-tip {
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            color: #666;
-            font-size: 0.8rem;
-            background-color: rgba(255,255,255,0.8);
-            padding: 5px;
-            border-radius: 4px;
-            margin: 0 20px;
-            z-index: 100;
-        }
         .custom-alert {
             display: none;
             position: fixed;
@@ -570,8 +556,6 @@
         </div>
     </div>
 
-    <div class="long-press-tip" id="longPressTip">长按单元格可添加备注</div>
-
     <script>
         const STORAGE_KEY = 'dailyHomeworkRecords';
         let currentCell = null;
@@ -639,17 +623,11 @@
             
             modal.style.display = 'flex';
             textarea.focus();
-            
-            document.getElementById('longPressTip').style.display = 'none';
         }
 
         function closeNoteModal() {
             document.getElementById('noteModal').style.display = 'none';
             currentCell = null;
-            
-            setTimeout(() => {
-                document.getElementById('longPressTip').style.display = 'block';
-            }, 3000);
         }
 
         function saveNote() {
@@ -854,10 +832,6 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             initDatePicker();
-            
-            setTimeout(() => {
-                document.getElementById('longPressTip').style.display = 'none';
-            }, 3000);
         });
     </script>
 </body>
