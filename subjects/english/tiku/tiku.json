@@ -1,0 +1,1079 @@
+{
+    "questions": [
+      {
+        "id": "C001",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "﹣﹣﹣What is Mum doing now? ﹣﹣﹣She ___ some clothes.",
+        "options": [
+          "A. washes",
+          "B. is washing",
+          "C. washed"
+        ],
+        "answer": "B. is washing",
+        "explanation": "现在进行时表示正在发生的动作，需用be动词+现在分词形式。"
+      },
+      {
+        "id": "C002",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "﹣﹣﹣What can your brother do? ﹣﹣﹣He can ___ a kite.",
+        "options": [
+          "A. make",
+          "B. Makes",
+          "C. made"
+        ],
+        "answer": "A. make",
+        "explanation": "情态动词can后接动词原形，不需要第三人称单数变化。"
+      },
+      {
+        "id": "C003",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "___，there was a giant living in a big house.",
+        "options": [
+          "A. One",
+          "B. Once upon a time",
+          "C. In the future"
+        ],
+        "answer": "B. Once upon a time",
+        "explanation": "这是故事开头的固定表达方式，意为'从前'。"
+      },
+      {
+        "id": "C004",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "___ any chicken in the fridge?",
+        "options": [
+          "A. I have",
+          "B. Are there",
+          "C. Is there"
+        ],
+        "answer": "C. Is there",
+        "explanation": "chicken是不可数名词，需用is there提问。"
+      },
+      {
+        "id": "C005",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "___ are you going to do?",
+        "options": [
+          "A. How",
+          "B. Where",
+          "C. What"
+        ],
+        "answer": "C. What",
+        "explanation": "对动作内容提问用what，how询问方式，where询问地点。"
+      },
+      {
+        "id": "C006",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "I'm going to ___ in the craft lesson.",
+        "options": [
+          "A. make a nice windmill",
+          "B. swim",
+          "C. sing and dance"
+        ],
+        "answer": "A. make a nice windmill",
+        "explanation": "craft lesson是手工课，最可能的活动是制作风车。"
+      },
+      {
+        "id": "C007",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "﹣﹣Look at the pictures on the wall. ___ do you like? ﹣﹣I like the left one.",
+        "options": [
+          "A. What",
+          "B. Which one",
+          "C. Where"
+        ],
+        "answer": "B. Which one",
+        "explanation": "回答指出具体选择哪一张（左边那张），需用which one提问。"
+      },
+      {
+        "id": "C008",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "Don't eat ___ candy. It is not good for your health.",
+        "options": [
+          "A. a little",
+          "B. too many",
+          "C. too much"
+        ],
+        "answer": "C. too much",
+        "explanation": "candy是不可数名词，需用too much修饰。too many修饰可数名词复数。"
+      },
+      {
+        "id": "C009",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "Kelly likes children very much. She would like to be a ___.",
+        "options": [
+          "A. Photographer",
+          "B. Farmer",
+          "C. head teacher"
+        ],
+        "answer": "C. head teacher",
+        "explanation": "喜欢孩子的人最可能想成为校长/班主任。"
+      },
+      {
+        "id": "C010",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "The oil painting Sunflowers is a picture by ___. There are some sunflowers in the vase.",
+        "options": [
+          "A. Vincent van Gogh",
+          "B. Leonardo da Vinci",
+          "C. Xu Beihong"
+        ],
+        "answer": "A. Vincent van Gogh",
+        "explanation": "《向日葵》是梵高的著名油画作品。"
+      },
+      {
+        "id": "C011",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "He is an_______He draws pictures.",
+        "options": [
+          "A.actor",
+          "B.cleaner",
+          "C.artist"
+        ],
+        "answer": "C.artist",
+        "explanation": "根据'He draws pictures'可以判断职业是艺术家。"
+      },
+      {
+        "id": "C012",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "Wash ______ before you get into the swimming pool.",
+        "options": [
+          "A. myself",
+          "B.himself",
+          "C. yourselves"
+        ],
+        "answer": "C. yourselves",
+        "explanation": "这是对一群人的建议，应使用复数反身代词。"
+      },
+      {
+        "id": "C013",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "-Can I ask you a question? -Yes, _______.",
+        "options": [
+          "A.Go，please.",
+          "B. Go away.",
+          "C. Go ahead."
+        ],
+        "answer": "C. Go ahead.",
+        "explanation": "'Go ahead'是同意对方提问的常用表达。"
+      },
+      {
+        "id": "C014",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "Don't_______the paper. I can make a frog with it.",
+        "options": [
+          "A. give up",
+          "B.throw away",
+          "C.blow off"
+        ],
+        "answer": "B.throw away",
+        "explanation": "根据上下文，这里意思是'不要扔掉'这张纸。"
+      },
+      {
+        "id": "C015",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "______ is a Western festival.",
+        "options": [
+          "A.The Mid-Autumn Festival",
+          "B.Easter",
+          "C.The Double Ninth Festival"
+        ],
+        "answer": "B.Easter",
+        "explanation": "复活节是西方节日，其他两个是中国传统节日。"
+      },
+      {
+        "id": "C016",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "Tom is_________and__________than John.",
+        "options": [
+          "A.tall;strong",
+          "B. taller; stronger",
+          "C.tallest;strongest"
+        ],
+        "answer": "B. taller; stronger",
+        "explanation": "比较级需要使用'taller'和'stronger'。"
+      },
+      {
+        "id": "C017",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "Don't_________your car here.",
+        "options": [
+          "A. Parks",
+          "B. Parking",
+          "C.park"
+        ],
+        "answer": "C.park",
+        "explanation": "祈使句否定形式用动词原形'don't park'。"
+      },
+      {
+        "id": "C018",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "My dog is fatter than_________.",
+        "options": [
+          "A. him",
+          "B. his",
+          "C. He"
+        ],
+        "answer": "B. his",
+        "explanation": "这里比较的是'his dog'，省略了'dog'。"
+      },
+      {
+        "id": "C019",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "--- Would you please show us around Shanghai? --- __________.",
+        "options": [
+          "A.Of course.",
+          "B. I’m busy.",
+          "C.Go ahead.",
+          "D. Thank you."
+        ],
+        "answer": "A.Of course.",
+        "explanation": "这是对请求帮助的礼貌肯定回答。"
+      },
+      {
+        "id": "C020",
+        "type": "choice",
+        "grade": "小升初",
+        "question": "Tigers are one of __________ on land.",
+        "options": [
+          "A. most dangerous animals",
+          "B. the most dangerous animal",
+          "C. the most dangerous animals",
+          "D. most dangerous animal"
+        ],
+        "answer": "C. the most dangerous animals",
+        "explanation": "'one of'后接复数名词，且最高级需要加'the'。"
+      },
+
+        {
+          "id": "C021",
+          "type": "choice",
+          "grade": "小升初",
+          "question": "Lily likes to have bread with jam for breakfast________ she likes sweet food.",
+          "options": [
+            "A. but",
+            "B. because",
+            "C. and",
+            "D. so"
+          ],
+          "answer": "B. because",
+          "explanation": "后半句解释原因，应使用because表示因果关系。"
+        },
+        {
+          "id": "C022",
+          "type": "choice",
+          "grade": "小升初",
+          "question": "--- Hi! ________ Lucy? ---Yes, this is Lucy speaking.",
+          "options": [
+            "A. Are you",
+            "B. Is this",
+            "C. Is it",
+            "D. Is that"
+          ],
+          "answer": "D. Is that",
+          "explanation": "电话用语中询问对方身份用'Is that...'。"
+        },
+        {
+          "id": "C023",
+          "type": "choice",
+          "grade": "小升初",
+          "question": "---What ________ Jane________ ？ ---She'll write an e﹣mail to her pen friend．",
+          "options": [
+            "A. is…doing",
+            "B. did…do",
+            "C. will…do",
+            "D. are．do"
+          ],
+          "answer": "C. will…do",
+          "explanation": "根据回答中的'll可知询问将来动作，用will do结构。"
+        },
+        {
+          "id": "C024",
+          "type": "choice",
+          "grade": "小升初",
+          "question": "---What are you _______  to do today？ ---I'm going ______ TV．",
+          "options": [
+            "A. go；to see",
+            "B. to go；watch",
+            "C. going；to watch",
+            "D. going; watch"
+          ],
+          "answer": "C. going；to watch",
+          "explanation": "be going to do结构，watch TV前需要加to。"
+        },
+        {
+          "id": "C025",
+          "type": "choice",
+          "grade": "小升初",
+          "question": "There is a lot of ________ in spring there．",
+          "options": [
+            "A. rain",
+            "B. rains",
+            "C. rainy",
+            "D. raining"
+          ],
+          "answer": "A. rain",
+          "explanation": "a lot of后接不可数名词rain。"
+        },
+        {
+          "id": "C026",
+          "type": "choice",
+          "grade": "小升初",
+          "question": "There are two ________ on the table.",
+          "options": [
+            "A. knife",
+            "B. knives",
+            "C. knive",
+            "D. knifes"
+          ],
+          "answer": "B. knives",
+          "explanation": "knife的复数形式是knives。"
+        },
+        {
+          "id": "C027",
+          "type": "choice",
+          "grade": "小升初",
+          "question": "The doctor often tells him ________ more exercise.",
+          "options": [
+            "A. to take",
+            "B. taking",
+            "C. taken",
+            "D. take"
+          ],
+          "answer": "A. to take",
+          "explanation": "tell sb to do sth是固定搭配。"
+        },
+        {
+          "id": "C028",
+          "type": "choice",
+          "grade": "小升初",
+          "question": "--- ________ will Nancy stay at home? ---About three days.",
+          "options": [
+            "A. How long",
+            "B. How often",
+            "C. How soon",
+            "D. How far"
+          ],
+          "answer": "A. How long",
+          "explanation": "回答是时间段，询问持续时间用How long。"
+        },
+        {
+          "id": "C029",
+          "type": "choice",
+          "grade": "小升初",
+          "question": "There ________ a teacher and some students in the classroom.",
+          "options": [
+            "A. is",
+            "B. has",
+            "C. are",
+            "D. have"
+          ],
+          "answer": "A. is",
+          "explanation": "There be句型遵循就近原则，靠近be动词的是单数a teacher。"
+        },
+        {
+          "id": "C030",
+          "type": "choice",
+          "grade": "小升初",
+          "question": "________ clever you are!",
+          "options": [
+            "A.What a",
+            "B. How",
+            "C. What",
+            "D. How a"
+          ],
+          "answer": "B. How",
+          "explanation": "感叹形容词clever用How引导感叹句。"
+        },
+          {
+            "id": "C031",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "You must wear ______ uniform for summer.",
+            "options": [
+              "A.a",
+              "B. an",
+              "C.some",
+              "D. /"
+            ],
+            "answer": "A.a",
+            "explanation": "uniform以辅音音素开头，使用不定冠词a。"
+          },
+          {
+            "id": "C032",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "The accident happened ______ a snowy night ______ winter",
+            "options": [
+              "A.to … at",
+              "B. on ... in",
+              "C.in … of",
+              "D. at … in"
+            ],
+            "answer": "B. on ... in",
+            "explanation": "具体某天晚上用on，季节用in。"
+          },
+          {
+            "id": "C033",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "This is a photo of Simon and ______.",
+            "options": [
+              "A.I",
+              "B. me",
+              "C.my",
+              "D. mine"
+            ],
+            "answer": "B. me",
+            "explanation": "介词of后接宾语，使用宾格me。"
+          },
+          {
+            "id": "C034",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "There are many ______ in that hospital.",
+            "options": [
+              "A.man nurses",
+              "B. men nurses",
+              "C.man nurse",
+              "D. men nurse"
+            ],
+            "answer": "B. men nurses",
+            "explanation": "复合名词变复数时，主体名词man变为men，nurse加s。"
+          },
+          {
+            "id": "C035",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Trees help us to keep the city ______.",
+            "options": [
+              "A.cleaning",
+              "B. clean",
+              "C.cleaned",
+              "D. to clean"
+            ],
+            "answer": "B. clean",
+            "explanation": "keep+宾语+形容词(作宾补)，表示保持某种状态。"
+          },
+          {
+            "id": "C036",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "We can use wool ______ woollen scarves and many other things.",
+            "options": [
+              "A.for make",
+              "B. to making",
+              "C.to make",
+              "D. in making"
+            ],
+            "answer": "C.to make",
+            "explanation": "use sth to do sth是固定搭配，表示用途。"
+          },
+          {
+            "id": "C037",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "There are more than _______ people in the city.",
+            "options": [
+              "A.twelve millions",
+              "B. twelve million",
+              "C.twelve million of",
+              "D. twelve millions of"
+            ],
+            "answer": "B. twelve million",
+            "explanation": "million与具体数字连用时不用复数形式。"
+          },
+          {
+            "id": "C038",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Don’t waste water _______ there will be less and less fresh water on the earth.",
+            "options": [
+              "A. so",
+              "B. because",
+              "C. but",
+              "D. when"
+            ],
+            "answer": "A. so",
+            "explanation": "so表示结果，符合前后句因果关系。"
+          },
+          {
+            "id": "C039",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Tigers are one of __________ on land.",
+            "options": [
+              "A. most dangerous animals",
+              "B. the most dangerous animal",
+              "C. the most dangerous animals",
+              "D. most dangerous animal"
+            ],
+            "answer": "C. the most dangerous animals",
+            "explanation": "'one of'后接复数名词，且最高级需要加'the'。"
+          },
+          {
+            "id": "C040",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Helen ______ sing well today because she has a sore throat.",
+            "options": [
+              "A.mustn’t",
+              "B. can’t",
+              "C.shouldn’t",
+              "D. may not"
+            ],
+            "answer": "B. can’t",
+            "explanation": "can't表示能力上的不可能，符合喉咙痛无法唱好的语境。"
+          },
+          {
+            "id": "C041",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "We can see people _______ on the sea when there’s a strong wind.",
+            "options": [
+              "A. windsurfing",
+              "B. windsurfs",
+              "C. windsurfed",
+              "D. windsurf"
+            ],
+            "answer": "A. windsurfing",
+            "explanation": "see sb doing sth表示看到某人正在做某事。"
+          },
+          {
+            "id": "C042",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "--- Anna, where is Mike? --- He ______ a kite with Bob in the park.",
+            "options": [
+              "A. fires",
+              "B. is flying",
+              "C. flew",
+              "D. will fly"
+            ],
+            "answer": "B. is flying",
+            "explanation": "根据上下文，Mike正在公园放风筝，用现在进行时。"
+          },
+          {
+            "id": "C043",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "If Tom _______ the final exam, his mother _______ him to visit Hong Kong.",
+            "options": [
+              "A. passes, takes",
+              "B. pass, will take",
+              "C. pass, take",
+              "D. passes, will take"
+            ],
+            "answer": "D. passes, will take",
+            "explanation": "if条件句主将从现，从句用一般现在时，主句用将来时。"
+          },
+          {
+            "id": "C044",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Don’t forget to _______ the TV before you go to bed.",
+            "options": [
+              "A. turn on",
+              "B. turn off",
+              "C. put out",
+              "D. look for"
+            ],
+            "answer": "B. turn off",
+            "explanation": "睡前应该关闭电视，turn off表示关闭电器。"
+          },
+          {
+            "id": "C045",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "--- Would you please show us around Shanghai? --- __________.",
+            "options": [
+              "A. Of course.",
+              "B. I’m busy.",
+              "C. Go ahead.",
+              "D. Thank you."
+            ],
+            "answer": "A. Of course.",
+            "explanation": "这是对请求帮助的礼貌肯定回答。"
+          },
+          {
+            "id": "C046",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "My father is ________ than my mother. He’s 180 cm tall, but she’s 170 cm tall.",
+            "options": [
+              "A. tall",
+              "B. taller",
+              "C. shorter",
+              "D. short"
+            ],
+            "answer": "B. taller",
+            "explanation": "比较两人身高，且父亲更高，用比较级taller。"
+          },
+          {
+            "id": "C047",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Wash ________ before you get into the swimming pool.",
+            "options": [
+              "A. myself",
+              "B. himself",
+              "C. yourselves",
+              "D. yours"
+            ],
+            "answer": "C. yourselves",
+            "explanation": "这是对一群人的建议，应使用复数反身代词。"
+          },
+          {
+            "id": "C048",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Lu Ban lived in China _________.",
+            "options": [
+              "A. long long ago",
+              "B. in the future",
+              "C. in the countryside",
+              "D. past"
+            ],
+            "answer": "A. long long ago",
+            "explanation": "鲁班是中国古代人物，应选择表示很久以前的选项。"
+          },
+          {
+            "id": "C049",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "I want to grow up. I want to ________.",
+            "options": [
+              "A. a teacher",
+              "B. tall and strong",
+              "C. see the world",
+              "D. swimming"
+            ],
+            "answer": "C. see the world",
+            "explanation": "want to后接动词原形，且语义最完整。"
+          },
+          {
+            "id": "C050",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "—________ —I lost my bag.",
+            "options": [
+              "A. How are you?",
+              "B. How do you do?",
+              "C. What’s wrong with you?",
+              "D. How old are you?"
+            ],
+            "answer": "C. What’s wrong with you?",
+            "explanation": "根据回答'我丢了包'，应选择询问问题的选项。"
+          },
+          {
+            "id": "C051",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "--Does Mr. Wang is a ______? --Yes.He uses a digital camera now.",
+            "options": [
+              "A.driver",
+              "B. photographer",
+              "C.doctor"
+            ],
+            "answer": "B. photographer",
+            "explanation": "使用数码相机是摄影师的特征。"
+          },
+          {
+            "id": "C052",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "In the past, he used ________ to write his books.",
+            "options": [
+              "A.computer",
+              "B.camera",
+              "C.a pen and paper"
+            ],
+            "answer": "C.a pen and paper",
+            "explanation": "过去人们常用纸笔写作。"
+          },
+          {
+            "id": "C053",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "People________ their rooms with brooms in the past.",
+            "options": [
+              "A. sweeps",
+              "B.swept",
+              "C.clean"
+            ],
+            "answer": "B.swept",
+            "explanation": "过去时态描述过去的行为。"
+          },
+          {
+            "id": "C054",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "The machines are ______, they can help us finish the work in a short time.",
+            "options": [
+              "A. friendly",
+              "B.beautiful",
+              "C.helpful"
+            ],
+            "answer": "C.helpful",
+            "explanation": "能帮助完成工作说明机器很有帮助。"
+          },
+          {
+            "id": "C055",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "1 often ________ housework at the weekend.",
+            "options": [
+              "A.do",
+              "B.did",
+              "C.does"
+            ],
+            "answer": "A.do",
+            "explanation": "一般现在时描述经常性动作，主语是I用do。"
+          },
+          {
+            "id": "C056",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "--Did your father write an e-mail yesterday? —_________.",
+            "options": [
+              "A.Yes, he does.",
+              "B. Yes,he did.",
+              "C. No, he doesn't."
+            ],
+            "answer": "B. Yes,he did.",
+            "explanation": "过去时疑问句用did回答。"
+          },
+          {
+            "id": "C057",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "In the past, there ________ fresh air in the countryside.",
+            "options": [
+              "A.is",
+              "B.was",
+              "C.are"
+            ],
+            "answer": "B.was",
+            "explanation": "过去时态描述过去的情况，air是不可数名词。"
+          },
+          {
+            "id": "C058",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Now children ________ a lot of time to play!",
+            "options": [
+              "A.has",
+              "B.have",
+              "C.had"
+            ],
+            "answer": "B.have",
+            "explanation": "现在时态描述现在的情况，children是复数主语。"
+          },
+          {
+            "id": "C059",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Now with the digital cameras, we can see the photos ________.",
+            "options": [
+              "A. right",
+              "B.just now",
+              "C.right away"
+            ],
+            "answer": "C.right away",
+            "explanation": "right away表示立即，符合数码相机即时显示的特点。"
+          },
+          {
+            "id": "C060",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "She ________ a street sweeper to clean the streets every day.",
+            "options": [
+              "A.drives",
+              "B.drive",
+              "C.drived"
+            ],
+            "answer": "A.drives",
+            "explanation": "一般现在时第三人称单数形式。"
+          },
+          {
+            "id": "C061",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "________ adults and children like the stories from Aesop’s Fables.",
+            "options": [
+              "A. Both",
+              "B. All",
+              "C. Do"
+            ],
+            "answer": "A. Both",
+            "explanation": "'Both'用于指代两个群体（成人和儿童）。"
+          },
+          {
+            "id": "C062",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "________ is a Western festival.",
+            "options": [
+              "A. Mid-Autumn Festival",
+              "B. Easter",
+              "C. The Double Ninth Festival"
+            ],
+            "answer": "B. Easter",
+            "explanation": "复活节是西方节日，其他两个是中国传统节日。"
+          },
+          {
+            "id": "C063",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Don’t ________ the paper. I can make a frog with it.",
+            "options": [
+              "A. give up",
+              "B. throw away",
+              "C. blow off"
+            ],
+            "answer": "B. throw away",
+            "explanation": "根据上下文，这里意思是'不要扔掉'这张纸。"
+          },
+          {
+            "id": "C064",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "They ________ to clean the house tomorrow.",
+            "options": [
+              "A. will",
+              "B. would",
+              "C. are going"
+            ],
+            "answer": "C. are going",
+            "explanation": "'be going to'结构表示计划或打算做某事。"
+          },
+          {
+            "id": "C065",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "—Can I ask you a question? —Yes. ________.",
+            "options": [
+              "A. Go, please.",
+              "B. Go on.",
+              "C. Go ahead"
+            ],
+            "answer": "C. Go ahead",
+            "explanation": "'Go ahead'是同意对方提问的常用表达。"
+          },
+          {
+            "id": "C066",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "He is an ________. He draws pictures.",
+            "options": [
+              "A. actor",
+              "B. cleaner",
+              "C. artist",
+              "D. driver"
+            ],
+            "answer": "C. artist",
+            "explanation": "根据'He draws pictures'可以判断职业是艺术家。"
+          },
+          {
+            "id": "C067",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "—How ________ are you? —I’m 160 cm tall.",
+            "options": [
+              "A. old",
+              "B. tall",
+              "C. heavy",
+              "D. far"
+            ],
+            "answer": "B. tall",
+            "explanation": "回答是身高，应询问'How tall'。"
+          },
+          {
+            "id": "C068",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Wu Ming is a girl. She ________ long hair.",
+            "options": [
+              "A. has",
+              "B. was",
+              "C. have",
+              "D. had"
+            ],
+            "answer": "A. has",
+            "explanation": "一般现在时第三人称单数形式。"
+          },
+          {
+            "id": "C069",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "—________ you watch TV last night? —Yes, I did.",
+            "options": [
+              "A. Did",
+              "B. Do",
+              "C. Does",
+              "D. Were"
+            ],
+            "answer": "A. Did",
+            "explanation": "过去时疑问句用did提问。"
+          },
+          {
+            "id": "C071",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "It takes me half _______ hour to get to school.",
+            "options": [
+              "A.a",
+              "B.an",
+              "C.the",
+              "D.two"
+            ],
+            "answer": "B.an",
+            "explanation": "hour以元音音素开头，前面用an。"
+          },
+          {
+            "id": "C072",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "They will arrive ______ the Music Hall ______1:30.",
+            "options": [
+              "A.at;at",
+              "B. at; in",
+              "C. in; at",
+              "D. on; at"
+            ],
+            "answer": "A.at;at",
+            "explanation": "到达具体地点用at，具体时间点用at。"
+          },
+          {
+            "id": "C073",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Tim and Tom ______ their Open Day yesterday.",
+            "options": [
+              "A.is having",
+              "B.has",
+              "C.have",
+              "D.had"
+            ],
+            "answer": "D.had",
+            "explanation": "yesterday表示过去时间，用一般过去时。"
+          },
+          {
+            "id": "C074",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "--- What would you like _______ breakfast? --- Milk and bread.",
+            "options": [
+              "A.with",
+              "B.to",
+              "C.for",
+              "D.of"
+            ],
+            "answer": "C.for",
+            "explanation": "for breakfast表示早餐吃什么。"
+          },
+          {
+            "id": "C075",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "You ______ walk on the grass.",
+            "options": [
+              "A.don't",
+              "B.mustn't",
+              "C. can't",
+              "D. aren't"
+            ],
+            "answer": "B.mustn't",
+            "explanation": "mustn't表示禁止，不允许在草地上走。"
+          },
+          {
+            "id": "C076",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "It's 1:30 a.m. There are ______ people on the road.",
+            "options": [
+              "A. few",
+              "B.a few",
+              "C. little",
+              "D. a little"
+            ],
+            "answer": "A. few",
+            "explanation": "few修饰可数名词people，表示几乎没有。"
+          },
+          {
+            "id": "C077",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "The man _______ the right is my uncle.",
+            "options": [
+              "A. to",
+              "B.in",
+              "C.on",
+              "D.at"
+            ],
+            "answer": "C.on",
+            "explanation": "on the right表示在右边。"
+          },
+          {
+            "id": "C078",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "--- _______ do they get there? --- By bus",
+            "options": [
+              "A.How",
+              "B.What",
+              "C.When",
+              "D.Where"
+            ],
+            "answer": "A.How",
+            "explanation": "回答是交通方式，用How提问。"
+          },
+          {
+            "id": "C079",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "Are there many _______ in the box?",
+            "options": [
+              "A.milk",
+              "B.eggs",
+              "C.tea",
+              "D.water"
+            ],
+            "answer": "B.eggs",
+            "explanation": "many修饰可数名词复数。"
+          },
+          {
+            "id": "C080",
+            "type": "choice",
+            "grade": "小升初",
+            "question": "I'd like _______ some meat and vegetables for lunch.",
+            "options": [
+              "A. having",
+              "B.has",
+              "C.to having",
+              "D. to have"
+            ],
+            "answer": "D. to have",
+            "explanation": "would like to do sth是固定搭配。"
+          }
+      
+    ]
+  }
