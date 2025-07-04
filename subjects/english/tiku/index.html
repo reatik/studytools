@@ -640,36 +640,38 @@
             updateProgress();
         }
         
-        // 处理答案选择
-        function handleAnswerSelection(userAnswer, question, index) {
-            const questionId = `${question.id}`;
-            
-            if (userAnswers[questionId]) return;
-            
-            userAnswers[questionId] = userAnswer;
-            scoreData.answered++;
-            
-            const isCorrect = checkAnswer(userAnswer, question.answer);
-            if (isCorrect) {
-                scoreData.correct++;
-            } else {
-                addToWrongQuestions(question, userAnswer);
+       // 修改后的处理答案选择函数
+function handleAnswerSelection(userAnswer, question, index) {
+    const questionId = `${question.id}`;
+    
+    if (userAnswers[questionId]) return;
+    
+    userAnswers[questionId] = userAnswer;
+    scoreData.answered++;
+    
+    const isCorrect = checkAnswer(userAnswer, question.answer);
+    if (isCorrect) {
+        scoreData.correct++;
+        // 答对时1秒后跳转
+        setTimeout(() => {
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion(currentQuestions, currentQuestionIndex);
+                updateNavButtons();
+            } else if (currentShuffledIndex < shuffledIndices.length - 1) {
+                currentShuffledIndex++;
+                loadNextShuffledQuestion();
             }
-            
-            displayQuestion(currentQuestions, currentQuestionIndex);
-            updateScore();
-            
-            setTimeout(() => {
-                if (currentQuestionIndex < currentQuestions.length - 1) {
-                    currentQuestionIndex++;
-                    displayQuestion(currentQuestions, currentQuestionIndex);
-                    updateNavButtons();
-                } else if (currentShuffledIndex < shuffledIndices.length - 1) {
-                    currentShuffledIndex++;
-                    loadNextShuffledQuestion();
-                }
-            }, 500);
-        }
+        }, 2000);
+    } else {
+        addToWrongQuestions(question, userAnswer);
+        // 答错时不自动跳转
+    }
+    
+    displayQuestion(currentQuestions, currentQuestionIndex);
+    updateScore();
+}
+
         
         // 加载下一个随机题目
         function loadNextShuffledQuestion() {
