@@ -136,11 +136,11 @@
         "grade": "小升初",
         "question": "He is an_______He draws pictures.",
         "options": [
-          "A.actor",
-          "B.cleaner",
-          "C.artist"
+          "A. actor",
+          "B. cleaner",
+          "C. artist"
         ],
-        "answer": "C.artist",
+        "answer": "C. artist",
         "explanation": "根据'He draws pictures'可以判断职业是艺术家。"
       },
       {
@@ -150,7 +150,7 @@
         "question": "Wash ______ before you get into the swimming pool.",
         "options": [
           "A. myself",
-          "B.himself",
+          "B. himself",
           "C. yourselves"
         ],
         "answer": "C. yourselves",
@@ -162,11 +162,11 @@
         "grade": "小升初",
         "question": "-Can I ask you a question? -Yes, _______.",
         "options": [
-          "A.Go，please.",
+          "A. Go，please.",
           "B. Go away.",
-          "C. Go ahead."
+          "C. Go ahead. "
         ],
-        "answer": "C. Go ahead.",
+        "answer": "C. Go ahead. ",
         "explanation": "'Go ahead'是同意对方提问的常用表达。"
       },
       {
@@ -176,10 +176,10 @@
         "question": "Don't_______the paper. I can make a frog with it.",
         "options": [
           "A. give up",
-          "B.throw away",
-          "C.blow off"
+          "B. throw away",
+          "C. blow off"
         ],
-        "answer": "B.throw away",
+        "answer": "B. throw away",
         "explanation": "根据上下文，这里意思是'不要扔掉'这张纸。"
       },
       {
@@ -188,11 +188,11 @@
         "grade": "小升初",
         "question": "______ is a Western festival.",
         "options": [
-          "A.The Mid-Autumn Festival",
-          "B.Easter",
-          "C.The Double Ninth Festival"
+          "A. The Mid-Autumn Festival",
+          "B. Easter",
+          "C. The Double Ninth Festival"
         ],
-        "answer": "B.Easter",
+        "answer": "B. Easter",
         "explanation": "复活节是西方节日，其他两个是中国传统节日。"
       },
       {
@@ -201,9 +201,9 @@
         "grade": "小升初",
         "question": "Tom is_________and__________than John.",
         "options": [
-          "A.tall;strong",
+          "A. tall;strong",
           "B. taller; stronger",
-          "C.tallest;strongest"
+          "C. tallest;strongest"
         ],
         "answer": "B. taller; stronger",
         "explanation": "比较级需要使用'taller'和'stronger'。"
@@ -216,9 +216,9 @@
         "options": [
           "A. Parks",
           "B. Parking",
-          "C.park"
+          "C. park"
         ],
-        "answer": "C.park",
+        "answer": "C. park",
         "explanation": "祈使句否定形式用动词原形'don't park'。"
       },
       {
@@ -240,19 +240,19 @@
         "grade": "小升初",
         "question": "--- Would you please show us around Shanghai? --- __________.",
         "options": [
-          "A.Of course.",
+          "A. Of course.",
           "B. I’m busy.",
-          "C.Go ahead.",
+          "C. Go ahead. ",
           "D. Thank you."
         ],
-        "answer": "A.Of course.",
+        "answer": "A. Of course.",
         "explanation": "这是对请求帮助的礼貌肯定回答。"
       },
       {
         "id": "C020",
         "type": "choice",
         "grade": "小升初",
-        "question": "Tigers are one of __________ on land.",
+        "question": "Tigers are one of __________ on lanD. ",
         "options": [
           "A. most dangerous animals",
           "B. the most dangerous animal",
@@ -267,7 +267,7 @@
           "id": "C021",
           "type": "choice",
           "grade": "小升初",
-          "question": "Lily likes to have bread with jam for breakfast________ she likes sweet food.",
+          "question": "Lily likes to have bread with jam for breakfast________ she likes sweet fooD. ",
           "options": [
             "A. but",
             "B. because",
@@ -395,7 +395,7 @@
           "grade": "小升初",
           "question": "________ clever you are!",
           "options": [
-            "A.What a",
+            "A. What a",
             "B. How",
             "C. What",
             "D. How a"
@@ -409,12 +409,12 @@
             "grade": "小升初",
             "question": "You must wear ______ uniform for summer.",
             "options": [
-              "A.a",
+              "A. a",
               "B. an",
-              "C.some",
+              "C. some",
               "D. /"
             ],
-            "answer": "A.a",
+            "answer": "A. a",
             "explanation": "uniform以辅音音素开头，使用不定冠词a。"
           },
           {
@@ -423,9 +423,9 @@
             "grade": "小升初",
             "question": "The accident happened ______ a snowy night ______ winter",
             "options": [
-              "A.to … at",
+              "A. to … at",
               "B. on ... in",
-              "C.in … of",
+              "C. in … of",
               "D. at … in"
             ],
             "answer": "B. on ... in",
@@ -437,9 +437,9 @@
             "grade": "小升初",
             "question": "This is a photo of Simon and ______.",
             "options": [
-              "A.I",
+              "A. I",
               "B. me",
-              "C.my",
+              "C. my",
               "D. mine"
             ],
             "answer": "B. me",
@@ -451,9 +451,9 @@
             "grade": "小升初",
             "question": "There are many ______ in that hospital.",
             "options": [
-              "A.man nurses",
+              "A. man nurses",
               "B. men nurses",
-              "C.man nurse",
+              "C. man nurse",
               "D. men nurse"
             ],
             "answer": "B. men nurses",
@@ -465,9 +465,9 @@
             "grade": "小升初",
             "question": "Trees help us to keep the city ______.",
             "options": [
-              "A.cleaning",
+              "A. cleaning",
               "B. clean",
-              "C.cleaned",
+              "C. cleaned",
               "D. to clean"
             ],
             "answer": "B. clean",
@@ -479,12 +479,12 @@
             "grade": "小升初",
             "question": "We can use wool ______ woollen scarves and many other things.",
             "options": [
-              "A.for make",
+              "A. for make",
               "B. to making",
-              "C.to make",
+              "C. to make",
               "D. in making"
             ],
-            "answer": "C.to make",
+            "answer": "C. to make",
             "explanation": "use sth to do sth是固定搭配，表示用途。"
           },
           {
@@ -493,9 +493,9 @@
             "grade": "小升初",
             "question": "There are more than _______ people in the city.",
             "options": [
-              "A.twelve millions",
+              "A. twelve millions",
               "B. twelve million",
-              "C.twelve million of",
+              "C. twelve million of",
               "D. twelve millions of"
             ],
             "answer": "B. twelve million",
@@ -519,7 +519,7 @@
             "id": "C039",
             "type": "choice",
             "grade": "小升初",
-            "question": "Tigers are one of __________ on land.",
+            "question": "Tigers are one of __________ on lanD. ",
             "options": [
               "A. most dangerous animals",
               "B. the most dangerous animal",
@@ -535,9 +535,9 @@
             "grade": "小升初",
             "question": "Helen ______ sing well today because she has a sore throat.",
             "options": [
-              "A.mustn’t",
+              "A. mustn’t",
               "B. can’t",
-              "C.shouldn’t",
+              "C. shouldn’t",
               "D. may not"
             ],
             "answer": "B. can’t",
@@ -547,7 +547,7 @@
             "id": "C041",
             "type": "choice",
             "grade": "小升初",
-            "question": "We can see people _______ on the sea when there’s a strong wind.",
+            "question": "We can see people _______ on the sea when there’s a strong winD. ",
             "options": [
               "A. windsurfing",
               "B. windsurfs",
@@ -589,7 +589,7 @@
             "id": "C044",
             "type": "choice",
             "grade": "小升初",
-            "question": "Don’t forget to _______ the TV before you go to bed.",
+            "question": "Don’t forget to _______ the TV before you go to beD. ",
             "options": [
               "A. turn on",
               "B. turn off",
@@ -607,7 +607,7 @@
             "options": [
               "A. Of course.",
               "B. I’m busy.",
-              "C. Go ahead.",
+              "C. Go ahead. ",
               "D. Thank you."
             ],
             "answer": "A. Of course.",
@@ -689,9 +689,9 @@
             "grade": "小升初",
             "question": "--Does Mr. Wang is a ______? --Yes.He uses a digital camera now.",
             "options": [
-              "A.driver",
+              "A. driver",
               "B. photographer",
-              "C.doctor"
+              "C. doctor"
             ],
             "answer": "B. photographer",
             "explanation": "使用数码相机是摄影师的特征。"
@@ -702,11 +702,11 @@
             "grade": "小升初",
             "question": "In the past, he used ________ to write his books.",
             "options": [
-              "A.computer",
-              "B.camera",
-              "C.a pen and paper"
+              "A. computer",
+              "B. camera",
+              "C. a pen and paper"
             ],
-            "answer": "C.a pen and paper",
+            "answer": "C. a pen and paper",
             "explanation": "过去人们常用纸笔写作。"
           },
           {
@@ -716,10 +716,10 @@
             "question": "People________ their rooms with brooms in the past.",
             "options": [
               "A. sweeps",
-              "B.swept",
-              "C.clean"
+              "B. swept",
+              "C. clean"
             ],
-            "answer": "B.swept",
+            "answer": "B. swept",
             "explanation": "过去时态描述过去的行为。"
           },
           {
@@ -729,23 +729,23 @@
             "question": "The machines are ______, they can help us finish the work in a short time.",
             "options": [
               "A. friendly",
-              "B.beautiful",
-              "C.helpful"
+              "B. beautiful",
+              "C. helpful"
             ],
-            "answer": "C.helpful",
+            "answer": "C. helpful",
             "explanation": "能帮助完成工作说明机器很有帮助。"
           },
           {
             "id": "C055",
             "type": "choice",
             "grade": "小升初",
-            "question": "1 often ________ housework at the weekend.",
+            "question": "1 often ________ housework at the weekenD. ",
             "options": [
-              "A.do",
-              "B.did",
-              "C.does"
+              "A. do",
+              "B. did",
+              "C. does"
             ],
-            "answer": "A.do",
+            "answer": "A. do",
             "explanation": "一般现在时描述经常性动作，主语是I用do。"
           },
           {
@@ -754,11 +754,11 @@
             "grade": "小升初",
             "question": "--Did your father write an e-mail yesterday? —_________.",
             "options": [
-              "A.Yes, he does.",
-              "B. Yes,he did.",
+              "A. Yes, he does.",
+              "B. Yes,he diD. ",
               "C. No, he doesn't."
             ],
-            "answer": "B. Yes,he did.",
+            "answer": "B. Yes,he diD. ",
             "explanation": "过去时疑问句用did回答。"
           },
           {
@@ -767,11 +767,11 @@
             "grade": "小升初",
             "question": "In the past, there ________ fresh air in the countryside.",
             "options": [
-              "A.is",
-              "B.was",
-              "C.are"
+              "A. is",
+              "B. was",
+              "C. are"
             ],
-            "answer": "B.was",
+            "answer": "B. was",
             "explanation": "过去时态描述过去的情况，air是不可数名词。"
           },
           {
@@ -780,11 +780,11 @@
             "grade": "小升初",
             "question": "Now children ________ a lot of time to play!",
             "options": [
-              "A.has",
-              "B.have",
-              "C.had"
+              "A. has",
+              "B. have",
+              "C. had"
             ],
-            "answer": "B.have",
+            "answer": "B. have",
             "explanation": "现在时态描述现在的情况，children是复数主语。"
           },
           {
@@ -794,10 +794,10 @@
             "question": "Now with the digital cameras, we can see the photos ________.",
             "options": [
               "A. right",
-              "B.just now",
-              "C.right away"
+              "B. just now",
+              "C. right away"
             ],
-            "answer": "C.right away",
+            "answer": "C. right away",
             "explanation": "right away表示立即，符合数码相机即时显示的特点。"
           },
           {
@@ -806,11 +806,11 @@
             "grade": "小升初",
             "question": "She ________ a street sweeper to clean the streets every day.",
             "options": [
-              "A.drives",
-              "B.drive",
-              "C.drived"
+              "A. drives",
+              "B. drive",
+              "C. drived"
             ],
-            "answer": "A.drives",
+            "answer": "A. drives",
             "explanation": "一般现在时第三人称单数形式。"
           },
           {
@@ -924,7 +924,7 @@
             "id": "C069",
             "type": "choice",
             "grade": "小升初",
-            "question": "—________ you watch TV last night? —Yes, I did.",
+            "question": "—________ you watch TV last night? —Yes, I diD. ",
             "options": [
               "A. Did",
               "B. Do",
@@ -940,12 +940,12 @@
             "grade": "小升初",
             "question": "It takes me half _______ hour to get to school.",
             "options": [
-              "A.a",
-              "B.an",
-              "C.the",
-              "D.two"
+              "A. a",
+              "B. an",
+              "C. the",
+              "D. two"
             ],
-            "answer": "B.an",
+            "answer": "B. an",
             "explanation": "hour以元音音素开头，前面用an。"
           },
           {
@@ -954,12 +954,12 @@
             "grade": "小升初",
             "question": "They will arrive ______ the Music Hall ______1:30.",
             "options": [
-              "A.at;at",
+              "A. at;at",
               "B. at; in",
               "C. in; at",
               "D. on; at"
             ],
-            "answer": "A.at;at",
+            "answer": "A. at;at",
             "explanation": "到达具体地点用at，具体时间点用at。"
           },
           {
@@ -968,26 +968,26 @@
             "grade": "小升初",
             "question": "Tim and Tom ______ their Open Day yesterday.",
             "options": [
-              "A.is having",
-              "B.has",
-              "C.have",
-              "D.had"
+              "A. is having",
+              "B. has",
+              "C. have",
+              "D. had"
             ],
-            "answer": "D.had",
+            "answer": "D. had",
             "explanation": "yesterday表示过去时间，用一般过去时。"
           },
           {
             "id": "C074",
             "type": "choice",
             "grade": "小升初",
-            "question": "--- What would you like _______ breakfast? --- Milk and bread.",
+            "question": "--- What would you like _______ breakfast? --- Milk and breaD. ",
             "options": [
-              "A.with",
-              "B.to",
-              "C.for",
-              "D.of"
+              "A. with",
+              "B. to",
+              "C. for",
+              "D. of"
             ],
-            "answer": "C.for",
+            "answer": "C. for",
             "explanation": "for breakfast表示早餐吃什么。"
           },
           {
@@ -996,22 +996,22 @@
             "grade": "小升初",
             "question": "You ______ walk on the grass.",
             "options": [
-              "A.don't",
-              "B.mustn't",
+              "A. don't",
+              "B. mustn't",
               "C. can't",
               "D. aren't"
             ],
-            "answer": "B.mustn't",
+            "answer": "B. mustn't",
             "explanation": "mustn't表示禁止，不允许在草地上走。"
           },
           {
             "id": "C076",
             "type": "choice",
             "grade": "小升初",
-            "question": "It's 1:30 a.m. There are ______ people on the road.",
+            "question": "It's 1:30 A. m. There are ______ people on the roaD. ",
             "options": [
               "A. few",
-              "B.a few",
+              "B. a few",
               "C. little",
               "D. a little"
             ],
@@ -1025,11 +1025,11 @@
             "question": "The man _______ the right is my uncle.",
             "options": [
               "A. to",
-              "B.in",
-              "C.on",
-              "D.at"
+              "B. in",
+              "C. on",
+              "D. at"
             ],
-            "answer": "C.on",
+            "answer": "C. on",
             "explanation": "on the right表示在右边。"
           },
           {
@@ -1038,12 +1038,12 @@
             "grade": "小升初",
             "question": "--- _______ do they get there? --- By bus",
             "options": [
-              "A.How",
-              "B.What",
-              "C.When",
-              "D.Where"
+              "A. How",
+              "B. What",
+              "C. When",
+              "D. Where"
             ],
-            "answer": "A.How",
+            "answer": "A. How",
             "explanation": "回答是交通方式，用How提问。"
           },
           {
@@ -1052,12 +1052,12 @@
             "grade": "小升初",
             "question": "Are there many _______ in the box?",
             "options": [
-              "A.milk",
-              "B.eggs",
-              "C.tea",
-              "D.water"
+              "A. milk",
+              "B. eggs",
+              "C. tea",
+              "D. water"
             ],
-            "answer": "B.eggs",
+            "answer": "B. eggs",
             "explanation": "many修饰可数名词复数。"
           },
           {
@@ -1067,8 +1067,8 @@
             "question": "I'd like _______ some meat and vegetables for lunch.",
             "options": [
               "A. having",
-              "B.has",
-              "C.to having",
+              "B. has",
+              "C. to having",
               "D. to have"
             ],
             "answer": "D. to have",
