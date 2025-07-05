@@ -178,25 +178,28 @@
         }
         
         .question-number, .wrong-question-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            font-size: 14px;
-            font-weight: 500;
-            margin-right: 10px;
-        }
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 10px;
+    flex-shrink: 0;
+    padding: 0 2px;
+    box-sizing: border-box;
+}
         
-        .question-number {
-            background-color: var(--primary-color);
-        }
-        
-        .wrong-question-number {
-            background-color: var(--primary-color);
-        }
+.question-number {
+    background-color: var(--primary-color);
+}
+
+.wrong-question-number {
+    background-color: var(--primary-color);
+}
         
         .question-text {
             font-size: 15px;
