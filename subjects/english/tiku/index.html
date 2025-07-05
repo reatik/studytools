@@ -82,17 +82,29 @@
             width: 150px;
         }
         
-        .type-selector select {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: white;
-            font-size: 14px;
-            appearance: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-        }
+
+                    .type-selector select {
+                        width: 100%;
+                        padding: 8px 12px;
+                        border: 1px solid var(--border-color);
+                        border-radius: 8px;
+                        background-color: white;
+                        font-size: 14px;
+                        appearance: none;
+                        -webkit-appearance: none;
+                        cursor: pointer;
+                    }
+                    
+                    .type-selector::after {
+                        content: "▼";
+                        font-size: 10px;
+                        color: var(--light-text);
+                        position: absolute;
+                        right: 10px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        pointer-events: none;
+                    }        
         
         .type-selector::after {
             content: "▼";
@@ -178,28 +190,28 @@
         }
         
         .question-number, .wrong-question-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    min-width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    font-size: 14px;
-    font-weight: 500;
-    margin-right: 10px;
-    flex-shrink: 0;
-    padding: 0 2px;
-    box-sizing: border-box;
-}
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            min-width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 500;
+            margin-right: 10px;
+            flex-shrink: 0;
+            padding: 0 2px;
+            box-sizing: border-box;
+        }
         
-.question-number {
-    background-color: var(--primary-color);
-}
-
-.wrong-question-number {
-    background-color: var(--primary-color);
-}
+        .question-number {
+            background-color: var(--primary-color);
+        }
+        
+        .wrong-question-number {
+            background-color: var(--primary-color);
+        }
         
         .question-text {
             font-size: 15px;
@@ -327,42 +339,36 @@
         }
         
         .option {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    border-radius: 8px;
-    background-color: white;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid var(--border-color);
-    /* 移除与radio相关的样式 */
-}
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+        }
 
-.option:hover {
-    border-color: var(--primary-color);
-    background-color: rgba(94, 53, 177, 0.05);
-}
+        .option:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(94, 53, 177, 0.05);
+        }
 
-/* 移除radio输入框的样式 */
-.option input[type="radio"] {
-    display: none;
-}
-
-        
-
+        .option input[type="radio"] {
+            display: none;
+        }
         
         .option.correct {
-    border-color: var(--success-color);
-    background-color: rgba(56, 142, 60, 0.1);
-    color: #1B5E20; /* 深绿色文字 */
-}
+            border-color: var(--success-color);
+            background-color: rgba(56, 142, 60, 0.1);
+            color: #1B5E20;
+        }
         
-
-.option.incorrect {
-    border-color: var(--error-color);
-    background-color: rgba(211, 47, 47, 0.1);
-    color: #B71C1C; /* 深红色文字 */
-}
+        .option.incorrect {
+            border-color: var(--error-color);
+            background-color: rgba(211, 47, 47, 0.1);
+            color: #B71C1C;
+        }
         
         .fill-input {
             width: 100%;
@@ -380,37 +386,43 @@
         }
         
         .fill-input.correct {
-    border-color: var(--success-color);
-    background-color: rgba(56, 142, 60, 0.1);
-    color: #1B5E20;
-}
+            border-color: var(--success-color);
+            background-color: rgba(56, 142, 60, 0.1);
+            color: #1B5E20;
+        }
 
-.fill-input.incorrect {
-    border-color: var(--error-color);
-    background-color: rgba(211, 47, 47, 0.1);
-    color: #B71C1C;
-}
+        .fill-input.incorrect {
+            border-color: var(--error-color);
+            background-color: rgba(211, 47, 47, 0.1);
+            color: #B71C1C;
+        }
 
+        .explanation {
+            margin-top: 16px;
+            padding: 12px;
+            background-color: rgba(94, 53, 177, 0.05);
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+        }
         
-.explanation {
-    margin-top: 16px;
-    padding: 12px;
-    background-color: rgba(94, 53, 177, 0.05);
-    border-radius: 8px;
-    display: none;
-    font-size: 14px;
-    border: 1px solid var(--border-color); /* 改为边框而不是左边颜色条 */
-}
-        
-.explanation-title {
-    font-weight: 500;
-    margin-bottom: 8px;
-    color: var(--primary-color);
-}
+        .explanation-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
         
         .wrong-answer-marker {
-            margin-right: 8px;
-        }
+    color: var(--error-color);
+    margin-right: 8px;
+}
+
+.correct-answer-marker {
+    color: var(--success-color);
+    margin-right: 8px;
+}
+
         
         .wrong-answer-marker::before {
             content: "✕";
@@ -457,7 +469,6 @@
             border-color: var(--primary-color);
             text-align: center;
             line-height: 1;
-            
         }
         
         .delete-btn {
@@ -554,12 +565,12 @@
         }
 
         .option.answered {
-    pointer-events: none;
-}
+            pointer-events: none;
+        }
 
-.fill-input.answered {
-    pointer-events: none;
-}
+        .fill-input.answered {
+            pointer-events: none;
+        }
 
         @media (min-width: 768px) {
             .container {
@@ -692,7 +703,7 @@ function displayQuestion(questions, index) {
     if (questions.length === 0) {
         questionContainer.innerHTML = '<div class="question-card"><p>暂无题目，请选择其他题型</p></div>';
         updateProgress();
-        updateNavButtons(); // 更新按钮状态
+        updateNavButtons();
         return;
     }
     
@@ -704,7 +715,7 @@ function displayQuestion(questions, index) {
             </div>
         `;
         updateProgress();
-        updateNavButtons(); // 更新按钮状态
+        updateNavButtons();
         return;
     }
     
@@ -831,11 +842,9 @@ function displayQuestion(questions, index) {
     
     questionContainer.appendChild(questionDiv);
     updateProgress();
-    updateNavButtons(); // 确保每次显示题目时都更新按钮状态
+    updateNavButtons();
 }
 
-
-// 处理答案选择
 // 处理答案选择
 function handleAnswerSelection(userAnswer, question, index) {
     const questionId = `${question.id}`;
@@ -848,25 +857,8 @@ function handleAnswerSelection(userAnswer, question, index) {
     const isCorrect = checkAnswer(userAnswer, question.answer);
     if (isCorrect) {
         scoreData.correct++;
-        
-        setTimeout(() => {
-            if (currentShuffledIndex < shuffledIndices.length - 1) {
-                currentShuffledIndex++;
-                currentQuestionIndex = shuffledIndices[currentShuffledIndex];
-                displayQuestion(currentQuestions, currentQuestionIndex);
-                updateNavButtons();
-            } else if (isPracticingWrongQuestions) {
-                questionContainer.innerHTML = `
-                    <div class="question-card completion-message">
-                        <p>错题练习完成！</p>
-                        <p>正确率: ${Math.round((scoreData.correct / scoreData.answered) * 100)}%</p>
-                    </div>
-                `;
-                updateProgress();
-            }
-        }, 2000);
     } else {
-        // 答错时自动加入错题本
+        // 答错时自动加入错题本，记录用户错误答案
         const isDuplicate = wrongQuestions.some(q => 
             q.id === question.id || (
                 q.question === question.question && 
@@ -881,7 +873,7 @@ function handleAnswerSelection(userAnswer, question, index) {
                 type: question.type,
                 question: question.question,
                 options: question.options || [],
-                userAnswer: userAnswer,
+                userAnswer: userAnswer, // 记录用户错误答案
                 correctAnswer: question.answer,
                 explanation: question.explanation
             });
@@ -893,6 +885,7 @@ function handleAnswerSelection(userAnswer, question, index) {
     updateScore();
 }
 
+
 // 检查答案
 function checkAnswer(userAnswer, correctAnswer) {
     if (!userAnswer) return false;
@@ -901,23 +894,6 @@ function checkAnswer(userAnswer, correctAnswer) {
         return correctAnswer.includes(userAnswer.trim());
     }
     return userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase();
-}
-
-// 添加到错题本
-function addToWrongQuestions(question, userAnswer) {
-    const exists = wrongQuestions.some(q => q.id === question.id);
-    if (!exists) {
-        wrongQuestions.push({
-            id: question.id,
-            type: question.type,
-            question: question.question,
-            options: question.options || [],
-            userAnswer: userAnswer,
-            correctAnswer: question.answer,
-            explanation: question.explanation
-        });
-        saveWrongQuestions();
-    }
 }
 
 // 保存错题到本地存储
@@ -943,19 +919,20 @@ function loadWrongQuestions() {
         });
         
         wrongQuestions = uniqueQuestions;
-        saveWrongQuestions(); // 保存去重后的错题本
+        saveWrongQuestions();
     }
     renderWrongQuestions();
 }
 
-// 标记/取消标记题目
 function toggleMarkQuestion(question) {
     if (markedQuestions.has(question.id)) {
+        // 从错题本移除
         markedQuestions.delete(question.id);
         removeFromWrongQuestions(question.id);
     } else {
+        // 添加到错题本
         markedQuestions.add(question.id);
-        addToWrongQuestions(question, null);
+        addToWrongQuestions(question, userAnswers[`${question.id}`] || null);
     }
     saveMarkedQuestions();
 }
@@ -963,6 +940,22 @@ function toggleMarkQuestion(question) {
 // 保存标记题目
 function saveMarkedQuestions() {
     localStorage.setItem('markedQuestions', JSON.stringify(Array.from(markedQuestions)));
+}
+
+function addToWrongQuestions(question, userAnswer) {
+    const exists = wrongQuestions.some(q => q.id === question.id);
+    if (!exists) {
+        wrongQuestions.push({
+            id: question.id,
+            type: question.type,
+            question: question.question,
+            options: question.options || [],
+            userAnswer: userAnswer, // 记录用户答案（可能是null）
+            correctAnswer: question.answer,
+            explanation: question.explanation
+        });
+        saveWrongQuestions();
+    }
 }
 
 // 加载标记题目
@@ -989,7 +982,6 @@ function shuffleQuestions(questions) {
     return indices;
 }
 
-// 渲染错题列表
 function renderWrongQuestions() {
     wrongQuestionsList.innerHTML = '';
     selectedWrongQuestions.clear();
@@ -1023,26 +1015,28 @@ function renderWrongQuestions() {
         });
         item.appendChild(checkbox);
         
-        const questionContent = document.createElement('div');
-        questionContent.className = 'wrong-question-content';
+        const content = document.createElement('div');
+        content.className = 'wrong-question-content';
         
-        const questionHeader = document.createElement('div');
-        questionHeader.style.display = 'flex';
-        questionHeader.style.alignItems = 'center';
-        questionHeader.style.marginBottom = '12px';
+        // 题目编号和题目内容
+        const header = document.createElement('div');
+        header.style.display = 'flex';
+        header.style.alignItems = 'center';
+        header.style.marginBottom = '12px';
         
-        const questionNumber = document.createElement('div');
-        questionNumber.className = 'wrong-question-number';
-        questionNumber.textContent = index + 1;
-        questionHeader.appendChild(questionNumber);
+        const number = document.createElement('div');
+        number.className = 'wrong-question-number';
+        number.textContent = index + 1;
+        header.appendChild(number);
         
-        const questionText = document.createElement('div');
-        questionText.className = 'question-text';
-        questionText.textContent = question.question;
-        questionHeader.appendChild(questionText);
+        const text = document.createElement('div');
+        text.className = 'question-text';
+        text.textContent = question.question;
+        header.appendChild(text);
         
-        questionContent.appendChild(questionHeader);
+        content.appendChild(header);
         
+        // 选择题显示选项
         if (question.type === 'choice') {
             question.options.forEach(option => {
                 const optionDiv = document.createElement('div');
@@ -1052,43 +1046,50 @@ function renderWrongQuestions() {
                     optionDiv.classList.add('user-answer');
                     const marker = document.createElement('span');
                     marker.className = 'wrong-answer-marker';
-                    optionDiv.appendChild(marker);
-                } else if (option === question.correctAnswer) {
+                    optionDiv.insertBefore(marker, optionDiv.firstChild);
+                } 
+                else if (option === question.correctAnswer) {
                     optionDiv.classList.add('correct-answer');
                     const marker = document.createElement('span');
                     marker.className = 'correct-answer-marker';
-                    optionDiv.appendChild(marker);
+                    optionDiv.insertBefore(marker, optionDiv.firstChild);
                 }
                 
                 const optionText = document.createElement('span');
                 optionText.textContent = option;
                 optionDiv.appendChild(optionText);
                 
-                questionContent.appendChild(optionDiv);
+                content.appendChild(optionDiv);
             });
-        } else {
-            const userAnswerDiv = document.createElement('div');
-            userAnswerDiv.className = 'wrong-question-option user-answer';
-            const userMarker = document.createElement('span');
-            userMarker.className = 'wrong-answer-marker';
-            userAnswerDiv.appendChild(userMarker);
-            userAnswerDiv.innerHTML += `你的答案: ${question.userAnswer}`;
-            questionContent.appendChild(userAnswerDiv);
+        } 
+        // 填空题显示
+        else {
+            if (question.userAnswer && question.userAnswer !== question.correctAnswer) {
+                const userAnswerDiv = document.createElement('div');
+                userAnswerDiv.className = 'wrong-question-option user-answer';
+                const marker = document.createElement('span');
+                marker.className = 'wrong-answer-marker';
+                marker.textContent = '×';
+                userAnswerDiv.appendChild(marker);
+                userAnswerDiv.appendChild(document.createTextNode(`你的答案: ${question.userAnswer}`));
+                content.appendChild(userAnswerDiv);
+            }
             
             const correctAnswerDiv = document.createElement('div');
             correctAnswerDiv.className = 'wrong-question-option correct-answer';
-            const correctMarker = document.createElement('span');
-            correctMarker.className = 'correct-answer-marker';
-            correctAnswerDiv.appendChild(correctMarker);
-            correctAnswerDiv.innerHTML += `正确答案: ${question.correctAnswer}`;
-            questionContent.appendChild(correctAnswerDiv);
+            const marker = document.createElement('span');
+            marker.className = 'correct-answer-marker';
+            marker.textContent = '✓';
+            correctAnswerDiv.appendChild(marker);
+            correctAnswerDiv.appendChild(document.createTextNode(`正确答案: ${question.correctAnswer}`));
+            content.appendChild(correctAnswerDiv);
         }
         
+        // 显示解析（关键修改点）
         if (question.explanation) {
             const explanationDiv = document.createElement('div');
             explanationDiv.className = 'explanation';
-            explanationDiv.style.display = 'block';
-            explanationDiv.style.marginTop = '12px';
+            explanationDiv.style.display = 'block'; // 强制显示解析
             
             const explanationTitle = document.createElement('div');
             explanationTitle.className = 'explanation-title';
@@ -1099,13 +1100,14 @@ function renderWrongQuestions() {
             
             explanationDiv.appendChild(explanationTitle);
             explanationDiv.appendChild(explanationContent);
-            questionContent.appendChild(explanationDiv);
+            content.appendChild(explanationDiv);
         }
         
-        item.appendChild(questionContent);
+        item.appendChild(content);
         wrongQuestionsList.appendChild(item);
     });
 }
+
 
 // 更新批量操作按钮状态
 function updateBatchActions() {
@@ -1252,7 +1254,6 @@ function updateScore() {
 function updateNavButtons() {
     prevBtn.disabled = currentShuffledIndex === 0;
     
-    // 如果是错题练习且是最后一题
     if (isPracticingWrongQuestions && currentShuffledIndex >= shuffledIndices.length - 1) {
         nextBtn.textContent = '查看成绩';
         nextBtn.disabled = false;
@@ -1314,22 +1315,21 @@ async function init() {
     });
     
     nextBtn.addEventListener('click', () => {
-    if (isPracticingWrongQuestions && currentShuffledIndex >= shuffledIndices.length - 1) {
-        // 显示成绩
-        questionContainer.innerHTML = `
-            <div class="question-card completion-message">
-                <p>错题练习完成！</p>
-                <p>正确率: ${Math.round((scoreData.correct / scoreData.answered) * 100)}%</p>
-            </div>
-        `;
-        updateProgress();
-    } else if (currentShuffledIndex < shuffledIndices.length - 1) {
-        currentShuffledIndex++;
-        currentQuestionIndex = shuffledIndices[currentShuffledIndex];
-        displayQuestion(currentQuestions, currentQuestionIndex);
-        updateNavButtons();
-    }
-});
+        if (isPracticingWrongQuestions && currentShuffledIndex >= shuffledIndices.length - 1) {
+            questionContainer.innerHTML = `
+                <div class="question-card completion-message">
+                    <p>错题练习完成！</p>
+                    <p>正确率: ${Math.round((scoreData.correct / scoreData.answered) * 100)}%</p>
+                </div>
+            `;
+            updateProgress();
+        } else if (currentShuffledIndex < shuffledIndices.length - 1) {
+            currentShuffledIndex++;
+            currentQuestionIndex = shuffledIndices[currentShuffledIndex];
+            displayQuestion(currentQuestions, currentQuestionIndex);
+            updateNavButtons();
+        }
+    });
     
     tabPractice.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1367,7 +1367,6 @@ async function init() {
 
 // 启动应用
 init();
-
     </script>
 </body>
 </html>
