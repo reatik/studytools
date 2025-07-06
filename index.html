@@ -5,28 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>中小学学习助手</title>
     <style>
-        /* 全局样式 */
+        /* 全局样式 - Mac简约风格 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
         body {
-            background: #fffdfd;
-            color: #333;
+            background: #f5f5f7;
+            color: #1d1d1f;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 导航栏样式 */
+        /* 导航栏样式 - Mac风格 */
         .navbar {
-            background: linear-gradient(135deg, #4a6bff, #06bcfb);
-            padding: 15px 0;
+            background: #ffffff;
+            padding: 12px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .nav-container {
@@ -38,55 +40,61 @@
             padding: 0 20px;
         }
 
-        /* Logo文字 */
+        /* Logo文字 - Mac风格 */
         .logo {
-            color: white;
-            font-weight: 700;
+            color: #1d1d1f;
+            font-weight: 600;
             text-decoration: none;
             display: flex;
             align-items: center;
             white-space: nowrap;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+            letter-spacing: -0.5px;
         }
 
         .logo i {
             margin-right: 10px;
+            color: #0071e3;
         }
 
-        /* 搜索框样式 */
+        /* 搜索框样式 - Mac风格 */
         .search-container {
             position: relative;
+            width: 240px;
         }
 
         .search-box {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 20px;
+            background: rgba(0,0,0,0.02);
+            border-radius: 10px;
             padding: 8px 15px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            border: 1px solid rgba(0,0,0,0.08);
         }
 
         .search-box:hover {
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(0,0,0,0.04);
+            border-color: rgba(0,0,0,0.12);
         }
 
         .search-box input {
             background: transparent;
             border: none;
-            color: white;
+            color: #1d1d1f;
             width: 100%;
             outline: none;
+            font-size: 0.95rem;
         }
 
         .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(0,0,0,0.4);
         }
 
         .search-box i {
-            color: white;
+            color: rgba(0,0,0,0.4);
             margin-right: 8px;
+            font-size: 0.9rem;
         }
 
         .search-results {
@@ -96,23 +104,25 @@
             right: 0;
             background: white;
             border-radius: 10px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             z-index: 10;
             display: none;
             max-height: 300px;
             overflow-y: auto;
+            border: 1px solid rgba(0,0,0,0.08);
         }
 
         .search-results a {
             display: block;
             padding: 12px 18px;
-            color: #333;
+            color: #1d1d1f;
             text-decoration: none;
             transition: all 0.2s;
+            font-size: 0.95rem;
         }
 
         .search-results a:hover {
-            background: #f5f7ff;
+            background: rgba(0,0,0,0.02);
         }
 
         /* 主要内容区 */
@@ -122,63 +132,65 @@
             padding: 20px;
         }
 
-        /* 标签页导航 */
+        /* 标签页导航 - Mac风格 */
         .tab-nav {
             display: flex;
-            background: white;
-            border-radius: 12px;
-            padding: 8px;
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
             margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
         }
 
-        /* 导航标签 */
+        /* 导航标签 - Mac风格 */
         .tab-btn {
-            padding: 12px 24px;
+            padding: 12px 20px;
             background: none;
             border: none;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 500;
             position: relative;
             white-space: nowrap;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            margin: 0 4px;
-            font-size: 1.1rem;
+            border-radius: 0;
+            transition: all 0.2s ease;
+            margin: 0;
+            font-size: 1rem;
+            color: rgba(0,0,0,0.6);
+            border-bottom: 3px solid transparent;
         }
 
-        /* 标签页颜色 */
-        .tab-btn[data-tab="english"] { color: #246bca; }
-        .tab-btn[data-tab="chinese"] { color: #ff6b6b; }
-        .tab-btn[data-tab="math"] { color: #1eb386; }
-        .tab-btn[data-tab="tools"] { color: #ff922b; }
-        .tab-btn[data-tab="games"] { color: #9c36b5; }
+        /* 标签页颜色 - Mac风格 */
+        .tab-btn[data-tab="english"]:hover { color: #0071e3; }
+        .tab-btn[data-tab="chinese"]:hover { color: #d4264a; }
+        .tab-btn[data-tab="math"]:hover { color: #30b46c; }
+        .tab-btn[data-tab="tools"]:hover { color: #e9730c; }
+        .tab-btn[data-tab="games"]:hover { color: #8e44ad; }
 
         .tab-btn.active {
-            color: white;
-            font-weight: 600;
+            color: #1d1d1f;
+            font-weight: 500;
         }
 
-        /* 活动标签背景 */
+        /* 活动标签背景 - Mac风格 */
         .tab-btn[data-tab="english"].active { 
-            background: linear-gradient(135deg, #4a6bff, #6a8cff);
-            box-shadow: 0 4px 8px rgba(74, 107, 255, 0.2);
+            color: #0071e3;
+            border-bottom-color: #0071e3;
         }
         .tab-btn[data-tab="chinese"].active { 
-            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.2);
+            color: #d4264a;
+            border-bottom-color: #d4264a;
         }
         .tab-btn[data-tab="math"].active { 
-            background: linear-gradient(135deg, #20c997, #40d8a7);
-            box-shadow: 0 4px 8px rgba(32, 201, 151, 0.2);
+            color: #30b46c;
+            border-bottom-color: #30b46c;
         }
         .tab-btn[data-tab="tools"].active { 
-            background: linear-gradient(135deg, #ff922b, #ffab5c);
-            box-shadow: 0 4px 8px rgba(255, 146, 43, 0.2);
+            color: #e9730c;
+            border-bottom-color: #e9730c;
         }
         .tab-btn[data-tab="games"].active { 
-            background: linear-gradient(135deg, #9c36b5, #b359cc);
-            box-shadow: 0 4px 8px rgba(156, 54, 181, 0.2);
+            color: #8e44ad;
+            border-bottom-color: #8e44ad;
         }
 
         /* 区域样式 */
@@ -191,7 +203,7 @@
             display: block;
         }
 
-        /* 功能卡片样式 */
+        /* 功能卡片样式 - Mac风格 */
         .feature-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, 180px);
@@ -210,32 +222,34 @@
             background: white;
             border-radius: 12px;
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.2s ease;
             padding: 20px;
             text-align: center;
             border: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
             position: relative;
-            overflow: visible;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* 卡片颜色 */
-        .english-card { color: #246bca; }
-        .chinese-card { color: #ff6b6b; }
-        .math-card { color: #1eb386; }
-        .tools-card { color: #ff922b; }
-        .games-card { color: #9c36b5; }
+        /* 卡片颜色 - Mac风格 */
+        .english-card { color: #0071e3; }
+        .chinese-card { color: #d4264a; }
+        .math-card { color: #30b46c; }
+        .tools-card { color: #e9730c; }
+        .games-card { color: #8e44ad; }
 
         /* 按钮文字颜色 */
-        .english-card span { color: #246bca !important; }
-        .chinese-card span { color: #c54f4f !important; }
-        .math-card span { color: #1c8a69 !important; }
-        .tools-card span { color: #ff922b !important; }
-        .games-card span { color: #9c36b5 !important; }
+        .english-card span { color: #0071e3 !important; }
+        .chinese-card span { color: #d4264a !important; }
+        .math-card span { color: #30b46c !important; }
+        .tools-card span { color: #e9730c !important; }
+        .games-card span { color: #8e44ad !important; }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: rgba(0,0,0,0.1);
         }
 
         .feature-card i,
@@ -248,7 +262,7 @@
         /* 统一文字样式 */
         .feature-card span {
             font-weight: 500;
-            font-size: 1.1rem;
+            font-size: 1rem;
             display: block;
             width: 100%;
             white-space: nowrap;
@@ -265,12 +279,11 @@
             width: 50px;
             text-align: center;
             border-radius: 10px;
-            background: linear-gradient(135deg, #ff922b, #ffab5c);
+            background: linear-gradient(135deg, #e9730c, #ff922b);
             color: white !important;
             font-weight: 600;
             z-index: 1;
-            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             margin: 0;
             line-height: 1.2;
             box-sizing: border-box;
@@ -280,36 +293,39 @@
         }
 
         .feature-card.disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
+            background: rgba(0,0,0,0.02);
         }
 
         .feature-card.disabled:hover {
             transform: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
         }
 
         .custom-icon {
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
             object-fit: contain;
             margin-bottom: 25px;
         }
 
-        /* 密码弹窗样式 */
+        /* 密码弹窗样式 - Mac风格 */
         .custom-prompt {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.4);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .custom-prompt.active {
@@ -320,11 +336,12 @@
             background-color: white;
             border-radius: 12px;
             width: 90%;
-            max-width: 400px;
+            max-width: 380px;
             padding: 25px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transform: translateY(20px);
             transition: transform 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .custom-prompt.active .prompt-container {
@@ -333,29 +350,31 @@
 
         .prompt-title {
             font-size: 1.2rem;
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 20px;
-            color: #333;
+            color: #1d1d1f;
             text-align: center;
         }
 
         .prompt-input {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 8px;
             font-size: 1rem;
             margin-bottom: 15px;
             transition: border-color 0.3s ease;
+            background: rgba(0,0,0,0.02);
         }
 
         .prompt-input:focus {
             outline: none;
-            border-color: #4a6bff;
+            border-color: #0071e3;
+            background: white;
         }
 
         .prompt-error {
-            color: #ff6b6b;
+            color: #d4264a;
             font-size: 0.9rem;
             margin-bottom: 15px;
             display: none;
@@ -365,7 +384,7 @@
         .prompt-buttons {
             display: flex;
             justify-content: space-between;
-            gap: 15px;
+            gap: 12px;
         }
 
         .prompt-btn {
@@ -373,34 +392,34 @@
             padding: 12px;
             border: none;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .prompt-btn-cancel {
-            background-color: #f5f5f5;
-            color: #666;
+            background-color: rgba(0,0,0,0.04);
+            color: #1d1d1f;
         }
 
         .prompt-btn-cancel:hover {
-            background-color: #e0e0e0;
+            background-color: rgba(0,0,0,0.08);
         }
 
         .prompt-btn-confirm {
-            background-color: #4a6bff;
+            background-color: #0071e3;
             color: white;
         }
 
         .prompt-btn-confirm:hover {
-            background-color: #3a5bef;
+            background-color: #0062c4;
         }
 
         /* 移动端样式 */
         @media (max-width: 768px) {
             .navbar {
-                padding: 12px 0;
+                padding: 10px 0;
             }
             
             .logo {
@@ -409,16 +428,16 @@
             }
             
             .logo i {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 margin-right: 8px;
             }
             
             .search-container {
-                width: 150px;
+                width: 140px;
             }
             
             .search-box {
-                padding: 6px 12px;
+                padding: 6px 10px;
             }
             
             .search-box input {
@@ -426,65 +445,26 @@
             }
             
             .search-box i {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
             }
             
             .tab-nav {
                 overflow-x: auto;
                 scrollbar-width: none;
                 position: relative;
-                padding-bottom: 15px;
+                padding-bottom: 0;
             }
             
             .tab-nav::-webkit-scrollbar {
                 display: none;
             }
             
-            .tab-indicator-container {
-                position: absolute;
-                bottom: 6px;
-                left: 8px;
-                right: 8px;
-                height: 3px;
-                display: flex;
-                background: #e9ecef;
-                border-radius: 2px;
-                overflow: hidden;
-            }
-            
-            .tab-indicator-segment {
-                flex: 1;
-                height: 100%;
-                position: relative;
-            }
-            
-            .tab-indicator-segment::after {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 100%;
-                transform: scaleX(0);
-                transform-origin: left;
-                transition: transform 0.3s ease;
-            }
-            
-            .tab-indicator-segment.active::after {
-                transform: scaleX(1);
-            }
-            
-            .tab-indicator-segment[data-tab="english"]::after { background: #4a6bff; }
-            .tab-indicator-segment[data-tab="chinese"]::after { background: #ff6b6b; }
-            .tab-indicator-segment[data-tab="math"]::after { background: #20c997; }
-            .tab-indicator-segment[data-tab="tools"]::after { background: #ff922b; }
-            .tab-indicator-segment[data-tab="games"]::after { background: #9c36b5; }
-            
             .tab-btn {
-                padding: 8px 16px;
+                padding: 10px 16px;
                 font-size: 0.9rem;
-                margin: 0 3px;
+                margin: 0;
                 flex-shrink: 0;
+                border-bottom-width: 2px;
             }
             
             .feature-cards {
@@ -494,13 +474,13 @@
             
             .feature-card {
                 width: 100%;
-                height: 110px;
-                padding: 12px;
+                height: 120px;
+                padding: 15px;
             }
             
             .feature-card i, .feature-card .custom-icon {
-                font-size: 1.8rem;
-                margin-bottom: 12px;
+                font-size: 1.6rem;
+                margin-bottom: 15px;
             }
             
             .feature-card span {
@@ -516,6 +496,7 @@
             @media (max-width: 480px) {
                 .prompt-container {
                     padding: 20px;
+                    max-width: 90%;
                 }
                 
                 .prompt-title {
@@ -548,7 +529,7 @@
             <div class="search-container">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="搜索学习资源..." id="searchInput">
+                    <input type="text" placeholder="搜索..." id="searchInput">
                 </div>
                 <div class="search-results" id="searchResults"></div>
             </div>
@@ -563,15 +544,6 @@
             <button class="tab-btn" data-tab="math">数学</button>
             <button class="tab-btn" data-tab="tools">书法</button>
             <button class="tab-btn" data-tab="games">其他</button>
-            
-            <!-- 移动端分段指示器 -->
-            <div class="tab-indicator-container">
-                <div class="tab-indicator-segment active" data-tab="english"></div>
-                <div class="tab-indicator-segment" data-tab="chinese"></div>
-                <div class="tab-indicator-segment" data-tab="math"></div>
-                <div class="tab-indicator-segment" data-tab="tools"></div>
-                <div class="tab-indicator-segment" data-tab="games"></div>
-            </div>
         </div>
         
         <!-- 英语学习区 -->
@@ -740,7 +712,6 @@
         // 标签页切换功能
         const tabBtns = document.querySelectorAll('.tab-btn');
         const sections = document.querySelectorAll('.section-area');
-        const indicatorSegments = document.querySelectorAll('.tab-indicator-segment');
         
         tabBtns.forEach(btn => {
             btn.addEventListener('click', function() {
@@ -749,14 +720,10 @@
                 // 移除所有active类
                 tabBtns.forEach(b => b.classList.remove('active'));
                 sections.forEach(s => s.classList.remove('active'));
-                indicatorSegments.forEach(seg => seg.classList.remove('active'));
                 
                 // 添加active类到当前标签
                 this.classList.add('active');
                 document.getElementById(tabId).classList.add('active');
-                
-                // 激活对应的指示器分段
-                document.querySelector(`.tab-indicator-segment[data-tab="${tabId}"]`).classList.add('active');
                 
                 // 移动端确保活动标签可见
                 if (window.innerWidth <= 768) {
@@ -832,11 +799,11 @@
             function showError(message) {
                 errorMsg.textContent = message;
                 errorMsg.style.display = 'block';
-                input.style.borderColor = '#ff6b6b';
+                input.style.borderColor = '#d4264a';
                 
                 setTimeout(() => {
                     errorMsg.style.display = 'none';
-                    input.style.borderColor = '#e0e0e0';
+                    input.style.borderColor = 'rgba(0,0,0,0.1)';
                 }, 3000);
             }
             
