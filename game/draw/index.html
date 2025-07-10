@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你画我猜 - 多人游戏</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .game-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .drawing-area {
+            flex: 2;
+            padding: 20px;
+            border-right: 1px solid #eee;
+        }
+        .chat-area {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        #drawingCanvas {
+            background: white;
+            border: 1px solid #ddd;
+            cursor: crosshair;
+        }
+        .toolbar {
+            margin: 10px 0;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #cccccc;
+        }
+        #colorPicker {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            border: 1px solid #ddd;
+        }
+        #brushSize {
+            width: 60px;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+        }
+        .message {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .message.system {
+            background: #f0f0f0;
+            color: #666;
+        }
+        .message.player {
+            background: #e6f7ff;
+        }
+        .message.correct {
+            background: #e6ffed;
+            font-weight: bold;
+        }
+        #messageInput {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .player-list {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        .player {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+        .player.drawer {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .ready-status {
+            color: #4CAF50;
+        }
+        .waiting-area {
+            text-align: center;
+            padding: 20px;
+        }
+        .game-area {
+            display: none;
+        }
+        #startGameBtn {
+            background: #2196F3;
+        }
+        #startGameBtn:hover {
+            background: #0b7dda;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="drawing-area">
+            <div class="waiting-area" id="waitingArea">
+                <h2>欢迎来到你画我猜</h2>
+                <p id="roomStatus">正在连接房间...</p>
+                <div id="playerReadyList"></div>
+                <button id="readyBtn">准备</button>
+                <button id="startGameBtn" disabled>开始游戏</button>
+            </div>
+            
+            <div class="game-area" id="gameArea">
+                <h2 id="gameStatus">等待游戏开始...</h2>
+                <canvas id="drawingCanvas" width="600" height="400"></canvas>
+                <div class="toolbar">
+                    <input type="color" id="colorPicker" value="#000000">
+                    <input type="range" id="brushSize" min="1" max="20" value="5">
+                    <button id="clearBtn">清空</button>
+                    <button id="undoBtn">撤销</button>
+                </div>
+                <div class="word-info" id="wordInfo"></div>
+            </div>
+        </div>
+        
+        <div class="chat-area">
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="input-area">
+                <input type="text" id="messageInput" placeholder="输入你的猜测...">
+                <button id="sendBtn">发送</button>
+            </div>
+            <div class="player-list" id="playerList"></div>
+        </div>
+    </div>
+
+    <script>
+
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let socket;
+        let ctx;
+        let isReady = false;
+        let isHost = false;
+        let playerName = '';
+
+        const canvas = document.getElementById('drawingCanvas');
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const playerList = document.getElementById('playerList');
+        const readyBtn = document.getElementById('readyBtn');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const waitingArea = document.getElementById('waitingArea');
+        const gameArea = document.getElementById('gameArea');
+        const roomStatus = document.getElementById('roomStatus');
+        const playerReadyList = document.getElementById('playerReadyList');
+        const gameStatus = document.getElementById('gameStatus');
+        const wordInfo = document.getElementById('wordInfo');
+        
+        // 初始化画布
+        function initCanvas() {
+            ctx = canvas.getContext('2d');
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            
+            // 绘图事件监听
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // 触摸屏支持
+            canvas.addEventListener('touchstart', handleTouchStart);
+            canvas.addEventListener('touchmove', handleTouchMove);
+            canvas.addEventListener('touchend', handleTouchEnd);
+        }
+        
+        // 绘图函数
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+            
+            // 发送开始绘图事件
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                    type: 'draw_start',
+                    x: lastX,
+                    y: lastY
+                }));
+            }
+        }
+        
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            const x = e.offsetX;
+            const y = e.offsetY;
+            
+            ctx.strokeStyle = document.getElementById('colorPicker').value;
+            ctx.lineWidth = document.getElementById('brushSize').value;
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            
+            // 发送绘图数据
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                    type: 'draw',
+                    x1: lastX,
+                    y1: lastY,
+                    x2: x,
+                    y2: y,
+                    color: ctx.strokeStyle,
+                    size: ctx.lineWidth
+                }));
+            }
+            
+            [lastX, lastY] = [x, y];
+        }
+        
+        function stopDrawing() {
+            isDrawing = false;
+        }
+        
+        // 触摸屏支持
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const event = {
+                offsetX: touch.clientX - rect.left,
+                offsetY: touch.clientY - rect.top
+            };
+            startDrawing(event);
+        }
+        
+        function handleTouchMove(e) {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const event = {
+                offsetX: touch.clientX - rect.left,
+                offsetY: touch.clientY - rect.top
+            };
+            draw(event);
+        }
+        
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            stopDrawing();
+        }
+        
+        // 清空画布
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                    type: 'clear'
+                }));
+            }
+        }
+        
+        // 撤销上一步
+        function undoDrawing() {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                    type: 'undo'
+                }));
+            }
+        }
+        
+        // 发送消息
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message && socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                    type: 'chat',
+                    message: message
+                }));
+                messageInput.value = '';
+            }
+        }
+        
+        // 更新玩家列表
+        function updatePlayerList(players) {
+            playerList.innerHTML = '';
+            players.forEach(player => {
+                const playerEl = document.createElement('div');
+                playerEl.className = 'player' + (player.isDrawer ? ' drawer' : '');
+                playerEl.innerHTML = `
+                    <span>${player.name}</span>
+                    <span>${player.score}分</span>
+                    ${player.isReady ? '<span class="ready-status">✓</span>' : ''}
+                `;
+                playerList.appendChild(playerEl);
+            });
+        }
+        
+        // 更新准备玩家列表
+        function updateReadyList(players) {
+            playerReadyList.innerHTML = '';
+            players.forEach(player => {
+                const playerEl = document.createElement('div');
+                playerEl.className = 'player' + (player.isHost ? ' host' : '');
+                playerEl.innerHTML = `
+                    <span>${player.name}</span>
+                    ${player.isReady ? '<span class="ready-status">✓ 已准备</span>' : '<span class="ready-status">等待中</span>'}
+                `;
+                playerReadyList.appendChild(playerEl);
+            });
+        }
+        
+        // 添加聊天消息
+        function addChatMessage(sender, message, isSystem = false, isCorrect = false) {
+            const messageEl = document.createElement('div');
+            messageEl.className = `message ${isSystem ? 'system' : 'player'} ${isCorrect ? 'correct' : ''}`;
+            messageEl.textContent = `${sender}: ${message}`;
+            chatMessages.appendChild(messageEl);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // 处理WebSocket消息
+        function handleSocketMessage(data) {
+            switch (data.type) {
+                case 'welcome':
+                    playerName = data.name;
+                    isHost = data.isHost;
+                    roomStatus.textContent = `房间号: ${data.roomId}`;
+                    if (isHost) {
+                        startGameBtn.disabled = false;
+                    }
+                    addChatMessage('系统', `欢迎 ${playerName} 加入游戏!`, true);
+                    break;
+                    
+                case 'player_list':
+                    updatePlayerList(data.players);
+                    break;
+                    
+                case 'ready_list':
+                    updateReadyList(data.players);
+                    break;
+                    
+                case 'player_ready':
+                    addChatMessage('系统', `${data.playerName} 已准备`, true);
+                    break;
+                    
+                case 'player_unready':
+                    addChatMessage('系统', `${data.playerName} 取消准备`, true);
+                    break;
+                    
+                case 'chat':
+                    addChatMessage(data.sender, data.message, false, data.isCorrect);
+                    break;
+                    
+                case 'start_game':
+                    waitingArea.style.display = 'none';
+                    gameArea.style.display = 'block';
+                    gameStatus.textContent = data.isDrawer ? 
+                        `请画出: ${data.word}` : 
+                        `猜猜 ${data.drawer} 画的是什么 (${data.wordLength}个字)`;
+                    wordInfo.textContent = data.isDrawer ? 
+                        `你要画的词: ${data.word}` : 
+                        `提示: ${data.wordLength}个字`;
+                    break;
+                    
+                case 'draw_start':
+                    ctx.beginPath();
+                    ctx.moveTo(data.x, data.y);
+                    break;
+                    
+                case 'draw':
+                    ctx.strokeStyle = data.color;
+                    ctx.lineWidth = data.size;
+                    ctx.lineTo(data.x2, data.y2);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(data.x2, data.y2);
+                    break;
+                    
+                case 'clear':
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    break;
+                    
+                case 'undo':
+                    // 简单的撤销实现 - 重绘所有绘图历史
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    break;
+                    
+                case 'round_end':
+                    addChatMessage('系统', `本轮结束! ${data.winner ? `${data.winner} 猜对了! 答案是: ${data.word}` : '时间到!'}`, true);
+                    setTimeout(() => {
+                        waitingArea.style.display = 'block';
+                        gameArea.style.display = 'none';
+                        isReady = false;
+                        readyBtn.textContent = '准备';
+                    }, 3000);
+                    break;
+                    
+                case 'game_end':
+                    addChatMessage('系统', `游戏结束! 获胜者: ${data.winner}`, true);
+                    break;
+            }
+        }
+        
+        function connectWebSocket() {
+            const socketProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+            const socketUrl = socketProtocol + window.location.hostname + ':8080';
+            
+            socket = new WebSocket(socketUrl);
+            
+            socket.onerror = (error) => {
+                console.error('WebSocket错误:', error);
+                roomStatus.textContent = '连接失败，正在重试...';
+                setTimeout(connectWebSocket, 3000);
+            };
+            
+            socket.onclose = () => {
+                console.log('连接已关闭，尝试重新连接...');
+                roomStatus.textContent = '连接断开，正在重试...';
+                setTimeout(connectWebSocket, 3000);
+            };
+            
+            socket.onopen = () => {
+                roomStatus.textContent = '已连接，正在加入房间...';
+                playerName = localStorage.getItem('playerName') || 
+                            prompt('请输入你的名字:', '玩家' + Math.floor(Math.random() * 1000));
+                if (playerName) {
+                    localStorage.setItem('playerName', playerName);
+                    socket.send(JSON.stringify({
+                        type: 'join',
+                        name: playerName
+                    }));
+                }
+            };
+            
+            socket.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    handleSocketMessage(data);
+                } catch (err) {
+                    console.error('消息解析错误:', err);
+                }
+            };
+        }
+        
+        // 准备/取消准备
+        readyBtn.addEventListener('click', () => {
+            isReady = !isReady;
+            readyBtn.textContent = isReady ? '取消准备' : '准备';
+            
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                    type: isReady ? 'ready' : 'unready'
+                }));
+            }
+        });
+        
+        // 开始游戏
+        startGameBtn.addEventListener('click', () => {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                    type: 'start_game'
+                }));
+            }
+        });
+        
+        // 发送消息按钮
+        document.getElementById('sendBtn').addEventListener('click', sendMessage);
+        
+        // 回车发送消息
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        // 清空画布
+        document.getElementById('clearBtn').addEventListener('click', clearCanvas);
+        
+        // 撤销
+        document.getElementById('undoBtn').addEventListener('click', undoDrawing);
+        
+        // 页面加载初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            initCanvas();
+            connectWebSocket();
+        });
+    </script>
+</body>
+</html>

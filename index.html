@@ -641,6 +641,11 @@
                     <i class="fas fa-clipboard-list"></i>
                     <span>作业记录</span>
                 </a>
+
+                <a href="#" class="feature-card games-card" id="drawAndGuessBtn" data-search="你画我猜 游戏 绘画">
+                    <img src="images/drawguess.png" class="custom-icon">
+                    <span>你画我猜</span>
+                </a>
             </div>
         </section>
     </div>
@@ -735,6 +740,17 @@
                 }
             });
         });
+
+        document.getElementById('drawAndGuessBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    showCustomPrompt('请输入密码访问你画我猜游戏', (password) => {
+        if (password === '769') {
+            window.location.href = 'game/draw/index.html';
+        } else {
+            alert('密码错误，请重试！');
+        }
+    });
+});
 
         // 自定义密码弹窗函数
         function showCustomPrompt(title, callback) {
