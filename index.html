@@ -577,13 +577,17 @@
                     <img src="images/wenzhanglangdu.png" class="custom-icon">
                     <span>文章朗读</span>
                 </a>
+                <a href="subjects/english/xialuo/index.html" class="feature-card english-card" id="xialuoBtn" data-search="英语朗读 英语 阅读">
+                    <img src="images/xialuo.png" class="custom-icon">
+                    <span>夏洛特的网</span>
+                </a>
             </div>
         </section>
         
         <!-- 语文学习区 -->
         <section id="chinese" class="section-area">
             <div class="feature-cards">
-                <a href="subjects/chinese/gushiyuxi/index.html" class="feature-card chinese-card" data-search="英语朗读 英语 朗读">
+                <a href="subjects/chinese/gushiyuxi/index.html" class="feature-card chinese-card"  data-search="英语朗读 英语 朗读">
                     <img src="images/gushici.png" class="custom-icon">
                     <span>古诗词</span>
                 </a>
@@ -640,11 +644,6 @@
                 <a href="#" class="feature-card games-card" id="homeworkTrackerBtn" data-search="作业记录 学习 作业">
                     <i class="fas fa-clipboard-list"></i>
                     <span>作业记录</span>
-                </a>
-
-                <a href="#" class="feature-card games-card" id="drawAndGuessBtn" data-search="你画我猜 游戏 绘画">
-                    <img src="images/drawguess.png" class="custom-icon">
-                    <span>你画我猜</span>
                 </a>
             </div>
         </section>
@@ -741,11 +740,11 @@
             });
         });
 
-        document.getElementById('drawAndGuessBtn').addEventListener('click', function(e) {
+        document.getElementById('xialuoBtn').addEventListener('click', function(e) {
     e.preventDefault();
-    showCustomPrompt('请输入密码访问你画我猜游戏', (password) => {
+    showCustomPrompt('请输入密码', (password) => {
         if (password === '769') {
-            window.location.href = 'game/draw/index.html';
+            window.location.href = 'subjects/english/xialuo/index.html';
         } else {
             alert('密码错误，请重试！');
         }

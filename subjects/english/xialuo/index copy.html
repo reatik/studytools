@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>夏洛特的网 - 电子书</title>
+    <style>
+        :root {
+            --primary-color: #1e1e1e; /* 微信读书主文字颜色 */
+            --secondary-color: #f7f7f7; /* 微信读书背景色 */
+            --accent-color: #1a7cc4; /* 微信读书强调色 */
+            --text-color: #333333; /* 正文文字颜色 */
+            --border-color: #e6e6e6; /* 边框颜色 */
+            --highlight-color: #f0f7ff; /* 高亮背景色 */
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* 目录按钮 */
+        .menu-toggle {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 100;
+            width: 36px;
+            height: 36px;
+            background-color: white;
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .menu-toggle:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* 侧边导航栏 */
+        .sidebar {
+            width: 75%;
+            max-width: 300px;
+            background-color: white;
+            color: var(--primary-color);
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 90;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar.show {
+            transform: translateX(100%);
+        }
+        
+        .sidebar-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .sidebar h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .sidebar p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .chapters {
+            padding: 0;
+            list-style: none;
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        
+        .chapter-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .chapter-link {
+            display: block;
+            padding: 12px 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .chapter-link:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .chapter-link.active {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            transition: transform 0.3s ease;
+            min-height: 100vh;
+        }
+        
+        .main-content.shifted {
+            transform: translateX(75%);
+        }
+        
+        .book-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .book-title {
+            font-size: 1.8rem;
+            margin: 0 0 8px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .book-author {
+            font-size: 1rem;
+            color: #666;
+            font-style: normal;
+            margin: 0 0 20px;
+        }
+        
+        /* 章节内容 */
+        .chapter {
+            margin-bottom: 40px;
+            display: none;
+            padding: 0;
+        }
+        
+        .chapter.active {
+            display: block;
+        }
+        
+        .chapter-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin: 0 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 500;
+        }
+        
+        .sentence-container {
+            margin-bottom: 25px;
+            padding: 0;
+        }
+        
+        .english {
+            font-size: 1.05rem;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1.8;
+            transition: background-color 0.2s;
+        }
+        
+        .english:hover {
+            background-color: var(--highlight-color);
+        }
+        
+        .chinese {
+            font-size: 1rem;
+            color: #555;
+            display: none;
+            padding: 0;
+            margin-top: 5px;
+            line-height: 1.7;
+            border-left: none;
+            background-color: transparent;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+            }
+            
+            .sidebar {
+                width: 80%;
+            }
+            
+            .main-content.shifted {
+                transform: translateX(80%);
+            }
+            
+            .book-title {
+                font-size: 1.6rem;
+            }
+            
+            .chapter-title {
+                font-size: 1.3rem;
+            }
+            
+            .english {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 目录按钮 -->
+    <div class="menu-toggle">≡</div>
+    
+    <!-- 侧边导航栏 -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h2>夏洛特的网</h2>
+            <p>E.B.怀特</p>
+        </div>
+        <ul class="chapters">
+            <li class="chapter-item">
+                <a href="#chapter1" class="chapter-link active">1. BEFORE BREAKFAST</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter2" class="chapter-link">2. WILBUR</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter3" class="chapter-link">3. ESCAPE</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter4" class="chapter-link">4. LONELINESS</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter5" class="chapter-link">5. CHARLOTTE</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter6" class="chapter-link">6. SUMMER DAYS</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter7" class="chapter-link">7. BAD NEWS</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter8" class="chapter-link">8. A TALK AT HOME</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter9" class="chapter-link">9. WILBUR'S BOAST</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter10" class="chapter-link">10. AN EXPLOSION</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter11" class="chapter-link">11. THE MIRACLE</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter12" class="chapter-link">12. A MEETING</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter13" class="chapter-link">13. GOOD PROGRESS</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter14" class="chapter-link">14. DR. DORIAN</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter15" class="chapter-link">15. THE CRICKETS</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter16" class="chapter-link">16. OFF TO THE FAIR</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter17" class="chapter-link">17. UNCLE</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter18" class="chapter-link">18. THE COOL OF THE EVENING</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter19" class="chapter-link">19. THE EGG SAC</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter20" class="chapter-link">20. THE HOUR OF TRIUMPH</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter21" class="chapter-link">21. LAST DAY</a>
+            </li>
+            <li class="chapter-item">
+                <a href="#chapter22" class="chapter-link">22. A WARM WIND</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <header class="book-header">
+            <h1 class="book-title">夏洛特的网</h1>
+            <p class="book-author">作者：E.B.怀特</p>
+        </header>
+        
+        <section id="chapter1">
+            <h2 class="chapter-title">第一章</h2>
+            
+            <div class="paragraph">
+                <div class="english">"Where's Papa going with that ax?" said Fern to her mother as they were setting the table for breakfast.</div>
+                <div class="chinese">"爸爸拿着斧头要去哪儿？"弗恩一边和妈妈一起摆早餐桌一边问道。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Out to the hog house," replied Mrs. Arable. "Some pigs were born last night."</div>
+                <div class="chinese">"去猪圈，"阿拉贝尔太太回答。"昨晚有几只小猪出生了。"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"I don't see why he needs an ax," continued Fern, who was only eight.</div>
+                <div class="chinese">"我不明白他为什么需要斧头，"只有八岁的弗恩继续说道。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Well," said her mother, "one of the pigs is a runt. It's very small and weak, and it will never amount to anything. So your father has decided to do away with it."</div>
+                <div class="chinese">"嗯，"她妈妈说，"有只小猪是弱仔。它非常瘦小虚弱，永远长不大。所以你爸爸决定要处理掉它。"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Do away with it?" shrieked Fern. "You mean kill it? Just because it's smaller than the others?"</div>
+                <div class="chinese">"处理掉它？"弗恩尖叫道。"你是说要杀了它？就因为它比其他小猪小？"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">Mrs. Arable put a pitcher of cream on the table. "Don't yell, Fern!" she said. "Your father is right. The pig would probably die anyway."</div>
+                <div class="chinese">阿拉贝尔太太把一罐奶油放在桌上。"别嚷嚷，弗恩！"她说。"你爸爸是对的。反正这头小猪可能也活不成。"</div>
+            </div>
+            
+            <div class="page-break"></div>
+            
+            <div class="paragraph">
+                <div class="english">Fern pushed a chair out of the way and ran outdoors. The grass was wet and the earth smelled of springtime. Fern's sneakers were sopping by the time she caught up with her father.</div>
+                <div class="chinese">弗恩推开挡道的椅子跑出门外。草地湿漉漉的，泥土散发着春天的气息。等她追上爸爸时，她的运动鞋已经湿透了。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Please don't kill it!" she sobbed. "It's unfair."</div>
+                <div class="chinese">"请不要杀它！"她抽泣着说。"这不公平。"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">Mr. Arable stopped walking.</div>
+                <div class="chinese">阿拉贝尔先生停下脚步。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Fern," he said gently, "you will have to learn to control yourself."</div>
+                <div class="chinese">"弗恩，"他温和地说，"你得学会控制自己。"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Control myself?" yelled Fern. "This is a matter of life and death, and you talk about controlling myself." Tears ran down her cheeks and she took hold of the ax and tried to pull it out of her father's hand.</div>
+                <div class="chinese">"控制自己？"弗恩喊道。"这是生死攸关的事，你还说什么控制自己。"泪水顺着她的脸颊流下，她抓住斧头，试图从父亲手中夺过来。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Fern," said Mr. Arable, "I know more about raising a litter of pigs than you do. A weakling makes trouble. Now run along!"</div>
+                <div class="chinese">"弗恩，"阿拉贝尔先生说，"我比你更懂怎么养一窝小猪。弱仔会带来麻烦。现在走开吧！"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"But it's unfair," cried Fern. "The pig couldn't help being born small, could it? If I had been very small at birth, would you have killed me?"</div>
+                <div class="chinese">"但这不公平，"弗恩哭着说。"小猪生来弱小也不是它的错，对吧？如果我出生时很小，你会杀了我吗？"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">Mr. Arable smiled. "Certainly not," he said, looking down at his daughter with love. "But this is different. A little girl is one thing, a little runty pig is another."</div>
+                <div class="chinese">阿拉贝尔先生笑了。"当然不会，"他慈爱地看着女儿说。"但这不一样。小女孩是一回事，小弱猪是另一回事。"</div>
+            </div>
+            
+            <div class="page-break"></div>
+            
+            <div class="paragraph">
+                <div class="english">"I see no difference," replied Fern, still hanging on to the ax. "This is the most terrible case of injustice I ever heard of."</div>
+                <div class="chinese">"我看不出有什么不同，"弗恩回答，仍然抓着斧头不放。"这是我听说过的最可怕的不公正事件。"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">A queer look came over John Arable's face. He seemed almost ready to cry himself.</div>
+                <div class="chinese">约翰·阿拉贝尔脸上露出奇怪的表情。他自己似乎也要哭了。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"All right," he said. "You go back to the house and I will bring the runt when I come in. I'll let you start it on a bottle, like a baby. Then you'll see what trouble a pig can be."</div>
+                <div class="chinese">"好吧，"他说。"你先回家，我回来时会把那只弱仔带来。我会让你用奶瓶喂它，像喂婴儿一样。到时候你就知道养一只小猪有多麻烦了。"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">When Mr. Arable returned to the house half an hour later, he carried a carton under his arm. Fern was upstairs changing her sneakers. The kitchen table was set for breakfast, and the room smelled of coffee, bacon, damp plaster, and wood smoke from the stove.</div>
+                <div class="chinese">半小时后，阿拉贝尔先生回到家，腋下夹着一个纸箱。弗恩正在楼上换运动鞋。厨房的餐桌已经摆好早餐，房间里弥漫着咖啡、熏肉、潮湿的灰泥和炉子里飘出的柴火烟味。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Put it on her chair!" said Mrs. Arable. Mr. Arable set the carton down at Fern's place. Then he walked to the sink and washed his hands and dried them on the roller towel.</div>
+                <div class="chinese">"放在她的椅子上！"阿拉贝尔太太说。阿拉贝尔先生把纸箱放在弗恩的座位上，然后走到水槽边洗手，用滚筒毛巾擦干。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">Fern came slowly down the stairs. Her eyes were red from crying. As she approached her chair, the carton wobbled, and there was a scratching noise. Fern looked at her father. Then she lifted the lid of the carton. There, inside, looking up at her, was the newborn pig. It was a white one. The morning light shone through its ears, turning them pink.</div>
+                <div class="chinese">弗恩慢慢走下楼梯。她的眼睛因哭泣而发红。当她走近椅子时，纸箱摇晃了一下，发出抓挠声。弗恩看着父亲，然后掀开纸箱盖子。里面，一只新生的小猪正抬头看着她。这是一只白色的小猪，晨光透过它的耳朵，把它们映成了粉红色。</div>
+            </div>
+            
+            <div class="page-break"></div>
+            
+            <div class="paragraph">
+                <div class="english">"He's yours," said Mr. Arable. "Saved from an untimely death. And may the good Lord forgive me for this foolishness."</div>
+                <div class="chinese">"它是你的了，"阿拉贝尔先生说。"免于夭折。愿上帝原谅我做的这件傻事。"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">Fern couldn't take her eyes off the tiny pig. "Oh," she whispered. "Oh, look at him! He's absolutely perfect."</div>
+                <div class="chinese">弗恩无法将目光从这只小猪身上移开。"哦，"她轻声说。"哦，看看它！它太完美了。"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">She closed the carton carefully. First she kissed her father, then she kissed her mother. Then she opened the lid again, lifted the pig out, and held it against her cheek. At this moment her brother Avery came into the room. Avery was ten. He was heavily armed - an air rifle in one hand, a wooden dagger in the other.</div>
+                <div class="chinese">她小心地合上纸箱。先亲了父亲，又亲了母亲。然后她又打开盖子，把小猪抱出来贴在脸颊上。这时她的哥哥艾弗里走进房间。艾弗里十岁，全副武装——一只手拿着气枪，另一只手拿着木匕首。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"What's that?" he demanded. "What's Fern got?"</div>
+                <div class="chinese">"那是什么？"他问道。"弗恩得到了什么？"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"She's got a guest for breakfast," said Mrs. Arable. "Wash your hands and face, Avery!"</div>
+                <div class="chinese">"她有个早餐客人，"阿拉贝尔太太说。"去洗手洗脸，艾弗里！"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Let's see it!" said Avery, setting his gun down. "You call that miserable thing a pig? That's a fine specimen of a pig, it's no bigger than a white rat."</div>
+                <div class="chinese">"让我看看！"艾弗里放下枪说。"你管那可怜的东西叫猪？这猪可真够标准的，还没一只白老鼠大。"</div>
+            </div>
+            
+            <div class="page-break"></div>
+            
+            <div class="paragraph">
+                <div class="english">"Wash up and eat your breakfast, Avery!" said his mother. "The school bus will be along in half an hour."</div>
+                <div class="chinese">"快去洗漱吃早餐，艾弗里！"他妈妈说。"校车半小时后就来了。"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Can I have a pig, too, Pop?" asked Avery.</div>
+                <div class="chinese">"我也能有一只猪吗，爸爸？"艾弗里问。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"No, I only distribute pigs to early risers," said Mr. Arable. "Fern was up at daylight, trying to rid the world of injustice. As a result, she now has a pig. A small one, to be sure, but nevertheless a pig. It just shows what can happen if a person gets out of bed promptly. Let's eat!"</div>
+                <div class="chinese">"不，我只把猪送给早起的人，"阿拉贝尔先生说。"弗恩天一亮就起床，试图消除世界上的不公正。结果她现在有了一只猪。虽然很小，但确实是只猪。这说明一个人及时起床会发生什么好事。我们吃饭吧！"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">But Fern couldn't eat until her pig had had a drink of milk.</div>
+                <div class="chinese">但弗恩要等小猪喝完牛奶才能吃饭。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">Mrs. Arable found a baby's nursing bottle and a rubber nipple. She poured warm milk into the bottle, fitted the nipple over the top, and handed it to Fern. "Give him his breakfast!" she said.</div>
+                <div class="chinese">阿拉贝尔太太找到一个婴儿奶瓶和橡胶奶嘴。她把温牛奶倒进奶瓶，装上奶嘴，递给弗恩。"给它吃早餐吧！"她说。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">A minute later, Fern was seated on the floor in the corner of the kitchen with her infant between her knees, teaching it to suck from the bottle. The pig, although tiny, had a good appetite and caught on quickly.</div>
+                <div class="chinese">一分钟后，弗恩坐在厨房角落的地板上，把小猪放在两膝之间，教它从奶瓶里吸奶。小猪虽然很小，但胃口很好，学得很快。</div>
+            </div>
+            
+            <div class="page-break"></div>
+            
+            <div class="paragraph">
+                <div class="english">The school bus honked from the road.</div>
+                <div class="chinese">校车在路上按响了喇叭。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Run!" commanded Mrs. Arable, taking the pig from Fern and slipping a doughnut into her hand. Avery grabbed his gun and another doughnut.</div>
+                <div class="chinese">"快跑！"阿拉贝尔太太命令道，从弗恩手中接过小猪，塞给她一个甜甜圈。艾弗里抓起枪和另一个甜甜圈。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">The children ran out to the road and climbed into the bus. Fern took no notice of the others in the bus. She just sat and stared out of the window, thinking what a blissful world it was and how lucky she was to have entire charge of a pig. By the time the bus reached school, Fern had named her pet, selecting the most beautiful name she could think of.</div>
+                <div class="chinese">孩子们跑到路上上了校车。弗恩没有理会车上的其他人。她只是坐着望向窗外，想着这是一个多么幸福的世界，她能完全负责照顾一只小猪是多么幸运。当校车到达学校时，弗恩已经给她的宠物起了一个她能想到的最美丽的名字。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Its name is Wilbur," she whispered to herself.</div>
+                <div class="chinese">"它的名字叫威尔伯，"她自言自语道。</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">She was still thinking about the pig when the teacher said: "Fern, what is the capital of Pennsylvania?"</div>
+                <div class="chinese">她还在想着小猪，这时老师问道："弗恩，宾夕法尼亚州的首府是哪里？"</div>
+            </div>
+            
+            <div class="paragraph">
+                <div class="english">"Wilbur," replied Fern, dreamily. The pupils giggled. Fern blushed.</div>
+                <div class="chinese">"威尔伯，"弗恩恍惚地回答。同学们咯咯笑起来。弗恩脸红了。</div>
+            </div>
+        </section>
+        
+        <!-- 其他章节结构相同，可以继续添加 -->
+        <section id="chapter2" class="chapter">
+            <h2 class="chapter-title">2. WILBUR</h2>
+            <div class="sentence-container">
+                <div class="english">Wilbur was what farmers call a spring pig, which simply means that he was born in springtime.</div>
+                <div class="chinese">威尔伯是农夫们所说的春猪，意思就是他是在春天出生的。</div>
+            </div>
+        </section>
+        
+        <section id="chapter3" class="chapter">
+            <h2 class="chapter-title">3. ESCAPE</h2>
+            <div class="sentence-container">
+                <div class="english">Wilbur often thought of the day when he had escaped from his pen.</div>
+                <div class="chinese">威尔伯常常想起他从猪圈逃出来的那一天。</div>
+            </div>
+        </section>
+        
+        <!-- 可以继续添加剩余章节 -->
+    </main>
+
+    <script>
+        // 目录切换功能
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+            mainContent.classList.toggle('shifted');
+        });
+        
+        // 点击显示/隐藏翻译
+        document.querySelectorAll('.english').forEach(item => {
+            item.addEventListener('click', event => {
+                const chinese = event.target.nextElementSibling;
+                chinese.style.display = chinese.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+        
+        // 章节导航功能
+        document.querySelectorAll('.chapter-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 移除所有active类
+                document.querySelectorAll('.chapter-link').forEach(el => {
+                    el.classList.remove('active');
+                });
+                document.querySelectorAll('.chapter').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                // 添加active类到当前点击的链接和对应的章节
+                this.classList.add('active');
+                const chapterId = this.getAttribute('href');
+                document.querySelector(chapterId).classList.add('active');
+                
+                // 关闭目录
+                sidebar.classList.remove('show');
+                mainContent.classList.remove('shifted');
+                
+                // 滚动到章节顶部
+                document.querySelector(chapterId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
