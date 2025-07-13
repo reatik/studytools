@@ -12,6 +12,7 @@
             --text-color: #333333;
             --border-color: #e6e6e6;
             --highlight-color: #f0f7ff;
+            --nav-bg-color: rgba(255, 255, 255, 0.95);
         }
         
         * {
@@ -33,24 +34,25 @@
             touch-action: pan-y;
         }
         
-        /* 侧边目录栏 */
+        /* 侧边目录栏 - 改为从底部弹出 */
         .sidebar {
             position: fixed;
-            top: 0;
-            left: -300px;
-            width: 280px;
-            height: 100%;
+            bottom: -70vh;
+            left: 0;
+            width: 100%;
+            height: 70vh;
             background-color: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
             z-index: 100;
             overflow-y: auto;
-            padding: 20px 15px;
+            padding: 0 15px;
             will-change: transform;
+            border-radius: 15px 15px 0 0;
         }
         
         .sidebar.show {
-            transform: translateX(300px);
+            transform: translateY(-100%);
         }
         
         .sidebar-header {
@@ -58,8 +60,12 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding-bottom: 10px;
+            padding: 15px 0;
             border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 110;
         }
         
         .sidebar-title {
@@ -78,6 +84,7 @@
         
         .chapters {
             list-style: none;
+            padding-bottom: 20px;
         }
         
         .chapter-item {
@@ -109,13 +116,8 @@
             margin: 0 auto;
             background-color: white;
             min-height: 100vh;
-            transition: transform 0.3s ease;
             position: relative;
             z-index: 10;
-        }
-        
-        .main-content.shifted {
-            transform: translateX(280px);
         }
         
         .book-header {
@@ -191,6 +193,42 @@
             background-color: transparent;
         }
         
+        /* 底部导航栏 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--nav-bg-color);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 90;
+            backdrop-filter: blur(5px);
+        }
+        
+        .nav-button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-button:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        
+        .nav-button.active {
+            color: var(--accent-color);
+        }
+        
         /* 响应式设计 */
         @media (max-width: 768px) {
             .main-content {
@@ -217,11 +255,29 @@
             .paragraph {
                 margin-bottom: 1.5em;
             }
+            
+            .bottom-nav {
+                height: 50px;
+            }
+            
+            .nav-button {
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+            
+            .sidebar {
+                height: 80vh;
+                bottom: -80vh;
+            }
+            
+            .sidebar.show {
+                transform: translateY(-80vh);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 侧边目录栏 -->
+    <!-- 侧边目录栏 - 改为从底部弹出 -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <h3 class="sidebar-title">目录</h3>
@@ -229,7 +285,7 @@
         </div>
         <ul class="chapters">
             <li class="chapter-item">
-                <a href="#chapter1" class="chapter-link active">1. BEFORE BREAKFAST</a>
+                <a href="#chapter1" class="chapter-link">1. BEFORE BREAKFAST</a>
             </li>
             <li class="chapter-item">
                 <a href="#chapter2" class="chapter-link">2. WILBUR</a>
@@ -296,6 +352,14 @@
             </li>
         </ul>
     </aside>
+
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <button class="nav-button" id="show-toc">目录</button>
+        <button class="nav-button">书签</button>
+        <button class="nav-button">设置</button>
+        <button class="nav-button">夜间模式</button>
+    </nav>
 
     <!-- 主内容区 -->
     <main class="main-content">
@@ -3029,73 +3093,33 @@
     <script>
         // 侧边栏控制
         const sidebar = document.querySelector('.sidebar');
-        const mainContent = document.querySelector('.main-content');
         const closeSidebarBtn = document.querySelector('.close-sidebar');
+        const showTocButton = document.getElementById('show-toc');
         
         // 显示侧边栏
         function showSidebar() {
             sidebar.classList.add('show');
-            mainContent.classList.add('shifted');
             document.body.style.overflow = 'hidden';
         }
         
         // 隐藏侧边栏
         function hideSidebar() {
             sidebar.classList.remove('show');
-            mainContent.classList.remove('shifted');
             document.body.style.overflow = '';
         }
+        
+        // 点击目录按钮
+        showTocButton.addEventListener('click', () => {
+            if (sidebar.classList.contains('show')) {
+                hideSidebar();
+            } else {
+                showSidebar();
+            }
+        });
         
         // 点击关闭按钮
         closeSidebarBtn.addEventListener('click', hideSidebar);
         
-        // 改进后的滑动触发逻辑
-        let touchStartX = 0;
-        let touchEndX = 0;
-        let isDragging = false;
-        let startTime = 0;
-
-        // 触摸开始
-        document.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            startTime = Date.now();
-            isDragging = true;
-        }, { passive: true });
-
-        // 触摸移动
-        document.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            touchEndX = e.touches[0].clientX;
-            
-            // 实时跟随手指移动
-            if (touchStartX < 50 && touchEndX > touchStartX) {
-                const distance = touchEndX - touchStartX;
-                if (distance > 0 && distance < 280) {
-                    sidebar.style.transform = `translateX(${distance}px)`;
-                    mainContent.style.transform = `translateX(${distance}px)`;
-                }
-            }
-        }, { passive: true });
-
-        // 触摸结束
-        document.addEventListener('touchend', () => {
-            if (!isDragging) return;
-            isDragging = false;
-            
-            const distanceX = touchEndX - touchStartX;
-            const duration = Date.now() - startTime;
-            const velocity = distanceX / duration;
-            
-            // 从左向右滑动且距离足够(至少50px)或快速滑动
-            if ((distanceX > 50 && touchStartX < 50) || (velocity > 0.3 && distanceX > 30)) {
-                showSidebar();
-            } else {
-                // 如果滑动距离不足，恢复原状
-                sidebar.style.transform = 'none';
-                mainContent.style.transform = 'none';
-            }
-        }, { passive: true });
-
         // 点击章节链接跳转
         document.querySelectorAll('.chapter-link').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -3119,6 +3143,10 @@
                 
                 // 滚动到章节顶部
                 document.querySelector(chapterId).scrollIntoView({ behavior: 'smooth' });
+                
+                // 保存当前阅读位置
+                localStorage.setItem('lastReadChapter', chapterId);
+                localStorage.setItem('lastScrollPosition', window.scrollY);
             });
         });
         
@@ -3148,6 +3176,37 @@
         // 观察所有章节
         document.querySelectorAll('.chapter').forEach(chapter => {
             observer.observe(chapter);
+        });
+        
+        // 页面加载时恢复上次阅读位置
+        window.addEventListener('DOMContentLoaded', () => {
+            const lastReadChapter = localStorage.getItem('lastReadChapter');
+            if (lastReadChapter) {
+                const chapterElement = document.querySelector(lastReadChapter);
+                if (chapterElement) {
+                    // 移除所有active类
+                    document.querySelectorAll('.chapter-link').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    document.querySelectorAll('.chapter').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    // 添加active类到上次阅读的章节
+                    document.querySelector(`.chapter-link[href="${lastReadChapter}"]`).classList.add('active');
+                    chapterElement.classList.add('active');
+                    
+                    // 滚动到上次阅读的位置
+                    setTimeout(() => {
+                        const lastScrollPosition = localStorage.getItem('lastScrollPosition');
+                        if (lastScrollPosition) {
+                            window.scrollTo(0, parseInt(lastScrollPosition));
+                        } else {
+                            chapterElement.scrollIntoView();
+                        }
+                    }, 100);
+                }
+            }
         });
     </script>
 </body>
