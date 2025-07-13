@@ -283,7 +283,7 @@ input, textarea, [contenteditable] {
             }
             
             .paragraph {
-                margin-bottom: 1.5em;
+                margin-bottom: 1.8em;
             }
         }
     </style>
@@ -15174,17 +15174,13 @@ let scrollTimeout;
 
 // 滚动事件处理器
 function handleScroll() {
-    // 检测是否在滚动
-    if (!isScrolling) {
-        isScrolling = true;
-        bottomNav.classList.remove('show');
-    }
+    // 只要检测到滚动就立即关闭导航栏
+    bottomNav.classList.remove('show');
     
-    // 重置滚动状态计时器
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-        isScrolling = false;
-    }, 500);
+    // 清除之前的计时器（防止重复设置）
+    if (this.scrollTimeout) {
+        clearTimeout(this.scrollTimeout);
+    }
 }
 
 // 显示侧边栏
@@ -15203,14 +15199,20 @@ function hideSidebar() {
 
 // 点击交互控制
 document.addEventListener('click', (e) => {
-    // 排除导航按钮和目录链接的点击
+    // 排除以下情况：
+    // 1. 导航按钮
+    // 2. 侧边栏区域
+    // 3. 章节链接
+    // 4. 文字内容（.english和.chinese元素）
     if (e.target.closest('.nav-btn') || 
         e.target.closest('.sidebar') || 
-        e.target.closest('.chapter-link')) {
+        e.target.closest('.chapter-link') ||
+        e.target.closest('.english') ||
+        e.target.closest('.chinese')) {
         return;
     }
     
-    // 点击空白区域显示导航栏
+    // 只有点击真正的空白区域才显示导航栏
     bottomNav.classList.add('show');
     
     // 3秒后自动隐藏
@@ -15219,6 +15221,7 @@ document.addEventListener('click', (e) => {
         bottomNav.classList.remove('show');
     }, 3000);
 });
+
 
 // 目录按钮点击事件
 tocBtn.addEventListener('click', showSidebar);
@@ -15318,7 +15321,7 @@ window.addEventListener('scroll', handleScroll, { passive: true });
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
-    // 添加淡入淡出过渡效果
+    // 添加过渡效果
     bottomNav.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
     
     // 确保导航栏初始状态正确
