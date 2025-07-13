@@ -740,16 +740,7 @@
             });
         });
 
-        document.getElementById('xialuoBtn').addEventListener('click', function(e) {
-    e.preventDefault();
-    showCustomPrompt('请输入密码', (password) => {
-        if (password === '769') {
-            window.location.href = 'subjects/english/xialuo/index.html';
-        } else {
-            alert('密码错误，请重试！');
-        }
-    });
-});
+
 
         // 自定义密码弹窗函数
         function showCustomPrompt(title, callback) {
