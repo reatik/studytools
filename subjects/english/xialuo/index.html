@@ -15274,6 +15274,90 @@ nextBtn.addEventListener('click', () => {
     }
 });
 
+        // 保存阅读进度到localStorage
+        function saveReadingProgress() {
+            const currentChapter = document.querySelector('.chapter.active');
+            if (currentChapter) {
+                localStorage.setItem('lastReadChapter', currentChapter.id);
+                localStorage.setItem('lastScrollPosition', window.pageYOffset);
+            }
+        }
+
+        // 恢复阅读进度
+        function restoreReadingProgress() {
+            const lastChapterId = localStorage.getItem('lastReadChapter');
+            const lastScrollPos = localStorage.getItem('lastScrollPosition');
+            
+            if (lastChapterId) {
+                // 移除所有active类
+                document.querySelectorAll('.chapter-link').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.chapter').forEach(el => el.classList.remove('active'));
+                
+                // 激活上次阅读的章节
+                const lastChapter = document.getElementById(lastChapterId);
+                if (lastChapter) {
+                    lastChapter.classList.add('active');
+                    const activeLink = document.querySelector(`.chapter-link[href="#${lastChapterId}"]`);
+                    if (activeLink) activeLink.classList.add('active');
+                    
+                    // 滚动到上次位置
+                    if (lastScrollPos) {
+                        setTimeout(() => {
+                            window.scrollTo(0, parseInt(lastScrollPos));
+                        }, 100);
+                    }
+                }
+            }
+        }
+
+        // 在DOM加载完成后恢复进度
+        document.addEventListener('DOMContentLoaded', () => {
+            restoreReadingProgress();
+            
+            // 添加过渡效果
+            bottomNav.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            
+            // 确保导航栏初始状态正确
+            if (window.pageYOffset === 0) {
+                bottomNav.classList.add('show');
+            }
+        });
+
+        // 监听滚动事件以保存进度
+        window.addEventListener('scroll', () => {
+            handleScroll();
+            
+            // 防抖保存进度
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                saveReadingProgress();
+            }, 1000);
+        });
+
+        // 章节切换时也保存进度
+        document.querySelectorAll('.chapter-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 更新active类
+                document.querySelectorAll('.chapter-link').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.chapter').forEach(el => el.classList.remove('active'));
+                
+                this.classList.add('active');
+                const chapterId = this.getAttribute('href');
+                document.querySelector(chapterId).classList.add('active');
+                
+                // 关闭侧边栏
+                hideSidebar();
+                
+                // 滚动到章节顶部
+                setTimeout(() => {
+                    document.querySelector(chapterId).scrollIntoView({ behavior: 'smooth' });
+                    saveReadingProgress();
+                }, 300);
+            });
+        });
+
 // 更新当前章节
 function updateActiveChapter(chapter) {
     document.querySelectorAll('.chapter-link').forEach(el => el.classList.remove('active'));
