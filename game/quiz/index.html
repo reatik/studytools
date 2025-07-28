@@ -1027,9 +1027,7 @@ function initGame() {
     gameState.speechEnabled = speechToggle.checked;
     speechManager.toggle(gameState.speechEnabled);
     
-    gameState.questions = [...questionBank]
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 50); // 预加载50题
+    gameState.questions = [...questionBank].sort(() => 0.5 - Math.random());
     
     gameState.currentQuestionIndex = 0;
     gameState.activeTeamIndex = 0;
@@ -1334,10 +1332,11 @@ function nextQuestion() {
     if (winner) {
         endGame();
     } else {
-        // 如果题目用完，重新洗牌题库
+        // 修改这里 - 当所有题目用完时，重新洗牌整个题库
         if (gameState.currentQuestionIndex >= gameState.questions.length) {
             gameState.currentQuestionIndex = 0;
-            gameState.questions = [...gameState.questions].sort(() => 0.5 - Math.random());
+            gameState.questions = [...questionBank].sort(() => 0.5 - Math.random());
+            alert("已完成所有题目，开始新一轮随机题目！");
         }
         showQuestion();
     }
