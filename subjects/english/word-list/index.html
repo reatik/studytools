@@ -895,7 +895,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateButtonText();
 });
 
-// 渲染表格函数
 function renderTable(data) {
     const tableBody = document.getElementById('words-table-body');
     tableBody.innerHTML = '';
@@ -925,62 +924,73 @@ function renderTable(data) {
         englishCell.className = 'english-cell';
         englishCell.textContent = word.english;
         
-        // 添加音标提示
-        if (word.phonetic) {
+        // 只有在英语可见时才创建音标提示
+        if (englishVisible && word.phonetic) {
             const tooltip = document.createElement('div');
             tooltip.className = 'phonetic-tooltip';
             tooltip.textContent = word.phonetic;
             englishCell.appendChild(tooltip);
+            
+            // 网页端悬停事件
+            englishCell.addEventListener('mouseenter', function() {
+                if (window.innerWidth > 768) {
+                    const tooltip = this.querySelector('.phonetic-tooltip');
+                    if (tooltip) tooltip.style.opacity = '1';
+                }
+            });
+            
+            englishCell.addEventListener('mouseleave', function() {
+                if (window.innerWidth > 768) {
+                    const tooltip = this.querySelector('.phonetic-tooltip');
+                    if (tooltip) tooltip.style.opacity = '0';
+                }
+            });
         }
         
-        if (!englishVisible) englishCell.classList.add('hidden-content');
+        // 移动端长按事件（只在英语可见时有效）
+        if (englishVisible) {
+            englishCell.addEventListener('touchstart', function(e) {
+                if (window.innerWidth <= 768 && word.phonetic) {
+                    longPressTimer = setTimeout(() => {
+                        showMobileTooltip(word.phonetic);
+                        e.preventDefault();
+                    }, 500);
+                }
+            });
+            
+            englishCell.addEventListener('touchend', function() {
+                if (longPressTimer) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = null;
+                }
+                hideMobileTooltip();
+            });
+            
+            englishCell.addEventListener('touchmove', function() {
+                if (longPressTimer) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = null;
+                }
+                hideMobileTooltip();
+            });
+        }
         
-        // 网页端悬停事件
-        englishCell.addEventListener('mouseenter', function() {
-            if (word.phonetic && window.innerWidth > 768) {
-                const tooltip = this.querySelector('.phonetic-tooltip');
-                if (tooltip) tooltip.style.opacity = '1';
+        // 设置隐藏状态
+        if (!englishVisible) {
+            englishCell.classList.add('hidden-content');
+            
+            // 确保隐藏状态下没有音标提示元素
+            const existingTooltip = englishCell.querySelector('.phonetic-tooltip');
+            if (existingTooltip) {
+                englishCell.removeChild(existingTooltip);
             }
-        });
+        }
         
-        englishCell.addEventListener('mouseleave', function() {
-            if (word.phonetic && window.innerWidth > 768) {
-                const tooltip = this.querySelector('.phonetic-tooltip');
-                if (tooltip) tooltip.style.opacity = '0';
-            }
-        });
-        
-        // 移动端长按事件
-        englishCell.addEventListener('touchstart', function(e) {
-            if (window.innerWidth <= 768 && word.phonetic) {
-                longPressTimer = setTimeout(() => {
-                    showMobileTooltip(word.phonetic);
-                    e.preventDefault();
-                }, 500);
-            }
-        });
-        
-        englishCell.addEventListener('touchend', function() {
-            if (longPressTimer) {
-                clearTimeout(longPressTimer);
-                longPressTimer = null;
-            }
-            hideMobileTooltip();
-        });
-        
-        englishCell.addEventListener('touchmove', function() {
-            if (longPressTimer) {
-                clearTimeout(longPressTimer);
-                longPressTimer = null;
-            }
-            hideMobileTooltip();
-        });
-        
-        englishCell.addEventListener('click', () => {
+        // 点击事件处理（无论是否隐藏都可以朗读）
+        englishCell.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             speakWord(word.english);
-            if (englishCell.classList.contains('hidden-content')) {
-                englishCell.classList.remove('hidden-content');
-            }
         });
         
         row.appendChild(englishCell);
@@ -1053,12 +1063,40 @@ function toggleEnglish() {
     englishCells.forEach(cell => {
         if (englishVisible) {
             cell.classList.remove('hidden-content');
+            
+            // 如果单词有音标，重新添加音标提示
+            const wordId = cell.closest('tr').rowIndex - 1;
+            const filteredWords = getFilteredWords();
+            if (wordId >= 0 && wordId < filteredWords.length && filteredWords[wordId].phonetic) {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'phonetic-tooltip';
+                tooltip.textContent = filteredWords[wordId].phonetic;
+                cell.appendChild(tooltip);
+            }
         } else {
             cell.classList.add('hidden-content');
+            
+            // 移除所有音标提示元素
+            const tooltips = cell.querySelectorAll('.phonetic-tooltip');
+            tooltips.forEach(tooltip => tooltip.remove());
         }
     });
     
     updateEyeIcons();
+}
+
+function getFilteredWords() {
+    if (selectedGrades.length === 0) {
+        return [];
+    }
+    
+    let filteredWords = words.filter(word => selectedGrades.includes(word.grade));
+    
+    if (selectedUnits.length > 0) {
+        filteredWords = filteredWords.filter(word => selectedUnits.includes(word.unit));
+    }
+    
+    return filteredWords;
 }
 
 // 切换中文列显示
