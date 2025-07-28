@@ -493,49 +493,308 @@
             transform: translateX(30px);
         }
         
+        /* 新增的胜者样式 */
+        .winner-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--primary);
+            animation: winnerPulse 2s infinite;
+        }
+        
+        .winner-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .winner-name {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 1rem 0;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes winnerPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 15px rgba(67, 97, 238, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
+        }
+        
+        /* 新增的分数板样式 */
+        .team-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .team-score.leading {
+            background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            transform: scale(1.02);
+            border-left: 5px solid;
+        }
+        
+        .team-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex: 1;
+        }
+        
+        .team-points {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark);
+        }
+        
         @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8rem;
+            /* 基础布局调整 */
+            body {
+                padding: 8px;
+                font-size: 14px;
+                line-height: 1.4;
+                min-width: 100%;
+                overflow-x: hidden;
+            }
+            
+            .container {
+                padding: 0;
+                width: 100%;
+                max-width: 100%;
             }
             
             .card {
-                padding: 1.2rem;
+                padding: 12px;
+                border-radius: 12px;
+                width: 100%;
+                margin: 0;
             }
             
+            /* 标题调整 */
+            h1 {
+                font-size: 1.4rem;
+                margin-bottom: 0.8rem;
+                padding: 0 8px;
+            }
+            
+            /* 问题区域 */
             .question {
-                font-size: 1.1rem;
+                font-size: 0.9rem;
+                line-height: 1.4;
+                padding: 0 5px;
+                margin-bottom: 1rem;
+            }
+            
+            /* 选项区域 */
+            .options-container {
+                gap: 8px;
+                margin-bottom: 1rem;
             }
             
             .option-box {
-                padding: 1rem;
-                min-height: 50px;
+                padding: 10px;
+                min-height: 45px;
+                border-radius: 10px;
             }
             
             .option-text {
-                font-size: 1rem;
+                font-size: 0.85rem;
             }
             
-            .options-placeholder {
-                font-size: 1rem;
+            /* 按钮调整 */
+            .btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.85rem;
+                border-radius: 8px;
+                width: 100%;
             }
             
+            .btn-group {
+                gap: 8px;
+                margin-top: 1rem;
+            }
+            
+            /* 计时器 */
             .timer {
-                font-size: 1.0rem;
+                font-size: 0.9rem;
+                margin: 0.8rem 0;
             }
             
+            /* 进度条 */
+            .progress-container {
+                margin: 0.8rem 0;
+            }
+            
+            /* 队伍栏 - 只保留数字 */
+            .teams-bar {
+                gap: 6px;
+                margin-bottom: 1rem;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .team-block {
+                min-width: auto;
+                height: auto;
+                padding: 0;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            
+            .team-score-display {
+                font-size: 1.2rem;
+                padding: 0 0.3rem;
+                margin: 0;
+            }
+            
+            /* 解析区域 */
+            .explanation-container {
+                margin-top: 0.5rem;
+                margin-bottom: 0.3rem;
+                padding: 0.8rem;
+            }
+            
+            .explanation-title {
+                font-size: 0.9rem;
+                margin-bottom: 0.1rem;
+            }
+            
+            .explanation-text {
+                font-size: 0.85rem;
+                margin-top: 0;
+            }
+            
+            /* 操作按钮缩小 */
             .action-buttons {
                 flex-direction: column;
                 gap: 0.8rem;
+                margin-top: 1.5rem;
+            }
+            
+            .action-buttons .btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+                min-width: 120px;
+                width: 100%;
+            }
+            
+            #nextQuestion, #exitGame, #skipQuestion {
+                min-width: 120px !important;
+                padding: 0.8rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
+            
+            /* 比赛设置调整 */
+            .setup-screen h2 {
+                font-size: 1.1rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .form-group label {
+                font-size: 0.8rem;
+                margin-bottom: 0.4rem;
+            }
+            
+            .form-group select {
+                padding: 0.6rem 0.7rem;
+                font-size: 0.8rem;
+            }
+            
+            /* 朗读功能调整 */
+            .speech-control-group {
+                margin-bottom: 1.2rem;
+            }
+            
+            .speech-control-label {
+                font-size: 0.9rem;
+                gap: 6px;
+            }
+            
+            .speech-toggle {
+                width: 50px;
+                height: 25px;
+            }
+            
+            .speech-slider:before {
+                height: 18px;
+                width: 18px;
+                left: 3px;
+                bottom: 3px;
+            }
+            
+            input:checked + .speech-slider:before {
+                transform: translateX(25px);
+            }
+            
+            #startGame {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            #speechStatus {
+                font-size: 0.8rem;
+            }
+            
+            /* 其他元素 */
+            .question-count {
+                font-size: 0.75rem;
+                left: 8px;
+                top: 8px;
             }
             
             .speaker-control, .pause-btn {
-                font-size: 1.2rem;
-                top: 15px;
+                font-size: 1rem;
+                top: 8px;
             }
             
-            .question-count {
-                left: 15px;
-                top: 15px;
+            /* 防止文本换行问题 */
+            .option-text, .question, .explanation-text {
+                word-break: break-word;
+                hyphens: auto;
+            }
+            
+            /* 确保操作按钮不换行 */
+            .action-buttons .btn {
+                white-space: nowrap;
+            }
+            
+            /* 移动端胜者样式调整 */
+            .winner-section {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .winner-title {
+                font-size: 1.1rem;
+            }
+            
+            .winner-name {
+                font-size: 1.8rem;
+            }
+            
+            .team-score {
+                padding: 1rem;
+            }
+            
+            .team-name {
+                font-size: 1.1rem;
+            }
+            
+            .team-points {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -573,12 +832,12 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="questionCount">题目数量</label>
-                    <select id="questionCount">
-                        <option value="10" selected>10题</option>
-                        <option value="20">20题</option>
-                        <option value="30">30题</option>
-                        <option value="40">40题</option>
+                    <label for="winScore">胜利积分</label>
+                    <select id="winScore">
+                        <option value="500">500分</option>
+                        <option value="1000" selected>1000分</option>
+                        <option value="1500">1500分</option>
+                        <option value="2000">2000分</option>
                     </select>
                 </div>
                 
@@ -607,7 +866,7 @@
             
             <div class="screen question-screen">
                 <button class="speaker-control" id="speakerControl">🔊</button>
-                <div class="question-count">第 <span id="currentQuestionNum">1</span> / <span id="totalQuestions">10</span> 题</div>
+                <div class="question-count">第 <span id="currentQuestionNum">1</span> 题</div>
                 
                 <div class="teams-bar" id="teamsBar"></div>
                 
@@ -666,7 +925,7 @@ const gameState = {
     selectedOption: null,
     timer: null,
     timeLeft: 0,
-    totalQuestions: 10,
+    winScore: 1000,
     timeLimit: 20,
     activeTeamIndex: 0,
     buzzerLocked: false,
@@ -694,7 +953,6 @@ const optionsContainer = document.getElementById('optionsContainer');
 const timerDisplay = document.getElementById('timerDisplay');
 const scoreboard = document.getElementById('scoreboard');
 const currentQuestionNum = document.getElementById('currentQuestionNum');
-const totalQuestions = document.getElementById('totalQuestions');
 const progressBar = document.getElementById('progressBar');
 const winnerAnnouncement = document.getElementById('winnerAnnouncement');
 const winnerSection = document.getElementById('winnerSection');
@@ -760,7 +1018,7 @@ function initGame() {
         gameState.scores[teamName] = 0;
     }
     
-    gameState.totalQuestions = parseInt(document.getElementById('questionCount').value);
+    gameState.winScore = parseInt(document.getElementById('winScore').value);
     gameState.timeLimit = parseInt(document.getElementById('timeLimit').value);
     gameState.delayOptions = delayOptionsSelect.value === 'true';
     gameState.optionsVisible = !gameState.delayOptions;
@@ -771,13 +1029,11 @@ function initGame() {
     
     gameState.questions = [...questionBank]
         .sort(() => 0.5 - Math.random())
-        .slice(0, gameState.totalQuestions);
+        .slice(0, 50); // 预加载50题
     
     gameState.currentQuestionIndex = 0;
     gameState.activeTeamIndex = 0;
     gameState.isPaused = false;
-    
-    totalQuestions.textContent = gameState.totalQuestions;
     
     setupScreen.classList.remove('active');
     questionScreen.classList.add('active');
@@ -1072,10 +1328,18 @@ function nextQuestion() {
         gameState.activeTeamIndex = (gameState.activeTeamIndex + 1) % gameState.teams.length;
     }
     
-    if (gameState.currentQuestionIndex < gameState.questions.length) {
-        showQuestion();
-    } else {
+    // 检查是否有队伍达到胜利分数
+    const winner = Object.entries(gameState.scores).find(([team, score]) => score >= gameState.winScore);
+    
+    if (winner) {
         endGame();
+    } else {
+        // 如果题目用完，重新洗牌题库
+        if (gameState.currentQuestionIndex >= gameState.questions.length) {
+            gameState.currentQuestionIndex = 0;
+            gameState.questions = [...gameState.questions].sort(() => 0.5 - Math.random());
+        }
+        showQuestion();
     }
 }
 
@@ -1098,16 +1362,15 @@ function updateScoreboard() {
         const teamScoreElement = document.createElement('div');
         teamScoreElement.className = 'team-score';
         
+        if (index === 0 && sortedTeams.length > 1 && sortedTeams[0][1] > sortedTeams[1][1]) {
+            teamScoreElement.classList.add('leading');
+            teamScoreElement.style.borderLeftColor = gameState.teamColors[teamIndex];
+        }
+        
         teamScoreElement.innerHTML = `
             <div class="team-name" style="color: ${gameState.teamColors[teamIndex]}">${teamName}</div>
             <div class="team-points">${score}分</div>
         `;
-        
-        teamScoreElement.style.borderTop = `4px solid ${gameState.teamColors[teamIndex]}`;
-        
-        if (index === 0 && sortedTeams.length > 1 && sortedTeams[0][1] > sortedTeams[1][1]) {
-            teamScoreElement.classList.add('leading');
-        }
         
         scoreboard.appendChild(teamScoreElement);
     });
@@ -1127,42 +1390,13 @@ function declareWinner() {
 
         if (winners.length === 1) {
             const winnerIndex = gameState.teams.indexOf(winners[0][0]);
-            winnerAnnouncement.textContent = winners[0][0];
+            winnerAnnouncement.innerHTML = `${winners[0][0]} <span style="font-size: 0.8em;">(${topScore}/${gameState.winScore}分)</span>`;
             winnerAnnouncement.style.color = gameState.teamColors[winnerIndex];
-            createConfetti();
         } else {
             const winnerNames = winners.map(winner => winner[0]).join(' 和 ');
-            winnerAnnouncement.textContent = `平局! ${winnerNames}`;
+            winnerAnnouncement.innerHTML = `平局! ${winnerNames} <span style="font-size: 0.8em;">(${topScore}/${gameState.winScore}分)</span>`;
             winnerAnnouncement.style.color = 'var(--dark)';
         }
-    }
-}
-
-function createConfetti() {
-    for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement('div');
-        confetti.classList.add('confetti');
-        confetti.style.left = `${Math.random() * 100}vw`;
-        confetti.style.backgroundColor = gameState.teamColors[Math.floor(Math.random() * gameState.teamColors.length)];
-        confetti.style.width = `${Math.random() * 10 + 5}px`;
-        confetti.style.height = `${Math.random() * 10 + 5}px`;
-        
-        const animation = [
-            { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
-            { transform: `translate(${Math.random() * 200 - 100}px, 100vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-        ];
-        
-        const timing = {
-            duration: Math.random() * 3000 + 2000,
-            iterations: 1
-        };
-        
-        document.body.appendChild(confetti);
-        confetti.animate(animation, timing);
-        
-        setTimeout(() => {
-            confetti.remove();
-        }, 5000);
     }
 }
 
@@ -1180,14 +1414,10 @@ newGameBtn.addEventListener('click', () => {
     questionScreen.classList.add('active');
     
     showQuestion();
-    
-    document.querySelectorAll('.confetti').forEach(el => el.remove());
 });
 changeSettingsBtn.addEventListener('click', () => {
     scoreScreen.classList.remove('active');
     setupScreen.classList.add('active');
-    
-    document.querySelectorAll('.confetti').forEach(el => el.remove());
 });
 exitGameBtn.addEventListener('click', () => {
     if (confirm("确定要退出当前比赛吗？所有进度将丢失！")) {
@@ -1221,7 +1451,7 @@ pauseBtn.addEventListener('click', function() {
 // 点击问题区域显示选项
 questionScreen.addEventListener('click', function(e) {
     if (!e.target.classList.contains('option-box') && 
-        !e.target.classList.contains('btn') && 
+        !e.target.classList.contains('.btn') && 
         !e.target.closest('.btn')) {
         handleQuestionClick();
     }
