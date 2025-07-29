@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24点游戏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            background-color: #f0f7f0;
+            overflow: hidden;
+        }
+        
+        .game-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .cards {
+            width: 100%;
+            height: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding: 0 5%;
+        }
+        
+        .card {
+            width: 22%;
+            height: 80%;
+            background-color: #e8f5e9;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            font-weight: bold;
+            color: #2c5e3a;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #d0e0d0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+        
+        .card:active {
+            transform: scale(0.98);
+            background-color: #dff0d8;
+        }
+        
+        /* 横屏模式 */
+        @media (orientation: landscape) {
+            .cards {
+                height: 80%;
+                gap: 20px;
+            }
+            .card {
+                width: 20%;
+                height: 85%;
+                font-size: 5rem;
+            }
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .cards {
+                height: 50%;
+                gap: 10px;
+            }
+            .card {
+                width: 22%;
+                height: 70%;
+                font-size: 3rem;
+            }
+        }
+
+        /* 小屏幕手机特别优化 */
+        @media (max-width: 480px) {
+            .cards {
+                height: 45%;
+                gap: 8px;
+            }
+            .card {
+                width: 22%;
+                height: 60%;
+                font-size: 2.5rem;
+            }
+        }
+
+        /* 大屏幕桌面优化 */
+        @media (min-width: 1200px) {
+            .cards {
+                max-width: 1000px;
+            }
+            .card {
+                max-width: 200px;
+                font-size: 6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="cards">
+            <div class="card" id="card1">0</div>
+            <div class="card" id="card2">0</div>
+            <div class="card" id="card3">0</div>
+            <div class="card" id="card4">0</div>
+        </div>
+    </div>
+
+    <script>
+        // 随机生成4个1-10的数字
+        function generateRandomNumbers() {
+            const numbers = [];
+            for (let i = 0; i < 4; i++) {
+                numbers.push(Math.floor(Math.random() * 10) + 1);
+            }
+            return numbers;
+        }
+
+        let currentNumbers = [];
+        
+        // 初始化游戏
+        function initGame() {
+            currentNumbers = generateRandomNumbers();
+            
+            // 打乱数字顺序
+            for (let i = currentNumbers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentNumbers[i], currentNumbers[j]] = [currentNumbers[j], currentNumbers[i]];
+            }
+            
+            // 更新卡片显示
+            document.getElementById('card1').textContent = currentNumbers[0];
+            document.getElementById('card2').textContent = currentNumbers[1];
+            document.getElementById('card3').textContent = currentNumbers[2];
+            document.getElementById('card4').textContent = currentNumbers[3];
+        }
+        
+        // 为所有卡片添加点击事件
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', initGame);
+        });
+        
+        // 初始化游戏
+        window.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
