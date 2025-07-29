@@ -850,22 +850,25 @@ function renderTable(data) {
         englishCell.className = 'english-cell';
         englishCell.textContent = word.english;
         
-        // 只有在英语可见时才创建音标提示和事件监听器
-        if (englishVisible && word.phonetic) {
+        // 创建音标提示（无论英语是否可见）
+        if (word.phonetic) {
             const tooltip = document.createElement('div');
             tooltip.className = 'phonetic-tooltip';
             tooltip.textContent = word.phonetic;
             englishCell.appendChild(tooltip);
             
+            // 根据英语可见性设置音标提示的显示状态
+            tooltip.style.display = englishVisible ? 'block' : 'none';
+            
             // 网页端悬停事件
             englishCell.addEventListener('mouseenter', function() {
-                if (window.innerWidth > 768) {
+                if (window.innerWidth > 768 && englishVisible) {
                     tooltip.style.opacity = '1';
                 }
             });
             
             englishCell.addEventListener('mouseleave', function() {
-                if (window.innerWidth > 768) {
+                if (window.innerWidth > 768 && englishVisible) {
                     tooltip.style.opacity = '0';
                 }
             });
@@ -879,17 +882,6 @@ function renderTable(data) {
         // 设置隐藏状态
         if (!englishVisible) {
             englishCell.classList.add('hidden-content');
-            
-            // 确保隐藏状态下没有音标提示元素
-            const existingTooltip = englishCell.querySelector('.phonetic-tooltip');
-            if (existingTooltip) {
-                englishCell.removeChild(existingTooltip);
-            }
-            
-            // 移除移动端事件监听器
-            englishCell.removeEventListener('touchstart', createTouchStartHandler);
-            englishCell.removeEventListener('touchend', touchEndHandler);
-            englishCell.removeEventListener('touchmove', touchMoveHandler);
         }
         
         // 点击事件处理（无论是否隐藏都可以朗读）
@@ -953,32 +945,14 @@ function toggleEnglish() {
     englishCells.forEach(cell => {
         if (englishVisible) {
             cell.classList.remove('hidden-content');
-            
-            // 如果单词有音标，重新添加音标提示和事件监听器
-            const wordId = cell.closest('tr').rowIndex - 1;
-            const filteredWords = getFilteredWords();
-            if (wordId >= 0 && wordId < filteredWords.length && filteredWords[wordId].phonetic) {
-                const tooltip = document.createElement('div');
-                tooltip.className = 'phonetic-tooltip';
-                tooltip.textContent = filteredWords[wordId].phonetic;
-                cell.appendChild(tooltip);
-                
-                // 重新添加移动端事件监听器
-                cell.addEventListener('touchstart', createTouchStartHandler(filteredWords[wordId].phonetic));
-                cell.addEventListener('touchend', touchEndHandler);
-                cell.addEventListener('touchmove', touchMoveHandler);
-            }
+            // 显示音标提示
+            const tooltips = cell.querySelectorAll('.phonetic-tooltip');
+            tooltips.forEach(tooltip => tooltip.style.display = 'block');
         } else {
             cell.classList.add('hidden-content');
-            
-            // 移除所有音标提示元素
+            // 隐藏音标提示
             const tooltips = cell.querySelectorAll('.phonetic-tooltip');
-            tooltips.forEach(tooltip => tooltip.remove());
-            
-            // 移除所有移动端事件监听器
-            cell.removeEventListener('touchstart', createTouchStartHandler);
-            cell.removeEventListener('touchend', touchEndHandler);
-            cell.removeEventListener('touchmove', touchMoveHandler);
+            tooltips.forEach(tooltip => tooltip.style.display = 'none');
         }
     });
     
