@@ -4603,175 +4603,6 @@ questionBank = [
   },
   {
     "id": 355,
-    "question": "在西安，除了兵马俑，还有一处著名的古城墙，它始建于哪个朝代？",
-    "options": [
-      "秦朝",
-      "唐朝",
-      "明朝",
-      "清朝"
-    ],
-    "answer": 2,
-    "explanation": "西安城墙现存城墙为明代建筑，洪武三年开始修建，是中国现存规模最大、保存最完整的古城墙之一。秦朝主要是修筑长城；唐朝长安城布局与现存城墙不同；清朝在明城墙基础上有修缮但非始建。",
-    "category": "历史文化"
-  },
-  {
-    "id": 356,
-    "question": "中国传统戏曲中，有一个剧种以唱、念、做、打为表演手段，脸谱色彩丰富，这是什么剧种？",
-    "options": [
-      "越剧",
-      "黄梅戏",
-      "京剧",
-      "豫剧"
-    ],
-    "answer": 2,
-    "explanation": "京剧是中国国粹，讲究唱、念、做、打，脸谱色彩丰富，不同颜色代表不同人物性格。越剧以柔美唱腔著称；黄梅戏质朴清新；豫剧唱腔高亢，它们在脸谱和表演手段全面性上不如京剧突出。",
-    "category": "历史文化"
-  },
-  {
-    "id": 357,
-    "question": "中国古代的科举制度是从哪个朝代开始的？",
-    "options": [
-      "汉朝",
-      "隋朝",
-      "唐朝",
-      "宋朝"
-    ],
-    "answer": 1,
-    "explanation": "隋朝时，废除九品中正制，开始采用分科考试的方法选拔官员，科举制诞生。唐朝完善科举制；宋朝进一步发展；汉朝实行察举制等选官制度。",
-    "category": "历史文化"
-  },
-  {
-    "id": 358,
-    "question": "在敦煌莫高窟，保存着大量精美的壁画和佛像。这些壁画主要反映了什么宗教的内容？",
-    "options": [
-      "佛教",
-      "道教",
-      "伊斯兰教",
-      "基督教"
-    ],
-    "answer": 0,
-    "explanation": "莫高窟是佛教艺术宝库，从十六国到元朝，历代兴建，壁画和佛像多以佛教故事、经变图等为题材，展现佛教文化。道教、伊斯兰教、基督教与莫高窟艺术主题无关。",
-    "category": "历史文化"
-  },
-  {
-    "id": 359,
-    "question": "我国古代的丝绸之路，起点是现在的哪个城市？",
-    "options": [
-      "北京",
-      "西安",
-      "洛阳",
-      "南京"
-    ],
-    "answer": 1,
-    "explanation": "丝绸之路是古代连接中西方的重要商路，起点是长安，即现在的西安。从西安出发，经甘肃、新疆，到中亚、西亚，连接地中海各国。北京、洛阳、南京在当时不是丝绸之路起点。",
-    "category": "历史文化"
-  },
-  {
-    "id": 360,
-    "question": "在杭州，有一座纪念岳飞的庙宇，叫什么？",
-    "options": [
-      "孔庙",
-      "武侯祠",
-      "岳王庙",
-      "关帝庙"
-    ],
-    "answer": 2,
-    "explanation": "岳王庙是纪念南宋抗金名将岳飞的庙宇，位于杭州西湖畔。孔庙纪念孔子；武侯祠纪念诸葛亮；关帝庙纪念关羽。",
-    "category": "历史文化"
-  },
-  {
-    "id": 361,
-    "question": "我国古代的青铜器种类繁多，其中鼎在古代除了作为烹饪器具，还代表什么？",
-    "options": [
-      "财富",
-      "权力",
-      "爱情",
-      "智慧"
-    ],
-    "answer": 1,
-    "explanation": "鼎在古代是重要礼器，象征着国家权力，如 “九鼎” 代表九州，是政权的象征。鼎虽贵重但主要不是代表财富，与爱情、智慧无关。",
-    "category": "历史文化"
-  },
-  {
-    "id": 362,
-    "question": "到河南洛阳旅游，能参观到的著名石窟是哪个？",
-    "options": [
-      "莫高窟",
-      "龙门石窟",
-      "云冈石窟",
-      "麦积山石窟"
-    ],
-    "answer": 1,
-    "explanation": "龙门石窟位于河南洛阳，是世界上造像最多、规模最大的石刻艺术宝库之一。莫高窟在甘肃敦煌；云冈石窟在山西大同；麦积山石窟在甘肃天水。",
-    "category": "历史文化"
-  },
-  {
-    "id": 363,
-    "question": "中国古代有一位女皇帝，她是谁？",
-    "options": [
-      "吕雉",
-      "武则天",
-      "萧太后",
-      "慈禧太后"
-    ],
-    "answer": 1,
-    "explanation": "武则天是唐朝时期的女皇帝，她称帝建立武周政权，是中国历史上唯一的正统女皇帝。吕雉是西汉太后，未称帝；萧太后是辽代太后；慈禧太后是晚清实际掌权者，也未称帝。",
-    "category": "历史文化"
-  },
-  {
-    "id": 364,
-    "question": "在端午节，人们有挂艾草的习俗，挂艾草主要是为了什么？",
-    "options": [
-      "装饰房屋",
-      "驱赶蚊虫",
-      "祈求平安",
-      "纪念屈原"
-    ],
-    "answer": 2,
-    "explanation": "挂艾草源于古代防疫习俗，艾草有特殊香味，能驱蚊辟邪，祈求家人平安健康。虽有一定装饰作用，但主要目的不是装饰；驱赶蚊虫是部分原因，根本是祈求平安；与纪念屈原无直接关联。",
-    "category": "历史文化"
-  },
-  {
-    "id": 365,
-    "question": "到山西平遥古城旅游，能感受到浓厚的晋商文化。晋商主要从事什么行业？",
-    "options": [
-      "农业",
-      "手工业",
-      "商业",
-      "渔业"
-    ],
-    "answer": 2,
-    "explanation": "晋商是明清时期重要商帮，以善于经商闻名，主要从事金融、贸易等商业活动，经营票号、茶叶、丝绸等生意，促进了经济交流。农业、手工业、渔业并非晋商主要领域。",
-    "category": "历史文化"
-  },
-  {
-    "id": 366,
-    "question": "中国传统的剪纸艺术，在民间常被用于什么场合？",
-    "options": [
-      "婚礼",
-      "葬礼",
-      "祭祀",
-      "以上都是"
-    ],
-    "answer": 3,
-    "explanation": "剪纸在民间应用广泛，婚礼上有喜花剪纸；葬礼上有特定剪纸；祭祀时也会用剪纸，所以三种场合都有。",
-    "category": "历史文化"
-  },
-  {
-    "id": 367,
-    "question": "我国古代的《诗经》是一部什么类型的书籍？",
-    "options": [
-      "史书",
-      "诗歌总集",
-      "哲学著作",
-      "医学典籍"
-    ],
-    "answer": 1,
-    "explanation": "《诗经》是中国古代诗歌开端，最早的一部诗歌总集，收集了西周初年至春秋中叶的诗歌。它不是史书、哲学著作、医学典籍。",
-    "category": "历史文化"
-  },
-  {
-    "id": 368,
     "question": "中国古代有个画家，擅长画马，他的作品《八骏图》闻名于世，这位画家是谁？",
     "options": [
       "顾恺之",
@@ -4784,7 +4615,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 369,
+    "id": 356,
     "question": "端午节除了赛龙舟、吃粽子，还有佩戴香囊的习俗，香囊里一般装什么？",
     "options": [
       "糖果",
@@ -4797,7 +4628,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 370,
+    "id": 357,
     "question": "到河北承德避暑山庄旅游，它在清朝主要有什么用途？",
     "options": [
       "皇帝避暑和处理政务",
@@ -4810,7 +4641,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 371,
+    "id": 358,
     "question": "在河南安阳，有一处重要的历史遗迹，这里出土了大量甲骨文，它是？",
     "options": [
       "殷墟",
@@ -4823,7 +4654,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 372,
+    "id": 359,
     "question": "中国传统的春节，从什么时候开始成为固定节日？",
     "options": [
       "夏朝",
@@ -4836,7 +4667,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 373,
+    "id": 360,
     "question": "我国古代有一部医学著作，被称为 “东方药物巨典”，它是？",
     "options": [
       "《黄帝内经》",
@@ -4849,7 +4680,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 374,
+    "id": 361,
     "question": "到浙江绍兴旅游，能参观到与哪位著名文学家相关的景点？",
     "options": [
       "鲁迅",
@@ -4862,7 +4693,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 375,
+    "id": 362,
     "question": "中国古代的科举考试中，殿试第一名被称为什么？",
     "options": [
       "状元",
@@ -4875,7 +4706,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 376,
+    "id": 363,
     "question": "在云南丽江，有一座历史悠久的古城，丽江古城主要是什么民族的聚居地？",
     "options": [
       "白族",
@@ -4888,7 +4719,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 377,
+    "id": 364,
     "question": "中国传统的中秋节，月亮代表什么寓意？",
     "options": [
       "团圆",
@@ -4901,7 +4732,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 378,
+    "id": 365,
     "question": "我国历史上有一位著名的史学家，他撰写了《史记》，这位史学家是谁？",
     "options": [
       "司马光",
@@ -4914,7 +4745,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 379,
+    "id": 366,
     "question": "中国古代有一个朝代，以词的创作成就最为突出，这个朝代是？",
     "options": [
       "唐朝",
@@ -4927,7 +4758,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 380,
+    "id": 367,
     "question": "在山东淄博，是中国古代哪种传统手工艺的重要发源地？",
     "options": [
       "陶瓷",
@@ -4940,7 +4771,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 381,
+    "id": 368,
     "question": "我国历史上有一位著名的书法家，他的字体 “颜体” 雄浑大气，这位书法家是谁？",
     "options": [
       "颜真卿",
@@ -4953,7 +4784,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 382,
+    "id": 369,
     "question": "到江苏南京旅游，能参观到中国古代最大的科举考场，它叫什么？",
     "options": [
       "贡院",
@@ -4966,7 +4797,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 383,
+    "id": 370,
     "question": "在广东佛山，是哪种传统武术流派的发源地之一？",
     "options": [
       "太极拳",
@@ -4979,7 +4810,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 384,
+    "id": 371,
     "question": "以下哪个是唐代诗人杜甫的作品？",
     "options": [
       "《望岳》",
@@ -4992,7 +4823,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 385,
+    "id": 372,
     "question": "我国古代四大名著中，以神话故事为题材的是哪一部？",
     "options": [
       "《西游记》",
@@ -5005,7 +4836,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 386,
+    "id": 373,
     "question": "中国历史上第一个统一度量衡的皇帝是谁？",
     "options": [
       "汉武帝",
@@ -5018,7 +4849,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 387,
+    "id": 374,
     "question": "三国时期，“过五关斩六将” 的主人公是谁？",
     "options": [
       "关羽",
@@ -5031,7 +4862,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 388,
+    "id": 375,
     "question": "古代 “丝绸之路” 的起点是现在的哪个城市？",
     "options": [
       "南京",
@@ -5044,7 +4875,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 389,
+    "id": 376,
     "question": "中国古代十大名曲中，哪一首是描写伯牙与子期知音故事的？",
     "options": [
       "《高山流水》",
@@ -5057,7 +4888,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 390,
+    "id": 377,
     "question": "“纸上谈兵” 的故事与哪位历史人物有关？",
     "options": [
       "李牧",
@@ -5070,7 +4901,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 391,
+    "id": 378,
     "question": "中国古代第一部纪传体通史是什么？",
     "options": [
       "《史记》",
@@ -5083,7 +4914,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 392,
+    "id": 379,
     "question": "以下哪个朝代的陶瓷艺术达到了很高的水平，以青花瓷最为著名？",
     "options": [
       "明朝",
@@ -5096,7 +4927,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 393,
+    "id": 380,
     "question": "“推敲” 这个词与哪位诗人的故事有关？",
     "options": [
       "韩愈",
@@ -5109,7 +4940,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 394,
+    "id": 381,
     "question": "中国古代的 “五行” 指的是哪五种基本元素？",
     "options": [
       "金、木、水、火、土",
@@ -5122,7 +4953,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 395,
+    "id": 382,
     "question": "古代战争中，常使用的一种用机械力量射箭的武器叫什么？",
     "options": [
       "投石机",
@@ -5135,7 +4966,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 396,
+    "id": 383,
     "question": "中国古代著名的书法作品《兰亭集序》的作者是谁？",
     "options": [
       "柳公权",
@@ -5148,7 +4979,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 397,
+    "id": 384,
     "question": "中国古代第一部编年体通史是？",
     "options": [
       "《资治通鉴》",
@@ -5161,7 +4992,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 398,
+    "id": 385,
     "question": "在古代，人们用 “花甲” 来表示多少岁？",
     "options": [
       "六十岁",
@@ -5174,7 +5005,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 399,
+    "id": 386,
     "question": "以下哪个是中国古代对星空的划分概念？",
     "options": [
       "星宿",
@@ -5187,7 +5018,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 400,
+    "id": 387,
     "question": "“完璧归赵” 的故事中，蔺相如将和氏璧带回了哪个国家？",
     "options": [
       "齐国",
@@ -5200,7 +5031,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 401,
+    "id": 388,
     "question": "古代 “杏林” 常用来指代什么行业？",
     "options": [
       "医学",
@@ -5213,7 +5044,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 402,
+    "id": 389,
     "question": "以下哪个传统节日有插艾草、喝雄黄酒的习俗？",
     "options": [
       "春节",
@@ -5226,7 +5057,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 403,
+    "id": 390,
     "question": "中国古代发明活字印刷术的是谁？",
     "options": [
       "毕昇",
@@ -5239,7 +5070,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 404,
+    "id": 391,
     "question": "“乐不思蜀” 说的是三国时期哪位人物的故事？",
     "options": [
       "刘禅",
@@ -5252,7 +5083,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 405,
+    "id": 392,
     "question": "中国古代建筑中，象征皇权的颜色主要是？",
     "options": [
       "黄色",
@@ -5265,7 +5096,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 406,
+    "id": 393,
     "question": "“岁寒三友” 指的是哪三种植物？",
     "options": [
       "松、竹、梅",
@@ -5278,7 +5109,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 407,
+    "id": 394,
     "question": "中国历史上第一次大规模的农民起义是在哪个地方爆发的？",
     "options": [
       "大泽乡",
@@ -5291,7 +5122,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 408,
+    "id": 395,
     "question": "古代诗词中常提到的 “豆蔻年华”，一般指女子多少岁？",
     "options": [
       "十三四岁",
@@ -5304,7 +5135,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 409,
+    "id": 396,
     "question": "中国古代四大名著中，哪一部描写了东汉末年到三国时期的历史故事？",
     "options": [
       "《三国演义》",
@@ -5317,7 +5148,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 410,
+    "id": 397,
     "question": "“讳疾忌医” 这个成语与哪位历史人物有关？",
     "options": [
       "华佗",
@@ -5330,7 +5161,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 411,
+    "id": 398,
     "question": "中国古代传统乐器中，属于弹拨乐器的是？",
     "options": [
       "古筝",
@@ -5343,7 +5174,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 412,
+    "id": 399,
     "question": "以下哪个朝代以瘦为美，尤其体现在女性的审美观念上？",
     "options": [
       "唐朝",
@@ -5356,7 +5187,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 413,
+    "id": 400,
     "question": "“四面楚歌” 的故事发生在什么时期？",
     "options": [
       "楚汉相争",
@@ -5369,7 +5200,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 414,
+    "id": 401,
     "question": "中国古代的四大名著中，哪一部是描写农民起义的？",
     "options": [
       "《水浒传》",
@@ -5382,7 +5213,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 415,
+    "id": 402,
     "question": "岳飞背上刺的字是什么？",
     "options": [
       "精忠报国",
@@ -5395,7 +5226,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 416,
+    "id": 403,
     "question": "哪个古代水利工程沟通了长江和珠江水系？",
     "options": [
       "灵渠",
@@ -5408,7 +5239,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 417,
+    "id": 404,
     "question": "被列为 “世界七大奇迹” 之一的古代建筑是？",
     "options": [
       "金字塔",
@@ -5421,7 +5252,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 418,
+    "id": 405,
     "question": "王羲之最著名的书法作品是什么？",
     "options": [
       "《兰亭集序》",
@@ -5434,7 +5265,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 419,
+    "id": 406,
     "question": "“赤壁之战” 中，孙刘联军主要采用什么战术打败曹军？",
     "options": [
       "火攻",
@@ -5447,7 +5278,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 420,
+    "id": 407,
     "question": "曾是多个朝代都城的历史古都，以下哪个选项符合？",
     "options": [
       "西安",
@@ -5460,7 +5291,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 421,
+    "id": 408,
     "question": "活字印刷术的发明者是谁？",
     "options": [
       "沈括",
@@ -5473,7 +5304,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 422,
+    "id": 409,
     "question": "“文景之治” 是哪两位皇帝统治时期的盛世？",
     "options": [
       "汉文帝、汉景帝",
@@ -5486,7 +5317,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 423,
+    "id": 410,
     "question": "描绘北宋都城繁华景象的古代绘画作品是？",
     "options": [
       "《清明上河图》",
@@ -5499,7 +5330,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 424,
+    "id": 411,
     "question": "成吉思汗建立了什么政权？",
     "options": [
       "蒙古帝国",
@@ -5512,7 +5343,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 425,
+    "id": 412,
     "question": "《白蛇传》中，白娘子在什么地方被法海和尚镇压？",
     "options": [
       "金山寺",
@@ -5525,7 +5356,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 426,
+    "id": 413,
     "question": "郑和率领船队进行了几次下西洋的壮举？",
     "options": [
       "七次",
@@ -5538,7 +5369,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 427,
+    "id": 414,
     "question": "我国的母亲河之一黄河最终流入哪个海？",
     "options": [
       "东海",
@@ -5551,7 +5382,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 428,
+    "id": 415,
     "question": "《三国演义》中，使用青龙偃月刀的是谁？",
     "options": [
       "吕布",
@@ -5564,7 +5395,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 429,
+    "id": 416,
     "question": "“草船借箭” 的故事发生在什么时期？",
     "options": [
       "宋朝时期",
@@ -5577,7 +5408,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 430,
+    "id": 417,
     "question": "不小心被开水烫到，马上要做的是？",
     "options": [
       "抹酱油",
@@ -5590,7 +5421,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 431,
+    "id": 418,
     "question": "切菜时手被切破出血，该咋办？",
     "options": [
       "直接贴创可贴",
@@ -5603,7 +5434,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 432,
+    "id": 419,
     "question": "下面不能和牛奶一起吃的是？",
     "options": [
       "面包",
@@ -5616,7 +5447,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 433,
+    "id": 420,
     "question": "衣服上沾了油，用什么洗干净？",
     "options": [
       "清水泡",
@@ -5629,7 +5460,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 434,
+    "id": 421,
     "question": "家里着火了，怎么跑出去？",
     "options": [
       "坐电梯",
@@ -5642,7 +5473,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 435,
+    "id": 422,
     "question": "饭后吃哪种水果好？",
     "options": [
       "柿子",
@@ -5655,7 +5486,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 436,
+    "id": 423,
     "question": "发现有人触电，第一步做什么？",
     "options": [
       "用手拉开",
@@ -5668,7 +5499,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 437,
+    "id": 424,
     "question": "要除掉衣服上的铁锈，用什么好？",
     "options": [
       "酒精",
@@ -5681,7 +5512,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 438,
+    "id": 425,
     "question": "煮饺子时，怎么知道饺子熟了？",
     "options": [
       "饺子沉在锅底",
@@ -5694,7 +5525,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 439,
+    "id": 426,
     "question": "家里的电器着火，应该用什么灭火？",
     "options": [
       "水",
@@ -5707,7 +5538,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 440,
+    "id": 427,
     "question": "怎样让快过期的面包保存更久？",
     "options": [
       "放冰箱冷藏",
@@ -5720,7 +5551,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 441,
+    "id": 428,
     "question": "鱼刺卡喉咙了，该怎么办？",
     "options": [
       "喝醋",
@@ -5733,7 +5564,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 442,
+    "id": 429,
     "question": "打扫房间时，去除玻璃上的污渍用什么？",
     "options": [
       "报纸蘸水擦",
@@ -5746,7 +5577,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 443,
+    "id": 430,
     "question": "夏天中暑了，要喝什么？",
     "options": [
       "冰水",
@@ -5759,7 +5590,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 444,
+    "id": 431,
     "question": "新买的铁锅，第一次用要怎么做？",
     "options": [
       "直接炒菜",
@@ -5772,7 +5603,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 445,
+    "id": 432,
     "question": "手机屏幕脏了，用什么清洁比较好？",
     "options": [
       "酒精棉球",
@@ -5785,7 +5616,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 446,
+    "id": 433,
     "question": "切洋葱时容易流泪，以下哪种方法能缓解？",
     "options": [
       "将洋葱冷藏后再切",
@@ -5798,7 +5629,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 447,
+    "id": 434,
     "question": "当发现家中燃气泄漏，以下做法正确的是？",
     "options": [
       "立即开灯查看",
@@ -5811,7 +5642,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 448,
+    "id": 435,
     "question": "去除衣服上的汗渍，以下哪种方法效果好？",
     "options": [
       "用清水浸泡",
@@ -5824,7 +5655,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 449,
+    "id": 436,
     "question": "眼镜镜片模糊了，用什么擦拭能清晰？",
     "options": [
       "卫生纸",
@@ -5837,7 +5668,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 450,
+    "id": 437,
     "question": "煮鸡蛋时，怎样防止鸡蛋破裂？",
     "options": [
       "冷水下锅",
@@ -5850,7 +5681,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 451,
+    "id": 438,
     "question": "清洗草莓时，为了去除表面的农药和杂质，以下方法正确的是？",
     "options": [
       "用盐水浸泡",
@@ -5863,7 +5694,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 452,
+    "id": 439,
     "question": "要去除手上的 502 胶水，以下哪种方法可行？",
     "options": [
       "用热水泡",
@@ -5876,7 +5707,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 453,
+    "id": 440,
     "question": "当遇到火灾，需要从高楼逃生时，以下做法正确的是？",
     "options": [
       "乘坐电梯",
@@ -5889,7 +5720,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 454,
+    "id": 441,
     "question": "当皮肤被晒伤后，以下哪种处理方法正确？",
     "options": [
       "涂抹防晒霜",
@@ -5902,7 +5733,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 455,
+    "id": 442,
     "question": "家中的窗户玻璃有灰尘，用什么工具清洁方便又干净？",
     "options": [
       "报纸",
@@ -5915,7 +5746,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 456,
+    "id": 443,
     "question": "如果不小心把水银温度计打碎了，应该？",
     "options": [
       "用手捡起水银",
@@ -5928,7 +5759,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 457,
+    "id": 444,
     "question": "彩虹什么时出现？",
     "options": [
       "雨前阴天",
@@ -5941,7 +5772,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 458,
+    "id": 445,
     "question": "叶子为什么是绿的？",
     "options": [
       "含花青素显绿",
@@ -5954,7 +5785,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 459,
+    "id": 446,
     "question": "冬天进屋，眼镜为什么模糊？",
     "options": [
       "镜片遇热膨胀",
@@ -5967,7 +5798,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 460,
+    "id": 447,
     "question": "为什么先见闪电，后听雷声？",
     "options": [
       "闪电处离得近",
@@ -5980,7 +5811,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 461,
+    "id": 448,
     "question": "哪种动物是卵生？",
     "options": [
       "小猫",
@@ -5993,7 +5824,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 462,
+    "id": 449,
     "question": "磁铁能吸什么？",
     "options": [
       "银项链",
@@ -6006,7 +5837,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 463,
+    "id": 450,
     "question": "沙漠中，仙人掌叶变刺为什么？",
     "options": [
       "减少水分蒸发",
@@ -6019,7 +5850,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 464,
+    "id": 451,
     "question": "吹大的气球，松手为什么飞？",
     "options": [
       "气球受风力推动",
@@ -6032,7 +5863,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 465,
+    "id": 452,
     "question": "灯泡发光靠什么？",
     "options": [
       "玻璃外壳透光",
@@ -6045,7 +5876,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 466,
+    "id": 453,
     "question": "苹果放水里会怎样？",
     "options": [
       "沉入水底",
@@ -6058,7 +5889,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 467,
+    "id": 454,
     "question": "土豆是植株什么部位？",
     "options": [
       "根的变态",
@@ -6071,7 +5902,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 468,
+    "id": 455,
     "question": "月亮为什么有圆缺？",
     "options": [
       "月球自身发光变化",
@@ -6084,7 +5915,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 469,
+    "id": 456,
     "question": "哪种在水中溶得快？",
     "options": [
       "冰糖",
@@ -6097,7 +5928,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 470,
+    "id": 457,
     "question": "跳远助跑为了利用什么？",
     "options": [
       "增大摩擦力",
@@ -6110,7 +5941,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 471,
+    "id": 458,
     "question": "向日葵为什么向太阳？",
     "options": [
       "阳光提供生长激素",
@@ -6123,7 +5954,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 472,
+    "id": 459,
     "question": "下列哪种是昆虫？",
     "options": [
       "蜘蛛",
@@ -6136,7 +5967,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 473,
+    "id": 460,
     "question": "中国的首都是？",
     "options": [
       "上海",
@@ -6149,20 +5980,7 @@ questionBank = [
     "category": "地理"
   },
   {
-    "id": 474,
-    "question": "中国最长的河流是？",
-    "options": [
-      "黄河",
-      "黑龙江",
-      "珠江",
-      "长江"
-    ],
-    "answer": 3,
-    "explanation": "长江是中国最长的河流，全长约6300公里。",
-    "category": "地理"
-  },
-  {
-    "id": 475,
+    "id": 461,
     "question": "中国最大的湖泊是？",
     "options": [
       "鄱阳湖",
@@ -6175,7 +5993,7 @@ questionBank = [
     "category": "地理"
   },
   {
-    "id": 476,
+    "id": 462,
     "question": "中国最高的山峰是？",
     "options": [
       "泰山",
@@ -6188,7 +6006,7 @@ questionBank = [
     "category": "地理"
   },
   {
-    "id": 477,
+    "id": 463,
     "question": "中国最大的岛屿是？",
     "options": [
       "海南岛",
@@ -6201,7 +6019,7 @@ questionBank = [
     "category": "地理"
   },
   {
-    "id": 478,
+    "id": 464,
     "question": "中国最大的盆地是？",
     "options": [
       "塔里木盆地",
@@ -6214,7 +6032,7 @@ questionBank = [
     "category": "地理"
   },
   {
-    "id": 479,
+    "id": 465,
     "question": "乒乓球比赛中，一局比赛先得多少分者获胜？",
     "options": [
       "10分",
@@ -6227,7 +6045,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 480,
+    "id": 466,
     "question": "羽毛球比赛中，比赛用球的羽毛数量是多少？",
     "options": [
       "12根",
@@ -6240,20 +6058,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 481,
-    "question": "排球比赛中，每局比赛先得多少分者获胜？",
-    "options": [
-      "15分",
-      "20分",
-      "25分",
-      "30分"
-    ],
-    "answer": 2,
-    "explanation": "排球比赛中，每局比赛先得25分且领先对手2分者获胜。",
-    "category": "体育"
-  },
-  {
-    "id": 482,
+    "id": 467,
     "question": "体操比赛中，哪种器械是男子项目独有的？",
     "options": [
       "平衡木",
@@ -6266,7 +6071,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 483,
+    "id": 468,
     "question": "网球比赛中，比赛用球是什么颜色？",
     "options": [
       "白色",
@@ -6279,7 +6084,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 484,
+    "id": 469,
     "question": "田径比赛中，马拉松比赛的距离是多少公里？",
     "options": [
       "21.0975公里",
@@ -6292,7 +6097,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 485,
+    "id": 470,
     "question": "足球比赛中，一场比赛通常持续多少分钟？",
     "options": [
       "60分钟",
@@ -6305,7 +6110,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 486,
+    "id": 471,
     "question": "游泳比赛中，哪种泳姿速度最快？",
     "options": [
       "蛙泳",
@@ -6318,7 +6123,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 487,
+    "id": 472,
     "question": "乒乓球比赛中，球拍的两面颜色必须是什么？",
     "options": [
       "红色和黑色",
@@ -6331,20 +6136,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 488,
-    "question": "体操比赛中，哪种器械是女子项目独有的？",
-    "options": [
-      "吊环",
-      "鞍马",
-      "高低杠",
-      "跳马"
-    ],
-    "answer": 2,
-    "explanation": "高低杠是女子体操项目独有的器械。",
-    "category": "体育"
-  },
-  {
-    "id": 489,
+    "id": 473,
     "question": "植物的光合作用主要在哪个部位进行？",
     "options": [
       "根",
@@ -6357,7 +6149,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 490,
+    "id": 474,
     "question": "蜜蜂的蜂巢是由什么物质建造的？",
     "options": [
       "蜂蜜",
@@ -6370,7 +6162,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 491,
+    "id": 475,
     "question": "人体中负责制造抗体的细胞是什么？",
     "options": [
       "红细胞",
@@ -6383,7 +6175,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 492,
+    "id": 476,
     "question": "哪种动物的幼崽是通过卵孵化出生的？",
     "options": [
       "猫",
@@ -6396,7 +6188,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 493,
+    "id": 477,
     "question": "植物的气孔主要分布在哪个部位？",
     "options": [
       "根",
@@ -6409,7 +6201,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 494,
+    "id": 478,
     "question": "鸟类的喙形状与它们的食物有什么关系？",
     "options": [
       "无关",
@@ -6422,7 +6214,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 495,
+    "id": 479,
     "question": "人体中负责储存尿液的器官是什么？",
     "options": [
       "肾脏",
@@ -6435,7 +6227,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 496,
+    "id": 480,
     "question": "哪种动物是完全变态昆虫？",
     "options": [
       "蚂蚁",
@@ -6448,7 +6240,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 497,
+    "id": 481,
     "question": "植物的年轮可以告诉我们什么？",
     "options": [
       "植物的高度",
@@ -6461,7 +6253,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 498,
+    "id": 482,
     "question": "人体中负责调节血糖水平的器官是什么？",
     "options": [
       "胃",
@@ -6474,7 +6266,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 499,
+    "id": 483,
     "question": "哪种动物是群居动物？",
     "options": [
       "老虎",
@@ -6487,7 +6279,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 500,
+    "id": 484,
     "question": "植物的光合作用需要什么条件？",
     "options": [
       "阳光、水、二氧化碳",
@@ -6500,7 +6292,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 501,
+    "id": 485,
     "question": "人体中负责制造红细胞的器官是什么？",
     "options": [
       "心脏",
@@ -6513,7 +6305,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 502,
+    "id": 486,
     "question": "哪种动物是夜行动物？",
     "options": [
       "狮子",
@@ -6526,7 +6318,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 503,
+    "id": 487,
     "question": "植物的传粉方式有哪些？",
     "options": [
       "风、水、昆虫",
@@ -6539,7 +6331,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 504,
+    "id": 488,
     "question": "人体中负责调节体温的器官是什么？",
     "options": [
       "心脏",
@@ -6552,7 +6344,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 505,
+    "id": 489,
     "question": "哪种动物是食草动物？",
     "options": [
       "狮子",
@@ -6565,7 +6357,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 506,
+    "id": 490,
     "question": "植物的根瘤有什么作用？",
     "options": [
       "吸收阳光",
@@ -6578,7 +6370,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 507,
+    "id": 491,
     "question": "人体中负责传递信息的系统是什么？",
     "options": [
       "消化系统",
@@ -6591,7 +6383,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 508,
+    "id": 492,
     "question": "哪种动物是社会性昆虫？",
     "options": [
       "蜘蛛",
@@ -6604,241 +6396,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 509,
-    "question": "植物的光合作用主要在哪个部位进行？",
-    "options": [
-      "根",
-      "茎",
-      "叶子",
-      "花"
-    ],
-    "answer": 2,
-    "explanation": "植物的光合作用主要在叶子中进行，因为叶子含有叶绿素。",
-    "category": "生物"
-  },
-  {
-    "id": 510,
-    "question": "蜜蜂的蜂巢是由什么物质建造的？",
-    "options": [
-      "蜂蜜",
-      "蜂蜡",
-      "花粉",
-      "树脂"
-    ],
-    "answer": 1,
-    "explanation": "蜜蜂用蜂蜡建造蜂巢，蜂蜡是蜜蜂分泌的一种物质。",
-    "category": "生物"
-  },
-  {
-    "id": 511,
-    "question": "人体中负责制造抗体的细胞是什么？",
-    "options": [
-      "红细胞",
-      "白细胞",
-      "血小板",
-      "肌肉细胞"
-    ],
-    "answer": 1,
-    "explanation": "白细胞中的淋巴细胞负责制造抗体，帮助抵抗病菌。",
-    "category": "生物"
-  },
-  {
-    "id": 512,
-    "question": "哪种动物的幼崽是通过卵孵化出生的？",
-    "options": [
-      "猫",
-      "鲨鱼",
-      "青蛙",
-      "企鹅"
-    ],
-    "answer": 3,
-    "explanation": "企鹅的幼崽是通过卵孵化出生的，企鹅是卵生动物。",
-    "category": "生物"
-  },
-  {
-    "id": 513,
-    "question": "植物的气孔主要分布在哪个部位？",
-    "options": [
-      "根",
-      "茎",
-      "叶子",
-      "花"
-    ],
-    "answer": 2,
-    "explanation": "植物的气孔主要分布在叶子表面，用于气体交换。",
-    "category": "生物"
-  },
-  {
-    "id": 514,
-    "question": "鸟类的喙形状与它们的食物有什么关系？",
-    "options": [
-      "无关",
-      "有关",
-      "取决于颜色",
-      "取决于大小"
-    ],
-    "answer": 1,
-    "explanation": "鸟类的喙形状与它们的食物密切相关，例如食肉鸟的喙尖锐，食谷鸟的喙粗短。",
-    "category": "生物"
-  },
-  {
-    "id": 515,
-    "question": "人体中负责储存尿液的器官是什么？",
-    "options": [
-      "肾脏",
-      "膀胱",
-      "胃",
-      "肝脏"
-    ],
-    "answer": 1,
-    "explanation": "膀胱负责储存尿液，直到排出体外。",
-    "category": "生物"
-  },
-  {
-    "id": 516,
-    "question": "哪种动物是完全变态昆虫？",
-    "options": [
-      "蚂蚁",
-      "蝴蝶",
-      "蜘蛛",
-      "螃蟹"
-    ],
-    "answer": 1,
-    "explanation": "蝴蝶是完全变态昆虫，经历卵、幼虫、蛹和成虫四个阶段。",
-    "category": "生物"
-  },
-  {
-    "id": 517,
-    "question": "植物的年轮可以告诉我们什么？",
-    "options": [
-      "植物的高度",
-      "植物的年龄",
-      "植物的颜色",
-      "植物的种类"
-    ],
-    "answer": 1,
-    "explanation": "植物的年轮可以告诉我们它的年龄，每年形成一圈。",
-    "category": "生物"
-  },
-  {
-    "id": 518,
-    "question": "人体中负责调节血糖水平的器官是什么？",
-    "options": [
-      "胃",
-      "肝脏",
-      "胰腺",
-      "肾脏"
-    ],
-    "answer": 2,
-    "explanation": "胰腺负责分泌胰岛素，调节血糖水平。",
-    "category": "生物"
-  },
-  {
-    "id": 519,
-    "question": "哪种动物是群居动物？",
-    "options": [
-      "老虎",
-      "狼",
-      "猫",
-      "熊"
-    ],
-    "answer": 1,
-    "explanation": "狼是群居动物，通常以群体的形式生活和狩猎。",
-    "category": "生物"
-  },
-  {
-    "id": 520,
-    "question": "植物的光合作用需要什么条件？",
-    "options": [
-      "阳光、水、二氧化碳",
-      "阳光、氧气、水",
-      "阳光、氮气、水",
-      "阳光、氢气、水"
-    ],
-    "answer": 0,
-    "explanation": "植物的光合作用需要阳光、水和二氧化碳。",
-    "category": "生物"
-  },
-  {
-    "id": 521,
-    "question": "人体中负责制造红细胞的器官是什么？",
-    "options": [
-      "心脏",
-      "肺",
-      "肝脏",
-      "骨髓"
-    ],
-    "answer": 3,
-    "explanation": "骨髓负责制造红细胞，帮助输送氧气。",
-    "category": "生物"
-  },
-  {
-    "id": 522,
-    "question": "哪种动物是夜行动物？",
-    "options": [
-      "狮子",
-      "猫头鹰",
-      "长颈鹿",
-      "企鹅"
-    ],
-    "answer": 1,
-    "explanation": "猫头鹰是夜行动物，主要在夜间活动。",
-    "category": "生物"
-  },
-  {
-    "id": 523,
-    "question": "植物的传粉方式有哪些？",
-    "options": [
-      "风、水、昆虫",
-      "风、水、阳光",
-      "风、水、土壤",
-      "风、水、空气"
-    ],
-    "answer": 0,
-    "explanation": "植物的传粉方式包括风、水和昆虫等。",
-    "category": "生物"
-  },
-  {
-    "id": 524,
-    "question": "人体中负责调节体温的器官是什么？",
-    "options": [
-      "心脏",
-      "肺",
-      "皮肤",
-      "肝脏"
-    ],
-    "answer": 2,
-    "explanation": "皮肤通过排汗和血管扩张收缩来调节体温。",
-    "category": "生物"
-  },
-  {
-    "id": 525,
-    "question": "人体中负责传递信息的系统是什么？",
-    "options": [
-      "消化系统",
-      "呼吸系统",
-      "神经系统",
-      "循环系统"
-    ],
-    "answer": 2,
-    "explanation": "神经系统负责传递信息，控制身体的各种活动。",
-    "category": "生物"
-  },
-  {
-    "id": 526,
-    "question": "哪种动物是社会性昆虫？",
-    "options": [
-      "蜘蛛",
-      "蚂蚁",
-      "螃蟹",
-      "蜗牛"
-    ],
-    "answer": 1,
-    "explanation": "蚂蚁是社会性昆虫，通常以群体的形式生活和分工合作。",
-    "category": "生物"
-  },
-  {
-    "id": 527,
+    "id": 493,
     "question": "以下哪种动物是哺乳动物？",
     "options": [
       "青蛙",
@@ -6851,7 +6409,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 528,
+    "id": 494,
     "question": "蜜蜂采蜜主要是为了什么？",
     "options": [
       "自己吃",
@@ -6864,7 +6422,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 529,
+    "id": 495,
     "question": "植物进行光合作用的主要器官是什么？",
     "options": [
       "根",
@@ -6877,7 +6435,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 530,
+    "id": 496,
     "question": "以下哪种植物会开花结果？",
     "options": [
       "苔藓",
@@ -6890,7 +6448,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 531,
+    "id": 497,
     "question": "植物的茎有运输水分和养分的作用，水分和养分是从哪里运输上去的？",
     "options": [
       "从下往上",
@@ -6903,7 +6461,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 532,
+    "id": 498,
     "question": "人体的消化器官中，主要吸收营养的地方是哪里？",
     "options": [
       "口腔",
@@ -6916,7 +6474,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 533,
+    "id": 499,
     "question": "我们心跳的声音是由什么产生的？",
     "options": [
       "心脏的收缩和舒张",
@@ -6929,7 +6487,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 534,
+    "id": 500,
     "question": "人体呼吸时，吸入的氧气最终到达身体的哪个部位？",
     "options": [
       "肺",
@@ -6942,7 +6500,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 535,
+    "id": 501,
     "question": "以下哪种行为可以保护生态环境？",
     "options": [
       "随手扔垃圾",
@@ -6955,7 +6513,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 536,
+    "id": 502,
     "question": "自然界中，分解者主要包括哪些生物？",
     "options": [
       "植物和动物",
@@ -6968,7 +6526,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 537,
+    "id": 503,
     "question": "生态系统中，生产者、消费者和分解者之间的关系是怎样的？",
     "options": [
       "相互独立",
@@ -6981,7 +6539,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 538,
+    "id": 504,
     "question": "人类是由什么进化而来的？",
     "options": [
       "猴子",
@@ -6994,7 +6552,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 539,
+    "id": 505,
     "question": "生物进化的主要证据是什么？",
     "options": [
       "化石",
@@ -7007,7 +6565,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 540,
+    "id": 506,
     "question": "以下哪个选项是生物多样性的一个方面？",
     "options": [
       "生物数量的单一性",
@@ -7020,33 +6578,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 541,
-    "question": "以下哪种动物是变温动物？",
-    "options": [
-      "麻雀",
-      "兔子",
-      "蛇",
-      "狗"
-    ],
-    "answer": 2,
-    "explanation": "蛇是变温动物，其体温随环境温度的变化而变化；麻雀是鸟类，狗和兔子是哺乳动物，都是恒温动物",
-    "category": "生物"
-  },
-  {
-    "id": 542,
-    "question": "植物的根具有什么作用？",
-    "options": [
-      "只吸收水分",
-      "运输养分",
-      "吸收水分和固定植株",
-      "只固定植株"
-    ],
-    "answer": 2,
-    "explanation": "植物的根既能从土壤中吸收水分和无机盐，又能固定植株，使其稳固在土壤中",
-    "category": "生物"
-  },
-  {
-    "id": 543,
+    "id": 507,
     "question": "以下哪个是鸟类特有的特征？",
     "options": [
       "有羽毛",
@@ -7059,7 +6591,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 544,
+    "id": 508,
     "question": "人体最大的器官是什么？",
     "options": [
       "皮肤",
@@ -7072,7 +6604,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 545,
+    "id": 509,
     "question": "以下哪种植物可以净化空气？",
     "options": [
       "仙人掌",
@@ -7085,7 +6617,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 546,
+    "id": 510,
     "question": "植物的叶子在秋天变黄是因为什么？",
     "options": [
       "缺少阳光",
@@ -7098,7 +6630,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 547,
+    "id": 511,
     "question": "哪种鸟类不会飞？",
     "options": [
       "老鹰",
@@ -7111,20 +6643,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 548,
-    "question": "哪种动物是杂食性动物？",
-    "options": [
-      "狮子",
-      "鲨鱼",
-      "长颈鹿",
-      "熊猫"
-    ],
-    "answer": 3,
-    "explanation": "熊猫是杂食性动物，既吃竹子也吃小型动物。",
-    "category": "生物"
-  },
-  {
-    "id": 549,
+    "id": 512,
     "question": "植物的根除了吸收水分，还有什么作用？",
     "options": [
       "制造氧气",
@@ -7137,7 +6656,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 550,
+    "id": 513,
     "question": "哪种动物可以帮助传播植物的种子？",
     "options": [
       "老虎",
@@ -7150,20 +6669,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 551,
-    "question": "人体中负责制造尿液的器官是什么？",
-    "options": [
-      "胃",
-      "肝脏",
-      "肾脏",
-      "胰腺"
-    ],
-    "answer": 2,
-    "explanation": "肾脏负责过滤血液并制造尿液。",
-    "category": "生物"
-  },
-  {
-    "id": 552,
+    "id": 514,
     "question": "哪种动物是两栖动物？",
     "options": [
       "青蛙",
@@ -7176,7 +6682,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 553,
+    "id": 515,
     "question": "植物的花朵颜色鲜艳是为了什么？",
     "options": [
       "吸收阳光",
@@ -7189,33 +6695,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 554,
-    "question": "哪种动物是食肉动物？",
-    "options": [
-      "大象",
-      "狮子",
-      "长颈鹿",
-      "熊猫"
-    ],
-    "answer": 1,
-    "explanation": "狮子是食肉动物，主要以其他动物为食。",
-    "category": "生物"
-  },
-  {
-    "id": 555,
-    "question": "人体中负责制造声音的器官是什么？",
-    "options": [
-      "鼻子",
-      "喉咙",
-      "声带",
-      "耳朵"
-    ],
-    "answer": 2,
-    "explanation": "声带振动产生声音，帮助我们说话和唱歌。",
-    "category": "生物"
-  },
-  {
-    "id": 556,
+    "id": 516,
     "question": "哪种动物是海洋哺乳动物？",
     "options": [
       "鲨鱼",
@@ -7228,7 +6708,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 557,
+    "id": 517,
     "question": "植物的落叶对土壤有什么作用？",
     "options": [
       "增加阳光",
@@ -7241,7 +6721,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 558,
+    "id": 518,
     "question": "哪种动物是昆虫的天敌？",
     "options": [
       "狮子",
@@ -7254,7 +6734,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 559,
+    "id": 519,
     "question": "哪种动物是草原上的典型动物？",
     "options": [
       "企鹅",
@@ -7267,33 +6747,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 560,
-    "question": "植物的茎除了输送水分，还有什么作用？",
-    "options": [
-      "吸收阳光",
-      "制造氧气",
-      "支撑植物",
-      "吸收二氧化碳"
-    ],
-    "answer": 2,
-    "explanation": "植物的茎可以支撑植物，使其直立生长。",
-    "category": "生物"
-  },
-  {
-    "id": 561,
-    "question": "植物的光合作用需要什么气体？",
-    "options": [
-      "氧气",
-      "氮气",
-      "二氧化碳",
-      "氢气"
-    ],
-    "answer": 2,
-    "explanation": "植物通过光合作用吸收二氧化碳并释放氧气。",
-    "category": "生物"
-  },
-  {
-    "id": 562,
+    "id": 520,
     "question": "哪种动物是昆虫？",
     "options": [
       "蜘蛛",
@@ -7306,7 +6760,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 563,
+    "id": 521,
     "question": "人体中负责输送氧气的细胞是什么？",
     "options": [
       "白细胞",
@@ -7319,7 +6773,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 564,
+    "id": 522,
     "question": "哪种动物是卵生动物？",
     "options": [
       "猫",
@@ -7332,7 +6786,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 565,
+    "id": 523,
     "question": "植物的根主要有什么功能？",
     "options": [
       "吸收阳光",
@@ -7345,59 +6799,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 566,
-    "question": "哪种鸟类不会飞？",
-    "options": [
-      "老鹰",
-      "企鹅",
-      "鸽子",
-      "燕子"
-    ],
-    "answer": 1,
-    "explanation": "企鹅是不会飞的鸟类，但它们擅长游泳。",
-    "category": "生物"
-  },
-  {
-    "id": 567,
-    "question": "人体中负责过滤血液的器官是什么？",
-    "options": [
-      "心脏",
-      "肺",
-      "肝脏",
-      "肾脏"
-    ],
-    "answer": 3,
-    "explanation": "肾脏负责过滤血液，排除废物和多余水分。",
-    "category": "生物"
-  },
-  {
-    "id": 568,
-    "question": "哪种动物是杂食性动物？",
-    "options": [
-      "狮子",
-      "熊猫",
-      "长颈鹿",
-      "鲨鱼"
-    ],
-    "answer": 1,
-    "explanation": "熊猫是杂食性动物，既吃竹子也吃小型动物。",
-    "category": "生物"
-  },
-  {
-    "id": 569,
-    "question": "植物的叶子在秋天变黄是因为什么？",
-    "options": [
-      "缺少阳光",
-      "缺少水分",
-      "叶绿素分解",
-      "温度过低"
-    ],
-    "answer": 2,
-    "explanation": "秋天叶绿素分解，叶子中的黄色色素显现出来。",
-    "category": "生物"
-  },
-  {
-    "id": 570,
+    "id": 524,
     "question": "哪种动物是冷血动物？",
     "options": [
       "猫",
@@ -7410,124 +6812,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 571,
-    "question": "人体中负责制造声音的器官是什么？",
-    "options": [
-      "鼻子",
-      "喉咙",
-      "声带",
-      "耳朵"
-    ],
-    "answer": 2,
-    "explanation": "声带振动产生声音，帮助我们说话和唱歌。",
-    "category": "生物"
-  },
-  {
-    "id": 572,
-    "question": "哪种动物是两栖动物？",
-    "options": [
-      "青蛙",
-      "乌龟",
-      "企鹅",
-      "海豚"
-    ],
-    "answer": 0,
-    "explanation": "青蛙是两栖动物，既能在水中生活也能在陆地上生活。",
-    "category": "生物"
-  },
-  {
-    "id": 573,
-    "question": "植物的花朵颜色鲜艳是为了什么？",
-    "options": [
-      "吸收阳光",
-      "吸引昆虫",
-      "制造氧气",
-      "吸收水分"
-    ],
-    "answer": 1,
-    "explanation": "花朵颜色鲜艳是为了吸引昆虫，帮助传播花粉。",
-    "category": "生物"
-  },
-  {
-    "id": 574,
-    "question": "哪种动物是食肉动物？",
-    "options": [
-      "大象",
-      "狮子",
-      "长颈鹿",
-      "熊猫"
-    ],
-    "answer": 1,
-    "explanation": "狮子是食肉动物，主要以其他动物为食。",
-    "category": "生物"
-  },
-  {
-    "id": 575,
-    "question": "人体中负责制造唾液的器官是什么？",
-    "options": [
-      "胃",
-      "唾液腺",
-      "肝脏",
-      "胰腺"
-    ],
-    "answer": 1,
-    "explanation": "唾液腺负责制造唾液，帮助消化食物。",
-    "category": "生物"
-  },
-  {
-    "id": 576,
-    "question": "哪种动物是海洋哺乳动物？",
-    "options": [
-      "鲨鱼",
-      "海豚",
-      "企鹅",
-      "乌龟"
-    ],
-    "answer": 1,
-    "explanation": "海豚是海洋哺乳动物，用肺呼吸。",
-    "category": "生物"
-  },
-  {
-    "id": 577,
-    "question": "植物的落叶对土壤有什么作用？",
-    "options": [
-      "增加阳光",
-      "增加养分",
-      "减少水分",
-      "减少空气"
-    ],
-    "answer": 1,
-    "explanation": "落叶分解后可以为土壤提供养分，帮助植物生长。",
-    "category": "生物"
-  },
-  {
-    "id": 578,
-    "question": "哪种动物是昆虫的天敌？",
-    "options": [
-      "狮子",
-      "青蛙",
-      "长颈鹿",
-      "企鹅"
-    ],
-    "answer": 1,
-    "explanation": "青蛙以昆虫为食，是昆虫的天敌。",
-    "category": "生物"
-  },
-  {
-    "id": 579,
-    "question": "人体中负责制造眼泪的器官是什么？",
-    "options": [
-      "眼睛",
-      "泪腺",
-      "鼻子",
-      "喉咙"
-    ],
-    "answer": 1,
-    "explanation": "泪腺负责制造眼泪，保持眼睛湿润。",
-    "category": "生物"
-  },
-  {
-    "id": 580,
+    "id": 525,
     "question": "哪种动物是沙漠中的典型动物？",
     "options": [
       "企鹅",
@@ -7540,7 +6825,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 581,
+    "id": 526,
     "question": "植物进行光合作用的原料是（ ）。",
     "options": [
       "氧气和水",
@@ -7553,7 +6838,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 582,
+    "id": 527,
     "question": "人体中最大的器官是（ ）。",
     "options": [
       "心脏",
@@ -7566,7 +6851,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 583,
+    "id": 528,
     "question": "以下哪种动物是胎生的？（ ）",
     "options": [
       "鸡",
@@ -7579,7 +6864,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 584,
+    "id": 529,
     "question": "下列哪种植物可以吸收有害气体，净化空气？（ ）",
     "options": [
       "仙人掌",
@@ -7592,7 +6877,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 585,
+    "id": 530,
     "question": "人体的血液循环系统中，负责运输营养物质的是（ ）。",
     "options": [
       "红细胞",
@@ -7605,7 +6890,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 586,
+    "id": 531,
     "question": "动物的身体结构与其生活环境相适应，比如骆驼的驼峰是为了（ ）。",
     "options": [
       "储存水分",
@@ -7618,7 +6903,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 587,
+    "id": 532,
     "question": "植物的生长需要光，主要是因为光为光合作用提供（ ）。",
     "options": [
       "二氧化碳",
@@ -7631,7 +6916,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 588,
+    "id": 533,
     "question": "我国古代第一个朝代是？",
     "options": [
       "夏朝",
@@ -7644,7 +6929,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 589,
+    "id": 534,
     "question": "端午节是为了纪念哪位古代诗人？",
     "options": [
       "李白",
@@ -7657,7 +6942,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 590,
+    "id": 535,
     "question": "孔子是我国古代的什么家？",
     "options": [
       "画家",
@@ -7670,7 +6955,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 591,
+    "id": 536,
     "question": "三国中，被称为 “奸雄” 的是谁？",
     "options": [
       "刘备",
@@ -7683,7 +6968,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 592,
+    "id": 537,
     "question": "“卧薪尝胆” 说的是哪位历史人物的故事？",
     "options": [
       "夫差",
@@ -7696,7 +6981,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 593,
+    "id": 538,
     "question": "我国古代四大发明中，造纸术是谁发明的？",
     "options": [
       "毕昇",
@@ -7709,7 +6994,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 594,
+    "id": 539,
     "question": "秦始皇统一六国后，统一的文字是？",
     "options": [
       "金文",
@@ -7722,7 +7007,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 595,
+    "id": 540,
     "question": "三国时期，谁建立了魏国？",
     "options": [
       "曹操",
@@ -7735,7 +7020,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 596,
+    "id": 541,
     "question": "我国古代的 “四大名著” 不包括以下哪一部？",
     "options": [
       "《三国演义》",
@@ -7748,7 +7033,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 597,
+    "id": 542,
     "question": "孔子的弟子中，以 “贤” 著称的是谁？",
     "options": [
       "子路",
@@ -7761,7 +7046,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 598,
+    "id": 543,
     "question": "“三顾茅庐” 请的是谁？",
     "options": [
       "周瑜",
@@ -7774,7 +7059,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 599,
+    "id": 544,
     "question": "唐朝的著名诗人中，被称为 “诗仙” 的是？",
     "options": [
       "杜甫",
@@ -7787,7 +7072,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 600,
+    "id": 545,
     "question": "“草船借箭” 的故事中，主要人物是？",
     "options": [
       "孙权",
@@ -7800,7 +7085,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 601,
+    "id": 546,
     "question": "我国古代哪个朝代的疆域最辽阔？",
     "options": [
       "汉朝",
@@ -7813,7 +7098,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 602,
+    "id": 547,
     "question": "“精忠报国” 说的是哪位历史人物？",
     "options": [
       "岳飞",
@@ -7826,7 +7111,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 603,
+    "id": 548,
     "question": "中国古代传说中，尝百草的是谁？",
     "options": [
       "黄帝",
@@ -7839,7 +7124,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 604,
+    "id": 549,
     "question": "“烽火戏诸侯” 的故事中，主角是哪位君主？",
     "options": [
       "周文王",
@@ -7852,7 +7137,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 605,
+    "id": 550,
     "question": "以下哪个不是中国传统节日的习俗？",
     "options": [
       "春节贴春联",
@@ -7865,7 +7150,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 606,
+    "id": 551,
     "question": "中国古代四大美女中，“闭月” 说的是哪位美女？",
     "options": [
       "西施",
@@ -7878,7 +7163,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 607,
+    "id": 552,
     "question": "“一字千金” 的典故与哪部著作有关？",
     "options": [
       "《论语》",
@@ -7891,7 +7176,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 608,
+    "id": 553,
     "question": "“破釜沉舟” 的故事发生在什么战争中？",
     "options": [
       "官渡之战",
@@ -7904,7 +7189,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 609,
+    "id": 554,
     "question": "“黄袍加身” 说的是哪位皇帝的故事？",
     "options": [
       "唐太宗",
@@ -7917,20 +7202,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 610,
-    "question": "中国古代的科举考试中，殿试的第一名被称为什么？",
-    "options": [
-      "举人",
-      "贡士",
-      "榜眼",
-      "状元"
-    ],
-    "answer": 3,
-    "explanation": "科举考试中，殿试第一名是状元，第二名是榜眼，第三名是探花。",
-    "category": "历史文化"
-  },
-  {
-    "id": 611,
+    "id": 555,
     "question": "以下哪个不是中国古代的四大发明？",
     "options": [
       "造纸术",
@@ -7943,7 +7215,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 612,
+    "id": 556,
     "question": "“望梅止渴” 的故事与哪位历史人物有关？",
     "options": [
       "刘备",
@@ -7956,7 +7228,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 613,
+    "id": 557,
     "question": "中国古代哪个朝代的都城在长安（今西安）时间最长？",
     "options": [
       "汉朝",
@@ -7969,7 +7241,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 614,
+    "id": 558,
     "question": "“程门立雪” 的故事体现了什么精神？",
     "options": [
       "爱国精神",
@@ -7982,7 +7254,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 615,
+    "id": 559,
     "question": "以下哪个不是中国的传统艺术形式？",
     "options": [
       "国画",
@@ -7995,7 +7267,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 616,
+    "id": 560,
     "question": "“退避三舍” 的故事中，主人公是？",
     "options": [
       "齐桓公",
@@ -8008,7 +7280,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 617,
+    "id": 561,
     "question": "中国古代神话中，“射日” 的英雄是？",
     "options": [
       "夸父",
@@ -8021,7 +7293,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 618,
+    "id": 562,
     "question": "“掩耳盗铃” 这个成语最早出自哪里？",
     "options": [
       "《论语》",
@@ -8034,7 +7306,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 619,
+    "id": 563,
     "question": "以下哪个不是中国古代的著名水利工程？",
     "options": [
       "都江堰",
@@ -8047,7 +7319,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 620,
+    "id": 564,
     "question": "地球的自转方向是？",
     "options": [
       "自东向西",
@@ -8060,7 +7332,7 @@ questionBank = [
     "category": "地理"
   },
   {
-    "id": 621,
+    "id": 565,
     "question": "声音在什么中传播速度最慢？",
     "options": [
       "固体",
@@ -8073,7 +7345,7 @@ questionBank = [
     "category": "地理"
   },
   {
-    "id": 622,
+    "id": 566,
     "question": "哪种自然现象是由于地球自转引起的？",
     "options": [
       "昼夜交替",
@@ -8086,7 +7358,7 @@ questionBank = [
     "category": "地理"
   },
   {
-    "id": 623,
+    "id": 567,
     "question": "以下哪种材料是绝缘体？",
     "options": [
       "铜",
@@ -8099,7 +7371,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 624,
+    "id": 568,
     "question": "以下哪种物质在常温下是气体？",
     "options": [
       "水",
@@ -8112,7 +7384,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 625,
+    "id": 569,
     "question": "植物进行呼吸作用的主要场所是（ ）。",
     "options": [
       "叶绿体",
@@ -8125,7 +7397,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 626,
+    "id": 570,
     "question": "地球绕太阳公转一周的时间大约是（ ）。",
     "options": [
       "一天",
@@ -8138,7 +7410,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 627,
+    "id": 571,
     "question": "在生态系统中，生产者主要是指（ ）。",
     "options": [
       "动物",
@@ -8151,7 +7423,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 628,
+    "id": 572,
     "question": "光的三原色是（ ）。",
     "options": [
       "红、黄、蓝",
@@ -8164,7 +7436,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 629,
+    "id": 573,
     "question": "以下哪种动物是恒温动物且会飞？",
     "options": [
       "蝙蝠",
@@ -8177,7 +7449,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 630,
+    "id": 574,
     "question": "被称为 “乐器之王” 的是哪种乐器？",
     "options": [
       "钢琴",
@@ -8190,7 +7462,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 631,
+    "id": 575,
     "question": "钢琴有多少个黑白键？",
     "options": [
       "76个",
@@ -8203,7 +7475,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 632,
+    "id": 576,
     "question": "贝多芬是哪个国家的作曲家？",
     "options": [
       "法国",
@@ -8216,7 +7488,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 633,
+    "id": 577,
     "question": "音乐中的“C大调”是什么调式？",
     "options": [
       "小调",
@@ -8229,7 +7501,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 634,
+    "id": 578,
     "question": "音乐中的“四分音符”通常代表几拍？",
     "options": [
       "1拍",
@@ -8242,7 +7514,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 635,
+    "id": 579,
     "question": "以下哪个是铜管乐器？",
     "options": [
       "小提琴",
@@ -8255,7 +7527,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 636,
+    "id": 580,
     "question": "音乐中的“休止符”表示什么？",
     "options": [
       "延长音",
@@ -8268,7 +7540,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 637,
+    "id": 581,
     "question": "音乐中的“拍号”4/4表示什么？",
     "options": [
       "每小节4拍",
@@ -8281,7 +7553,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 638,
+    "id": 582,
     "question": "世界上最古老的乐器是什么？",
     "options": [
       "鼓",
@@ -8294,20 +7566,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 639,
-    "question": "世界上最贵的乐器是什么？",
-    "options": [
-      "小提琴",
-      "钢琴",
-      "吉他",
-      "鼓"
-    ],
-    "answer": 0,
-    "explanation": "一些名贵的小提琴，如斯特拉迪瓦里制作的小提琴，价值数百万美元。",
-    "category": "音乐"
-  },
-  {
-    "id": 640,
+    "id": 583,
     "question": "世界上最长的音乐作品是什么？",
     "options": [
       "《命运交响曲》",
@@ -8320,7 +7579,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 641,
+    "id": 584,
     "question": "世界上最早的歌剧是什么？",
     "options": [
       "《卡门》",
@@ -8333,7 +7592,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 642,
+    "id": 585,
     "question": "世界上最著名的音乐厅是什么？",
     "options": [
       "悉尼歌剧院",
@@ -8346,7 +7605,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 643,
+    "id": 586,
     "question": "世界上最著名的音乐家是谁？",
     "options": [
       "贝多芬",
@@ -8359,7 +7618,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 644,
+    "id": 587,
     "question": "为什么飞机上的窗户是圆形或椭圆形的？",
     "options": [
       "为了美观",
@@ -8372,7 +7631,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 645,
+    "id": 588,
     "question": "人的指纹除了用来识别身份，还有什么作用？",
     "options": [
       "增加摩擦力",
@@ -8385,7 +7644,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 646,
+    "id": 589,
     "question": "我们日常吃的土豆，其实是它的什么部位？",
     "options": [
       "根",
@@ -8398,7 +7657,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 647,
+    "id": 590,
     "question": "为什么有些动物在冬天会冬眠？",
     "options": [
       "躲避天敌",
@@ -8411,7 +7670,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 648,
+    "id": 591,
     "question": "下雨后，蚯蚓会从土里钻出来，主要原因是？",
     "options": [
       "喜欢雨水",
@@ -8424,7 +7683,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 649,
+    "id": 592,
     "question": "汽车的后视镜通常是凸面镜，这是因为它能？",
     "options": [
       "看得更远",
@@ -8437,7 +7696,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 650,
+    "id": 593,
     "question": "我们平时说的 “五谷杂粮”，其中 “五谷” 一般不包括以下哪种？",
     "options": [
       "玉米",
@@ -8450,7 +7709,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 651,
+    "id": 594,
     "question": "人的头发为什么会变白？",
     "options": [
       "身体缺水",
@@ -8463,7 +7722,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 652,
+    "id": 595,
     "question": "塑料瓶底部的三角形标志内的数字代表什么？",
     "options": [
       "瓶子的容量",
@@ -8476,7 +7735,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 653,
+    "id": 596,
     "question": "蚂蚁在行进过程中，主要靠什么来认路？",
     "options": [
       "视觉",
@@ -8489,7 +7748,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 654,
+    "id": 597,
     "question": "人的耳朵除了听声音，还有什么重要功能？",
     "options": [
       "帮助消化",
@@ -8502,7 +7761,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 655,
+    "id": 598,
     "question": "飞机起飞和降落时，为什么要让乘客咀嚼口香糖？",
     "options": [
       "防止晕机",
@@ -8515,7 +7774,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 656,
+    "id": 599,
     "question": "人在太空中会怎样？",
     "options": [
       "体重增加",
@@ -8528,7 +7787,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 657,
+    "id": 600,
     "question": "以下哪种水果维生素 C 含量相对较高？",
     "options": [
       "苹果",
@@ -8541,7 +7800,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 658,
+    "id": 601,
     "question": "哪种动物是站着睡觉的？",
     "options": [
       "马",
@@ -8554,7 +7813,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 659,
+    "id": 602,
     "question": "彩虹的最外层是什么颜色？",
     "options": [
       "红色",
@@ -8567,7 +7826,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 660,
+    "id": 603,
     "question": "冬天人们常搓手取暖，这是通过什么方式增加热量？",
     "options": [
       "热传递",
@@ -8580,7 +7839,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 661,
+    "id": 604,
     "question": "哪种植物的茎可以吃？",
     "options": [
       "胡萝卜",
@@ -8593,7 +7852,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 662,
+    "id": 605,
     "question": "铅笔芯的主要成分是什么？",
     "options": [
       "铅",
@@ -8606,7 +7865,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 663,
+    "id": 606,
     "question": "哪个季节容易出现台风？",
     "options": [
       "春季",
@@ -8619,7 +7878,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 664,
+    "id": 607,
     "question": "以下哪种是中国特有的珍稀动物？",
     "options": [
       "长颈鹿",
@@ -8632,7 +7891,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 665,
+    "id": 608,
     "question": "哪种天气符号代表多云？",
     "options": [
       "一个太阳",
@@ -8645,7 +7904,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 666,
+    "id": 609,
     "question": "我们每天吃的米饭主要来自水稻的哪个部分？",
     "options": [
       "根",
@@ -8658,7 +7917,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 667,
+    "id": 610,
     "question": "奥运会的标志由几个环组成？",
     "options": [
       "3 个",
@@ -8671,7 +7930,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 668,
+    "id": 611,
     "question": "以下哪种动物会夏眠？",
     "options": [
       "青蛙",
@@ -8684,7 +7943,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 669,
+    "id": 612,
     "question": "以下哪种食物不能空腹吃？",
     "options": [
       "香蕉",
@@ -8697,7 +7956,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 670,
+    "id": 613,
     "question": "哪种鸟被称为 “森林医生”？",
     "options": [
       "啄木鸟",
@@ -8710,7 +7969,7 @@ questionBank = [
     "category": "生物"
   },
   {
-    "id": 671,
+    "id": 614,
     "question": "有一种中国传统乐器，用竹子制成，竖着吹奏，声音空灵婉转，这是什么乐器？",
     "options": [
       "箫",
@@ -8723,7 +7982,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 672,
+    "id": 615,
     "question": "音乐中的和声是指什么？",
     "options": [
       "很多人一起唱歌",
@@ -8736,7 +7995,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 673,
+    "id": 616,
     "question": "在音乐中，力度记号 “p” 代表什么意思？",
     "options": [
       "强",
@@ -8749,7 +8008,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 674,
+    "id": 617,
     "question": "哪种音乐形式是一边说唱一边配合节奏强烈的音乐？",
     "options": [
       "歌剧",
@@ -8762,7 +8021,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 675,
+    "id": 618,
     "question": "中国的戏曲音乐中，有一种起源于安徽，融合了多种戏曲元素，被誉为 “国粹” 的是？",
     "options": [
       "越剧",
@@ -8775,7 +8034,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 676,
+    "id": 619,
     "question": "以下哪种乐器演奏时需要坐在地上，用双手击打鼓面发声？",
     "options": [
       "小军鼓",
@@ -8788,7 +8047,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 677,
+    "id": 620,
     "question": "哪种音乐风格的旋律优美抒情，常使用弦乐器和钢琴来演奏，注重情感的表达？",
     "options": [
       "巴洛克音乐",
@@ -8801,7 +8060,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 678,
+    "id": 621,
     "question": "有一种乐器，它的形状像一个大喇叭，声音低沉浑厚，在交响乐队中起到低音基础的作用，这是什么乐器？",
     "options": [
       "大号",
@@ -8814,7 +8073,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 679,
+    "id": 622,
     "question": "在音乐中，装饰音 “波音” 是怎样的一种演奏效果？",
     "options": [
       "快速地重复一个音",
@@ -8827,7 +8086,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 680,
+    "id": 623,
     "question": "以下哪种音乐形式是将歌曲、舞蹈、表演等融合在一起，具有很强的故事性？",
     "options": [
       "合唱",
@@ -8840,7 +8099,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 681,
+    "id": 624,
     "question": "中国传统音乐中，用七根弦演奏的乐器是什么？",
     "options": [
       "古筝",
@@ -8853,7 +8112,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 682,
+    "id": 625,
     "question": "哪种乐器的音色圆润柔和，常被用于演奏古典音乐，而且有四根弦，用弓拉奏？",
     "options": [
       "中提琴",
@@ -8866,7 +8125,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 683,
+    "id": 626,
     "question": "传说中，哪位音乐家在失聪后依然创作出了伟大的作品？",
     "options": [
       "莫扎特",
@@ -8879,7 +8138,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 684,
+    "id": 627,
     "question": "有一种乐器在古代常被用于军队传递信号，它是什么？",
     "options": [
       "锣",
@@ -8892,7 +8151,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 685,
+    "id": 628,
     "question": "哪种乐器可以随身携带，并且能在户外随时演奏出美妙的音乐？",
     "options": [
       "吉他",
@@ -8905,7 +8164,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 686,
+    "id": 629,
     "question": "哪种音乐风格的歌曲常常会讲述一些有趣的故事，就像在给大家讲故事一样？",
     "options": [
       "民谣",
@@ -8918,7 +8177,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 687,
+    "id": 630,
     "question": "在音乐会上，观众在什么时候鼓掌比较合适？",
     "options": [
       "演奏过程中",
@@ -8931,7 +8190,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 688,
+    "id": 631,
     "question": "哪种乐器的声音很像鸟鸣声，而且演奏时需要用气把声音 “吹” 出来？",
     "options": [
       "长笛",
@@ -8944,7 +8203,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 689,
+    "id": 632,
     "question": "在交响乐中，负责演奏旋律的主要乐器组是哪个？",
     "options": [
       "弦乐器组",
@@ -8957,7 +8216,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 690,
+    "id": 633,
     "question": "在西方音乐史中，被誉为 “交响乐之父” 的是哪位音乐家？",
     "options": [
       "巴赫",
@@ -8970,7 +8229,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 691,
+    "id": 634,
     "question": "中国传统戏曲中，演员脸上画着白色的脸谱，一般代表什么性格的人物？",
     "options": [
       "正直",
@@ -8983,7 +8242,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 692,
+    "id": 635,
     "question": "以下哪种音乐形式是蒙古族特有的，演唱者可以同时唱出两个声部？",
     "options": [
       "呼麦",
@@ -8996,7 +8255,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 693,
+    "id": 636,
     "question": "在音乐中，用来表示音的高低的五条平行横线叫什么？",
     "options": [
       "简谱",
@@ -9009,7 +8268,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 694,
+    "id": 637,
     "question": "哪种乐器的琴弦最多，能演奏出非常丰富的和声效果？",
     "options": [
       "竖琴",
@@ -9022,7 +8281,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 695,
+    "id": 638,
     "question": "有个波兰音乐家，他的钢琴曲像在讲诗一样，他是谁呢？",
     "options": [
       "肖邦",
@@ -9035,7 +8294,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 696,
+    "id": 639,
     "question": "音符“♩”表示什么时值？",
     "options": [
       "四分音符",
@@ -9048,7 +8307,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 697,
+    "id": 640,
     "question": "以下哪个是中国著名的古琴曲？",
     "options": [
       "《高山流水》",
@@ -9061,7 +8320,7 @@ questionBank = [
     "category": "音乐"
   },
   {
-    "id": 698,
+    "id": 641,
     "question": "足球比赛中，每队有多少名球员在场上？",
     "options": [
       5,
@@ -9074,7 +8333,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 699,
+    "id": 642,
     "question": "篮球比赛的标准比赛分为几节？",
     "options": [
       3,
@@ -9087,7 +8346,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 700,
+    "id": 643,
     "question": "乒乓球比赛中，赢得一局需要多少分？",
     "options": [
       11,
@@ -9100,7 +8359,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 701,
+    "id": 644,
     "question": "在足球中，球出边线时怎么办？",
     "options": [
       "角球",
@@ -9113,7 +8372,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 702,
+    "id": 645,
     "question": "在篮球中，成功的罚球得多少分？",
     "options": [
       "1分",
@@ -9126,7 +8385,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 703,
+    "id": 646,
     "question": "羽毛球比赛通常打几局？",
     "options": [
       "1局",
@@ -9139,7 +8398,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 704,
+    "id": 647,
     "question": "在篮球中，球员累计多少次犯规会被罚下场？",
     "options": [
       "4次",
@@ -9152,7 +8411,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 705,
+    "id": 648,
     "question": "下列哪位是著名中国书法家？",
     "options": [
       "齐白石",
@@ -9165,7 +8424,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 706,
+    "id": 649,
     "question": "《红楼梦》中，贾宝玉和林黛玉的关系是什么？",
     "options": [
       "兄妹",
@@ -9178,7 +8437,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 707,
+    "id": 650,
     "question": "《三国演义》中，诸葛亮使用的计谋“空城计”是为了对付谁？",
     "options": [
       "曹操",
@@ -9191,7 +8450,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 708,
+    "id": 651,
     "question": "《水浒传》中，武松打虎的故事发生在哪里？",
     "options": [
       "景阳冈",
@@ -9204,7 +8463,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 709,
+    "id": 652,
     "question": "《聊斋志异》中的故事主要涉及什么题材？",
     "options": [
       "历史",
@@ -9217,7 +8476,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 710,
+    "id": 653,
     "question": "中国古代第一部诗歌总集是什么？",
     "options": [
       "《诗经》",
@@ -9230,7 +8489,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 711,
+    "id": 654,
     "question": "以下哪位是宋代著名女词人？",
     "options": [
       "李清照",
@@ -9243,7 +8502,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 712,
+    "id": 655,
     "question": "《离骚》的作者是谁？",
     "options": [
       "白居易",
@@ -9256,7 +8515,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 713,
+    "id": 656,
     "question": "以下哪位是元代著名戏曲作家？",
     "options": [
       "王实甫",
@@ -9269,7 +8528,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 714,
+    "id": 657,
     "question": "《牡丹亭》的作者是谁？",
     "options": [
       "王实甫",
@@ -9282,7 +8541,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 715,
+    "id": 658,
     "question": "以下哪位是清代著名小说家？",
     "options": [
       "施耐庵",
@@ -9295,7 +8554,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 716,
+    "id": 659,
     "question": "《儒林外史》的作者是谁？",
     "options": [
       "施耐庵",
@@ -9308,7 +8567,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 717,
+    "id": 660,
     "question": "以下哪位是唐代著名边塞诗人？",
     "options": [
       "白居易",
@@ -9321,7 +8580,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 718,
+    "id": 661,
     "question": "《滕王阁序》的作者是谁？",
     "options": [
       "白居易",
@@ -9334,7 +8593,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 719,
+    "id": 662,
     "question": "以下哪位是明代著名文学家？",
     "options": [
       "王实甫",
@@ -9347,7 +8606,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 720,
+    "id": 663,
     "question": "《世说新语》的作者是谁？",
     "options": [
       "刘勰",
@@ -9360,20 +8619,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 721,
-    "question": "以下哪位是唐代著名女诗人？",
-    "options": [
-      "李清照",
-      "薛涛",
-      "蔡文姬",
-      "卓文君"
-    ],
-    "answer": 1,
-    "explanation": "薛涛是唐代著名女诗人，与元稹、白居易等诗人有交往。",
-    "category": "文学文化"
-  },
-  {
-    "id": 722,
+    "id": 664,
     "question": "《文心雕龙》的作者是谁？",
     "options": [
       "刘向",
@@ -9386,20 +8632,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 723,
-    "question": "以下哪位是宋代著名文学家？",
-    "options": [
-      "苏轼",
-      "欧阳修",
-      "辛弃疾",
-      "陆游"
-    ],
-    "answer": 1,
-    "explanation": "欧阳修是宋代著名文学家，代表作有《醉翁亭记》。",
-    "category": "文学文化"
-  },
-  {
-    "id": 724,
+    "id": 665,
     "question": "《岳阳楼记》的作者是谁？",
     "options": [
       "欧阳修",
@@ -9412,20 +8645,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 725,
-    "question": "以下哪位是清代著名词人？",
-    "options": [
-      "李清照",
-      "纳兰性德",
-      "苏轼",
-      "辛弃疾"
-    ],
-    "answer": 1,
-    "explanation": "纳兰性德是清代著名词人，代表作有《饮水词》。",
-    "category": "文学文化"
-  },
-  {
-    "id": 726,
+    "id": 666,
     "question": "《桃花扇》的作者是谁？",
     "options": [
       "汤显祖",
@@ -9438,20 +8658,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 727,
-    "question": "以下哪位是唐代著名山水诗人？",
-    "options": [
-      "李白",
-      "王维",
-      "杜甫",
-      "白居易"
-    ],
-    "answer": 1,
-    "explanation": "王维是唐代著名山水诗人，代表作有《山居秋暝》。",
-    "category": "文学文化"
-  },
-  {
-    "id": 728,
+    "id": 667,
     "question": "《长恨歌》的作者是谁？",
     "options": [
       "李白",
@@ -9464,20 +8671,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 729,
-    "question": "以下哪位是宋代著名散文家？",
-    "options": [
-      "苏轼",
-      "欧阳修",
-      "王安石",
-      "曾巩"
-    ],
-    "answer": 0,
-    "explanation": "苏轼是宋代著名散文家，代表作有《赤壁赋》。",
-    "category": "文学文化"
-  },
-  {
-    "id": 730,
+    "id": 668,
     "question": "“孟母三迁”的故事主要强调了什么？",
     "options": [
       "孝顺",
@@ -9490,7 +8684,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 731,
+    "id": 669,
     "question": "四面楚歌”这个成语与哪位历史人物有关？",
     "options": [
       "韩信",
@@ -9503,20 +8697,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 732,
-    "question": "以下哪个不是中国古代的四大书院？",
-    "options": [
-      "岳麓书院",
-      "白鹿洞书院",
-      "石鼓书院",
-      "清华书院"
-    ],
-    "answer": 3,
-    "explanation": "中国古代四大书院一般指应天书院、岳麓书院、白鹿洞书院、嵩阳书院，石鼓书院也常被提及，清华书院并非古代四大书院之一。",
-    "category": "文学文化"
-  },
-  {
-    "id": 733,
+    "id": 670,
     "question": "以下哪种书法字体不属于中国书法的五大字体？",
     "options": [
       "楷书",
@@ -9529,7 +8710,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 734,
+    "id": 671,
     "question": "以下哪个不是中国古代对月亮的别称？",
     "options": [
       "望舒",
@@ -9542,7 +8723,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 735,
+    "id": 672,
     "question": "在古代，人们把一夜分为五更，那么 “三更” 相当于现在的几点？",
     "options": [
       "21 - 23 点",
@@ -9555,7 +8736,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 736,
+    "id": 673,
     "question": "中国古代文学作品中，被称为 “乐府双璧” 的是？",
     "options": [
       "《孔雀东南飞》和《木兰诗》",
@@ -9568,7 +8749,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 737,
+    "id": 674,
     "question": "《诗经》中的 “六义” 指的是什么？",
     "options": [
       "风、雅、颂、赋、比、兴",
@@ -9581,7 +8762,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 738,
+    "id": 675,
     "question": "古代的 “五音” 指的是？",
     "options": [
       "哆、唻、咪、发、嗦",
@@ -9594,7 +8775,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 739,
+    "id": 676,
     "question": "“一问三不知” 中的 “三不知” 最初指的是哪 “三不知”？",
     "options": [
       "天、地、人",
@@ -9607,7 +8788,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 740,
+    "id": 677,
     "question": "中国古代科举考试中，通过院试的考生被称为？",
     "options": [
       "秀才",
@@ -9620,7 +8801,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 741,
+    "id": 678,
     "question": "“杏林” 在古代常用来指代什么行业？",
     "options": [
       "教育",
@@ -9633,7 +8814,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 742,
+    "id": 679,
     "question": "以下哪个成语与秦始皇无关？",
     "options": [
       "指鹿为马",
@@ -9646,7 +8827,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 743,
+    "id": 680,
     "question": "古代 “五岳” 中，位于南方的是哪座山？",
     "options": [
       "泰山",
@@ -9659,7 +8840,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 744,
+    "id": 681,
     "question": "中国古代神话中，被称为 “水神” 的是？",
     "options": [
       "共工",
@@ -9672,7 +8853,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 745,
+    "id": 682,
     "question": "在古代，“鼎” 的主要用途除了烹煮食物，还被视为？",
     "options": [
       "权力象征",
@@ -9685,7 +8866,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 746,
+    "id": 683,
     "question": "“二十四史” 中，第一部纪传体通史是？",
     "options": [
       "《史记》",
@@ -9698,7 +8879,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 747,
+    "id": 684,
     "question": "以下哪个词牌名与古代的歌舞有关？",
     "options": [
       "清平乐",
@@ -9711,7 +8892,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 748,
+    "id": 685,
     "question": "古代 “六艺” 中的 “御” 指的是？",
     "options": [
       "骑马",
@@ -9724,7 +8905,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 749,
+    "id": 686,
     "question": "“小李杜” 指的是哪两位诗人？",
     "options": [
       "李白、杜甫",
@@ -9737,7 +8918,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 750,
+    "id": 687,
     "question": "古代文人常以 “居士” 自称，“东坡居士” 指的是？",
     "options": [
       "苏洵",
@@ -9750,7 +8931,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 751,
+    "id": 688,
     "question": "中国古代第一部词典是？",
     "options": [
       "《尔雅》",
@@ -9763,7 +8944,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 752,
+    "id": 689,
     "question": "“刎颈之交” 用来形容哪种关系？",
     "options": [
       "夫妻",
@@ -9776,7 +8957,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 753,
+    "id": 690,
     "question": "在古代，“黄发” 常用来指代什么？",
     "options": [
       "儿童",
@@ -9789,7 +8970,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 754,
+    "id": 691,
     "question": "中国古代神话中，创造人类的是？",
     "options": [
       "女娲",
@@ -9802,7 +8983,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 755,
+    "id": 692,
     "question": "以下哪个朝代的都城不在今天的西安？",
     "options": [
       "西周",
@@ -9815,7 +8996,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 756,
+    "id": 693,
     "question": "“程门立雪” 这个典故讲的是哪位宋代学者尊师重道的故事？",
     "options": [
       "杨时",
@@ -9828,20 +9009,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 757,
-    "question": "中国古代第一部编年体史书是？",
-    "options": [
-      "《春秋》",
-      "《左传》",
-      "《资治通鉴》",
-      "《竹书纪年》"
-    ],
-    "answer": 0,
-    "explanation": "《春秋》是鲁国的编年史书，记载了从鲁隐公元年到鲁哀公十四年的历史，是中国古代第一部编年体史书。",
-    "category": "文学文化"
-  },
-  {
-    "id": 758,
+    "id": 694,
     "question": "以下哪个成语与书法无关？",
     "options": [
       "入木三分",
@@ -9854,20 +9022,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 759,
-    "question": "在古代，“社稷” 常用来指代什么？",
-    "options": [
-      "国家",
-      "宗庙",
-      "百姓",
-      "土地"
-    ],
-    "answer": 0,
-    "explanation": "“社” 指土神，“稷” 指谷神，古代君主都祭社稷，后来就用 “社稷” 代表国家。",
-    "category": "文学文化"
-  },
-  {
-    "id": 760,
+    "id": 695,
     "question": "中国古代戏曲中，“生旦净丑” 是角色行当的分类，其中 “旦” 指的是？",
     "options": [
       "男性角色",
@@ -9880,7 +9035,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 761,
+    "id": 696,
     "question": "以下哪个节气之后天气开始逐渐转寒？",
     "options": [
       "白露",
@@ -9893,7 +9048,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 762,
+    "id": 697,
     "question": "中国古代章回体长篇小说的开山之作是？",
     "options": [
       "《西游记》",
@@ -9906,7 +9061,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 763,
+    "id": 698,
     "question": "被称为 “书圣” 的古代书法家是？",
     "options": [
       "颜真卿",
@@ -9919,7 +9074,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 764,
+    "id": 699,
     "question": "孟母三迁最后搬到哪里？",
     "options": [
       "皇宫附近",
@@ -9932,7 +9087,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 765,
+    "id": 700,
     "question": "端午节挂艾草的主要目的是？",
     "options": [
       "祈福",
@@ -9945,7 +9100,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 766,
+    "id": 701,
     "question": "“爆竹声中一岁除，春风送暖入屠苏” 的 “屠苏” 是指？",
     "options": [
       "一种草",
@@ -9958,7 +9113,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 767,
+    "id": 702,
     "question": "被称为 “画圣” 的是？",
     "options": [
       "顾恺之",
@@ -9971,7 +9126,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 768,
+    "id": 703,
     "question": "“丝绸之路” 起点是哪里？",
     "options": [
       "洛阳",
@@ -9984,33 +9139,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 769,
-    "question": "“三顾茅庐” 刘备请的是谁？",
-    "options": [
-      "庞统",
-      "周瑜",
-      "司马懿",
-      "诸葛亮"
-    ],
-    "answer": 3,
-    "explanation": "刘备三顾茅庐请诸葛亮出山辅佐成就大业。",
-    "category": "文学文化"
-  },
-  {
-    "id": 770,
-    "question": "在古代，人们用 “花甲” 来指代多少岁？",
-    "options": [
-      "五十岁",
-      "六十岁",
-      "七十岁",
-      "八十岁"
-    ],
-    "answer": 1,
-    "explanation": "在古代，一甲子是 60 年，所以用 “花甲” 来指代六十岁。",
-    "category": "文学文化"
-  },
-  {
-    "id": 771,
+    "id": 704,
     "question": "“会当凌绝顶，一览众山小” 描绘的是哪座山？",
     "options": [
       "泰山",
@@ -10023,7 +9152,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 772,
+    "id": 705,
     "question": "在古代，“而立之年” 指的是多少岁？",
     "options": [
       "二十岁",
@@ -10036,7 +9165,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 773,
+    "id": 706,
     "question": "“飞流直下三千尺，疑是银河落九天” 描写的是哪里的瀑布？",
     "options": [
       "庐山瀑布",
@@ -10049,7 +9178,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 774,
+    "id": 707,
     "question": "在古代，“弱冠之年” 指的是男子多少岁？",
     "options": [
       "十五岁",
@@ -10062,7 +9191,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 775,
+    "id": 708,
     "question": "以下哪个不是中国古代的传统节日？",
     "options": [
       "圣诞节",
@@ -10075,7 +9204,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 776,
+    "id": 709,
     "question": "“两岸青山相对出，孤帆一片日边来” 描写的是哪里的景色？",
     "options": [
       "长江",
@@ -10088,7 +9217,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 777,
+    "id": 710,
     "question": "中国古代文化中，象征长寿的动物是？",
     "options": [
       "龙",
@@ -10101,7 +9230,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 778,
+    "id": 711,
     "question": "“劝君更尽一杯酒，西出阳关无故人” 中的 “阳关” 在现在的哪个省？",
     "options": [
       "甘肃",
@@ -10114,7 +9243,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 779,
+    "id": 712,
     "question": "以下哪个朝代是中国历史上诗歌创作的黄金时期？",
     "options": [
       "汉朝",
@@ -10127,7 +9256,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 780,
+    "id": 713,
     "question": "“人固有一死，或重于泰山，或轻于鸿毛” 是谁说的？",
     "options": [
       "孔子",
@@ -10140,7 +9269,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 781,
+    "id": 714,
     "question": "中国古代神话中，夸父逐日的目的是？",
     "options": [
       "追赶太阳",
@@ -10153,7 +9282,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 782,
+    "id": 715,
     "question": "“遥知不是雪，为有暗香来” 描写的是什么花？",
     "options": [
       "梨花",
@@ -10166,7 +9295,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 783,
+    "id": 716,
     "question": "以下哪个成语形容学习勤奋刻苦？",
     "options": [
       "凿壁偷光",
@@ -10179,20 +9308,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 784,
-    "question": "中国古代第一部字典是？",
-    "options": [
-      "《尔雅》",
-      "《说文解字》",
-      "《康熙字典》",
-      "《新华字典》"
-    ],
-    "answer": 1,
-    "explanation": "《说文解字》是中国第一部系统地分析汉字字形和考究字源的语文辞书，也是世界上最早的字典之一。",
-    "category": "文学文化"
-  },
-  {
-    "id": 785,
+    "id": 717,
     "question": "中国古代四大名著中，哪一部作品描写了农民起义？",
     "options": [
       "《西游记》",
@@ -10205,7 +9321,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 786,
+    "id": 718,
     "question": "“月上柳梢头，人约黄昏后” 描写的是哪个传统节日？",
     "options": [
       "春节",
@@ -10218,7 +9334,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 787,
+    "id": 719,
     "question": "中国古代神话中，炼石补天的是？",
     "options": [
       "女娲",
@@ -10231,7 +9347,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 788,
+    "id": 720,
     "question": "“生当作人杰，死亦为鬼雄” 是哪位诗人的诗句？",
     "options": [
       "李清照",
@@ -10244,7 +9360,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 789,
+    "id": 721,
     "question": "以下哪个不是中国古代对书信的称呼？",
     "options": [
       "鸿雁",
@@ -10257,7 +9373,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 790,
+    "id": 722,
     "question": "以下哪个是中国古代用于计时的工具？",
     "options": [
       "日晷guǐ",
@@ -10270,7 +9386,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 791,
+    "id": 723,
     "question": "中国古代文化中，与 “龙、凤、龟” 并称 “四灵” 的是？",
     "options": [
       "麒麟",
@@ -10283,7 +9399,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 792,
+    "id": 724,
     "question": "“四书五经” 是中国古代儒家经典，其中 “四书” 不包括以下哪部作品？",
     "options": [
       "《大学》",
@@ -10296,7 +9412,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 793,
+    "id": 725,
     "question": "中国传统建筑中，“四合院” 的布局特点是？",
     "options": [
       "中轴对称",
@@ -10309,7 +9425,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 794,
+    "id": 726,
     "question": "以下哪个成语与古代的射箭技艺有关？",
     "options": [
       "百步穿杨",
@@ -10322,7 +9438,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 795,
+    "id": 727,
     "question": "中国古代绘画作品《洛神赋图》是根据哪位诗人的作品创作的？",
     "options": [
       "曹操",
@@ -10335,7 +9451,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 796,
+    "id": 728,
     "question": "中国古代民间传说中，白蛇传的故事发生在哪个城市？",
     "options": [
       "杭州",
@@ -10348,7 +9464,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 797,
+    "id": 729,
     "question": "以下哪个是中国古代民间信仰中主管婚姻的神？",
     "options": [
       "月老",
@@ -10361,7 +9477,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 798,
+    "id": 730,
     "question": "中国古代 “二十四节气” 中，标志着仲春时节开始的节气是？",
     "options": [
       "立春",
@@ -10374,7 +9490,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 799,
+    "id": 731,
     "question": "中国古代历史上，提出 “罢黜百家，独尊儒术” 的是？",
     "options": [
       "孔子",
@@ -10387,7 +9503,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 800,
+    "id": 732,
     "question": "中国古代文化中，“笔墨纸砚” 被称为 “文房四宝”，其中 “宣纸” 主要产于哪个地方？",
     "options": [
       "安徽宣城",
@@ -10400,7 +9516,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 801,
+    "id": 733,
     "question": "中国古代神话中，相传为人们尝百草的是？",
     "options": [
       "黄帝",
@@ -10413,7 +9529,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 802,
+    "id": 734,
     "question": "中国古代历史上，发明活字印刷术的是？",
     "options": [
       "蔡伦",
@@ -10426,7 +9542,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 803,
+    "id": 735,
     "question": "中国传统节日中，“腊八节” 喝腊八粥的习俗与哪位历史人物有关？",
     "options": [
       "朱元璋",
@@ -10439,7 +9555,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 804,
+    "id": 736,
     "question": "中国古代绘画中，常以哪种花卉象征富贵？",
     "options": [
       "梅花",
@@ -10452,7 +9568,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 805,
+    "id": 737,
     "question": "中国古代历史上，“杯酒释兵权” 的故事与哪位皇帝有关？",
     "options": [
       "赵匡胤",
@@ -10465,7 +9581,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 806,
+    "id": 738,
     "question": "中国古代历史上，“赤壁之战” 发生在哪个朝代？",
     "options": [
       "东汉末年",
@@ -10478,7 +9594,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 807,
+    "id": 739,
     "question": "中国古代历史上，“商鞅变法” 发生在哪个国家？",
     "options": [
       "齐国",
@@ -10491,7 +9607,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 808,
+    "id": 740,
     "question": "中国古代绘画中，“写意画” 注重什么？",
     "options": [
       "描绘事物的外形",
@@ -10504,7 +9620,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 809,
+    "id": 741,
     "question": "中国古代绘画作品《清明上河图》描绘的是哪个城市的景象？",
     "options": [
       "长安",
@@ -10517,7 +9633,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 810,
+    "id": 742,
     "question": "中国古代科技发明中，地动仪的主要用途是？",
     "options": [
       "测量地震方向",
@@ -10530,7 +9646,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 811,
+    "id": 743,
     "question": "中国古代历史上，“百家争鸣” 的局面出现在哪个时期？",
     "options": [
       "夏朝",
@@ -10543,7 +9659,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 812,
+    "id": 744,
     "question": "中国传统节日 “元宵节” 又被称为？",
     "options": [
       "上元节",
@@ -10556,7 +9672,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 813,
+    "id": 745,
     "question": "中国古代绘画中，“工笔画” 的特点是？",
     "options": [
       "注重笔墨情趣",
@@ -10569,7 +9685,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 814,
+    "id": 746,
     "question": "中国古代历史上，“三曹” 指的是曹操、曹丕和谁？",
     "options": [
       "曹彰",
@@ -10582,7 +9698,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 815,
+    "id": 747,
     "question": "中国传统手工艺中，“榫卯” 结构主要应用于哪种工艺？",
     "options": [
       "陶瓷制作",
@@ -10595,7 +9711,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 816,
+    "id": 748,
     "question": "中国古代文化中，“岁寒三友” 除了松、竹，还有什么？",
     "options": [
       "梅",
@@ -10608,7 +9724,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 817,
+    "id": 749,
     "question": "中国古代历史上，“纸上谈兵” 的主人公赵括是哪个国家的将领？",
     "options": [
       "齐国",
@@ -10621,7 +9737,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 818,
+    "id": 750,
     "question": "中国古代文学中，“唐宋八大家” 之一的韩愈是哪个朝代的文学家？",
     "options": [
       "唐朝",
@@ -10634,7 +9750,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 819,
+    "id": 751,
     "question": "中国古代历史上，“杯弓蛇影” 的故事告诉我们什么道理？",
     "options": [
       "不要盲目相信他人",
@@ -10647,7 +9763,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 820,
+    "id": 752,
     "question": "中国传统手工艺中，“刺绣” 工艺中最著名的四大名绣不包括以下哪一项？",
     "options": [
       "苏绣",
@@ -10660,7 +9776,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 821,
+    "id": 753,
     "question": "中国古代历史上，“闻鸡起舞” 的主人公是祖逖tì和谁？",
     "options": [
       "刘琨",
@@ -10673,7 +9789,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 822,
+    "id": 754,
     "question": "中国传统节日 “七夕节”，牛郎织女相会的鹊桥是由什么搭建的？",
     "options": [
       "喜鹊",
@@ -10686,7 +9802,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 823,
+    "id": 755,
     "question": "中国古代文学作品《离骚》的作者是？",
     "options": [
       "孔子",
@@ -10699,7 +9815,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 824,
+    "id": 756,
     "question": "中国古代历史上，“草木皆兵” 的故事发生在什么战役中？",
     "options": [
       "巨鹿之战",
@@ -10712,7 +9828,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 825,
+    "id": 757,
     "question": "中国传统节日 “清明节”，除了扫墓祭祖，还有什么习俗？",
     "options": [
       "踏青",
@@ -10725,7 +9841,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 826,
+    "id": 758,
     "question": "中国古代文学中，“乐府双璧” 指的是《木兰诗》和什么？",
     "options": [
       "《孔雀东南飞》",
@@ -10738,7 +9854,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 827,
+    "id": 759,
     "question": "中国古代文化中，“六艺” 中的 “礼” 包括以下哪些礼仪？",
     "options": [
       "祭祀之礼",
@@ -10751,7 +9867,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 828,
+    "id": 760,
     "question": "中国古代历史上，“纸上谈兵” 的故事给我们的启示是什么？",
     "options": [
       "理论要与实践相结合",
@@ -10764,7 +9880,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 829,
+    "id": 761,
     "question": "中国古代服饰中，“旗袍” 起源于哪个民族的传统服饰？",
     "options": [
       "汉族",
@@ -10777,7 +9893,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 830,
+    "id": 762,
     "question": "中国古代传统医学中，“望闻问切” 被称为四诊法，它是由哪位名医总结出来的？",
     "options": [
       "扁鹊",
@@ -10790,7 +9906,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 831,
+    "id": 763,
     "question": "中国古代文学作品《论语》是一部记录什么的著作？",
     "options": [
       "孔子及其弟子言行",
@@ -10803,7 +9919,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 832,
+    "id": 764,
     "question": "中国古代文化中，“二十四节气” 里，既是节气又是节日的是哪个？",
     "options": [
       "立春",
@@ -10816,7 +9932,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 833,
+    "id": 765,
     "question": "中国古代绘画中，“山水画” 注重表现什么？",
     "options": [
       "人物形象",
@@ -10829,7 +9945,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 834,
+    "id": 766,
     "question": "中国古代神话中，“后羿射日” 的故事里，后羿射下了几个太阳？",
     "options": [
       "8 个",
@@ -10842,7 +9958,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 835,
+    "id": 767,
     "question": "中国古代文学作品《西游记》中，孙悟空的第一个师傅是谁？",
     "options": [
       "唐僧",
@@ -10855,7 +9971,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 836,
+    "id": 768,
     "question": "中国古代历史上，“开元盛世” 是哪个皇帝统治时期的盛世局面？",
     "options": [
       "唐太宗",
@@ -10868,7 +9984,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 837,
+    "id": 769,
     "question": "中国古代文化中，“六艺” 中的 “御” 指的是什么？",
     "options": [
       "驾车",
@@ -10881,20 +9997,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 838,
-    "question": "中国古代绘画作品《清明上河图》描绘的是哪个季节的景象？",
-    "options": [
-      "春季",
-      "夏季",
-      "秋季",
-      "冬季"
-    ],
-    "answer": 0,
-    "explanation": "从《清明上河图》中人物的穿着、树木的状态以及一些细节描绘等方面可以推断，它描绘的是春季的景象，展现了春天里北宋都城汴京的繁华 。",
-    "category": "文学文化"
-  },
-  {
-    "id": 839,
+    "id": 770,
     "question": "中国古代神话中，“女娲补天” 用的是什么材料？",
     "options": [
       "五彩石",
@@ -10907,7 +10010,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 840,
+    "id": 771,
     "question": "中国传统手工艺中，“陶瓷” 按照烧制温度从低到高排列，正确的是？",
     "options": [
       "陶器、瓷器、炻器",
@@ -10920,7 +10023,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 841,
+    "id": 772,
     "question": "中国古代历史上，“安史之乱” 爆发于哪个皇帝在位时期？",
     "options": [
       "唐太宗",
@@ -10933,7 +10036,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 842,
+    "id": 773,
     "question": "中国古代文化中，“二十四节气” 里表示昼夜平分的节气是哪两个？",
     "options": [
       "春分和秋分",
@@ -10946,7 +10049,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 843,
+    "id": 774,
     "question": "中国古代文学作品《三国演义》中，“过五关斩六将” 的主人公是谁？",
     "options": [
       "张飞",
@@ -10959,7 +10062,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 844,
+    "id": 775,
     "question": "具有冬眠习性的动物是？",
     "options": [
       "燕子",
@@ -10972,7 +10075,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 845,
+    "id": 776,
     "question": "世界上最大的动物是什么？",
     "options": [
       "大象",
@@ -10985,7 +10088,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 846,
+    "id": 777,
     "question": "以下哪种植物是四季常绿的？",
     "options": [
       "柳树",
@@ -10998,7 +10101,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 847,
+    "id": 778,
     "question": "哪种动物是我国特有的珍稀物种，被誉为 “活化石”？",
     "options": [
       "大熊猫",
@@ -11011,7 +10114,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 848,
+    "id": 779,
     "question": "哪种植物遇外界触碰，叶子会迅速闭合，一段时间后再展开？",
     "options": [
       "捕蝇草",
@@ -11024,7 +10127,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 849,
+    "id": 780,
     "question": "哪种动物有三个心脏，血液是蓝色的？",
     "options": [
       "章鱼",
@@ -11037,7 +10140,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 850,
+    "id": 781,
     "question": "哪种植物的花会在一天中变色，吸引不同时段传粉者？",
     "options": [
       "牵牛花",
@@ -11050,7 +10153,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 851,
+    "id": 782,
     "question": "哪种动物能通过超声波定位和捕食，在黑暗中准确找猎物？",
     "options": [
       "蝙蝠",
@@ -11063,7 +10166,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 852,
+    "id": 783,
     "question": "哪种植物寄生在其他植物根部，无叶绿素，不能光合作用？",
     "options": [
       "绿萝",
@@ -11076,7 +10179,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 853,
+    "id": 784,
     "question": "哪种动物眼睛能独立转动，同时观察不同方向，提高警惕性？",
     "options": [
       "变色龙",
@@ -11089,7 +10192,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 854,
+    "id": 785,
     "question": "哪种动物会用树枝伸进蚁穴钓蚂蚁吃？",
     "options": [
       "猴子",
@@ -11102,7 +10205,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 855,
+    "id": 786,
     "question": "哪种植物果实成熟后自动裂开，靠弹力弹射种子？",
     "options": [
       "椰子",
@@ -11115,7 +10218,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 856,
+    "id": 787,
     "question": "哪种动物耳朵能听声音、调节体温，炎热时还常扇动耳朵？",
     "options": [
       "大象",
@@ -11128,7 +10231,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 857,
+    "id": 788,
     "question": "哪种植物花朵模拟昆虫形态或气味，吸引昆虫传粉？",
     "options": [
       "兰花",
@@ -11141,7 +10244,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 858,
+    "id": 789,
     "question": "哪种动物遇危险会蜷缩成刺球，让天敌无从下口？",
     "options": [
       "刺猬",
@@ -11154,7 +10257,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 859,
+    "id": 790,
     "question": "哪种植物春季开花结果，果实成熟吸引鸟类啄食，鸟类粪便传播种子？",
     "options": [
       "桑树",
@@ -11167,7 +10270,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 860,
+    "id": 791,
     "question": "哪种动物喜欢在树洞里安家？",
     "options": [
       "松鼠",
@@ -11180,7 +10283,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 861,
+    "id": 792,
     "question": "以下哪种植物的叶子像手掌？",
     "options": [
       "枫叶",
@@ -11193,7 +10296,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 862,
+    "id": 793,
     "question": "哪种动物会在冬天储存食物？",
     "options": [
       "麻雀",
@@ -11206,7 +10309,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 863,
+    "id": 794,
     "question": "哪种植物的茎上有很多刺？",
     "options": [
       "月季花",
@@ -11219,7 +10322,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 864,
+    "id": 795,
     "question": "哪种动物会游泳，还喜欢在泥里打滚？",
     "options": [
       "猫",
@@ -11232,7 +10335,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 865,
+    "id": 796,
     "question": "哪种植物的花是白色的，而且有很浓的香味？",
     "options": [
       "玫瑰花",
@@ -11245,7 +10348,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 866,
+    "id": 797,
     "question": "哪种植物的叶子是细细长长的，像针一样？",
     "options": [
       "松树",
@@ -11258,7 +10361,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 867,
+    "id": 798,
     "question": "哪种植物的花可以用来制作药材？",
     "options": [
       "喇叭花",
@@ -11271,7 +10374,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 868,
+    "id": 799,
     "question": "哪种动物会打洞，住在地下？",
     "options": [
       "兔子",
@@ -11284,7 +10387,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 869,
+    "id": 800,
     "question": "哪种植物的叶子可以用来包粽子？",
     "options": [
       "荷叶",
@@ -11297,7 +10400,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 870,
+    "id": 801,
     "question": "哪种动物会唱歌，歌声很好听？",
     "options": [
       "乌鸦",
@@ -11310,7 +10413,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 871,
+    "id": 802,
     "question": "哪种植物的根可以吃，而且是红色的？",
     "options": [
       "胡萝卜",
@@ -11323,7 +10426,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 872,
+    "id": 803,
     "question": "哪种动物会在天上飞，还会捉害虫？",
     "options": [
       "燕子",
@@ -11336,7 +10439,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 873,
+    "id": 804,
     "question": "哪种植物的花很大，而且是红色的，被称为 “花中之王”？",
     "options": [
       "玫瑰花",
@@ -11349,7 +10452,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 874,
+    "id": 805,
     "question": "哪种动物会冬眠，整个冬天都在睡觉？",
     "options": [
       "松鼠",
@@ -11362,7 +10465,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 875,
+    "id": 806,
     "question": "哪种动物会游泳，而且游得很快，还会在水里翻跟头？",
     "options": [
       "海豚",
@@ -11375,7 +10478,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 876,
+    "id": 807,
     "question": "哪种植物的叶子是绿色的，而且长得像一把把小扇子？",
     "options": [
       "银杏",
@@ -11388,7 +10491,7 @@ questionBank = [
     "category": "植物知识"
   },
   {
-    "id": 877,
+    "id": 808,
     "question": "哪种动物会在夜晚发出 “咕咕” 的叫声？",
     "options": [
       "猫头鹰",
@@ -11401,7 +10504,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 878,
+    "id": 809,
     "question": "哪种动物会在天空中飞翔，而且会排成 “人” 字形或 “一” 字形？",
     "options": [
       "大雁",
@@ -11414,7 +10517,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 879,
+    "id": 810,
     "question": "哪种动物会在土里钻来钻去，帮助土壤变得更疏松？",
     "options": [
       "蚯蚓",
@@ -11427,7 +10530,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 880,
+    "id": 811,
     "question": "肺气体交换靠？",
     "options": [
       "肺血管吸氧气",
@@ -11440,7 +10543,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 881,
+    "id": 812,
     "question": "能撕裂食物的牙齿是？",
     "options": [
       "切牙",
@@ -11453,7 +10556,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 882,
+    "id": 813,
     "question": "从亮处到暗处，瞳孔会？",
     "options": [
       "不变",
@@ -11466,7 +10569,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 883,
+    "id": 814,
     "question": "皮肤疼痛感受器作用是？",
     "options": [
       "让人不适",
@@ -11479,7 +10582,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 884,
+    "id": 815,
     "question": "运动后出汗不具备的作用是？",
     "options": [
       "排出废物",
@@ -11492,7 +10595,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 885,
+    "id": 816,
     "question": "预防夜盲症的维生素是？",
     "options": [
       "维生素 A",
@@ -11505,7 +10608,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 886,
+    "id": 817,
     "question": "感冒嗅觉不灵的原因是？",
     "options": [
       "鼻子堵塞",
@@ -11518,7 +10621,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 887,
+    "id": 818,
     "question": "血液呈红色的原因是？",
     "options": [
       "含蓝色素",
@@ -11531,7 +10634,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 888,
+    "id": 819,
     "question": "手指划破止血靠血液中的？",
     "options": [
       "红细胞",
@@ -11544,7 +10647,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 889,
+    "id": 820,
     "question": "对骨骼生长重要且含钙多的食物是？",
     "options": [
       "苹果",
@@ -11557,7 +10660,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 890,
+    "id": 821,
     "question": "晒太阳合成助钙吸收的维生素是？",
     "options": [
       "维生素 B",
@@ -11570,7 +10673,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 891,
+    "id": 822,
     "question": "味蕾感知味道靠？",
     "options": [
       "味觉细胞识别",
@@ -11583,7 +10686,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 892,
+    "id": 823,
     "question": "消化食物和吸收营养的主要器官是？",
     "options": [
       "胃",
@@ -11596,7 +10699,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 893,
+    "id": 824,
     "question": "伤口发炎初期吞噬病菌的白细胞是？",
     "options": [
       "淋巴细胞",
@@ -11609,7 +10712,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 894,
+    "id": 825,
     "question": "人的正常体温约为？",
     "options": [
       "35℃",
@@ -11622,7 +10725,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 895,
+    "id": 826,
     "question": "头发从哪里长出来？",
     "options": [
       "头皮毛囊",
@@ -11635,7 +10738,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 896,
+    "id": 827,
     "question": "对眼睛有害的行为是？",
     "options": [
       "做眼保健操",
@@ -11648,7 +10751,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 897,
+    "id": 828,
     "question": "关节中关节软骨的作用是？",
     "options": [
       "连接骨头",
@@ -11661,7 +10764,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 898,
+    "id": 829,
     "question": "紧张或运动后心跳会？",
     "options": [
       "变慢",
@@ -11674,7 +10777,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 899,
+    "id": 830,
     "question": "富含蛋白质且对生长发育重要的食物是？",
     "options": [
       "米饭",
@@ -11687,7 +10790,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 900,
+    "id": 831,
     "question": "皮肤伤口愈合痒是因为？",
     "options": [
       "细菌感染",
@@ -11700,7 +10803,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 901,
+    "id": 832,
     "question": "声音最先进入耳朵的？",
     "options": [
       "中耳",
@@ -11713,7 +10816,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 902,
+    "id": 833,
     "question": "运动时呼吸加快的原因是？",
     "options": [
       "身体累",
@@ -11726,7 +10829,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 903,
+    "id": 834,
     "question": "多吃蔬菜有益是因富含？",
     "options": [
       "维生素和膳食纤维",
@@ -11739,7 +10842,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 904,
+    "id": 835,
     "question": "身体能直立靠？",
     "options": [
       "肌肉和骨骼",
@@ -11752,7 +10855,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 905,
+    "id": 836,
     "question": "大笑时声音从哪里发出？",
     "options": [
       "口腔",
@@ -11765,7 +10868,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 906,
+    "id": 837,
     "question": "能促进肠道蠕动的食物是？",
     "options": [
       "巧克力",
@@ -11778,7 +10881,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 907,
+    "id": 838,
     "question": "身体里制造尿液的器官是？",
     "options": [
       "膀胱",
@@ -11791,7 +10894,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 908,
+    "id": 839,
     "question": "皮肤能感受的不包括？",
     "options": [
       "冷",
@@ -11804,7 +10907,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 909,
+    "id": 840,
     "question": "能帮助身体抵抗疾病的细胞是？",
     "options": [
       "红细胞",
@@ -11817,7 +10920,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 910,
+    "id": 841,
     "question": "人体的消化系统中，能吸收大部分营养物质的部位是小肠的什么结构？",
     "options": [
       "绒毛",
@@ -11830,7 +10933,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 911,
+    "id": 842,
     "question": "我们在运动时，肌肉会产生酸痛感，主要是因为什么？",
     "options": [
       "肌肉拉伤",
@@ -11843,7 +10946,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 912,
+    "id": 843,
     "question": "人体的呼吸系统中，气体交换的主要场所肺泡壁和毛细血管壁有什么特点？",
     "options": [
       "都很薄，只有一层上皮细胞",
@@ -11856,7 +10959,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 913,
+    "id": 844,
     "question": "人的大脑分为左右两个半球，它们在功能上有一定分工，其中左半球主要负责什么？",
     "options": [
       "空间感知",
@@ -11869,7 +10972,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 914,
+    "id": 845,
     "question": "当我们喝水不足时，身体会发生什么变化？",
     "options": [
       "尿量增多",
@@ -11882,7 +10985,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 915,
+    "id": 846,
     "question": "人体的骨骼在生长过程中，需要多种营养物质，除了钙之外，还需要哪种重要的营养物质来促进骨骼的生长和修复？",
     "options": [
       "铁",
@@ -11895,7 +10998,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 916,
+    "id": 847,
     "question": "当我们吃了过咸的食物后，身体会如何调节？",
     "options": [
       "口渴，促使我们多喝水",
@@ -11908,7 +11011,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 917,
+    "id": 848,
     "question": "人体的免疫系统中，有一种细胞能够记住入侵的病菌，当再次遇到相同病菌时能迅速产生免疫反应，这种细胞是什么？",
     "options": [
       "巨噬细胞",
@@ -11921,7 +11024,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 918,
+    "id": 849,
     "question": "我们在剧烈运动后，呼吸和心跳会加快，这是身体的什么系统在调节？",
     "options": [
       "神经系统和内分泌系统",
@@ -11934,7 +11037,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 919,
+    "id": 850,
     "question": "我们在饥饿时，身体会出现一些反应，这是因为身体内的哪种物质供应不足？",
     "options": [
       "脂肪",
@@ -11947,7 +11050,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 920,
+    "id": 851,
     "question": "人体的泌尿系统中，尿液形成后，暂时储存在哪里？",
     "options": [
       "肾脏",
@@ -11960,7 +11063,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 921,
+    "id": 852,
     "question": "当我们遇到寒冷刺激时，身体会出现颤抖现象，这是身体的一种什么反应？",
     "options": [
       "生病的症状",
@@ -11973,7 +11076,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 922,
+    "id": 853,
     "question": "当我们的皮肤被蚊虫叮咬后，会出现红肿、瘙痒的症状，这是因为身体产生了什么反应？",
     "options": [
       "过敏反应",
@@ -11986,7 +11089,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 923,
+    "id": 854,
     "question": "我们在运动后，应该如何正确补充水分？",
     "options": [
       "大量快速饮水",
@@ -11999,7 +11102,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 924,
+    "id": 855,
     "question": "当我们的手不小心碰到烫的东西时，会迅速缩回，这种反应叫什么？",
     "options": [
       "反射",
@@ -12012,7 +11115,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 925,
+    "id": 856,
     "question": "我们在学习新知识时，大脑会发生什么变化？",
     "options": [
       "神经元数量增加",
@@ -12025,7 +11128,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 926,
+    "id": 857,
     "question": "人体共有多少块骨头？",
     "options": [
       "106 块",
@@ -12038,7 +11141,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 927,
+    "id": 858,
     "question": "人正常的心率范围是每分钟多少次？",
     "options": [
       "30 - 50 次",
@@ -12051,7 +11154,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 928,
+    "id": 859,
     "question": "我们身体里能产生抗体，帮助抵抗疾病的细胞是？",
     "options": [
       "红细胞",
@@ -12064,7 +11167,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 929,
+    "id": 860,
     "question": "人在呼吸时，呼出的气体中含量最多的是？",
     "options": [
       "氧气",
@@ -12077,7 +11180,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 930,
+    "id": 861,
     "question": "人体的哪个部位是食物消化和吸收的主要场所？",
     "options": [
       "胃",
@@ -12090,7 +11193,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 931,
+    "id": 862,
     "question": "哪种维生素可以促进钙的吸收，对骨骼健康很重要？",
     "options": [
       "维生素 A",
@@ -12103,7 +11206,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 932,
+    "id": 863,
     "question": "人在青春期时，身体会发生很多变化，以下不属于青春期身体变化的是？",
     "options": [
       "身高快速增长",
@@ -12116,7 +11219,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 933,
+    "id": 864,
     "question": "以下哪种食物富含蛋白质，对身体生长发育很重要？",
     "options": [
       "米饭",
@@ -12129,7 +11232,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 934,
+    "id": 865,
     "question": "人体的泌尿系统中，形成尿液的器官是？",
     "options": [
       "膀胱",
@@ -12142,7 +11245,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 935,
+    "id": 866,
     "question": "我们在运动时，呼吸会加快，这是因为身体需要更多的什么？",
     "options": [
       "氧气",
@@ -12155,7 +11258,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 936,
+    "id": 867,
     "question": "人体的骨骼中，哪块骨头保护着我们的大脑？",
     "options": [
       "颅骨",
@@ -12168,7 +11271,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 937,
+    "id": 868,
     "question": "人体的内分泌系统中，能分泌胰岛素，调节血糖水平的是？",
     "options": [
       "甲状腺",
@@ -12181,7 +11284,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 938,
+    "id": 869,
     "question": "我们身体的血液循环分为体循环和肺循环，体循环的起点是？",
     "options": [
       "左心房",
@@ -12194,7 +11297,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 939,
+    "id": 870,
     "question": "人在睡眠时，身体的哪个系统活动会相对减弱？",
     "options": [
       "呼吸系统",
@@ -12207,7 +11310,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 940,
+    "id": 871,
     "question": "以下哪种食物含有丰富的维生素 C ？",
     "options": [
       "橙子",
@@ -12220,7 +11323,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 941,
+    "id": 872,
     "question": "人体的皮肤有多种感觉，其中不包括以下哪种感觉？",
     "options": [
       "痛觉",
@@ -12233,7 +11336,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 942,
+    "id": 873,
     "question": "人体的血液中，红细胞的主要功能是？",
     "options": [
       "运输氧气",
@@ -12246,7 +11349,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 943,
+    "id": 874,
     "question": "以下哪种食物有助于预防便秘？",
     "options": [
       "油炸食品",
@@ -12259,7 +11362,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 944,
+    "id": 875,
     "question": "人体的骨骼生长需要多种营养，其中钙主要来源于以下哪种食物？",
     "options": [
       "菠菜",
@@ -12272,7 +11375,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 945,
+    "id": 876,
     "question": "人体的哪个部位连接着大脑和身体的其他部分，是神经传导的重要通道？",
     "options": [
       "脊髓",
@@ -12285,7 +11388,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 946,
+    "id": 877,
     "question": "人体的呼吸系统中，哪个器官是气体进出的通道，还能对吸入的气体进行温暖、湿润和清洁？",
     "options": [
       "鼻腔",
@@ -12298,7 +11401,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 947,
+    "id": 878,
     "question": "以下哪种食物含有丰富的铁元素，有助于预防缺铁性贫血？",
     "options": [
       "大米",
@@ -12311,7 +11414,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 948,
+    "id": 879,
     "question": "以下哪种水果在成熟后会散发独特的香气，可以作为判断其成熟度的依据？",
     "options": [
       "苹果",
@@ -12324,7 +11427,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 949,
+    "id": 880,
     "question": "在熨烫衣物时，以下哪种做法可以防止衣物被烫伤？",
     "options": [
       "在衣物表面喷些水",
@@ -12337,7 +11440,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 950,
+    "id": 881,
     "question": "在清洁玻璃时，以下哪种物品可以让玻璃更干净且不留水渍？",
     "options": [
       "洗洁精",
@@ -12350,7 +11453,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 951,
+    "id": 882,
     "question": "以下哪种食物搭配在一起食用，会降低食物的营养价值？",
     "options": [
       "菠菜和豆腐",
@@ -12363,7 +11466,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 952,
+    "id": 883,
     "question": "在种植室内植物时，以下哪种情况说明植物可能缺水了？",
     "options": [
       "叶片发黄且下垂",
@@ -12376,7 +11479,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 953,
+    "id": 884,
     "question": "在手工制作纸灯笼时，以下哪种材料可以用来让灯笼更坚固？",
     "options": [
       "胶水",
@@ -12389,7 +11492,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 954,
+    "id": 885,
     "question": "在清洁厨房的不锈钢水槽时，以下哪种方法可以去除水槽上的水渍和污渍？",
     "options": [
       "用钢丝球用力擦洗",
@@ -12402,7 +11505,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 955,
+    "id": 886,
     "question": "在烹饪肉类时，以下哪种做法可以使肉的口感更鲜嫩？",
     "options": [
       "将肉切成小块后直接下锅",
@@ -12415,7 +11518,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 956,
+    "id": 887,
     "question": "在种植多肉植物时，以下哪种土壤更适合多肉生长？",
     "options": [
       "普通园土",
@@ -12428,7 +11531,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 957,
+    "id": 888,
     "question": "在烹饪鱼类时，加入料酒和姜片主要是为了什么？",
     "options": [
       "增加鱼的鲜味",
@@ -12441,7 +11544,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 958,
+    "id": 889,
     "question": "在清洁毛绒玩具时，以下哪种方法可以既清洁干净又不损伤玩具？",
     "options": [
       "用洗衣机直接清洗",
@@ -12454,7 +11557,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 959,
+    "id": 890,
     "question": "在制作水果沙拉时，以下哪种水果适合最后加入，以免氧化变色？",
     "options": [
       "苹果",
@@ -12467,7 +11570,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 960,
+    "id": 891,
     "question": "在制作冰淇淋时，以下哪种材料可以使冰淇淋更加细腻顺滑？",
     "options": [
       "淀粉",
@@ -12480,7 +11583,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 961,
+    "id": 892,
     "question": "在种植花卉时，以下哪种情况可能是花卉缺乏肥料的表现？",
     "options": [
       "花朵颜色鲜艳",
@@ -12493,7 +11596,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 962,
+    "id": 893,
     "question": "在烹饪鸡蛋时，煮鸡蛋的时间一般控制在多少分钟比较合适（以普通大小鸡蛋为例）？",
     "options": [
       "3 - 5 分钟",
@@ -12506,7 +11609,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 963,
+    "id": 894,
     "question": "苹果切开后为什么会变色？",
     "options": [
       "因为被空气氧化了",
@@ -12519,7 +11622,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 964,
+    "id": 895,
     "question": "剥洋葱时人会流泪，主要原因是？",
     "options": [
       "洋葱含有刺激性物质直接刺激眼睛",
@@ -12532,7 +11635,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 965,
+    "id": 896,
     "question": "香蕉呈现弯曲形状的原因是？",
     "options": [
       "香蕉生长时受重力影响自然下垂",
@@ -12545,7 +11648,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 966,
+    "id": 897,
     "question": "蚊子更倾向于叮咬某些人，原因不包括？",
     "options": [
       "呼出二氧化碳多",
@@ -12558,7 +11661,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 967,
+    "id": 898,
     "question": "在校园里，同学向你倾诉烦恼，你最合适的做法是？",
     "options": [
       "不断打断，分享自己类似经历",
@@ -12571,7 +11674,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 968,
+    "id": 899,
     "question": "当与同学发生矛盾，僵持不下时，应？",
     "options": [
       "找更多人来评理，人多占理",
@@ -12584,7 +11687,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 969,
+    "id": 900,
     "question": "小组合作中，同学提出不同意见，你该？",
     "options": [
       "立刻反驳，捍卫自己观点",
@@ -12597,7 +11700,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 970,
+    "id": 901,
     "question": "新同学融入班级困难，你觉得以下做法哪个最有效？",
     "options": [
       "拉着新同学逐个介绍给全班",
@@ -12610,7 +11713,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 971,
+    "id": 902,
     "question": "在校园交往中，被同学误会偷东西，你会？",
     "options": [
       "愤怒指责对方诬陷",
@@ -12623,7 +11726,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 972,
+    "id": 903,
     "question": "同学考试失利情绪低落，怎样安慰最有效？",
     "options": [
       "“别难过，下次肯定行”",
@@ -12636,7 +11739,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 973,
+    "id": 904,
     "question": "想和同桌建立良好关系，最好的做法是？",
     "options": [
       "每天分享小零食",
@@ -12649,7 +11752,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 974,
+    "id": 905,
     "question": "在校园活动中，有同学总是抢风头，不顾及他人表现机会，你会？",
     "options": [
       "联合其他同学孤立他",
@@ -12662,7 +11765,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 975,
+    "id": 906,
     "question": "下饺子时往锅里加水的目的是什么？",
     "options": [
       "降低水温，防止饺子皮煮破",
@@ -12675,7 +11778,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 976,
+    "id": 907,
     "question": "现代马路普遍采用灰色设计的主要原因是什么？",
     "options": [
       "灰色是沥青材料的自然颜色",
@@ -12688,7 +11791,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 977,
+    "id": 908,
     "question": "手机导航能知道我们在哪，主要靠什么？",
     "options": [
       "通过摄像头看到周围的路牌",
@@ -12701,7 +11804,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 978,
+    "id": 909,
     "question": "电器插座设计成两孔和三孔的主要原因是？",
     "options": [
       "为了适配不同国家的插头标准",
@@ -12714,7 +11817,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 979,
+    "id": 910,
     "question": "中国高铁的正常运营速度是多少？",
     "options": [
       "60公里/小时",
@@ -12727,7 +11830,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 980,
+    "id": 911,
     "question": "《孙子兵法》的作者是？",
     "options": [
       "孙膑",
@@ -12740,7 +11843,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 981,
+    "id": 912,
     "question": "发现美洲新大陆的航海家是？",
     "options": [
       "麦哲伦",
@@ -12753,7 +11856,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 982,
+    "id": 913,
     "question": "《蒙娜丽莎》的创作者是？",
     "options": [
       "米开朗基罗",
@@ -12766,7 +11869,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 983,
+    "id": 914,
     "question": "建立元朝的少数民族是？",
     "options": [
       "女真族",
@@ -12779,7 +11882,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 984,
+    "id": 915,
     "question": "《本草纲目》的作者是？",
     "options": [
       "华佗",
@@ -12792,7 +11895,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 985,
+    "id": 916,
     "question": "中国'两弹一星'元勋不包括？",
     "options": [
       "钱学森",
@@ -12805,7 +11908,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 986,
+    "id": 917,
     "question": "丝绸之路的起点城市是？",
     "options": [
       "西安",
@@ -12818,7 +11921,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 987,
+    "id": 918,
     "question": "发现万有引力的科学家是？",
     "options": [
       "伽利略",
@@ -12831,7 +11934,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 988,
+    "id": 919,
     "question": "中国古代'药王'指的是？",
     "options": [
       "张仲景",
@@ -12844,7 +11947,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 989,
+    "id": 920,
     "question": "蒸汽机的改良者是？",
     "options": [
       "爱迪生",
@@ -12857,7 +11960,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 990,
+    "id": 921,
     "question": "中国古代'茶圣'指的是？",
     "options": [
       "陆羽",
@@ -12870,7 +11973,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 991,
+    "id": 922,
     "question": "《物种起源》的作者是？",
     "options": [
       "孟德尔",
@@ -12883,7 +11986,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 992,
+    "id": 923,
     "question": "计算机科学之父是？",
     "options": [
       "图灵",
@@ -12896,7 +11999,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 993,
+    "id": 924,
     "question": "印象派绘画的代表人物是？",
     "options": [
       "毕加索",
@@ -12909,7 +12012,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 994,
+    "id": 925,
     "question": "《星空》是哪位画家的作品？",
     "options": [
       "毕加索",
@@ -12922,7 +12025,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 995,
+    "id": 926,
     "question": "中国'清明上河图'描绘的是哪个朝代的城市风貌？",
     "options": [
       "唐朝",
@@ -12935,7 +12038,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 996,
+    "id": 927,
     "question": "《向日葵》系列是哪位画家的作品？",
     "options": [
       "梵高",
@@ -12948,7 +12051,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 997,
+    "id": 928,
     "question": "水彩画常用的画笔材质是？",
     "options": [
       "尼龙毛",
@@ -12961,7 +12064,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 998,
+    "id": 929,
     "question": "油画颜料的主要稀释剂是？",
     "options": [
       "水",
@@ -12974,7 +12077,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 999,
+    "id": 930,
     "question": "马克笔按墨水性质分类不包括？",
     "options": [
       "水性",
@@ -12987,7 +12090,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1000,
+    "id": 931,
     "question": "水粉画的特点是？",
     "options": [
       "透明性强",
@@ -13000,7 +12103,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1001,
+    "id": 932,
     "question": "油画布通常需要先做什么处理？",
     "options": [
       "打蜡",
@@ -13013,7 +12116,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1002,
+    "id": 933,
     "question": "宣纸按加工工艺分类不包括？",
     "options": [
       "生宣",
@@ -13026,7 +12129,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1003,
+    "id": 934,
     "question": "彩色铅笔按性质分类不包括？",
     "options": [
       "水溶性",
@@ -13039,7 +12142,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1004,
+    "id": 935,
     "question": "油画干燥时间长的原因是？",
     "options": [
       "颜料含油",
@@ -13052,7 +12155,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1005,
+    "id": 936,
     "question": "水彩画留白常用的方法是？",
     "options": [
       "涂改液",
@@ -13065,7 +12168,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1006,
+    "id": 937,
     "question": "中国画'墨分五色'指的是？",
     "options": [
       "五种颜色",
@@ -13078,7 +12181,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1007,
+    "id": 938,
     "question": "丙烯颜料的特点是？",
     "options": [
       "溶于水",
@@ -13091,7 +12194,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1008,
+    "id": 939,
     "question": "油画笔用后最好用什么清洗？",
     "options": [
       "清水",
@@ -13104,7 +12207,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1009,
+    "id": 940,
     "question": "色彩三原色指的是？",
     "options": [
       "红黄蓝",
@@ -13117,7 +12220,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1010,
+    "id": 941,
     "question": "下列哪种颜色属于暖色系？",
     "options": [
       "蓝色",
@@ -13130,7 +12233,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1011,
+    "id": 942,
     "question": "互补色指的是？",
     "options": [
       "色轮上相邻的颜色",
@@ -13143,7 +12246,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1012,
+    "id": 943,
     "question": "水彩画中'调色三要素'不包括？",
     "options": [
       "色相",
@@ -13156,7 +12259,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1013,
+    "id": 944,
     "question": "下列哪种颜料最透明？",
     "options": [
       "水彩",
@@ -13169,7 +12272,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1014,
+    "id": 945,
     "question": "书法'天下第一行书'是？",
     "options": [
       "《祭侄文稿》",
@@ -13182,7 +12285,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1015,
+    "id": 946,
     "question": "中国画'白描'指的是？",
     "options": [
       "只用白色颜料",
@@ -13195,7 +12298,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1016,
+    "id": 947,
     "question": "下列哪位不是'楷书四大家'？",
     "options": [
       "欧阳询",
@@ -13208,7 +12311,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1017,
+    "id": 948,
     "question": "书法中'飞白'效果是指？",
     "options": [
       "快速书写",
@@ -13221,7 +12324,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1018,
+    "id": 949,
     "question": "下列哪种毛笔的笔头最硬？",
     "options": [
       "羊毫",
@@ -13234,7 +12337,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1019,
+    "id": 950,
     "question": "传统毛笔笔杆最常用的材料是？",
     "options": [
       "紫檀木",
@@ -13247,7 +12350,7 @@ questionBank = [
     "category": "艺术"
   },
   {
-    "id": 1020,
+    "id": 951,
     "question": "课间总是一个人待着，想改变现状应该？",
     "options": [
       "强迫自己主动找人群聊天",
@@ -13260,7 +12363,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 1021,
+    "id": 952,
     "question": "因性格内向被说'不合群'时，可以怎么想？",
     "options": [
       "我确实有问题必须改",
@@ -13273,7 +12376,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 1022,
+    "id": 953,
     "question": "被故意排挤出小组活动时，应该？",
     "options": [
       "默默接受不添麻烦",
@@ -13286,7 +12389,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 1023,
+    "id": 954,
     "question": "父母说'为什么就欺负你'时，可以怎么做？",
     "options": [
       "承认都是自己的错",
@@ -13299,7 +12402,7 @@ questionBank = [
     "category": "心理"
   },
   {
-    "id": 1024,
+    "id": 955,
     "question": "上海普通家庭一个月的水电煤费用大约是？",
     "options": [
       "5000元以上",
@@ -13312,7 +12415,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1025,
+    "id": 956,
     "question": "闻到燃气泄漏的味道时，应该？",
     "options": [
       "立即开灯检查",
@@ -13325,7 +12428,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1026,
+    "id": 957,
     "question": "发现电线掉进水里时，正确的做法是？",
     "options": [
       "立即用手把电线捞出来",
@@ -13338,7 +12441,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1027,
+    "id": 958,
     "question": "月亮什么时候完全看不见？",
     "options": [
       "满月时",
@@ -13351,7 +12454,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1028,
+    "id": 959,
     "question": "中国首个火星探测器叫什么名字？",
     "options": [
       "嫦娥",
@@ -13364,7 +12467,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1029,
+    "id": 960,
     "question": "人类第一个进入太空的宇航员是？",
     "options": [
       "尤里·加加林",
@@ -13377,7 +12480,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1030,
+    "id": 961,
     "question": "中国首次载人航天飞行是在哪一年？",
     "options": [
       "1999年",
@@ -13390,7 +12493,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1031,
+    "id": 962,
     "question": "国际空间站的主要合作伙伴不包括哪个国家？",
     "options": [
       "中国",
@@ -13403,7 +12506,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1032,
+    "id": 963,
     "question": "月球上第一个人类脚印能保存多久？",
     "options": [
       "几年",
@@ -13416,7 +12519,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1033,
+    "id": 964,
     "question": "中国探月工程\"嫦娥\"系列探测器已实现哪些成就？",
     "options": [
       "仅绕月探测",
@@ -13429,7 +12532,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1034,
+    "id": 965,
     "question": "火星表面呈现红色的主要原因是？",
     "options": [
       "红色植物覆盖",
@@ -13442,7 +12545,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1035,
+    "id": 966,
     "question": "中国空间站叫什么名字？",
     "options": [
       "嫦娥",
@@ -13455,7 +12558,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1036,
+    "id": 967,
     "question": "航天员在太空中如何解决饮水问题？",
     "options": [
       "回收尿液和汗液",
@@ -13468,7 +12571,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1037,
+    "id": 968,
     "question": "航天员从空间站返回地球的主要方式是什么？",
     "options": [
       "乘坐航天飞机滑翔着陆",
@@ -13481,7 +12584,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1038,
+    "id": 969,
     "question": "返回舱再入大气层时面临的最大危险是？",
     "options": [
       "氧气不足",
@@ -13494,7 +12597,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1039,
+    "id": 970,
     "question": "中国航天员返回地球的着陆场位于？",
     "options": [
       "甘肃酒泉",
@@ -13507,7 +12610,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1040,
+    "id": 971,
     "question": "截至2023年，中国在轨运行卫星数量约为多少？",
     "options": [
       "约100颗",
@@ -13520,20 +12623,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1041,
-    "question": "截至2023年，美国在轨运行卫星数量约为多少？",
-    "options": [
-      "约500颗",
-      "约1500颗",
-      "约3000颗",
-      "约5000颗"
-    ],
-    "answer": 2,
-    "explanation": "根据美国联邦通信委员会(FCC)数据，美国在轨卫星数量约占全球总数一半，其中SpaceX的星链卫星占很大比例。",
-    "category": "自然科学"
-  },
-  {
-    "id": 1042,
+    "id": 972,
     "question": "中国北斗导航系统由多少颗卫星组成？",
     "options": [
       "24颗",
@@ -13546,7 +12636,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1043,
+    "id": 973,
     "question": "台风预警信号中，最高级别是什么颜色？",
     "options": [
       "蓝色",
@@ -13559,7 +12649,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1044,
+    "id": 974,
     "question": "导致天气预报不准确的最主要原因是？",
     "options": [
       "气象观测设备不足",
@@ -13572,7 +12662,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1045,
+    "id": 975,
     "question": "标准降雨量的测量单位是？",
     "options": [
       "毫米(mm)",
@@ -13585,7 +12675,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1046,
+    "id": 976,
     "question": "24小时降雨量50mm属于什么等级？",
     "options": [
       "小雨",
@@ -13598,7 +12688,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1047,
+    "id": 977,
     "question": "以下哪个不是我国现役/在建航空母舰的名称？",
     "options": [
       "辽宁舰",
@@ -13611,7 +12701,7 @@ questionBank = [
     "category": "军事知识"
   },
   {
-    "id": 1048,
+    "id": 978,
     "question": "被称为\"中国导弹之父\"的科学家是谁？",
     "options": [
       "袁隆平",
@@ -13624,7 +12714,7 @@ questionBank = [
     "category": "军事知识"
   },
   {
-    "id": 1049,
+    "id": 979,
     "question": "我国第一颗人造卫星\"东方红一号\"发射于哪个基地？",
     "options": [
       "西昌卫星发射中心",
@@ -13637,20 +12727,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1050,
-    "question": "我国空间站叫什么名字？",
-    "options": [
-      "嫦娥",
-      "北斗",
-      "玉兔",
-      "天宫"
-    ],
-    "answer": 3,
-    "explanation": "天宫空间站由天和核心舱、问天实验舱等组成，2022年完成建造。",
-    "category": "自然科学"
-  },
-  {
-    "id": 1051,
+    "id": 980,
     "question": "铅笔的笔芯主要成分是什么？",
     "options": [
       "石墨和黏土",
@@ -13663,7 +12740,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1052,
+    "id": 981,
     "question": "橡皮擦能擦除铅笔字迹的原理是？",
     "options": [
       "溶解石墨",
@@ -13676,7 +12753,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1053,
+    "id": 982,
     "question": "杜比全景声(Dolby Atmos)的核心创新是？",
     "options": [
       "增加扬声器数量",
@@ -13689,7 +12766,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1054,
+    "id": 983,
     "question": "为什么爆米花成为电影院标志性零食？",
     "options": [
       "二战时期粮食短缺",
@@ -13702,7 +12779,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1055,
+    "id": 984,
     "question": "为什么奶茶店冰块总是空心设计？",
     "options": [
       "防止顾客被冻伤",
@@ -13715,7 +12792,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1056,
+    "id": 985,
     "question": "充电时玩手机真的会损坏电池吗？",
     "options": [
       "会显著缩短寿命",
@@ -13728,7 +12805,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1057,
+    "id": 986,
     "question": "智能手机触屏工作的主要原理是什么？",
     "options": [
       "通过压力感应确定触摸位置",
@@ -13741,7 +12818,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1058,
+    "id": 987,
     "question": "手机扫码功能的工作原理主要是？",
     "options": [
       "识别二维码的颜色深浅",
@@ -13754,7 +12831,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1059,
+    "id": 988,
     "question": "AI回答问题的核心流程是？",
     "options": [
       "从数据库直接调取答案",
@@ -13767,7 +12844,7 @@ questionBank = [
     "category": "自然科学"
   },
   {
-    "id": 1060,
+    "id": 989,
     "question": "世界上字数最多的著作是？",
     "options": [
       "《永乐大典》",
@@ -13780,7 +12857,7 @@ questionBank = [
     "category": "文学文化"
   },
   {
-    "id": 1061,
+    "id": 990,
     "question": "公元755年属于中国哪个朝代？",
     "options": [
       "汉朝",
@@ -13793,7 +12870,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1062,
+    "id": 991,
     "question": "哪位中国皇帝被称为'穿越者'？",
     "options": [
       "秦始皇",
@@ -13806,7 +12883,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1063,
+    "id": 992,
     "question": "蚊子的平均寿命有多长？",
     "options": [
       "1-2周",
@@ -13819,7 +12896,7 @@ questionBank = [
     "category": "动物知识"
   },
   {
-    "id": 1064,
+    "id": 993,
     "question": "田径比赛中的'兔子'主要作用是什么？",
     "options": [
       "为选手提供饮用水",
@@ -13832,7 +12909,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 1065,
+    "id": 994,
     "question": "以下哪项不属于标准铁人三项比赛项目？",
     "options": [
       "公开水域游泳",
@@ -13845,7 +12922,7 @@ questionBank = [
     "category": "体育"
   },
   {
-    "id": 1066,
+    "id": 995,
     "question": "人体必需的维生素共有多少种？",
     "options": [
       "6种",
@@ -13858,7 +12935,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1067,
+    "id": 996,
     "question": "蛋白质在人体中最主要的功能是什么？",
     "options": [
       "提供能量",
@@ -13871,7 +12948,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1068,
+    "id": 997,
     "question": "6-12岁儿童每日建议饮水量是多少？",
     "options": [
       "500-800ml",
@@ -13884,7 +12961,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1069,
+    "id": 998,
     "question": "哪种维生素缺乏会导致夜盲症？",
     "options": [
       "维生素A",
@@ -13897,7 +12974,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1070,
+    "id": 999,
     "question": "长期缺乏维生素C会导致什么疾病？",
     "options": [
       "脚气病",
@@ -13910,7 +12987,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1071,
+    "id": 1000,
     "question": "人体需要的三大营养素是什么？",
     "options": [
       "维生素、矿物质、水",
@@ -13923,7 +13000,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1072,
+    "id": 1001,
     "question": "哪种物质是人体最主要的能量来源？",
     "options": [
       "蛋白质",
@@ -13936,7 +13013,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1073,
+    "id": 1002,
     "question": "构成人体细胞的基本物质是什么？",
     "options": [
       "脂肪",
@@ -13949,7 +13026,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1074,
+    "id": 1003,
     "question": "哪种营养素主要功能是储存能量？",
     "options": [
       "蛋白质",
@@ -13962,7 +13039,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1075,
+    "id": 1004,
     "question": "人体每天需要量最少的营养素是？",
     "options": [
       "水",
@@ -13975,7 +13052,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1076,
+    "id": 1005,
     "question": "人体需要量最大的营养素是？",
     "options": [
       "蛋白质",
@@ -13988,7 +13065,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1077,
+    "id": 1006,
     "question": "哪种矿物质是构成骨骼的主要成分？",
     "options": [
       "铁",
@@ -14001,7 +13078,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1078,
+    "id": 1007,
     "question": "哪种维生素有助于铁的吸收？",
     "options": [
       "维生素A",
@@ -14014,7 +13091,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1079,
+    "id": 1008,
     "question": "膳食纤维的主要作用是什么？",
     "options": [
       "提供能量",
@@ -14027,7 +13104,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1080,
+    "id": 1009,
     "question": "哪种食物富含Omega-3脂肪酸？",
     "options": [
       "猪油",
@@ -14040,7 +13117,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1081,
+    "id": 1010,
     "question": "早餐喝牛奶最好搭配什么？",
     "options": [
       "空腹饮用",
@@ -14053,7 +13130,7 @@ questionBank = [
     "category": "人体知识"
   },
   {
-    "id": 1082,
+    "id": 1011,
     "question": "关羽的武器是什么？",
     "options": [
       "方天画戟",
@@ -14066,7 +13143,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1083,
+    "id": 1012,
     "question": "张飞最怕什么动物？",
     "options": [
       "老虎",
@@ -14079,7 +13156,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1084,
+    "id": 1013,
     "question": "吕布骑的是什么马？",
     "options": [
       "的卢",
@@ -14092,7 +13169,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1085,
+    "id": 1014,
     "question": "谁在长坂坡七进七出救阿斗？",
     "options": [
       "关羽",
@@ -14105,7 +13182,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1086,
+    "id": 1015,
     "question": "程咬金最擅长使用什么武器？",
     "options": [
       "斧头",
@@ -14118,7 +13195,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1087,
+    "id": 1016,
     "question": "中国古代'四大名楼'中位于湖南的是？",
     "options": [
       "黄鹤楼",
@@ -14131,7 +13208,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1088,
+    "id": 1017,
     "question": "谁主持修建了都江堰？",
     "options": [
       "李冰",
@@ -14144,7 +13221,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1089,
+    "id": 1018,
     "question": "谁编写了《资治通鉴》？",
     "options": [
       "班固",
@@ -14157,7 +13234,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1090,
+    "id": 1019,
     "question": "谁发明了圆周率？",
     "options": [
       "祖冲之",
@@ -14170,7 +13247,7 @@ questionBank = [
     "category": "历史文化"
   },
   {
-    "id": 1091,
+    "id": 1020,
     "question": "加油站的汽油是哪里来的？",
     "options": [
       "用化学药水在加油站现场调配",
@@ -14183,7 +13260,7 @@ questionBank = [
     "category": "生活常识"
   },
   {
-    "id": 1092,
+    "id": 1021,
     "question": "为什么微波炉不用火也能加热食物？",
     "options": [
       "金属内壁释放红外线",
@@ -14193,6 +13270,1800 @@ questionBank = [
     ],
     "answer": 3,
     "explanation": "关键机制：\n1. 微波频率2450MHz\n2. 水分子每秒振动24.5亿次\n3. 摩擦生热原理",
-    "category": "生活科技"
-  }
+    "category": "生活常识"
+  },
+  {
+    "id": 1022,
+    "question": "拿破仑在哪场战役中遭遇决定性失败？",
+    "options": [
+      "奥斯特里茨战役",
+      "滑铁卢战役",
+      "耶拿战役",
+      "马伦哥战役"
+    ],
+    "answer": 1,
+    "explanation": "滑铁卢战役是拿破仑最终战败的战役，其他都是他获胜的战役",
+    "category": "历史文化"
+  },
+  {
+    "id": 1023,
+    "question": "阿拉伯数字实际起源于哪里？",
+    "options": [
+      "阿拉伯",
+      "希腊",
+      "印度",
+      "埃及"
+    ],
+    "answer": 2,
+    "explanation": "阿拉伯数字实际由印度人发明，经阿拉伯人传播到欧洲",
+    "category": "历史文化"
+  },
+  {
+    "id": 1024,
+    "question": "为什么切洋葱会流泪？",
+    "options": [
+      "洋葱在求救",
+      "释放刺激性硫化物",
+      "刀不够快",
+      "眼睛太干燥"
+    ],
+    "answer": 1,
+    "explanation": "洋葱被切时释放丙硫醛氧化物，与眼泪反应生成稀硫酸刺激眼睛",
+    "category": "生活常识"
+  },
+  {
+    "id": 1025,
+    "question": "以下哪种食物蛋白质最优质？",
+    "options": [
+      "鸡蛋",
+      "牛肉",
+      "大豆",
+      "藜麦"
+    ],
+    "answer": 0,
+    "explanation": "鸡蛋蛋白的PDCAAS评分=1.0（最高值），含全部9种必需氨基酸",
+    "category": "生活常识"
+  },
+  {
+    "id": 1026,
+    "question": "食品标签的NRV%是什么意思？",
+    "options": [
+      "推荐每日摄入比例",
+      "营养价值评级",
+      "热量剩余值",
+      "添加剂含量"
+    ],
+    "answer": 0,
+    "explanation": "NRV%指每份食物提供的营养素占每日推荐量的百分比，如钙30%=满足当天30%需求",
+    "category": "生活常识"
+  },
+  {
+    "id": 1027,
+    "question": "大量出汗后应该？",
+    "options": [
+      "猛喝纯净水",
+      "喝淡盐水",
+      "喝碳酸饮料",
+      "不喝水"
+    ],
+    "answer": 1,
+    "explanation": "纯水会稀释血钠浓度，建议每升水加1-2g盐（或选择含钠40-80mg/100ml的运动饮料）",
+    "category": "生活常识"
+  },
+  {
+    "id": 1028,
+    "question": "电解质是指？",
+    "options": [
+      "能导电的金属",
+      "溶于水后导电的物质",
+      "所有液体",
+      "电池里的化学物质"
+    ],
+    "answer": 1,
+    "explanation": "电解质是在水溶液中或熔融状态下能导电的化合物（如食盐、小苏打等）",
+    "category": "生活常识"
+  },
+  {
+    "id": 1029,
+    "question": "哪种饮品电解质含量最丰富？",
+    "options": [
+      "纯净水",
+      "橙汁",
+      "椰子水",
+      "可乐"
+    ],
+    "answer": 2,
+    "explanation": "天然椰子水电解质配比接近人体血浆（含钾250mg/100ml，钠105mg）",
+    "category": "生活常识"
+  },
+  {
+    "id": 1030,
+    "question": "小学生每天需要睡几小时？",
+    "options": [
+      "6小时",
+      "8小时",
+      "10小时",
+      "12小时"
+    ],
+    "answer": 2,
+    "explanation": "9-11点是最佳睡眠时间，睡够10小时才能长高高！",
+    "category": "生活常识"
+  },
+  {
+    "id": 1031,
+    "question": "被称为'中国龙脊'的地理分界线是？",
+    "options": [
+      "秦岭",
+      "太行山",
+      "横断山脉",
+      "大兴安岭"
+    ],
+    "answer": 0,
+    "explanation": "秦岭-淮河一线是中国地理南北分界线，划分长江黄河水系，年均温0℃等温线经过",
+    "category": "自然科学"
+  },
+  {
+    "id": 1032,
+    "question": "中国珊瑚礁主要分布在？",
+    "options": [
+      "渤海",
+      "黄海",
+      "东海",
+      "南海"
+    ],
+    "answer": 3,
+    "explanation": "南海诸岛发育着占全国98%的珊瑚礁，北界可达北纬20°的澎湖列岛",
+    "category": "自然科学"
+  },
+  {
+    "id": 1033,
+    "question": "中国唯一没有平原的省份是？",
+    "options": [
+      "贵州省",
+      "云南省",
+      "四川省",
+      "甘肃省"
+    ],
+    "answer": 0,
+    "explanation": "贵州全省92.5%是山地丘陵，有'地无三尺平'之说，著名的喀斯特地貌代表",
+    "category": "自然科学"
+  },
+  {
+    "id": 1034,
+    "question": "中国面积最大的省份是？",
+    "options": [
+      "四川省",
+      "青海省",
+      "新疆维吾尔自治区",
+      "内蒙古自治区"
+    ],
+    "answer": 2,
+    "explanation": "新疆面积166万平方公里，占中国国土总面积的1/6",
+    "category": "自然科学"
+  },
+  {
+    "id": 1035,
+    "question": "长江与黄河的发源地都在？",
+    "options": [
+      "唐古拉山脉",
+      "巴颜喀拉山脉",
+      "昆仑山脉",
+      "祁连山脉"
+    ],
+    "answer": 1,
+    "explanation": "长江发源于唐古拉山主峰各拉丹冬，黄河发源于巴颜喀拉山北麓",
+    "category": "自然科学"
+  },
+  {
+    "id": 1036,
+    "question": "中国陆地最低点在？",
+    "options": [
+      "吐鲁番盆地",
+      "准噶尔盆地",
+      "塔里木盆地",
+      "柴达木盆地"
+    ],
+    "answer": 0,
+    "explanation": "吐鲁番艾丁湖湖面海拔-154米，是中国陆地最低点",
+    "category": "自然科学"
+  },
+  {
+    "id": 1037,
+    "question": "中国最大的淡水湖是？",
+    "options": [
+      "洞庭湖",
+      "鄱阳湖",
+      "太湖",
+      "洪泽湖"
+    ],
+    "answer": 1,
+    "explanation": "鄱阳湖最大面积可达4125平方公里（丰水期）",
+    "category": "自然科学"
+  },
+  {
+    "id": 1038,
+    "question": "中国年降水量最多的地方是？",
+    "options": [
+      "台湾火烧寮",
+      "四川峨眉山",
+      "海南五指山",
+      "西藏墨脱"
+    ],
+    "answer": 0,
+    "explanation": "台湾火烧寮年均降水量6558毫米（1912年纪录8408毫米）",
+    "category": "自然科学"
+  },
+  {
+    "id": 1039,
+    "question": "中国与邻国接壤最多的省份是？",
+    "options": [
+      "云南省",
+      "广西壮族自治区",
+      "新疆维吾尔自治区",
+      "西藏自治区"
+    ],
+    "answer": 2,
+    "explanation": "新疆与8国接壤（蒙古/俄罗斯/哈萨克斯坦/吉尔吉斯斯坦等）",
+    "category": "自然科学"
+  },
+  {
+    "id": 1040,
+    "question": "中国最年轻的火山是？",
+    "options": [
+      "长白山天池",
+      "五大连池",
+      "腾冲火山",
+      "阿尔山火山"
+    ],
+    "answer": 1,
+    "explanation": "五大连池老黑山1719-1721年喷发，最近一次喷发在1776年",
+    "category": "自然科学"
+  },
+  {
+    "id": 1041,
+    "question": "中国最大的沙漠是？",
+    "options": [
+      "巴丹吉林沙漠",
+      "腾格里沙漠",
+      "塔克拉玛干沙漠",
+      "古尔班通古特沙漠"
+    ],
+    "answer": 2,
+    "explanation": "塔克拉玛干沙漠面积33万平方公里，占新疆面积20%",
+    "category": "自然科学"
+  },
+  {
+    "id": 1042,
+    "question": "中国最长的跨海大桥是？",
+    "options": [
+      "杭州湾跨海大桥",
+      "港珠澳大桥",
+      "青岛海湾大桥",
+      "平潭海峡公铁大桥"
+    ],
+    "answer": 1,
+    "explanation": "港珠澳大桥全长55公里，是世界最长的跨海大桥",
+    "category": "自然科学"
+  },
+  {
+    "id": 1043,
+    "question": "中国最大的珊瑚岛是？",
+    "options": [
+      "永兴岛",
+      "黄岩岛",
+      "美济岛",
+      "曾母暗沙"
+    ],
+    "answer": 0,
+    "explanation": "永兴岛面积3.08平方公里，是三沙市政府驻地",
+    "category": "自然科学"
+  },
+  {
+    "id": 1044,
+    "question": "中国最北端的城市是？",
+    "options": [
+      "黑河市",
+      "漠河市",
+      "呼玛县",
+      "塔河县"
+    ],
+    "answer": 1,
+    "explanation": "漠河市北极村位于北纬53°33′，有'中国北极'之称",
+    "category": "自然科学"
+  },
+  {
+    "id": 1045,
+    "question": "中国最大的自然保护区是？",
+    "options": [
+      "三江源国家公园",
+      "可可西里自然保护区",
+      "阿尔金山自然保护区",
+      "羌塘自然保护区"
+    ],
+    "answer": 3,
+    "explanation": "羌塘保护区面积29.8万平方公里，比英国国土面积还大",
+    "category": "自然科学"
+  },
+  {
+    "id": 1046,
+    "question": "中国最长的铁路隧道是？",
+    "options": [
+      "秦岭终南山隧道",
+      "太行山隧道",
+      "乌鞘岭隧道",
+      "新关角隧道"
+    ],
+    "answer": 0,
+    "explanation": "终南山隧道全长18.46公里，是亚洲最长的公路隧道",
+    "category": "自然科学"
+  },
+  {
+    "id": 1047,
+    "question": "中国最长的峡谷是？",
+    "options": [
+      "雅鲁藏布大峡谷",
+      "虎跳峡",
+      "三峡",
+      "怒江大峡谷"
+    ],
+    "answer": 0,
+    "explanation": "雅鲁藏布大峡谷全长504.6公里，最深处6009米",
+    "category": "自然科学"
+  },
+  {
+    "id": 1048,
+    "question": "中国最大的瀑布是？",
+    "options": [
+      "黄果树瀑布",
+      "德天瀑布",
+      "壶口瀑布",
+      "诺日朗瀑布"
+    ],
+    "answer": 1,
+    "explanation": "德天瀑布宽200米，落差70米，中越边境世界第四大跨国瀑布",
+    "category": "自然科学"
+  },
+  {
+    "id": 1049,
+    "question": "中国最长的海岸线在哪个省？",
+    "options": [
+      "广东省",
+      "福建省",
+      "浙江省",
+      "山东省"
+    ],
+    "answer": 0,
+    "explanation": "广东海岸线全长4114公里（含岛屿海岸线），居全国首位",
+    "category": "自然科学"
+  },
+  {
+    "id": 1050,
+    "question": "长江三峡由西向东依次是？",
+    "options": [
+      "瞿塘峡-巫峡-西陵峡",
+      "巫峡-瞿塘峡-西陵峡",
+      "西陵峡-巫峡-瞿塘峡",
+      "瞿塘峡-西陵峡-巫峡"
+    ],
+    "answer": 0,
+    "explanation": "长江三峡全长193公里，瞿塘峡以雄伟著称，巫峡以幽深闻名，西陵峡以险峻见长",
+    "category": "自然科学"
+  },
+  {
+    "id": 1051,
+    "question": "下列哪个盆地被称为聚宝盆？",
+    "options": [
+      "塔里木盆地",
+      "准噶尔盆地",
+      "柴达木盆地",
+      "四川盆地"
+    ],
+    "answer": 2,
+    "explanation": "柴达木盆地富含盐、石油、铅锌等矿产，盐湖资源占全国已探明储量的85%",
+    "category": "自然科学"
+  },
+  {
+    "id": 1052,
+    "question": "京杭大运河不经过哪个省？",
+    "options": [
+      "山东省",
+      "河南省",
+      "江苏省",
+      "浙江省"
+    ],
+    "answer": 1,
+    "explanation": "大运河流经京、津、冀、鲁、苏、浙六省市，全长1794公里（现代航道）",
+    "category": "自然科学"
+  },
+  {
+    "id": 1053,
+    "question": "中国唯一注入北冰洋的河流是？",
+    "options": [
+      "额尔齐斯河",
+      "伊犁河",
+      "黑龙江",
+      "雅鲁藏布江"
+    ],
+    "answer": 0,
+    "explanation": "额尔齐斯河发源于新疆阿尔泰山，经哈萨克斯坦流入俄罗斯鄂毕河最终注入北冰洋",
+    "category": "自然科学"
+  },
+  {
+    "id": 1054,
+    "question": "二十四节气起源于哪个流域？",
+    "options": [
+      "长江流域",
+      "黄河流域",
+      "珠江流域",
+      "淮河流域"
+    ],
+    "answer": 1,
+    "explanation": "黄河流域中下游地区四季分明，早在商周时期就已确立四立节气",
+    "category": "自然科学"
+  },
+  {
+    "id": 1055,
+    "question": "中国陆上邻国数量是？",
+    "options": [
+      "12个",
+      "14个",
+      "16个",
+      "18个"
+    ],
+    "answer": 1,
+    "explanation": "按逆时针方向：朝鲜/俄罗斯/蒙古/哈萨克斯坦/吉尔吉斯斯坦/塔吉克斯坦/阿富汗/巴基斯坦/印度/尼泊尔/不丹/缅甸/老挝/越南",
+    "category": "自然科学"
+  },
+  {
+    "id": 1056,
+    "question": "祁连山被称为？",
+    "options": [
+      "东方阿尔卑斯",
+      "万山之祖",
+      "固体水库",
+      "中华龙脉"
+    ],
+    "answer": 2,
+    "explanation": "祁连山冰川储水量相当于1300个西湖，是河西走廊的生命之源",
+    "category": "自然科学"
+  },
+  {
+    "id": 1057,
+    "question": "都江堰工程主要调节哪条河流？",
+    "options": [
+      "岷江",
+      "嘉陵江",
+      "沱江",
+      "涪江"
+    ],
+    "answer": 0,
+    "explanation": "建于公元前256年的都江堰，通过鱼嘴分水/飞沙堰泄洪/宝瓶口引水实现四六分水",
+    "category": "自然科学"
+  },
+  {
+    "id": 1058,
+    "question": "中国唯一的热带雨林自然保护区在？",
+    "options": [
+      "海南岛",
+      "西双版纳",
+      "台湾岛",
+      "雷州半岛"
+    ],
+    "answer": 1,
+    "explanation": "西双版纳热带雨林占中国热带雨林面积的25%，有植物王国之称",
+    "category": "自然科学"
+  },
+  {
+    "id": 1059,
+    "question": "京广铁路跨越几条大河流域？",
+    "options": [
+      "3条",
+      "5条",
+      "7条",
+      "9条"
+    ],
+    "answer": 2,
+    "explanation": "自北向南依次跨越：海河/黄河/淮河/长江/珠江/湘江/赣江七大水系",
+    "category": "自然科学"
+  },
+  {
+    "id": 1060,
+    "question": "下列哪个湖泊是火山堰塞湖？",
+    "options": [
+      "洞庭湖",
+      "镜泊湖",
+      "鄱阳湖",
+      "滇池"
+    ],
+    "answer": 1,
+    "explanation": "镜泊湖由1万年前火山喷发熔岩阻塞牡丹江形成，是世界最大火山熔岩堰塞湖",
+    "category": "自然科学"
+  },
+  {
+    "id": 1061,
+    "question": "中国最早看到日出的地方是？",
+    "options": [
+      "黑龙江漠河",
+      "吉林珲春",
+      "山东成山头",
+      "台湾垦丁"
+    ],
+    "answer": 1,
+    "explanation": "珲春防川东方第一村位于东经130°42，比北京早见日出约1小时",
+    "category": "自然科学"
+  },
+  {
+    "id": 1062,
+    "question": "河西走廊因位于哪条河以西得名？",
+    "options": [
+      "黄河",
+      "渭河",
+      "湟水",
+      "石羊河"
+    ],
+    "answer": 0,
+    "explanation": "河西走廊介于祁连山与北山之间，因在黄河以西形成长约1000公里的狭长通道",
+    "category": "自然科学"
+  },
+  {
+    "id": 1063,
+    "question": "下列哪个城市有泉城之称？",
+    "options": [
+      "济南",
+      "太原",
+      "昆明",
+      "福州"
+    ],
+    "answer": 0,
+    "explanation": "济南有72名泉，趵突泉日涌水量最高达16.2万立方米",
+    "category": "自然科学"
+  },
+  {
+    "id": 1064,
+    "question": "中国最大的群岛是？",
+    "options": [
+      "舟山群岛",
+      "南沙群岛",
+      "东沙群岛",
+      "西沙群岛"
+    ],
+    "answer": 0,
+    "explanation": "舟山群岛由1390个岛屿组成，陆域面积1440平方公里",
+    "category": "自然科学"
+  },
+  {
+    "id": 1065,
+    "question": "茶马古道连接哪两个地理区域？",
+    "options": [
+      "四川-西藏",
+      "云南-印度",
+      "甘肃-青海",
+      "陕西-新疆"
+    ],
+    "answer": 0,
+    "explanation": "川藏茶马古道始于唐代，用雅安茶叶换取西藏马匹，全程4000多公里",
+    "category": "自然科学"
+  },
+  {
+    "id": 1066,
+    "question": "下列哪个不是中国四大佛教名山？",
+    "options": [
+      "五台山",
+      "峨眉山",
+      "武当山",
+      "普陀山"
+    ],
+    "answer": 2,
+    "explanation": "四大佛教名山：山西五台山（文殊）、四川峨眉山（普贤）、浙江普陀山（观音）、安徽九华山（地藏）",
+    "category": "自然科学"
+  },
+  {
+    "id": 1067,
+    "question": "中国唯一以花命名的城市是？",
+    "options": [
+      "攀枝花",
+      "牡丹江",
+      "荷泽",
+      "梅州"
+    ],
+    "answer": 0,
+    "explanation": "攀枝花原名渡口市，因木棉花（攀枝花）遍布更名，是中国钒钛之都",
+    "category": "自然科学"
+  },
+  {
+    "id": 1068,
+    "question": "下列哪个省份不与湖北省接壤？",
+    "options": [
+      "河南省",
+      "陕西省",
+      "贵州省",
+      "重庆市"
+    ],
+    "answer": 2,
+    "explanation": "湖北邻省：豫/陕/渝/湘/赣/皖/川（按顺时针方向）",
+    "category": "自然科学"
+  },
+  {
+    "id": 1069,
+    "question": "中国面积最大的地级市是？",
+    "options": [
+      "那曲市",
+      "呼伦贝尔市",
+      "酒泉市",
+      "三沙市"
+    ],
+    "answer": 1,
+    "explanation": "呼伦贝尔市面积25.3万平方公里，相当于山东省与江苏省面积之和",
+    "category": "自然科学"
+  },
+  {
+    "id": 1070,
+    "question": "太阳系中最大的行星是？",
+    "options": [
+      "土星",
+      "木星",
+      "海王星",
+      "地球"
+    ],
+    "answer": 1,
+    "explanation": "木星直径约14.3万公里，质量是其他行星总和的2.5倍",
+    "category": "自然科学"
+  },
+  {
+    "id": 1071,
+    "question": "下列哪个不是类地行星？",
+    "options": [
+      "水星",
+      "金星",
+      "火星",
+      "天王星"
+    ],
+    "answer": 3,
+    "explanation": "类地行星包括水星、金星、地球和火星，都具有固态表面",
+    "category": "自然科学"
+  },
+  {
+    "id": 1072,
+    "question": "银河系的直径约为？",
+    "options": [
+      "1万光年",
+      "10万光年",
+      "100万光年",
+      "1000万光年"
+    ],
+    "answer": 1,
+    "explanation": "银河系直径约10-12万光年，包含1000-4000亿颗恒星",
+    "category": "自然科学"
+  },
+  {
+    "id": 1073,
+    "question": "太阳的主要成分是？",
+    "options": [
+      "氢和氦",
+      "氧和氮",
+      "碳和硅",
+      "铁和镍"
+    ],
+    "answer": 0,
+    "explanation": "太阳质量中氢约占71%，氦约占27%，其他元素占2%",
+    "category": "自然科学"
+  },
+  {
+    "id": 1074,
+    "question": "下列哪种天体密度最大？",
+    "options": [
+      "白矮星",
+      "中子星",
+      "黑洞",
+      "红巨星"
+    ],
+    "answer": 1,
+    "explanation": "中子星密度可达每立方厘米1亿吨，相当于将珠穆朗玛峰压缩到方糖大小",
+    "category": "自然科学"
+  },
+  {
+    "id": 1075,
+    "question": "哈勃望远镜的主要观测波段是？",
+    "options": [
+      "X射线",
+      "紫外线",
+      "可见光",
+      "红外线"
+    ],
+    "answer": 2,
+    "explanation": "哈勃望远镜主要工作在可见光和近紫外波段（115-2500纳米）",
+    "category": "自然科学"
+  },
+  {
+    "id": 1076,
+    "question": "日全食发生时月亮的视直径比太阳？",
+    "options": [
+      "大",
+      "小",
+      "相等",
+      "不确定"
+    ],
+    "answer": 0,
+    "explanation": "月亮视直径约31角分，太阳约32角分，但地球轨道椭圆导致太阳视直径变化",
+    "category": "自然科学"
+  },
+  {
+    "id": 1077,
+    "question": "北斗七星属于哪个星座？",
+    "options": [
+      "大熊座",
+      "小熊座",
+      "猎户座",
+      "天鹰座"
+    ],
+    "answer": 0,
+    "explanation": "北斗七星是大熊座的尾部，古代中国用于辨别方向",
+    "category": "自然科学"
+  },
+  {
+    "id": 1078,
+    "question": "太阳黑子活动的周期约为？",
+    "options": [
+      "5年",
+      "11年",
+      "22年",
+      "50年"
+    ],
+    "answer": 1,
+    "explanation": "太阳黑子数量变化周期平均11.2年，与太阳磁场极性反转周期相关",
+    "category": "自然科学"
+  },
+  {
+    "id": 1079,
+    "question": "距离太阳最近的恒星是？",
+    "options": [
+      "天狼星",
+      "比邻星",
+      "织女星",
+      "北极星"
+    ],
+    "answer": 1,
+    "explanation": "比邻星距太阳4.24光年，是半人马座α星系统的成员",
+    "category": "自然科学"
+  },
+  {
+    "id": 1080,
+    "question": "下列哪个不是太阳系小天体？",
+    "options": [
+      "小行星",
+      "彗星",
+      "流星体",
+      "脉冲星"
+    ],
+    "answer": 3,
+    "explanation": "脉冲星是中子星的一种，会发射周期性电磁辐射脉冲",
+    "category": "自然科学"
+  },
+  {
+    "id": 1081,
+    "question": "银河系的中心存在？",
+    "options": [
+      "超大质量黑洞",
+      "巨大星团",
+      "暗物质云",
+      "星际尘埃带"
+    ],
+    "answer": 0,
+    "explanation": "银河系中心人马座A*区域存在约400万太阳质量的超大质量黑洞",
+    "category": "自然科学"
+  },
+  {
+    "id": 1082,
+    "question": "光年是什么单位？",
+    "options": [
+      "时间单位",
+      "亮度单位",
+      "距离单位",
+      "能量单位"
+    ],
+    "answer": 2,
+    "explanation": "1光年=光在真空中1年时间行进的距离≈9.46万亿公里",
+    "category": "自然科学"
+  },
+  {
+    "id": 1083,
+    "question": "下列哪个行星没有天然卫星？",
+    "options": [
+      "地球",
+      "火星",
+      "金星",
+      "土星"
+    ],
+    "answer": 2,
+    "explanation": "金星和水星是太阳系唯二没有天然卫星的行星",
+    "category": "自然科学"
+  },
+  {
+    "id": 1084,
+    "question": "国际空间站运行高度约为？",
+    "options": [
+      "200公里",
+      "400公里",
+      "800公里",
+      "1200公里"
+    ],
+    "answer": 1,
+    "explanation": "ISS轨道高度约408公里，每90分钟绕地球一周",
+    "category": "自然科学"
+  },
+  {
+    "id": 1085,
+    "question": "月球永远以同一面对着地球是因为？",
+    "options": [
+      "月球不自转",
+      "月球公转与自转周期相同",
+      "地球引力锁定",
+      "月球没有大气层"
+    ],
+    "answer": 1,
+    "explanation": "月球自转周期（27.3天）与公转周期相同，这种现象称为同步自转",
+    "category": "自然科学"
+  },
+  {
+    "id": 1086,
+    "question": "太阳系中拥有最多卫星的行星是？",
+    "options": [
+      "木星",
+      "土星",
+      "天王星",
+      "海王星"
+    ],
+    "answer": 1,
+    "explanation": "截至2023年，土星已确认有146颗卫星，是太阳系卫星最多的行星",
+    "category": "自然科学"
+  },
+  {
+    "id": 1087,
+    "question": "共享单车车锁上的太阳能板主要作用是？",
+    "options": [
+      "装饰车身",
+      "为GPS和车锁供电",
+      "夜间反光",
+      "监测空气质量"
+    ],
+    "answer": 1,
+    "explanation": "太阳能板为智能锁和定位系统提供电力，无需外接电源",
+    "category": "生活常识"
+  },
+  {
+    "id": 1088,
+    "question": "火车票学生优惠票一年可购买几次？",
+    "options": [
+      "2次",
+      "4次",
+      "6次",
+      "不限次数"
+    ],
+    "answer": 1,
+    "explanation": "每年寒暑假各2次（往返各1次），需绑定学生证",
+    "category": "生活常识"
+  },
+  {
+    "id": 1089,
+    "question": "人体安全电压不高于多少伏？",
+    "options": [
+      "110 伏",
+      "36 伏",
+      "220 伏",
+      "380 伏"
+    ],
+    "answer": 1,
+    "explanation": "一般情况下，人体安全电压不高于 36 伏，超过这个电压就有触电危险",
+    "category": "生活常识"
+  },
+  {
+    "id": 1090,
+    "question": "发现有人触电，首先应该做的是？",
+    "options": [
+      "直接用手拉开触电者",
+      "迅速切断电源",
+      "拨打 120 后等待救援",
+      "向触电者泼水"
+    ],
+    "answer": 1,
+    "explanation": "发现有人触电，首要步骤是迅速切断电源，避免自身也触电，这是保障安全的关键",
+    "category": "生活常识"
+  },
+  {
+    "id": 1091,
+    "question": "下列哪种情况不会导致触电？",
+    "options": [
+      "用湿手触摸插座",
+      "站在干燥木凳上单手接触火线",
+      "同时接触火线和零线",
+      "电器漏电时接触外壳"
+    ],
+    "answer": 1,
+    "explanation": "站在干燥木凳上单手接触火线，由于没有形成电流回路，一般不会触电，其他情况都可能导致触电",
+    "category": "生活常识"
+  },
+  {
+    "id": 1092,
+    "question": "如果触电者呼吸、心跳停止，应立即对其进行？",
+    "options": [
+      "人工呼吸和胸外心脏按压",
+      "拍打其脸部唤醒",
+      "喂服药物",
+      "置之不理等待专业人员"
+    ],
+    "answer": 0,
+    "explanation": "当触电者呼吸、心跳停止时，需立即进行人工呼吸和胸外心脏按压，这是挽救生命的重要急救措施",
+    "category": "生活常识"
+  },
+  {
+    "id": 1093,
+    "question": "家用电器的金属外壳为什么要接地？",
+    "options": [
+      "为了美观",
+      "防止外壳带电导致触电",
+      "节省电量",
+      "提高电器功率"
+    ],
+    "answer": 1,
+    "explanation": "家用电器金属外壳接地，可在电器漏电时将电流导入大地，避免人体接触外壳时触电",
+    "category": "生活常识"
+  },
+  {
+    "id": 1094,
+    "question": "在潮湿环境中，人体电阻会？",
+    "options": [
+      "增大",
+      "不变",
+      "减小",
+      "先增大后减小"
+    ],
+    "answer": 2,
+    "explanation": "潮湿环境中，人体皮肤表面水分增多，导电性增强，电阻会减小，更易发生触电",
+    "category": "生活常识"
+  },
+  {
+    "id": 1095,
+    "question": "下列哪种做法能有效预防触电？",
+    "options": [
+      "电线破损仍继续使用",
+      "定期检查电器线路",
+      "在电线上晾晒衣物",
+      "用金属丝代替保险丝"
+    ],
+    "answer": 1,
+    "explanation": "定期检查电器线路可及时发现隐患并处理，有效预防触电；其他做法均会增加触电风险",
+    "category": "生活常识"
+  },
+  {
+    "id": 1096,
+    "question": "触电事故中，电流通过人体的哪种路径最危险？",
+    "options": [
+      "左手到右脚",
+      "右手到左脚",
+      "左手到右手",
+      "脚到脚"
+    ],
+    "answer": 0,
+    "explanation": "电流从左手到右脚会经过心脏等重要器官，对人体伤害最大，是最危险的路径",
+    "category": "生活常识"
+  },
+  {
+    "id": 1097,
+    "question": "保险丝的作用是？",
+    "options": [
+      "增加电路电阻",
+      "在电流过大时熔断，保护电路和电器",
+      "使电路更美观",
+      "提高电路电压"
+    ],
+    "answer": 1,
+    "explanation": "保险丝在电路中电流过大时会自动熔断，切断电路，从而保护电路中的电器和防止触电事故",
+    "category": "生活常识"
+  },
+  {
+    "id": 1098,
+    "question": "雷雨天在户外，下列哪种做法容易遭雷击触电？",
+    "options": [
+      "躲在大树下",
+      "留在室内",
+      "远离电线杆",
+      "关闭门窗"
+    ],
+    "answer": 0,
+    "explanation": "大树较高，雷雨天易被雷击，躲在大树下会因接触大树而遭雷击触电，其他做法相对安全",
+    "category": "生活常识"
+  },
+  {
+    "id": 1099,
+    "question": "抗日战争持续了多少年？",
+    "options": [
+    "8 年",
+    "10 年",
+    "14 年",
+    "16 年"
+    ],
+    "answer": 2,
+    "explanation": "从 1931 年九一八事变开始，到 1945 年日本宣布无条件投降，我国抗日战争持续了 14 年",
+    "category": "军事知识"
+    },
+    {
+      "id": 1100,
+      "question": "中国抗日战争开始的标志性事件是？",
+      "options": [
+          "七七事变",
+          "九一八事变",
+          "西安事变",
+          "南京大屠杀"
+      ],
+      "answer": 1,
+      "explanation": "1931年的九一八事变是中国抗日战争开始的标志，中国人民开始了局部抗战",
+      "category": "军事知识"
+  },
+  {
+    "id": 1101,
+    "question": "抗日战争中，中国军队取得的第一次大规模胜利是？",
+    "options": [
+        "平型关大捷",
+        "台儿庄战役",
+        "淞沪会战",
+        "百团大战"
+    ],
+    "answer": 0,
+    "explanation": "1937年的平型关大捷是全民族抗战爆发后中国军队取得的第一次重大胜利，打破了日军不可战胜的神话",
+    "category": "军事知识"
+},
+{
+    "id": 1102,
+    "question": "南京大屠杀发生在哪一年？",
+    "options": [
+        "1931年",
+        "1937年",
+        "1941年",
+        "1945年"
+    ],
+    "answer": 1,
+    "explanation": "1937年12月13日，日军攻占南京后进行了长达6周的大屠杀，遇难同胞超过30万",
+    "category": "军事知识"
+},
+{
+    "id": 1103,
+    "question": "百团大战的主要指挥官是？",
+    "options": [
+        "蒋介石",
+        "彭德怀",
+        "李宗仁",
+        "张学良"
+    ],
+    "answer": 1,
+    "explanation": "百团大战是1940年八路军在彭德怀指挥下，对日军发动的大规模破袭战",
+    "category": "军事知识"
+},
+{
+    "id": 1104,
+    "question": "抗日战争胜利纪念日是每年的哪一天？",
+    "options": [
+        "7月7日",
+        "8月15日",
+        "9月3日",
+        "9月18日"
+    ],
+    "answer": 2,
+    "explanation": "2014年起，我国将9月3日确定为中国人民抗日战争胜利纪念日，纪念1945年日本正式投降",
+    "category": "军事知识"
+},
+{
+    "id": 1105,
+    "question": "下列哪场战役是抗日战争中的正面战场战役？",
+    "options": [
+        "平型关大捷",
+        "台儿庄战役",
+        "百团大战",
+        "地道战"
+    ],
+    "answer": 1,
+    "explanation": "台儿庄战役是1938年国民党军队在李宗仁指挥下取得的正面战场重大胜利",
+    "category": "军事知识"
+},
+{
+  "id": 1106,
+  "question": "抗日战争时期，中国共产党领导的抗日根据地主要位于？",
+  "options": [
+  "东北",
+  "华北",
+  "华南",
+  "西南"
+  ],
+  "answer": 1,
+  "explanation": "抗日战争时期，中国共产党在华北地区建立了晋察冀、晋绥等多个抗日根据地，开展游击战争",
+  "category": "军事知识"
+  },
+  {
+  "id": 1107,
+  "question": "日本宣布无条件投降的时间是？",
+  "options": [
+  "1945 年 8 月 15 日",
+  "1945 年 9 月 2 日",
+  "1945 年 9 月 3 日",
+  "1945 年 10 月 1 日"
+  ],
+  "answer": 0,
+  "explanation": "1945 年 8 月 15 日，日本天皇发布《终战诏书》，宣布无条件投降",
+  "category": "军事知识"
+  },
+  {
+  "id": 1108,
+  "question": "下列哪位是著名的抗日民族英雄，在东北组织抗日联军？",
+  "options": [
+  "杨靖宇",
+  "赵尚志",
+  "左权",
+  "彭雪枫"
+  ],
+  "answer": 0,
+  "explanation": "杨靖宇是东北抗日联军的主要创建者和领导人，1940 年在战斗中壮烈牺牲",
+  "category": "军事知识"
+  },
+  {
+  "id": 1109,
+  "question": "淞沪会战发生在哪个年份？",
+  "options": [
+  "1931 年",
+  "1937 年",
+  "1938 年",
+  "1941 年"
+  ],
+  "answer": 1,
+  "explanation": "淞沪会战爆发于 1937 年 8 月 13 日，是抗日战争中中日双方在上海及周边地区进行的大规模会战",
+  "category": "军事知识"
+  },
+  {
+  "id": 1110,
+  "question": "淞沪会战中，中国军队的主要作战区域不包括上海的哪个区域？",
+  "options": [
+  "吴淞口",
+  "宝山",
+  "浦东",
+  "崇明岛"
+  ],
+  "answer": 3,
+  "explanation": "淞沪会战的主要作战区域集中在吴淞口、宝山、浦东等上海市区及近郊，崇明岛未成为主要战场",
+  "category": "军事知识"
+  },
+  {
+  "id": 1111,
+  "question": "淞沪会战持续了大约多长时间？",
+  "options": [
+  "1 个月",
+  "3 个月",
+  "6 个月",
+  "1 年"
+  ],
+  "answer": 1,
+  "explanation": "淞沪会战从 1937 年 8 月 13 日开始，至 11 月 12 日结束，历时约 3 个月",
+  "category": "军事知识"
+  },
+  {
+  "id": 1112,
+  "question": "淞沪会战中，中国军队投入的兵力约为多少？",
+  "options": [
+  "20 万",
+  "50 万",
+  "80 万",
+  "100 万"
+  ],
+  "answer": 2,
+  "explanation": "淞沪会战中，中国军队先后投入约 80 万兵力，是抗日战争中规模最大的战役之一",
+  "category": "军事知识"
+  },
+  {
+  "id": 1113,
+  "question": "淞沪会战结束后，日军攻占了上海，随后向哪个城市进军？",
+  "options": [
+  "南京",
+  "武汉",
+  "重庆",
+  "广州"
+  ],
+  "answer": 0,
+  "explanation": "1937 年 11 月上海沦陷后，日军随即沿长江向南京进攻，同年 12 月南京沦陷",
+  "category": "军事知识"
+  },
+  {
+  "id": 1114,
+  "question": "淞沪会战中，著名的 “八百壮士” 坚守的是哪个阵地？",
+  "options": [
+  "四行仓库",
+  "宝山县城",
+  "吴淞炮台",
+  "浦东阵地"
+  ],
+  "answer": 0,
+  "explanation": "“八百壮士” 在谢晋元指挥下，坚守苏州河北岸的四行仓库，奋勇抗击日军",
+  "category": "军事知识"
+  },
+  {
+  "id": 1115,
+  "question": "“八百壮士” 的实际人数约为多少？",
+  "options": [
+  "800 人",
+  "400 人",
+  "200 人",
+  "100 人"
+  ],
+  "answer": 1,
+  "explanation": "“八百壮士” 是对外宣称的番号，实际人数约为 400 余人，隶属于第 88 师 524 团",
+  "category": "军事知识"
+  },
+  {
+  "id": 1116,
+  "question": "淞沪会战中，为掩护大部队撤退，哪位将领率部坚守宝山县城，壮烈牺牲？",
+  "options": [
+  "谢晋元",
+  "姚子青",
+  "杨靖宇",
+  "赵登禹"
+  ],
+  "answer": 1,
+  "explanation": "1937 年 8 月，姚子青率部坚守宝山县城，与日军激战数日，全营官兵壮烈牺牲",
+  "category": "军事知识"
+  },
+  {
+  "id": 1117,
+  "question": "淞沪会战期间，上海哪个地区当时属于公共租界，成为难民避难所？",
+  "options": [
+  "外滩",
+  "南京路",
+  "虹口",
+  "孤岛（苏州河以南）"
+  ],
+  "answer": 3,
+  "explanation": "淞沪会战期间，苏州河以南的公共租界和法租界形成 “孤岛”，成为暂时的避难区域",
+  "category": "军事知识"
+  },
+  {
+  "id": 1118,
+  "question": "淞沪会战的历史意义不包括下列哪项？",
+  "options": [
+  "打破了日军三个月灭亡中国的妄想",
+  "增强了全国人民的抗战信心",
+  "是中国军队取得的首场大胜",
+  "为沿海工业内迁争取了时间"
+  ],
+  "answer": 2,
+  "explanation": "淞沪会战虽然最终中国军队撤退，但具有重大战略意义，首场大胜是平型关大捷",
+  "category": "军事知识"
+  },
+  {
+  "id": 1119,
+  "question": "淞沪会战发生在哪个年份？",
+  "options": [
+  "1931 年",
+  "1937 年",
+  "1938 年",
+  "1941 年"
+  ],
+  "answer": 1,
+  "explanation": "淞沪会战爆发于 1937 年 8 月 13 日，是抗日战争中中日双方在上海及周边地区进行的大规模会战",
+  "category": "军事知识"
+  },
+  {
+  "id": 1120,
+  "question": "淞沪会战中，中国军队的主要作战区域不包括上海的哪个区域？",
+  "options": [
+  "吴淞口",
+  "宝山",
+  "浦东",
+  "崇明岛"
+  ],
+  "answer": 3,
+  "explanation": "淞沪会战的主要作战区域集中在吴淞口、宝山、浦东等上海市区及近郊，崇明岛未成为主要战场",
+  "category": "军事知识"
+  },
+  {
+  "id": 1121,
+  "question": "淞沪会战持续了大约多长时间？",
+  "options": [
+  "1 个月",
+  "3 个月",
+  "6 个月",
+  "1 年"
+  ],
+  "answer": 1,
+  "explanation": "淞沪会战从 1937 年 8 月 13 日开始，至 11 月 12 日结束，历时约 3 个月",
+  "category": "军事知识"
+  },
+  {
+  "id": 1122,
+  "question": "淞沪会战中，中国军队投入的兵力约为多少？",
+  "options": [
+  "20 万",
+  "50 万",
+  "80 万",
+  "100 万"
+  ],
+  "answer": 2,
+  "explanation": "淞沪会战中，中国军队先后投入约 80 万兵力，是抗日战争中规模最大的战役之一",
+  "category": "军事知识"
+  },
+  {
+  "id": 1123,
+  "question": "淞沪会战结束后，日军攻占了上海，随后向哪个城市进军？",
+  "options": [
+  "南京",
+  "武汉",
+  "重庆",
+  "广州"
+  ],
+  "answer": 0,
+  "explanation": "1937 年 11 月上海沦陷后，日军随即沿长江向南京进攻，同年 12 月南京沦陷",
+  "category": "军事知识"
+  },
+  {
+  "id": 1124,
+  "question": "淞沪会战中，著名的 “八百壮士” 坚守的是哪个阵地？",
+  "options": [
+  "四行仓库",
+  "宝山县城",
+  "吴淞炮台",
+  "浦东阵地"
+  ],
+  "answer": 0,
+  "explanation": "“八百壮士” 在谢晋元指挥下，坚守苏州河北岸的四行仓库，奋勇抗击日军",
+  "category": "军事知识"
+  },
+  {
+  "id": 1125,
+  "question": "“八百壮士” 的实际人数约为多少？",
+  "options": [
+  "800 人",
+  "400 人",
+  "200 人",
+  "100 人"
+  ],
+  "answer": 1,
+  "explanation": "“八百壮士” 是对外宣称的番号，实际人数约为 400 余人，隶属于第 88 师 524 团",
+  "category": "军事知识"
+  },
+  {
+  "id": 1126,
+  "question": "淞沪会战中，为掩护大部队撤退，哪位将领率部坚守宝山县城，壮烈牺牲？",
+  "options": [
+  "谢晋元",
+  "姚子青",
+  "杨靖宇",
+  "赵登禹"
+  ],
+  "answer": 1,
+  "explanation": "1937 年 8 月，姚子青率部坚守宝山县城，与日军激战数日，全营官兵壮烈牺牲",
+  "category": "军事知识"
+  },
+  {
+  "id": 1127,
+  "question": "淞沪会战期间，上海哪个地区当时属于公共租界，成为难民避难所？",
+  "options": [
+  "外滩",
+  "南京路",
+  "虹口",
+  "孤岛（苏州河以南）"
+  ],
+  "answer": 3,
+  "explanation": "淞沪会战期间，苏州河以南的公共租界和法租界形成 “孤岛”，成为暂时的避难区域",
+  "category": "军事知识"
+  },
+  {
+  "id": 1128,
+  "question": "淞沪会战的历史意义不包括下列哪项？",
+  "options": [
+  "打破了日军三个月灭亡中国的妄想",
+  "增强了全国人民的抗战信心",
+  "是中国军队取得的首场大胜",
+  "为沿海工业内迁争取了时间"
+  ],
+  "answer": 2,
+  "explanation": "淞沪会战虽然最终中国军队撤退，但具有重大战略意义，首场大胜是平型关大捷",
+  "category": "军事知识"
+  },
+  {
+  "id": 1129,
+  "question": "红军长征的主要原因是？",
+  "options": [
+  "第五次反 “围剿” 失败",
+  "为了北上抗日",
+  "主动转移根据地",
+  "与其他部队会合"
+  ],
+  "answer": 0,
+  "explanation": "由于第五次反 “围剿” 失利，中央红军为了保存力量，被迫开始长征",
+  "category": "军事知识"
+  },
+  {
+  "id": 1130,
+  "question": "红军长征中，哪次会议确立了毛泽东的领导地位？",
+  "options": [
+  "古田会议",
+  "遵义会议",
+  "洛川会议",
+  "瓦窑堡会议"
+  ],
+  "answer": 1,
+  "explanation": "1935 年的遵义会议，确立了毛泽东在党中央和红军的领导地位，是长征的重要转折点",
+  "category": "军事知识"
+  },
+  {
+  "id": 1131,
+  "question": "红军长征胜利结束的标志是？",
+  "options": [
+  "到达陕北",
+  "渡过金沙江",
+  "三大主力会师",
+  "翻越夹金山"
+  ],
+  "answer": 2,
+  "explanation": "1936 年 10 月，红一、二、四方面军在甘肃会宁胜利会师，标志着长征完全结束",
+  "category": "军事知识"
+  },
+  {
+  "id": 1132,
+  "question": "红军长征中，被称为 “天下第一险” 的桥梁是？",
+  "options": [
+  "赵州桥",
+  "卢沟桥",
+  "武汉长江大桥",
+  "泸定桥"
+  ],
+  "answer": 3,
+  "explanation": "泸定桥是红军长征中飞夺的重要桥梁，桥身由 13 根铁链组成，下面是湍急的河流，十分险要",
+  "category": "军事知识"
+  },
+  {
+  "id": 1133,
+  "question": "红军长征经过的著名雪山是？",
+  "options": [
+  "夹金山",
+  "昆仑山",
+  "喜马拉雅山",
+  "泰山"
+  ],
+  "answer": 0,
+  "explanation": "夹金山是红军长征中翻越的第一座大雪山，海拔高，终年积雪，行军十分艰难",
+  "category": "军事知识"
+  },
+  {
+  "id": 1134,
+  "question": "“红军不怕远征难，万水千山只等闲” 出自哪首诗？",
+  "options": [
+  "《沁园春・雪》",
+  "《七律・长征》",
+  "《静夜思》",
+  "《望庐山瀑布》"
+  ],
+  "answer": 1,
+  "explanation": "这句诗出自毛泽东的《七律・长征》，赞美了红军在长征中不怕困难的精神",
+  "category": "军事知识"
+  },
+  {
+  "id": 1135,
+  "question": "红军长征的起点是哪个省？",
+  "options": [
+  "陕西省",
+  "四川省",
+  "江西省",
+  "贵州省"
+  ],
+  "answer": 2,
+  "explanation": "1934 年 10 月，中央红军从江西省瑞金等地出发，开始了长征",
+  "category": "军事知识"
+  },
+  {
+  "id": 1136,
+  "question": "红军在长征中遇到的困难不包括？",
+  "options": [
+  "恶劣的自然环境",
+  "敌人的围追堵截",
+  "缺少衣物药品",
+  "充足的粮食供应"
+  ],
+  "answer": 3,
+  "explanation": "红军长征中面临粮食短缺、自然环境恶劣、敌人追击等多种困难，并没有充足的粮食供应",
+  "category": "军事知识"
+  },
+  {
+  "id": 1137,
+  "question": "红军长征中，“四渡赤水” 的主要作用是？",
+  "options": [
+  "摆脱敌人包围",
+  "强渡大河",
+  "翻越雪山",
+  "通过草地"
+  ],
+  "answer": 0,
+  "explanation": "四渡赤水是毛泽东指挥的经典战役，通过灵活机动的战术，成功摆脱了敌人的包围",
+  "category": "军事知识"
+  },
+  {
+    "id": 1138,
+    "question": "红军长征大约用了多长时间？",
+"options": [
+"半年",
+"两年",
+"五年",
+"十年"
+],
+"answer": 1,
+"explanation": "红军长征从 1934 年 10 月开始，到 1936 年 10 月结束，总共持续了约两年时间",
+"category": "军事知识"
+},
+{
+"id": 1139,
+"question": "抗美援朝战争开始于哪一年？",
+"options": [
+"1950 年",
+"1949 年",
+"1951 年",
+"1953 年"
+],
+"answer": 0,
+"explanation": "1950 年 10 月，中国人民志愿军跨过鸭绿江，开始了抗美援朝战争",
+"category": "军事知识"
+},
+{
+"id": 1140,
+"question": "抗美援朝战争中，中国人民志愿军的司令员是？",
+"options": [
+"林彪",
+"彭德怀",
+"刘伯承",
+"贺龙"
+],
+"answer": 1,
+"explanation": "彭德怀担任中国人民志愿军司令员兼政治委员，指挥了抗美援朝战争",
+"category": "军事知识"
+},
+{
+"id": 1141,
+"question": "抗美援朝战争中，著名的上甘岭战役发生在哪个年份？",
+"options": [
+"1950 年",
+"1951 年",
+"1952 年",
+"1953 年"
+],
+"answer": 2,
+"explanation": "上甘岭战役发生在 1952 年 10 月至 11 月，是抗美援朝战争中非常激烈的战役",
+"category": "军事知识"
+},
+{
+"id": 1142,
+"question": "下列哪位英雄人物在抗美援朝战争中用身体堵住敌人枪眼？",
+"options": [
+"邱少云",
+"杨根思",
+"黄继光",
+"罗盛教"
+],
+"answer": 2,
+"explanation": "黄继光在战斗中，面对敌人地堡的猛烈火力，毅然用自己的身体堵住枪眼，为部队冲锋开辟了道路",
+"category": "军事知识"
+},
+{
+"id": 1143,
+"question": "抗美援朝战争结束的标志是？",
+"options": [
+"《朝鲜停战协定》签订",
+"美军撤出朝鲜半岛",
+"联合国军投降",
+"朝鲜半岛统一"
+],
+"answer": 0,
+"explanation": "1953 年 7 月 27 日，《朝鲜停战协定》在板门店签订，标志着抗美援朝战争结束",
+"category": "军事知识"
+},
+{
+"id": 1144,
+"question": "抗美援朝战争中，邱少云的英雄事迹是？",
+"options": [
+"舍身炸碉堡",
+"烈火焚身严守潜伏纪律",
+"跳入冰窟救少年",
+"单手举炸药包"
+],
+"answer": 1,
+"explanation": "邱少云在潜伏任务中，敌人的燃烧弹在他身边爆炸，为了不暴露目标，他强忍剧痛，始终趴在原地，直至壮烈牺牲",
+"category": "军事知识"
+},
+{
+"id": 1145,
+"question": "抗美援朝战争中，中国人民志愿军跨过的河流是？",
+"options": [
+"长江",
+"黄河",
+"鸭绿江",
+"珠江"
+],
+"answer": 2,
+"explanation": "鸭绿江是中朝两国的界河，1950 年 10 月，中国人民志愿军从这里跨过进入朝鲜参战",
+"category": "军事知识"
+},
+{
+"id": 1146,
+"question": "下列哪个不是抗美援朝战争中的著名战役？",
+"options": [
+"云山战役",
+"长津湖战役",
+"淮海战役",
+"金城战役"
+],
+"answer": 2,
+"explanation": "淮海战役是解放战争时期的重要战役，其他三个都是抗美援朝战争中的著名战役",
+"category": "军事知识"
+},
+{
+"id": 1147,
+"question": "抗美援朝战争的性质是？",
+"options": [
+"保家卫国的正义之战",
+"侵略战争",
+"内战",
+"殖民战争"
+],
+"answer": 0,
+"explanation": "抗美援朝战争是中国人民志愿军为了保卫国家领土安全、维护亚洲和世界和平而进行的正义之战",
+"category": "军事知识"
+},
+{
+"id": 1148,
+"question": "中国共产党成立于哪一年？",
+"options": [
+"1919 年",
+"1921 年",
+"1949 年",
+"1978 年"
+],
+"answer": 1,
+"explanation": "1921 年 7 月 23 日，中国共产党第一次全国代表大会在上海召开，标志着中国共产党正式成立",
+"category": "军事知识"
+},
+{
+"id": 1149,
+"question": "中华人民共和国成立的日子是？",
+"options": [
+"10 月 1 日",
+"7 月 1 日",
+"8 月 1 日",
+"12 月 25 日"
+],
+"answer": 0,
+"explanation": "1949 年 10 月 1 日，毛泽东在北京天安门城楼上宣告中华人民共和国成立，这一天被定为国庆节",
+"category": "军事知识"
+},
+{
+"id": 1150,
+"question": "“为人民服务” 是哪位领导人提出的重要思想？",
+"options": [
+"邓小平",
+"周恩来",
+"毛泽东",
+"刘少奇"
+],
+"answer": 2,
+"explanation": "“为人民服务” 是毛泽东在张思德同志追悼会上提出的重要思想，成为中国共产党的根本宗旨",
+"category": "军事知识"
+},
+{
+"id": 1151,
+"question": "下列哪个是中国共产党领导的第一次大规模武装起义？",
+"options": [
+"秋收起义",
+"南昌起义",
+"广州起义",
+"百色起义"
+],
+"answer": 1,
+"explanation": "1927 年 8 月 1 日的南昌起义，是中国共产党独立领导武装斗争和创建人民军队的开始",
+"category": "军事知识"
+},
+{
+"id": 1152,
+"question": "雷锋同志的主要精神品质是？",
+"options": [
+"助人为乐",
+"自私自利",
+"好逸恶劳",
+"骄傲自满"
+],
+"answer": 0,
+"explanation": "雷锋是全心全意为人民服务的榜样，助人为乐是他最突出的精神品质，被称为 “雷锋精神”",
+"category": "军事知识"
+},
+{
+"id": 1153,
+"question": "我们常说 “打哈欠会传染”，这是因为？",
+"options": [
+"一种无意识的模仿行为",
+"空气里有特殊病毒",
+"打哈欠会产生声波传染",
+"只是巧合"
+],
+"answer": 0,
+"explanation": "研究发现，打哈欠传染是人类的一种共情能力表现，看到别人打哈欠时，大脑会无意识地模仿，连狗和猴子也会这样哦",
+"category": "人体知识"
+},
+{
+"id": 1154,
+"question": "为什么企鹅在冰面上走路总是一摇一摆的？",
+"options": [
+"保持平衡，节省能量",
+"太冷了冻得发抖",
+"在向同伴打招呼",
+"天生学不会好好走路"
+],
+"answer": 0,
+"explanation": "企鹅身体肥胖，双脚短小，一摇一摆的走路姿势能帮它们在光滑的冰面上保持平衡，还能减少能量消耗，是超聪明的生存技巧",
+"category": "动物知识"
+},
+{
+"id": 1155,
+"question": "下列哪种食物 “越放越甜”？",
+"options": [
+"红薯",
+"苹果",
+"面包",
+"黄瓜"
+],
+"answer": 0,
+"explanation": "红薯存放一段时间后，里面的淀粉会慢慢转化成糖分，所以会变甜；而苹果放久了会流失水分变面，面包会变硬，黄瓜会变蔫",
+"category": "生活常识"
+},
+{
+"id": 1156,
+"question": "下列哪种动物的 “指纹” 和人类的很像，甚至能骗过扫描仪？",
+"options": [
+"考拉",
+"猴子",
+"熊猫",
+"大象"
+],
+"answer": 0,
+"explanation": "考拉的指纹和人类指纹几乎一模一样，连专业的指纹扫描仪都很难区分，这是因为它们需要抓握光滑的桉树叶子，进化出了独特的纹路",
+"category": "动物知识"
+},
+{
+"id": 1157,
+"question": "为什么夏天从冰箱里拿出的饮料瓶外面会 “出汗”？",
+"options": [
+"空气中的水蒸气遇冷变成小水珠",
+"瓶子里的饮料漏出来了",
+"冰箱里的冷气化成了水",
+"瓶子本身会分泌水分"
+],
+"answer": 0,
+"explanation": "夏天空气潮湿，饮料瓶从冰箱拿出后温度很低，空气中的水蒸气遇到冷的瓶壁就会凝结成小水珠，看起来像瓶子在 “出汗”",
+"category": "生活常识"
+},
+{
+"id": 1158,
+"question": "下列哪种动物一生都在换牙？",
+"options": [
+"鲨鱼",
+"老虎",
+"大象",
+"人类"
+],
+"answer": 0,
+"explanation": "鲨鱼的牙齿很容易脱落，但它们一生能换几万颗牙！旧牙掉了，新牙就会从后面长出来补上，所以永远不用担心没牙用",
+"category": "动物知识"
+},
+{
+"id": 1159,
+"question": "为什么吃菠萝的时候嘴巴会有点麻？",
+"options": [
+"菠萝里有 “蛋白酶” 在 “消化” 口腔黏膜",
+"菠萝太酸了刺激嘴巴",
+"菠萝上有小刺扎到了",
+"过敏反应"
+],
+"answer": 0,
+"explanation": "菠萝中含有一种叫 “菠萝蛋白酶” 的物质，它会分解口腔里的蛋白质，所以吃多了会觉得嘴巴麻麻的，用盐水泡一下能减轻这种感觉哦",
+"category": "生活常识"
+}
 ];

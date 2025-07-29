@@ -946,21 +946,17 @@ function toggleEnglish() {
     const englishCells = document.querySelectorAll('.english-cell');
     
     englishCells.forEach(cell => {
+        // 切换英语文本的隐藏状态
         if (englishVisible) {
             cell.classList.remove('hidden-content');
-            // 显示所有音标提示
-            const tooltips = cell.querySelectorAll('.phonetic-tooltip');
-            tooltips.forEach(tooltip => {
-                tooltip.style.display = 'block';
-                tooltip.style.opacity = '0'; // 初始状态为透明
-            });
         } else {
             cell.classList.add('hidden-content');
-            // 隐藏所有音标提示
-            const tooltips = cell.querySelectorAll('.phonetic-tooltip');
-            tooltips.forEach(tooltip => {
-                tooltip.style.display = 'none';
-            });
+        }
+        
+        // 控制音标提示的显示状态
+        const tooltip = cell.querySelector('.phonetic-tooltip');
+        if (tooltip) {
+            tooltip.style.display = englishVisible ? 'block' : 'none';
         }
     });
     
