@@ -850,15 +850,14 @@ function renderTable(data) {
         englishCell.className = 'english-cell';
         englishCell.textContent = word.english;
         
-        // 创建音标提示（无论英语是否可见）
+        // 创建音标提示
         if (word.phonetic) {
             const tooltip = document.createElement('div');
             tooltip.className = 'phonetic-tooltip';
             tooltip.textContent = word.phonetic;
+            tooltip.style.opacity = '0'; // 初始状态为透明
+            tooltip.style.display = englishVisible ? 'block' : 'none'; // 根据英语可见性设置
             englishCell.appendChild(tooltip);
-            
-            // 根据英语可见性设置音标提示的显示状态
-            tooltip.style.display = englishVisible ? 'block' : 'none';
             
             // 网页端悬停事件
             englishCell.addEventListener('mouseenter', function() {
@@ -874,7 +873,11 @@ function renderTable(data) {
             });
             
             // 移动端长按事件
-            englishCell.addEventListener('touchstart', createTouchStartHandler(word.phonetic));
+            englishCell.addEventListener('touchstart', function(e) {
+                if (englishVisible && window.innerWidth <= 768) {
+                    createTouchStartHandler(word.phonetic)(e);
+                }
+            });
             englishCell.addEventListener('touchend', touchEndHandler);
             englishCell.addEventListener('touchmove', touchMoveHandler);
         }
@@ -945,14 +948,19 @@ function toggleEnglish() {
     englishCells.forEach(cell => {
         if (englishVisible) {
             cell.classList.remove('hidden-content');
-            // 显示音标提示
+            // 显示所有音标提示
             const tooltips = cell.querySelectorAll('.phonetic-tooltip');
-            tooltips.forEach(tooltip => tooltip.style.display = 'block');
+            tooltips.forEach(tooltip => {
+                tooltip.style.display = 'block';
+                tooltip.style.opacity = '0'; // 初始状态为透明
+            });
         } else {
             cell.classList.add('hidden-content');
-            // 隐藏音标提示
+            // 隐藏所有音标提示
             const tooltips = cell.querySelectorAll('.phonetic-tooltip');
-            tooltips.forEach(tooltip => tooltip.style.display = 'none');
+            tooltips.forEach(tooltip => {
+                tooltip.style.display = 'none';
+            });
         }
     });
     
