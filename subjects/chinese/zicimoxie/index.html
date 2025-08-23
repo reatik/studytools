@@ -3,271 +3,908 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小学语文识字表</title>
+    <title>拼音词语表</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
         body {
-            font-family: "Microsoft YaHei", sans-serif;
-            background-color: #FFF8E1;
+            background-color: #f0f8f0;
             color: #333;
-            line-height: 1.6;
+            line-height: 1.8;
             padding: 20px;
+            letter-spacing: 0.5px;
         }
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 5px;
+            background-color: #e0f7e0;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            color: #FF9800;
+        header {
             text-align: center;
             margin-bottom: 30px;
-            font-size: 28px;
         }
-        .section {
-            margin-bottom: 30px;
-            border: 2px solid #2196F3;
-            background-color: white;
-            padding: 15px;
-            border-radius: 5px;
+        h1 {
+            color: #2E7D32;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-family: 'SimSun', '宋体', serif;
+            letter-spacing: 1px;
         }
-        .section-title {
-            color: #2196F3;
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 20px;
-        }
-        .word-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
-        }
-        .word-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-        .word-item:hover {
-            background-color: #f5f5f5;
-        }
-        .word-item.selected {
-            background-color: #E3F2FD;
-        }
-        .pinyin {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #2196F3;
-        }
-        .character {
-            font-size: 20px;
-        }
-        .garden {
-            background-color: #FF9800;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin: 15px 0;
-            font-weight: bold;
-        }
-        .control-panel {
+        .grade-selector {
             display: flex;
             justify-content: center;
-            gap: 10px;
             margin-bottom: 20px;
+            gap: 15px;
         }
-        .control-btn {
-            padding: 8px 15px;
-            background-color: #2196F3;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .control-btn:hover {
-            background-color: #0b7dda;
-        }
-        .dictation-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .dictation-content {
+        select {
+            padding: 10px 15px;
+            border: 1px solid #4CAF50;
+            border-radius: 6px;
             background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            width: 80%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .dictation-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 10px;
-        }
-        .dictation-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .close-btn {
-            margin-top: 20px;
-            padding: 8px 15px;
-            background-color: #FF9800;
-            color: white;
-            border: none;
-            border-radius: 4px;
+            color: #2E7D32;
+            font-size: 1rem;
             cursor: pointer;
+            outline: none;
+        }
+        select:focus {
+            border-color: #2E7D32;
+            box-shadow: 0 0 5px rgba(46, 125, 50, 0.5);
+        }
+        h2 {
+            color: #388E3C;
+            border-bottom: 2px solid #A5D6A7;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            letter-spacing: 0.5px;
+        }
+        .lesson {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start; /* 确保顶部对齐 */
+}
+
+.lesson-number {
+    font-weight: bold;
+    color: #2E7D32;
+    display: inline-block;
+    min-width: 40px;
+    font-size: 1.2rem;
+    padding-top: 0; /* 确保没有额外的上边距 */
+    margin-top: 0; /* 确保没有额外的上边距 */
+    line-height: normal; /* 使用正常行高 */
+}
+
+.pinyin-container {
+    display: inline-block;
+    width: calc(100% - 50px);
+    padding-top: 0; /* 确保没有额外的上边距 */
+    margin-top: 0; /* 确保没有额外的上边距 */
+}
+
+.pinyin {
+    display: inline-block;
+    margin: 0 15px 8px 0; /* 上边距为0，下边距8px */
+    padding: 6px 10px;
+    font-size: 1.1rem;
+    color: #000;
+    cursor: pointer;
+    border-radius: 4px;
+    line-height: normal; /* 使用正常行高 */
+    transition: none; /* 移除所有动画效果 */
+}
+
+        .section {
+            margin-bottom: 40px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 768px) {
+            .pinyin {
+                margin: 5px 8px 5px 0;
+                padding: 6px 10px;
+                font-size: 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .grade-selector {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>识字表</h1>
-        
-        <div class="control-panel">
-            <button class="control-btn" id="selectAll">全选</button>
-            <button class="control-btn" id="clearAll">取消全选</button>
-            <button class="control-btn" id="startDictation">开始默写</button>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">识字</div>
-            <div class="word-list" id="wordList">
-                <!-- 动态生成字词 -->
+        <header>
+            <h1>拼音词语表</h1>
+            <div class="grade-selector">
+                <select id="grade-select">
+                    <option value="二年级上">二年级上</option>
+                    <option value="二年级下">二年级下</option>
+                    <option value="三年级上" selected>三年级上</option>
+                    <option value="三年级下">三年级下</option>
+                    <option value="四年级上">四年级上</option>
+                    <option value="四年级下">四年级下</option>
+                    <option value="五年级上">五年级上</option>
+                    <option value="五年级下">五年级下</option>
+                </select>
+                <select id="section-select">
+                    <option value="all" selected>全部内容</option>
+                    <option value="课文">课文</option>
+                    <option value="识字">识字</option>
+                </select>
             </div>
+        </header>
+        
+        <div id="content">
+            <!-- 内容将由JavaScript动态生成 -->
         </div>
         
-        <div class="dictation-modal" id="dictationModal">
-            <div class="dictation-content">
-                <h2>默写练习</h2>
-                <div class="dictation-list" id="dictationList"></div>
-                <button class="close-btn" id="closeDictation">返回</button>
-            </div>
-        </div>
     </div>
 
     <script>
-        // 示例数据 - 实际应从ciyu.json导入
-        const wordData = [
-            { character: "天", pinyin: "tiān", lesson: 1 },
-            { character: "地", pinyin: "dì", lesson: 1 },
-            { character: "人", pinyin: "rén", lesson: 1 },
-            { character: "你", pinyin: "nǐ", lesson: 1 },
-            { character: "我", pinyin: "wǒ", lesson: 1 },
-            { character: "他", pinyin: "tā", lesson: 1 },
-            { character: "一", pinyin: "yī", lesson: 2 },
-            { character: "二", pinyin: "èr", lesson: 2 },
-            { character: "三", pinyin: "sān", lesson: 2 },
-            { character: "四", pinyin: "sì", lesson: 2 },
-            { character: "五", pinyin: "wǔ", lesson: 2 },
-            { character: "上", pinyin: "shàng", lesson: 2 },
-            { character: "下", pinyin: "xià", lesson: 2 }
-        ];
-
-        // 初始化字词列表
-        function initWordList() {
-            const wordListElement = document.getElementById('wordList');
-            wordListElement.innerHTML = '';
-            
-            wordData.forEach(word => {
-                const wordItem = document.createElement('div');
-                wordItem.className = 'word-item';
-                wordItem.dataset.character = word.character;
-                wordItem.dataset.pinyin = word.pinyin;
-                
-                wordItem.innerHTML = `
-                    <div class="pinyin">${word.pinyin}</div>
-                    <div class="character">${word.character}</div>
-                `;
-                
-                wordItem.addEventListener('click', function() {
-                    this.classList.toggle('selected');
-                });
-                
-                wordListElement.appendChild(wordItem);
-            });
-        }
-
-        // 初始化默写功能
-        function initDictation() {
-            const selectAllBtn = document.getElementById('selectAll');
-            const clearAllBtn = document.getElementById('clearAll');
-            const startDictationBtn = document.getElementById('startDictation');
-            const closeDictationBtn = document.getElementById('closeDictation');
-            const dictationModal = document.getElementById('dictationModal');
-            
-            // 全选
-            selectAllBtn.addEventListener('click', function() {
-                document.querySelectorAll('.word-item').forEach(item => {
-                    item.classList.add('selected');
-                });
-            });
-            
-            // 取消全选
-            clearAllBtn.addEventListener('click', function() {
-                document.querySelectorAll('.word-item').forEach(item => {
-                    item.classList.remove('selected');
-                });
-            });
-            
-            // 开始默写
-            startDictationBtn.addEventListener('click', function() {
-                const selectedItems = document.querySelectorAll('.word-item.selected');
-                const dictationList = document.getElementById('dictationList');
-                dictationList.innerHTML = '';
-                
-                if (selectedItems.length === 0) {
-                    alert('请至少选择一个字词进行默写');
-                    return;
+        // 内嵌JSON数据
+        const wordData = {
+            "title": "词语表",
+            "grades": [
+                {
+                    "grade": "二年级上",
+                    "sections": [
+                        {
+                            "name": "课文",
+                            "lessons": [
+                                {"number": 1, "words": ["看见", "哪里", "那边", "头顶", "眼睛", "雪白", "肚皮"], "pinyin": ["kàn jiàn", "nǎ lǐ", "nà biān", "tóu dǐng", "yǎn jing", "xuě bái", "dù pí"]},
+                                {"number": 2, "words": ["天空", "傍晚", "人们", "冬天", "花朵", "平常", "江河", "海洋", "田地", "工作"], "pinyin": ["tiān kōng", "bàng wǎn", "rén men", "dōng tiān", "huā duǒ", "píng cháng", "jiāng hé", "hǎi yáng", "tián dì", "gōng zuò"]},
+                                {"number": 3, "words": ["办法", "如果", "已经", "长大", "四海为家", "娃娃", "只要", "皮毛", "那里", "知识"], "pinyin": ["bàn fǎ", "rú guǒ", "yǐ jīng", "zhǎng dà", "sì hǎi wéi jiā", "wá wa", "zhǐ yào", "pí máo", "nà lǐ", "zhī shi"]}
+                            ]
+                        },
+                        {
+                            "name": "识字",
+                            "lessons": [
+                                {"number": 1, "words": ["花园", "石桥", "队旗", "铜号", "红领巾", "欢笑"], "pinyin": ["huā yuán", "shí qiáo", "duì qí", "tóng hào", "hóng lǐng jīn", "huān xiào"]},
+                                {"number": 2, "words": ["杨树", "树叶", "枫树", "松柏", "木棉", "水杉", "化石", "金桂"], "pinyin": ["yáng shù", "shù yè", "fēng shù", "sōng bǎi", "mù mián", "shuǐ shān", "huà shí", "jīn guì"]},
+                                {"number": 3, "words": ["写字", "丛林", "深处", "竹林", "熊猫", "朋友"], "pinyin": ["xiě zì", "cóng lín", "shēn chù", "zhú lín", "xióng māo", "péng you"]},
+                                {"number": 4, "words": ["四季", "农事", "月光", "辛苦", "棉衣"], "pinyin": ["sì jì", "nóng shì", "yuè guāng", "xīn kǔ", "mián yī"]}
+                            ]
+                        },
+                        {
+                            "name": "课文",
+                            "lessons": [
+                                {"number": 4, "words": ["一同", "柱子", "一边", "到底", "秤杆", "力气", "出来", "船身", "石头", "地方", "果然"], "pinyin": ["yī tóng", "zhù zi", "yī biān", "dào dǐ", "chèng gǎn", "lì qi", "chū lái", "chuán shēn", "shí tou", "dì fāng", "guǒ rán"]},
+                                {"number": 5, "words": ["评奖", "时间", "报纸", "来不及", "事情", "坏事", "好事"], "pinyin": ["píng jiǎng", "shí jiān", "bào zhǐ", "lái bu jí", "shì qing", "huài shì", "hǎo shì"]},
+                                {"number": 6, "words": ["出国", "今天", "圆珠笔", "开心", "以前", "还有", "台灯", "这时", "阳光", "电影"], "pinyin": ["chū guó", "jīn tiān", "yuán zhū bǐ", "kāi xīn", "yǐ qián", "hái yǒu", "tái dēng", "zhè shí", "yáng guāng", "diàn yǐng"]},
+                                {"number": 7, "words": ["明亮", "故事", "头发", "窗外"], "pinyin": ["míng liàng", "gù shi", "tóu fa", "chuāng wài"]},
+                                {"number": 9, "words": ["黄山", "南部", "那些", "山顶", "一动不动", "云海", "巨石", "前方", "每当", "金光闪闪", "它们"], "pinyin": ["huáng shān", "nán bù", "nà xiē", "shān dǐng", "yī dòng bù dòng", "yún hǎi", "jù shí", "qián fāng", "měi dāng", "jīn guāng shǎn shǎn", "tā men"]},
+                                {"number": 10, "words": ["日月潭", "群山", "树木", "名胜古迹", "中央", "美丽", "灯光", "中午", "展现", "风光"], "pinyin": ["rì yuè tán", "qún shān", "shù mù", "míng shèng gǔ jì", "zhōng yāng", "měi lì", "dēng guāng", "zhōng wǔ", "zhǎn xiàn", "fēng guāng"]},
+                                {"number": 11, "words": ["出产", "水果", "月份", "山坡", "枝叶", "展开", "五光十色", "好客", "老乡", "城市", "空气", "水分"], "pinyin": ["chū chǎn", "shuǐ guǒ", "yuè fèn", "shān pō", "zhī yè", "zhǎn kāi", "wǔ guāng shí sè", "hào kè", "lǎo xiāng", "chéng shì", "kōng qì", "shuǐ fèn"]},
+                                {"number": 12, "words": ["坐井观天", "井沿", "回答", "口渴", "大话", "井口", "无边无际", "抬头"], "pinyin": ["zuò jǐng guān tiān", "jǐng yán", "huí dá", "kǒu kě", "dà huà", "jǐng kǒu", "wú biān wú jì", "tái tóu"]},
+                                {"number": 13, "words": ["山脚", "当作", "前面", "晴朗", "枯草", "正好", "清早", "现在", "将来", "难过", "大雪纷飞", "枝头"], "pinyin": ["shān jiǎo", "dàng zuò", "qián miàn", "qíng lǎng", "kū cǎo", "zhèng hǎo", "qīng zǎo", "xiàn zài", "jiāng lái", "nán guò", "dà xuě fēn fēi", "zhī tóu"]},
+                                {"number": 14, "words": ["从前", "细长", "可爱", "每天", "自言自语", "南瓜", "邻居", "奇怪"], "pinyin": ["cóng qián", "xì cháng", "kě ài", "měi tiān", "zì yán zì yǔ", "nán guā", "lín jū", "qí guài"]},
+                                {"number": 15, "words": ["八角楼", "深夜", "星星之火", "沉思", "胜利"], "pinyin": ["bā jiǎo lóu", "shēn yè", "xīng xīng zhī huǒ", "chén sī", "shèng lì"]},
+                                {"number": 16, "words": ["扁担", "同志", "带领", "队伍", "会师", "红军", "来回", "战士", "白天", "起来"], "pinyin": ["biǎn dan", "tóng zhì", "dài lǐng", "duì wu", "huì shī", "hóng jūn", "lái huí", "zhàn shì", "bái tiān", "qǐ lái"]},
+                                {"number": 17, "words": ["难忘", "泼水节", "一年一度", "四面八方", "龙船", "花炮", "欢呼", "人群", "欢乐", "开始", "柏树枝", "多么"], "pinyin": ["nán wàng", "pō shuǐ jié", "yī nián yī dù", "sì miàn bā fāng", "lóng chuán", "huā pào", "huān hū", "rén qún", "huān lè", "kāi shǐ", "bǎi shù zhī", "duō me"]},
+                                {"number": 18, "words": ["年轻", "北风"], "pinyin": ["nián qīng", "běi fēng"]},
+                                {"number": 20, "words": ["孩子", "于是", "无论", "船只", "远方", "连同", "岸边"], "pinyin": ["hái zi", "yú shì", "wú lùn", "chuán zhī", "yuǎn fāng", "lián tóng", "àn biān"]},
+                                {"number": 21, "words": ["不停", "空地", "唱歌", "回家", "赶快", "旁边", "火星", "连忙", "浑身", "时候", "谢谢", "水汽"], "pinyin": ["bù tíng", "kòng dì", "chàng gē", "huí jiā", "gǎn kuài", "páng biān", "huǒ xīng", "lián máng", "hún shēn", "shí hou", "xiè xie", "shuǐ qì"]},
+                                {"number": 22, "words": ["食物", "身边", "为什么", "命令", "爪子", "面前", "神气活现", "野猪", "往常", "身后", "信以为真"], "pinyin": ["shí wù", "shēn biān", "wèi shén me", "mìng lìng", "zhuǎ zi", "miàn qián", "shén qì huó xiàn", "yě zhū", "wǎng cháng", "shēn hòu", "xìn yǐ wéi zhēn"]},
+                                {"number": 23, "words": ["纸船", "松果", "纸条", "可是", "但是", "屋顶", "和好"], "pinyin": ["zhǐ chuán", "sōng guǒ", "zhǐ tiáo", "kě shì", "dàn shì", "wū dǐng", "hé hǎo"]},
+                                {"number": 24, "words": ["田野", "风车", "飞快", "秧苗", "点头", "急忙", "广场", "赶紧", "伤心", "衣服", "路边", "生气"], "pinyin": ["tián yě", "fēng chē", "fēi kuài", "yāng miáo", "diǎn tóu", "jí máng", "guǎng chǎng", "gǎn jǐn", "shāng xīn", "yī fu", "lù biān", "shēng qì"]}
+                            ]
+                        }
+                    ]
+                },
+                {
+    "grade": "二年级下",
+    "sections": [
+        {
+            "name": "识字",
+            "lessons": [
+                {
+                    "number": 1,
+                    "words": ["神州", "中华", "山川", "黄河", "长江", "长城", "台湾岛", "民族", "情谊", "奋发"],
+                    "pinyin": ["shén zhōu", "zhōng huá", "shān chuān", "huáng hé", "cháng jiāng", "cháng chéng", "tái wān dǎo", "mín zú", "qíng yì", "fèn fā"]
+                },
+                {
+                    "number": 2,
+                    "words": ["节日", "春节", "花灯", "清明节", "先人", "龙舟", "中秋", "团圆", "热闹"],
+                    "pinyin": ["jié rì", "chūn jié", "huā dēng", "qīng míng jié", "xiān rén", "lóng zhōu", "zhōng qiū", "tuán yuán", "rè nao"]
+                },
+                {
+                    "number": 3,
+                    "words": ["动物", "贝壳", "自己", "身体", "甲骨文", "样子", "可以"],
+                    "pinyin": ["dòng wù", "bèi ké", "zì jǐ", "shēn tǐ", "jiǎ gǔ wén", "yàng zi", "kě yǐ"]
+                },
+                {
+                    "number": 4,
+                    "words": ["美食", "红烧", "茄子", "烤鸭", "羊肉", "蛋炒饭"],
+                    "pinyin": ["měi shí", "hóng shāo", "qié zi", "kǎo yā", "yáng ròu", "dàn chǎo fàn"]
                 }
+            ]
+        },
+        {
+            "name": "课文",
+            "lessons": [
+                {
+                    "number": 8,
+                    "words": ["彩色", "脚尖", "草坪", "森林", "雪松", "歌声", "苹果", "精灵", "季节"],
+                    "pinyin": ["cǎi sè", "jiǎo jiān", "cǎo píng", "sēn lín", "xuě sōng", "gē shēng", "píng guǒ", "jīng líng", "jì jié"]
+                },
+                {
+                    "number": 18,
+                    "words": ["太空", "杯子", "生活", "宇宙飞船", "别处", "活动", "主要", "方便"],
+                    "pinyin": ["tài kōng", "bēi zi", "shēng huó", "yǔ zhòu fēi chuán", "bié chù", "huó dòng", "zhǔ yào", "fāng biàn"]
+                },
+                {
+                    "number": 21,
+                    "words": ["青蛙", "觉得", "草籽", "野鸭", "泉水", "竹子", "应该", "花丛", "尽情", "道路"],
+                    "pinyin": ["qīng wā", "jué de", "cǎo zǐ", "yě yā", "quán shuǐ", "zhú zi", "yīng gāi", "huā cóng", "jìn qíng", "dào lù"]
+                }
+            ]
+        }
+    ]
+},
+{
+    "grade": "三年级上",
+    "sections": [
+        {
+            "name": "课文",
+            "lessons": [
+                {
+                    "number": 1,
+                    "words": ["早晨", "穿戴", "鲜艳", "服装", "打扮", "校园", "敬爱", "国旗", "敬礼", "树枝", "好奇", "孔雀", "招引", "粗壮", "枝干", "影子"],
+                    "pinyin": ["zǎo chén", "chuān dài", "xiān yàn", "fú zhuāng", "dǎ bàn", "xiào yuán", "jìng ài", "guó qí", "jìng lǐ", "shù zhī", "hào qí", "kǒng què", "zhāo yǐn", "cū zhuàng", "zhī gàn", "yǐng zi"]
+                },
+                {
+                    "number": 2,
+                    "words": ["轰响", "阵雨", "荒野", "风笛", "跳舞", "狂欢", "功课", "放假", "互相", "碰触", "狂风", "急急忙忙", "自然", "能够", "双臂"],
+                    "pinyin": ["hōng xiǎng", "zhèn yǔ", "huāng yě", "fēng dí", "tiào wǔ", "kuáng huān", "gōng kè", "fàng jià", "hù xiāng", "pèng chù", "kuáng fēng", "jí jí máng máng", "zì rán", "néng gòu", "shuāng bì"]
+                },
+                {
+                    "number": 5,
+                    "words": ["水泥", "放晴", "明朗", "亮晶晶", "金黄", "雨珠", "院墙", "落叶", "图案", "闪闪发光", "尽头", "平展", "排列", "规则", "凌乱", "歌唱", "迟到"],
+                    "pinyin": ["shuǐ ní", "fàng qíng", "míng lǎng", "liàng jīng jīng", "jīn huáng", "yǔ zhū", "yuàn qiáng", "luò yè", "tú àn", "shǎn shǎn fā guāng", "jìn tóu", "píng zhǎn", "pái liè", "guī zé", "líng luàn", "gē chàng", "chí dào"]
+                },
+                {
+                    "number": 6,
+                    "words": ["钥匙", "清凉", "留意", "颜料", "枫叶", "邮票", "果树", "菊花", "仙子", "气味", "香甜", "香味", "喇叭", "加紧", "过冬", "丰收"],
+                    "pinyin": ["yào shi", "qīng liáng", "liú yì", "yán liào", "fēng yè", "yóu piào", "guǒ shù", "jú huā", "xiān zǐ", "qì wèi", "xiāng tián", "xiāng wèi", "lǎ ba", "jiā jǐn", "guò dōng", "fēng shōu"]
+                },
+                {
+                    "number": 8,
+                    "words": ["火柴", "围裙", "可怜", "几乎", "哪怕", "暖和", "火焰", "简直", "蜡烛", "亮光", "烛光", "温和", "寒冷", "痛苦", "清晨"],
+                    "pinyin": ["huǒ chái", "wéi qún", "kě lián", "jī hū", "nǎ pà", "nuǎn huo", "huǒ yàn", "jiǎn zhí", "là zhú", "liàng guāng", "zhú guāng", "wēn hé", "hán lěng", "tòng kǔ", "qīng chén"]
+                },
+                {
+                    "number": 10,
+                    "words": ["旅行", "要好", "咱们", "草堆", "偷偷", "答应", "来得及", "救命", "拼命", "大吃一惊", "疼痛", "牙齿", "消化", "当然", "有用", "细嚼慢咽", "知觉", "眼泪"],
+                    "pinyin": ["lǚ xíng", "yào hǎo", "zán men", "cǎo duī", "tōu tōu", "dā yìng", "lái de jí", "jiù mìng", "pīn mìng", "dà chī yì jīng", "téng tòng", "yá chǐ", "xiāo huà", "dāng rán", "yǒu yòng", "xì jiáo màn yàn", "zhī jué", "yǎn lèi"]
+                },
+                {
+                    "number": 12,
+                    "words": ["变成", "门板", "准备", "暴风雨", "安心", "主人", "墙壁", "母鸡", "注意", "蜘蛛", "偶尔", "因此"],
+                    "pinyin": ["biàn chéng", "mén bǎn", "zhǔn bèi", "bào fēng yǔ", "ān xīn", "zhǔ rén", "qiáng bì", "mǔ jī", "zhù yì", "zhī zhū", "ǒu ěr", "yīn cǐ"]
+                },
+                {
+                    "number": 15,
+                    "words": ["母亲", "外祖父", "船舱", "雨点", "船夫", "用力", "船头", "羽毛", "翠绿", "漂亮", "静悄悄", "告诉", "翠鸟", "捕鱼"],
+                    "pinyin": ["mǔ qīn", "wài zǔ fù", "chuán cāng", "yǔ diǎn", "chuán fū", "yòng lì", "chuán tóu", "yǔ máo", "cuì lǜ", "piào liàng", "jìng qiāo qiāo", "gào su", "cuì niǎo", "bǔ yú"]
+                },
+                {
+                    "number": 16,
+                    "words": ["乡下", "窗前", "蒲公英", "盛开", "常常", "玩耍", "一本正经", "绒毛", "假装", "哈欠", "钓鱼", "观察", "合拢", "手掌", "有趣", "喜爱"],
+                    "pinyin": ["xiāng xià", "chuāng qián", "pú gōng yīng", "shèng kāi", "cháng cháng", "wán shuǎ", "yī běn zhèng jīng", "róng máo", "jiǎ zhuāng", "hā qiàn", "diào yú", "guān chá", "hé lǒng", "shǒu zhǎng", "yǒu qù", "xǐ ài"]
+                },
+                {
+                    "number": 18,
+                    "words": ["位于", "部分", "风景", "优美", "物产", "丰富", "相互", "峡谷", "各种各样", "成群结队", "条纹", "游动", "堆积", "宝贵", "肥料", "祖国", "事业"],
+                    "pinyin": ["wèi yú", "bù fēn", "fēng jǐng", "yōu měi", "wù chǎn", "fēng fù", "xiāng hù", "xiá gǔ", "gè zhǒng gè yàng", "chéng qún jié duì", "tiáo wén", "yóu dòng", "duī jī", "bǎo guì", "féi liào", "zǔ guó", "shì yè"]
+                },
+                {
+                    "number": 19,
+                    "words": ["海滨", "街道", "来来往往", "军舰", "朝阳", "渔民", "遍地", "远处", "汽笛", "船队", "满载", "银光闪闪", "靠岸", "初夏", "散发", "密不透风", "除了", "整洁"],
+                    "pinyin": ["hǎi bīn", "jiē dào", "lái lái wǎng wǎng", "jūn jiàn", "cháo yáng", "yú mín", "biàn dì", "yuǎn chù", "qì dí", "chuán duì", "mǎn zài", "yín guāng shǎn shǎn", "kào àn", "chū xià", "sàn fā", "mì bù tòu fēng", "chú le", "zhěng jié"]
+                },
+                {
+                    "number": 20,
+                    "words": ["东北", "脑袋", "密密层层", "严严实实", "挡住", "视线", "宿舍", "花坛", "显得", "苍翠", "飞舞", "酸甜可口", "名贵", "药材", "雪花", "巨大", "宝库"],
+                    "pinyin": ["dōng běi", "nǎo dài", "mì mì céng céng", "yán yán shí shí", "dǎng zhù", "shì xiàn", "sù shè", "huā tán", "xiǎn de", "cāng cuì", "fēi wǔ", "suān tián kě kǒu", "míng guì", "yào cái", "xuě huā", "jù dà", "bǎo kù"]
+                },
+                {
+                    "number": 21,
+                    "words": ["美妙", "音乐家", "演奏", "感受", "激动", "合奏", "乐曲", "充满", "力量", "乐器", "雨滴", "滴答", "所有", "河流", "轻快", "水塘"],
+                    "pinyin": ["měi miào", "yīn yuè jiā", "yǎn zòu", "gǎn shòu", "jī dòng", "hé zòu", "yuè qǔ", "chōng mǎn", "lì liàng", "yuè qì", "yǔ dī", "dī dá", "suǒ yǒu", "hé liú", "qīng kuài", "shuǐ táng"]
+                },
+                {
+                    "number": 22,
+                    "words": ["高远", "浮云", "昆虫", "万物", "不仅", "愉悦", "勇猛", "搬家", "井然", "趣味", "鲜美", "如同", "温柔", "挺拔", "倒映", "倒影", "无穷", "无尽", "乐趣"],
+                    "pinyin": ["gāo yuǎn", "fú yún", "kūn chóng", "wàn wù", "bù jǐn", "yú yuè", "yǒng měng", "bān jiā", "jǐng rán", "qù wèi", "xiān měi", "rú tóng", "wēn róu", "tǐng bá", "dào yìng", "dào yǐng", "wú qióng", "wú jìn", "lè qù"]
+                },
+                {
+                    "number": 23,
+                    "words": ["父亲", "童年", "黎明", "雾蒙蒙", "轻声", "生怕", "惊动", "气息", "总是", "抖动", "露水", "呼吸", "时刻", "猎人", "翅膀", "潮湿", "沉重"],
+                    "pinyin": ["fù qīn", "tóng nián", "lí míng", "wù méng méng", "qīng shēng", "shēng pà", "jīng dòng", "qì xī", "zǒng shì", "dǒu dòng", "lù shuǐ", "hū xī", "shí kè", "liè rén", "chì bǎng", "cháo shī", "chén zhòng"]
+                },
+                {
+                    "number": 25,
+                    "words": ["郊外", "养病", "跳动", "仰望", "欢快", "谷粒", "男孩", "或者", "严寒", "本来", "可惜", "肯定", "诚实"],
+                    "pinyin": ["jiāo wài", "yǎng bìng", "tiào dòng", "yǎng wàng", "huān kuài", "gǔ lì", "nán hái", "huò zhě", "yán hán", "běn lái", "kě xī", "kěn dìng", "chéng shí"]
+                },
+                {
+                    "number": 26,
+                    "words": ["手术台", "阵地", "战斗", "打响", "气焰", "刚刚", "激烈", "血丝", "取出", "卫生", "匆匆", "危险", "瓦片", "迅速", "争分夺秒", "结束"],
+                    "pinyin": ["shǒu shù tái", "zhèn dì", "zhàn dòu", "dǎ xiǎng", "qì yàn", "gāng gāng", "jī liè", "xuè sī", "qǔ chū", "wèi shēng", "cōng cōng", "wēi xiǎn", "wǎ piàn", "xùn sù", "zhēng fēn duó miǎo", "jié shù"]
+                }
+            ]
+        }
+    ]
+},
+                {
+    "grade": "三年级下",
+    "sections": [
+        {
+            "name": "课文",
+            "lessons": [
+                {
+                    "number": 2,
+                    "words": ["乌黑", "活泼", "春日", "轻风", "吹拂", "洒落", "赶集", "聚拢", "形成", "加入", "春光", "平添", "稻田", "湖面", "闲散", "纤细"],
+                    "pinyin": ["wū hēi", "huó pō", "chūn rì", "qīng fēng", "chuī fú", "sǎ luò", "gǎn jí", "jù lǒng", "xíng chéng", "jiā rù", "chūn guāng", "píng tiān", "dào tián", "hú miàn", "xián sǎn", "xiān xì"]
+                },
+                {
+                    "number": 3,
+                    "words": ["荷花", "清香", "花瓣", "莲蓬", "破裂", "姿势", "眼前", "本领", "仿佛", "微风", "翩翩起舞", "随风", "飘动", "舞蹈", "停止"],
+                    "pinyin": ["hé huā", "qīng xiāng", "huā bàn", "lián péng", "pò liè", "zī shì", "yǎn qián", "běn lǐng", "fǎng fú", "wēi fēng", "piān piān qǐ wǔ", "suí fēng", "piāo dòng", "wǔ dǎo", "tíng zhǐ"]
+                },
+                {
+                    "number": 6,
+                    "words": ["国王", "骄傲", "傲慢", "谦虚", "懦弱", "神气", "住嘴", "恼怒", "相提并论", "走着瞧", "王朝", "尘土", "惊讶", "光洁", "美观", "古代", "价值", "动手"],
+                    "pinyin": ["guó wáng", "jiāo ào", "ào màn", "qiān xū", "nuò ruò", "shén qì", "zhù zuǐ", "nǎo nù", "xiāng tí bìng lùn", "zǒu zhe qiáo", "wáng cháo", "chén tǔ", "jīng yà", "guāng jié", "měi guān", "gǔ dài", "jià zhí", "dòng shǒu"]
+                },
+                {
+                    "number": 7,
+                    "words": ["池塘", "痛快", "欣赏", "身段", "匀称", "别致", "不禁", "机灵", "哎呀", "狮子", "犹豫", "灰心丧气", "机会", "叹气", "逃生"],
+                    "pinyin": ["chí táng", "tòng kuài", "xīn shǎng", "shēn duàn", "yún chèn", "bié zhì", "bù jīn", "jī líng", "āi yā", "shī zi", "yóu yù", "huī xīn sàng qì", "jī huì", "tàn qì", "táo shēng"]
+                },
+                {
+                    "number": 10,
+                    "words": ["造纸术", "世界", "伟大", "贡献", "记录", "保存", "需要", "制作", "大约", "吸收", "经验", "原料", "满足", "朝鲜", "半岛", "日本", "阿拉伯", "欧洲", "社会"],
+                    "pinyin": ["zào zhǐ shù", "shì jiè", "wěi dà", "gòng xiàn", "jì lù", "bǎo cún", "xū yào", "zhì zuò", "dà yuē", "xī shōu", "jīng yàn", "yuán liào", "mǎn zú", "cháo xiǎn", "bàn dǎo", "rì běn", "ā lā bó", "ōu zhōu", "shè huì"]
+                },
+                {
+                    "number": 11,
+                    "words": ["赵州桥", "石匠", "设计", "创举", "冲击", "不但", "而且", "各自", "似乎", "体现", "人民", "智慧", "才干", "历史"],
+                    "pinyin": ["zhào zhōu qiáo", "shí jiàng", "shè jì", "chuàng jǔ", "chōng jī", "bù dàn", "ér qiě", "gè zì", "sì hū", "tǐ xiàn", "rén mín", "zhì huì", "cái gàn", "lì shǐ"]
+                },
+                {
+                    "number": 13,
+                    "words": ["争奇斗艳", "芬芳", "迷人", "艳丽", "醒来", "万寿菊", "欣然", "苏醒", "关系", "适宜", "适应", "淡雅", "展示", "修建", "组成"],
+                    "pinyin": ["zhēng qí dòu yàn", "fēn fāng", "mí rén", "yàn lì", "xǐng lái", "wàn shòu jú", "xīn rán", "sū xǐng", "guān xì", "shì yí", "shì yìng", "dàn yǎ", "zhǎn shì", "xiū jiàn", "zǔ chéng"]
+                },
+                {
+                    "number": 14,
+                    "words": ["蜜蜂", "辨认", "能力", "大概", "阻力", "将近", "包括", "检查", "迷失", "准确", "无误", "尽管", "逆风", "沿途", "陌生", "确实", "超常", "记忆", "本能"],
+                    "pinyin": ["mì fēng", "biàn rèn", "néng lì", "dà gài", "zǔ lì", "jiāng jìn", "bāo kuò", "jiǎn chá", "mí shī", "zhǔn què", "wú wù", "jǐn guǎn", "nì fēng", "yán tú", "mò shēng", "què shí", "chāo cháng", "jì yì", "běn néng"]
+                },
+                {
+                    "number": 16,
+                    "words": ["星空", "流淌", "秘密", "楼梯", "相遇", "铃声", "思绪", "瞬间"],
+                    "pinyin": ["xīng kōng", "liú tǎng", "mì mì", "lóu tī", "xiāng yù", "líng shēng", "sī xù", "shùn jiān"]
+                },
+                {
+                    "number": 17,
+                    "words": ["形状", "狐狸", "担心", "丁零", "失望", "巧克力", "香肠", "面包", "花生", "牛奶", "继续", "想念", "饭菜", "排骨", "麻烦", "了解"],
+                    "pinyin": ["xíng zhuàng", "hú li", "dān xīn", "dīng líng", "shī wàng", "qiǎo kè lì", "xiāng cháng", "miàn bāo", "huā shēng", "niú nǎi", "jì xù", "xiǎng niàn", "fàn cài", "pái gǔ", "má fan", "liǎo jiě"]
+                },
+                {
+                    "number": 18,
+                    "words": ["水墨画", "垂柳", "梳妆", "钓竿", "扇动", "戏耍", "拨动", "浪花", "葫芦", "松树", "洗澡", "清爽", "松针", "蘑菇"],
+                    "pinyin": ["shuǐ mò huà", "chuí liǔ", "shū zhuāng", "diào gān", "shān dòng", "xì shuǎ", "bō dòng", "làng huā", "hú lu", "sōng shù", "xǐ zǎo", "qīng shuǎng", "sōng zhēn", "mó gu"]
+                },
+                {
+                    "number": 19,
+                    "words": ["大师", "表弟", "胆小", "姑父", "理发", "欢迎", "仇人", "摆布", "习惯", "受刑", "双倍", "过年", "央求", "虽然"],
+                    "pinyin": ["dà shī", "biǎo dì", "dǎn xiǎo", "gū fù", "lǐ fà", "huān yíng", "chóu rén", "bǎi bù", "xí guàn", "shòu xíng", "shuāng bèi", "guò nián", "yāng qiú", "suī rán"]
+                },
+                {
+                    "number": 20,
+                    "words": ["肥皂泡", "种类", "其中", "网球", "透明", "分裂", "形式", "圆满", "飞越", "熟睡", "婴儿", "目送", "希望"],
+                    "pinyin": ["féi zào pào", "zhǒng lèi", "qí zhōng", "wǎng qiú", "tòu míng", "fēn liè", "xíng shì", "yuán mǎn", "fēi yuè", "shú shuì", "yīng ér", "mù sòng", "xī wàng"]
+                },
+                {
+                    "number": 22,
+                    "words": ["奇妙", "呈现", "降落", "映射", "变幻", "奇迹", "诱人", "圆润", "感叹", "光辉", "光芒", "飞翔", "冰柱", "锋利", "刀剑", "珍珠", "普通", "模型", "存在"],
+                    "pinyin": ["qí miào", "chéng xiàn", "jiàng luò", "yìng shè", "biàn huàn", "qí jì", "yòu rén", "yuán rùn", "gǎn tàn", "guāng huī", "guāng máng", "fēi xiáng", "bīng zhù", "fēng lì", "dāo jiàn", "zhēn zhū", "pǔ tōng", "mó xíng", "cún zài"]
+                },
+                {
+                    "number": 23,
+                    "words": ["海底", "宁静", "器官", "是否", "窃窃私语", "行进", "海参", "肌肉", "伸缩", "攻击", "反推力", "后退", "轮船", "长途", "细胞", "陆地"],
+                    "pinyin": ["hǎi dǐ", "níng jìng", "qì guān", "shì fǒu", "qiè qiè sī yǔ", "xíng jìn", "hǎi shēn", "jī ròu", "shēn suō", "gōng jī", "fǎn tuī lì", "hòu tuì", "lún chuán", "cháng tú", "xì bāo", "lù dì"]
+                },
+                {
+                    "number": 24,
+                    "words": ["火烧云", "晚饭", "笑盈盈", "胡子", "红彤彤", "金灿灿", "葡萄", "脖子", "凶猛", "威武", "镇静"],
+                    "pinyin": ["huǒ shāo yún", "wǎn fàn", "xiào yíng yíng", "hú zi", "hóng tóng tóng", "jīn càn càn", "pú táo", "bó zi", "xiōng měng", "wēi wǔ", "zhèn jìng"]
+                },
+                {
+                    "number": 25,
+                    "words": ["性子", "顾客", "布料", "交货", "箱子", "笑话", "大方", "夸奖", "实在", "提前", "服务", "袖子", "衬衫", "负责", "名声", "泄气", "手艺", "感动"],
+                    "pinyin": ["xìng zi", "gù kè", "bù liào", "jiāo huò", "xiāng zi", "xiào huà", "dà fang", "kuā jiǎng", "shí zài", "tí qián", "fú wù", "xiù zi", "chèn shān", "fù zé", "míng shēng", "xiè qì", "shǒu yì", "gǎn dòng"]
+                },
+                {
+                    "number": 27,
+                    "words": ["里屋", "莫非", "厉害", "走南闯北", "发抖", "松手", "跟前", "甘心"],
+                    "pinyin": ["lǐ wū", "mò fēi", "lì hài", "zǒu nán chuǎng běi", "fā dǒu", "sōng shǒu", "gēn qián", "gān xīn"]
+                }
+            ]
+        }
+    ]
+},
+{
+    "grade": "四年级上",
+    "sections": [
+        {
+            "name": "课文",
+            "lessons": [
+                {
+                    "number": 1,
+                    "words": ["奇观", "据说", "宽阔", "笼罩", "人山人海", "昂首", "滚动", "顿时", "逐渐", "横贯", "犹如", "齐头并进", "山崩地裂", "霎时", "余波", "依旧", "恢复"],
+                    "pinyin": ["qí guān", "jù shuō", "kuān kuò", "lǒng zhào", "rén shān rén hǎi", "áng shǒu", "gǔn dòng", "dùn shí", "zhú jiàn", "héng guàn", "yóu rú", "qí tóu bìng jìn", "shān bēng dì liè", "shà shí", "yú bō", "yī jiù", "huī fù"]
+                },
+                {
+                    "number": 2,
+                    "words": ["柔和", "鹅卵石", "新鲜", "修补", "坑坑洼洼", "庄稼", "风俗", "沟水", "满意", "浇灌", "水稻", "成熟", "田埂", "招待", "传说", "闪烁"],
+                    "pinyin": ["róu hé", "é luǎn shí", "xīn xiān", "xiū bǔ", "kēng kēng wā wā", "zhuāng jia", "fēng sú", "gōu shuǐ", "mǎn yì", "jiāo guàn", "shuǐ dào", "chéng shú", "tián gěng", "zhāo dài", "chuán shuō", "shǎn shuò"]
+                },
+                {
+                    "number": 5,
+                    "words": ["按照", "暖洋洋", "恐怕", "僵硬", "预感", "丰满", "等待", "子弹", "囚犯", "虚弱", "玻璃", "棍子", "的确", "愉快", "兴奋", "简直", "曾经", "鸽子", "任何"],
+                    "pinyin": ["àn zhào", "nuǎn yáng yáng", "kǒng pà", "jiāng yìng", "yù gǎn", "fēng mǎn", "děng dài", "zǐ dàn", "qiú fàn", "xū ruò", "bō li", "gùn zi", "dí què", "yú kuài", "xīng fèn", "jiǎn zhí", "céng jīng", "gē zi", "rèn hé"]
+                },
+                {
+                    "number": 6,
+                    "words": ["夜航", "蝙蝠", "飞蛾", "蚊子", "即使", "灵巧", "敏锐", "科学家", "横七竖八", "绳子", "苍蝇", "证明", "研究", "障碍", "改变", "雷达", "显示", "驾驶员"],
+                    "pinyin": ["yè háng", "biān fú", "fēi é", "wén zi", "jí shǐ", "líng qiǎo", "mǐn ruì", "kē xué jiā", "héng qī shù bā", "shéng zi", "cāng yíng", "zhèng míng", "yán jiū", "zhàng ài", "gǎi biàn", "léi dá", "xiǎn shì", "jià shǐ yuán"]
+                },
+                {
+                    "number": 7,
+                    "words": ["呼风唤雨", "世纪", "技术", "获得", "程度", "依赖", "腾云驾雾", "幻想", "潜入", "探索", "原子核", "奥秘", "程控", "民航", "船舶", "联系", "物质", "哲学", "改善"],
+                    "pinyin": ["hū fēng huàn yǔ", "shì jì", "jì shù", "huò dé", "chéng dù", "yī lài", "téng yún jià wù", "huàn xiǎng", "qián rù", "tàn suǒ", "yuán zǐ hé", "ào mì", "chéng kòng", "mín háng", "chuán bó", "lián xì", "wù zhì", "zhé xué", "gǎi shàn"]
+                },
+                {
+                    "number": 10,
+                    "words": ["爬山虎", "操场", "嫩红", "舒服", "均匀", "重叠", "空隙", "叶柄", "蜗牛", "触角", "弯曲", "细小", "痕迹", "牢固"],
+                    "pinyin": ["pá shān hǔ", "cāo chǎng", "nèn hóng", "shū fu", "jūn yún", "chóng dié", "kòng xì", "yè bǐng", "wō niú", "chù jiǎo", "wān qū", "xì xiǎo", "hén jì", "láo gù"]
+                },
+                {
+                    "number": 11,
+                    "words": ["住宅", "临时", "随遇而安", "慎重", "选择", "住址", "优良", "洞穴", "大厅", "卧室", "专家", "平坦", "平整", "清洁", "干燥", "疲劳", "不耐烦", "增长"],
+                    "pinyin": ["zhù zhái", "lín shí", "suí yù ér ān", "shèn zhòng", "xuǎn zé", "zhù zhǐ", "yōu liáng", "dòng xué", "dà tīng", "wò shì", "zhuān jiā", "píng tǎn", "píng zhěng", "qīng jié", "gān zào", "pí láo", "bù nài fán", "zēng zhǎng"]
+                },
+                {
+                    "number": 12,
+                    "words": ["睁眼", "黑乎乎", "斧头", "黑暗", "缓缓", "上升", "下降", "精疲力竭", "隆隆", "照耀", "四肢", "血液", "奔流不息", "茂盛", "滋润"],
+                    "pinyin": ["zhēng yǎn", "hēi hū hū", "fǔ tou", "hēi àn", "huǎn huǎn", "shàng shēng", "xià jiàng", "jīng pí lì jié", "lóng lóng", "zhào yào", "sì zhī", "xuè yè", "bēn liú bù xī", "mào shèng", "zī rùn"]
+                },
+                {
+                    "number": 14,
+                    "words": ["悲惨", "情景", "盗取", "猛兽", "消息", "严厉", "执行", "敬佩", "坚定", "造福", "违抗", "悬崖", "遭受", "凶恶", "著名", "愤愤不平", "砸碎"],
+                    "pinyin": ["bēi cǎn", "qíng jǐng", "dào qǔ", "měng shòu", "xiāo xī", "yán lì", "zhí xíng", "jìng pèi", "jiān dìng", "zào fú", "wéi kàng", "xuán yá", "zāo shòu", "xiōng è", "zhù míng", "fèn fèn bù píng", "zá suì"]
+                },
+                {
+                    "number": 16,
+                    "words": ["打猎", "林荫路", "猛烈", "白桦", "无可奈何", "分明", "绝望", "尖叫", "身躯", "掩护", "拯救", "幼儿", "搏斗", "嘶哑", "庞大", "愣住"],
+                    "pinyin": ["dǎ liè", "lín yīn lù", "měng liè", "bái huà", "wú kě nài hé", "fēn míng", "jué wàng", "jiān jiào", "shēn qū", "yǎn hù", "zhěng jiù", "yòu ér", "bó dòu", "sī yǎ", "páng dà", "lèng zhù"]
+                },
+                {
+                    "number": 17,
+                    "words": ["石级", "发颤", "奋力", "猴子", "鲫鱼", "纪念", "辫子", "笑呵呵", "鼓舞"],
+                    "pinyin": ["shí jí", "fā chàn", "fèn lì", "hóu zi", "jì yú", "jì niàn", "biàn zi", "xiào hē hē", "gǔ wǔ"]
+                },
+                {
+                    "number": 18,
+                    "words": ["甚至", "拳头", "顽皮", "故意", "衣襟", "鞋子", "结实", "欺负", "无缘无故"],
+                    "pinyin": ["shèn zhì", "quán tou", "wán pí", "gù yì", "yī jīn", "xié zi", "jiē shi", "qī fu", "wú yuán wú gù"]
+                },
+                {
+                    "number": 19,
+                    "words": ["文艺", "表演", "班级", "羡慕", "角色", "殷切", "期待", "排练", "撇嘴", "通情达理", "充分", "自信", "嗓门", "撤换", "紧张", "哄堂大笑", "笨拙", "幕布", "砸锅"],
+                    "pinyin": ["wén yì", "biǎo yǎn", "bān jí", "xiàn mù", "jué sè", "yīn qiè", "qī dài", "pái liàn", "piě zuǐ", "tōng qíng dá lǐ", "chōng fèn", "zì xìn", "sǎng mén", "chè huàn", "jǐn zhāng", "hōng táng dà xiào", "bèn zhuō", "mù bù", "zá guō"]
+                },
+                {
+                    "number": 20,
+                    "words": ["冰天雪地", "增加", "毫无怨言", "旋转", "重整旗鼓", "况且", "鞭子", "得心应手", "椅子", "废物", "仍然", "不错", "尤其", "手舞足蹈", "恨不得", "帅气", "预料", "摇头晃脑", "不动声色", "彻底", "自豪"],
+                    "pinyin": ["bīng tiān xuě dì", "zēng jiā", "háo wú yuàn yán", "xuán zhuǎn", "chóng zhěng qí gǔ", "kuàng qiě", "biān zi", "dé xīn yìng shǒu", "yǐ zi", "fèi wù", "réng rán", "bù cuò", "yóu qí", "shǒu wǔ zú dǎo", "hèn bu de", "shuài qì", "yù liào", "yáo tóu huàng nǎo", "bù dòng shēng sè", "chè dǐ", "zì háo"]
+                },
+                {
+                    "number": 22,
+                    "words": ["崛起", "严肃", "默默", "清晰", "抱负", "胸怀", "赞叹", "免得", "疑惑", "表情", "忘怀", "非凡", "指望", "惩处", "训斥", "燃烧", "响亮"],
+                    "pinyin": ["jué qǐ", "yán sù", "mò mò", "qīng xī", "bào fù", "xiōng huái", "zàn tàn", "miǎn de", "yí huò", "biǎo qíng", "wàng huái", "fēi fán", "zhǐ wàng", "chéng chǔ", "xùn chì", "rán shāo", "xiǎng liàng"]
+                },
+                {
+                    "number": 26,
+                    "words": ["管理", "人烟", "稀少", "媳妇", "新娘", "眼睁睁", "人口", "干旱", "迎接", "徒弟", "面如土色", "求饶", "灌溉"],
+                    "pinyin": ["guǎn lǐ", "rén yān", "xī shǎo", "xí fu", "xīn niáng", "yǎn zhēng zhēng", "rén kǒu", "gān hàn", "yíng jiē", "tú dì", "miàn rú tǔ sè", "qiú ráo", "guàn gài"]
+                }
+            ]
+        }
+    ]
+},
+{
+    "grade": "四年级下",
+    "sections": [
+        {
+            "name": "课文",
+            "lessons": [
+                {
+                    "number": 2,
+                    "words": ["屋檐", "构成", "装饰", "鸡冠花", "顺序", "朴素", "华丽", "独特", "照例", "率领", "踏步", "附近", "和谐", "催眠曲", "甜蜜", "梦乡"],
+                    "pinyin": ["wū yán", "gòu chéng", "zhuāng shì", "jī guān huā", "shùn xù", "pǔ sù", "huá lì", "dú tè", "zhào lì", "shuài lǐng", "tà bù", "fù jìn", "hé xié", "cuī mián qǔ", "tián mì", "mèng xiāng"]
+                },
+                {
+                    "number": 3,
+                    "words": ["慰藉", "扫荡", "威力", "锐利", "河滩", "帐子", "奇幻", "夜莺", "霸气", "猫头鹰", "真切", "复杂"],
+                    "pinyin": ["wèi jiè", "sǎo dàng", "wēi lì", "ruì lì", "hé tān", "zhàng zi", "qí huàn", "yè yīng", "bà qì", "māo tóu yīng", "zhēn qiè", "fù zá"]
+                },
+                {
+                    "number": 5,
+                    "words": ["怒吼", "松脂", "拂拭", "灰尘", "美餐", "晌午", "热辣辣", "淹没", "前俯后仰", "挣扎", "成千上万", "冲刷", "断绝", "澎湃", "详细", "情形", "时代"],
+                    "pinyin": ["nù hǒu", "sōng zhī", "fú shì", "huī chén", "měi cān", "shǎng wǔ", "rè là là", "yān mò", "qián fǔ hòu yǎng", "zhēng zhá", "chéng qiān shàng wàn", "chōng shuā", "duàn jué", "péng pài", "xiáng xì", "qíng xíng", "shí dài"]
+                },
+                {
+                    "number": 6,
+                    "words": ["恐龙", "笨重", "迟钝", "根据", "末期", "描绘", "隧道", "访问", "形态", "植物", "膨大", "敏捷", "躲避", "敌害", "具备", "崭新", "脱离", "揭示"],
+                    "pinyin": ["kǒng lóng", "bèn zhòng", "chí dùn", "gēn jù", "mò qī", "miáo huì", "suì dào", "fǎng wèn", "xíng tài", "zhí wù", "péng dà", "mǐn jié", "duǒ bì", "dí hài", "jù bèi", "zhǎn xīn", "tuō lí", "jiē shì"]
+                },
+                {
+                    "number": 7,
+                    "words": ["纳米", "必将", "乒乓球", "无能为力", "拥有", "冰箱", "杀菌", "功能", "蔬菜", "材料", "钢铁", "隐形", "探测", "健康", "癌症", "降低", "预防", "病灶", "深刻"],
+                    "pinyin": ["nà mǐ", "bì jiāng", "pīng pāng qiú", "wú néng wéi lì", "yōng yǒu", "bīng xiāng", "shā jūn", "gōng néng", "shū cài", "cái liào", "gāng tiě", "yǐn xíng", "tàn cè", "jiàn kāng", "ái zhèng", "jiàng dī", "yù fáng", "bìng zào", "shēn kè"]
+                },
+                {
+                    "number": 9,
+                    "words": ["繁星", "藤萝", "波涛"],
+                    "pinyin": ["fán xīng", "téng luó", "bō tāo"]
+                },
+                {
+                    "number": 10,
+                    "words": ["墨绿", "集中", "交叉", "教练", "指挥", "整齐", "节拍"],
+                    "pinyin": ["mò lǜ", "jí zhōng", "jiāo chā", "jiào liàn", "zhǐ huī", "zhěng qí", "jié pāi"]
+                },
+                {
+                    "number": 11,
+                    "words": ["毛茸茸", "潇洒", "朦胧", "寂静", "徜徉"],
+                    "pinyin": ["máo róng róng", "xiāo sǎ", "méng lóng", "jì jìng", "cháng yáng"]
+                },
+                {
+                    "number": 13,
+                    "words": ["呼唤", "响动", "尽职", "屏息", "凝视", "稿纸", "梅花", "解闷", "淘气", "开辟", "摔跤"],
+                    "pinyin": ["hū huàn", "xiǎng dòng", "jìn zhí", "bǐng xī", "níng shì", "gǎo zhǐ", "méi huā", "jiě mèn", "táo qì", "kāi pì", "shuāi jiāo"]
+                },
+                {
+                    "number": 14,
+                    "words": ["讨厌", "理由", "心事", "疙瘩", "反抗", "忠厚", "可恶", "毒手", "成绩", "心思", "警戒", "预备", "汤圆", "凄惨", "慈爱"],
+                    "pinyin": ["tǎo yàn", "lǐ yóu", "xīn shì", "gē da", "fǎn kàng", "zhōng hòu", "kě wù", "dú shǒu", "chéng jì", "xīn sī", "jǐng jiè", "yù bèi", "tāng yuán", "qī cǎn", "cí ài"]
+                },
+                {
+                    "number": 15,
+                    "words": ["姿态", "高傲", "音调", "呵斥", "叫嚣", "局促", "京剧", "奢侈", "一丝不苟", "譬如", "倘若", "从容不迫", "侍候", "饭馆", "脾气", "窥伺", "空空如也", "供养"],
+                    "pinyin": ["zī tài", "gāo ào", "yīn diào", "hē chì", "jiào xiāo", "jú cù", "jīng jù", "shē chǐ", "yī sī bù gǒu", "pì rú", "tǎng ruò", "cóng róng bù pò", "shì hòu", "fàn guǎn", "pí qì", "kuī sì", "kōng kōng rú yě", "gōng yǎng"]
+                },
+                {
+                    "number": 16,
+                    "words": ["清静", "扩大", "范围", "努力", "刹那", "夺目", "分辨", "灿烂"],
+                    "pinyin": ["qīng jìng", "kuò dà", "fàn wéi", "nǔ lì", "chà nà", "duó mù", "fēn biàn", "càn làn"]
+                },
+                {
+                    "number": 17,
+                    "words": ["杜鹃", "气势", "聚集", "拥挤", "心情", "脚跟", "移动", "昏暗", "挤压", "稍微", "额角", "登陆", "漆黑", "宽广", "蜿蜒", "石钟乳", "石笋", "观赏"],
+                    "pinyin": ["dù juān", "qì shì", "jù jí", "yōng jǐ", "xīn qíng", "jiǎo gēn", "yí dòng", "hūn àn", "jǐ yā", "shāo wēi", "é jiǎo", "dēng lù", "qī hēi", "kuān guǎng", "wān yán", "shí zhōng rǔ", "shí sǔn", "guān shǎng"]
+                },
+                {
+                    "number": 19,
+                    "words": ["芦花", "发愣", "铅笔", "脊背", "姥姥", "劫难", "鬼脸", "戒指", "试探", "尸首", "防备", "慌忙"],
+                    "pinyin": ["lú huā", "fā lèng", "qiān bǐ", "jǐ bèi", "lǎo lao", "jié nàn", "guǐ liǎn", "jiè zhǐ", "shì tàn", "shī shǒu", "fáng bèi", "huāng máng"]
+                },
+                {
+                    "number": 23,
+                    "words": ["战役", "战场", "持续", "占领", "轰鸣", "射击", "突击", "枪弹", "摧毁", "愤怒", "注视", "光荣", "艰巨", "炮弹", "爆炸", "烈火", "顽强", "不料", "规定", "惊天动地", "消灭"],
+                    "pinyin": ["zhàn yì", "zhàn chǎng", "chí xù", "zhàn lǐng", "hōng míng", "shè jī", "tū jī", "qiāng dàn", "cuī huǐ", "fèn nù", "zhù shì", "guāng róng", "jiān jù", "pào dàn", "bào zhà", "liè huǒ", "wán qiáng", "bù liào", "guī dìng", "jīng tiān dòng dì", "xiāo miè"]
+                },
+                {
+                    "number": 24,
+                    "words": ["弥漫", "距离", "山脉", "行驶", "起航", "葬身", "哭泣", "混乱", "绳索", "维持", "秩序", "岗位", "主宰", "考虑", "灾难", "践行"],
+                    "pinyin": ["mí màn", "jù lí", "shān mài", "xíng shǐ", "qǐ háng", "zàng shēn", "kū qì", "hùn luàn", "shéng suǒ", "wéi chí", "zhì xù", "gǎng wèi", "zhǔ zǎi", "kǎo lǜ", "zāi nàn", "jiàn xíng"]
+                },
+                {
+                    "number": 26,
+                    "words": ["介绍", "声明", "妖怪", "规矩", "胳膊", "劈面", "龙宫", "向日葵"],
+                    "pinyin": ["jiè shào", "shēng míng", "yāo guài", "guī ju", "gē bo", "pī miàn", "lóng gōng", "xiàng rì kuí"]
+                },
+                {
+                    "number": 27,
+                    "words": ["柔嫩", "丰硕", "允许", "禁止", "踪迹", "覆盖", "呼啸", "始终", "吼叫", "自私", "后悔", "举动", "脸颊", "凶狠", "拆除"],
+                    "pinyin": ["róu nèn", "fēng shuò", "yǔn xǔ", "jìn zhǐ", "zōng jì", "fù gài", "hū xiào", "shǐ zhōng", "hǒu jiào", "zì sī", "hòu huǐ", "jǔ dòng", "liǎn jiá", "xiōng hěn", "chāi chú"]
+                }
+            ]
+        }
+    ]
+},
+{
+    "grade": "五年级上",
+    "sections": [
+        {
+            "name": "课文",
+            "lessons": [
+                {
+                    "number": 1,
+                    "words": ["白鹭", "精巧", "配合", "白鹤", "生硬", "朱鹭", "寻常", "忘却", "镜匣", "孤独", "安稳", "悠然", "嗜好", "黄昏", "恩惠", "美中不足"],
+                    "pinyin": ["bái lù", "jīng qiǎo", "pèi hé", "bái hè", "shēng yìng", "zhū lù", "xún cháng", "wàng què", "jìng xiá", "gū dú", "ān wěn", "yōu rán", "shì hào", "huáng hūn", "ēn huì", "měi zhōng bù zú"]
+                },
+                {
+                    "number": 2,
+                    "words": ["播种", "吩咐", "榨油", "石榴", "爱慕", "体面"],
+                    "pinyin": ["bō zhǒng", "fēn fù", "zhà yóu", "shí liu", "ài mù", "tǐ miàn"]
+                },
+                {
+                    "number": 3,
+                    "words": ["桂花", "糕饼", "茶叶", "杭州"],
+                    "pinyin": ["guì huā", "gāo bǐng", "chá yè", "háng zhōu"]
+                },
+                {
+                    "number": 5,
+                    "words": ["汛期", "山洪", "间隔", "唯独", "懒惰", "平稳", "保持", "平衡", "协调", "美感", "示意", "家常", "假如", "理所当然", "联结"],
+                    "pinyin": ["xùn qī", "shān hóng", "jiàn gé", "wéi dú", "lǎn duò", "píng wěn", "bǎo chí", "píng héng", "xié tiáo", "měi gǎn", "shì yì", "jiā cháng", "jiǎ rú", "lǐ suǒ dāng rán", "lián jié"]
+                },
+                {
+                    "number": 6,
+                    "words": ["无价之宝", "召集", "大臣", "商议", "解决", "完好无缺", "称赞", "商量", "允诺", "典礼", "承诺", "胆怯", "边境", "抵御", "推辞", "侮辱", "拒绝", "职位", "削弱", "战袍", "同心协力"],
+                    "pinyin": ["wú jià zhī bǎo", "zhào jí", "dà chén", "shāng yì", "jiě jué", "wán hǎo wú quē", "chēng zàn", "shāng liang", "yǔn nuò", "diǎn lǐ", "chéng nuò", "dǎn qiè", "biān jìng", "dǐ yù", "tuī cí", "wǔ rǔ", "jù jué", "zhí wèi", "xuē ruò", "zhàn páo", "tóng xīn xié lì"]
+                },
+                {
+                    "number": 7,
+                    "words": ["猎豹", "鸵鸟", "冠军", "俯冲", "高速公路", "搭乘", "火箭", "发动机", "手电筒", "赤道"],
+                    "pinyin": ["liè bào", "tuó niǎo", "guàn jūn", "fǔ chōng", "gāo sù gōng lù", "dā chéng", "huǒ jiàn", "fā dòng jī", "shǒu diàn tǒng", "chì dào"]
+                },
+                {
+                    "number": 8,
+                    "words": ["侵略", "修筑", "粉碎", "领导", "不计其数", "打击", "堡垒", "坚持", "游击", "妨碍", "厕所", "隐蔽", "荆棘", "陷坑", "拐弯", "岔道", "迷惑", "无穷无尽"],
+                    "pinyin": ["qīn lüè", "xiū zhù", "fěn suì", "lǐng dǎo", "bù jì qí shù", "dǎ jī", "bǎo lěi", "jiān chí", "yóu jī", "fáng ài", "cè suǒ", "yǐn bì", "jīng jí", "xiàn kēng", "guǎi wān", "chà dào", "mí huò", "wú qióng wú jìn"]
+                },
+                {
+                    "number": 9,
+                    "words": ["猎物", "酬谢", "珍宝", "感激", "叮嘱", "复活", "议论", "崩塌", "焦急", "发誓", "千真万确", "谎话", "迟延", "牺牲", "镇定", "悲痛", "倾盆大雨", "震天动地"],
+                    "pinyin": ["liè wù", "chóu xiè", "zhēn bǎo", "gǎn jī", "dīng zhǔ", "fù huó", "yì lùn", "bēng tā", "jiāo jí", "fā shì", "qiān zhēn wàn què", "huǎng huà", "chí yán", "xī shēng", "zhèn dìng", "bēi tòng", "qīng pén dà yǔ", "zhèn tiān dòng dì"]
+                },
+                {
+                    "number": 10,
+                    "words": ["嫂子", "剩饭", "衣裳", "床铺", "亲密", "勤勤恳恳", "笑嘻嘻", "成家立业", "好歹", "稀罕", "妻子", "晚霞", "彩锦", "梭子", "监狱", "瞌睡", "一辈子", "结婚", "相依为命"],
+                    "pinyin": ["sǎo zi", "shèng fàn", "yī shang", "chuáng pù", "qīn mì", "qín qín kěn kěn", "xiào xī xī", "chéng jiā lì yè", "hǎo dǎi", "xī han", "qī zi", "wǎn xiá", "cǎi jǐn", "suō zi", "jiān yù", "kē shuì", "yī bèi zi", "jié hūn", "xiāng yī wéi mìng"]
+                },
+                {
+                    "number": 14,
+                    "words": ["毁灭", "不可估量", "损失", "举世闻名", "众星拱月", "金碧辉煌", "殿堂", "玲珑剔透", "亭台楼阁", "象征", "仿照", "诗情画意", "建筑", "漫游", "天南海北", "饱览", "置身", "境界", "宏伟", "奇珍异宝", "统统", "销毁", "罪证", "奉命", "瑰宝"],
+                    "pinyin": ["huǐ miè", "bù kě gū liàng", "sǔn shī", "jǔ shì wén míng", "zhòng xīng gǒng yuè", "jīn bì huī huáng", "diàn táng", "líng lóng tī tòu", "tíng tái lóu gé", "xiàng zhēng", "fǎng zhào", "shī qíng huà yì", "jiàn zhù", "màn yóu", "tiān nán hǎi běi", "bǎo lǎn", "zhì shēn", "jìng jiè", "hóng wěi", "qí zhēn yì bǎo", "tǒng tǒng", "xiāo huǐ", "zuì zhèng", "fèng mìng", "guī bǎo"]
+                },
+                {
+                    "number": 16,
+                    "words": ["寸草不生", "摄氏度", "繁殖", "粮食", "煤炭", "水蒸气", "飘浮", "地区", "治疗", "疾病"],
+                    "pinyin": ["cùn cǎo bù shēng", "shè shì dù", "fán zhí", "liáng shi", "méi tàn", "shuǐ zhēng qì", "piāo fú", "dì qū", "zhì liáo", "jí bìng"]
+                },
+                {
+                    "number": 17,
+                    "words": ["松鼠", "乖巧", "驯良", "清秀", "矫健", "玲珑", "追逐", "警觉", "触动", "光滑", "苔藓", "宽敞", "狭窄", "勉强", "圆锥形", "遮蔽", "脱落", "梳理"],
+                    "pinyin": ["sōng shǔ", "guāi qiǎo", "xùn liáng", "qīng xiù", "jiǎo jiàn", "líng lóng", "zhuī zhú", "jǐng jué", "chù dòng", "guāng huá", "tái xiǎn", "kuān chang", "xiá zhǎi", "miǎn qiǎng", "yuán zhuī xíng", "zhē bì", "tuō luò", "shū lǐ"]
+                },
+                {
+                    "number": 18,
+                    "words": ["失魂落魄", "广播", "辞退", "挣钱", "压抑", "颓败", "缝纫机", "忙碌", "阴暗", "酷暑", "噪声", "震耳欲聋", "瘦弱", "褐色", "口罩", "疲惫", "耽误", "衣兜", "忍心", "机械", "罐头", "权利"],
+                    "pinyin": ["shī hún luò pò", "guǎng bō", "cí tuì", "zhèng qián", "yā yì", "tuí bài", "féng rèn jī", "máng lù", "yīn àn", "kù shǔ", "zào shēng", "zhèn ěr yù lóng", "shòu ruò", "hè sè", "kǒu zhào", "pí bèi", "dān wu", "yī dōu", "rěn xīn", "jī xiè", "guàn tou", "quán lì"]
+                },
+                {
+                    "number": 19,
+                    "words": ["渔船", "报考", "恍恍惚惚", "彩排", "委屈", "豆腐脑", "万花筒", "抽象", "启迪", "丝绸", "出嫁", "陪嫁", "毕业", "寄宿", "撒娇", "路费", "轮换", "领略", "意境", "嘲笑", "精致"],
+                    "pinyin": ["yú chuán", "bào kǎo", "huǎng huǎng hū hū", "cǎi pái", "wěi qu", "dòu fu nǎo", "wàn huā tǒng", "chōu xiàng", "qǐ dí", "sī chóu", "chū jià", "péi jià", "bì yè", "jì sù", "sā jiāo", "lù fèi", "lún huàn", "lǐng lüè", "yì jìng", "cháo xiào", "jīng zhì"]
+                },
+                {
+                    "number": 22,
+                    "words": ["陆续", "白茫茫", "规律", "榕树", "纠正", "不可计数", "涨潮", "树梢", "应接不暇", "画眉"],
+                    "pinyin": ["lù xù", "bái máng máng", "guī lǜ", "róng shù", "jiū zhèng", "bù kě jì shǔ", "zhǎng cháo", "shù shāo", "yìng jiē bù xiá", "huà méi"]
+                },
+                {
+                    "number": 25,
+                    "words": ["舅父", "津津有味", "英雄", "无限", "一知半解", "述说", "厌烦", "荒唐", "辛酸", "消遣", "书刊", "烦琐", "索然无味", "真情实感", "质朴", "篇章", "刊物"],
+                    "pinyin": ["jiù fù", "jīn jīn yǒu wèi", "yīng xióng", "wú xiàn", "yī zhī bàn jiě", "shù shuō", "yàn fán", "huāng táng", "xīn suān", "xiāo qiǎn", "shū kān", "fán suǒ", "suǒ rán wú wèi", "zhēn qíng shí gǎn", "zhì pǔ", "piān zhāng", "kān wù"]
+                }
+            ]
+        }
+    ]
+},
+{
+    "grade": "五年级下",
+    "sections": [
+        {
+            "name": "课文",
+            "lessons": [
+                {
+                    "number": 2,
+                    "words": ["一望无际", "祭祀", "郑重", "正月", "厨房", "毡帽", "怕羞", "刺猬", "畜生", "伶俐"],
+                    "pinyin": ["yī wàng wú jì", "jì sì", "zhèng zhòng", "zhēng yuè", "chú fáng", "zhān mào", "pà xiū", "cì wei", "chù sheng", "líng lì"]
+                },
+                {
+                    "number": 3,
+                    "words": ["蝴蝶", "蜻蜓", "蚂蚱", "圆滚滚", "明晃晃", "樱桃", "蚌壳", "瞎闹", "锄头", "韭菜", "承认", "倭瓜", "水瓢", "蚯蚓", "随意"],
+                    "pinyin": ["hú dié", "qīng tíng", "mà zha", "yuán gǔn gǔn", "míng huǎng huǎng", "yīng táo", "bàng ké", "xiā nào", "chú tou", "jiǔ cài", "chéng rèn", "wō guā", "shuǐ piáo", "qiū yǐn", "suí yì"]
+                },
+                {
+                    "number": 5,
+                    "words": ["妒忌", "委托", "照办", "预计", "紧急", "军令状", "探听", "私自", "布置", "调度", "呐喊", "支援", "神机妙算"],
+                    "pinyin": ["dù jì", "wěi tuō", "zhào bàn", "yù jì", "jǐn jí", "jūn lìng zhuàng", "tàn tīng", "sī zì", "bù zhì", "diào dù", "nà hǎn", "zhī yuán", "shén jī miào suàn"]
+                },
+                {
+                    "number": 6,
+                    "words": ["恰好", "半夜三更", "寻思", "耻笑", "胸膛", "咆哮", "铁锤", "武艺"],
+                    "pinyin": ["qià hǎo", "bàn yè sān gēng", "xún sī", "chǐ xiào", "xiōng táng", "páo xiào", "tiě chuí", "wǔ yì"]
+                },
+                {
+                    "number": 10,
+                    "words": ["拟定", "参谋", "倾注", "锻炼", "情不自禁", "喃喃", "慰问", "安葬", "眷恋", "奔赴", "繁忙", "特殊", "尊重", "签字", "下意识", "踌躇", "黯然"],
+                    "pinyin": ["nǐ dìng", "cān móu", "qīng zhù", "duàn liàn", "qíng bù zì jīn", "nán nán", "wèi wèn", "ān zàng", "juàn liàn", "bēn fù", "fán máng", "tè shū", "zūn zhòng", "qiān zì", "xià yì shí", "chóu chú", "àn rán"]
+                },
+                {
+                    "number": 11,
+                    "words": ["诊所", "年龄", "熟练", "惊疑", "审视", "一针见血", "施行", "清醒", "颤抖", "一声不吭", "由衷", "苍白", "慈祥", "肃然起敬", "荣幸"],
+                    "pinyin": ["zhěn suǒ", "nián líng", "shú liàn", "jīng yí", "shěn shì", "yī zhēn jiàn xuè", "shī xíng", "qīng xǐng", "chàn dǒu", "yī shēng bù kēng", "yóu zhōng", "cāng bái", "cí xiáng", "sù rán qǐ jìng", "róng xìng"]
+                },
+                {
+                    "number": 13,
+                    "words": ["手疾眼快", "绊子", "脚腕子", "咕咚", "挺脱", "肢体", "格局", "威严", "无疑", "侄子", "喉咙", "灯盏"],
+                    "pinyin": ["shǒu jí yǎn kuài", "bàn zi", "jiǎo wàn zi", "gū dōng", "tǐng tuō", "zhī tǐ", "gé jú", "wēi yán", "wú yí", "zhí zi", "hóu lóng", "dēng zhǎn"]
+                },
+                {
+                    "number": 14,
+                    "words": ["粉刷", "师傅", "绝活", "半信半疑", "派头", "包袱", "手法", "鼓点", "衔接", "天衣无缝", "屏障", "搜索", "芝麻", "神圣", "侵犯", "露馅儿", "轰然", "难堪", "发怔"],
+                    "pinyin": ["fěn shuā", "shī fu", "jué huó", "bàn xìn bàn yí", "pài tou", "bāo fu", "shǒu fǎ", "gǔ diǎn", "xián jiē", "tiān yī wú fèng", "píng zhàng", "sōu suǒ", "zhī ma", "shén shèng", "qīn fàn", "lòu xiànr", "hōng rán", "nán kān", "fā zhèng"]
+                },
+                {
+                    "number": 16,
+                    "words": ["赏识", "脚力", "胸有成竹", "摩拳擦掌", "跃跃欲试", "兴致勃勃", "出谋划策", "引荐"],
+                    "pinyin": ["shǎng shí", "jiǎo lì", "xiōng yǒu chéng zhú", "mó quán cā zhǎng", "yuè yuè yù shì", "xìng zhì bó bó", "chū móu huà cè", "yǐn jiàn"]
+                },
+                {
+                    "number": 17,
+                    "words": ["航行", "风平浪静", "取乐", "放肆", "桅杆", "哭笑不得", "眼巴巴", "吓唬", "龇牙咧嘴", "海鸥", "瞄准", "心惊胆战"],
+                    "pinyin": ["háng xíng", "fēng píng làng jìng", "qǔ lè", "fàng sì", "wéi gān", "kū xiào bù dé", "yǎn bā bā", "xià hu", "zī yá liě zuǐ", "hǎi ōu", "miáo zhǔn", "xīn jīng dǎn zhàn"]
+                },
+                {
+                    "number": 18,
+                    "words": ["纵横", "船艄", "垫子", "操纵", "手忙脚乱", "保姆", "簇拥", "沉寂", "停泊", "码头"],
+                    "pinyin": ["zòng héng", "chuán shāo", "diàn zi", "cāo zòng", "shǒu máng jiǎo luàn", "bǎo mǔ", "cù yōng", "chén jì", "tíng bó", "mǎ tou"]
+                },
+                {
+                    "number": 19,
+                    "words": ["牛犊", "端庄", "仪态", "远眺", "骏马", "遮掩", "阻挡", "飞驰", "辽阔", "无垠", "绵羊", "呼噜", "赞许", "属于", "板凳", "吆喝", "铃铛", "沉睡", "牲畜", "灯塔"],
+                    "pinyin": ["niú dú", "duān zhuāng", "yí tài", "yuǎn tiào", "jùn mǎ", "zhē yǎn", "zǔ dǎng", "fēi chí", "liáo kuò", "wú yín", "mián yáng", "hū lū", "zàn xǔ", "shǔ yú", "bǎn dèng", "yāo he", "líng dāng", "chén shuì", "shēng chù", "dēng tǎ"]
+                },
+                {
+                    "number": 22,
+                    "words": ["拇指", "窈窕", "接触", "纽扣", "相貌", "养尊处优", "渺小", "享乐", "附庸", "团结"],
+                    "pinyin": ["mǔ zhǐ", "yǎo tiǎo", "jiē chù", "niǔ kòu", "xiàng mào", "yǎng zūn chǔ yōu", "miǎo xiǎo", "xiǎng lè", "fù yōng", "tuán jié"]
+                }
+            ]
+        }
+    ]
+}
+    
+            ]
+        };
+
+        // 语音合成函数
+        function speakChinese(word) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.8;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('您的浏览器不支持语音合成功能');
+            }
+        }
+
+        // 渲染页面内容
+        function renderContent(grade, sectionFilter) {
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = '';
+            
+            // 查找选中的年级
+            const selectedGrade = wordData.grades.find(g => g.grade === grade);
+            if (!selectedGrade) return;
+            
+            // 遍历每个部分
+            selectedGrade.sections.forEach(section => {
+                // 如果设置了部分筛选且当前部分不匹配，则跳过
+                if (sectionFilter !== 'all' && section.name !== sectionFilter) return;
                 
-                selectedItems.forEach(item => {
-                    const dictationItem = document.createElement('div');
-                    dictationItem.className = 'dictation-item';
-                    dictationItem.innerHTML = `
-                        <div class="pinyin">${item.dataset.pinyin}</div>
-                        <div class="character" style="visibility: hidden;">${item.dataset.character}</div>
-                    `;
-                    dictationList.appendChild(dictationItem);
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+                
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.textContent = section.name;
+                sectionDiv.appendChild(sectionTitle);
+                
+                // 遍历每课的拼音
+                section.lessons.forEach(lesson => {
+                    const lessonDiv = document.createElement('div');
+                    lessonDiv.className = 'lesson';
+                    
+                    const lessonNumberSpan = document.createElement('span');
+                    lessonNumberSpan.className = 'lesson-number';
+                    lessonNumberSpan.textContent = `${lesson.number}`;
+                    lessonDiv.appendChild(lessonNumberSpan);
+                    
+                    const pinyinContainer = document.createElement('div');
+                    pinyinContainer.className = 'pinyin-container';
+                    
+                    // 添加每个拼音
+                    for (let i = 0; i < lesson.pinyin.length; i++) {
+                        const pinyinSpan = document.createElement('span');
+                        pinyinSpan.className = 'pinyin';
+                        pinyinSpan.textContent = lesson.pinyin[i];
+                        
+                        // 添加点击事件，朗读对应的中文词语
+                        pinyinSpan.addEventListener('click', () => {
+                            speakChinese(lesson.words[i]);
+                        });
+                        
+                        // 添加鼠标悬停提示
+                        pinyinSpan.title = lesson.words[i];
+                        
+                        pinyinContainer.appendChild(pinyinSpan);
+                    }
+                    
+                    lessonDiv.appendChild(pinyinContainer);
+                    sectionDiv.appendChild(lessonDiv);
                 });
                 
-                dictationModal.style.display = 'flex';
-            });
-            
-            // 关闭默写窗口
-            closeDictationBtn.addEventListener('click', function() {
-                dictationModal.style.display = 'none';
+                contentDiv.appendChild(sectionDiv);
             });
         }
 
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            initWordList();
-            initDictation();
+        // 页面加载时初始化数据
+        window.onload = function() {
+            // 初始渲染
+            renderContent('二年级上', 'all');
             
-            // 实际应用中应从ciyu.json导入数据
-            // fetch('ciyu.json')
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         wordData = data;
-            //         initWordList();
-            //     });
-        });
+            // 年级选择事件监听
+            document.getElementById('grade-select').addEventListener('change', function() {
+                const sectionFilter = document.getElementById('section-select').value;
+                renderContent(this.value, sectionFilter);
+            });
+            
+            // 部分选择事件监听
+            document.getElementById('section-select').addEventListener('change', function() {
+                const grade = document.getElementById('grade-select').value;
+                renderContent(grade, this.value);
+            });
+        };
     </script>
 </body>
 </html>
