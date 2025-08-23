@@ -97,7 +97,8 @@
     margin: 0 15px 8px 0; /* 上边距为0，下边距8px */
     padding: 6px 10px;
     font-size: 1.1rem;
-    color: #000;
+    color: #000000; /* 稍深绿色文字（比原黑色更贴合绿色主题，视觉清晰） */
+    background-color: #d8eed9; /* 浅绿背景（与深色文字形成柔和对比，可选保留） */
     cursor: pointer;
     border-radius: 4px;
     line-height: normal; /* 使用正常行高 */
@@ -116,10 +117,12 @@
         }
         @media (max-width: 768px) {
             .pinyin {
-                margin: 5px 8px 5px 0;
-                padding: 6px 10px;
-                font-size: 1rem;
-            }
+        margin: 5px 8px 5px 0;
+        padding: 6px 10px;
+        font-size: 1rem;
+        color: #000000; /* 响应式下保持深色绿色文字 */
+        background-color: #d8eed9; /* 响应式下保持浅绿背景 */
+    }
             h1 {
                 font-size: 2rem;
             }
@@ -147,11 +150,6 @@
                     <option value="四年级下">四年级下</option>
                     <option value="五年级上">五年级上</option>
                     <option value="五年级下">五年级下</option>
-                </select>
-                <select id="section-select">
-                    <option value="all" selected>全部内容</option>
-                    <option value="课文">课文</option>
-                    <option value="识字">识字</option>
                 </select>
             </div>
         </header>
