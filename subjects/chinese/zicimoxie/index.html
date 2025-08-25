@@ -69,41 +69,41 @@
             letter-spacing: 0.5px;
         }
         .lesson {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: flex-start; /* 确保顶部对齐 */
-}
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start; /* 确保顶部对齐 */
+        }
 
-.lesson-number {
-    font-weight: bold;
-    color: #2E7D32;
-    display: inline-block;
-    min-width: 40px;
-    font-size: 1.2rem;
-    padding-top: 0; /* 确保没有额外的上边距 */
-    margin-top: 0; /* 确保没有额外的上边距 */
-    line-height: normal; /* 使用正常行高 */
-}
+        .lesson-number {
+            font-weight: bold;
+            color: #2E7D32;
+            display: inline-block;
+            min-width: 40px;
+            font-size: 1.2rem;
+            padding-top: 0; /* 确保没有额外的上边距 */
+            margin-top: 0; /* 确保没有额外的上边距 */
+            line-height: normal; /* 使用正常行高 */
+        }
 
-.pinyin-container {
-    display: inline-block;
-    width: calc(100% - 50px);
-    padding-top: 0; /* 确保没有额外的上边距 */
-    margin-top: 0; /* 确保没有额外的上边距 */
-}
+        .pinyin-container {
+            display: inline-block;
+            width: calc(100% - 50px);
+            padding-top: 0; /* 确保没有额外的上边距 */
+            margin-top: 0; /* 确保没有额外的上边距 */
+        }
 
-.pinyin {
-    display: inline-block;
-    margin: 0 15px 8px 0; /* 上边距为0，下边距8px */
-    padding: 6px 10px;
-    font-size: 1.1rem;
-    color: #000000; /* 稍深绿色文字（比原黑色更贴合绿色主题，视觉清晰） */
-    background-color: #d8eed9; /* 浅绿背景（与深色文字形成柔和对比，可选保留） */
-    cursor: pointer;
-    border-radius: 4px;
-    line-height: normal; /* 使用正常行高 */
-    transition: none; /* 移除所有动画效果 */
-}
+        .pinyin {
+            display: inline-block;
+            margin: 0 15px 8px 0; /* 上边距为0，下边距8px */
+            padding: 6px 10px;
+            font-size: 1.1rem;
+            color: #000000; /* 稍深绿色文字 */
+            background-color: #d8eed9; /* 浅绿背景 */
+            cursor: pointer;
+            border-radius: 4px;
+            line-height: normal; /* 使用正常行高 */
+            transition: none; /* 移除所有动画效果 */
+        }
 
         .section {
             margin-bottom: 40px;
@@ -117,12 +117,12 @@
         }
         @media (max-width: 768px) {
             .pinyin {
-        margin: 5px 8px 5px 0;
-        padding: 6px 10px;
-        font-size: 1rem;
-        color: #000000; /* 响应式下保持深色绿色文字 */
-        background-color: #d8eed9; /* 响应式下保持浅绿背景 */
-    }
+                margin: 5px 8px 5px 0;
+                padding: 6px 10px;
+                font-size: 1rem;
+                color: #000000;
+                background-color: #d8eed9;
+            }
             h1 {
                 font-size: 2rem;
             }
@@ -815,8 +815,9 @@
             ]
         };
 
-        // 语音合成函数
-        function speakChinese(word) {
+        
+         // 语音合成函数
+         function speakChinese(word) {
             if ('speechSynthesis' in window) {
                 const utterance = new SpeechSynthesisUtterance(word);
                 utterance.lang = 'zh-CN';
@@ -828,19 +829,16 @@
         }
 
         // 渲染页面内容
-        function renderContent(grade, sectionFilter) {
+        function renderContent(grade) {
             const contentDiv = document.getElementById('content');
             contentDiv.innerHTML = '';
             
-            // 查找选中的年级
+            // 查找选中的年级，始终显示全部部分
             const selectedGrade = wordData.grades.find(g => g.grade === grade);
             if (!selectedGrade) return;
             
-            // 遍历每个部分
+            // 遍历每个部分，不进行筛选
             selectedGrade.sections.forEach(section => {
-                // 如果设置了部分筛选且当前部分不匹配，则跳过
-                if (sectionFilter !== 'all' && section.name !== sectionFilter) return;
-                
                 const sectionDiv = document.createElement('div');
                 sectionDiv.className = 'section';
                 
@@ -888,19 +886,12 @@
 
         // 页面加载时初始化数据
         window.onload = function() {
-            // 初始渲染
-            renderContent('二年级上', 'all');
+            // 初始渲染，默认显示全部
+            renderContent('三年级上');
             
             // 年级选择事件监听
             document.getElementById('grade-select').addEventListener('change', function() {
-                const sectionFilter = document.getElementById('section-select').value;
-                renderContent(this.value, sectionFilter);
-            });
-            
-            // 部分选择事件监听
-            document.getElementById('section-select').addEventListener('change', function() {
-                const grade = document.getElementById('grade-select').value;
-                renderContent(grade, this.value);
+                renderContent(this.value);
             });
         };
     </script>
