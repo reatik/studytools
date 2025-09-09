@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学乘除法练习</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            color: black;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border: 1px solid black;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid black;
+            background-color: #f9f9f9;
+            align-items: center;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .count-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            height: 38px;
+        }
+        .count-group input {
+            height: 100%;
+            padding: 8px;
+            border: 1px solid black;
+            border-radius: 0;
+            background-color: white;
+            box-sizing: border-box;
+        }
+        .count-group span {
+            line-height: 38px;
+        }
+        select, input {
+            padding: 8px;
+            border: 1px solid black;
+            border-radius: 0;
+            background-color: white;
+            height: 38px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+            border-radius: 0;
+            cursor: pointer;
+            font-size: 16px;
+            height: 38px;
+        }
+        button:hover {
+            background-color: #f0f0f0;
+        }
+        .problems {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 70px;
+            margin-top: 30px;
+        }
+        .problem {
+            padding: 0;
+            position: relative;
+            min-height: 100px;
+        }
+        .problem-number {
+            font-weight: bold;
+            margin-right: 10px;
+            display: inline-block;
+            width: 30px;
+            text-align: right;
+        }
+        .problem-text {
+            font-size: 18px;
+            margin-bottom: 5px;
+            white-space: nowrap;
+        }
+        .answer {
+            font-weight: bold;
+            display: inline;
+            margin-left: 10px;
+        }
+        .writing-space {
+            height: 100px;
+            margin-top: 10px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+        @media (max-width: 600px) {
+            .problems {
+                grid-template-columns: 1fr;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .button-group {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+        @media print {
+            .controls, .button-group {
+                display: none !important;
+            }
+            .container {
+                border: none;
+                padding: 0;
+            }
+            .problem-text {
+                font-size: 20px;
+            }
+            .writing-space {
+                height: 120px;
+            }
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>乘除法练习</h1>
+        
+        <div class="controls">
+            <div class="control-group">
+                <select id="digits1">
+                    <option value="1">1位数</option>
+                    <option value="2" selected>2位数</option>
+                    <option value="3">3位数</option>
+                    <option value="4">4位数</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <select id="operation">
+                    <option value="multiplication">×</option>
+                    <option value="division">÷</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <select id="digits2">
+                    <option value="1">1位数</option>
+                    <option value="2" selected>2位数</option>
+                    <option value="3">3位数</option>
+                    <option value="4">4位数</option>
+                </select>
+            </div>
+            
+            <div class="control-group" id="remainder-group" style="display: none;">
+                <select id="remainder">
+                    <option value="with">有余数</option>
+                    <option value="without">无余数</option>
+                </select>
+            </div>
+            
+            <div class="count-group">
+                <input type="number" id="count" min="1" max="50" value="10">
+                <span>道</span>
+            </div>
+
+            <div class="button-group">
+                <button id="refresh">更新题目</button>
+                <button id="toggle-answers">显示答案</button>
+            </div>
+        </div>
+        
+        <div class="problems" id="problems-container"></div>
+    </div>
+
+    <script>
+        const operationSelect = document.getElementById('operation');
+        const digits1Select = document.getElementById('digits1');
+        const digits2Select = document.getElementById('digits2');
+        const remainderGroup = document.getElementById('remainder-group');
+        const remainderSelect = document.getElementById('remainder');
+        const countInput = document.getElementById('count');
+        const toggleAnswersBtn = document.getElementById('toggle-answers');
+        const refreshBtn = document.getElementById('refresh');
+        
+        let answersVisible = false;
+        
+        operationSelect.addEventListener('change', updateUIAndGenerate);
+        digits1Select.addEventListener('change', generateProblems);
+        digits2Select.addEventListener('change', generateProblems);
+        remainderSelect.addEventListener('change', generateProblems);
+        countInput.addEventListener('change', generateProblems);
+        toggleAnswersBtn.addEventListener('click', toggleAnswers);
+        refreshBtn.addEventListener('click', generateProblems);
+        
+        function updateUIAndGenerate() {
+            if (operationSelect.value === 'division') {
+                remainderGroup.style.display = 'flex';
+            } else {
+                remainderGroup.style.display = 'none';
+            }
+            generateProblems();
+        }
+        
+        function generateProblems() {
+            const operation = operationSelect.value;
+            const digits1 = parseInt(digits1Select.value);
+            const digits2 = parseInt(digits2Select.value);
+            const remainder = remainderSelect.value;
+            const count = parseInt(countInput.value);
+            
+            const container = document.getElementById('problems-container');
+            container.innerHTML = '';
+            
+            // 用于记录已生成的题目组合，防止重复
+            const generatedPairs = new Set();
+            
+            for (let i = 0; i < count; i++) {
+                let problem, answer;
+                let a, b;
+                let attempts = 0;
+                const maxAttempts = 100; // 防止无限循环
+                
+                do {
+                    if (operation === 'multiplication') {
+                        ({ a, b } = generateMultiplicationNumbers(digits1, digits2));
+                    } else {
+                        ({ a, b } = generateDivisionNumbers(digits1, digits2, remainder === 'without'));
+                    }
+                    
+                    attempts++;
+                    if (attempts >= maxAttempts) {
+                        // 如果尝试次数过多，可能是无法生成不重复的题目了
+                        alert(`无法生成更多不重复的题目，已生成${i}道题`);
+                        return;
+                    }
+                } while (generatedPairs.has(`${a},${b}`) || generatedPairs.has(`${b},${a}`));
+                
+                // 记录已生成的题目组合
+                generatedPairs.add(`${a},${b}`);
+                
+                if (operation === 'multiplication') {
+                    problem = `${a} × ${b} = `;
+                    answer = a * b;
+                } else {
+                    problem = `${a} ÷ ${b} = `;
+                    if (remainder === 'without') {
+                        answer = Math.floor(a / b);
+                    } else {
+                        const quotient = Math.floor(a / b);
+                        const remainderValue = a % b;
+                        answer = `${quotient}……${remainderValue}`;
+                    }
+                }
+                
+                const problemElement = document.createElement('div');
+                problemElement.className = 'problem';
+                problemElement.innerHTML = `
+                    <div class="problem-text">
+                        <span class="problem-number">${i+1}.</span>
+                        ${problem}
+                        <span class="answer" style="display: none">${answer}</span>
+                    </div>
+                    <div class="writing-space"></div>
+                `;
+                
+                container.appendChild(problemElement);
+            }
+            
+            answersVisible = false;
+            toggleAnswersBtn.textContent = '显示答案';
+        }
+        
+        function generateMultiplicationNumbers(digits1, digits2) {
+            let a, b;
+            do {
+                a = getRandomNumberByDigits(digits1);
+                b = getRandomNumberByDigits(digits2);
+            } while (a * b === 1);
+            
+            return { a, b };
+        }
+        
+        function generateDivisionNumbers(digits1, digits2, noRemainder) {
+            if (noRemainder) {
+                let a, b;
+                const minValue = Math.pow(10, digits1 - 1);
+                const maxValue = Math.pow(10, digits1) - 1;
+                
+                do {
+                    a = getRandomInt(minValue, maxValue);
+                    b = getRandomNumberByDigits(digits2, 2); // 确保除数至少为2
+                    
+                    if (a % b !== 0) {
+                        a = Math.floor(a / b) * b;
+                        if (a < minValue) a = b * Math.ceil(minValue / b);
+                        if (a > maxValue) a = b * Math.floor(maxValue / b);
+                    }
+                    
+                } while (a / b === 1 || a < minValue || a > maxValue);
+                
+                return { a, b };
+            } else {
+                let a, b;
+                const minValue = Math.pow(10, digits1 - 1);
+                const maxValue = Math.pow(10, digits1) - 1;
+                
+                do {
+                    a = getRandomNumberByDigits(digits1);
+                    b = getRandomNumberByDigits(digits2, 2); // 确保除数至少为2
+                    
+                    if (a < b) {
+                        [a, b] = [b, a];
+                        if (a < minValue || a > maxValue) continue;
+                    }
+                    
+                    if (a < minValue || a > maxValue) continue;
+                    
+                } while (Math.floor(a / b) === 1 && a % b === 0);
+                
+                return { a, b };
+            }
+        }
+        
+        function getRandomNumberByDigits(digits, min = 1) {
+            const minValue = Math.pow(10, digits - 1) * min;
+            const maxValue = Math.pow(10, digits) - 1;
+            let num;
+            
+            do {
+                num = getRandomInt(minValue, maxValue);
+                // 确保除数不为1
+                if (digits === 1 && num === 1) continue;
+                // 排除特殊值：2位数不为10，3位数不为100等
+                if (digits === 2 && num === 10) continue;
+                if (digits === 3 && num === 100) continue;
+                if (digits === 4 && num === 1000) continue;
+            } while (false); // 只检查一次
+            
+            return num;
+        }
+        
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        
+        function toggleAnswers() {
+            answersVisible = !answersVisible;
+            const answers = document.querySelectorAll('.answer');
+            answers.forEach(answer => {
+                answer.style.display = answersVisible ? 'inline' : 'none';
+            });
+            toggleAnswersBtn.textContent = answersVisible ? '隐藏答案' : '显示答案';
+        }
+        
+        updateUIAndGenerate();
+    </script>
+</body>
+</html>
