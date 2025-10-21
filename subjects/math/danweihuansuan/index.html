@@ -33,23 +33,14 @@
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            min-height: 400px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            min-height: 500px;
         }
         
         h1, h2, h3 {
             color: var(--dark-color);
             text-align: center;
             margin-bottom: 20px;
-            font-weight: 500;
         }
-        
-        h1 { font-size: 1.8rem; }
-        h2 { font-size: 1.5rem; }
-        h3 { font-size: 1.2rem; }
         
         .page {
             display: none;
@@ -57,69 +48,52 @@
         }
         
         .active {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: block;
         }
         
         .settings {
             margin-bottom: 20px;
-            padding: 15px;
-            background-color: #f1f8e9;
+            padding: 20px;
+            background-color: var(--light-color);
             border-radius: 8px;
-            width: 100%;
-            max-width: 600px;
         }
         
         .question-container {
             display: flex;
-            flex-wrap: nowrap;
             align-items: center;
             justify-content: center;
-            margin: 15px 0;
-            padding: 15px;
-            width: 100%;
-            max-width: 600px;
-            position: relative;
-            background-color: #f1f8e9;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: var(--light-color);
             border-radius: 8px;
+            flex-wrap: nowrap;  /* 防止内容换行 */
         }
         
         .question-text {
             font-size: 1.5rem;
             margin-right: 10px;
-            font-weight: 500;
-            white-space: nowrap;
+            white-space: nowrap;    /* 禁止文字换行 */
+    text-overflow: ellipsis; /* 超出部分显示省略号 */
         }
         
         input {
             font-size: 1.5rem;
-            padding: 8px 12px;
+            padding: 10px;
             border: 1px solid #c8e6c9;
             border-radius: 6px;
-            width: 120px;
+            width: 150px;
             text-align: center;
-            margin: 0 5px;
-            background-color: #fff;
-            color: #333;
-            transition: border-color 0.3s;
-        }
-        
-        input:focus {
-            border-color: var(--primary-color);
-            outline: none;
         }
         
         .unit-text {
             font-size: 1.5rem;
-            margin-left: 5px;
-            font-weight: 500;
-            white-space: nowrap;
+            margin-left: 10px;
+            white-space: nowrap;    /* 禁止单位文字换行 */
         }
         
         .result-icon {
-            font-size: 1.8rem;
-            margin-left: 10px;
+            font-size: 2rem;
+            margin-left: 15px;
             display: none;
         }
         
@@ -136,29 +110,20 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
-            margin: 15px 0;
-            width: 100%;
+            margin: 20px 0;
         }
         
         button {
-            background-color: transparent;
-            color: var(--dark-color);
-            border: 2px solid var(--primary-color);
-            padding: 12px 24px;
+            padding: 12px 16px;
             font-size: 1rem;
             border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s;
-            min-width: 120px;
-        }
-        
-        button:hover {
-            background-color: #e8f5e9;
-            transform: translateY(-2px);
-        }
-        
-        button:active {
-            transform: translateY(0);
+            width: calc(50% - 15px);
+            max-width: 200px;
+            border: 2px solid var(--primary-color);
+            background-color: transparent;
+            color: var(--dark-color);
+            box-sizing: border-box;
         }
         
         .btn-primary {
@@ -166,57 +131,33 @@
             color: white;
         }
         
-        .btn-primary:hover {
-            background-color: var(--dark-color);
-        }
-        
-        .btn-secondary {
-            border-color: var(--secondary-color);
-        }
-        
-        .btn-secondary:hover {
-            background-color: #e8f5e9;
-        }
-        
-        #back-to-settings {
-            border-color: #666;
-        }
-        
-        #back-to-settings:hover {
-            background-color: #f5f5f5;
-        }
-        
         .stats-container {
-            display: flex;
-            justify-content: center;
-            margin: 15px 0;
-            width: 100%;
+            text-align: center;
+            margin: 20px 0;
         }
         
         .stats {
-            padding: 8px 16px;
-            font-size: 1.1rem;
-            text-align: center;
-            background-color: #f1f8e9;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--light-color);
             border-radius: 6px;
+            font-size: 1.1rem;
         }
         
-        .history-table {
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            max-width: 600px;
+            margin: 20px 0;
         }
         
-        .history-table th, .history-table td {
+        th, td {
             border: 1px solid #c8e6c9;
-            padding: 8px;
+            padding: 10px;
             text-align: left;
         }
         
-        .history-table th {
-            background-color: #e8f5e9;
+        th {
+            background-color: var(--light-color);
         }
         
         .correct-row {
@@ -225,47 +166,6 @@
         
         .incorrect-row {
             color: var(--danger-color);
-        }
-        
-        .conversion-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            max-width: 600px;
-        }
-        
-        .conversion-table th, .conversion-table td {
-            border: 1px solid #c8e6c9;
-            padding: 8px;
-            text-align: center;
-        }
-        
-        .conversion-table th {
-            background-color: #e8f5e9;
-        }
-        
-        .converter-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 15px 0;
-            padding: 15px;
-            background-color: #f1f8e9;
-            border-radius: 8px;
-        }
-        
-        .converter-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            justify-content: center;
-            flex-wrap: nowrap;
-        }
-        
-        .converter-input {
-            flex: 1;
-            margin: 0 5px;
-            max-width: 200px;
         }
         
         .checkbox-group {
@@ -278,140 +178,33 @@
             margin-bottom: 10px;
         }
         
-        .checkbox-item input {
-            width: auto;
-            margin-right: 5px;
-            vertical-align: middle;
-        }
-        
-        .center {
-            text-align: center;
-        }
-        
         select {
-            font-size: 1rem;
             padding: 8px 12px;
             border-radius: 6px;
             border: 1px solid #c8e6c9;
-            background-color: #fff;
-            color: #333;
-            min-width: 120px;
+            min-width: 150px;
         }
-        
-        .start-group {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .converter-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #439745;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-        
-        .converter-btn:hover {
-            background-color: #3d8b40;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 5px;
-            }
-            
-            .app-container {
-                padding: 15px;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
-            }
-            
-            .question-container {
-                padding: 10px;
-                margin: 10px 0;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-            }
-            
-            .question-text, .unit-text {
-                font-size: 1.3rem;
-                margin: 0 5px;
-            }
-            
-            input {
-                font-size: 1.3rem;
-                width: 100px;
-                padding: 6px 10px;
-                margin: 0 3px;
-            }
-            
-            button {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-                min-width: 100px;
-            }
-            
-            .history-table, .conversion-table {
-                font-size: 0.8rem;
-            }
-            
-            .history-table th, .history-table td,
-            .conversion-table th, .conversion-table td {
-                padding: 6px;
-            }
-            
-            .converter-row {
-                flex-direction: row;
-                flex-wrap: nowrap;
-            }
-            
-            .converter-input {
-                margin: 0 5px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .checkbox-item {
-                display: block;
-                margin-right: 0;
-            }
-            
+
+        /* 移动端特定样式 */
+        @media (max-width: 600px) {
             .button-group {
                 gap: 8px;
             }
             
             button {
-                width: 100%;
-                max-width: 160px;
-            }
-            
-            .question-container {
-                padding: 8px;
+                padding: 10px 12px;
+                font-size: 0.8rem;
+                width: calc(50% - 8px);
+                min-width: auto;
             }
             
             .question-text, .unit-text {
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
             
             input {
-                font-size: 1.2rem;
-                width: 80px;
-            }
-            
-            .converter-btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
+                font-size: 1rem;
+                width: 100px;
             }
         }
     </style>
@@ -426,36 +219,35 @@
                 <div class="settings">
                     <h3>练习设置</h3>
                     <div class="checkbox-group">
-                        <label style="display: block; margin-bottom: 10px; font-weight: bold;">选择单位类型：</label>
+                        <label>选择单位类型：</label>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="length-checkbox" checked> <label for="length-checkbox">长度单位</label>
+                            <input type="checkbox" id="length-checkbox" checked> <label>长度单位</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="weight-checkbox" checked> <label for="weight-checkbox">重量单位</label>
+                            <input type="checkbox" id="weight-checkbox" checked> <label>重量单位</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="time-checkbox" checked> <label for="time-checkbox">时间单位</label>
+                            <input type="checkbox" id="time-checkbox" checked> <label>时间单位</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="area-checkbox" checked> <label for="area-checkbox">面积单位</label>
+                            <input type="checkbox" id="area-checkbox" checked> <label>面积单位</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="volume-checkbox" checked> <label for="volume-checkbox">体积单位</label>
+                            <input type="checkbox" id="volume-checkbox" checked> <label>体积单位</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="hectare-checkbox"> <label for="hectare-checkbox">公顷</label>
+                            <input type="checkbox" id="hectare-checkbox"> <label>公顷</label>
                         </div>
                     </div>
-                    <div style="margin: 15px 0;">
-                        <label for="decimal-option" style="font-weight: bold;">包含小数：</label>
+                    <div style="margin: 20px 0;">
+                        <label>包含小数：</label>
                         <select id="decimal-option">
                             <option value="no">不包含小数</option>
                             <option value="yes">包含小数</option>
                         </select>
                     </div>
-                    <div class="start-group">
+                    <div class="button-group">
                         <button id="start" class="btn-primary">开始练习</button>
-                        <a href="#converter-page" class="converter-btn">单位换算器</a>
                     </div>
                 </div>
             </div>
@@ -473,7 +265,7 @@
                     <button id="submit" class="btn-primary">提交</button>
                     <button id="next" class="btn-primary" style="display: none;">下一题</button>
                     <button id="show-conversion">查看进率</button>
-                    <button id="show-detail" class="btn-secondary">查看答题详情</button>
+                    <button id="show-detail">查看答题详情</button>
                     <button id="back-to-settings">返回设置</button>
                 </div>
                 
@@ -487,13 +279,14 @@
             <!-- 详情页面 -->
             <div id="detail-page" class="page">
                 <h2>答题详情</h2>
+                
                 <div id="stats-detail">
                     <p>总答题数：<span id="total-detail">0</span></p>
                     <p>答对次数：<span id="correct-detail">0</span></p>
                     <p>正确率：<span id="accuracy-detail">0</span>%</p>
                 </div>
                 
-                <table class="history-table">
+                <table>
                     <thead>
                         <tr>
                             <th>序号</th>
@@ -501,7 +294,6 @@
                             <th>你的答案</th>
                             <th>正确答案</th>
                             <th>结果</th>
-                            <th>方向</th>
                         </tr>
                     </thead>
                     <tbody id="history-table-body">
@@ -518,7 +310,7 @@
                 <h2>单位换算进率</h2>
                 
                 <h3>长度单位</h3>
-                <table class="conversion-table">
+                <table>
                     <thead>
                         <tr>
                             <th>单位</th>
@@ -531,13 +323,11 @@
                         <tr><td>1 米</td><td>= 10 分米</td></tr>
                         <tr><td>1 分米</td><td>= 10 厘米</td></tr>
                         <tr><td>1 厘米</td><td>= 10 毫米</td></tr>
-                        <tr><td>1 千米</td><td>= 100000 厘米</td></tr>
-                        <tr><td>1 千米</td><td>= 10000 分米</td></tr>
                     </tbody>
                 </table>
                 
                 <h3>重量单位</h3>
-                <table class="conversion-table">
+                <table>
                     <thead>
                         <tr>
                             <th>单位</th>
@@ -552,7 +342,7 @@
                 </table>
                 
                 <h3>时间单位</h3>
-                <table class="conversion-table">
+                <table>
                     <thead>
                         <tr>
                             <th>单位</th>
@@ -567,7 +357,7 @@
                 </table>
                 
                 <h3>面积单位</h3>
-                <table class="conversion-table">
+                <table>
                     <thead>
                         <tr>
                             <th>单位</th>
@@ -579,13 +369,11 @@
                         <tr><td>1 公顷</td><td>= 10000 平方米</td></tr>
                         <tr><td>1 平方米</td><td>= 100 平方分米</td></tr>
                         <tr><td>1 平方分米</td><td>= 100 平方厘米</td></tr>
-                        <tr><td>1 平方千米</td><td>= 100 公顷</td></tr>
-                        <tr><td>1 平方千米</td><td>= 100000000 平方分米</td></tr>
                     </tbody>
                 </table>
                 
                 <h3>体积单位</h3>
-                <table class="conversion-table">
+                <table>
                     <thead>
                         <tr>
                             <th>单位</th>
@@ -598,68 +386,7 @@
                 </table>
                 
                 <div class="button-group">
-                    <button id="show-converter" class="btn-primary">使用换算器</button>
-                    <button id="back-from-conversion">返回</button>
-                </div>
-            </div>
-            
-            <!-- 换算器页面 -->
-            <div id="converter-page" class="page">
-                <h2>单位换算器</h2>
-                
-                <div class="converter-container">
-                    <div class="converter-row">
-                        <input type="number" id="converter-value" class="converter-input" placeholder="输入数值">
-                        <select id="converter-from-unit">
-                            <option value="米">米</option>
-                            <option value="厘米">厘米</option>
-                            <option value="千米">千米</option>
-                            <option value="分米">分米</option>
-                            <option value="毫米">毫米</option>
-                            <option value="千克">千克</option>
-                            <option value="克">克</option>
-                            <option value="吨">吨</option>
-                            <option value="小时">小时</option>
-                            <option value="分钟">分钟</option>
-                            <option value="秒">秒</option>
-                            <option value="平方米">平方米</option>
-                            <option value="平方分米">平方分米</option>
-                            <option value="平方厘米">平方厘米</option>
-                            <option value="公顷">公顷</option>
-                            <option value="平方千米">平方千米</option>
-                            <option value="升">升</option>
-                            <option value="毫升">毫升</option>
-                        </select>
-                    </div>
-                    
-                    <div class="converter-row">
-                        <input type="text" id="converter-result" class="converter-input" placeholder="结果" readonly>
-                        <select id="converter-to-unit">
-                            <option value="米">米</option>
-                            <option value="厘米">厘米</option>
-                            <option value="千米">千米</option>
-                            <option value="分米">分米</option>
-                            <option value="毫米">毫米</option>
-                            <option value="千克">千克</option>
-                            <option value="克">克</option>
-                            <option value="吨">吨</option>
-                            <option value="小时">小时</option>
-                            <option value="分钟">分钟</option>
-                            <option value="秒">秒</option>
-                            <option value="平方米">平方米</option>
-                            <option value="平方分米">平方分米</option>
-                            <option value="平方厘米">平方厘米</option>
-                            <option value="公顷">公顷</option>
-                            <option value="平方千米">平方千米</option>
-                            <option value="升">升</option>
-                            <option value="毫升">毫升</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="button-group">
-                    <button id="convert-btn" class="btn-primary">换算</button>
-                    <button id="back-from-converter">返回</button>
+                    <button id="back-from-conversion" class="btn-primary">返回</button>
                 </div>
             </div>
         </div>
@@ -673,27 +400,21 @@
                 { from: "米", to: "厘米", factor: 100 },
                 { from: "米", to: "分米", factor: 10 },
                 { from: "分米", to: "厘米", factor: 10 },
-                { from: "厘米", to: "毫米", factor: 10 },
-                { from: "千米", to: "分米", factor: 10000 },
-                { from: "千米", to: "厘米", factor: 100000 },
-                { from: "千米", to: "毫米", factor: 1000000 }
+                { from: "厘米", to: "毫米", factor: 10 }
             ],
             weight: [
                 { from: "吨", to: "千克", factor: 1000 },
-                { from: "千克", to: "克", factor: 1000 },
-                { from: "吨", to: "克", factor: 1000000 }
+                { from: "千克", to: "克", factor: 1000 }
             ],
             time: [
                 { from: "小时", to: "分钟", factor: 60 },
-                { from: "分钟", to: "秒", factor: 60 },
-                { from: "小时", to: "秒", factor: 3600 }
+                { from: "分钟", to: "秒", factor: 60 }
             ],
             area: [
                 { from: "平方千米", to: "平方米", factor: 1000000 },
                 { from: "公顷", to: "平方米", factor: 10000 },
                 { from: "平方米", to: "平方分米", factor: 100 },
-                { from: "平方分米", to: "平方厘米", factor: 100 },
-                { from: "平方千米", to: "公顷", factor: 100 }
+                { from: "平方分米", to: "平方厘米", factor: 100 }
             ],
             volume: [
                 { from: "升", to: "毫升", factor: 1000 }
@@ -705,7 +426,6 @@
         const quizPage = document.getElementById('quiz-page');
         const detailPage = document.getElementById('detail-page');
         const conversionPage = document.getElementById('conversion-page');
-        const converterPage = document.getElementById('converter-page');
         const questionTextEl = document.getElementById('question-text');
         const unitTextEl = document.getElementById('unit-text');
         const answerEl = document.getElementById('answer');
@@ -715,11 +435,9 @@
         const startBtn = document.getElementById('start');
         const showDetailBtn = document.getElementById('show-detail');
         const showConversionBtn = document.getElementById('show-conversion');
-        const showConverterBtn = document.getElementById('show-converter');
         const backToSettingsBtn = document.getElementById('back-to-settings');
         const backToQuizBtn = document.getElementById('back-to-quiz');
         const backFromConversionBtn = document.getElementById('back-from-conversion');
-        const backFromConverterBtn = document.getElementById('back-from-converter');
         const lengthCheckbox = document.getElementById('length-checkbox');
         const weightCheckbox = document.getElementById('weight-checkbox');
         const timeCheckbox = document.getElementById('time-checkbox');
@@ -727,18 +445,12 @@
         const volumeCheckbox = document.getElementById('volume-checkbox');
         const hectareCheckbox = document.getElementById('hectare-checkbox');
         const decimalOption = document.getElementById('decimal-option');
-        const statsSummary = document.getElementById('stats-summary');
         const correctSummary = document.getElementById('correct-summary');
         const wrongSummary = document.getElementById('wrong-summary');
         const totalDetail = document.getElementById('total-detail');
         const correctDetail = document.getElementById('correct-detail');
         const accuracyDetail = document.getElementById('accuracy-detail');
         const historyTableBody = document.getElementById('history-table-body');
-        const convertBtn = document.getElementById('convert-btn');
-        const converterValueEl = document.getElementById('converter-value');
-        const converterFromUnitEl = document.getElementById('converter-from-unit');
-        const converterToUnitEl = document.getElementById('converter-to-unit');
-        const converterResultEl = document.getElementById('converter-result');
 
         // 初始化变量
         let currentQuestion = null;
@@ -755,12 +467,21 @@
             document.getElementById(pageId).classList.add('active');
         }
 
-        // 生成随机数
-        function getRandomNumber(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
+        // 生成随机数 - 修改后的版本
+        function getRandomNumber(min, max, allowTrailingZeros = false) {
+            // 生成1-3位的随机数
+            let value = Math.floor(Math.random() * (max - min + 1)) + min;
+            
+            // 随机决定是否添加1-3个末尾0
+            if (allowTrailingZeros && Math.random() > 0.5) {
+                const zerosToAdd = Math.floor(Math.random() * 3) + 1;
+                value = value * Math.pow(10, zerosToAdd);
+            }
+            
+            return value;
         }
 
-        // 生成随机题目 - 确保不出现小数
+        // 生成随机题目 - 修改后的版本
         function generateQuestion() {
             let conversions = [];
             
@@ -794,23 +515,16 @@
             // 随机决定是从A到B还是从B到A
             const isReverse = Math.random() > 0.5;
             
-            // 生成数值 (1-10之间的整数)
-            let value = getRandomNumber(1, 10);
+            // 生成数值 (1-999之间的整数，可能带有末尾0)
+            let value = getRandomNumber(1, 999, true);
             
             // 确保不会产生小数结果
-            let attempts = 0;
-            const maxAttempts = 10;
-            
-            do {
-                value = getRandomNumber(1, 10);
-                attempts++;
-                
+            if (!allowDecimals) {
                 if (isReverse) {
-                    if ((value / conversion.factor) % 1 === 0) break;
-                } else {
-                    if ((value * conversion.factor) % 1 === 0) break;
+                    // 确保 value / factor 是整数
+                    value = value * conversion.factor;
                 }
-            } while (attempts < maxAttempts);
+            }
             
             let question, answer, unit;
             if (!isReverse) {
@@ -914,9 +628,7 @@
                 userAnswer: userAnswer,
                 correctAnswer: correctAnswer,
                 isCorrect: isCorrect,
-                index: totalQuestions,
-                conversion: currentQuestion.conversion,
-                direction: currentQuestion.isReverse ? '小到大' : '大到小'
+                index: totalQuestions
             });
             
             // 更新统计
@@ -971,7 +683,6 @@
                     <td>${item.userAnswer || '未回答'}</td>
                     <td>${item.correctAnswer}</td>
                     <td>${item.isCorrect ? '✓' : '✗'}</td>
-                    <td>${item.direction}</td>
                 `;
                 
                 historyTableBody.appendChild(row);
@@ -986,66 +697,15 @@
             showPage('conversion-page');
         }
 
-        // 显示换算器
-        function showConverter() {
-            showPage('converter-page');
-        }
-
-        // 执行单位换算
-        function convertUnits() {
-            const value = parseFloat(converterValueEl.value);
-            if (isNaN(value)) {
-                converterResultEl.value = '请输入有效数字';
-                return;
-            }
-            
-            const fromUnit = converterFromUnitEl.value;
-            const toUnit = converterToUnitEl.value;
-            
-            if (fromUnit === toUnit) {
-                converterResultEl.value = value;
-                return;
-            }
-            
-            // 查找转换关系
-            let factor = null;
-            
-            // 检查所有单位类型
-            for (const unitType in unitConfig) {
-                for (const conversion of unitConfig[unitType]) {
-                    if (conversion.from === fromUnit && conversion.to === toUnit) {
-                        factor = conversion.factor;
-                        break;
-                    }
-                    if (conversion.from === toUnit && conversion.to === fromUnit) {
-                        factor = 1 / conversion.factor;
-                        break;
-                    }
-                }
-                if (factor !== null) break;
-            }
-            
-            if (factor === null) {
-                converterResultEl.value = '不支持此单位换算';
-                return;
-            }
-            
-            const result = value * factor;
-            converterResultEl.value = result;
-        }
-
         // 事件监听
         submitBtn.addEventListener('click', checkAnswer);
         nextBtn.addEventListener('click', newQuestion);
         startBtn.addEventListener('click', startPractice);
         showDetailBtn.addEventListener('click', showDetail);
         showConversionBtn.addEventListener('click', showConversion);
-        showConverterBtn.addEventListener('click', showConverter);
         backToSettingsBtn.addEventListener('click', () => showPage('settings-page'));
         backToQuizBtn.addEventListener('click', () => showPage('quiz-page'));
         backFromConversionBtn.addEventListener('click', () => showPage('quiz-page'));
-        backFromConverterBtn.addEventListener('click', () => showPage('conversion-page'));
-        convertBtn.addEventListener('click', convertUnits);
         answerEl.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 if (submitBtn.style.display !== 'none') {
