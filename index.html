@@ -40,6 +40,44 @@
             padding: 0 20px;
         }
 
+        /* 公告栏样式 */
+        .announcement-bar {
+            background: linear-gradient(135deg, #30b46c, #48cfad);
+            color: white;
+            padding: 8px 0;
+            overflow: hidden;
+            position: relative;
+            z-index: 99;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .announcement-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            animation: scrollAnnouncement 15s linear infinite;
+        }
+
+        .announcement-icon {
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .announcement-text {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        @keyframes scrollAnnouncement {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
         /* Logo文字 - Mac风格 */
         .logo {
             color: #1d1d1f;
@@ -492,6 +530,28 @@
                 height: 36px;
             }
 
+            /* 公告栏移动端样式 */
+            .announcement-bar {
+                padding: 6px 0;
+            }
+            
+            .announcement-content {
+                animation: scrollAnnouncementMobile 10s linear infinite;
+            }
+            
+            .announcement-text {
+                font-size: 0.8rem;
+            }
+            
+            @keyframes scrollAnnouncementMobile {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+
             /* 密码弹窗响应式 */
             @media (max-width: 480px) {
                 .prompt-container {
@@ -535,6 +595,14 @@
             </div>
         </div>
     </nav>
+    
+    <!-- 新增的滚动公告栏 -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <i class="fas fa-bullhorn announcement-icon"></i>
+            <span class="announcement-text">数学区新增单位换算功能！支持长度、重量、面积、体积、时间等多种单位之间的转换练习！</span>
+        </div>
+    </div>
     
     <div class="main-container">
         <!-- 标签页导航 -->
@@ -745,8 +813,6 @@
                 }
             });
         });
-
-
 
         // 自定义密码弹窗函数
         function showCustomPrompt(title, callback) {
