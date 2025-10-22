@@ -5,291 +5,425 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>四年级数学单位换算练习</title>
     <style>
-        :root {
-            --primary-color: #2e7d32;
-            --secondary-color: #4caf50;
-            --success-color: #388e3c;
-            --danger-color: #d32f2f;
-            --light-color: #f1f8e9;
-            --dark-color: #1b5e20;
-            --special-color: #8d6e63;
-        }
-        
-        body {
-            font-family: 'Roboto', 'Microsoft YaHei', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-            color: #333;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .app-container {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            min-height: 500px;
-        }
-        
-        h1, h2, h3 {
-            color: var(--dark-color);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .page {
-            display: none;
-            width: 100%;
-        }
-        
-        .active {
-            display: block;
-        }
-        
-        .settings {
-            margin-bottom: 20px;
-            padding: 20px;
-            background-color: var(--light-color);
-            border-radius: 8px;
-        }
-        
-        .question-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-            padding: 20px;
-            background-color: var(--light-color);
-            border-radius: 8px;
-            flex-wrap: nowrap;
-            overflow: hidden;
-        }
-        
-        .question-text {
-            font-size: 1.5rem;
-            margin-right: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        input {
-            font-size: 1.5rem;
-            padding: 10px;
-            border: 1px solid #c8e6c9;
-            border-radius: 6px;
-            width: 150px;
-            text-align: center;
-        }
-        
-        .unit-text {
-            font-size: 1.5rem;
-            margin-left: 10px;
-            white-space: nowrap;
-        }
-        
-        .result-icon {
-            font-size: 2rem;
-            margin-left: 15px;
-            display: none;
-        }
-        
-        .correct-icon {
-            color: var(--success-color);
-        }
-        
-        .incorrect-icon {
-            color: var(--danger-color);
-        }
-        
-        .button-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        button {
-            padding: 12px 16px;
-            font-size: 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            width: calc(50% - 15px);
-            max-width: 200px;
-            border: 2px solid var(--primary-color);
-            background-color: transparent;
-            color: var(--dark-color);
-            box-sizing: border-box;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .stats-container {
-            text-align: center;
-            margin: 10px 0;
-        }
-        
-        .stats {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1.1rem;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        
-        th, td {
-            border: 1px solid #c8e6c9;
-            padding: 10px;
-            text-align: left;
-        }
-        
-        th {
-            background-color: var(--light-color);
-        }
-        
-        .correct-row {
-            color: var(--success-color);
-        }
-        
-        .incorrect-row {
-            color: var(--danger-color);
-        }
-        
-        .checkbox-group {
-            margin: 15px 0;
-        }
-        
-        .checkbox-item {
-            display: inline-block;
-            margin-right: 15px;
-            margin-bottom: 10px;
-        }
-        
-        select {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #c8e6c9;
-            min-width: 150px;
-        }
+:root {
+    --primary-color: #2e7d32;
+    --secondary-color: #4caf50;
+    --success-color: #388e3c;
+    --danger-color: #d32f2f;
+    --light-color: #f1f8e9;
+    --dark-color: #1b5e20;
+    --disabled-color: #e0e0e0;
+    --unit-selected-color: #689f38;
+    --text-color: #424242;
+    --border-color: #c8e6c9;
+    --highlight-color: #8bc34a;
+    --background-color: #fafafa;
+    --length-zero-color: #ffcc80;
+    --other-zero-color: #80cbc4;
+}
 
-        .correct-answer {
-            color: var(--success-color);
-            margin-left: 10px;
-            font-size: 1.5rem;
-        }
+/* 基础样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+}
 
-        /* 优化后的进率图样式 */
-        .conversion-chart {
-            margin: 20px 0;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-        
-        .conversion-flow {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-            padding: 10px 0;
-            font-size: 0.8rem;
-            min-width: 100%;
-        }
-        
-        .unit-box {
-            padding: 6px 8px;
-            margin: 0 4px;
-            font-weight: bold;
-            text-align: center;
-            min-width: 60px;
-            border: 2px solid var(--secondary-color);
-            border-radius: 6px;
-            color: var(--dark-color);
-        }
-        
-        .conversion-factor {
-            padding: 0 6px;
-            font-weight: bold;
-            color: #666;
-        }
-        
-        .unit-special {
-            border-color: var(--special-color);
-            color: var(--special-color);
-        }
 
-        /* 移动端调整 */
-        @media (max-width: 600px) {
-            .question-text, .unit-text {
-                font-size: 0.9rem;
-            }
-            
-            input {
-                font-size: 0.9rem;
-                width: 80px;
-            }
-            
-            .correct-answer {
-                display: block;
-                width: 100%;
-                margin: 10px 0 0 0;
-                white-space: normal;
-                text-align: center;
-                font-size: 1.2rem;
-            }
-            
-            .result-icon {
-                margin-left: 0;
-            }
-            
-            .question-container {
-                flex-wrap: wrap;
-                justify-content: flex-start;
-                padding: 15px;
-            }
-            
-            button {
-                padding: 10px 12px;
-                font-size: 0.9rem;
-                width: calc(50% - 8px);
-                min-width: auto;
-            }
-            
-            /* 移动端进率图优化 */
-            .conversion-flow {
-                font-size: 0.7rem;
-                padding: 5px 0;
-            }
-            
-            .unit-box {
-                padding: 4px 6px;
-                min-width: 50px;
-                font-size: 0.7rem;
-                margin: 0 3px;
-            }
-            
-            .conversion-factor {
-                padding: 0 4px;
-                font-size: 0.7rem;
-            }
-            
-            h3 {
-                font-size: 0.9rem;
-                margin-bottom: 10px;
-            }
-        }
+h1 {
+    text-align: center;  /* 使标题居中 */
+    margin: 20px 0;      /* 添加上下边距 */
+    color: var(--primary-color);  /* 使用主题色 */
+    font-size: 1.5rem;   /* 调整字体大小 */
+    font-weight: 600;    /* 调整字体粗细 */
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.app-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* 单位选择器 */
+.unit-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 30px 0;
+    justify-content: center;
+}
+
+.unit-option {
+    position: relative;
+    width: 140px;
+}
+
+.unit-option input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.unit-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    background-color: white;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 60px;
+    box-sizing: border-box;
+    color: var(--text-color);
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.unit-option input:checked + .unit-label {
+    background-color: white;
+    color: var(--unit-selected-color);
+    border-color: var(--unit-selected-color);
+    box-shadow: 0 4px 12px rgba(104, 159, 56, 0.2);
+    transform: translateY(-2px);
+}
+
+.unit-option input:checked + .unit-label::before {
+    content: '✓';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    background-color: var(--unit-selected-color);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom-right-radius: 8px;
+    animation: checkmarkAppear 0.3s ease;
+}
+
+@keyframes checkmarkAppear {
+    from {
+        transform: scale(0) rotate(-30deg);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
+
+.unit-option:hover .unit-label {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 按钮样式 */
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 25px 0;
+}
+
+button {
+    padding: 14px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    width: calc(50% - 15px);
+    max-width: 200px;
+    border: 2px solid var(--primary-color);
+    background-color: white;
+    color: var(--primary-color);
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(46, 125, 50, 0.2);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    box-shadow: 0 6px 12px rgba(46, 125, 50, 0.4);
+}
+
+/* 答题区域 */
+.question-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 50px 0 0 0;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+.question-text {
+    font-size: 1.5rem;
+    margin-right: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+}
+
+input {
+    font-size: 1.5rem;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    width: 150px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    outline: none;
+}
+
+.unit-text {
+    font-size: 1.5rem;
+    margin-left: 15px;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.result-icon {
+    font-size: 2rem;
+    margin-left: 15px;
+    display: none;
+    animation: bounceIn 0.5s;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.correct-icon {
+    color: var(--success-color);
+}
+
+.incorrect-icon {
+    color: var(--danger-color);
+}
+
+/* 统计区域 */
+.stats-container {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.stats {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 0.9rem;
+
+}
+
+#correct-summary {
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+#wrong-summary {
+    color: var(--danger-color);
+    font-weight: bold;
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: var(--light-color);
+    font-weight: 600;
+}
+
+.correct-row {
+    color: var(--success-color);
+    background-color: rgba(56, 142, 60, 0.05);
+}
+
+.incorrect-row {
+    color: var(--danger-color);
+    background-color: rgba(229, 57, 53, 0.05);
+}
+
+.correct-answer {
+    color: var(--success-color);
+    display: block;
+    width: 100%;
+    padding: 0;           /* 清除内边距 */
+    white-space: normal;
+    text-align: center;    /* 文本居中 */
+    font-size: 1.2rem;
+}
+
+/* 进率图样式 */
+.conversion-chart {
+    margin: 20px 0;
+}
+
+.conversion-row {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+}
+
+.unit-box {
+    padding: 8px 12px;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    min-width: 100px;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.zero-box {
+    display: flex;
+    min-width: 100px;
+    margin-right: 5px;
+    gap: 2px;
+}
+
+.zero-part {
+    flex: 1;
+    padding: 8px 0;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 3px;
+    min-width: 30px;
+}
+
+.length-zero {
+    background-color: var(--length-zero-color);
+}
+
+.other-zero {
+    background-color: var(--other-zero-color);
+}
+
+/* 移动端响应式 */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .app-container {
+        padding: 15px;
+    }
+    
+    .question-text, .unit-text {
+        font-size: 0.9rem;
+    }
+    
+    input {
+        font-size: 1.1rem;
+        width: 100px;
+        padding: 8px;
+    }
+    
+    .correct-answer {
+        display: block;
+        width: 100%;
+        margin: 10px 0 0 0;
+        white-space: normal;
+        text-align: center;
+        font-size: 1.0rem;
+    }
+    
+    .result-icon {
+        margin-left: 0;
+    }
+    
+    .question-container {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        padding: 15px;
+    }
+    
+    button {
+        padding: 12px;
+        font-size: 0.9rem;
+        width: calc(50% - 6px);
+        min-width: auto;
+    }
+    
+    .unit-selector {
+        gap: 10px;
+    }
+    
+    .unit-option {
+        width: calc(50% - 10px);
+    }
+    
+    .unit-label {
+        padding: 12px;
+        height: 50px;
+        font-size: 0.9rem;
+    }
+    
+    .settings {
+        padding: 15px;
+    }
+}
     </style>
 </head>
 <body>
@@ -297,41 +431,37 @@
         <div class="app-container">
             <!-- 设置页面 -->
             <div id="settings-page" class="page active">
-                <h1>四年级数学单位换算练习</h1>
+                <h1>单位换算练习</h1>
                 
                 <div class="settings">
-                    <h3>练习设置</h3>
-                    <div class="checkbox-group">
-                        <label>选择单位类型：</label>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="length-checkbox" checked> <label>长度单位</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="weight-checkbox" checked> <label>重量单位</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="time-checkbox" checked> <label>时间单位</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="area-checkbox" checked> <label>面积单位</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="volume-checkbox" checked> <label>体积单位</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="hectare-checkbox"> <label>公顷</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="chinese-weight-checkbox"> <label>中国传统重量单位</label>
-                        </div>
+                    
+                    <div class="unit-selector">
+                        <label class="unit-option">
+                            <input type="checkbox" id="length-checkbox" checked>
+                            <span class="unit-label">长度单位</span>
+                        </label>
+                        
+                        <label class="unit-option">
+                            <input type="checkbox" id="area-checkbox" checked>
+                            <span class="unit-label">面积单位</span>
+                        </label>
+                        
+                        <label class="unit-option">
+                            <input type="checkbox" id="volume-checkbox">
+                            <span class="unit-label">体积单位</span>
+                        </label>
+
+                        <label class="unit-option">
+                            <input type="checkbox" id="weight-checkbox" checked>
+                            <span class="unit-label">重量单位</span>
+                        </label>
+                        
+                        <label class="unit-option">
+                            <input type="checkbox" id="time-checkbox">
+                            <span class="unit-label">时间单位</span>
+                        </label>
                     </div>
-                    <div style="margin: 20px 0;">
-                        <label>包含小数：</label>
-                        <select id="decimal-option">
-                            <option value="no">不包含小数</option>
-                            <option value="yes">包含小数</option>
-                        </select>
-                    </div>
+                    
                     <div class="button-group">
                         <button id="start" class="btn-primary">开始练习</button>
                     </div>
@@ -356,8 +486,8 @@
                 <div class="button-group">
                     <button id="submit" class="btn-primary">提交</button>
                     <button id="next" class="btn-primary" style="display: none;">下一题</button>
-                    <button id="show-conversion">查看进率</button>
-                    <button id="show-detail">查看答题详情</button>
+                    <button id="show-conversion">进率图</button>
+                    <button id="show-detail">答题记录</button>
                     <button id="back-to-settings">返回设置</button>
                 </div>
             </div>
@@ -365,12 +495,6 @@
             <!-- 详情页面 -->
             <div id="detail-page" class="page">
                 <h2>答题详情</h2>
-                
-                <div id="stats-detail">
-                    <p>总答题数：<span id="total-detail">0</span></p>
-                    <p>答对次数：<span id="correct-detail">0</span></p>
-                    <p>正确率：<span id="accuracy-detail">0</span>%</p>
-                </div>
                 
                 <table>
                     <thead>
@@ -397,68 +521,120 @@
                 
                 <div class="conversion-chart">
                     <h3>长度单位</h3>
-                    <div class="conversion-flow">
+                    <div class="conversion-row">
                         <div class="unit-box">千米 (km)</div>
-                        <div class="conversion-factor">1000</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                        </div>
                         <div class="unit-box">米 (m)</div>
-                        <div class="conversion-factor">10</div>
+                        <div class="zero-box">
+                            <div class="zero-part length-zero">0</div>
+                        </div>
                         <div class="unit-box">分米 (dm)</div>
-                        <div class="conversion-factor">10</div>
+                        <div class="zero-box">
+                            <div class="zero-part length-zero">0</div>
+                        </div>
                         <div class="unit-box">厘米 (cm)</div>
-                        <div class="conversion-factor">10</div>
+                        <div class="zero-box">
+                            <div class="zero-part length-zero">0</div>
+                        </div>
                         <div class="unit-box">毫米 (mm)</div>
                     </div>
                     
-                    <h3>重量单位</h3>
-                    <div class="conversion-flow">
-                        <div class="unit-box">吨 (t)</div>
-                        <div class="conversion-factor">1000</div>
-                        <div class="unit-box">千克 (kg)</div>
-                        <div class="conversion-factor">1000</div>
-                        <div class="unit-box">克 (g)</div>
-                        <div class="conversion-factor">1000</div>
-                        <div class="unit-box">毫克 (mg)</div>
-                    </div>
-                    
-                    <h3>时间单位</h3>
-                    <div class="conversion-flow">
-                        <div class="unit-box">小时</div>
-                        <div class="conversion-factor">60</div>
-                        <div class="unit-box">分钟</div>
-                        <div class="conversion-factor">60</div>
-                        <div class="unit-box">秒</div>
-                    </div>
-                    
                     <h3>面积单位</h3>
-                    <div class="conversion-flow">
-                        <div class="unit-box">平方千米</div>
-                        <div class="conversion-factor">1000000</div>
-                        <div class="unit-box">平方米</div>
-                        <div class="conversion-factor">100</div>
-                        <div class="unit-box">平方分米</div>
-                        <div class="conversion-factor">100</div>
-                        <div class="unit-box">平方厘米</div>
-                    </div>
-                    <div class="conversion-flow">
-                        <div class="unit-box unit-special">公顷</div>
-                        <div class="conversion-factor">10000</div>
-                        <div class="unit-box unit-special">平方米</div>
+                    <div class="conversion-row">
+                        <div class="unit-box">平方千米 (km²)</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                        </div>
+                        <div class="unit-box">平方米 (m²)</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                        </div>
+                        <div class="unit-box">平方分米 (dm²)</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                        </div>
+                        <div class="unit-box">平方厘米 (cm²)</div>
                     </div>
                     
                     <h3>体积单位</h3>
-                    <div class="conversion-flow">
+                    <div class="conversion-row">
+                        <div class="unit-box">立方千米 (km³)</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                        </div>
+                        <div class="unit-box">立方米 (m³)</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                        </div>
+                        <div class="unit-box">立方分米 (dm³)</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                        </div>
+                        <div class="unit-box">立方厘米 (cm³)</div>
+                    </div>
+                    
+                    <h3>容积单位</h3>
+                    <div class="conversion-row">
                         <div class="unit-box">升 (L)</div>
-                        <div class="conversion-factor">1000</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                        </div>
                         <div class="unit-box">毫升 (mL)</div>
                     </div>
                     
-                    <h3>中国传统重量单位</h3>
-                    <div class="conversion-flow">
-                        <div class="unit-box unit-special">公斤</div>
-                        <div class="conversion-factor">2</div>
-                        <div class="unit-box unit-special">斤</div>
-                        <div class="conversion-factor">10</div>
-                        <div class="unit-box unit-special">两</div>
+                    <h3>重量单位</h3>
+                    <div class="conversion-row">
+                        <div class="unit-box">吨 (t)</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                        </div>
+                        <div class="unit-box">千克 (kg)</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                            <div class="zero-part other-zero">0</div>
+                        </div>
+                        <div class="unit-box">克 (g)</div>
+                    </div>
+                    
+                    <h3>时间单位</h3>
+                    <div class="conversion-row">
+                        <div class="unit-box">小时 (h)</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                        </div>
+                        <div class="unit-box">分钟 (min)</div>
+                        <div class="zero-box">
+                            <div class="zero-part other-zero">0</div>
+                        </div>
+                        <div class="unit-box">秒 (s)</div>
                     </div>
                 </div>
                 
@@ -470,141 +646,55 @@
     </div>
 
     <script>
-        // 预定义题库 - 修改后添加hasDecimal标签
-        const questionBank = [
-            // === 1. 基础单名数换算 ===
-            // 千米 <> 米
-            { question: "3千米 =", answer: "3000", unit: "米", type: "length", hasDecimal: false },
-            { question: "5000米 =", answer: "5", unit: "千米", type: "length", hasDecimal: false },
-            
-            // 米 <> 分米
-            { question: "6米 =", answer: "60", unit: "分米", type: "length", hasDecimal: false },
-            { question: "80分米 =", answer: "8", unit: "米", type: "length", hasDecimal: false },
-            
-            // 米 <> 厘米
-            { question: "2米 =", answer: "200", unit: "厘米", type: "length", hasDecimal: false },
-            { question: "700厘米 =", answer: "7", unit: "米", type: "length", hasDecimal: false },
-            
-            // 米 <> 毫米
-            { question: "2米 =", answer: "2000", unit: "毫米", type: "length", hasDecimal: false },
-            { question: "3000毫米 =", answer: "3", unit: "米", type: "length", hasDecimal: false },
-            
-            // 分米 <> 厘米
-            { question: "4分米 =", answer: "40", unit: "厘米", type: "length", hasDecimal: false },
-            { question: "200厘米 =", answer: "20", unit: "分米", type: "length", hasDecimal: false },
-            
-            // 分米 <> 毫米
-            { question: "4分米 =", answer: "400", unit: "毫米", type: "length", hasDecimal: false },
-            { question: "600毫米 =", answer: "6", unit: "分米", type: "length", hasDecimal: false },
-            
-            // 厘米 <> 毫米
-            { question: "5厘米 =", answer: "50", unit: "毫米", type: "length", hasDecimal: false },
-            { question: "90毫米 =", answer: "9", unit: "厘米", type: "length", hasDecimal: false },
-
-            // === 2. 跨多级单位换算 ===
-            // 千米 <> 厘米
-            { question: "1千米 =", answer: "100000", unit: "厘米", type: "length", hasDecimal: false },
-            { question: "500000厘米 =", answer: "5", unit: "千米", type: "length", hasDecimal: false },
-            
-            // 千米 <> 分米
-            { question: "1千米 =", answer: "10000", unit: "分米", type: "length", hasDecimal: false },
-            { question: "10000分米 =", answer: "1", unit: "千米", type: "length", hasDecimal: false },
-            
-            // 千米 <> 毫米
-            { question: "1千米 =", answer: "1000000", unit: "毫米", type: "length", hasDecimal: false },
-            { question: "1000000毫米 =", answer: "1", unit: "千米", type: "length", hasDecimal: false },
-            
-            // 米 <> 厘米 (大数)
-            { question: "2500厘米 =", answer: "25", unit: "米", type: "length", hasDecimal: false },
-            { question: "36000毫米 =", answer: "36", unit: "米", type: "length", hasDecimal: false },
-            
-            // 大数跨级换算
-            { question: "5000000毫米 =", answer: "5", unit: "千米", type: "length", hasDecimal: false },
-            { question: "800000厘米 =", answer: "8", unit: "千米", type: "length", hasDecimal: false },
-            { question: "90000分米 =", answer: "9", unit: "千米", type: "length", hasDecimal: false },
-
-            // === 3. 复合单位 -> 单名数 (正向换算) ===
-            { question: "1千米200米 =", answer: "1200", unit: "米", type: "length", hasDecimal: false },
-            { question: "3米4分米 =", answer: "34", unit: "分米", type: "length", hasDecimal: false },
-            { question: "3米4分米 =", answer: "340", unit: "厘米", type: "length", hasDecimal: false },
-            { question: "1千米50米 =", answer: "1050", unit: "米", type: "length", hasDecimal: false },
-            { question: "5千米30米 =", answer: "5030", unit: "米", type: "length", hasDecimal: false },
-            { question: "5千米30米 =", answer: "50300", unit: "分米", type: "length", hasDecimal: false },
-
-            // === 4. 单名数 -> 复合单位 (反向换算) ===
-            { question: "1200米 =", answer: "1千米200米", unit: "（转换为千米和米）", type: "length", hasDecimal: false },
-            { question: "3050米 =", answer: "3千米50米", unit: "（转换为千米和米）", type: "length", hasDecimal: false },
-            { question: "408厘米 =", answer: "4米8厘米", unit: "（转换为米和厘米）", type: "length", hasDecimal: false },
-            { question: "2508毫米 =", answer: "2米50厘米8毫米", unit: "（转换为米、厘米和毫米）", type: "length", hasDecimal: false },
-            { question: "2560毫米 =", answer: "2米5分米6厘米", unit: "（转换为米、分米和厘米）", type: "length", hasDecimal: false },
-
-            // === 5. 简单换算计算题 ===
-            { question: "3千米 + 200米 =", answer: "3200", unit: "米", type: "length", hasDecimal: false },
-            { question: "5千米 - 300米 =", answer: "4700", unit: "米", type: "length", hasDecimal: false },
-            { question: "7厘米 + ___ = 90毫米", answer: "20", unit: "毫米", type: "length", hasDecimal: false },
-            { question: "9厘米 - ___ = 40毫米", answer: "50", unit: "毫米", type: "length", hasDecimal: false },
-            { question: "___ + 200米 = 3200米", answer: "3000", unit: "米", type: "length", hasDecimal: false },
-            
-            // 重量单位
-            { question: "2吨 =", answer: "2000", unit: "千克", type: "weight", hasDecimal: false },
-            { question: "3500克 =", answer: "3.5", unit: "千克", type: "weight", hasDecimal: true },
-            { question: "1.5千克 =", answer: "1500", unit: "克", type: "weight", hasDecimal: true },
-            { question: "6000毫克 =", answer: "6", unit: "克", type: "weight", hasDecimal: false },
-            { question: "3吨200千克 =", answer: "3200", unit: "千克", type: "weight", hasDecimal: false },
-            { question: "0.8吨 =", answer: "800", unit: "千克", type: "weight", hasDecimal: true },
-            { question: "4500克 =", answer: "4.5", unit: "千克", type: "weight", hasDecimal: true },
-            { question: "250毫克 =", answer: "0.25", unit: "克", type: "weight", hasDecimal: true },
-            { question: "1.2千克 =", answer: "1200", unit: "克", type: "weight", hasDecimal: true },
-            { question: "500克 =", answer: "0.5", unit: "千克", type: "weight", hasDecimal: true },
-            
-            // 时间单位
-            { question: "3小时 =", answer: "180", unit: "分钟", type: "time", hasDecimal: false },
-            { question: "90分钟 =", answer: "1.5", unit: "小时", type: "time", hasDecimal: true },
-            { question: "2分30秒 =", answer: "150", unit: "秒", type: "time", hasDecimal: false },
-            { question: "3600秒 =", answer: "1", unit: "小时", type: "time", hasDecimal: false },
-            { question: "1小时15分钟 =", answer: "75", unit: "分钟", type: "time", hasDecimal: false },
-            { question: "45分钟 =", answer: "0.75", unit: "小时", type: "time", hasDecimal: true },
-            { question: "180秒 =", answer: "3", unit: "分钟", type: "time", hasDecimal: false },
-            { question: "2.5小时 =", answer: "150", unit: "分钟", type: "time", hasDecimal: true },
-            { question: "120秒 =", answer: "2", unit: "分钟", type: "time", hasDecimal: false },
-            { question: "0.25小时 =", answer: "15", unit: "分钟", type: "time", hasDecimal: true },
-            
-            // 面积单位
-            { question: "2平方米 =", answer: "200", unit: "平方分米", type: "area", hasDecimal: false },
-            { question: "500平方厘米 =", answer: "5", unit: "平方分米", type: "area", hasDecimal: false },
-            { question: "1公顷 =", answer: "10000", unit: "平方米", type: "area", hasDecimal: false },
-            { question: "0.5平方千米 =", answer: "50", unit: "公顷", type: "area", hasDecimal: true },
-            { question: "2平方米30平方分米 =", answer: "230", unit: "平方分米", type: "area", hasDecimal: false },
-            { question: "3公顷 =", answer: "30000", unit: "平方米", type: "area", hasDecimal: false },
-            { question: "450平方分米 =", answer: "4.5", unit: "平方米", type: "area", hasDecimal: true },
-            { question: "0.8平方千米 =", answer: "800000", unit: "平方米", type: "area", hasDecimal: true },
-            { question: "2500平方厘米 =", answer: "25", unit: "平方分米", type: "area", hasDecimal: false },
-            { question: "1.2公顷 =", answer: "12000", unit: "平方米", type: "area", hasDecimal: true },
-            
-            // 体积单位
-            { question: "3升 =", answer: "3000", unit: "毫升", type: "volume", hasDecimal: false },
-            { question: "2500毫升 =", answer: "2.5", unit: "升", type: "volume", hasDecimal: true },
-            { question: "0.8立方米 =", answer: "800", unit: "立方分米", type: "volume", hasDecimal: true },
-            { question: "450立方厘米 =", answer: "0.45", unit: "立方分米", type: "volume", hasDecimal: true },
-            { question: "1升500毫升 =", answer: "1500", unit: "毫升", type: "volume", hasDecimal: false },
-            { question: "2.5升 =", answer: "2500", unit: "毫升", type: "volume", hasDecimal: true },
-            { question: "3800毫升 =", answer: "3.8", unit: "升", type: "volume", hasDecimal: true },
-            { question: "0.6立方米 =", answer: "600", unit: "立方分米", type: "volume", hasDecimal: true },
-            { question: "750立方厘米 =", answer: "0.75", unit: "立方分米", type: "volume", hasDecimal: true },
-            { question: "1.2升 =", answer: "1200", unit: "毫升", type: "volume", hasDecimal: true },
-            
-            // 中国传统重量单位
-            { question: "1公斤 =", answer: "2", unit: "斤", type: "chineseWeight", hasDecimal: false },
-            { question: "5斤 =", answer: "50", unit: "两", type: "chineseWeight", hasDecimal: false },
-            { question: "30两 =", answer: "3", unit: "斤", type: "chineseWeight", hasDecimal: false },
-            { question: "0.5公斤 =", answer: "10", unit: "两", type: "chineseWeight", hasDecimal: false },
-            { question: "1斤5两 =", answer: "15", unit: "两", type: "chineseWeight", hasDecimal: false },
-            { question: "2公斤 =", answer: "4", unit: "斤", type: "chineseWeight", hasDecimal: false },
-            { question: "3.5斤 =", answer: "35", unit: "两", type: "chineseWeight", hasDecimal: true },
-            { question: "45两 =", answer: "4.5", unit: "斤", type: "chineseWeight", hasDecimal: true },
-            { question: "0.8公斤 =", answer: "16", unit: "两", type: "chineseWeight", hasDecimal: false },
-            { question: "2斤8两 =", answer: "28", unit: "两", type: "chineseWeight", hasDecimal: false }
-        ];
+        // 单位定义和进率
+        const unitDefinitions = {
+            length: {
+                units: ["千米", "米", "分米", "厘米", "毫米"],
+                factors: [1000, 10, 10, 10],
+                unitPairs: [
+                    ["千米", "米"], ["米", "分米"], ["分米", "厘米"], ["厘米", "毫米"],
+                    ["千米", "分米"], ["千米", "厘米"], ["千米", "毫米"],
+                    ["米", "厘米"], ["米", "毫米"],
+                    ["分米", "毫米"]
+                ]
+            },
+            weight: {
+                units: ["吨", "千克", "克"],
+                factors: [1000, 1000],
+                unitPairs: [
+                    ["吨", "千克"], ["千克", "克"],
+                    ["吨", "克"]
+                ]
+            },
+            time: {
+                units: ["小时", "分钟", "秒"],
+                factors: [60, 60],
+                unitPairs: [
+                    ["小时", "分钟"], ["分钟", "秒"],
+                    ["小时", "秒"]
+                ]
+            },
+            area: {
+                units: ["平方千米", "平方米", "平方分米", "平方厘米"],
+                factors: [1000000, 100, 100],
+                unitPairs: [
+                    ["平方千米", "平方米"], ["平方米", "平方分米"], ["平方分米", "平方厘米"],
+                    ["平方千米", "平方分米"], ["平方千米", "平方厘米"],
+                    ["平方米", "平方厘米"]
+                ],
+                maxConversionSteps: 2
+            },
+            volume: {
+                units: ["立方千米", "立方米", "立方分米", "立方厘米"],
+                factors: [1000000000, 1000, 1000],
+                unitPairs: [
+                    ["立方千米", "立方米"], ["立方米", "立方分米"], ["立方分米", "立方厘米"],
+                    ["立方千米", "立方分米"], ["立方千米", "立方厘米"],
+                    ["立方米", "立方厘米"]
+                ],
+                maxConversionSteps: 3
+            }
+        };
 
         // 获取DOM元素
         const settingsPage = document.getElementById('settings-page');
@@ -628,14 +718,8 @@
         const timeCheckbox = document.getElementById('time-checkbox');
         const areaCheckbox = document.getElementById('area-checkbox');
         const volumeCheckbox = document.getElementById('volume-checkbox');
-        const hectareCheckbox = document.getElementById('hectare-checkbox');
-        const chineseWeightCheckbox = document.getElementById('chinese-weight-checkbox');
-        const decimalOption = document.getElementById('decimal-option');
         const correctSummary = document.getElementById('correct-summary');
         const wrongSummary = document.getElementById('wrong-summary');
-        const totalDetail = document.getElementById('total-detail');
-        const correctDetail = document.getElementById('correct-detail');
-        const accuracyDetail = document.getElementById('accuracy-detail');
         const historyTableBody = document.getElementById('history-table-body');
 
         // 初始化变量
@@ -643,74 +727,107 @@
         let totalQuestions = 0;
         let correctAnswers = 0;
         let questionHistory = [];
-        let allowDecimals = false;
         let autoNextTimer = null;
         let currentUnitType = null;
-        let usedQuestionIndices = [];
 
-        // 生成随机题目 - 从题库中选择
         function generateQuestion() {
-            // 如果是第一次生成题目或需要切换单位类型
-            if (!currentUnitType || Math.random() < 0.2) {
-                // 收集所有选中的单位类型
-                const selectedTypes = [];
-                if (lengthCheckbox.checked) selectedTypes.push('length');
-                if (weightCheckbox.checked) selectedTypes.push('weight');
-                if (timeCheckbox.checked) selectedTypes.push('time');
-                if (areaCheckbox.checked) selectedTypes.push('area');
-                if (volumeCheckbox.checked) selectedTypes.push('volume');
-                if (chineseWeightCheckbox.checked) selectedTypes.push('chineseWeight');
-                
-                if (selectedTypes.length === 0) return null;
-                
-                // 随机选择一个单位类型
-                currentUnitType = selectedTypes[Math.floor(Math.random() * selectedTypes.length)];
+            // 收集所有选中的单位类型
+            const selectedTypes = [];
+            if (lengthCheckbox.checked) selectedTypes.push('length');
+            if (weightCheckbox.checked) selectedTypes.push('weight');
+            if (timeCheckbox.checked) selectedTypes.push('time');
+            if (areaCheckbox.checked) selectedTypes.push('area');
+            if (volumeCheckbox.checked) selectedTypes.push('volume');
+            
+            if (selectedTypes.length === 0) return null;
+            
+            // 随机选择一个单位类型
+            currentUnitType = selectedTypes[Math.floor(Math.random() * selectedTypes.length)];
+            
+            // 获取该类型的单位和进率
+            const units = unitDefinitions[currentUnitType].units;
+            const factors = unitDefinitions[currentUnitType].factors;
+            const unitPairs = unitDefinitions[currentUnitType].unitPairs;
+            const maxSteps = unitDefinitions[currentUnitType].maxConversionSteps || 3;
+            
+            // 过滤单位对，确保不超过最大跨单位数
+            const filteredPairs = unitPairs.filter(pair => {
+                const fromIndex = units.indexOf(pair[0]);
+                const toIndex = units.indexOf(pair[1]);
+                return Math.abs(fromIndex - toIndex) <= maxSteps;
+            });
+            
+            if (filteredPairs.length === 0) return null;
+            
+            // 随机选择一个单位对
+            const pair = filteredPairs[Math.floor(Math.random() * filteredPairs.length)];
+            const fromIndex = units.indexOf(pair[0]);
+            const toIndex = units.indexOf(pair[1]);
+            
+            // 确定哪个是大单位，哪个是小单位
+            const isFirstLarger = fromIndex < toIndex;
+            const largerUnit = isFirstLarger ? pair[0] : pair[1];
+            const smallerUnit = isFirstLarger ? pair[1] : pair[0];
+            
+            // 计算两个单位之间的总进率
+            const actualLargerIndex = units.indexOf(largerUnit);
+            const actualSmallerIndex = units.indexOf(smallerUnit);
+            
+            let conversionFactor = 1;
+            for (let i = actualLargerIndex; i < actualSmallerIndex; i++) {
+                conversionFactor *= factors[i];
             }
             
-            // 获取该类型的所有题目
-            let typeQuestions = questionBank.filter(q => q.type === currentUnitType);
+            // 1. 先随机生成大单位的数值 (1-999)
+            const largerValue = Math.floor(Math.random() * 999) + 1;
             
-            // 根据是否允许小数过滤题目
-            if (!allowDecimals) {
-                typeQuestions = typeQuestions.filter(q => !q.hasDecimal);
+            // 2. 计算对应的小单位数值
+            const smallerValue = largerValue * conversionFactor;
+            
+            // 3. 随机决定哪个作为题目，哪个作为答案
+            const useLargerAsQuestion = Math.random() > 0.5;
+            
+            let question, answer, unit;
+            if (useLargerAsQuestion) {
+                // 大单位作为题目，小单位作为答案
+                question = `${largerValue}${largerUnit} =`;
+                answer = Math.round(smallerValue);
+                unit = smallerUnit;
+            } else {
+                // 小单位作为题目，大单位作为答案
+                question = `${smallerValue}${smallerUnit} =`;
+                answer = Math.round(largerValue);
+                unit = largerUnit;
             }
             
-            if (typeQuestions.length === 0) return null;
-            
-            // 如果已经用过所有题目，重置使用记录
-            if (usedQuestionIndices.length >= typeQuestions.length) {
-                usedQuestionIndices = [];
+            // 确保答案符合要求
+            if (answer <= 0) {
+                return generateQuestion(); // 重新生成
             }
             
-            // 随机选择一个未使用过的题目
-            let randomIndex;
-            do {
-                randomIndex = Math.floor(Math.random() * typeQuestions.length);
-            } while (usedQuestionIndices.includes(randomIndex));
-            
-            usedQuestionIndices.push(randomIndex);
-            
-            return typeQuestions[randomIndex];
+            return {
+                question: question,
+                answer: answer.toString(),
+                unit: unit,
+                type: currentUnitType,
+                hasDecimal: false
+            };
         }
 
         // 开始练习
         function startPractice() {
             // 检查是否至少选择了一个单位类型
             if (!lengthCheckbox.checked && !weightCheckbox.checked && !timeCheckbox.checked && 
-                !areaCheckbox.checked && !volumeCheckbox.checked && !chineseWeightCheckbox.checked) {
+                !areaCheckbox.checked && !volumeCheckbox.checked) {
                 alert('请至少选择一种单位类型！');
                 return;
             }
-            
-            // 设置是否允许小数
-            allowDecimals = decimalOption.value === 'yes';
             
             // 重置统计和题目记录
             totalQuestions = 0;
             correctAnswers = 0;
             questionHistory = [];
             currentUnitType = null;
-            usedQuestionIndices = [];
             updateStatsSummary();
             
             // 切换到答题页面
@@ -823,11 +940,6 @@
 
         // 显示详情
         function showDetail() {
-            // 更新详情页统计
-            totalDetail.textContent = totalQuestions;
-            correctDetail.textContent = correctAnswers;
-            accuracyDetail.textContent = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
-            
             // 更新详情表格
             historyTableBody.innerHTML = '';
             questionHistory.forEach((item, index) => {
@@ -882,6 +994,21 @@
                         newQuestion();
                     }
                 }
+            });
+            
+            // 单位选择变化时检查开始按钮状态
+            const checkboxes = document.querySelectorAll('.unit-option input');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+                    if (anyChecked) {
+                        startBtn.classList.remove('btn-disabled');
+                        startBtn.classList.add('btn-primary');
+                    } else {
+                        startBtn.classList.remove('btn-primary');
+                        startBtn.classList.add('btn-disabled');
+                    }
+                });
             });
         }
 
