@@ -28,15 +28,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
-}
-
-
-h1 {
-    text-align: center;  /* 使标题居中 */
-    margin: 20px 0;      /* 添加上下边距 */
-    color: var(--primary-color);  /* 使用主题色 */
-    font-size: 1.5rem;   /* 调整字体大小 */
-    font-weight: 600;    /* 调整字体粗细 */
+    color: var(--text-color);
 }
 
 .container {
@@ -58,6 +50,52 @@ h1 {
 
 .page.active {
     display: block;
+}
+
+h1, h2 {
+    text-align: center;
+    color: var(--primary-color);
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin: 20px 0;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: var(--secondary-color);
+}
+
+h3 {
+    color: var(--success-color);
+    font-size: 1.3rem;
+    margin: 25px 0 15px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--border-color);
 }
 
 /* 单位选择器 */
@@ -94,15 +132,12 @@ h1 {
     transition: all 0.3s ease;
     height: 60px;
     box-sizing: border-box;
-    color: var(--text-color);
     font-weight: 500;
     position: relative;
     overflow: hidden;
 }
 
 .unit-option input:checked + .unit-label {
-    background-color: white;
-    color: var(--unit-selected-color);
     border-color: var(--unit-selected-color);
     box-shadow: 0 4px 12px rgba(104, 159, 56, 0.2);
     transform: translateY(-2px);
@@ -245,7 +280,6 @@ input:focus {
     color: var(--danger-color);
 }
 
-/* 统计区域 */
 .stats-container {
     text-align: center;
     margin: 15px 0;
@@ -255,7 +289,6 @@ input:focus {
     display: inline-block;
     padding: 12px 24px;
     font-size: 0.9rem;
-
 }
 
 #correct-summary {
@@ -303,31 +336,32 @@ th {
     color: var(--success-color);
     display: block;
     width: 100%;
-    padding: 0;           /* 清除内边距 */
+    padding: 0;
     white-space: normal;
-    text-align: center;    /* 文本居中 */
+    text-align: center;
     font-size: 1.2rem;
 }
 
 /* 进率图样式 */
 .conversion-chart {
     margin: 20px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 15px;
 }
 
 .conversion-row {
     display: flex;
     align-items: center;
     margin: 10px 0;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch;
     white-space: nowrap;
+    min-width: 600px;
 }
 
 .unit-box {
-    padding: 8px 12px;
+    padding: 10px 15px;
     background-color: white;
-    border: 1px solid var(--border-color);
+    border: 2px solid var(--border-color);
     border-radius: 6px;
     text-align: center;
     font-weight: bold;
@@ -336,11 +370,17 @@ th {
     display: inline-block;
 }
 
-.zero-box {
+.zero-container {
     display: flex;
-    min-width: 100px;
-    margin-right: 5px;
-    gap: 2px;
+    flex-direction: column;
+    min-width: 120px;
+    margin-right: 8px;
+    gap: 3px;
+}
+
+.zero-row {
+    display: flex;
+    gap: 3px;
 }
 
 .zero-part {
@@ -349,16 +389,26 @@ th {
     text-align: center;
     font-weight: bold;
     border-radius: 3px;
-    min-width: 30px;
+    min-width: 20px;
+    width: 20px;
+    box-sizing: border-box;
+    font-size: 1rem;
 }
 
 .length-zero {
-    background-color: var(--length-zero-color);
+    background-color: #64b5f6;  /* 轻快的蓝色 */
+    border: 1px solid #e0e0e0;
+    color: white;
+    font-weight: bold;
 }
 
 .other-zero {
-    background-color: var(--other-zero-color);
+    background-color: #38d340;  /* 轻快的绿色 */
+    border: 1px solid #e0e0e0;
+    color: white;
+    font-weight: bold;
 }
+
 
 /* 移动端响应式 */
 @media (max-width: 600px) {
@@ -370,8 +420,20 @@ th {
         padding: 15px;
     }
     
+    h1 {
+        font-size: 1.3rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.1rem;
+    }
+    
     .question-text, .unit-text {
-        font-size: 0.9rem;
+        font-size: 1.1rem;
     }
     
     input {
@@ -381,11 +443,6 @@ th {
     }
     
     .correct-answer {
-        display: block;
-        width: 100%;
-        margin: 10px 0 0 0;
-        white-space: normal;
-        text-align: center;
         font-size: 1.0rem;
     }
     
@@ -420,8 +477,25 @@ th {
         font-size: 0.9rem;
     }
     
-    .settings {
-        padding: 15px;
+    .conversion-row {
+        min-width: 800px;
+    }
+    
+    .unit-box {
+        min-width: 90px;
+        font-size: 0.8rem;
+        padding: 8px 10px;
+    }
+    
+    .zero-container {
+        min-width: 30px;
+    }
+    
+    .zero-part {
+        min-width: 15px;
+        width: 15px;
+        font-size: 0.8rem;
+        padding: 6px 0;
     }
 }
     </style>
@@ -523,22 +597,30 @@ th {
                     <h3>长度单位</h3>
                     <div class="conversion-row">
                         <div class="unit-box">千米 (km)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">米 (m)</div>
-                        <div class="zero-box">
-                            <div class="zero-part length-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part length-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">分米 (dm)</div>
-                        <div class="zero-box">
-                            <div class="zero-part length-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part length-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">厘米 (cm)</div>
-                        <div class="zero-box">
-                            <div class="zero-part length-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part length-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">毫米 (mm)</div>
                     </div>
@@ -546,23 +628,31 @@ th {
                     <h3>面积单位</h3>
                     <div class="conversion-row">
                         <div class="unit-box">平方千米 (km²)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">平方米 (m²)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">平方分米 (dm²)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">平方厘米 (cm²)</div>
                     </div>
@@ -570,28 +660,38 @@ th {
                     <h3>体积单位</h3>
                     <div class="conversion-row">
                         <div class="unit-box">立方千米 (km³)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">立方米 (m³)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">立方分米 (dm³)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">立方厘米 (cm³)</div>
                     </div>
@@ -599,10 +699,12 @@ th {
                     <h3>容积单位</h3>
                     <div class="conversion-row">
                         <div class="unit-box">升 (L)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">毫升 (mL)</div>
                     </div>
@@ -610,16 +712,20 @@ th {
                     <h3>重量单位</h3>
                     <div class="conversion-row">
                         <div class="unit-box">吨 (t)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">千克 (kg)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                                <div class="zero-part other-zero">0</div>
+                            </div>
                         </div>
                         <div class="unit-box">克 (g)</div>
                     </div>
@@ -627,12 +733,16 @@ th {
                     <h3>时间单位</h3>
                     <div class="conversion-row">
                         <div class="unit-box">小时 (h)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part length-zero">60</div>
+                            </div>
                         </div>
                         <div class="unit-box">分钟 (min)</div>
-                        <div class="zero-box">
-                            <div class="zero-part other-zero">0</div>
+                        <div class="zero-container">
+                            <div class="zero-row">
+                                <div class="zero-part length-zero">60</div>
+                            </div>
                         </div>
                         <div class="unit-box">秒 (s)</div>
                     </div>
@@ -814,7 +924,6 @@ th {
             };
         }
 
-        // 开始练习
         function startPractice() {
             // 检查是否至少选择了一个单位类型
             if (!lengthCheckbox.checked && !weightCheckbox.checked && !timeCheckbox.checked && 
@@ -837,7 +946,6 @@ th {
             newQuestion();
         }
 
-        // 显示新题目
         function newQuestion() {
             // 清除之前的自动跳转计时器
             if (autoNextTimer) {
@@ -875,7 +983,6 @@ th {
             answerEl.focus();
         }
 
-        // 检查答案
         function checkAnswer() {
             const userAnswer = answerEl.value.trim();
             const correctAnswer = currentQuestion.answer;
@@ -932,13 +1039,11 @@ th {
             nextBtn.style.display = 'inline-block';
         }
 
-        // 更新简易统计
         function updateStatsSummary() {
             correctSummary.textContent = correctAnswers;
             wrongSummary.textContent = totalQuestions - correctAnswers;
         }
 
-        // 显示详情
         function showDetail() {
             // 更新详情表格
             historyTableBody.innerHTML = '';
@@ -961,12 +1066,10 @@ th {
             showPage('detail-page');
         }
 
-        // 显示进率表
         function showConversion() {
             showPage('conversion-page');
         }
 
-        // 页面切换
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
@@ -974,7 +1077,6 @@ th {
             document.getElementById(pageId).classList.add('active');
         }
 
-        // 初始化事件监听
         function initEventListeners() {
             startBtn.addEventListener('click', startPractice);
             submitBtn.addEventListener('click', checkAnswer);
