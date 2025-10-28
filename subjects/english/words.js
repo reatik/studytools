@@ -2752,8 +2752,6 @@ const wordData = {
 {"english": "wonder", "phonetic": "/ˈwʌndə(r)/", "chinese": "想知道；想弄明白；琢磨", "pos": "v.", "unit": "Unit 3", "grade": "八年级上", "type": "word"},
 {"english": "shake", "phonetic": "/ʃeɪk/", "chinese": "摇动；抖动", "pos": "v.", "unit": "Unit 3", "grade": "八年级上", "type": "word"},
 {"english": "bark", "phonetic": "/bɑːk/", "chinese": "（狗）吠叫", "pos": "v.", "unit": "Unit 3", "grade": "八年级上", "type": "word"},
-
-# Unit 4
 {"english": "memory", "phonetic": "/ˈmeməri/", "chinese": "记忆", "pos": "n.", "unit": "Unit 4", "grade": "八年级上", "type": "word"},
 {"english": "seldom", "phonetic": "/ˈseldəm/", "chinese": "不常；很少；难得", "pos": "adv.", "unit": "Unit 4", "grade": "八年级上", "type": "word"},
 {"english": "journey", "phonetic": "/ˈdʒɜːni/", "chinese": "旅行", "pos": "n.", "unit": "Unit 4", "grade": "八年级上", "type": "word"},
