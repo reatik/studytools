@@ -2623,7 +2623,7 @@ const wordData = {
 {"english":"wing","phonetic":"/wɪŋ/","chinese":"翅膀；翼","pos":"n.","unit":"Unit 5","grade":"七年级下","type":"word"},
 {"english":"winner","phonetic":"/ˈwɪnə(r)/","chinese":"获胜的人；优胜者","pos":"n.","unit":"Unit 4","grade":"七年级下","type":"word"},
 {"english":"wood","phonetic":"/wʊd/","chinese":"木；木头","pos":"n.","unit":"Unit 6","grade":"七年级下","type":"word"},
-{"english": "litre (AmE liter)", "phonetic": "/ˈliːtə(r)/", "chinese": "升", "pos": "n.", "unit": "Unit 1", "grade": "八年级上", "type": "word"},
+{"english": "litre", "phonetic": "/ˈliːtə(r)/", "chinese": "升", "pos": "n.", "unit": "Unit 1", "grade": "八年级上", "type": "word"},
 {"english": "factory", "phonetic": "/ˈfæktri/", "chinese": "工厂", "pos": "n.", "unit": "Unit 1", "grade": "八年级上", "type": "word"},
 {"english": "billion", "phonetic": "/ˈbɪljən/", "chinese": "十亿", "pos": "n.", "unit": "Unit 1", "grade": "八年级上", "type": "word"},
 {"english": "salty", "phonetic": "/ˈsɔːlti/", "chinese": "含盐的；咸的", "pos": "adj.", "unit": "Unit 1", "grade": "八年级上", "type": "word"},
