@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>的得地练习</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    background: #f8f9fa;
+    color: #212529;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+h1 {
+    color: #613033;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 1.8rem;
+}
+
+.description {
+    color: #6c757d;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.score {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #ffc107;
+}
+
+.exercise-card {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    background: white;
+}
+
+.options-container {
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.option-btn {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+    color: #2c3e50;
+}
+
+.option-btn.selected {
+    background: #2c3e50;
+    color: white;
+    border-color: #2c3e50;
+}
+
+.question {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    text-align: center;
+    position: relative;
+    min-height: 60px;
+}
+
+.blank {
+    display: inline-block;
+    min-width: 60px;
+    border-bottom: 2px solid #2c3e50;
+    margin: 0 5px;
+    text-align: center;
+    color: transparent;
+    position: relative;
+    height: 30px;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.answer-hint-container {
+    min-height: 80px;
+}
+
+.answer-hint {
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+}
+
+.answer-hint.hidden {
+    display: none;
+}
+
+.hint-content {
+    line-height: 1.6;
+    font-size: 1.4rem;
+}
+
+.answer-result {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.correct-result {
+    color: #28a745;
+}
+
+.wrong-result {
+    color: #dc3545;
+}
+
+.correct {
+    background: #28a745 !important;
+    color: white !important;
+    border-color: #28a745 !important;
+}
+
+.wrong {
+    background: #dc3545 !important;
+    color: white !important;
+    border-color: #dc3545 !important;
+}
+
+.highlight-verb {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.highlight-noun {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.highlight-adj {
+    background-color: #fff3e0;
+    color: #e65100;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    min-height: 40px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.next-btn {
+    background: #2c3e50;
+    color: white;
+}
+
+.next-btn:hover {
+    background: #1a252f;
+}
+
+.completion-message {
+    text-align: center;
+    font-size: 1.4rem;
+    color: #2c3e50;
+    margin-top: 15px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 1.7rem;
+    }
+    
+    .question {
+        font-size: 1.4rem;
+    }
+    
+    .options-container {
+        gap: 10px;
+    }
+    
+    .option-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1.4rem;
+    }
+    
+    .buttons {
+        flex-direction: column;
+    }
+    
+    button {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="score" id="score">★0</div>
+        <h1>的得地练习</h1>
+        <p class="description"></p>
+        
+        <div class="exercise-card">
+            <div class="options-container" id="options">
+                <button class="option-btn" data-answer="的">的</button>
+                <button class="option-btn" data-answer="得">得</button>
+                <button class="option-btn" data-answer="地">地</button>
+            </div>
+            
+            <div class="question" id="question">
+                正在加载题目...
+            </div>
+            
+            <div class="answer-hint-container">
+                <div class="answer-hint hidden" id="answerHint">
+                    <div class="hint-content">
+                        <div id="answerResult"></div>
+                        <p>正确答案：<strong id="correctAnswer"></strong></p>
+                        <p id="explanation"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button class="next-btn" id="nextBtn" style="display:none;">下一题</button>
+            </div>
+            
+            <div class="completion-message" id="completionMessage">
+                一轮练习已完成！你的得分是：<span id="finalScore">0</span>颗星
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 题目数据（每题一个空）
+        const questions = [
+            {
+                text: "小明开心<span class='blank'></span>跑进教室。",
+                answer: "地",
+                explanation: "'跑'是动词，前面用'地'",
+                highlights: [
+                    { word: "跑", type: "highlight-verb" },
+                    { word: "开心", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这只小猫<span class='blank'></span>毛发是白色的。",
+                answer: "的",
+                explanation: "'毛发'是名词，前面用'的'",
+                highlights: [
+                    { word: "毛发", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "花儿开<span class='blank'></span>特别美丽。",
+                answer: "得",
+                explanation: "'开'是动词，后面用'得'",
+                highlights: [
+                    { word: "开", type: "highlight-verb" },
+                    { word: "特别美丽", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "我们要认真<span class='blank'></span>学习。",
+                answer: "地",
+                explanation: "'学习'是动词，前面用'地'",
+                highlights: [
+                    { word: "学习", type: "highlight-verb" },
+                    { word: "认真", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "她唱<span class='blank'></span>歌很好听。",
+                answer: "的",
+                explanation: "'歌'是名词，前面用'的'",
+                highlights: [
+                    { word: "歌", type: "highlight-noun" }
+                ]
+            },
+             {
+                text: "这是我<span class='blank'></span>铅笔。",
+                answer: "的",
+                explanation: "'铅笔'是名词，前面用'的'",
+                highlights: [
+                    { word: "铅笔", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "雨下<span class='blank'></span>很大。",
+                answer: "得",
+                explanation: "'下'是动词，后面用'得'",
+                highlights: [
+                    { word: "下", type: "highlight-verb" },
+                    { word: "很大", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "老师耐心<span class='blank'></span>讲解题目。",
+                answer: "地",
+                explanation: "'讲解'是动词，前面用'地'",
+                highlights: [
+                    { word: "讲解", type: "highlight-verb" },
+                    { word: "耐心", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "那个红色<span class='blank'></span>书包是谁的？",
+                answer: "的",
+                explanation: "'书包'是名词，前面用'的'",
+                highlights: [
+                    { word: "书包", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "他写<span class='blank'></span>字很漂亮。",
+                answer: "的",
+                explanation: "'字'是名词，前面用'的'",
+                highlights: [
+                    { word: "字", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "小狗高兴<span class='blank'></span>摇尾巴。",
+                answer: "地",
+                explanation: "'摇'是动词，前面用'地'",
+                highlights: [
+                    { word: "摇", type: "highlight-verb" },
+                    { word: "高兴", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这个问题解决<span class='blank'></span>很彻底。",
+                answer: "得",
+                explanation: "'解决'是动词，后面用'得'",
+                highlights: [
+                    { word: "解决", type: "highlight-verb" },
+                    { word: "很彻底", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "妈妈做<span class='blank'></span>饭菜特别香。",
+                answer: "的",
+                explanation: "'饭菜'是名词，前面用'的'",
+                highlights: [
+                    { word: "饭菜", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "同学们认真<span class='blank'></span>听讲。",
+                answer: "地",
+                explanation: "'听讲'是动词，前面用'地'",
+                highlights: [
+                    { word: "听讲", type: "highlight-verb" },
+                    { word: "认真", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这个苹果红<span class='blank'></span>发亮。",
+                answer: "得",
+                explanation: "'红'是形容词，后面用'得'",
+                highlights: [
+                    { word: "红", type: "highlight-adj" },
+                    { word: "发亮", type: "highlight-verb" }
+                ]
+            },
+            {
+                text: "公园里<span class='blank'></span>景色真美啊！",
+                answer: "的",
+                explanation: "'景色'是名词，前面用'的'",
+                highlights: [
+                    { word: "景色", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "小明开心<span class='blank'></span>跑进教室。",
+                answer: "地",
+                explanation: "'跑'是动词，前面用'地'",
+                highlights: [
+                    { word: "跑", type: "highlight-verb" },
+                    { word: "开心", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这只小猫<span class='blank'></span>毛发是白色的。",
+                answer: "的",
+                explanation: "'毛发'是名词，前面用'的'",
+                highlights: [
+                    { word: "毛发", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "花儿开<span class='blank'></span>特别美丽。",
+                answer: "得",
+                explanation: "'开'是动词，后面用'得'",
+                highlights: [
+                    { word: "开", type: "highlight-verb" },
+                    { word: "特别美丽", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "我们要认真<span class='blank'></span>学习。",
+                answer: "地",
+                explanation: "'学习'是动词，前面用'地'",
+                highlights: [
+                    { word: "学习", type: "highlight-verb" },
+                    { word: "认真", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "她唱<span class='blank'></span>歌很好听。",
+                answer: "的",
+                explanation: "'歌'是名词，前面用'的'",
+                highlights: [
+                    { word: "歌", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "小鸟在树上欢快<span class='blank'></span>歌唱。",
+                answer: "地",
+                explanation: "'歌唱'是动词，前面用'地'",
+                highlights: [
+                    { word: "歌唱", type: "highlight-verb" },
+                    { word: "欢快", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这本书<span class='blank'></span>内容非常有趣。",
+                answer: "的",
+                explanation: "'内容'是名词，前面用'的'",
+                highlights: [
+                    { word: "内容", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "他跑<span class='blank'></span>满头大汗。",
+                answer: "得",
+                explanation: "'跑'是动词，后面用'得'",
+                highlights: [
+                    { word: "跑", type: "highlight-verb" },
+                    { word: "满头大汗", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "孩子们安静<span class='blank'></span>看书。",
+                answer: "地",
+                explanation: "'看书'是动词，前面用'地'",
+                highlights: [
+                    { word: "看书", type: "highlight-verb" },
+                    { word: "安静", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这是我<span class='blank'></span>铅笔。",
+                answer: "的",
+                explanation: "'铅笔'是名词，前面用'的'",
+                highlights: [
+                    { word: "铅笔", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "雨下<span class='blank'></span>很大。",
+                answer: "得",
+                explanation: "'下'是动词，后面用'得'",
+                highlights: [
+                    { word: "下", type: "highlight-verb" },
+                    { word: "很大", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "老师耐心<span class='blank'></span>讲解题目。",
+                answer: "地",
+                explanation: "'讲解'是动词，前面用'地'",
+                highlights: [
+                    { word: "讲解", type: "highlight-verb" },
+                    { word: "耐心", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "那个红色<span class='blank'></span>书包是谁的？",
+                answer: "的",
+                explanation: "'书包'是名词，前面用'的'",
+                highlights: [
+                    { word: "书包", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "他写<span class='blank'></span>字很漂亮。",
+                answer: "的",
+                explanation: "'字'是名词，前面用'的'",
+                highlights: [
+                    { word: "字", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "小狗高兴<span class='blank'></span>摇尾巴。",
+                answer: "地",
+                explanation: "'摇'是动词，前面用'地'",
+                highlights: [
+                    { word: "摇", type: "highlight-verb" },
+                    { word: "高兴", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这个问题解决<span class='blank'></span>很彻底。",
+                answer: "得",
+                explanation: "'解决'是动词，后面用'得'",
+                highlights: [
+                    { word: "解决", type: "highlight-verb" },
+                    { word: "很彻底", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "妈妈做<span class='blank'></span>饭菜特别香。",
+                answer: "的",
+                explanation: "'饭菜'是名词，前面用'的'",
+                highlights: [
+                    { word: "饭菜", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "同学们认真<span class='blank'></span>听讲。",
+                answer: "地",
+                explanation: "'听讲'是动词，前面用'地'",
+                highlights: [
+                    { word: "听讲", type: "highlight-verb" },
+                    { word: "认真", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这个苹果红<span class='blank'></span>发亮。",
+                answer: "得",
+                explanation: "'红'是形容词，后面用'得'",
+                highlights: [
+                    { word: "红", type: "highlight-adj" },
+                    { word: "发亮", type: "highlight-verb" }
+                ]
+            },
+            {
+                text: "公园里<span class='blank'></span>景色真美啊！",
+                answer: "的",
+                explanation: "'景色'是名词，前面用'的'",
+                highlights: [
+                    { word: "景色", type: "highlight-noun" }
+                ]
+            },
+            // 更多题目...
+            {
+                text: "他画<span class='blank'></span>画非常生动。",
+                answer: "的",
+                explanation: "'画'是名词，前面用'的'",
+                highlights: [
+                    { word: "画", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "小鸟自由<span class='blank'></span>飞翔。",
+                answer: "地",
+                explanation: "'飞翔'是动词，前面用'地'",
+                highlights: [
+                    { word: "飞翔", type: "highlight-verb" },
+                    { word: "自由", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这个问题处理<span class='blank'></span>很及时。",
+                answer: "得",
+                explanation: "'处理'是动词，后面用'得'",
+                highlights: [
+                    { word: "处理", type: "highlight-verb" },
+                    { word: "很及时", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这是我们<span class='blank'></span>教室。",
+                answer: "的",
+                explanation: "'教室'是名词，前面用'的'",
+                highlights: [
+                    { word: "教室", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "他慢慢<span class='blank'></span>走过来。",
+                answer: "地",
+                explanation: "'走'是动词，前面用'地'",
+                highlights: [
+                    { word: "走", type: "highlight-verb" },
+                    { word: "慢慢", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "她笑<span class='blank'></span>很开心。",
+                answer: "得",
+                explanation: "'笑'是动词，后面用'得'",
+                highlights: [
+                    { word: "笑", type: "highlight-verb" },
+                    { word: "很开心", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这是我<span class='blank'></span>书包。",
+                answer: "的",
+                explanation: "'书包'是名词，前面用'的'",
+                highlights: [
+                    { word: "书包", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "小朋友高兴<span class='blank'></span>玩耍。",
+                answer: "地",
+                explanation: "'玩耍'是动词，前面用'地'",
+                highlights: [
+                    { word: "玩耍", type: "highlight-verb" },
+                    { word: "高兴", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "他跑<span class='blank'></span>比兔子还快。",
+                answer: "得",
+                explanation: "'跑'是动词，后面用'得'",
+                highlights: [
+                    { word: "跑", type: "highlight-verb" },
+                    { word: "比兔子还快", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "那本蓝色<span class='blank'></span>书是我的。",
+                answer: "的",
+                explanation: "'书'是名词，前面用'的'",
+                highlights: [
+                    { word: "书", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "同学们专心<span class='blank'></span>听讲。",
+                answer: "地",
+                explanation: "'听讲'是动词，前面用'地'",
+                highlights: [
+                    { word: "听讲", type: "highlight-verb" },
+                    { word: "专心", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "她唱<span class='blank'></span>比专业歌手还好。",
+                answer: "得",
+                explanation: "'唱'是动词，后面用'得'",
+                highlights: [
+                    { word: "唱", type: "highlight-verb" },
+                    { word: "比专业歌手还好", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这是我<span class='blank'></span>作业本。",
+                answer: "的",
+                explanation: "'作业本'是名词，前面用'的'",
+                highlights: [
+                    { word: "作业本", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "小狗兴奋<span class='blank'></span>跑来跑去。",
+                answer: "地",
+                explanation: "'跑'是动词，前面用'地'",
+                highlights: [
+                    { word: "跑", type: "highlight-verb" },
+                    { word: "兴奋", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "他写<span class='blank'></span>又快又好。",
+                answer: "得",
+                explanation: "'写'是动词，后面用'得'",
+                highlights: [
+                    { word: "写", type: "highlight-verb" },
+                    { word: "又快又好", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "那辆红色<span class='blank'></span>汽车真漂亮。",
+                answer: "的",
+                explanation: "'汽车'是名词，前面用'的'",
+                highlights: [
+                    { word: "汽车", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "老师温柔<span class='blank'></span>讲解题目。",
+                answer: "地",
+                explanation: "'讲解'是动词，前面用'地'",
+                highlights: [
+                    { word: "讲解", type: "highlight-verb" },
+                    { word: "温柔", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "他跳<span class='blank'></span>比袋鼠还高。",
+                answer: "得",
+                explanation: "'跳'是动词，后面用'得'",
+                highlights: [
+                    { word: "跳", type: "highlight-verb" },
+                    { word: "比袋鼠还高", type: "highlight-adj" }
+                ]
+            },
+            {
+                text: "这是我<span class='blank'></span>新玩具。",
+                answer: "的",
+                explanation: "'玩具'是名词，前面用'的'",
+                highlights: [
+                    { word: "玩具", type: "highlight-noun" }
+                ]
+            },
+            {
+                text: "小鸟轻快<span class='blank'></span>飞过天空。",
+                answer: "地",
+                explanation: "'飞'是动词，前面用'地'",
+                highlights: [
+                    { word: "飞", type: "highlight-verb" },
+                    { word: "轻快", type: "highlight-adj" }
+                ]
+            }
+
+        ];
+
+        let currentQuestionIndex = 0;
+        let selectedAnswer = null;
+        let score = 0;
+        let answeredQuestions = 0;
+        let shuffledQuestions = [];
+        
+        // 初始化
+        function init() {
+            shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
+            currentQuestionIndex = 0;
+            score = 0;
+            answeredQuestions = 0;
+            document.getElementById('score').textContent = '★0';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('completionMessage').style.display = 'none';
+            showQuestion(currentQuestionIndex);
+        }
+        
+        // 显示当前题目
+        function showQuestion(index) {
+            if (index >= shuffledQuestions.length) {
+                showCompletionMessage();
+                return;
+            }
+            
+            const question = shuffledQuestions[index];
+            const questionElement = document.getElementById('question');
+            const hintElement = document.getElementById('answerHint');
+            
+            questionElement.innerHTML = question.text.replace(/<span class='blank'><\/span>/g, '<span class="blank" id="blank1"></span>');
+            
+            hintElement.classList.add('hidden');
+            document.getElementById('answerResult').innerHTML = '';
+            
+            // 重置选项按钮
+            const optionBtns = document.querySelectorAll('.option-btn');
+            optionBtns.forEach(btn => {
+                btn.classList.remove('selected', 'correct', 'wrong');
+                btn.disabled = false;
+            });
+        }
+        
+        // 检查答案
+        function checkAnswer(selected) {
+            const question = shuffledQuestions[currentQuestionIndex];
+            const blank = document.getElementById('blank1');
+            const hintElement = document.getElementById('answerHint');
+            const correctAnswerElement = document.getElementById('correctAnswer');
+            const explanationElement = document.getElementById('explanation');
+            const answerResultElement = document.getElementById('answerResult');
+            const questionElement = document.getElementById('question');
+            
+            // 填充空白
+            blank.style.color = '#2c3e50';
+            blank.textContent = selected;
+            blank.style.fontWeight = '600';
+            
+            // 标记选中的按钮
+            const optionBtns = document.querySelectorAll('.option-btn');
+            optionBtns.forEach(btn => {
+                if (btn.dataset.answer === selected) {
+                    btn.classList.add('selected');
+                }
+            });
+            
+            // 检查是否正确
+            const isCorrect = selected === question.answer;
+            
+            // 更新分数
+            if (isCorrect) {
+                score++;
+                document.getElementById('score').textContent = '★' + score;
+            }
+            
+            // 标记正确/错误按钮
+            optionBtns.forEach(btn => {
+                btn.disabled = true;
+                if (btn.dataset.answer === question.answer) {
+                    btn.classList.add('correct');
+                } else if (btn.dataset.answer === selected && !isCorrect) {
+                    btn.classList.add('wrong');
+                }
+            });
+            
+            // 高亮关键词
+            question.highlights.forEach(item => {
+                const regex = new RegExp(item.word, 'g');
+                questionElement.innerHTML = 
+                    questionElement.innerHTML.replace(
+                        regex, `<span class="${item.type}">${item.word}</span>`
+                    );
+            });
+            
+            // 显示提示和结果标记
+            correctAnswerElement.textContent = question.answer;
+            explanationElement.textContent = question.explanation;
+            
+            if (isCorrect) {
+                answerResultElement.innerHTML = '<span class="correct-result">✓ 回答正确！</span>';
+            } else {
+                answerResultElement.innerHTML = '<span class="wrong-result">✗ 回答错误！</span>';
+            }
+            
+            hintElement.classList.remove('hidden');
+            
+            // 更新已回答题目计数
+            answeredQuestions++;
+            
+            // 检查是否完成一轮
+            if (answeredQuestions >= shuffledQuestions.length) {
+                document.getElementById('nextBtn').style.display = 'none';
+                setTimeout(showCompletionMessage, 1000);
+            } else {
+                document.getElementById('nextBtn').style.display = 'inline-block';
+            }
+        }
+        
+        // 显示完成消息
+        function showCompletionMessage() {
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('completionMessage').style.display = 'block';
+        }
+        
+        // 下一题
+        function nextQuestion() {
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
+        }
+        
+        // 初始化事件监听
+        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        
+        // 选项点击事件
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                checkAnswer(this.dataset.answer);
+            });
+        });
+        
+        // 开始练习
+        init();
+    </script>
+</body>
+</html>

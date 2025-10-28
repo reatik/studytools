@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动词练习</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .exercise {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .subject {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #3498db;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .answer {
+            font-size: 20px;
+            margin: 15px 0;
+            color: #27ae60;
+            display: none;
+        }
+        .explanation {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+        .mode-selector {
+            margin: 20px 0;
+        }
+        .mode-btn {
+            background-color: #e67e22;
+        }
+        .mode-btn.active {
+            background-color: #d35400;
+        }
+    </style>
+</head>
+<body>
+    <h1>动词练习</h1>
+    
+    <div class="mode-selector">
+        <button class="mode-btn active" onclick="setMode('have')">练习 Have/Has</button>
+        <button class="mode-btn" onclick="setMode('be')">练习 Be动词(am/is/are)</button>
+    </div>
+    
+    <div class="exercise">
+        <p>用 <span id="verbType">have/has</span> 填空：</p>
+        <div class="subject" id="randomSubject">点击下方按钮开始</div>
+        <p>______</p>
+        <div class="answer" id="answer"></div>
+        <div class="explanation" id="explanation"></div>
+    </div>
+    
+    <button onclick="generateExercise()">生成新题目</button>
+    <button onclick="showAnswer()">显示答案</button>
+    
+    <script>
+        const subjects = [
+            // 人称代词
+            "I", "You", "We", "They", "He", "She", "It",
+            
+            // 人名
+            "Tom", "Mary", "John", "Lucy", "David", "Emma", 
+            "Mr. Smith", "Mrs. Johnson", "Miss Brown",
+            
+            // 家庭成员
+            "My brother", "My sister", "My mother", "My father",
+            "My parents", "My grandparents", "My uncle", "My aunt",
+            "My cousin", "My family","Your brother", "Your sister",
+            "Your mother", "Your father", "Your parents",
+            
+            // 动物
+            "The cat", "The dog", "The bird", "The fish",
+            "The rabbit", "The hamster", "The turtle",
+            "The dogs", "The cats", "The birds",
+            
+            // 物品
+            "The book", "The pen", "The computer", "The phone",
+            "The car", "The bicycle", "The house", "The table",
+            "The chairs", "The toys",
+            
+            // 学校相关
+            "The teacher", "The student", "The students", 
+            "The children", "The boy", "The girl", "The boys", 
+            "The girls", "The class", "The school",
+            
+            // 自然
+            "The tree", "The flower", "The sun", "The moon",
+            "The stars", "The river", "The mountain",
+            
+            // 复合主语
+            "My friend and I", "Tom and Jerry", "The cat and the dog",
+            "My parents and I", "The teacher and the students",
+            
+            // 其他
+            "Everyone", "Nobody", "Somebody", "This", "That",
+            "These", "Those", "The weather", "The time"
+        ];
+        
+        let currentMode = 'have';
+        
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('verbType').textContent = 
+                mode === 'have' ? 'have/has' : 'am/is/are';
+            
+            // 更新按钮样式
+            const buttons = document.querySelectorAll('.mode-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.includes(mode === 'have' ? 'Have' : 'Be')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            generateExercise();
+        }
+        
+        function generateExercise() {
+            const randomIndex = Math.floor(Math.random() * subjects.length);
+            const subject = subjects[randomIndex];
+            document.getElementById('randomSubject').textContent = subject;
+            document.getElementById('answer').style.display = 'none';
+            document.getElementById('explanation').textContent = '';
+        }
+        
+        function showAnswer() {
+            const subject = document.getElementById('randomSubject').textContent;
+            let answer, explanation;
+            
+            if (currentMode === 'have') {
+                // have/has 模式
+                if (subject === "I" || subject === "You" || subject === "We" || subject === "They" || 
+                    subject.includes(" and ") || 
+                    subject.startsWith("My ") && (subject.includes("parents") || subject.includes("friends")) ||
+                    subject.startsWith("The ") && (subject.endsWith("s") || subject === "The children") ||
+                    subject === "Everyone" || subject === "Somebody" || subject === "Nobody") {
+                    answer = "have";
+                    explanation = "当主语是第一人称(I, we)、第二人称(you)、复数名词或复合主语时，使用have";
+                } else {
+                    answer = "has";
+                    explanation = "当主语是第三人称单数(he, she, it)或单数名词时，使用has";
+                }
+            } else {
+                // be动词模式
+                if (subject === "I") {
+                    answer = "am";
+                    explanation = "当主语是第一人称单数(I)时，使用am";
+                } else if (subject === "You" || subject === "We" || subject === "They" || 
+                          subject.includes(" and ") || 
+                          subject.startsWith("My ") && (subject.includes("parents") || subject.includes("friends")) ||
+                          subject.startsWith("The ") && (subject.endsWith("s") || subject === "The children") ||
+                          subject === "Everyone" || subject === "Somebody" || subject === "Nobody") {
+                    answer = "are";
+                    explanation = "当主语是第二人称(you)、复数名词或复合主语时，使用are";
+                } else {
+                    answer = "is";
+                    explanation = "当主语是第三人称单数(he, she, it)或单数名词时，使用is";
+                }
+            }
+            
+            document.getElementById('answer').textContent = answer;
+            document.getElementById('explanation').textContent = explanation;
+            document.getElementById('answer').style.display = 'block';
+        }
+        
+        // 初始生成一个题目
+        generateExercise();
+    </script>
+</body>
+</html>
