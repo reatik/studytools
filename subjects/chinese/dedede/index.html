@@ -44,12 +44,27 @@ h1 {
     font-size: 1rem;
 }
 
-.score {
+.score-container {
     position: absolute;
     top: 15px;
     right: 15px;
-    font-size: 1.5rem;
-    color: #ffc107;
+    display: flex;
+    gap: 10px;
+    font-size: 1rem;
+}
+
+.score-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.correct-count {
+    color: #28a745;
+}
+
+.wrong-count {
+    color: #dc3545;
 }
 
 .exercise-card {
@@ -256,7 +271,16 @@ button {
 </head>
 <body>
     <div class="container">
-        <div class="score" id="score">★0</div>
+        <div class="score-container">
+            <div class="score-item correct-count">
+                <span>正确:</span>
+                <span id="correctCount">0</span>
+            </div>
+            <div class="score-item wrong-count">
+                <span>错误:</span>
+                <span id="wrongCount">0</span>
+            </div>
+        </div>
         <h1>的得地练习</h1>
         <p class="description"></p>
         
@@ -286,475 +310,832 @@ button {
             </div>
             
             <div class="completion-message" id="completionMessage">
-                一轮练习已完成！你的得分是：<span id="finalScore">0</span>颗星
+                一轮练习已完成！<br>
+                正确: <span class="correct-count" id="finalCorrect">0</span> 题<br>
+                错误: <span class="wrong-count" id="finalWrong">0</span> 题
             </div>
         </div>
     </div>
     
     <script>
-
         const questions = [
-            {
-                text: "小明开心<span class='blank'></span>跑进教室。",
-                answer: "地",
-                explanation: "'跑'是动词，前面用'地'",
-                highlights: [
-                    { word: "跑", type: "highlight-verb" },
-                    { word: "开心", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这只小猫<span class='blank'></span>毛发是白色的。",
-                answer: "的",
-                explanation: "'毛发'是名词，前面用'的'",
-                highlights: [
-                    { word: "毛发", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "花儿开<span class='blank'></span>特别美丽。",
-                answer: "得",
-                explanation: "'开'是动词，后面用'得'",
-                highlights: [
-                    { word: "开", type: "highlight-verb" },
-                    { word: "特别美丽", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "我们要认真<span class='blank'></span>学习。",
-                answer: "地",
-                explanation: "'学习'是动词，前面用'地'",
-                highlights: [
-                    { word: "学习", type: "highlight-verb" },
-                    { word: "认真", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "她唱<span class='blank'></span>歌很好听。",
-                answer: "的",
-                explanation: "'歌'是名词，前面用'的'",
-                highlights: [
-                    { word: "歌", type: "highlight-noun" }
-                ]
-            },
-             {
-                text: "这是我<span class='blank'></span>铅笔。",
-                answer: "的",
-                explanation: "'铅笔'是名词，前面用'的'",
-                highlights: [
-                    { word: "铅笔", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "雨下<span class='blank'></span>很大。",
-                answer: "得",
-                explanation: "'下'是动词，后面用'得'",
-                highlights: [
-                    { word: "下", type: "highlight-verb" },
-                    { word: "很大", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "那个红色<span class='blank'></span>书包是谁的？",
-                answer: "的",
-                explanation: "'书包'是名词，前面用'的'",
-                highlights: [
-                    { word: "书包", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "他写<span class='blank'></span>字很漂亮。",
-                answer: "的",
-                explanation: "'字'是名词，前面用'的'",
-                highlights: [
-                    { word: "字", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "小狗高兴<span class='blank'></span>摇尾巴。",
-                answer: "地",
-                explanation: "'摇'是动词，前面用'地'",
-                highlights: [
-                    { word: "摇", type: "highlight-verb" },
-                    { word: "高兴", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这个问题解决<span class='blank'></span>很彻底。",
-                answer: "得",
-                explanation: "'解决'是动词，后面用'得'",
-                highlights: [
-                    { word: "解决", type: "highlight-verb" },
-                    { word: "很彻底", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "妈妈做<span class='blank'></span>饭菜特别香。",
-                answer: "的",
-                explanation: "'饭菜'是名词，前面用'的'",
-                highlights: [
-                    { word: "饭菜", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "同学们认真<span class='blank'></span>听讲。",
-                answer: "地",
-                explanation: "'听讲'是动词，前面用'地'",
-                highlights: [
-                    { word: "听讲", type: "highlight-verb" },
-                    { word: "认真", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这个苹果红<span class='blank'></span>发亮。",
-                answer: "得",
-                explanation: "'红'是形容词，后面用'得'",
-                highlights: [
-                    { word: "红", type: "highlight-adj" },
-                    { word: "发亮", type: "highlight-verb" }
-                ]
-            },
-            {
-                text: "公园里<span class='blank'></span>景色真美啊！",
-                answer: "的",
-                explanation: "'景色'是名词，前面用'的'",
-                highlights: [
-                    { word: "景色", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "小明开心<span class='blank'></span>跑进教室。",
-                answer: "地",
-                explanation: "'跑'是动词，前面用'地'",
-                highlights: [
-                    { word: "跑", type: "highlight-verb" },
-                    { word: "开心", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这只小猫<span class='blank'></span>毛发是白色的。",
-                answer: "的",
-                explanation: "'毛发'是名词，前面用'的'",
-                highlights: [
-                    { word: "毛发", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "花儿开<span class='blank'></span>特别美丽。",
-                answer: "得",
-                explanation: "'开'是动词，后面用'得'",
-                highlights: [
-                    { word: "开", type: "highlight-verb" },
-                    { word: "特别美丽", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "我们要认真<span class='blank'></span>学习。",
-                answer: "地",
-                explanation: "'学习'是动词，前面用'地'",
-                highlights: [
-                    { word: "学习", type: "highlight-verb" },
-                    { word: "认真", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "她唱<span class='blank'></span>歌很好听。",
-                answer: "的",
-                explanation: "'歌'是名词，前面用'的'",
-                highlights: [
-                    { word: "歌", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "小鸟在树上欢快<span class='blank'></span>歌唱。",
-                answer: "地",
-                explanation: "'歌唱'是动词，前面用'地'",
-                highlights: [
-                    { word: "歌唱", type: "highlight-verb" },
-                    { word: "欢快", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这本书<span class='blank'></span>内容非常有趣。",
-                answer: "的",
-                explanation: "'内容'是名词，前面用'的'",
-                highlights: [
-                    { word: "内容", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "他跑<span class='blank'></span>满头大汗。",
-                answer: "得",
-                explanation: "'跑'是动词，后面用'得'",
-                highlights: [
-                    { word: "跑", type: "highlight-verb" },
-                    { word: "满头大汗", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "孩子们安静<span class='blank'></span>看书。",
-                answer: "地",
-                explanation: "'看书'是动词，前面用'地'",
-                highlights: [
-                    { word: "看书", type: "highlight-verb" },
-                    { word: "安静", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这是我<span class='blank'></span>铅笔。",
-                answer: "的",
-                explanation: "'铅笔'是名词，前面用'的'",
-                highlights: [
-                    { word: "铅笔", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "雨下<span class='blank'></span>很大。",
-                answer: "得",
-                explanation: "'下'是动词，后面用'得'",
-                highlights: [
-                    { word: "下", type: "highlight-verb" },
-                    { word: "很大", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "老师耐心<span class='blank'></span>讲解题目。",
-                answer: "地",
-                explanation: "'讲解'是动词，前面用'地'",
-                highlights: [
-                    { word: "讲解", type: "highlight-verb" },
-                    { word: "耐心", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "那个红色<span class='blank'></span>书包是谁的？",
-                answer: "的",
-                explanation: "'书包'是名词，前面用'的'",
-                highlights: [
-                    { word: "书包", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "他写<span class='blank'></span>字很漂亮。",
-                answer: "的",
-                explanation: "'字'是名词，前面用'的'",
-                highlights: [
-                    { word: "字", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "小狗高兴<span class='blank'></span>摇尾巴。",
-                answer: "地",
-                explanation: "'摇'是动词，前面用'地'",
-                highlights: [
-                    { word: "摇", type: "highlight-verb" },
-                    { word: "高兴", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这个问题解决<span class='blank'></span>很彻底。",
-                answer: "得",
-                explanation: "'解决'是动词，后面用'得'",
-                highlights: [
-                    { word: "解决", type: "highlight-verb" },
-                    { word: "很彻底", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "妈妈做<span class='blank'></span>饭菜特别香。",
-                answer: "的",
-                explanation: "'饭菜'是名词，前面用'的'",
-                highlights: [
-                    { word: "饭菜", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "同学们认真<span class='blank'></span>听讲。",
-                answer: "地",
-                explanation: "'听讲'是动词，前面用'地'",
-                highlights: [
-                    { word: "听讲", type: "highlight-verb" },
-                    { word: "认真", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "公园里<span class='blank'></span>景色真美啊！",
-                answer: "的",
-                explanation: "'景色'是名词，前面用'的'",
-                highlights: [
-                    { word: "景色", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "他画<span class='blank'></span>画非常生动。",
-                answer: "的",
-                explanation: "'画'是名词，前面用'的'",
-                highlights: [
-                    { word: "画", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "小鸟自由<span class='blank'></span>飞翔。",
-                answer: "地",
-                explanation: "'飞翔'是动词，前面用'地'",
-                highlights: [
-                    { word: "飞翔", type: "highlight-verb" },
-                    { word: "自由", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这个问题处理<span class='blank'></span>很及时。",
-                answer: "得",
-                explanation: "'处理'是动词，后面用'得'",
-                highlights: [
-                    { word: "处理", type: "highlight-verb" },
-                    { word: "很及时", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这是我们<span class='blank'></span>教室。",
-                answer: "的",
-                explanation: "'教室'是名词，前面用'的'",
-                highlights: [
-                    { word: "教室", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "他慢慢<span class='blank'></span>走过来。",
-                answer: "地",
-                explanation: "'走'是动词，前面用'地'",
-                highlights: [
-                    { word: "走", type: "highlight-verb" },
-                    { word: "慢慢", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "她笑<span class='blank'></span>很开心。",
-                answer: "得",
-                explanation: "'笑'是动词，后面用'得'",
-                highlights: [
-                    { word: "笑", type: "highlight-verb" },
-                    { word: "很开心", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这是我<span class='blank'></span>书包。",
-                answer: "的",
-                explanation: "'书包'是名词，前面用'的'",
-                highlights: [
-                    { word: "书包", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "小朋友高兴<span class='blank'></span>玩耍。",
-                answer: "地",
-                explanation: "'玩耍'是动词，前面用'地'",
-                highlights: [
-                    { word: "玩耍", type: "highlight-verb" },
-                    { word: "高兴", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "他跑<span class='blank'></span>比兔子还快。",
-                answer: "得",
-                explanation: "'跑'是动词，后面用'得'",
-                highlights: [
-                    { word: "跑", type: "highlight-verb" },
-                    { word: "比兔子还快", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "那本蓝色<span class='blank'></span>书是我的。",
-                answer: "的",
-                explanation: "'书'是名词，前面用'的'",
-                highlights: [
-                    { word: "书", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "同学们专心<span class='blank'></span>听讲。",
-                answer: "地",
-                explanation: "'听讲'是动词，前面用'地'",
-                highlights: [
-                    { word: "听讲", type: "highlight-verb" },
-                    { word: "专心", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "她唱<span class='blank'></span>比专业歌手还好。",
-                answer: "得",
-                explanation: "'唱'是动词，后面用'得'",
-                highlights: [
-                    { word: "唱", type: "highlight-verb" },
-                    { word: "比专业歌手还好", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这是我<span class='blank'></span>作业本。",
-                answer: "的",
-                explanation: "'作业本'是名词，前面用'的'",
-                highlights: [
-                    { word: "作业本", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "小狗兴奋<span class='blank'></span>跑来跑去。",
-                answer: "地",
-                explanation: "'跑'是动词，前面用'地'",
-                highlights: [
-                    { word: "跑", type: "highlight-verb" },
-                    { word: "兴奋", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "他写<span class='blank'></span>又快又好。",
-                answer: "得",
-                explanation: "'写'是动词，后面用'得'",
-                highlights: [
-                    { word: "写", type: "highlight-verb" },
-                    { word: "又快又好", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "那辆红色<span class='blank'></span>汽车真漂亮。",
-                answer: "的",
-                explanation: "'汽车'是名词，前面用'的'",
-                highlights: [
-                    { word: "汽车", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "他跳<span class='blank'></span>比袋鼠还高。",
-                answer: "得",
-                explanation: "'跳'是动词，后面用'得'",
-                highlights: [
-                    { word: "跳", type: "highlight-verb" },
-                    { word: "比袋鼠还高", type: "highlight-adj" }
-                ]
-            },
-            {
-                text: "这是我<span class='blank'></span>新玩具。",
-                answer: "的",
-                explanation: "'玩具'是名词，前面用'的'",
-                highlights: [
-                    { word: "玩具", type: "highlight-noun" }
-                ]
-            },
-            {
-                text: "小鸟轻快<span class='blank'></span>飞过天空。",
-                answer: "地",
-                explanation: "'飞'是动词，前面用'地'",
-                highlights: [
-                    { word: "飞", type: "highlight-verb" },
-                    { word: "轻快", type: "highlight-adj" }
-                ]
-            }
-
+        {
+        "text": "公园里<span class='blank'></span>景色真美啊！",
+        "answer": "的",
+        "explanation": "'景色'是名词，前面用'的'",
+        "highlights": [
+            {"word": "景色", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "小狗高兴<span class='blank'></span>摇尾巴。",
+        "answer": "地",
+        "explanation": "'摇'是动词，前面用'地'",
+        "highlights": [
+            {"word": "摇", "type": "highlight-verb"},
+            {"word": "高兴", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "妈妈做<span class='blank'></span>饭菜特别香。",
+        "answer": "的",
+        "explanation": "'饭菜'是名词，前面用'的'",
+        "highlights": [
+            {"word": "饭菜", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "花儿开<span class='blank'></span>特别美丽。",
+        "answer": "得",
+        "explanation": "'开'是动词，后面用'得'",
+        "highlights": [
+            {"word": "开", "type": "highlight-verb"},
+            {"word": "特别美丽", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "那个红色<span class='blank'></span>书包是谁的？",
+        "answer": "的",
+        "explanation": "'书包'是名词，前面用'的'",
+        "highlights": [
+            {"word": "书包", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "这个问题解决<span class='blank'></span>很彻底。",
+        "answer": "得",
+        "explanation": "'解决'是动词，后面用'得'",
+        "highlights": [
+            {"word": "解决", "type": "highlight-verb"},
+            {"word": "很彻底", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "这个苹果红<span class='blank'></span>发亮。",
+        "answer": "得",
+        "explanation": "'红'是形容词，后面用'得'",
+        "highlights": [
+            {"word": "红", "type": "highlight-adj"},
+            {"word": "发亮", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "小明开心<span class='blank'></span>跑进教室。",
+        "answer": "地",
+        "explanation": "'跑'是动词，前面用'地'",
+        "highlights": [
+            {"word": "跑", "type": "highlight-verb"},
+            {"word": "开心", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "这只小猫<span class='blank'></span>毛发是白色的。",
+        "answer": "的",
+        "explanation": "'毛发'是名词，前面用'的'",
+        "highlights": [
+            {"word": "毛发", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "小鸟在树上欢快<span class='blank'></span>歌唱。",
+        "answer": "地",
+        "explanation": "'歌唱'是动词，前面用'地'",
+        "highlights": [
+            {"word": "歌唱", "type": "highlight-verb"},
+            {"word": "欢快", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "这本书<span class='blank'></span>内容非常有趣。",
+        "answer": "的",
+        "explanation": "'内容'是名词，前面用'的'",
+        "highlights": [
+            {"word": "内容", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "他跑<span class='blank'></span>满头大汗。",
+        "answer": "得",
+        "explanation": "'跑'是动词，后面用'得'",
+        "highlights": [
+            {"word": "跑", "type": "highlight-verb"},
+            {"word": "满头大汗", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "孩子们安静<span class='blank'></span>看书。",
+        "answer": "地",
+        "explanation": "'看书'是动词，前面用'地'",
+        "highlights": [
+            {"word": "看书", "type": "highlight-verb"},
+            {"word": "安静", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "这是我<span class='blank'></span>铅笔。",
+        "answer": "的",
+        "explanation": "'铅笔'是名词，前面用'的'",
+        "highlights": [
+            {"word": "铅笔", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "老师耐心<span class='blank'></span>讲解题目。",
+        "answer": "地",
+        "explanation": "'讲解'是动词，前面用'地'",
+        "highlights": [
+            {"word": "讲解", "type": "highlight-verb"},
+            {"word": "耐心", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "他画<span class='blank'></span>画非常生动。",
+        "answer": "的",
+        "explanation": "'画'是名词，前面用'的'",
+        "highlights": [
+            {"word": "画", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "小鸟自由<span class='blank'></span>飞翔。",
+        "answer": "地",
+        "explanation": "'飞翔'是动词，前面用'地'",
+        "highlights": [
+            {"word": "飞翔", "type": "highlight-verb"},
+            {"word": "自由", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "他慢慢<span class='blank'></span>走过来。",
+        "answer": "地",
+        "explanation": "'走'是动词，前面用'地'",
+        "highlights": [
+            {"word": "走", "type": "highlight-verb"},
+            {"word": "慢慢", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "她笑<span class='blank'></span>很开心。",
+        "answer": "得",
+        "explanation": "'笑'是动词，后面用'得'",
+        "highlights": [
+            {"word": "笑", "type": "highlight-verb"},
+            {"word": "很开心", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "小朋友高兴<span class='blank'></span>玩耍。",
+        "answer": "地",
+        "explanation": "'玩耍'是动词，前面用'地'",
+        "highlights": [
+            {"word": "玩耍", "type": "highlight-verb"},
+            {"word": "高兴", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "他跑<span class='blank'></span>比兔子还快。",
+        "answer": "得",
+        "explanation": "'跑'是动词，后面用'得'",
+        "highlights": [
+            {"word": "跑", "type": "highlight-verb"},
+            {"word": "比兔子还快", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "那本蓝色<span class='blank'></span>书是我的。",
+        "answer": "的",
+        "explanation": "'书'是名词，前面用'的'",
+        "highlights": [
+            {"word": "书", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "同学们专心<span class='blank'></span>听讲。",
+        "answer": "地",
+        "explanation": "'听讲'是动词，前面用'地'",
+        "highlights": [
+            {"word": "听讲", "type": "highlight-verb"},
+            {"word": "专心", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "小狗兴奋<span class='blank'></span>跑来跑去。",
+        "answer": "地",
+        "explanation": "'跑'是动词，前面用'地'",
+        "highlights": [
+            {"word": "跑", "type": "highlight-verb"},
+            {"word": "兴奋", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "他写<span class='blank'></span>又快又好。",
+        "answer": "得",
+        "explanation": "'写'是动词，后面用'得'",
+        "highlights": [
+            {"word": "写", "type": "highlight-verb"},
+            {"word": "又快又好", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "那辆红色<span class='blank'></span>汽车真漂亮。",
+        "answer": "的",
+        "explanation": "'汽车'是名词，前面用'的'",
+        "highlights": [
+            {"word": "汽车", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "他跳<span class='blank'></span>比袋鼠还高。",
+        "answer": "得",
+        "explanation": "'跳'是动词，后面用'得'",
+        "highlights": [
+            {"word": "跳", "type": "highlight-verb"},
+            {"word": "比袋鼠还高", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "这是我<span class='blank'></span>新玩具。",
+        "answer": "的",
+        "explanation": "'玩具'是名词，前面用'的'",
+        "highlights": [
+            {"word": "玩具", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "小鸟轻快<span class='blank'></span>飞过天空。",
+        "answer": "地",
+        "explanation": "'飞'是动词，前面用'地'",
+        "highlights": [
+            {"word": "飞", "type": "highlight-verb"},
+            {"word": "轻快", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "春风温柔<span class='blank'></span>拂过脸庞。",
+        "answer": "地",
+        "explanation": "'拂过'是动词，前面用'地'",
+        "highlights": [
+            {"word": "拂过", "type": "highlight-verb"},
+            {"word": "温柔", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "星空下<span class='blank'></span>萤火虫闪烁着微光。",
+        "answer": "的",
+        "explanation": "'萤火虫'是名词，前面用'的'",
+        "highlights": [
+            {"word": "萤火虫", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "他辩论<span class='blank'></span>对手哑口无言。",
+        "answer": "得",
+        "explanation": "'辩论'是动词，后面用'得'",
+        "highlights": [
+            {"word": "辩论", "type": "highlight-verb"},
+            {"word": "对手哑口无言", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "落叶轻盈<span class='blank'></span>飘舞在空中。",
+        "answer": "地",
+        "explanation": "'飘舞'是动词，前面用'地'",
+        "highlights": [
+            {"word": "飘舞", "type": "highlight-verb"},
+            {"word": "轻盈", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "博物馆里<span class='blank'></span>文物令人惊叹。",
+        "answer": "的",
+        "explanation": "'文物'是名词，前面用'的'",
+        "highlights": [
+            {"word": "文物", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "她跳舞跳<span class='blank'></span>像天鹅一样优雅。",
+        "answer": "得",
+        "explanation": "'跳舞'是动词，后面用'得'",
+        "highlights": [
+            {"word": "跳舞", "type": "highlight-verb"},
+            {"word": "像天鹅一样优雅", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "海浪猛烈<span class='blank'></span>拍打着礁石。",
+        "answer": "地",
+        "explanation": "'拍打'是动词，前面用'地'",
+        "highlights": [
+            {"word": "拍打", "type": "highlight-verb"},
+            {"word": "猛烈", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "山顶上<span class='blank'></span>积雪终年不化。",
+        "answer": "的",
+        "explanation": "'积雪'是名词，前面用'的'",
+        "highlights": [
+            {"word": "积雪", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "士兵们整齐<span class='blank'></span>列队前进。",
+        "answer": "地",
+        "explanation": "'列队'是动词，前面用'地'",
+        "highlights": [
+            {"word": "列队", "type": "highlight-verb"},
+            {"word": "整齐", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "实验室里<span class='blank'></span>设备非常先进。",
+        "answer": "的",
+        "explanation": "'设备'是名词，前面用'的'",
+        "highlights": [
+            {"word": "设备", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "她唱歌唱<span class='blank'></span>让人陶醉。",
+        "answer": "得",
+        "explanation": "'唱歌'是动词，后面用'得'",
+        "highlights": [
+            {"word": "唱歌", "type": "highlight-verb"},
+            {"word": "让人陶醉", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "雪花静静<span class='blank'></span>飘落。",
+        "answer": "地",
+        "explanation": "'飘落'是动词，前面用'地'",
+        "highlights": [
+            {"word": "飘落", "type": "highlight-verb"},
+            {"word": "静静", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "这本书<span class='blank'></span>结局出人意料。",
+        "answer": "的",
+        "explanation": "'结局'是名词，前面用'的'",
+        "highlights": [
+            {"word": "结局", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "他跑步<span class='blank'></span>打破了学校记录。",
+        "answer": "得",
+        "explanation": "'跑步'是动词，后面用'得'",
+        "highlights": [
+            {"word": "跑步", "type": "highlight-verb"},
+            {"word": "打破了学校记录", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "老爷爷缓慢<span class='blank'></span>走过街道。",
+        "answer": "地",
+        "explanation": "'走过'是动词，前面用'地'",
+        "highlights": [
+            {"word": "走过", "type": "highlight-verb"},
+            {"word": "缓慢", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "森林里<span class='blank'></span>动物种类繁多。",
+        "answer": "的",
+        "explanation": "'动物'是名词，前面用'的'",
+        "highlights": [
+            {"word": "动物", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "她画画<span class='blank'></span>栩栩如生。",
+        "answer": "得",
+        "explanation": "'画画'是动词，后面用'得'",
+        "highlights": [
+            {"word": "画画", "type": "highlight-verb"},
+            {"word": "栩栩如生", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "战士们勇敢<span class='blank'></span>冲锋陷阵。",
+        "answer": "地",
+        "explanation": "'冲锋'是动词，前面用'地'",
+        "highlights": [
+            {"word": "冲锋", "type": "highlight-verb"},
+            {"word": "勇敢", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "这张照片<span class='blank'></span>背景很模糊。",
+        "answer": "的",
+        "explanation": "'背景'是名词，前面用'的'",
+        "highlights": [
+            {"word": "背景", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "清晨<span class='blank'></span>阳光像金色的纱巾般轻柔地铺满大地。",
+        "answer": "的",
+        "explanation": "'阳光'是名词，前面用'的'",
+        "highlights": [
+            {"word": "阳光", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "春风温柔<span class='blank'></span>抚摸着刚刚苏醒的杨柳。",
+        "answer": "地",
+        "explanation": "'抚摸'是动词，前面用'地'",
+        "highlights": [
+            {"word": "抚摸", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "小溪欢快地唱着歌，跑<span class='blank'></span>比小兔子还快。",
+        "answer": "得",
+        "explanation": "'跑'是动词，后面用'得'",
+        "highlights": [
+            {"word": "跑", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "老师<span class='blank'></span>眼睛像夜空中最亮的星星，充满智慧的光芒。",
+        "answer": "的",
+        "explanation": "'眼睛'是名词，前面用'的'",
+        "highlights": [
+            {"word": "眼睛", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "雪花轻盈<span class='blank'></span>在空中跳着优美的华尔兹。",
+        "answer": "地",
+        "explanation": "'跳'是动词，前面用'地'",
+        "highlights": [
+            {"word": "跳", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "妹妹笑<span class='blank'></span>像春天的风铃一样清脆悦耳。",
+        "answer": "得",
+        "explanation": "'笑'是动词，后面用'得'",
+        "highlights": [
+            {"word": "笑", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "校园里<span class='blank'></span>梧桐树像威武的士兵守护着我们。",
+        "answer": "的",
+        "explanation": "'梧桐树'是名词，前面用'的'",
+        "highlights": [
+            {"word": "梧桐树", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "同学们专注<span class='blank'></span>听着老师讲述的有趣故事。",
+        "answer": "地",
+        "explanation": "'听'是动词，前面用'地'",
+        "highlights": [
+            {"word": "听", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "夕阳把云朵染<span class='blank'></span>像燃烧的火焰般绚烂。",
+        "answer": "得",
+        "explanation": "'染'是动词，后面用'得'",
+        "highlights": [
+            {"word": "染", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "妈妈<span class='blank'></span>双手像春天的阳光一样温暖。",
+        "answer": "的",
+        "explanation": "'双手'是名词，前面用'的'",
+        "highlights": [
+            {"word": "双手", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "小鸟欢快<span class='blank'></span>在枝头跳跃，唱着春天的赞歌。",
+        "answer": "地",
+        "explanation": "'跳跃'是动词，前面用'地'",
+        "highlights": [
+            {"word": "跳跃", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "弟弟跑<span class='blank'></span>像一阵风似的冲进了教室。",
+        "answer": "得",
+        "explanation": "'跑'是动词，后面用'得'",
+        "highlights": [
+            {"word": "跑", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "花园里<span class='blank'></span>玫瑰像害羞的小姑娘低垂着头。",
+        "answer": "的",
+        "explanation": "'玫瑰'是名词，前面用'的'",
+        "highlights": [
+            {"word": "玫瑰", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "老爷爷慢慢<span class='blank'></span>走在铺满落叶的小路上。",
+        "answer": "地",
+        "explanation": "'走'是动词，前面用'地'",
+        "highlights": [
+            {"word": "走", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "他画<span class='blank'></span>栩栩如生，仿佛画中的小鸟会飞出来。",
+        "answer": "得",
+        "explanation": "'画'是动词，后面用'得'",
+        "highlights": [
+            {"word": "画", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "秋天<span class='blank'></span>枫叶像燃烧的火焰染红了整座山。",
+        "answer": "的",
+        "explanation": "'枫叶'是名词，前面用'的'",
+        "highlights": [
+            {"word": "枫叶", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "小雨滴调皮<span class='blank'></span>在荷叶上滚来滚去。",
+        "answer": "地",
+        "explanation": "'滚'是动词，前面用'地'",
+        "highlights": [
+            {"word": "滚", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "她唱<span class='blank'></span>连树上的小鸟都停下来倾听。",
+        "answer": "得",
+        "explanation": "'唱'是动词，后面用'得'",
+        "highlights": [
+            {"word": "唱", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "冬天<span class='blank'></span>雪花像天使的羽毛轻轻飘落。",
+        "answer": "的",
+        "explanation": "'雪花'是名词，前面用'的'",
+        "highlights": [
+            {"word": "雪花", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "运动员矫健<span class='blank'></span>越过一个又一个跨栏。",
+        "answer": "地",
+        "explanation": "'越过'是动词，前面用'地'",
+        "highlights": [
+            {"word": "越过", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "他跑<span class='blank'></span>比闪电还要快。",
+        "answer": "得",
+        "explanation": "'跑'是动词，后面用'得'",
+        "highlights": [
+            {"word": "跑", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "图书馆里<span class='blank'></span>书籍像知识的海洋等待探索。",
+        "answer": "的",
+        "explanation": "'书籍'是名词，前面用'的'",
+        "highlights": [
+            {"word": "书籍", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "士兵们整齐<span class='blank'></span>列队前进。",
+        "answer": "地",
+        "explanation": "'列队'是动词，前面用'地'",
+        "highlights": [
+            {"word": "列队", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "她写<span class='blank'></span>字迹工整漂亮。",
+        "answer": "的",
+        "explanation": "'字迹'是名词，前面用'的'",
+        "highlights": [
+            {"word": "字迹", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "雨点密集<span class='blank'></span>敲打着窗户。",
+        "answer": "地",
+        "explanation": "'敲打'是动词，前面用'地'",
+        "highlights": [
+            {"word": "敲打", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "他游泳游<span class='blank'></span>像鱼儿一样灵活。",
+        "answer": "得",
+        "explanation": "'游泳'是动词，后面用'得'",
+        "highlights": [
+            {"word": "游泳", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "山顶上<span class='blank'></span>积雪终年不化。",
+        "answer": "的",
+        "explanation": "'积雪'是名词，前面用'的'",
+        "highlights": [
+            {"word": "积雪", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "孩子们开心<span class='blank'></span>在草地上打滚。",
+        "answer": "地",
+        "explanation": "'打滚'是动词，前面用'地'",
+        "highlights": [
+            {"word": "打滚", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "这个问题回答<span class='blank'></span>非常巧妙。",
+        "answer": "得",
+        "explanation": "'回答'是动词，后面用'得'",
+        "highlights": [
+            {"word": "回答", "type": "highlight-verb"}
+        ]
+    },
+    {
+        "text": "清晨<span class='blank'></span>露珠像钻石般晶莹剔透。",
+        "answer": "的",
+        "explanation": "'露珠'是名词，前面用'的'",
+        "highlights": [
+            {"word": "露珠", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "蝴蝶优雅<span class='blank'></span>在花丛中翩翩起舞。",
+        "answer": "地",
+        "explanation": "'起舞'是动词，前面用'地'",
+        "highlights": [
+            {"word": "起舞", "type": "highlight-verb"},
+            {"word": "优雅", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "她弹钢琴弹<span class='blank'></span>如行云流水般流畅。",
+        "answer": "得",
+        "explanation": "'弹'是动词，后面用'得'",
+        "highlights": [
+            {"word": "弹", "type": "highlight-verb"},
+            {"word": "如行云流水般流畅", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "夜空<span class='blank'></span>繁星像无数双眨动的眼睛。",
+        "answer": "的",
+        "explanation": "'繁星'是名词，前面用'的'",
+        "highlights": [
+            {"word": "繁星", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "他解题解<span class='blank'></span>又快又准确。",
+        "answer": "得",
+        "explanation": "'解'是动词，后面用'得'",
+        "highlights": [
+            {"word": "解", "type": "highlight-verb"},
+            {"word": "又快又准确", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "春天<span class='blank'></span>田野像铺上了一层绿色的地毯。",
+        "answer": "的",
+        "explanation": "'田野'是名词，前面用'的'",
+        "highlights": [
+            {"word": "田野", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "雪花轻柔<span class='blank'></span>覆盖了整个城市。",
+        "answer": "地",
+        "explanation": "'覆盖'是动词，前面用'地'",
+        "highlights": [
+            {"word": "覆盖", "type": "highlight-verb"},
+            {"word": "轻柔", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "她跳舞跳<span class='blank'></span>像蝴蝶般轻盈优美。",
+        "answer": "得",
+        "explanation": "'跳舞'是动词，后面用'得'",
+        "highlights": [
+            {"word": "跳舞", "type": "highlight-verb"},
+            {"word": "像蝴蝶般轻盈优美", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "大海<span class='blank'></span>波涛像千军万马般汹涌澎湃。",
+        "answer": "的",
+        "explanation": "'波涛'是名词，前面用'的'",
+        "highlights": [
+            {"word": "波涛", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "老黄牛辛勤<span class='blank'></span>在田间耕作。",
+        "answer": "地",
+        "explanation": "'耕作'是动词，前面用'地'",
+        "highlights": [
+            {"word": "耕作", "type": "highlight-verb"},
+            {"word": "辛勤", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "他演讲<span class='blank'></span>全场观众都为之动容。",
+        "answer": "得",
+        "explanation": "'演讲'是动词，后面用'得'",
+        "highlights": [
+            {"word": "演讲", "type": "highlight-verb"},
+            {"word": "全场观众都为之动容", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "秋天<span class='blank'></span>果园飘来阵阵果香。",
+        "answer": "的",
+        "explanation": "'果园'是名词，前面用'的'",
+        "highlights": [
+            {"word": "果园", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "运动员奋力<span class='blank'></span>冲向终点线。",
+        "answer": "地",
+        "explanation": "'冲'是动词，前面用'地'",
+        "highlights": [
+            {"word": "冲", "type": "highlight-verb"},
+            {"word": "奋力", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "她编织<span class='blank'></span>毛衣既暖和又漂亮。",
+        "answer": "的",
+        "explanation": "'毛衣'是名词，前面用'的'",
+        "highlights": [
+            {"word": "毛衣", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "春风温柔<span class='blank'></span>抚摸着大地。",
+        "answer": "地",
+        "explanation": "'抚摸'是动词，前面用'地'",
+        "highlights": [
+            {"word": "抚摸", "type": "highlight-verb"},
+            {"word": "温柔", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "他思考<span class='blank'></span>眉头都皱了起来。",
+        "answer": "得",
+        "explanation": "'思考'是动词，后面用'得'",
+        "highlights": [
+            {"word": "思考", "type": "highlight-verb"},
+            {"word": "眉头都皱了起来", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "森林里<span class='blank'></span>空气格外清新。",
+        "answer": "的",
+        "explanation": "'空气'是名词，前面用'的'",
+        "highlights": [
+            {"word": "空气", "type": "highlight-noun"}
+        ]
+    },
+    {
+        "text": "小鹿敏捷<span class='blank'></span>跳过小溪。",
+        "answer": "地",
+        "explanation": "'跳'是动词，前面用'地'",
+        "highlights": [
+            {"word": "跳", "type": "highlight-verb"},
+            {"word": "敏捷", "type": "highlight-adj"}
+        ]
+    },
+    {
+        "text": "她打扮<span class='blank'></span>像童话里的公主一样美丽。",
+        "answer": "得",
+        "explanation": "'打扮'是动词，后面用'得'",
+        "highlights": [
+            {"word": "打扮", "type": "highlight-verb"},
+            {"word": "像童话里的公主一样美丽", "type": "highlight-adj"}
+        ]
+    }
         ];
 
         let currentQuestionIndex = 0;
         let selectedAnswer = null;
-        let score = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
         let answeredQuestions = 0;
         let shuffledQuestions = [];
         
@@ -762,12 +1143,19 @@ button {
         function init() {
             shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
             currentQuestionIndex = 0;
-            score = 0;
+            correctCount = 0;
+            wrongCount = 0;
             answeredQuestions = 0;
-            document.getElementById('score').textContent = '★0';
+            updateScoreDisplay();
             document.getElementById('nextBtn').style.display = 'none';
             document.getElementById('completionMessage').style.display = 'none';
             showQuestion(currentQuestionIndex);
+        }
+        
+        // 更新分数显示
+        function updateScoreDisplay() {
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('wrongCount').textContent = wrongCount;
         }
         
         // 显示当前题目
@@ -822,9 +1210,11 @@ button {
             
             // 更新分数
             if (isCorrect) {
-                score++;
-                document.getElementById('score').textContent = '★' + score;
+                correctCount++;
+            } else {
+                wrongCount++;
             }
+            updateScoreDisplay();
             
             // 标记正确/错误按钮
             optionBtns.forEach(btn => {
@@ -871,7 +1261,8 @@ button {
         
         // 显示完成消息
         function showCompletionMessage() {
-            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalCorrect').textContent = correctCount;
+            document.getElementById('finalWrong').textContent = wrongCount;
             document.getElementById('completionMessage').style.display = 'block';
         }
         
