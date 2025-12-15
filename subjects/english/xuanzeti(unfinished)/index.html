@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小升初题库 - 练习</title>
+    <style>
+        :root {
+            --primary-color: #5E35B1;
+            --secondary-color: #9575CD;
+            --accent-color: #00796B;
+            --light-bg: #F5F5F5;
+            --text-color: #212121;
+            --light-text: #757575;
+            --border-color: #E0E0E0;
+            --error-color: #D32F2F;
+            --success-color: #388E3C;
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 60px;
+        }
+        
+        header {
+            background-color: white;
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        header.hidden {
+            transform: translateY(-100%);
+        }
+        
+        .current-grade {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        
+        .progress-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 16px;
+        }
+        
+        .progress-display {
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .progress-display .correct {
+            color: var(--success-color);
+            font-weight: 500;
+        }
+        
+        .progress-display .incorrect {
+            color: var(--error-color);
+            font-weight: 500;
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+        
+        #practice-container {
+            padding: 16px;
+        }
+        
+        .question-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            gap: 10px;
+        }
+        
+        .question-card {
+            position: relative;
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--card-shadow);
+            border: 2px solid var(--primary-color);
+            transition: all 0.2s;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+        }
+        
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            min-width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 500;
+            margin-right: 10px;
+            flex-shrink: 0;
+            padding: 0 2px;
+            box-sizing: border-box;
+            background-color: var(--primary-color);
+        }
+        
+        .question-text {
+            font-size: 15px;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 6px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background-color: var(--light-text);
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            background-color: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+        }
+
+        .option:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(94, 53, 177, 0.05);
+        }
+
+        .option input[type="radio"] {
+            display: none;
+        }
+        
+        .option.correct {
+            border-color: var(--success-color);
+            background-color: rgba(56, 142, 60, 0.1);
+            color: #1B5E20;
+        }
+        
+        .option.incorrect {
+            border-color: var(--error-color);
+            background-color: rgba(211, 47, 47, 0.1);
+            color: #B71C1C;
+        }
+        
+        .fill-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            margin-top: 8px;
+            background-color: white;
+        }
+        
+        .fill-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .fill-input.correct {
+            border-color: var(--success-color);
+            background-color: rgba(56, 142, 60, 0.1);
+            color: #1B5E20;
+        }
+
+        .fill-input.incorrect {
+            border-color: var(--error-color);
+            background-color: rgba(211, 47, 47, 0.1);
+            color: #B71C1C;
+        }
+
+        .explanation {
+            margin-top: 16px;
+            padding: 12px;
+            background-color: rgba(94, 53, 177, 0.05);
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .explanation-title {
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+        
+        .option.answered {
+            pointer-events: none;
+        }
+
+        .fill-input.answered {
+            pointer-events: none;
+        }
+
+        .completion-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-color);
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--light-text);
+        }
+        
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 6px 0;
+            border-top: 1px solid var(--border-color);
+            z-index: 100;
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .tab-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 0;
+            width: 33%;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-color);
+        }
+        
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+            color: var(--light-text);
+        }
+        
+        .tab-btn.active .tab-icon {
+            color: var(--primary-color);
+        }
+        
+        #tab-practice .tab-icon::before {
+            content: "";
+            display: inline-block;
+            width: 18px;
+            height: 22px;
+            border: 2px solid currentColor;
+            background: 
+                linear-gradient(currentColor, currentColor) no-repeat 2px 2px / 14px 3px,
+                linear-gradient(currentColor, currentColor) no-repeat 2px 8px / 10px 3px,
+                linear-gradient(currentColor, currentColor) no-repeat 2px 14px / 12px 3px;
+        }
+        
+        #tab-record .tab-icon::before {
+            content: "★";
+        }
+        
+        #record-container {
+            display: none;
+            padding: 16px;
+        }
+        
+        .record-item {
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .record-source {
+            font-size: 12px;
+            color: var(--light-text);
+        }
+        
+        .record-answer {
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        
+        .user-answer {
+            color: var(--error-color);
+        }
+        
+        .correct-answer {
+            color: var(--success-color);
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header id="main-header">
+            <button class="back-btn" id="back-btn">← 返回</button>
+            <div class="current-grade" id="current-grade">六年级上</div>
+            
+            <div class="progress-container">
+                <div class="progress-display" id="question-counter">
+                    <span class="correct">0</span> 正确 | <span class="incorrect">0</span> 错误
+                </div>
+            </div>
+        </header>
+        
+        <div id="practice-container">
+            <div id="question-container">
+                <div class="question-card empty-message">
+                    <p>正在加载题目...</p>
+                </div>
+            </div>
+
+            <div class="question-nav">
+                <button class="nav-btn" id="prev-btn" disabled>上一题</button>
+                <button class="nav-btn" id="next-btn" disabled>下一题</button>
+            </div>
+        </div>
+        
+        <div id="record-container">
+            <div id="record-list">
+                <!-- 错题记录将在这里动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-bar">
+        <button class="tab-btn active" id="tab-practice">
+            <span class="tab-icon"></span>
+            <span>练习</span>
+        </button>
+        <button class="tab-btn" id="tab-record">
+            <span class="tab-icon"></span>
+            <span>错题</span>
+        </button>
+    </div>
+
+    <script>
+        // 全局变量
+        let currentQuestionIndex = 0;
+        let currentQuestions = [];
+        let currentGrade = '';
+        let scoreData = {
+            total: 0,
+            correct: 0,
+            answered: 0
+        };
+        let userAnswers = {};
+        let allQuestions = [];
+        let shuffledIndices = [];
+        let currentShuffledIndex = 0;
+        let answeredQuestions = new Set();
+        let answerRecords = [];
+        let lastScrollTop = 0;
+        let isHeaderHidden = false;
+
+        // DOM元素
+        const questionContainer = document.getElementById('question-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const questionCounter = document.getElementById('question-counter');
+        const practiceContainer = document.getElementById('practice-container');
+        const recordContainer = document.getElementById('record-container');
+        const recordList = document.getElementById('record-list');
+        const tabPractice = document.getElementById('tab-practice');
+        const tabRecord = document.getElementById('tab-record');
+        const mainHeader = document.getElementById('main-header');
+        const backBtn = document.getElementById('back-btn');
+        const currentGradeDisplay = document.getElementById('current-grade');
+
+        // 加载题目数据
+        async function loadQuestions() {
+            try {
+                const response = await fetch('tiku.json');
+                const data = await response.json();
+                return data.questions || [];
+            } catch (error) {
+                console.error('加载题目失败:', error);
+                return [];
+            }
+        }
+
+        // 显示题目
+        function displayQuestion(questions, index) {
+            if (questions.length === 0) {
+                questionContainer.innerHTML = '<div class="question-card empty-message"><p>该筛选条件下暂无题目</p></div>';
+                updateProgress();
+                updateNavButtons();
+                return;
+            }
+            
+            if (index >= questions.length) {
+                resetQuestionPool();
+                return;
+            }
+            
+            const question = questions[index];
+            questionContainer.innerHTML = '';
+            
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-card';
+            
+            const questionNumber = document.createElement('div');
+            questionNumber.className = 'question-number';
+            questionNumber.textContent = currentShuffledIndex + 1;
+            questionDiv.appendChild(questionNumber);
+            
+            const questionText = document.createElement('div');
+            questionText.className = 'question-text';
+            questionText.textContent = question.question;
+            questionDiv.appendChild(questionText);
+            
+            if (question.options && question.options.length > 0) {
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container';
+                
+                question.options.forEach((option, i) => {
+                    const optionDiv = document.createElement('label');
+                    optionDiv.className = 'option';
+                    
+                    const questionId = `${question.id}`;
+                    if (userAnswers[questionId]) {
+                        optionDiv.classList.add('answered');
+                        const isCorrect = checkAnswer(userAnswers[questionId], question.answer);
+                        
+                        if (userAnswers[questionId] === option) {
+                            optionDiv.classList.add(isCorrect ? 'correct' : 'incorrect');
+                        } else if (option === question.answer) {
+                            optionDiv.classList.add('correct');
+                        }
+                    }
+                    
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = 'answer';
+                    radio.value = option;
+                    radio.disabled = !!userAnswers[questionId];
+                    
+                    if (userAnswers[questionId] === option) {
+                        radio.checked = true;
+                    }
+                    
+                    radio.addEventListener('change', function() {
+                        handleAnswerSelection(option, question, index);
+                    });
+                    
+                    const optionText = document.createElement('span');
+                    optionText.textContent = option;
+                    
+                    optionDiv.appendChild(radio);
+                    optionDiv.appendChild(optionText);
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                questionDiv.appendChild(optionsContainer);
+            } else {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'fill-input';
+                input.placeholder = '请输入答案...';
+                input.disabled = !!userAnswers[`${question.id}`];
+                
+                const questionId = `${question.id}`;
+                if (userAnswers[questionId]) {
+                    input.classList.add('answered');
+                    const isCorrect = checkAnswer(userAnswers[questionId], question.answer);
+                    input.value = userAnswers[questionId];
+                    input.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                
+                input.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        handleAnswerSelection(input.value, question, index);
+                    }
+                });
+                
+                input.addEventListener('change', function() {
+                    handleAnswerSelection(input.value, question, index);
+                });
+                
+                questionDiv.appendChild(input);
+            }
+            
+            if (question.explanation) {
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'explanation';
+                
+                const explanationTitle = document.createElement('div');
+                explanationTitle.className = 'explanation-title';
+                explanationTitle.textContent = '解析';
+                
+                const explanationContent = document.createElement('div');
+                explanationContent.textContent = question.explanation;
+                
+                explanationDiv.appendChild(explanationTitle);
+                explanationDiv.appendChild(explanationContent);
+                
+                const questionId = `${question.id}`;
+                if (userAnswers[questionId]) {
+                    explanationDiv.style.display = 'block';
+                }
+                
+                questionDiv.appendChild(explanationDiv);
+            }
+            
+            questionContainer.appendChild(questionDiv);
+            updateProgress();
+            updateNavButtons();
+        }
+
+        // 处理答案选择
+        function handleAnswerSelection(userAnswer, question, index) {
+            const questionId = `${question.id}`;
+            
+            if (userAnswers[questionId]) return;
+            
+            userAnswers[questionId] = userAnswer;
+            scoreData.answered++;
+            answeredQuestions.add(question.id);
+            
+            const isCorrect = checkAnswer(userAnswer, question.answer);
+            if (isCorrect) {
+                scoreData.correct++;
+            }
+            
+            // 记录答题结果
+            answerRecords.push({
+                id: question.id,
+                grade: question.grade,
+                unit: question.unit,
+                source: question.source || '未知来源',
+                question: question.question,
+                userAnswer: userAnswer,
+                correctAnswer: question.answer,
+                isCorrect: isCorrect
+            });
+            
+            displayQuestion(currentQuestions, currentQuestionIndex);
+            updateScore();
+        }
+
+        // 检查答案
+        function checkAnswer(userAnswer, correctAnswer) {
+            if (!userAnswer) return false;
+            return userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase();
+        }
+
+        // 随机打乱题目顺序
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // 重置题目池
+        function resetQuestionPool() {
+            if (currentQuestions.length === 0) return;
+            
+            answeredQuestions.clear();
+            userAnswers = {};
+            scoreData.answered = 0;
+            scoreData.correct = 0;
+            
+            shuffledIndices = shuffleArray(currentQuestions.map((_, index) => index));
+            currentShuffledIndex = 0;
+            currentQuestionIndex = shuffledIndices[currentShuffledIndex];
+            
+            displayQuestion(currentQuestions, currentQuestionIndex);
+            updateScore();
+        }
+
+        // 根据年级筛选题目
+        function filterQuestionsByGrade(grade) {
+            if (!grade) {
+                currentQuestions = [];
+            } else {
+                currentQuestions = allQuestions.filter(q => q.grade === grade);
+            }
+            
+            // 从未答过的题目开始
+            const availableQuestions = currentQuestions.filter(q => !answeredQuestions.has(q.id));
+            if (availableQuestions.length === 0 && currentQuestions.length > 0) {
+                answeredQuestions.clear();
+                currentQuestions = [...currentQuestions];
+            } else {
+                currentQuestions = availableQuestions;
+            }
+            
+            // 随机排序
+            shuffledIndices = shuffleArray(currentQuestions.map((_, index) => index));
+            currentShuffledIndex = 0;
+            currentQuestionIndex = shuffledIndices[currentShuffledIndex];
+            
+            scoreData = {
+                total: currentQuestions.length,
+                correct: 0,
+                answered: 0
+            };
+            
+            userAnswers = {};
+            
+            displayQuestion(currentQuestions, currentQuestionIndex);
+            updateNavButtons();
+            updateScore();
+        }
+
+        // 显示错题记录
+        function displayAnswerRecords() {
+            recordList.innerHTML = '';
+            
+            // 只显示错误的题目
+            const wrongRecords = answerRecords.filter(record => !record.isCorrect);
+            
+            if (wrongRecords.length === 0) {
+                recordList.innerHTML = '<div class="empty-message"><p>暂无错题记录</p></div>';
+                return;
+            }
+            
+            // 按时间倒序排列
+            const sortedRecords = [...wrongRecords].reverse();
+            
+            sortedRecords.forEach(record => {
+                const recordItem = document.createElement('div');
+                recordItem.className = 'record-item';
+                
+                recordItem.innerHTML = `
+                    <div class="record-header">
+                        <span class="record-source">${record.source}</span>
+                    </div>
+                    <div class="question-text">${record.question}</div>
+                    <div class="record-answer">
+                        <span class="user-answer">你的答案: ${record.userAnswer}</span>
+                        <span class="correct-answer"> | 正确答案: ${record.correctAnswer}</span>
+                    </div>
+                `;
+                
+                recordList.appendChild(recordItem);
+            });
+        }
+
+        // 更新进度条
+        function updateProgress() {
+            if (currentQuestions.length === 0) {
+                questionCounter.textContent = '0 正确 | 0 错误';
+                return;
+            }
+            
+            const incorrectCount = scoreData.answered - scoreData.correct;
+            questionCounter.innerHTML = `
+                <span class="correct">${scoreData.correct}</span> 正确 | <span class="incorrect">${incorrectCount}</span> 错误
+            `;
+        }
+
+        // 更新分数显示
+        function updateScore() {
+            updateProgress();
+        }
+
+        // 更新导航按钮状态
+        function updateNavButtons() {
+            prevBtn.disabled = currentShuffledIndex === 0 || currentQuestions.length === 0;
+            nextBtn.disabled = currentShuffledIndex >= shuffledIndices.length - 1 || currentQuestions.length === 0;
+        }
+
+        // 切换标签页
+        function switchTab(tab) {
+            if (tab === 'practice') {
+                practiceContainer.style.display = 'block';
+                recordContainer.style.display = 'none';
+                tabPractice.classList.add('active');
+                tabRecord.classList.remove('active');
+            } else {
+                practiceContainer.style.display = 'none';
+                recordContainer.style.display = 'block';
+                tabPractice.classList.remove('active');
+                tabRecord.classList.add('active');
+                displayAnswerRecords();
+            }
+        }
+
+        // 处理滚动事件
+        function handleScroll() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 50 && !isHeaderHidden) {
+                // 向下滚动，隐藏header
+                mainHeader.classList.add('hidden');
+                isHeaderHidden = true;
+            } else if (scrollTop < lastScrollTop && isHeaderHidden) {
+                // 向上滚动，显示header
+                mainHeader.classList.remove('hidden');
+                isHeaderHidden = false;
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }
+
+        // 初始化
+        async function init() {
+            allQuestions = await loadQuestions();
+            
+            // 获取选择的年级
+            currentGrade = localStorage.getItem('selectedGrade') || '六年级上';
+            currentGradeDisplay.textContent = currentGrade;
+            
+            // 返回按钮事件
+            backBtn.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+            
+            // 导航按钮事件
+            prevBtn.addEventListener('click', () => {
+                if (currentShuffledIndex > 0) {
+                    currentShuffledIndex--;
+                    currentQuestionIndex = shuffledIndices[currentShuffledIndex];
+                    displayQuestion(currentQuestions, currentQuestionIndex);
+                    updateNavButtons();
+                }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                if (currentShuffledIndex < shuffledIndices.length - 1) {
+                    currentShuffledIndex++;
+                    currentQuestionIndex = shuffledIndices[currentShuffledIndex];
+                    displayQuestion(currentQuestions, currentQuestionIndex);
+                    updateNavButtons();
+                }
+            });
+            
+            // 标签页切换事件
+            tabPractice.addEventListener('click', () => switchTab('practice'));
+            tabRecord.addEventListener('click', () => switchTab('record'));
+            
+            // 滚动事件
+            window.addEventListener('scroll', handleScroll);
+            
+            // 初始状态
+            filterQuestionsByGrade(currentGrade);
+        }
+
+        // 启动应用
+        init();
+    </script>
+</body>
+</html>

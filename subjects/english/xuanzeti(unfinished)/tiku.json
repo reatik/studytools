@@ -1,0 +1,124 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "grade": "六年级上",
+      "unit": "unit 1",
+      "source": "中学生世界",
+      "question": "Which of the following underlined parts is different in pronunciation from the others?",
+      "options": [
+        "A. music",
+        "B. Friday", 
+        "C. exercise",
+        "D. timetable"
+      ],
+      "answer": "A. music",
+      "explanation": "需要分析每个单词划线部分的发音，找出发音不同的选项。"
+    },
+    {
+      "id": 2,
+      "grade": "六年级下",
+      "unit": "unit 1",
+      "source": "中学生世界",
+      "question": "You are ________ member of the reading club.",
+      "options": [
+        "A. a",
+        "B. an",
+        "C. the",
+        "D. /"
+      ],
+      "answer": "A. a",
+      "explanation": "member以辅音音素开头，前面用不定冠词a。"
+    },
+    {
+      "id": 3,
+      "grade": "六年级上", 
+      "unit": "unit 1",
+      "source": "中学生世界",
+      "question": "I'm afraid my answer is different ________ yours.",
+      "options": [
+        "A. as",
+        "B. with",
+        "C. from",
+        "D. to"
+      ],
+      "answer": "C. from",
+      "explanation": "different from是固定搭配，表示'与...不同'。"
+    },
+    {
+      "id": 4,
+      "grade": "六年级上",
+      "unit": "unit 1",
+      "source": "中学生世界", 
+      "question": "The kids gave the books to you and ________.",
+      "options": [
+        "A. I",
+        "B. me",
+        "C. my",
+        "D. mine"
+      ],
+      "answer": "B. me",
+      "explanation": "介词to后面需要宾格形式，you and me作介词to的宾语。"
+    },
+    {
+      "id": 5,
+      "grade": "六年级上",
+      "unit": "unit 1",
+      "source": "中学生世界",
+      "question": "Look! He ________ the ball to Peter on the playground.",
+      "options": [
+        "A. passes",
+        "B. passed", 
+        "C. is passing",
+        "D. will pass"
+      ],
+      "answer": "C. is passing",
+      "explanation": "Look!表示正在进行的动作，用现在进行时。"
+    },
+    {
+      "id": 6,
+      "grade": "六年级上",
+      "unit": "unit 1",
+      "source": "中学生世界",
+      "question": "We have ________ PE lessons than Lisa every week.",
+      "options": [
+        "A. many",
+        "B. much", 
+        "C. more",
+        "D. most"
+      ],
+      "answer": "C. more",
+      "explanation": "than表示比较级，PE lessons是可数名词复数，用more修饰。"
+    },
+    {
+      "id": 7,
+      "grade": "六年级上",
+      "unit": "unit 1", 
+      "source": "中学生世界",
+      "question": "________ words do you often hear in an art lesson?",
+      "options": [
+        "A. Where",
+        "B. What",
+        "C. When", 
+        "D. Why"
+      ],
+      "answer": "B. What",
+      "explanation": "询问在美术课上经常听到什么单词，用what提问。"
+    },
+    {
+      "id": 8,
+      "grade": "六年级上",
+      "unit": "unit 1",
+      "source": "中学生世界",
+      "question": "— Lucy, let me show you around our school. — ________ .",
+      "options": [
+        "A. Sure, here you are",
+        "B. That's all right", 
+        "C. You are welcome",
+        "D. Thank you very much"
+      ],
+      "answer": "D. Thank you very much",
+      "explanation": "对别人的帮助表示感谢，用Thank you very much。"
+    }
+  ]
+}
