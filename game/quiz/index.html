@@ -858,6 +858,14 @@
                         <option value="false">关闭</option>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label for="categorySelect">题目分类</label>
+                    <select id="categorySelect" multiple>
+                        <!-- 分类选项将通过JavaScript动态生成 -->
+                    </select>
+                    <small>按住Ctrl键可多选</small>
+                </div>
                 
                 <div class="btn-group">
                     <button id="startGame" class="btn btn-primary btn-lg">开始比赛</button>
@@ -934,7 +942,8 @@ const gameState = {
     optionsVisible: false,
     isPaused: false,
     speechEnabled: true,
-    currentSpeech: null
+    currentSpeech: null,
+    selectedCategories: []
 };
 
 // 获取题库
@@ -967,13 +976,15 @@ const speakerControl = document.getElementById('speakerControl');
 const pauseBtn = document.getElementById('pauseBtn');
 const speechToggle = document.getElementById('speechToggle');
 const speechStatus = document.getElementById('speechStatus');
+const categorySelect = document.getElementById('categorySelect');
+const winScoreSelect = document.getElementById('winScore');
+const timeLimitSelect = document.getElementById('timeLimit');
 
 // 语音合成管理器
 const speechManager = {
     speak: function(text) {
         if (!gameState.speechEnabled) return;
         
-        // 停止当前正在朗读的内容
         this.stop();
         
         if ('speechSynthesis' in window) {
@@ -999,12 +1010,37 @@ const speechManager = {
         if (!enable) {
             this.stop();
         } else if (questionScreen.classList.contains('active')) {
-            // 如果重新开启朗读且当前在问题界面，朗读当前题目
             const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
             this.speak(currentQuestion.question);
         }
     }
 };
+
+// 初始化分类选择
+function initCategorySelect() {
+    const allCategories = new Set();
+    questionBank.forEach(question => {
+        if (question.category) {
+            allCategories.add(question.category);
+        }
+    });
+    
+    categorySelect.innerHTML = '';
+    
+    const allOption = document.createElement('option');
+    allOption.value = 'all';
+    allOption.textContent = '全部分类';
+    categorySelect.appendChild(allOption);
+    
+    Array.from(allCategories).sort().forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categorySelect.appendChild(option);
+    });
+    
+    categorySelect.value = 'all';
+}
 
 // 初始化游戏
 function initGame() {
@@ -1018,16 +1054,32 @@ function initGame() {
         gameState.scores[teamName] = 0;
     }
     
-    gameState.winScore = parseInt(document.getElementById('winScore').value);
-    gameState.timeLimit = parseInt(document.getElementById('timeLimit').value);
+    gameState.winScore = parseInt(winScoreSelect.value);
+    gameState.timeLimit = parseInt(timeLimitSelect.value);
     gameState.delayOptions = delayOptionsSelect.value === 'true';
     gameState.optionsVisible = !gameState.delayOptions;
     
-    // 从设置中获取朗读状态
-    gameState.speechEnabled = speechToggle.checked;
-    speechManager.toggle(gameState.speechEnabled);
+    // 获取选中的分类
+    gameState.selectedCategories = [];
+    const selectedOptions = categorySelect.selectedOptions;
+    for (let i = 0; i < selectedOptions.length; i++) {
+        const value = selectedOptions[i].value;
+        if (value !== 'all') {
+            gameState.selectedCategories.push(value);
+        }
+    }
     
-    gameState.questions = [...questionBank].sort(() => 0.5 - Math.random());
+    // 根据分类筛选题目
+    if (gameState.selectedCategories.length > 0) {
+        gameState.questions = questionBank.filter(question => 
+            question.category && gameState.selectedCategories.includes(question.category)
+        );
+    } else {
+        gameState.questions = [...questionBank];
+    }
+    
+    // 随机排序题目
+    gameState.questions = gameState.questions.sort(() => 0.5 - Math.random());
     
     gameState.currentQuestionIndex = 0;
     gameState.activeTeamIndex = 0;
@@ -1043,6 +1095,7 @@ function initGame() {
     showQuestion();
 }
 
+// 更新队伍栏
 function updateTeamsBar() {
     teamsBar.innerHTML = '';
     
@@ -1070,6 +1123,7 @@ function updateTeamsBar() {
     });
 }
 
+// 显示题目
 function showQuestion() {
     gameState.skippedQuestion = false;
     gameState.selectedOption = null;
@@ -1148,6 +1202,7 @@ function showQuestion() {
     updateTeamsBar();
 }
 
+// 处理问题点击
 function handleQuestionClick() {
     if (gameState.delayOptions && !gameState.optionsVisible) {
         gameState.optionsVisible = true;
@@ -1167,6 +1222,7 @@ function handleQuestionClick() {
     }
 }
 
+// 选择选项
 function selectOption() {
     if (gameState.selectedOption !== null) return;
     
@@ -1203,6 +1259,7 @@ function selectOption() {
     skipQuestionBtn.style.display = 'none';
 }
 
+// 跳过题目
 function skipQuestion() {
     // 清除计时器
     clearInterval(gameState.timer);
@@ -1237,6 +1294,7 @@ function skipQuestion() {
     exitGameBtn.style.display = 'block';
 }
 
+// 开始计时器
 function startTimer() {
     if (gameState.timer) {
         clearInterval(gameState.timer);
@@ -1284,15 +1342,17 @@ function startTimer() {
     updateTimer();
 }
 
+// 更新计时器显示
 function updateTimerDisplay() {
     if (!gameState.optionsVisible) {
         timerDisplay.classList.remove('warning');
         timerDisplay.textContent = "";
     } else if (gameState.isPaused) {
         timerDisplay.classList.remove('warning');
+        timerDisplay.textContent = "⏸ " + Math.ceil(gameState.timeLeft) + "秒";
     } else {
         const seconds = Math.ceil(gameState.timeLeft);
-
+        timerDisplay.textContent = seconds + "秒";
         
         if (gameState.timeLeft <= 5) {
             timerDisplay.classList.add('warning');
@@ -1302,6 +1362,7 @@ function updateTimerDisplay() {
     }
 }
 
+// 时间到
 function timeUp() {
     if (gameState.selectedOption !== null) return;
     
@@ -1319,6 +1380,7 @@ function timeUp() {
     skipQuestionBtn.style.display = 'none';
 }
 
+// 下一题
 function nextQuestion() {
     gameState.currentQuestionIndex++;
     
@@ -1332,7 +1394,7 @@ function nextQuestion() {
     if (winner) {
         endGame();
     } else {
-        // 修改这里 - 当所有题目用完时，重新洗牌整个题库
+        // 当所有题目用完时，重新洗牌整个题库
         if (gameState.currentQuestionIndex >= gameState.questions.length) {
             gameState.currentQuestionIndex = 0;
             gameState.questions = [...questionBank].sort(() => 0.5 - Math.random());
@@ -1342,6 +1404,7 @@ function nextQuestion() {
     }
 }
 
+// 结束游戏
 function endGame() {
     questionScreen.classList.remove('active');
     scoreScreen.classList.add('active');
@@ -1350,6 +1413,7 @@ function endGame() {
     declareWinner();
 }
 
+// 更新积分榜
 function updateScoreboard() {
     scoreboard.innerHTML = '';
     
@@ -1375,6 +1439,7 @@ function updateScoreboard() {
     });
 }
 
+// 宣布获胜者
 function declareWinner() {
     const teams = Object.entries(gameState.scores);
     if (teams.length === 0) return;
@@ -1454,6 +1519,11 @@ questionScreen.addEventListener('click', function(e) {
         !e.target.closest('.btn')) {
         handleQuestionClick();
     }
+});
+
+// 页面加载时初始化分类选择
+document.addEventListener('DOMContentLoaded', function() {
+    initCategorySelect();
 });
     </script>
 </body>
