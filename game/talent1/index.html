@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>双目标点击训练</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            touch-action: manipulation;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .game-area {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        #game-container {
+            width: 100%;
+            height: 400px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+            touch-action: manipulation;
+        }
+        
+        .target {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #e74c3c;
+            cursor: pointer;
+            transition: transform 0.1s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            touch-action: manipulation;
+        }
+        
+        .target:hover {
+            transform: scale(1.05);
+        }
+        
+        .target:active {
+            transform: scale(0.95);
+        }
+        
+        #countdown {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            color: #e74c3c;
+            font-weight: bold;
+            z-index: 10;
+        }
+        
+        .stats-panel {
+            width: 100%;
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            touch-action: manipulation;
+        }
+        
+        #start-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        #start-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        #restart-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        #restart-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .game-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+            text-align: center;
+            z-index: 10;
+            display: none;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        @media (max-width: 768px) {
+            #game-container {
+                height: 350px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            button {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #game-container {
+                height: 300px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>双目标点击训练</h1>
+            <p>测试你的反应速度和准确度</p>
+        </header>
+        
+        <div class="game-area">
+            <div id="game-container">
+                <div id="countdown">3</div>
+                <div id="game-message" class="game-message"></div>
+            </div>
+            
+            <div class="stats-panel">
+                <div class="stat-row">
+                    <span class="stat-label">剩余时间:</span>
+                    <span id="time-left" class="stat-value">30秒</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">击中数:</span>
+                    <span id="hits" class="stat-value">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">准确率:</span>
+                    <span id="accuracy" class="stat-value">0%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">平均反应:</span>
+                    <span id="reaction" class="stat-value">0.00秒</span>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="start-btn">开始训练</button>
+                <button id="restart-btn">重新开始</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 游戏状态变量
+        let gameActive = false;
+        let countdownActive = false;
+        let timeLeft = 30;
+        let hits = 0;
+        let misses = 0;
+        let totalClicks = 0;
+        let gameTimer = null;
+        let countdownTimer = null;
+        let reactionTimes = [];
+        let targets = [];
+        
+        // DOM元素
+        const gameContainer = document.getElementById('game-container');
+        const countdownElement = document.getElementById('countdown');
+        const gameMessage = document.getElementById('game-message');
+        const timeLeftElement = document.getElementById('time-left');
+        const hitsElement = document.getElementById('hits');
+        const accuracyElement = document.getElementById('accuracy');
+        const reactionElement = document.getElementById('reaction');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        
+        // 游戏配置
+        const gameConfig = {
+            totalTime: 30,
+            targetSize: 60,
+            targetCount: 2
+        };
+        
+        // 初始化游戏
+        function initGame() {
+            gameActive = false;
+            countdownActive = false;
+            timeLeft = gameConfig.totalTime;
+            hits = 0;
+            misses = 0;
+            totalClicks = 0;
+            reactionTimes = [];
+            targets = [];
+            
+            updateStats();
+            clearGameArea();
+            countdownElement.style.display = 'block';
+            countdownElement.textContent = '3';
+            gameMessage.style.display = 'none';
+        }
+        
+        // 开始倒计时
+        function startCountdown() {
+            if (countdownActive) return;
+            
+            countdownActive = true;
+            startBtn.disabled = true;
+            restartBtn.disabled = true;
+            
+            let countdownValue = 3;
+            countdownElement.textContent = countdownValue;
+            
+            const countdownInterval = setInterval(() => {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+                
+                if (countdownValue <= 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.style.display = 'none';
+                    startGame();
+                }
+            }, 1000);
+        }
+        
+        // 开始游戏
+        function startGame() {
+            gameActive = true;
+            restartBtn.disabled = false;
+            
+            // 开始游戏计时
+            gameTimer = setInterval(() => {
+                timeLeft--;
+                updateStats();
+                
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+            
+            // 生成初始目标
+            createTargets();
+        }
+        
+        // 创建目标
+        function createTargets() {
+            if (!gameActive) return;
+            
+            // 清除现有目标
+            clearGameArea();
+            
+            // 创建指定数量的目标
+            for (let i = 0; i < gameConfig.targetCount; i++) {
+                createTarget();
+            }
+        }
+        
+        // 创建单个目标
+        function createTarget() {
+            const size = gameConfig.targetSize;
+            
+            // 随机位置（确保目标完全在游戏区域内）
+            const maxX = gameContainer.clientWidth - size;
+            const maxY = gameContainer.clientHeight - size;
+            
+            const posX = Math.floor(Math.random() * maxX);
+            const posY = Math.floor(Math.random() * maxY);
+            
+            // 随机颜色
+            const hue = Math.floor(Math.random() * 360);
+            const color = `hsl(${hue}, 80%, 60%)`;
+            
+            // 创建目标元素
+            const target = document.createElement('div');
+            target.className = 'target';
+            target.style.width = `${size}px`;
+            target.style.height = `${size}px`;
+            target.style.left = `${posX}px`;
+            target.style.top = `${posY}px`;
+            target.style.backgroundColor = color;
+            
+            // 添加点击事件
+            target.addEventListener('click', handleTargetClick);
+            
+            // 添加到游戏容器
+            gameContainer.appendChild(target);
+            
+            // 记录目标信息
+            targets.push({
+                element: target,
+                createdAt: Date.now()
+            });
+        }
+        
+        // 处理目标点击
+        function handleTargetClick(event) {
+            if (!gameActive) return;
+            
+            // 找到被点击的目标
+            const targetIndex = targets.findIndex(t => t.element === event.target);
+            if (targetIndex === -1) return;
+            
+            // 计算反应时间
+            const reactionTime = Date.now() - targets[targetIndex].createdAt;
+            reactionTimes.push(reactionTime);
+            
+            // 更新击中数
+            hits++;
+            totalClicks++;
+            
+            // 更新统计
+            updateStats();
+            
+            // 移除被点击的目标
+            event.target.remove();
+            targets.splice(targetIndex, 1);
+            
+            // 立即创建新目标
+            if (gameActive) {
+                createTarget();
+            }
+        }
+        
+        // 更新游戏统计
+        function updateStats() {
+            timeLeftElement.textContent = `${timeLeft}秒`;
+            hitsElement.textContent = hits;
+            
+            const accuracy = totalClicks > 0 ? Math.round((hits / totalClicks) * 100) : 0;
+            accuracyElement.textContent = `${accuracy}%`;
+            
+            const avgReaction = reactionTimes.length > 0 
+                ? (reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length / 1000).toFixed(2)
+                : '0.00';
+            reactionElement.textContent = `${avgReaction}秒`;
+        }
+        
+        // 显示游戏消息
+        function showMessage(text, duration = 1500) {
+            gameMessage.textContent = text;
+            gameMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                gameMessage.style.display = 'none';
+            }, duration);
+        }
+        
+        // 结束游戏
+        function endGame() {
+            gameActive = false;
+            clearInterval(gameTimer);
+            startBtn.disabled = false;
+            
+            clearGameArea();
+            
+            // 计算最终分数
+            const accuracy = totalClicks > 0 ? Math.round((hits / totalClicks) * 100) : 0;
+            const avgReaction = reactionTimes.length > 0 
+                ? reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length
+                : 0;
+            
+            // 显示游戏结束消息
+            showMessage(`训练结束! 击中: ${hits}, 准确率: ${accuracy}%`, 5000);
+        }
+        
+        // 清空游戏区域
+        function clearGameArea() {
+            targets.forEach(target => target.element.remove());
+            targets = [];
+        }
+        
+        // 处理游戏区域点击（未击中目标）
+        function handleGameAreaClick(event) {
+            if (!gameActive || event.target.id === 'game-container') {
+                totalClicks++;
+                updateStats();
+            }
+        }
+        
+        // 事件监听
+        startBtn.addEventListener('click', startCountdown);
+        restartBtn.addEventListener('click', initGame);
+        gameContainer.addEventListener('click', handleGameAreaClick);
+        
+        // 初始化游戏
+        initGame();
+    </script>
+</body>
+</html>
