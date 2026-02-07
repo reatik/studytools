@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>双目标点击训练</title>
+    <title>反应训练</title>
     <style>
         * {
             margin: 0;
@@ -14,7 +14,7 @@
         }
         
         body {
-            background-color: #f5f5f5;
+            background-color: #ffffff;
             color: #333;
             min-height: 100vh;
             display: flex;
@@ -32,18 +32,6 @@
             align-items: center;
         }
         
-        header {
-            text-align: center;
-            margin-bottom: 15px;
-            width: 100%;
-        }
-        
-        h1 {
-            color: #333;
-            font-size: 2rem;
-            margin-bottom: 5px;
-        }
-        
         .game-area {
             width: 100%;
             display: flex;
@@ -51,34 +39,77 @@
             align-items: center;
         }
         
-        #game-container {
+        #game-wrapper {
             width: 100%;
-            height: 400px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            height: 600px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
             position: relative;
             overflow: hidden;
             margin-bottom: 15px;
-            touch-action: manipulation;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        #timer-display {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+            z-index: 10;
+            padding: 8px 15px;
+            font-family: 'Arial Black', sans-serif;
+            margin: 15px 0;
+            background-color: transparent;
+            border: none;
+            display: none;
+        }
+        
+        #timer-display.heartbeat {
+            animation: heartbeat 1.5s infinite ease-in-out;
+            color: #e74c3c;
+        }
+        
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        #game-container {
+            width: 90%;
+            height: 80%;
+            position: relative;
+            overflow: hidden;
         }
         
         .target {
             position: absolute;
             border-radius: 50%;
-            background-color: #e74c3c;
             cursor: pointer;
             transition: transform 0.1s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
             touch-action: manipulation;
+            border: 2px solid #fff;
         }
         
         .target:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
         
         .target:active {
-            transform: scale(0.95);
+            transform: scale(0.97);
         }
         
         #countdown {
@@ -86,149 +117,274 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 4rem;
-            color: #e74c3c;
+            font-size: 5rem;
+            color: #f0a732;
             font-weight: bold;
             z-index: 10;
-        }
-        
-        .stats-panel {
-            width: 100%;
-            background-color: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
-        }
-        
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        .stat-label {
-            font-weight: bold;
-            color: #555;
-        }
-        
-        .stat-value {
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-        }
-        
-        button {
-            flex: 1;
-            padding: 12px;
+            display: none;
+            text-shadow: 0 0 10px rgba(240, 167, 50, 0.7);
+            font-family: 'Arial Black', sans-serif;
+            background: transparent;
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            touch-action: manipulation;
         }
         
-        #start-btn {
-            background-color: #2ecc71;
-            color: white;
-        }
-        
-        #start-btn:hover {
-            background-color: #27ae60;
-        }
-        
-        #restart-btn {
-            background-color: #e74c3c;
-            color: white;
-        }
-        
-        #restart-btn:hover {
-            background-color: #c0392b;
-        }
-        
-        .game-message {
+        #start-btn-container {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2rem;
+            z-index: 10;
+            text-align: center;
+            width: 100%;
+        }
+        
+        #start-btn, #restart-btn, #pause-btn, #exit-btn {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            background-color: #3a3a3a;
+            color: #e4e4e4;
+            border: 2px solid #5a5a5a;
+            border-radius: 2px;
+            cursor: pointer;
             font-weight: bold;
-            color: #e74c3c;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            font-family: 'Arial Black', sans-serif;
+            box-shadow: none;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+            margin: 0 auto;
+            display: block;
+        }
+        
+        #start-btn:hover, #restart-btn:hover, #pause-btn:hover, #exit-btn:hover {
+            background-color: #4a4a4a;
+            border-color: #6a6a6a;
+        }
+        
+        #start-btn:active, #restart-btn:active, #pause-btn:active, #exit-btn:active {
+            background-color: #2a2a2a;
+            border-color: #4a4a4a;
+        }
+        
+        #results {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 8px;
             text-align: center;
             z-index: 10;
             display: none;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 500px;
+            border: 1px solid #ddd;
+        }
+        
+        #results h2 {
+            color: #f0a732;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Arial Black', sans-serif;
+        }
+        
+        .result-item {
+            margin: 15px 0;
+            font-size: 1.3rem;
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .result-label {
+            font-weight: bold;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .result-value {
+            font-weight: bold;
+            color: #f0a732;
+        }
+        
+        .settings-panel {
+            width: 100%;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .control-panel {
+            width: 100%;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        #pause-btn, #exit-btn {
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .setting-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .setting-label {
+            width: 100px;
+            font-weight: bold;
+        }
+        
+        .setting-control {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        select {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0 10px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .value-display {
+            width: 50px;
+            text-align: right;
+        }
+        
+        .setting-disabled {
+            opacity: 0.6;
+            pointer-events: none;
         }
         
         @media (max-width: 768px) {
-            #game-container {
-                height: 350px;
+            #game-wrapper {
+                height: 500px;
             }
             
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            button {
-                padding: 10px;
-                font-size: 0.9rem;
+            #countdown {
+                font-size: 4rem;
             }
         }
         
         @media (max-width: 480px) {
-            #game-container {
-                height: 300px;
+            #game-wrapper {
+                height: 400px;
             }
             
-            .controls {
+            #results {
+                width: 90%;
+                padding: 20px;
+            }
+            
+            #start-btn, #restart-btn, #pause-btn, #exit-btn {
+                padding: 12px 25px;
+                font-size: 1.2rem;
+            }
+            
+            .setting-item {
                 flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .setting-label {
+                margin-bottom: 5px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>双目标点击训练</h1>
-            <p>测试你的反应速度和准确度</p>
-        </header>
-        
         <div class="game-area">
-            <div id="game-container">
-                <div id="countdown">3</div>
-                <div id="game-message" class="game-message"></div>
+            <div id="game-wrapper">
+                <div id="timer-display">30</div>
+                <div id="game-container">
+                    <div id="countdown">3</div>
+                    <div id="start-btn-container">
+                        <button id="start-btn">开始</button>
+                    </div>
+                    <div id="results">
+                        <h2>数据统计</h2>
+                        <div class="result-item">
+                            <span class="result-label">击中数:</span>
+                            <span id="result-hits" class="result-value">0</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">准确率:</span>
+                            <span id="result-accuracy" class="result-value">0%</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">平均反应:</span>
+                            <span id="result-reaction" class="result-value">0.00秒</span>
+                        </div>
+                        <button id="restart-btn">再来一次</button>
+                    </div>
+                </div>
             </div>
             
-            <div class="stats-panel">
-                <div class="stat-row">
-                    <span class="stat-label">剩余时间:</span>
-                    <span id="time-left" class="stat-value">30秒</span>
+            <div class="settings-panel">
+                <div class="setting-item">
+                    <div class="setting-label">背景颜色:</div>
+                    <div class="setting-control">
+                        <select id="bg-color">
+                            <option value="#ffffff">白色</option>
+                            <option value="#000000">黑色</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="stat-row">
-                    <span class="stat-label">击中数:</span>
-                    <span id="hits" class="stat-value">0</span>
+                <div class="setting-item">
+                    <div class="setting-label">圆圈大小:</div>
+                    <div class="setting-control">
+                        <select id="target-size">
+                            <option value="40">小</option>
+                            <option value="60" selected>中</option>
+                            <option value="80">大</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="stat-row">
-                    <span class="stat-label">准确率:</span>
-                    <span id="accuracy" class="stat-value">0%</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">平均反应:</span>
-                    <span id="reaction" class="stat-value">0.00秒</span>
+                <div class="setting-item">
+                    <div class="setting-label">游戏时间:</div>
+                    <div class="setting-control">
+                        <input type="range" id="game-time" min="5" max="60" step="5" value="30">
+                        <span class="value-display" id="time-value">30秒</span>
+                    </div>
                 </div>
             </div>
             
-            <div class="controls">
-                <button id="start-btn">开始训练</button>
-                <button id="restart-btn">重新开始</button>
+            <div class="control-panel">
+                <div class="control-buttons">
+                    <button id="pause-btn">暂停</button>
+                    <button id="exit-btn">退出</button>
+                </div>
             </div>
         </div>
     </div>
@@ -236,6 +392,7 @@
     <script>
         // 游戏状态变量
         let gameActive = false;
+        let gamePaused = false;
         let countdownActive = false;
         let timeLeft = 30;
         let hits = 0;
@@ -246,40 +403,107 @@
         let reactionTimes = [];
         let targets = [];
         
+        // 预设颜色数组
+        const targetColors = [
+            '#f0a732', // 金色
+            '#e74c3c', // 红色
+            '#3498db', // 蓝色
+            '#2ecc71', // 绿色
+            '#9b59b6', // 紫色
+            '#1abc9c', // 青色
+            '#e67e22', // 橙色
+            '#34495e'  // 深蓝灰
+        ];
+        
         // DOM元素
         const gameContainer = document.getElementById('game-container');
+        const gameWrapper = document.getElementById('game-wrapper');
         const countdownElement = document.getElementById('countdown');
-        const gameMessage = document.getElementById('game-message');
-        const timeLeftElement = document.getElementById('time-left');
-        const hitsElement = document.getElementById('hits');
-        const accuracyElement = document.getElementById('accuracy');
-        const reactionElement = document.getElementById('reaction');
+        const timerDisplay = document.getElementById('timer-display');
         const startBtn = document.getElementById('start-btn');
+        const startBtnContainer = document.getElementById('start-btn-container');
+        const resultsContainer = document.getElementById('results');
+        const resultHits = document.getElementById('result-hits');
+        const resultAccuracy = document.getElementById('result-accuracy');
+        const resultReaction = document.getElementById('result-reaction');
         const restartBtn = document.getElementById('restart-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const exitBtn = document.getElementById('exit-btn');
+        const settingsPanel = document.querySelector('.settings-panel');
+        const controlPanel = document.querySelector('.control-panel');
+        
+        // 设置控件
+        const bgColorSelect = document.getElementById('bg-color');
+        const targetSizeSelect = document.getElementById('target-size');
+        const gameTimeInput = document.getElementById('game-time');
+        const timeValueDisplay = document.getElementById('time-value');
         
         // 游戏配置
-        const gameConfig = {
+        let gameConfig = {
             totalTime: 30,
             targetSize: 60,
-            targetCount: 2
+            targetCount: 1
         };
+        
+        // 禁用设置控件
+        function disableSettings() {
+            bgColorSelect.disabled = true;
+            targetSizeSelect.disabled = true;
+            gameTimeInput.disabled = true;
+            settingsPanel.classList.add('setting-disabled');
+        }
+        
+        // 启用设置控件
+        function enableSettings() {
+            bgColorSelect.disabled = false;
+            targetSizeSelect.disabled = false;
+            gameTimeInput.disabled = false;
+            settingsPanel.classList.remove('setting-disabled');
+        }
+        
+        // 显示控制面板
+        function showControlPanel() {
+            settingsPanel.style.display = 'none';
+            controlPanel.style.display = 'block';
+        }
+        
+        // 隐藏控制面板
+        function hideControlPanel() {
+            controlPanel.style.display = 'none';
+            settingsPanel.style.display = 'block';
+        }
+        
+        // 清空游戏区域
+        function clearGameArea() {
+            targets.forEach(target => {
+                if (target.element && target.element.parentNode) {
+                    target.element.remove();
+                }
+            });
+            targets = [];
+        }
         
         // 初始化游戏
         function initGame() {
             gameActive = false;
+            gamePaused = false;
             countdownActive = false;
             timeLeft = gameConfig.totalTime;
             hits = 0;
             misses = 0;
             totalClicks = 0;
             reactionTimes = [];
-            targets = [];
             
-            updateStats();
             clearGameArea();
-            countdownElement.style.display = 'block';
-            countdownElement.textContent = '3';
-            gameMessage.style.display = 'none';
+            
+            timerDisplay.textContent = timeLeft;
+            timerDisplay.style.display = 'none';
+            timerDisplay.classList.remove('heartbeat');
+            startBtnContainer.style.display = 'block';
+            countdownElement.style.display = 'none';
+            resultsContainer.style.display = 'none';
+            enableSettings();
+            hideControlPanel();
         }
         
         // 开始倒计时
@@ -287,11 +511,12 @@
             if (countdownActive) return;
             
             countdownActive = true;
-            startBtn.disabled = true;
-            restartBtn.disabled = true;
+            startBtnContainer.style.display = 'none';
+            countdownElement.style.display = 'block';
+            countdownElement.textContent = '3';
+            disableSettings();
             
             let countdownValue = 3;
-            countdownElement.textContent = countdownValue;
             
             const countdownInterval = setInterval(() => {
                 countdownValue--;
@@ -308,15 +533,26 @@
         // 开始游戏
         function startGame() {
             gameActive = true;
-            restartBtn.disabled = false;
+            gamePaused = false;
+            timerDisplay.style.display = 'block';
+            showControlPanel();
             
             // 开始游戏计时
             gameTimer = setInterval(() => {
-                timeLeft--;
-                updateStats();
-                
-                if (timeLeft <= 0) {
-                    endGame();
+                if (!gamePaused) {
+                    timeLeft--;
+                    timerDisplay.textContent = timeLeft;
+                    
+                    // 最后5秒添加心跳效果
+                    if (timeLeft <= 5) {
+                        timerDisplay.classList.add('heartbeat');
+                    } else {
+                        timerDisplay.classList.remove('heartbeat');
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        endGame();
+                    }
                 }
             }, 1000);
             
@@ -326,15 +562,10 @@
         
         // 创建目标
         function createTargets() {
-            if (!gameActive) return;
+            if (!gameActive || gamePaused) return;
             
-            // 清除现有目标
             clearGameArea();
-            
-            // 创建指定数量的目标
-            for (let i = 0; i < gameConfig.targetCount; i++) {
-                createTarget();
-            }
+            createTarget();
         }
         
         // 创建单个目标
@@ -348,9 +579,8 @@
             const posX = Math.floor(Math.random() * maxX);
             const posY = Math.floor(Math.random() * maxY);
             
-            // 随机颜色
-            const hue = Math.floor(Math.random() * 360);
-            const color = `hsl(${hue}, 80%, 60%)`;
+            // 随机选择颜色
+            const randomColor = targetColors[Math.floor(Math.random() * targetColors.length)];
             
             // 创建目标元素
             const target = document.createElement('div');
@@ -359,7 +589,7 @@
             target.style.height = `${size}px`;
             target.style.left = `${posX}px`;
             target.style.top = `${posY}px`;
-            target.style.backgroundColor = color;
+            target.style.backgroundColor = randomColor;
             
             // 添加点击事件
             target.addEventListener('click', handleTargetClick);
@@ -376,7 +606,7 @@
         
         // 处理目标点击
         function handleTargetClick(event) {
-            if (!gameActive) return;
+            if (!gameActive || gamePaused) return;
             
             // 找到被点击的目标
             const targetIndex = targets.findIndex(t => t.element === event.target);
@@ -390,79 +620,87 @@
             hits++;
             totalClicks++;
             
-            // 更新统计
-            updateStats();
-            
             // 移除被点击的目标
             event.target.remove();
             targets.splice(targetIndex, 1);
             
             // 立即创建新目标
-            if (gameActive) {
+            if (gameActive && !gamePaused) {
                 createTarget();
             }
         }
         
-        // 更新游戏统计
-        function updateStats() {
-            timeLeftElement.textContent = `${timeLeft}秒`;
-            hitsElement.textContent = hits;
+        // 暂停游戏
+        function pauseGame() {
+            gamePaused = !gamePaused;
+            pauseBtn.textContent = gamePaused ? '继续' : '暂停';
             
-            const accuracy = totalClicks > 0 ? Math.round((hits / totalClicks) * 100) : 0;
-            accuracyElement.textContent = `${accuracy}%`;
-            
-            const avgReaction = reactionTimes.length > 0 
-                ? (reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length / 1000).toFixed(2)
-                : '0.00';
-            reactionElement.textContent = `${avgReaction}秒`;
+            if (gamePaused) {
+                clearGameArea();
+            } else {
+                createTargets();
+            }
         }
         
-        // 显示游戏消息
-        function showMessage(text, duration = 1500) {
-            gameMessage.textContent = text;
-            gameMessage.style.display = 'block';
-            
-            setTimeout(() => {
-                gameMessage.style.display = 'none';
-            }, duration);
+        // 退出游戏
+        function exitGame() {
+            clearInterval(gameTimer);
+            initGame();
         }
         
         // 结束游戏
         function endGame() {
             gameActive = false;
+            gamePaused = false;
             clearInterval(gameTimer);
-            startBtn.disabled = false;
+            timerDisplay.style.display = 'none';
+            timerDisplay.classList.remove('heartbeat');
             
             clearGameArea();
             
-            // 计算最终分数
+            // 计算最终结果
             const accuracy = totalClicks > 0 ? Math.round((hits / totalClicks) * 100) : 0;
             const avgReaction = reactionTimes.length > 0 
-                ? reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length
-                : 0;
+                ? (reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length / 1000).toFixed(2)
+                : '0.00';
             
-            // 显示游戏结束消息
-            showMessage(`训练结束! 击中: ${hits}, 准确率: ${accuracy}%`, 5000);
-        }
-        
-        // 清空游戏区域
-        function clearGameArea() {
-            targets.forEach(target => target.element.remove());
-            targets = [];
+            // 显示结果
+            resultHits.textContent = hits;
+            resultAccuracy.textContent = `${accuracy}%`;
+            resultReaction.textContent = `${avgReaction}秒`;
+            resultsContainer.style.display = 'block';
+            hideControlPanel();
         }
         
         // 处理游戏区域点击（未击中目标）
         function handleGameAreaClick(event) {
-            if (!gameActive || event.target.id === 'game-container') {
+            if (gameActive && !gamePaused && event.target.id === 'game-container') {
                 totalClicks++;
-                updateStats();
             }
         }
         
         // 事件监听
         startBtn.addEventListener('click', startCountdown);
         restartBtn.addEventListener('click', initGame);
+        pauseBtn.addEventListener('click', pauseGame);
+        exitBtn.addEventListener('click', exitGame);
         gameContainer.addEventListener('click', handleGameAreaClick);
+        
+        // 设置控件事件监听
+        bgColorSelect.addEventListener('change', function() {
+            gameWrapper.style.backgroundColor = this.value;
+        });
+        
+        targetSizeSelect.addEventListener('change', function() {
+            gameConfig.targetSize = parseInt(this.value);
+        });
+        
+        gameTimeInput.addEventListener('input', function() {
+            gameConfig.totalTime = parseInt(this.value);
+            timeValueDisplay.textContent = `${this.value}秒`;
+            timeLeft = gameConfig.totalTime;
+            timerDisplay.textContent = timeLeft;
+        });
         
         // 初始化游戏
         initGame();
