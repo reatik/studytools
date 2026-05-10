@@ -653,7 +653,7 @@ const wordData = {
 {"english":"reply","phonetic":"/rɪˈplaɪ/","chinese":"回答；答复","pos":"n.","unit":"Unit 1","grade":"六年级上","type":"word"},
 {"english":"group","phonetic":"/ɡruːp/","chinese":"组；群；批；类","pos":"n.","unit":"Unit 1","grade":"六年级上","type":"word"},
 {"english":"most","phonetic":"/məʊst/","chinese":"最","pos":"adv.","unit":"Unit 1","grade":"六年级上","type":"word"},
-{"english":"am","phonetic":"/ˌeɪ ˈem/","chinese":"上午","pos":"abbr.","unit":"Unit 1","grade":"六年级上","type":"word"},
+{"english":"a.m.","phonetic":"/ˌeɪ ˈem/","chinese":"上午","pos":"abbr.","unit":"Unit 1","grade":"六年级上","type":"word"},
 {"english":"end","phonetic":"/end/","chinese":"结束","pos":"v.","unit":"Unit 1","grade":"六年级上","type":"word"},
 {"english":"pm","phonetic":"/ˌpiː ˈem/","chinese":"下午","pos":"abbr.","unit":"Unit 1","grade":"六年级上","type":"word"},
 {"english":"difference","phonetic":"/ˈdɪfrəns/","chinese":"差别；不同之处","pos":"n.","unit":"Unit 1","grade":"六年级上","type":"word"},
