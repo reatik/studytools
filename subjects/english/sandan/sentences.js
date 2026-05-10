@@ -4,15 +4,279 @@
 const sentenceBank = [
     // ===== 陈述句（基础）=====
     {
-        text: "{Tom} usually ______ basketball every day.",
+        text: "{Tom} ______ an aeroplane in the sky.",
         options: [
-            { label: "A", value: "play", correct: false },
-            { label: "B", value: "plays", correct: true }
+            { label: "A", value: "see", correct: false },
+            { label: "B", value: "sees", correct: true }
         ],
         difficulty: "陈述"
     },
     {
-        text: "{She} ______ to school by bike.",
+        text: "{The dog} ______ afraid of the lion.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{My father} ______ angry when he is hungry.",
+        options: [
+            { label: "A", value: "get", correct: false },
+            { label: "B", value: "gets", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The panda} ______ a big body.",
+        options: [
+            { label: "A", value: "has", correct: true },
+            { label: "B", value: "have", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Lucy} ______ her arm and leg.",
+        options: [
+            { label: "A", value: "move", correct: false },
+            { label: "B", value: "moves", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The leaves} ______ yellow in autumn.",
+        options: [
+            { label: "A", value: "turn", correct: true },
+            { label: "B", value: "turns", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{This food} ______ bad for us.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Emma} ______ a bag on her back.",
+        options: [
+            { label: "A", value: "carry", correct: false },
+            { label: "B", value: "carries", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The children} ______ on the beach.",
+        options: [
+            { label: "A", value: "play", correct: true },
+            { label: "B", value: "plays", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The coffee} ______ bitter.",
+        options: [
+            { label: "A", value: "taste", correct: false },
+            { label: "B", value: "tastes", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{My mother} ______ bread and milk for breakfast.",
+        options: [
+            { label: "A", value: "eat", correct: false },
+            { label: "B", value: "eats", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The bus} ______ many children to school.",
+        options: [
+            { label: "A", value: "take", correct: false },
+            { label: "B", value: "takes", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The elephant} ______ a long nose.",
+        options: [
+            { label: "A", value: "has", correct: true },
+            { label: "B", value: "have", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{It} ______ cold in winter.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The boy} ______ clever and cute.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{She} ______ a red skirt today.",
+        options: [
+            { label: "A", value: "wear", correct: false },
+            { label: "B", value: "wears", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The clock} ______ on the wall.",
+        options: [
+            { label: "A", value: "hang", correct: false },
+            { label: "B", value: "hangs", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{My uncle} ______ coffee every morning.",
+        options: [
+            { label: "A", value: "drink", correct: false },
+            { label: "B", value: "drinks", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The fruit} ______ sweet and juicy.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Ben} ______ fun with his friends.",
+        options: [
+            { label: "A", value: "have", correct: false },
+            { label: "B", value: "has", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The whale} ______ in the sea.",
+        options: [
+            { label: "A", value: "live", correct: false },
+            { label: "B", value: "lives", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{My grandma} ______ a glass of water.",
+        options: [
+            { label: "A", value: "drink", correct: false },
+            { label: "B", value: "drinks", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The lemon} ______ sour.",
+        options: [
+            { label: "A", value: "taste", correct: false },
+            { label: "B", value: "tastes", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The wolf} ______ very strong.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Peter} ______ a pair of trousers.",
+        options: [
+            { label: "A", value: "wear", correct: false },
+            { label: "B", value: "wears", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The monkey} ______ a banana.",
+        options: [
+            { label: "A", value: "eat", correct: false },
+            { label: "B", value: "eats", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The grass} ______ green in spring.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Miss Wang} ______ English in the classroom.",
+        options: [
+            { label: "A", value: "teach", correct: false },
+            { label: "B", value: "teaches", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The snow} ______ white.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The zebra} ______ black and white stripes.",
+        options: [
+            { label: "A", value: "has", correct: true },
+            { label: "B", value: "have", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{I} ______ a new bicycle.",
+        options: [
+            { label: "A", value: "have", correct: true },
+            { label: "B", value: "has", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The salt} ______ salty.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The grasshopper} ______ in the grass.",
+        options: [
+            { label: "A", value: "jump", correct: false },
+            { label: "B", value: "jumps", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The tree} ______ tall and big.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Uncle Li} ______ to the park on Sunday.",
         options: [
             { label: "A", value: "go", correct: false },
             { label: "B", value: "goes", correct: true }
@@ -20,52 +284,363 @@ const sentenceBank = [
         difficulty: "陈述"
     },
     {
-        text: "{My mother} ______ a cake for me.",
+        text: "{The sweet} ______ sweet.",
         options: [
-            { label: "A", value: "make", correct: false },
-            { label: "B", value: "makes", correct: true }
+            { label: "A", value: "taste", correct: false },
+            { label: "B", value: "tastes", correct: true }
         ],
         difficulty: "陈述"
     },
     {
-        text: "{The boy} ______ a kite in the park.",
+        text: "{The children} ______ happy on Children's Day.",
         options: [
-            { label: "A", value: "fly", correct: false },
-            { label: "B", value: "flies", correct: true }
+            { label: "A", value: "are", correct: true },
+            { label: "B", value: "is", correct: false }
         ],
         difficulty: "陈述"
     },
     {
-        text: "{Lucy} ______ her hair every morning.",
+        text: "{The robot} ______ very well.",
         options: [
-            { label: "A", value: "wash", correct: false },
-            { label: "B", value: "washes", correct: true }
-        ],
-        difficulty: "陈述"
-    },
-
-    // ===== 陈述句（进阶）=====
-    {
-        text: "{Everyone} in my class ______ very hard.",
-        options: [
-            { label: "A", value: "study", correct: false },
-            { label: "B", value: "studies", correct: true }
+            { label: "A", value: "work", correct: false },
+            { label: "B", value: "works", correct: true }
         ],
         difficulty: "陈述"
     },
     {
-        text: "{Nobody} ______ to be late for school.",
+        text: "{The pineapple} ______ rough and hard.",
         options: [
-            { label: "A", value: "want", correct: false },
-            { label: "B", value: "wants", correct: true }
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
         ],
         difficulty: "陈述"
     },
     {
-        text: "{One of my friends} ______ in Beijing now.",
+        text: "{Jenny} ______ a red scarf in winter.",
         options: [
-            { label: "A", value: "live", correct: false },
-            { label: "B", value: "lives", correct: true }
+            { label: "A", value: "wear", correct: false },
+            { label: "B", value: "wears", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The children} ______ happy on Children's Day.",
+        options: [
+            { label: "A", value: "is", correct: false },
+            { label: "B", value: "are", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{My friends and I} ______ to the park on Sunday.",
+        options: [
+            { label: "A", value: "go", correct: true },
+            { label: "B", value: "goes", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{These monkeys} ______ bananas very much.",
+        options: [
+            { label: "A", value: "like", correct: true },
+            { label: "B", value: "likes", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{You} ______ a nice picture.",
+        options: [
+            { label: "A", value: "draw", correct: true },
+            { label: "B", value: "draws", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{We} ______ many books in our bags.",
+        options: [
+            { label: "A", value: "have", correct: true },
+            { label: "B", value: "has", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The whales} ______ in the sea.",
+        options: [
+            { label: "A", value: "live", correct: true },
+            { label: "B", value: "lives", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{I} ______ hungry. Please give me some food.",
+        options: [
+            { label: "A", value: "am", correct: true },
+            { label: "B", value: "is", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Those wolves} ______ strong and fierce.",
+        options: [
+            { label: "A", value: "are", correct: true },
+            { label: "B", value: "is", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{You and your brother} ______ a big house.",
+        options: [
+            { label: "A", value: "have", correct: true },
+            { label: "B", value: "has", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The zebras} ______ black and white stripes.",
+        options: [
+            { label: "A", value: "have", correct: true },
+            { label: "B", value: "has", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{My parents} ______ to work by bus.",
+        options: [
+            { label: "A", value: "go", correct: true },
+            { label: "B", value: "goes", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{These lemons} ______ sour.",
+        options: [
+            { label: "A", value: "taste", correct: true },
+            { label: "B", value: "tastes", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{We} ______ English and Chinese.",
+        options: [
+            { label: "A", value: "learn", correct: true },
+            { label: "B", value: "learns", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{You} ______ a super robot!",
+        options: [
+            { label: "A", value: "have", correct: true },
+            { label: "B", value: "has", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The birds} ______ in the tree.",
+        options: [
+            { label: "A", value: "sing", correct: true },
+            { label: "B", value: "sings", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{They} ______ a picnic in the park.",
+        options: [
+            { label: "A", value: "have", correct: true },
+            { label: "B", value: "has", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The grasshoppers} ______ in the grass.",
+        options: [
+            { label: "A", value: "jump", correct: true },
+            { label: "B", value: "jumps", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Tom and Lucy} ______ to school together every day.",
+        options: [
+            { label: "A", value: "go", correct: true },
+            { label: "B", value: "goes", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Ben, Peter and Jill} ______ a big kite in the park.",
+        options: [
+            { label: "A", value: "fly", correct: true },
+            { label: "B", value: "flies", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{My father and my uncle} ______ strong and tall.",
+        options: [
+            { label: "A", value: "are", correct: true },
+            { label: "B", value: "is", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Emma and her sister} ______ red dresses today.",
+        options: [
+            { label: "A", value: "wear", correct: true },
+            { label: "B", value: "wears", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{You and I} ______ good friends.",
+        options: [
+            { label: "A", value: "are", correct: true },
+            { label: "B", value: "is", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The boys, Tom and Peter} ______ football on the playground.",
+        options: [
+            { label: "A", value: "play", correct: true },
+            { label: "B", value: "plays", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Miss Wang and Mr Li} ______ English and Chinese.",
+        options: [
+            { label: "A", value: "teach", correct: true },
+            { label: "B", value: "teaches", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{My mother and I} ______ food for the family.",
+        options: [
+            { label: "A", value: "cook", correct: true },
+            { label: "B", value: "cooks", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{You and I} ______ are good friends.",
+        options: [
+            { label: "A", value: "are", correct: true },
+            { label: "B", value: "am", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{He and you} ______ in the same class.",
+        options: [
+            { label: "A", value: "are", correct: true },
+            { label: "B", value: "is", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{My shoes} ______ under the chair.",
+        options: [
+            { label: "A", value: "is", correct: false },
+            { label: "B", value: "are", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{We} ______ a photograph in the park.",
+        options: [
+            { label: "A", value: "take", correct: true },
+            { label: "B", value: "takes", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The children} ______ a rest after running.",
+        options: [
+            { label: "A", value: "take", correct: true },
+            { label: "B", value: "takes", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{You} ______ your clothes on the bed.",
+        options: [
+            { label: "A", value: "put", correct: true },
+            { label: "B", value: "puts", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The lights} ______ on the wall.",
+        options: [
+            { label: "A", value: "are", correct: true },
+            { label: "B", value: "is", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    
+    {
+        text: "{My socks} ______ blue and white.",
+        options: [
+            { label: "A", value: "are", correct: true },
+            { label: "B", value: "is", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{They} ______ off their coats because it is hot.",
+        options: [
+            { label: "A", value: "take", correct: true },
+            { label: "B", value: "takes", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The windows} ______ big and clean.",
+        options: [
+            { label: "A", value: "are", correct: true },
+            { label: "B", value: "is", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{We} ______ a sandcastle on the beach.",
+        options: [
+            { label: "A", value: "make", correct: true },
+            { label: "B", value: "makes", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{This pair of trousers} ______ blue.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Two pairs of shorts} ______ on the bed.",
+        options: [
+            { label: "A", value: "is", correct: false },
+            { label: "B", value: "are", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{This pair of gloves} ______ soft.",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{A pair of shoes} ______ on the floor(地面).",
+        options: [
+            { label: "A", value: "is", correct: true },
+            { label: "B", value: "are", correct: false }
         ],
         difficulty: "陈述"
     },
@@ -749,6 +1324,30 @@ const sentenceBank = [
     },
     {
         text: "How ______ {Lucy} go home after school?",
+        options: [
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "How many legs ______ {the insect} have?",
+        options: [
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "What colour ______ {John} like best(最)?",
+        options: [
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "How many crayons（蜡笔） ______ {Emma} have in her box?",
         options: [
             { label: "A", value: "do", correct: false },
             { label: "B", value: "does", correct: true }
