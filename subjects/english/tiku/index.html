@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小升初题库</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>小升初题库 - 顺序练习 + 智能跳题</title>
     <style>
         :root {
             --primary-color: #5E35B1;
@@ -75,6 +75,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .type-selector {
@@ -82,29 +84,17 @@
             width: 150px;
         }
         
-
-                    .type-selector select {
-                        width: 100%;
-                        padding: 8px 12px;
-                        border: 1px solid var(--border-color);
-                        border-radius: 8px;
-                        background-color: white;
-                        font-size: 14px;
-                        appearance: none;
-                        -webkit-appearance: none;
-                        cursor: pointer;
-                    }
-                    
-                    .type-selector::after {
-                        content: "▼";
-                        font-size: 10px;
-                        color: var(--light-text);
-                        position: absolute;
-                        right: 10px;
-                        top: 50%;
-                        transform: translateY(-50%);
-                        pointer-events: none;
-                    }        
+        .type-selector select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: white;
+            font-size: 14px;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
         
         .type-selector::after {
             content: "▼";
@@ -117,6 +107,67 @@
             pointer-events: none;
         }
         
+        .jump-panel {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f9f9f9;
+            padding: 6px 12px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .jump-panel label {
+            font-size: 13px;
+            color: var(--light-text);
+            font-weight: 500;
+        }
+        
+        .jump-input {
+            width: 55px;
+            padding: 6px 4px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+        }
+        
+        .jump-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .jump-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .last-position {
+            background-color: #EDE7F6;
+            color: var(--primary-color);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        
+        .last-position:hover {
+            background-color: #D1C4E9;
+        }
+        
         .progress-container {
             display: flex;
             align-items: center;
@@ -125,6 +176,7 @@
         
         .progress-display {
             font-size: 14px;
+            font-weight: 500;
         }
         
         .progress-display .correct {
@@ -414,16 +466,15 @@
         }
         
         .wrong-answer-marker {
-    color: var(--error-color);
-    margin-right: 8px;
-}
+            color: var(--error-color);
+            margin-right: 8px;
+        }
 
-.correct-answer-marker {
-    color: var(--success-color);
-    margin-right: 8px;
-}
+        .correct-answer-marker {
+            color: var(--success-color);
+            margin-right: 8px;
+        }
 
-        
         .wrong-answer-marker::before {
             content: "✕";
             color: var(--error-color);
@@ -589,7 +640,6 @@
     <div class="container">
         <header>
             <h1>小升初题库</h1>
-            <p class="subtitle">专项练习 · 错题巩固</p>
         </header>
         
         <div id="practice-container">
@@ -600,6 +650,14 @@
                         <option value="fill">填空题</option>
                         <option value="transform">句型转换</option>
                     </select>
+                </div>
+                <!-- 跳题组件 + 上次位置 -->
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <div class="jump-panel">
+                        <label>跳至</label>
+                        <input type="number" id="jump-to-input" class="jump-input" min="1" value="1">
+                        <button id="jump-btn" class="jump-btn">Go</button>
+                    </div>
                 </div>
                 <div class="progress-container">
                     <div class="progress-display" id="question-counter">
@@ -651,722 +709,467 @@
     </div>
 
     <script>
-        // 全局变量
-let currentQuestionIndex = 0;
-let currentQuestions = [];
-let currentType = 'choice';
-let scoreData = {
-    total: 0,
-    correct: 0,
-    answered: 0
-};
-let userAnswers = {};
-let wrongQuestions = [];
-let markedQuestions = new Set();
-let selectedWrongQuestions = new Set();
-let allQuestions = [];
-let shuffledIndices = [];
-let currentShuffledIndex = 0;
-let isPracticingWrongQuestions = false;
-
-// DOM元素
-const questionContainer = document.getElementById('question-container');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const questionTypeSelect = document.getElementById('question-type');
-const questionCounter = document.getElementById('question-counter');
-const scoreDisplay = document.getElementById('score-display');
-const practiceContainer = document.getElementById('practice-container');
-const wrongQuestionsContainer = document.getElementById('wrong-questions-container');
-const wrongQuestionsList = document.getElementById('wrong-questions-list');
-const tabPractice = document.getElementById('tab-practice');
-const tabWrong = document.getElementById('tab-wrong');
-const selectAllBtn = document.getElementById('select-all-btn');
-const batchDeleteBtn = document.getElementById('batch-delete-btn');
-const batchPracticeBtn = document.getElementById('batch-practice-btn');
-const resetPracticeBtn = document.getElementById('reset-practice-btn');
-
-// 加载题目数据
-async function loadQuestions() {
-    try {
-        const response = await fetch('tiku.json');
-        const data = await response.json();
-        return data.questions;
-    } catch (error) {
-        console.error('加载题目失败:', error);
-        return [];
-    }
-}
-
-// 显示题目
-function displayQuestion(questions, index) {
-    if (questions.length === 0) {
-        questionContainer.innerHTML = '<div class="question-card"><p>暂无题目，请选择其他题型</p></div>';
-        updateProgress();
-        updateNavButtons();
-        return;
-    }
-    
-    if (isPracticingWrongQuestions && index >= questions.length) {
-        questionContainer.innerHTML = `
-            <div class="question-card completion-message">
-                <p>错题练习完成！</p>
-                <p>正确率: ${Math.round((scoreData.correct / scoreData.answered) * 100)}%</p>
-            </div>
-        `;
-        updateProgress();
-        updateNavButtons();
-        return;
-    }
-    
-    const question = questions[index];
-    questionContainer.innerHTML = '';
-    
-    const questionDiv = document.createElement('div');
-    questionDiv.className = 'question-card';
-    
-    // 错题练习模式下不显示收藏按钮
-    if (!isPracticingWrongQuestions) {
-        const starBtn = document.createElement('button');
-        starBtn.className = 'star-btn';
-        starBtn.classList.toggle('active', markedQuestions.has(question.id));
-        starBtn.addEventListener('click', () => {
-            toggleMarkQuestion(question);
-            starBtn.classList.toggle('active');
-        });
-        questionDiv.appendChild(starBtn);
-    }
-    
-    const questionNumber = document.createElement('div');
-    questionNumber.className = 'question-number';
-    questionNumber.textContent = currentShuffledIndex + 1;
-    questionDiv.appendChild(questionNumber);
-    
-    const questionText = document.createElement('div');
-    questionText.className = 'question-text';
-    questionText.textContent = question.question;
-    questionDiv.appendChild(questionText);
-    
-    if (question.type === 'choice') {
-        const optionsContainer = document.createElement('div');
-        optionsContainer.className = 'options-container';
+        // ---------- 全局变量 ----------
+        let currentQuestionIndex = 0;          // 当前原始顺序索引 (0~N-1)
+        let currentQuestions = [];              // 当前题型过滤后的原始顺序数组
+        let currentType = 'choice';
+        let scoreData = {
+            total: 0,
+            correct: 0,
+            answered: 0
+        };
+        let userAnswers = {};                   // key: 题目id, value: 用户答案字符串
+        let wrongQuestions = [];
+        let markedQuestions = new Set();
+        let selectedWrongQuestions = new Set();
+        let allQuestions = [];
+        let isPracticingWrongQuestions = false;
         
-        question.options.forEach((option, i) => {
-            const optionDiv = document.createElement('label');
-            optionDiv.className = 'option';
-            
-            const questionId = `${question.id}`;
-            if (userAnswers[questionId]) {
-                optionDiv.classList.add('answered');
-                const isCorrect = checkAnswer(userAnswers[questionId], question.answer);
-                
-                if (userAnswers[questionId] === option) {
-                    optionDiv.classList.add(isCorrect ? 'correct' : 'incorrect');
-                } else if (option === question.answer) {
-                    optionDiv.classList.add('correct');
+        // 新增: 记录上次做题位置(第几题，从1开始)
+        let lastPracticePosition = 1;            // 存储上次进度 (题目序号)
+        
+        // DOM 元素
+        const questionContainer = document.getElementById('question-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const questionTypeSelect = document.getElementById('question-type');
+        const questionCounter = document.getElementById('question-counter');
+        const scoreDisplay = document.getElementById('score-display');
+        const practiceContainer = document.getElementById('practice-container');
+        const wrongQuestionsContainer = document.getElementById('wrong-questions-container');
+        const wrongQuestionsList = document.getElementById('wrong-questions-list');
+        const tabPractice = document.getElementById('tab-practice');
+        const tabWrong = document.getElementById('tab-wrong');
+        const selectAllBtn = document.getElementById('select-all-btn');
+        const batchDeleteBtn = document.getElementById('batch-delete-btn');
+        const batchPracticeBtn = document.getElementById('batch-practice-btn');
+        const resetPracticeBtn = document.getElementById('reset-practice-btn');
+        const jumpToInput = document.getElementById('jump-to-input');
+        const jumpBtn = document.getElementById('jump-btn');
+        const lastPositionBtn = document.getElementById('last-position-btn');
+        const lastQuestionNumSpan = document.getElementById('last-question-num');
+        
+        // ---------- 辅助函数 ----------
+        function saveLastPosition() {
+            if (!isPracticingWrongQuestions && currentQuestions.length > 0) {
+                const currentSeq = currentQuestionIndex + 1; // 1-index
+                localStorage.setItem('lastPracticePosition', currentSeq);
+                localStorage.setItem('lastPracticeType', currentType);
+                lastPracticePosition = currentSeq;
+                updateLastPositionUI();
+            }
+        }
+        
+        function loadLastPosition() {
+            const savedPos = localStorage.getItem('lastPracticePosition');
+            const savedType = localStorage.getItem('lastPracticeType');
+            if (savedPos && !isNaN(parseInt(savedPos))) {
+                lastPracticePosition = parseInt(savedPos);
+                if (savedType && (savedType === 'choice' || savedType === 'fill' || savedType === 'transform')) {
+                    // 如果保存的题型与当前不一致，可以先不跳，但是UI显示上次位置
                 }
+                updateLastPositionUI();
+            } else {
+                lastPracticePosition = 1;
+                updateLastPositionUI();
             }
-            
-            const radio = document.createElement('input');
-            radio.type = 'radio';
-            radio.name = 'answer';
-            radio.value = option;
-            radio.disabled = !!userAnswers[questionId];
-            
-            if (userAnswers[questionId] === option) {
-                radio.checked = true;
-            }
-            
-            radio.addEventListener('change', function() {
-                handleAnswerSelection(option, question, index);
-            });
-            
-            const optionText = document.createElement('span');
-            optionText.textContent = option;
-            
-            optionDiv.appendChild(radio);
-            optionDiv.appendChild(optionText);
-            optionsContainer.appendChild(optionDiv);
-        });
-        
-        questionDiv.appendChild(optionsContainer);
-    } else {
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.className = 'fill-input';
-        input.placeholder = '请输入答案...';
-        input.disabled = !!userAnswers[`${question.id}`];
-        
-        const questionId = `${question.id}`;
-        if (userAnswers[questionId]) {
-            input.classList.add('answered');
-            const isCorrect = checkAnswer(userAnswers[questionId], question.answer);
-            input.value = userAnswers[questionId];
-            input.classList.add(isCorrect ? 'correct' : 'incorrect');
         }
         
-        input.addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') {
-                handleAnswerSelection(input.value, question, index);
+        function updateLastPositionUI() {
+            if (lastQuestionNumSpan) {
+                lastQuestionNumSpan.textContent = lastPracticePosition;
             }
-        });
-        
-        input.addEventListener('change', function() {
-            handleAnswerSelection(input.value, question, index);
-        });
-        
-        questionDiv.appendChild(input);
-    }
-    
-    if (question.explanation) {
-        const explanationDiv = document.createElement('div');
-        explanationDiv.className = 'explanation';
-        
-        const explanationTitle = document.createElement('div');
-        explanationTitle.className = 'explanation-title';
-        explanationTitle.textContent = 'AI解析';
-        
-        const explanationContent = document.createElement('div');
-        explanationContent.textContent = question.explanation;
-        
-        explanationDiv.appendChild(explanationTitle);
-        explanationDiv.appendChild(explanationContent);
-        
-        const questionId = `${question.id}`;
-        if (userAnswers[questionId]) {
-            explanationDiv.style.display = 'block';
         }
         
-        questionDiv.appendChild(explanationDiv);
-    }
-    
-    questionContainer.appendChild(questionDiv);
-    updateProgress();
-    updateNavButtons();
-}
-
-// 处理答案选择
-function handleAnswerSelection(userAnswer, question, index) {
-    const questionId = `${question.id}`;
-    
-    if (userAnswers[questionId]) return;
-    
-    userAnswers[questionId] = userAnswer;
-    scoreData.answered++;
-    
-    const isCorrect = checkAnswer(userAnswer, question.answer);
-    if (isCorrect) {
-        scoreData.correct++;
-    } else {
-        // 答错时自动加入错题本，记录用户错误答案
-        const isDuplicate = wrongQuestions.some(q => 
-            q.id === question.id || (
-                q.question === question.question && 
-                JSON.stringify(q.options) === JSON.stringify(question.options) &&
-                q.correctAnswer === question.answer
-            )
-        );
+        // 跳转到指定题号 (1-index)
+        function jumpToQuestion(seq) {
+            if (isPracticingWrongQuestions) return;
+            if (!currentQuestions.length) return;
+            let targetIndex = Math.min(Math.max(1, seq), currentQuestions.length) - 1;
+            if (currentQuestionIndex !== targetIndex) {
+                currentQuestionIndex = targetIndex;
+                displayQuestion(currentQuestions, currentQuestionIndex);
+                updateNavButtons();
+                updateJumpInputPlaceholder();
+                saveLastPosition();   // 跳转后也保存最新位置
+            } else {
+                // 同一题刷新一下显示（但没必要）
+                displayQuestion(currentQuestions, currentQuestionIndex);
+            }
+        }
         
-        if (!isDuplicate) {
-            wrongQuestions.push({
-                id: question.id,
-                type: question.type,
-                question: question.question,
-                options: question.options || [],
-                userAnswer: userAnswer, // 记录用户错误答案
-                correctAnswer: question.answer,
-                explanation: question.explanation
-            });
+        function updateJumpInputPlaceholder() {
+            if (jumpToInput) {
+                jumpToInput.value = currentQuestionIndex + 1;
+                jumpToInput.max = currentQuestions.length;
+            }
+        }
+        
+        // 加载题目数据 (同原逻辑)
+        async function loadQuestions() {
+            try {
+                const response = await fetch('tiku.json');
+                const data = await response.json();
+                return data.questions;
+            } catch (error) {
+                console.error('加载题目失败:', error);
+                return [];
+            }
+        }
+        
+        // 检查答案
+        function checkAnswer(userAnswer, correctAnswer) {
+            if (!userAnswer) return false;
+            if (Array.isArray(correctAnswer)) {
+                return correctAnswer.includes(userAnswer.trim());
+            }
+            return userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase();
+        }
+        
+        function saveWrongQuestions() {
+            localStorage.setItem('wrongQuestions', JSON.stringify(wrongQuestions));
+        }
+        
+        function loadWrongQuestions() {
+            const saved = localStorage.getItem('wrongQuestions');
+            if (saved) {
+                const loadedQuestions = JSON.parse(saved);
+                const uniqueQuestions = [];
+                const seen = new Set();
+                loadedQuestions.forEach(q => {
+                    const key = `${q.id}_${q.question}_${JSON.stringify(q.options)}_${q.correctAnswer}`;
+                    if (!seen.has(key)) {
+                        seen.add(key);
+                        uniqueQuestions.push(q);
+                    }
+                });
+                wrongQuestions = uniqueQuestions;
+                saveWrongQuestions();
+            }
+            renderWrongQuestions();
+        }
+        
+        function saveMarkedQuestions() {
+            localStorage.setItem('markedQuestions', JSON.stringify(Array.from(markedQuestions)));
+        }
+        
+        function loadMarkedQuestions() {
+            const saved = localStorage.getItem('markedQuestions');
+            if (saved) {
+                markedQuestions = new Set(JSON.parse(saved));
+            }
+        }
+        
+        function removeFromWrongQuestions(questionId) {
+            wrongQuestions = wrongQuestions.filter(q => q.id !== questionId);
             saveWrongQuestions();
         }
-    }
-    
-    displayQuestion(currentQuestions, currentQuestionIndex);
-    updateScore();
-}
-
-
-// 检查答案
-function checkAnswer(userAnswer, correctAnswer) {
-    if (!userAnswer) return false;
-    
-    if (Array.isArray(correctAnswer)) {
-        return correctAnswer.includes(userAnswer.trim());
-    }
-    return userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase();
-}
-
-// 保存错题到本地存储
-function saveWrongQuestions() {
-    localStorage.setItem('wrongQuestions', JSON.stringify(wrongQuestions));
-}
-
-function loadWrongQuestions() {
-    const saved = localStorage.getItem('wrongQuestions');
-    if (saved) {
-        const loadedQuestions = JSON.parse(saved);
         
-        // 使用Set去重
-        const uniqueQuestions = [];
-        const seen = new Set();
-        
-        loadedQuestions.forEach(q => {
-            const key = `${q.id}_${q.question}_${JSON.stringify(q.options)}_${q.correctAnswer}`;
-            if (!seen.has(key)) {
-                seen.add(key);
-                uniqueQuestions.push(q);
-            }
-        });
-        
-        wrongQuestions = uniqueQuestions;
-        saveWrongQuestions();
-    }
-    renderWrongQuestions();
-}
-
-function toggleMarkQuestion(question) {
-    if (markedQuestions.has(question.id)) {
-        // 从错题本移除
-        markedQuestions.delete(question.id);
-        removeFromWrongQuestions(question.id);
-    } else {
-        // 添加到错题本
-        markedQuestions.add(question.id);
-        addToWrongQuestions(question, userAnswers[`${question.id}`] || null);
-    }
-    saveMarkedQuestions();
-}
-
-// 保存标记题目
-function saveMarkedQuestions() {
-    localStorage.setItem('markedQuestions', JSON.stringify(Array.from(markedQuestions)));
-}
-
-function addToWrongQuestions(question, userAnswer) {
-    const exists = wrongQuestions.some(q => q.id === question.id);
-    if (!exists) {
-        wrongQuestions.push({
-            id: question.id,
-            type: question.type,
-            question: question.question,
-            options: question.options || [],
-            userAnswer: userAnswer, // 记录用户答案（可能是null）
-            correctAnswer: question.answer,
-            explanation: question.explanation
-        });
-        saveWrongQuestions();
-    }
-}
-
-// 加载标记题目
-function loadMarkedQuestions() {
-    const saved = localStorage.getItem('markedQuestions');
-    if (saved) {
-        markedQuestions = new Set(JSON.parse(saved));
-    }
-}
-
-// 从错题本移除
-function removeFromWrongQuestions(questionId) {
-    wrongQuestions = wrongQuestions.filter(q => q.id !== questionId);
-    saveWrongQuestions();
-}
-
-// 随机打乱题目顺序
-function shuffleQuestions(questions) {
-    const indices = Array.from({length: questions.length}, (_, i) => i);
-    for (let i = indices.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [indices[i], indices[j]] = [indices[j], indices[i]];
-    }
-    return indices;
-}
-
-function renderWrongQuestions() {
-    wrongQuestionsList.innerHTML = '';
-    selectedWrongQuestions.clear();
-    updateBatchActions();
-    
-    if (wrongQuestions.length === 0) {
-        wrongQuestionsList.innerHTML = `
-            <div class="empty-message">
-                <p>暂无错题记录</p>
-                <p>答错的题目会自动加入错题本</p>
-            </div>
-        `;
-        return;
-    }
-    
-    wrongQuestions.forEach((question, index) => {
-        const item = document.createElement('div');
-        item.className = 'wrong-question-item';
-        
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'wrong-question-checkbox';
-        checkbox.dataset.id = question.id;
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                selectedWrongQuestions.add(question.id);
+        function toggleMarkQuestion(question) {
+            if (markedQuestions.has(question.id)) {
+                markedQuestions.delete(question.id);
+                removeFromWrongQuestions(question.id);
             } else {
-                selectedWrongQuestions.delete(question.id);
-            }
-            updateBatchActions();
-        });
-        item.appendChild(checkbox);
-        
-        const content = document.createElement('div');
-        content.className = 'wrong-question-content';
-        
-        // 题目编号和题目内容
-        const header = document.createElement('div');
-        header.style.display = 'flex';
-        header.style.alignItems = 'center';
-        header.style.marginBottom = '12px';
-        
-        const number = document.createElement('div');
-        number.className = 'wrong-question-number';
-        number.textContent = index + 1;
-        header.appendChild(number);
-        
-        const text = document.createElement('div');
-        text.className = 'question-text';
-        text.textContent = question.question;
-        header.appendChild(text);
-        
-        content.appendChild(header);
-        
-        // 选择题显示选项
-        if (question.type === 'choice') {
-            question.options.forEach(option => {
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'wrong-question-option';
-                
-                if (option === question.userAnswer) {
-                    optionDiv.classList.add('user-answer');
-                    const marker = document.createElement('span');
-                    marker.className = 'wrong-answer-marker';
-                    optionDiv.insertBefore(marker, optionDiv.firstChild);
-                } 
-                else if (option === question.correctAnswer) {
-                    optionDiv.classList.add('correct-answer');
-                    const marker = document.createElement('span');
-                    marker.className = 'correct-answer-marker';
-                    optionDiv.insertBefore(marker, optionDiv.firstChild);
+                markedQuestions.add(question.id);
+                const userAns = userAnswers[`${question.id}`] || null;
+                const exists = wrongQuestions.some(q => q.id === question.id);
+                if (!exists) {
+                    wrongQuestions.push({
+                        id: question.id,
+                        type: question.type,
+                        question: question.question,
+                        options: question.options || [],
+                        userAnswer: userAns,
+                        correctAnswer: question.answer,
+                        explanation: question.explanation
+                    });
+                    saveWrongQuestions();
                 }
-                
-                const optionText = document.createElement('span');
-                optionText.textContent = option;
-                optionDiv.appendChild(optionText);
-                
-                content.appendChild(optionDiv);
-            });
-        } 
-        // 填空题显示
-        else {
-            if (question.userAnswer && question.userAnswer !== question.correctAnswer) {
-                const userAnswerDiv = document.createElement('div');
-                userAnswerDiv.className = 'wrong-question-option user-answer';
-                const marker = document.createElement('span');
-                marker.className = 'wrong-answer-marker';
-                marker.textContent = '×';
-                userAnswerDiv.appendChild(marker);
-                userAnswerDiv.appendChild(document.createTextNode(`你的答案: ${question.userAnswer}`));
-                content.appendChild(userAnswerDiv);
+            }
+            saveMarkedQuestions();
+            renderWrongQuestions();
+        }
+        
+        function handleAnswerSelection(userAnswer, question, index) {
+            const questionId = `${question.id}`;
+            if (userAnswers[questionId]) return;
+            userAnswers[questionId] = userAnswer;
+            scoreData.answered++;
+            const isCorrect = checkAnswer(userAnswer, question.answer);
+            if (isCorrect) {
+                scoreData.correct++;
+            } else {
+                const isDuplicate = wrongQuestions.some(q => q.id === question.id);
+                if (!isDuplicate) {
+                    wrongQuestions.push({
+                        id: question.id,
+                        type: question.type,
+                        question: question.question,
+                        options: question.options || [],
+                        userAnswer: userAnswer,
+                        correctAnswer: question.answer,
+                        explanation: question.explanation
+                    });
+                    saveWrongQuestions();
+                    renderWrongQuestions();
+                }
+            }
+            displayQuestion(currentQuestions, currentQuestionIndex);
+            updateScore();
+            saveLastPosition();   // 作答后保存进度
+        }
+        
+        function displayQuestion(questions, idx) {
+            if (questions.length === 0) {
+                questionContainer.innerHTML = '<div class="question-card"><p>暂无题目，请选择其他题型</p></div>';
+                updateProgress();
+                updateNavButtons();
+                return;
+            }
+            const question = questions[idx];
+            questionContainer.innerHTML = '';
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-card';
+            if (!isPracticingWrongQuestions) {
+                const starBtn = document.createElement('button');
+                starBtn.className = 'star-btn';
+                starBtn.classList.toggle('active', markedQuestions.has(question.id));
+                starBtn.addEventListener('click', () => {
+                    toggleMarkQuestion(question);
+                    starBtn.classList.toggle('active');
+                    renderWrongQuestions();
+                });
+                questionDiv.appendChild(starBtn);
+            }
+            const questionNumber = document.createElement('div');
+            questionNumber.className = 'question-number';
+            questionNumber.textContent = (idx + 1);
+            questionDiv.appendChild(questionNumber);
+            const questionText = document.createElement('div');
+            questionText.className = 'question-text';
+            questionText.textContent = question.question;
+            questionDiv.appendChild(questionText);
+            
+            if (question.type === 'choice') {
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container';
+                question.options.forEach(option => {
+                    const optionDiv = document.createElement('label');
+                    optionDiv.className = 'option';
+                    const qId = `${question.id}`;
+                    if (userAnswers[qId]) {
+                        optionDiv.classList.add('answered');
+                        const isCorrect = checkAnswer(userAnswers[qId], question.answer);
+                        if (userAnswers[qId] === option) {
+                            optionDiv.classList.add(isCorrect ? 'correct' : 'incorrect');
+                        } else if (option === question.answer) {
+                            optionDiv.classList.add('correct');
+                        }
+                    }
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = 'answer';
+                    radio.value = option;
+                    radio.disabled = !!userAnswers[qId];
+                    if (userAnswers[qId] === option) radio.checked = true;
+                    radio.addEventListener('change', () => handleAnswerSelection(option, question, idx));
+                    const optionText = document.createElement('span');
+                    optionText.textContent = option;
+                    optionDiv.appendChild(radio);
+                    optionDiv.appendChild(optionText);
+                    optionsContainer.appendChild(optionDiv);
+                });
+                questionDiv.appendChild(optionsContainer);
+            } else {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'fill-input';
+                input.placeholder = '请输入答案...';
+                const qId = `${question.id}`;
+                input.disabled = !!userAnswers[qId];
+                if (userAnswers[qId]) {
+                    const isCorrect = checkAnswer(userAnswers[qId], question.answer);
+                    input.value = userAnswers[qId];
+                    input.classList.add('answered', isCorrect ? 'correct' : 'incorrect');
+                }
+                input.addEventListener('keyup', (e) => { if(e.key === 'Enter') handleAnswerSelection(input.value, question, idx); });
+                input.addEventListener('change', () => handleAnswerSelection(input.value, question, idx));
+                questionDiv.appendChild(input);
             }
             
-            const correctAnswerDiv = document.createElement('div');
-            correctAnswerDiv.className = 'wrong-question-option correct-answer';
-            const marker = document.createElement('span');
-            marker.className = 'correct-answer-marker';
-            marker.textContent = '✓';
-            correctAnswerDiv.appendChild(marker);
-            correctAnswerDiv.appendChild(document.createTextNode(`正确答案: ${question.correctAnswer}`));
-            content.appendChild(correctAnswerDiv);
-        }
-        
-        // 显示解析（关键修改点）
-        if (question.explanation) {
-            const explanationDiv = document.createElement('div');
-            explanationDiv.className = 'explanation';
-            explanationDiv.style.display = 'block'; // 强制显示解析
-            
-            const explanationTitle = document.createElement('div');
-            explanationTitle.className = 'explanation-title';
-            explanationTitle.textContent = 'AI解析';
-            
-            const explanationContent = document.createElement('div');
-            explanationContent.textContent = question.explanation;
-            
-            explanationDiv.appendChild(explanationTitle);
-            explanationDiv.appendChild(explanationContent);
-            content.appendChild(explanationDiv);
-        }
-        
-        item.appendChild(content);
-        wrongQuestionsList.appendChild(item);
-    });
-}
-
-
-// 更新批量操作按钮状态
-function updateBatchActions() {
-    batchDeleteBtn.disabled = selectedWrongQuestions.size === 0;
-    batchPracticeBtn.disabled = selectedWrongQuestions.size === 0;
-    
-    if (selectedWrongQuestions.size === wrongQuestions.length) {
-        selectAllBtn.textContent = '取消全选';
-    } else {
-        selectAllBtn.textContent = '全选';
-    }
-}
-
-// 删除选中的错题
-function deleteSelectedQuestions() {
-    if (selectedWrongQuestions.size === 0) return;
-    
-    wrongQuestions = wrongQuestions.filter(q => !selectedWrongQuestions.has(q.id));
-    selectedWrongQuestions.forEach(id => markedQuestions.delete(id));
-    selectedWrongQuestions.clear();
-    saveWrongQuestions();
-    saveMarkedQuestions();
-    renderWrongQuestions();
-}
-
-// 批量练习选中的错题
-function batchPracticeSelectedQuestions() {
-    if (selectedWrongQuestions.size === 0) return;
-    
-    switchTab('practice');
-    isPracticingWrongQuestions = true;
-    resetPracticeBtn.style.display = 'block';
-    
-    const selectedQuestions = wrongQuestions
-        .filter(q => selectedWrongQuestions.has(q.id))
-        .map(q => ({
-            id: 'temp_' + q.id,
-            type: q.type,
-            question: q.question,
-            options: [...q.options] || [],
-            answer: q.correctAnswer,
-            explanation: q.explanation
-        }));
-    
-    if (selectedQuestions.length > 0) {
-        currentQuestions = [...selectedQuestions];
-        shuffledIndices = shuffleQuestions(currentQuestions);
-        currentShuffledIndex = 0;
-        currentQuestionIndex = shuffledIndices[currentShuffledIndex];
-        
-        scoreData = {
-            total: selectedQuestions.length,
-            correct: 0,
-            answered: 0
-        };
-        
-        userAnswers = {};
-        
-        displayQuestion(currentQuestions, currentQuestionIndex);
-        updateNavButtons();
-        updateScore();
-    }
-}
-
-// 重置到正常练习模式
-function resetToNormalPractice() {
-    isPracticingWrongQuestions = false;
-    resetPracticeBtn.style.display = 'none';
-    
-    currentType = questionTypeSelect.value;
-    currentQuestions = allQuestions.filter(q => q.type === currentType);
-    shuffledIndices = shuffleQuestions(currentQuestions);
-    currentShuffledIndex = 0;
-    currentQuestionIndex = shuffledIndices[currentShuffledIndex];
-    
-    scoreData = {
-        total: currentQuestions.length,
-        correct: 0,
-        answered: 0
-    };
-    
-    userAnswers = {};
-    
-    displayQuestion(currentQuestions, currentQuestionIndex);
-    updateNavButtons();
-    updateScore();
-}
-
-// 全选/取消全选
-function toggleSelectAll() {
-    const checkboxes = document.querySelectorAll('.wrong-question-checkbox');
-    
-    if (selectedWrongQuestions.size === wrongQuestions.length) {
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-        selectedWrongQuestions.clear();
-    } else {
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = true;
-            selectedWrongQuestions.add(checkbox.dataset.id);
-        });
-    }
-    
-    updateBatchActions();
-}
-
-// 更新进度条
-function updateProgress() {
-    if (currentQuestions.length === 0) {
-        questionCounter.textContent = '0/0';
-        return;
-    }
-    
-    if (isPracticingWrongQuestions) {
-        questionCounter.innerHTML = `
-            <span class="correct">${scoreData.correct}</span>/${scoreData.total}
-            <span class="wrong-mode">(错题练习)</span>
-        `;
-        questionCounter.classList.add('wrong-mode');
-    } else {
-        const total = shuffledIndices.length;
-        const current = currentShuffledIndex + 1;
-        
-        questionCounter.innerHTML = `
-            <span class="correct">${scoreData.correct}</span>/${total}
-        `;
-        questionCounter.classList.remove('wrong-mode');
-    }
-}
-
-// 更新分数显示
-function updateScore() {
-    if (scoreData.answered === 0) {
-        scoreDisplay.textContent = '正确率: 0%';
-        return;
-    }
-    
-    const percentage = Math.round((scoreData.correct / scoreData.answered) * 100);
-    scoreDisplay.textContent = `正确率: ${percentage}%`;
-}
-
-// 更新导航按钮状态
-function updateNavButtons() {
-    prevBtn.disabled = currentShuffledIndex === 0;
-    
-    if (isPracticingWrongQuestions && currentShuffledIndex >= shuffledIndices.length - 1) {
-        nextBtn.textContent = '查看成绩';
-        nextBtn.disabled = false;
-    } else {
-        nextBtn.textContent = '下一题';
-        nextBtn.disabled = currentShuffledIndex >= shuffledIndices.length - 1;
-    }
-}
-
-// 切换标签页
-function switchTab(tab) {
-    if (tab === 'practice') {
-        practiceContainer.style.display = 'block';
-        wrongQuestionsContainer.style.display = 'none';
-        tabPractice.classList.add('active');
-        tabWrong.classList.remove('active');
-    } else {
-        practiceContainer.style.display = 'none';
-        wrongQuestionsContainer.style.display = 'block';
-        tabPractice.classList.remove('active');
-        tabWrong.classList.add('active');
-        renderWrongQuestions();
-    }
-}
-
-// 初始化
-async function init() {
-    allQuestions = await loadQuestions();
-    loadWrongQuestions();
-    loadMarkedQuestions();
-    
-    questionTypeSelect.addEventListener('change', () => {
-        currentType = questionTypeSelect.value;
-        currentQuestions = allQuestions.filter(q => q.type === currentType);
-        shuffledIndices = shuffleQuestions(currentQuestions);
-        currentShuffledIndex = 0;
-        currentQuestionIndex = shuffledIndices[currentShuffledIndex];
-        
-        scoreData = {
-            total: currentQuestions.length,
-            correct: 0,
-            answered: 0
-        };
-        
-        userAnswers = {};
-        
-        displayQuestion(currentQuestions, currentQuestionIndex);
-        updateNavButtons();
-        updateScore();
-    });
-    
-    prevBtn.addEventListener('click', () => {
-        if (currentShuffledIndex > 0) {
-            currentShuffledIndex--;
-            currentQuestionIndex = shuffledIndices[currentShuffledIndex];
-            displayQuestion(currentQuestions, currentQuestionIndex);
-            updateNavButtons();
-        }
-    });
-    
-    nextBtn.addEventListener('click', () => {
-        if (isPracticingWrongQuestions && currentShuffledIndex >= shuffledIndices.length - 1) {
-            questionContainer.innerHTML = `
-                <div class="question-card completion-message">
-                    <p>错题练习完成！</p>
-                    <p>正确率: ${Math.round((scoreData.correct / scoreData.answered) * 100)}%</p>
-                </div>
-            `;
+            if (question.explanation) {
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'explanation';
+                explanationDiv.innerHTML = `<div class="explanation-title">AI解析</div><div>${question.explanation}</div>`;
+                if (userAnswers[`${question.id}`]) explanationDiv.style.display = 'block';
+                questionDiv.appendChild(explanationDiv);
+            }
+            questionContainer.appendChild(questionDiv);
             updateProgress();
-        } else if (currentShuffledIndex < shuffledIndices.length - 1) {
-            currentShuffledIndex++;
-            currentQuestionIndex = shuffledIndices[currentShuffledIndex];
+            updateNavButtons();
+            updateJumpInputPlaceholder();
+        }
+        
+        function updateProgress() {
+            if (currentQuestions.length === 0) {
+                questionCounter.textContent = '0/0';
+                return;
+            }
+            if (isPracticingWrongQuestions) {
+                questionCounter.innerHTML = `<span class="correct">${scoreData.correct}</span>/${scoreData.total}<span class="wrong-mode">(错题练习)</span>`;
+            } else {
+                const total = currentQuestions.length;
+                questionCounter.innerHTML = `<span class="correct">${scoreData.correct}</span>/${total}`;
+            }
+        }
+        
+        function updateScore() {
+            if (scoreData.answered === 0) scoreDisplay.textContent = '正确率: 0%';
+            else scoreDisplay.textContent = `正确率: ${Math.round((scoreData.correct / scoreData.answered) * 100)}%`;
+        }
+        
+        function updateNavButtons() {
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.disabled = currentQuestionIndex >= currentQuestions.length - 1;
+            if (nextBtn.disabled && !isPracticingWrongQuestions) nextBtn.textContent = '完成';
+            else if (!isPracticingWrongQuestions) nextBtn.textContent = '下一题';
+        }
+        
+        function resetNormalMode() {
+            isPracticingWrongQuestions = false;
+            resetPracticeBtn.style.display = 'none';
+            currentType = questionTypeSelect.value;
+            currentQuestions = allQuestions.filter(q => q.type === currentType);
+            // 正常顺序模式: 不使用shuffle, 直接原顺序
+            scoreData = {
+                total: currentQuestions.length,
+                correct: 0,
+                answered: 0
+            };
+            userAnswers = {};
+            // 尝试恢复上次保存的进度
+            let startSeq = lastPracticePosition;
+            if (startSeq > currentQuestions.length) startSeq = 1;
+            currentQuestionIndex = Math.max(0, startSeq - 1);
             displayQuestion(currentQuestions, currentQuestionIndex);
             updateNavButtons();
+            updateScore();
+            saveLastPosition();
         }
-    });
-    
-    tabPractice.addEventListener('click', (e) => {
-        e.preventDefault();
-        switchTab('practice');
-    });
-    
-    tabWrong.addEventListener('click', (e) => {
-        e.preventDefault();
-        switchTab('wrong');
-    });
-    
-    selectAllBtn.addEventListener('click', toggleSelectAll);
-    batchDeleteBtn.addEventListener('click', deleteSelectedQuestions);
-    batchPracticeBtn.addEventListener('click', batchPracticeSelectedQuestions);
-    
-    resetPracticeBtn.addEventListener('click', resetToNormalPractice);
-    
-    currentType = 'choice';
-    currentQuestions = allQuestions.filter(q => q.type === currentType);
-    shuffledIndices = shuffleQuestions(currentQuestions);
-    currentShuffledIndex = 0;
-    currentQuestionIndex = shuffledIndices[currentShuffledIndex];
-    
-    scoreData = {
-        total: currentQuestions.length,
-        correct: 0,
-        answered: 0
-    };
-    
-    displayQuestion(currentQuestions, currentQuestionIndex);
-    updateNavButtons();
-    
-    switchTab('practice');
-}
-
-// 启动应用
-init();
+        
+        function renderWrongQuestions() { /* 同原逻辑，保持解析显示 */ 
+            wrongQuestionsList.innerHTML = '';
+            selectedWrongQuestions.clear();
+            updateBatchActions();
+            if (wrongQuestions.length === 0) {
+                wrongQuestionsList.innerHTML = `<div class="empty-message"><p>暂无错题记录</p><p>答错的题目会自动加入错题本</p></div>`;
+                return;
+            }
+            wrongQuestions.forEach((question, idx) => {
+                const item = document.createElement('div');
+                item.className = 'wrong-question-item';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'wrong-question-checkbox';
+                checkbox.dataset.id = question.id;
+                checkbox.addEventListener('change', function() { this.checked ? selectedWrongQuestions.add(question.id) : selectedWrongQuestions.delete(question.id); updateBatchActions(); });
+                item.appendChild(checkbox);
+                const content = document.createElement('div');
+                content.className = 'wrong-question-content';
+                const header = document.createElement('div');
+                header.style.display = 'flex';
+                header.style.alignItems = 'center';
+                header.style.marginBottom = '12px';
+                const number = document.createElement('div');
+                number.className = 'wrong-question-number';
+                number.textContent = idx + 1;
+                header.appendChild(number);
+                const text = document.createElement('div');
+                text.className = 'question-text';
+                text.textContent = question.question;
+                header.appendChild(text);
+                content.appendChild(header);
+                if (question.type === 'choice') {
+                    question.options.forEach(option => {
+                        const optionDiv = document.createElement('div');
+                        optionDiv.className = 'wrong-question-option';
+                        if (option === question.userAnswer) optionDiv.classList.add('user-answer');
+                        else if (option === question.correctAnswer) optionDiv.classList.add('correct-answer');
+                        optionDiv.innerHTML = `<span>${option}</span>`;
+                        if (option === question.userAnswer) optionDiv.innerHTML = '<span class="wrong-answer-marker">✕</span>' + optionDiv.innerHTML;
+                        if (option === question.correctAnswer && option !== question.userAnswer) optionDiv.innerHTML = '<span class="correct-answer-marker">✓</span>' + optionDiv.innerHTML;
+                        content.appendChild(optionDiv);
+                    });
+                } else {
+                    if(question.userAnswer && question.userAnswer !== question.correctAnswer) content.appendChild(createAnswerDiv('你的答案: ' + question.userAnswer, 'user-answer'));
+                    content.appendChild(createAnswerDiv('正确答案: ' + question.correctAnswer, 'correct-answer'));
+                }
+                if (question.explanation) {
+                    const expDiv = document.createElement('div');
+                    expDiv.className = 'explanation';
+                    expDiv.style.display = 'block';
+                    expDiv.innerHTML = `<div class="explanation-title">AI解析</div><div>${question.explanation}</div>`;
+                    content.appendChild(expDiv);
+                }
+                item.appendChild(content);
+                wrongQuestionsList.appendChild(item);
+            });
+        }
+        
+        function createAnswerDiv(text, cls) {
+            const div = document.createElement('div');
+            div.className = `wrong-question-option ${cls}`;
+            div.innerHTML = `<span>${text}</span>`;
+            return div;
+        }
+        
+        function updateBatchActions() { batchDeleteBtn.disabled = selectedWrongQuestions.size === 0; batchPracticeBtn.disabled = selectedWrongQuestions.size === 0; selectAllBtn.textContent = selectedWrongQuestions.size === wrongQuestions.length ? '取消全选' : '全选'; }
+        function deleteSelectedQuestions() { wrongQuestions = wrongQuestions.filter(q => !selectedWrongQuestions.has(q.id)); selectedWrongQuestions.clear(); saveWrongQuestions(); renderWrongQuestions(); }
+        function batchPracticeSelectedQuestions() { if(selectedWrongQuestions.size===0) return; switchTab('practice'); isPracticingWrongQuestions = true; resetPracticeBtn.style.display = 'block'; const selected = wrongQuestions.filter(q=>selectedWrongQuestions.has(q.id)).map(q=>({id:'temp_'+q.id, type:q.type, question:q.question, options:[...q.options]||[], answer:q.correctAnswer, explanation:q.explanation})); currentQuestions = selected; scoreData = {total: selected.length, correct:0, answered:0}; userAnswers = {}; currentQuestionIndex = 0; displayQuestion(currentQuestions,0); updateNavButtons(); updateScore(); saveLastPosition(); }
+        function toggleSelectAll() { const checkboxes = document.querySelectorAll('.wrong-question-checkbox'); if(selectedWrongQuestions.size === wrongQuestions.length) { checkboxes.forEach(cb=>cb.checked=false); selectedWrongQuestions.clear(); } else { checkboxes.forEach(cb=>{cb.checked=true; selectedWrongQuestions.add(cb.dataset.id);}); } updateBatchActions(); }
+        function switchTab(tab) { if(tab === 'practice') { practiceContainer.style.display = 'block'; wrongQuestionsContainer.style.display = 'none'; tabPractice.classList.add('active'); tabWrong.classList.remove('active'); if(!isPracticingWrongQuestions && currentQuestions.length) updateJumpInputPlaceholder(); } else { practiceContainer.style.display = 'none'; wrongQuestionsContainer.style.display = 'block'; tabWrong.classList.add('active'); tabPractice.classList.remove('active'); renderWrongQuestions(); } }
+        
+        // 初始化和事件绑定
+        async function init() {
+            allQuestions = await loadQuestions();
+            loadWrongQuestions();
+            loadMarkedQuestions();
+            loadLastPosition();
+            currentType = 'choice';
+            currentQuestions = allQuestions.filter(q => q.type === currentType);
+            scoreData = { total: currentQuestions.length, correct: 0, answered: 0 };
+            userAnswers = {};
+            let startIdx = Math.min(Math.max(1, lastPracticePosition), currentQuestions.length) - 1;
+            currentQuestionIndex = startIdx;
+            displayQuestion(currentQuestions, currentQuestionIndex);
+            updateNavButtons();
+            
+            questionTypeSelect.addEventListener('change', () => {
+                if(isPracticingWrongQuestions) resetToNormalPractice();
+                currentType = questionTypeSelect.value;
+                currentQuestions = allQuestions.filter(q => q.type === currentType);
+                scoreData = { total: currentQuestions.length, correct: 0, answered: 0 };
+                userAnswers = {};
+                let savedIdx = Math.min(Math.max(1, lastPracticePosition), currentQuestions.length) - 1;
+                currentQuestionIndex = savedIdx;
+                displayQuestion(currentQuestions, currentQuestionIndex);
+                updateNavButtons();
+                updateScore();
+                saveLastPosition();
+            });
+            prevBtn.addEventListener('click', () => { if(currentQuestionIndex>0){ currentQuestionIndex--; displayQuestion(currentQuestions, currentQuestionIndex); updateNavButtons(); saveLastPosition(); } });
+            nextBtn.addEventListener('click', () => { if(currentQuestionIndex < currentQuestions.length-1){ currentQuestionIndex++; displayQuestion(currentQuestions, currentQuestionIndex); updateNavButtons(); saveLastPosition(); } });
+            tabPractice.addEventListener('click', (e) => { e.preventDefault(); switchTab('practice'); });
+            tabWrong.addEventListener('click', (e) => { e.preventDefault(); switchTab('wrong'); });
+            selectAllBtn.addEventListener('click', toggleSelectAll);
+            batchDeleteBtn.addEventListener('click', deleteSelectedQuestions);
+            batchPracticeBtn.addEventListener('click', batchPracticeSelectedQuestions);
+            resetPracticeBtn.addEventListener('click', resetNormalMode);
+            jumpBtn.addEventListener('click', () => { let val = parseInt(jumpToInput.value); if(!isNaN(val)) jumpToQuestion(val); });
+            lastPositionBtn.addEventListener('click', () => { if(!isPracticingWrongQuestions) jumpToQuestion(lastPracticePosition); });
+        }
+        function resetToNormalPractice() { resetNormalMode(); }
+        init();
     </script>
 </body>
 </html>
