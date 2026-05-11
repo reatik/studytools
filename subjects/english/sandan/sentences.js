@@ -236,7 +236,7 @@ const sentenceBank = [
         difficulty: "陈述"
     },
     {
-        text: "{The zebra} ______ black and white stripes.",
+        text: "{The zebra} ______ black and white stripes（条纹）.",
         options: [
             { label: "A", value: "has", correct: true },
             { label: "B", value: "have", correct: false }
@@ -644,6 +644,71 @@ const sentenceBank = [
         ],
         difficulty: "陈述"
     },
+    {
+        text: "The rabbit can ______ very fast.",
+        options: [
+            { label: "A", value: "run", correct: true },
+            { label: "B", value: "runs", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+
+    {
+        text: "The fish can ______ in the river.",
+        options: [
+            { label: "A", value: "swim", correct: true },
+            { label: "B", value: "swims", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "Miss Li can ______ English songs.",
+        options: [
+            { label: "A", value: "sing", correct: true },
+            { label: "B", value: "sings", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "The cat can ______ up the tree.",
+        options: [
+            { label: "A", value: "climb", correct: true },
+            { label: "B", value: "climbs", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "We can ______ pictures in the park.",
+        options: [
+            { label: "A", value: "draw", correct: true },
+            { label: "B", value: "draws", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "My father can ______ a car.",
+        options: [
+            { label: "A", value: "drive", correct: true },
+            { label: "B", value: "drives", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "The boy can ______ a kite.",
+        options: [
+            { label: "A", value: "fly", correct: true },
+            { label: "B", value: "flies", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "They can ______ on the ice.",
+        options: [
+            { label: "A", value: "skate", correct: true },
+            { label: "B", value: "skates", correct: false }
+        ],
+        difficulty: "陈述"
+    },
 
     // ===== 否定句 =====
     {
@@ -655,6 +720,86 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
+        text: "The bird can't ______ in the rain.",
+        options: [
+            { label: "A", value: "fly", correct: true },
+            { label: "B", value: "flies", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "My sister can't ______ the piano.",
+        options: [
+            { label: "A", value: "play", correct: true },
+            { label: "B", value: "plays", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The dog can't ______ in the pool.",
+        options: [
+            { label: "A", value: "swim", correct: true },
+            { label: "B", value: "swims", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Mrs Li can't ______ English very well.",
+        options: [
+            { label: "A", value: "speak", correct: true },
+            { label: "B", value: "speaks", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The baby can't ______ on the wall.",
+        options: [
+            { label: "A", value: "write", correct: true },
+            { label: "B", value: "writes", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "We can't ______ photos here.",
+        options: [
+            { label: "A", value: "take", correct: true },
+            { label: "B", value: "takes", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The lion can't ______ trees.",
+        options: [
+            { label: "A", value: "climb", correct: true },
+            { label: "B", value: "climbs", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "I can't ______ spicy(辣的) food.",
+        options: [
+            { label: "A", value: "eat", correct: true },
+            { label: "B", value: "eats", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The students can't ______ quietly.",
+        options: [
+            { label: "A", value: "sit", correct: true },
+            { label: "B", value: "sits", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The robot can't ______ by itself.",
+        options: [
+            { label: "A", value: "think", correct: true },
+            { label: "B", value: "thinks", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
         text: "{They} ______ go to school on Sunday.",
         options: [
             { label: "A", value: "doesn't", correct: false },
@@ -662,6 +807,652 @@ const sentenceBank = [
         ],
         difficulty: "否定"
     },
+    {
+        text: "{I} ______ like taking the bus.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    
+    {
+        text: "The soup ______ taste salty.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "He ______ like bitter lemons.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "She ______ play the piano.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "They ______ go to school on Sunday.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "My father ______ watch TV in the morning.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "We ______ have any pineapples.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The monkey ______ eat meat.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "You ______ smell the flowers now.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Tom ______ like salty food.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "I ______ want to sleep now.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Amy ______ take the bus to school.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The children ______ play on the grass.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "My dog ______ like sour fruit.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "You and I ______ like winter.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Ben ______ go fishing with his dad.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "We ______ boil water every day.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The panda ______ eat bananas.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "I ______ drink coffee in the evening.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Miss Li ______ teach English.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Dogs ______ fly in the sky.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "{Mr Wang} ______ drive a car to work.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The twins ______ like sweet pies.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "My little sister ______ go ice-skating.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "These robots ______ get tired.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Grandma ______ drink coffee at night.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The aeroplane ______ land in the park.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Lily and Lucy ______ take the bus home.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The tiger ______ like salty meat.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "I and my cousin ______ have any yuan.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "My shoes ______ fit my feet well.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The baby whale ______ swim alone(独自).",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+
+    {
+        text: "These gloves ______ feel smooth.",
+        options: [
+            { label: "A", "value": "don't", "correct": true },
+            { label: "B", "value": "doesn't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The farmer ______ plant trees in winter.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "My kite ______ fly high today.",
+        options: [
+            { label: "A", "value": "don't", "correct": false },
+            { label: "B", "value": "doesn't", "correct": true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "We can't ______ see the moon in the day.",
+        options: [
+            { label: "A", "value": "doesn't", "correct": false },
+            { label: "B", "value": "don't", "correct": true }
+        ],
+        difficulty: "can / do辨析"
+    },
+    {
+        text: "That grasshopper ______ ______ like ants.",
+        options: [
+            { label: "A", "value": "doesn't", "correct": true },
+            { label: "B", "value": "don't", "correct": false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Tom and Jerry ______ like eating vegetables.",
+        options: [
+            { label: "A", value: "don't", correct: true },
+            { label: "B", value: "doesn't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Your father and I ______ go to the park today.",
+        options: [
+            { label: "A", value: "don't", correct: true },
+            { label: "B", value: "doesn't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+
+    {
+        text: "Uncle Tom ______ drive a bus.",
+        options: [
+            { label: "A", value: "don't", correct: false },
+            { label: "B", value: "doesn't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Miss Wang and Mr Li ______ teach PE.",
+        options: [
+            { label: "A", value: "don't", correct: true },
+            { label: "B", value: "doesn't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The little dog ______ like cold weather.",
+        options: [
+            { label: "A", value: "don't", correct: false },
+            { label: "B", value: "doesn't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "These scissors ______ cut paper well.",
+        options: [
+            { label: "A", value: "don't", correct: true },
+            { label: "B", value: "doesn't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The big elephant ______ run fast like a horse.",
+        options: [
+            { label: "A", value: "don't", correct: false },
+            { label: "B", value: "doesn't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "A bottle of water ______ cold today.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Two bowls of noodles ______ hot enough.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "A pair of glasses ______ on the table.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "These two pairs of shoes ______ new.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "A cup of coffee ______ sweet.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Three slices of bread ______ fresh.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "A glass of juice ______ sour.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The twins ______ in the classroom.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "A box of sweets ______ for you.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+
+    {
+        text: "A loaf of bread ______ soft.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Those scissors ______ sharp.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "A pair of trousers ______ blue.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Two bars（块） of chocolate ______ cheap.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "A packet（包） of salt ______ sweet.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "My jeans（牛仔裤） ______ clean today.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "A bag of apples ______ heavy(重).",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "These chopsticks ______ made of wood.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The little girl ______ happy today.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "My parents ______ at home now.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Our school ______ far from here.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The windows ______ open.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "His brother ______ a teacher.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The birds ______ in the cage.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "This picture ______ beautiful.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "My hands ______ clean.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The moon ______ a star.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Her shoes ______ under the bed.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "That old man ______ my grandfather.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The trees ______ green in winter.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "This story ______ funny.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Their bikes ______ new.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The baby ______ sleepy now.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "My pencils ______ in the pencil case.",
+        options: [
+            { label: "A", value: "isn't", correct: false },
+            { label: "B", value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "This pair of socks ______ white.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "That boy ______ my brother.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "The zoo ______ near my house.",
+        options: [
+            { label: "A", value: "isn't", correct: true },
+            { label: "B", value: "aren't", correct: false }
+        ],
+        difficulty: "否定"
+    },
+
+
 
     // ===== 一般疑问句 =====
     {
@@ -680,6 +1471,892 @@ const sentenceBank = [
         ],
         difficulty: "一般疑问"
     },
+    {
+        text: "______ {I} your best friend?",
+        options: [
+            { label: "A", value: "Am", correct: true },
+            { label: "B", value: "Is", correct: false },
+            { label: "B", value: "Are", correct: false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {you} thirsty?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the lemon} sour?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the soup} salty?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the bread} hard?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the window} clean?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the desk} smooth?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the elephant} strong?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the panda} lovely?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the robot} super?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the weather} sunny today?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the children} happy?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the trousers} grey?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the birds} in the aviary?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the books} on the bookshelf?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the gloves} soft?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your parents} at home?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your hands} dirty?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the sheep} white?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the fish} fresh?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the water} cold?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {he} a doctor?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {she} happy today?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {it} a rainy day?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {we} late for school?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {they} good at English?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the baby} hungry?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your parents} busy?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the dog} sleeping?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the cats} black?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {Mary} angry?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {Tom and I} classmates?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {this} your bag?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {these} your pencils?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {that} a bird?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {those} cows?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {my hands} clean?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the picture} nice?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your father} a teacher?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your mother} at home?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your sisters} tall?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your brother} clever?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your eyes} blue?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your nose} small?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your trousers} new?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your glasses} on the table?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your best friend} here?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your grandparents} kind?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": false },
+            { label: "C", "value": "Are", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {you} like apples?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {they} play football?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {we} have a picnic?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the children} run fast?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your friends} swim?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {I} need help?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the birds} fly high?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {these dogs} bark?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {you} want some water?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {they} eat meat?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {we} go to school by bus?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the monkeys} climb trees?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {you} have a pet?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the pandas} like bamboo?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your parents} work hard?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the students} read books?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {we} need some salt?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {they} drink coffee?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the whales} live in the sea?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {you} feel tired?",
+        options: [
+            { label: "A", "value": "Do", "correct": true },
+            { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {he} like skating?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {she} have a doll?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the lion} roar?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your father} cook dinner?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the bird} sing?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {it} taste sweet?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {Mary} walk to school?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the baby} cry?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the bus} stop here?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your sister} wear a skirt?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {he} feel angry?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {her uncle} live in China?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the fish} swim fast?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the computer（电脑）} work well?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {she} teach English?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {the moon} shine at night?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ {your brother} play the guitar(吉他)?",
+        options: [
+            { label: "A", "value": "Do", "correct": false },
+            { label: "B", "value": "Does", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can your brother ______ basketball?",
+        options: [
+            { label: "A", "value": "plays", "correct": false },
+            { label: "B", "value": "play", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can she ______ fast?",
+        options: [
+            { label: "A", "value": "runs", "correct": false },
+            { label: "B", "value": "run", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can Tom ______ the guitar?",
+        options: [
+            { label: "A", "value": "play", "correct": true },
+            { label: "B", "value": "plays", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can your parents ______ Chinese?",
+        options: [
+            { label: "A", "value": "speaks", "correct": false },
+            { label: "B", "value": "speak", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can the bird ______ in the sky?",
+        options: [
+            { label: "A", "value": "fly", "correct": true },
+            { label: "B", "value": "flies", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can your friend ______ swimming?",
+        options: [
+            { label: "A", "value": "goes", "correct": false },
+            { label: "B", "value": "go", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can Lisa ______ the piano?",
+        options: [
+            { label: "A", "value": "play", "correct": true },
+            { label: "B", "value": "plays", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can we ______ in the library?",
+        options: [
+            { label: "A", "value": "reads", "correct": false },
+            { label: "B", "value": "read", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can the baby ______ ?",
+        options: [
+            { label: "A", "value": "walk", "correct": true },
+            { label: "B", "value": "walks", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can your teacher ______ English?",
+        options: [
+            { label: "A", "value": "speak", "correct": true },
+            { label: "B", "value": "speaks", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can they ______ kites on the hill?",
+        options: [
+            { label: "A", "value": "fly", "correct": true },
+            { label: "B", "value": "flies", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can your dog ______ tricks?",
+        options: [
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can the cat ______ up the tree?",
+        options: [
+            { label: "A", "value": "climbs", "correct": false },
+            { label: "B", "value": "climb", "correct": true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can I ______ here?",
+        options: [
+            { label: "A", "value": "sit", "correct": true },
+            { label: "B", "value": "sits", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can he ______ me with my homework?",
+        options: [
+            { label: "A", "value": "help", "correct": true },
+            { label: "B", "value": "helps", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ your mother a doctor?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ your brothers at school now?",
+        options: [
+            { label: "A", "value": "Is", "correct": false },
+            { label: "B", "value": "Are", "correct": true },
+            { label: "C", "value": "Be", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ this box very heavy(重)?",
+        options: [
+            { label: "A", "value": "Am", "correct": false },
+            { label: "B", "value": "Is", "correct": true },
+            { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ the children happy today?",
+        options: [
+            { label: "A", "value": "Is", "correct": false },
+            { label: "B", "value": "Are", "correct": true },
+            { label: "C", "value": "Am", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+
+    
 
     // ===== 特殊疑问句 =====
     {
@@ -997,168 +2674,168 @@ const sentenceBank = [
     {
         text: "What ______ {Sally} drink in the morning?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {Ben} fly his model plane(模型飞机)?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "When ______ {your uncle} go to his office?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What time ______ {Miss Li} have her breakfast?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {your cousin} like to draw?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "How ______ {the little hamster(仓鼠)} run in the cage（笼子）?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {the bear} sleep in winter?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {the shop} sell in it?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "How ______ {this toy car} run on the floor?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "How ______ {the watermelon} taste?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "How ______ {it} taste?",
         options: [
-            { "label": "A", "value": "do", "correct": false },
-            { "label": "B", "value": "does", "correct": true }
+            { label: "A", "value": "do", "correct": false },
+            { label: "B", "value": "does", "correct": true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {the teachers} do in the office?",
         options: [
-            { "label": "A", "value": "do", "correct": true },
-            { "label": "B", "value": "does", "correct": false }
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "How ______ {the children} go to the park?",
         options: [
-            { "label": "A", "value": "do", "correct": true },
-            { "label": "B", "value": "does", "correct": false }
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {two rabbits} play on the grass?",
         options: [
-            { "label": "A", "value": "do", "correct": true },
-            { "label": "B", "value": "does", "correct": false }
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {the girls} skip in the playground?",
         options: [
-            { "label": "A", "value": "do", "correct": true },
-            { "label": "B", "value": "does", "correct": false }
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What colour ______ {Alice and Kitty} like?",
         options: [
-            { "label": "A", "value": "do", "correct": true },
-            { "label": "B", "value": "does", "correct": false }
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {many ducks} swim in the river?",
         options: [
-            { "label": "A", "value": "do", "correct": true },
-            { "label": "B", "value": "does", "correct": false }
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {Lucy and Lily} like to collect（收集）?",
         options: [
-            { "label": "A", "value": "do", "correct": true },
-            { "label": "B", "value": "does", "correct": false }
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {you and your father} go hiking（徒步）?",
         options: [
-            { "label": "A", "value": "do", "correct": true },
-            { "label": "B", "value": "does", "correct": false }
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {they} do after school every day?",
         options: [
-            { "label": "A", "value": "do", "correct": true },
-            { "label": "B", "value": "does", "correct": false }
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {we} visit next Sunday?",
         options: [
-            { "label": "A", "value": "do", "correct": true },
-            { "label": "B", "value": "does", "correct": false }
+            { label: "A", "value": "do", "correct": true },
+            { label: "B", "value": "does", "correct": false }
         ],
         difficulty: "特殊疑问"
     },    
@@ -1354,5 +3031,13 @@ const sentenceBank = [
         ],
         difficulty: "特殊疑问"
     },
+    {
+        text: "How many pencils ____ your sister have?",
+        options: [
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    }
 
 ];

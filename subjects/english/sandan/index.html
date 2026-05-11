@@ -9,10 +9,11 @@
 :root {
     --bg: #eef4ee;
     --card: #ffffff;
-    --text: #2f3a2f;
-    --border: #d6e5d6;
+    --text: #1f2f1f;
+    --border: #3a5a3a;
     --correct: #4caf7f;
     --wrong: #e57373;
+    --primary: #549754;
 }
 
 body {
@@ -23,10 +24,17 @@ body {
     color: var(--text);
 }
 
-h1 {
+.home-title {
     text-align: center;
-    font-size: 26px;
+    font-size: 30px;
+    font-family: "Comic Sans MS", "Chalkboard SE", "Marker Felt", "Microsoft YaHei", sans-serif;
+    color: #3a5a3a;
+    font-weight: bold;
     margin-bottom: 24px;
+}
+
+.header-space {
+    height: 60px;
 }
 
 .container {
@@ -47,30 +55,61 @@ h1 {
 
 .setting-item label {
     font-size: 18px;
+    display: block;
+    margin-bottom: 10px;
 }
 
 .setting-item input[type="number"] {
     width: 80px;
     padding: 6px;
     font-size: 16px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
 }
 
-.radio-group label {
-    margin-right: 16px;
+.radio-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.level-btn {
+    padding: 10px 16px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: #f6faf6;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: normal;
+    transition: all 0.2s ease;
+}
+
+.level-btn:hover {
+    background: #eaf5ea;
+}
+
+.level-btn.active {
+    background: var(--primary);
+    border-color: var(--border);
+    color: #fff;
 }
 
 .start-btn {
     width: 100%;
     padding: 12px;
     font-size: 18px;
-    border: none;
+    border: 2px solid var(--border);
     border-radius: 12px;
-    background: #b7d8b7;
+    background: var(--primary);
+    color: #fff;
     cursor: pointer;
 }
 
 .top-bar {
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 12px;
     font-size: 16px;
 }
@@ -81,6 +120,10 @@ h1 {
 
 .subject {
     font-weight: 700;
+}
+
+#questionText {
+    margin-bottom: 18px;
 }
 
 .options {
@@ -95,6 +138,7 @@ h1 {
     padding: 14px;
     cursor: pointer;
     position: relative;
+    color: var(--text);
 }
 
 .option span {
@@ -116,13 +160,28 @@ h1 {
 
 .nav button {
     padding: 10px 18px;
-    border: none;
+    border: 2px solid var(--border);
     border-radius: 10px;
     cursor: pointer;
+    color: var(--text);
 }
 
-#prevBtn { background: #ffd6e0; }
-#nextBtn { background: #d6ebff; }
+#prevBtn {
+    background: #ff9fc9;
+    border-color: #ff6fa8;
+    color: #ffffff;
+}
+
+#nextBtn {
+    background: #7fc8ff;
+    border-color: #4f9fe0;
+    color: #ffffff;
+}
+
+.nav button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
 .hidden { display: none; }
 
@@ -141,24 +200,37 @@ h1 {
 .error-list {
     margin-top: 20px;
 }
+
+.back-btn {
+    background: #d6ffe7;
+    border: 2px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: #bcf5ca;
+}
 </style>
 </head>
 
 <body>
 
-<h1>英语三单动词练习</h1>
+<h1 class="home-title">三单动词练习</h1>
 
-<!-- 设置页 -->
 <div class="container" id="settingPanel">
     <div class="card">
         <div class="setting-item">
-            <label>题型选择：</label>
-            <div class="radio-group">
-                <label><input type="radio" name="level" value="陈述" onchange="updateMaxCount()" checked> 陈述句</label>
-                <label><input type="radio" name="level" value="否定" onchange="updateMaxCount()"> 否定句</label>
-                <label><input type="radio" name="level" value="一般疑问" onchange="updateMaxCount()"> 一般疑问句</label>
-                <label><input type="radio" name="level" value="特殊疑问" onchange="updateMaxCount()"> 特殊疑问句</label>
+            <label>题型选择（可多选）：</label>
+            <div class="radio-group" id="levelGroup">
+                <button type="button" class="level-btn active" data-value="陈述">陈述句</button>
+                <button type="button" class="level-btn" data-value="否定">否定句</button>
+                <button type="button" class="level-btn" data-value="一般疑问">一般疑问句</button>
+                <button type="button" class="level-btn" data-value="特殊疑问">特殊疑问句</button>
             </div>
+            <input type="hidden" id="levelInput" value="陈述">
         </div>
 
         <div class="setting-item">
@@ -170,9 +242,13 @@ h1 {
     </div>
 </div>
 
-<!-- 答题页 -->
 <div class="container hidden" id="practicePanel">
-    <div class="top-bar" id="progressInfo"></div>
+    <div class="header-space"></div>
+
+    <div class="top-bar">
+        <button onclick="goBackToSetting()" class="back-btn">返回</button>
+        <span id="progressInfo"></span>
+    </div>
 
     <div class="card">
         <div class="question" id="questionText"></div>
@@ -185,14 +261,11 @@ h1 {
     </div>
 </div>
 
-<!-- 结算页 -->
 <div class="container hidden" id="resultPanel">
     <div class="card">
         <h2 style="text-align:center;">练习结果</h2>
         <p id="scoreInfo"></p>
-
         <div class="error-list" id="errorList"></div>
-
         <button class="start-btn" onclick="location.reload()">重新开始</button>
     </div>
 </div>
@@ -200,142 +273,180 @@ h1 {
 <script src="sentences.js"></script>
 
 <script>
-let questionBank = [];
-let current = 0;
-let answers = [];
-let TOTAL = 20;
+document.querySelectorAll(".level-btn").forEach(btn => {
+    btn.onclick = () => {
+        btn.classList.toggle("active");
+        updateLevelInput();
+        updateMaxCount();
+    };
+});
 
-function updateMaxCount() {
-    const level = document.querySelector("input[name='level']:checked").value;
-    const totalInput = document.getElementById("totalCount");
-
-    const maxCount = sentenceBank.filter(q => q.difficulty === level).length;
-
-    totalInput.max = maxCount;
-
-    if (Number(totalInput.value) > maxCount) {
-        totalInput.value = maxCount;
-    }
+function updateLevelInput() {
+    const levels = Array.from(document.querySelectorAll(".level-btn.active"))
+        .map(btn => btn.dataset.value);
+    document.getElementById("levelInput").value = levels.join(",");
 }
 
-// 页面加载时初始化一次
+function updateMaxCount() {
+    const levels = document.getElementById("levelInput").value.split(",").filter(Boolean);
+    const totalInput = document.getElementById("totalCount");
+    const maxCount = sentenceBank.filter(q => levels.includes(q.difficulty)).length;
+    totalInput.max = maxCount;
+    if (+totalInput.value > maxCount) totalInput.value = maxCount;
+}
+
+updateLevelInput();
 updateMaxCount();
 
+let questionPool = [];
+let usedQuestions = [];
+let answers = []; // ✅ 新增：保存每题作答
+let wrongQuestions = [];
+let targetCount = 20;
+let correctCount = 0;
+let currentIndex = 0;
+
 function startPractice() {
-    const level = document.querySelector("input[name='level']:checked").value;
-    const totalInput = document.getElementById("totalCount");
+    const levels = document.getElementById("levelInput").value.split(",").filter(Boolean);
+    targetCount = Number(document.getElementById("totalCount").value) || 20;
 
-    TOTAL = Number(totalInput.value) || 20;
+    questionPool = shuffle(
+        sentenceBank.filter(q => levels.includes(q.difficulty))
+    );
 
-    const pool = sentenceBank.filter(q => q.difficulty === level);
-
-    if (pool.length < 10) {
-        alert("该题型题目不足 10 道，无法开始练习");
+    if (questionPool.length < 10) {
+        alert("所选题型题目不足 10 道，无法开始练习");
         return;
     }
 
-    questionBank = shuffle(pool).slice(0, TOTAL);
-    answers = Array(TOTAL).fill(null);
+    usedQuestions = [];
+    answers = [];
+    wrongQuestions = [];
+    correctCount = 0;
+    currentIndex = 0;
 
+    document.querySelector(".home-title").classList.add("hidden");
     document.getElementById("settingPanel").classList.add("hidden");
     document.getElementById("practicePanel").classList.remove("hidden");
 
-    current = 0;
-    showQuestion();
+    showQuestion(0);
 }
 
-function showQuestion() {
-    const q = questionBank[current];
+function showQuestion(index) {
+    const q = questionPool[index];
+    usedQuestions[index] = q;
 
     document.getElementById("questionText").innerHTML =
-        `<span class="question-number">${current + 1}.</span>` +
+        `<span class="question-number">${index + 1}.</span>` +
         q.text.replace(/{(.*?)}/g, '<span class="subject">$1</span>');
 
-    document.getElementById("options").innerHTML = q.options.map((opt, i) => {
-        let mark = "";
-        if (answers[current] !== null) {
-            if (answers[current].index === i) {
-                mark = `<span class="${opt.correct ? 'correct' : 'wrong'}">${opt.correct ? '✔' : '✗'}</span>`;
-            }
-        }
-        return `<div class="option" data-index="${i}">${opt.label}. ${opt.value} ${mark}</div>`;
-    }).join("");
+    document.getElementById("options").innerHTML = q.options.map((opt, i) => `
+        <div class="option" data-index="${i}">
+            ${opt.label}. ${opt.value}
+        </div>
+    `).join("");
 
-    if (answers[current] === null) {
-        document.querySelectorAll(".option").forEach(el => {
-            el.onclick = () => selectOption(+el.dataset.index);
-        });
-    }
+    document.querySelectorAll(".option").forEach(el => {
+        el.onclick = () => selectOption(el, q, index);
+    });
 
-    updateNav();
+    restoreAnswer(q, index);
+    updateNavButtons();
     updateProgress();
 }
 
-function selectOption(index) {
-    const q = questionBank[current];
-    answers[current] = {
-        index,
-        correct: q.options[index].correct
-    };
+function selectOption(el, q, index) {
+    if (answers[index]) return; // 已答过
 
-    showQuestion();
+    const selectedIndex = +el.dataset.index;
+    const selected = q.options[selectedIndex];
+    answers[index] = selected;
 
-    if (q.options[index].correct) {
-        setTimeout(() => {
-            current++;
-            if (current >= TOTAL) {
-                finish();
-            } else {
-                showQuestion();
-            }
-        }, 800);
+    document.querySelectorAll(".option").forEach((optEl, i) => {
+        const opt = q.options[i];
+        const mark = document.createElement("span");
+        mark.className = opt.correct ? "correct" : "wrong";
+        mark.innerText = opt.correct ? "✔" : "✗";
+        optEl.appendChild(mark);
+        optEl.style.pointerEvents = "none";
+
+        if (i === selectedIndex && !opt.correct) {
+            optEl.classList.add("wrong");
+        }
+    });
+
+    if (selected.correct) {
+        correctCount++;
+        updateProgress();
+        if (correctCount >= targetCount) {
+            setTimeout(finish, 800);
+        }
+    } else {
+        wrongQuestions.push(q);
     }
+
+    updateNavButtons();
 }
 
-function updateNav() {
-    document.getElementById("prevBtn").style.visibility =
-        current > 0 ? "visible" : "hidden";
+function restoreAnswer(q, index) {
+    const ans = answers[index];
+    if (!ans) return;
 
-    document.getElementById("nextBtn").style.visibility =
-        answers[current] !== null ? "visible" : "hidden";
+    document.querySelectorAll(".option").forEach((optEl, i) => {
+        const opt = q.options[i];
+        const mark = document.createElement("span");
+        mark.className = opt.correct ? "correct" : "wrong";
+        mark.innerText = opt.correct ? "✔" : "✗";
+        optEl.appendChild(mark);
+        optEl.style.pointerEvents = "none";
+
+        if (opt === ans && !opt.correct) {
+            optEl.classList.add("wrong");
+        }
+    });
+}
+
+function updateNavButtons() {
+    document.getElementById("prevBtn").disabled = currentIndex === 0;
+    document.getElementById("nextBtn").disabled = currentIndex === questionPool.length - 1;
 }
 
 function updateProgress() {
-    const correct = answers.filter(a => a && a.correct).length;
     document.getElementById("progressInfo").innerText =
-        `已答对 ${correct} / ${TOTAL} 题`;
+        `已完成 ${correctCount}/${targetCount}`;
 }
 
 function prev() {
-    if (current > 0) {
-        current--;
-        showQuestion();
+    if (currentIndex > 0) {
+        currentIndex--;
+        showQuestion(currentIndex);
     }
 }
 
 function next() {
-    if (current < TOTAL - 1 && answers[current] !== null) {
-        current++;
-        showQuestion();
+    if (currentIndex < questionPool.length - 1) {
+        currentIndex++;
+        showQuestion(currentIndex);
     }
+}
+
+function goBackToSetting() {
+    document.querySelector(".home-title").classList.remove("hidden");
+    document.getElementById("practicePanel").classList.add("hidden");
+    document.getElementById("settingPanel").classList.remove("hidden");
 }
 
 function finish() {
     document.getElementById("practicePanel").classList.add("hidden");
     document.getElementById("resultPanel").classList.remove("hidden");
 
-    const correct = answers.filter(a => a.correct).length;
-    const wrong = TOTAL - correct;
-
     document.getElementById("scoreInfo").innerText =
-        `共 ${TOTAL} 题，答对 ${correct} 题，答错 ${wrong} 题。`;
-
-    const errors = questionBank.filter((_, i) => !answers[i].correct);
+        `目标 ${targetCount} 题，答错 ${wrongQuestions.length} 题。`;
 
     document.getElementById("errorList").innerHTML =
-        errors.length === 0
+        wrongQuestions.length === 0
             ? "<p>太棒了，没有错题！</p>"
-            : errors.map((q, i) => `
+            : wrongQuestions.map((q, i) => `
                 <div class="summary-item">
                     <div class="summary-title">错题 ${i + 1}</div>
                     <div>${q.text.replace(/{(.*?)}/g, '<b>$1</b>')}</div>
