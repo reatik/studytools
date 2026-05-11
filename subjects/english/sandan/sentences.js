@@ -589,6 +589,132 @@ const sentenceBank = [
         difficulty: "陈述"
     },
     {
+        text: "{The elephant} ______ very strong.",
+        options: [
+            { label: A, value: is, correct: true },
+            { label: B, value: are, correct: false },
+            { label: C, value: am, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Two birds} ______ in the tree.",
+        options: [
+            { label: A, value: is, correct: false },
+            { label: B, value: are, correct: true },
+            { label: C, value: am, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The lion} ______ the king of the forest.",
+        options: [
+            { label: A, value: am, correct: false },
+            { label: B, value: is, correct: true },
+            { label: C, value: are, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{This picture} ______ beautiful.",
+        options: [
+            { label: A, value: am, correct: false },
+            { label: B, value: is, correct: true },
+            { label: C, value: are, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The two ducks} ______ yellow.",
+        options: [
+            { label: A, value: am, correct: false },
+            { label: B, value: is, correct: false },
+            { label: C, value: are, correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The snake} ______ in the grass.",
+        options: [
+            { label: A, value: hide, correct: false },
+            { label: B, value: hides, correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Monkeys} ______ bananas.",
+        options: [
+            { label: A, value: eat, correct: true },
+            { label: B, value: eats, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{A bee} ______ honey.",
+        options: [
+            { label: A, value: make, correct: false },
+            { label: B, value: makes, correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{The horse} ______ fast.",
+        options: [
+            { label: A, value: run, correct: false },
+            { label: B, value: runs, correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Dogs} ______ with children.",
+        options: [
+            { label: A, value: play, correct: true },
+            { label: B, value: plays, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{We} ______ English songs.",
+        options: [
+            { label: A, value: sing, correct: true },
+            { label: B, value: sings, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Tom} ______ a storybook under the desk.",
+        options: [
+            { label: A, value: find, correct: false },
+            { label: B, value: finds, correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{You} ______ very hard（努力） at school.",
+        options: [
+            { label: A, value: study, correct: true },
+            { label: B, value: studies, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Amy and I} ______ best friends.",
+        options: [
+            { label: A, value: am, correct: false },
+            { label: B, value: is, correct: false },
+            { label: C, value: are, correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{This little rabbit} ______ so cute.",
+        options: [
+            { label: A, value: is, correct: true },
+            { label: B, value: are, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
         text: "{They} ______ off their coats because it is hot.",
         options: [
             { label: "A", value: "take", correct: true },
@@ -644,6 +770,58 @@ const sentenceBank = [
         ],
         difficulty: "陈述"
     },
+    {
+        text: "{A pair of shoes} ______ under the chair.",
+        options: [
+            { label: A, value: am, correct: false },
+            { label: B, value: is, correct: true },
+            { label: C, value: are, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{His hair} ______ very short.",
+        options: [
+            { label: A, value: "are", correct: false },
+            { label: B, value: "is", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{This pair of trousers} ______ too long.",
+        options: [
+            { label: A, value: is, correct: true },
+            { label: B, value: are, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{A pair of glasses} ______ on the table.",
+        options: [
+            { label: A, value: am, correct: false },
+            { label: B, value: is, correct: true },
+            { label: C, value: are, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{That pair of socks} ______ a hole（洞） in it.",
+        options: [
+            { label: A, value: have, correct: false },
+            { label: B, value: has, correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{A nice pair of gloves} ______ my birthday gift（生日礼物）.",
+        options: [
+            { label: A, value: am, correct: false },
+            { label: B, value: is, correct: true },
+            { label: C, value: are, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    
     {
         text: "{The rabbit} can ______ very fast.",
         options: [
@@ -709,8 +887,80 @@ const sentenceBank = [
         ],
         difficulty: "陈述"
     },
+    {
+        text: "{Three pairs of shoes} ______ on the shelf.",
+        options: [
+            { label: A, value: "is", correct: false },
+            { label: B, value: "are", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Two pairs of glasses} ______ 80 yuan.",
+        options: [
+            { label: A, value: "is", correct: false },
+            { label: B, value: "are", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Two pairs of shorts} ______ new.",
+        options: [
+            { label: A, value: "is", correct: false },
+            { label: B, value: "are", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Five pairs of socks} ______ here.",
+        options: [
+            { label: A, value: "is", correct: false },
+            { label: B, value: "are", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{Those pairs of scissors} ______ sharp.",
+        options: [
+            { label: A, value: "is", correct: false },
+            { label: B, value: "are", correct: true }
+        ],
+        difficulty: "陈述"
+    },
 
     // ===== 否定句 =====
+    {
+        text: "{Those two pairs of socks} ______ black.",
+        options: [
+            { label: A, value: "isn't", correct: false },
+            { label: B, value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "{Several pairs of gloves} ______ lost（丢失）.",
+        options: [
+            { label: A, value: "isn't", correct: false },
+            { label: B, value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "{These pairs of earrings} ______ cheap(便宜).",
+        options: [
+            { label: A, value: "isn't", correct: false },
+            { label: B, value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "{Two pairs of shoes} ______ old.",
+        options: [
+            { label: A, value: "isn't", correct: false },
+            { label: B, value: "aren't", correct: true }
+        ],
+        difficulty: "否定"
+    },    
     {
         text: "{He} ______ like playing football.",
         options: [
@@ -796,6 +1046,14 @@ const sentenceBank = [
         options: [
             { label: "A", value: "think", correct: true },
             { label: "B", value: "thinks", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "{This pair of chopsticks(筷子)} ______ clean.",
+        options: [
+            { label: A, value: "isn't", correct: true },
+            { label: B, value: "aren't", correct: false }
         ],
         difficulty: "否定"
     },
@@ -919,6 +1177,14 @@ const sentenceBank = [
             { label: "B", "value": "doesn't", "correct": true }
         ],
         difficulty: "否定"
+    },
+    {
+        text: "{Her hair} ______ very long.",
+        options: [
+            { label: A, value: "are", correct: false },
+            { label: B, value: "is", correct: true }
+        ],
+        difficulty: "陈述"
     },
     {
         text: "{You and I} ______ like winter.",
@@ -1488,6 +1754,15 @@ const sentenceBank = [
         difficulty: "一般疑问"
     },
     {
+        text: "{______} you ready?",
+        options: [
+            { label: A, value: Am, correct: false },
+            { label: B, value: Is, correct: false },
+            { label: C, value: Are, correct: true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
         text: "______ {the lemon} sour?",
         options: [
             { label: "A", "value": "Am", "correct": false },
@@ -1673,6 +1948,40 @@ const sentenceBank = [
             { label: "A", "value": "Am", "correct": false },
             { label: "B", "value": "Is", "correct": true },
             { label: "C", "value": "Are", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "{______} {a pair of shoes} on the floor?",
+        options: [
+            { label: A, value: "Am", correct: false },
+            { label: B, value: "Is", correct: true },
+            { label: C, value: "Are", correct: false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "{______} {this pair of trousers} expensive（贵）?",
+        options: [
+            { label: A, value: "Is", correct: true },
+            { label: B, value: "Are", correct: false }
+        ],
+        difficulty: "一般疑问"
+    },
+
+    {
+        text: "{______} {that pair of socks} white?",
+        options: [
+            { label: A, value: "Is", correct: true },
+            { label: B, value: "Are", correct: false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "{______} {a pair of gloves} warm?",
+        options: [
+            { label: A, value: "Is", correct: true },
+            { label: B, value: "Are", correct: false }
         ],
         difficulty: "一般疑问"
     },
@@ -1906,6 +2215,38 @@ const sentenceBank = [
         options: [
             { label: "A", "value": "Do", "correct": true },
             { label: "B", "value": "Does", "correct": false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "{______} {two pairs of shoes} white?",
+        options: [
+            { label: A, value: "Is", correct: false },
+            { label: B, value: "Are", correct: true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "{______} {three pairs of socks} in the drawer（抽屉）?",
+        options: [
+            { label: A, value: "Is", correct: false },
+            { label: B, value: "Are", correct: true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "{______} {those pairs of trousers} cheap?",
+        options: [
+            { label: A, value: "Is", correct: false },
+            { label: B, value: "Are", correct: true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "{______} {two pairs of glasses} new?",
+        options: [
+            { label: A, value: "Is", correct: false },
+            { label: B, value: "Are", correct: true }
         ],
         difficulty: "一般疑问"
     },
@@ -2471,6 +2812,14 @@ const sentenceBank = [
         difficulty: "特殊疑问"
     },
     {
+        text: "{My hands} ______ cold.",
+        options: [
+            { label: A, value: feel, correct: true },
+            { label: B, value: feels, correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
         text: "How ______ {the parrot} talk?",
         options: [
             { label: "A", value: "do", correct: false },
@@ -2569,152 +2918,152 @@ const sentenceBank = [
     {
         text: "What ______ {Joe} usually do on weekends?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {Tom and his cousin} play basketball?",
         options: [
-            { label: "A", value: "Do", correct: true },
-            { label: "B", value: "Does", correct: false }
+            { label: "A", value: "do", correct: true },
+            { label: "B", value: "does", correct: false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "How ______ {the little dog} cross the road?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {the lovely parrots} like doing?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "How ______ {Aunt Liu} go to the supermarket?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {you and your friend} read books?",
         options: [
-            { label: "A", value: "Do", correct: true },
-            { label: "B", value: "Does", correct: false }
+            { label: "A", value: "do", correct: true },
+            { label: "B", value: "does", correct: false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {the small duck} like eating?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "How ______ {those bees} fly around the flowers?",
         options: [
-            { label: "A", value: "Do", correct: true },
-            { label: "B", value: "Does", correct: false }
+            { label: "A", value: "do", correct: true },
+            { label: "B", value: "does", correct: false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {Paul} do his homework?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {your grandma} like for breakfast?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {we} have our PE class?",
         options: [
-            { label: "A", value: "Do", correct: true },
-            { label: "B", value: "Does", correct: false }
+            { label: "A", value: "do", correct: true },
+            { label: "B", value: "does", correct: false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "How ______ {Amy and Jane} go to school together?",
         options: [
-            { label: "A", value: "Do", correct: true },
-            { label: "B", value: "Does", correct: false }
+            { label: "A", value: "do", correct: true },
+            { label: "B", value: "does", correct: false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {the cute giraffe} eat every day?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {the boys} play after class?",
         options: [
-            { label: "A", value: "Do", correct: true },
-            { label: "B", value: "Does", correct: false }
+            { label: "A", value: "do", correct: true },
+            { label: "B", value: "does", correct: false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "How ______ {Uncle Wang} work every day?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {this lovely puppy} like to play?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {the pupils} run on the playground?",
         options: [
-            { label: "A", value: "Do", correct: true },
-            { label: "B", value: "Does", correct: false }
+            { label: "A", value: "do", correct: true },
+            { label: "B", value: "does", correct: false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "What ______ {those ducks} like doing in the lake?",
         options: [
-            { label: "A", value: "Do", correct: true },
-            { label: "B", value: "Does", correct: false }
+            { label: "A", value: "do", correct: true },
+            { label: "B", value: "does", correct: false }
         ],
         difficulty: "特殊疑问"
     },
     {
         text: "Where ______ {Jack} meet his good friend?",
         options: [
-            { label: "A", value: "Do", correct: false },
-            { label: "B", value: "Does", correct: true }
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
@@ -2875,6 +3224,31 @@ const sentenceBank = [
         options: [
             { label: "A", "value": "do", "correct": true },
             { label: "B", "value": "does", "correct": false }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "{What colour} ______ {this pair of shoes}?",
+        options: [
+            { label: A, value: "am", correct: false },
+            { label: B, value: "is", correct: true },
+            { label: C, value: "are", correct: false }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "{What colour} ______ {that pair of jeans}?",
+        options: [
+            { label: A, value: "is", correct: true },
+            { label: B, value: "are", correct: false }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "{How much} ______ {this pair of gloves}?",
+        options: [
+            { label: A, value: "do", correct: false },
+            { label: B, value: "does", correct: true }
         ],
         difficulty: "特殊疑问"
     },
@@ -3083,6 +3457,39 @@ const sentenceBank = [
         options: [
             { label: "A", value: "do", correct: false },
             { label: "B", value: "does", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "{Where} ______ {the two pairs of shoes}?",
+        options: [
+            { label: A, value: "is", correct: false },
+            { label: B, value: "are", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "{How many} ______ {these pairs of socks}?",
+        options: [
+            { label: A, value: "is", correct: false },
+            { label: B, value: "are", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "{What colour} ______ {those pairs of jeans}?",
+        options: [
+            { label: A, value: "is", correct: false },
+            { label: B, value: "are", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+
+    {
+        text: "{How much} ______ {two pairs of gloves}?",
+        options: [
+            { label: A, value: "is", correct: false },
+            { label: B, value: "are", correct: true }
         ],
         difficulty: "特殊疑问"
     }
