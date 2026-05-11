@@ -2355,6 +2355,55 @@ const sentenceBank = [
         ],
         difficulty: "一般疑问"
     },
+    {
+        text: "______ your parents often have dinner at six o'clock?",
+        options: [
+            { label: "A", value: "Do", correct: true },
+            { label: "B", value: "Does", correct: false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ the dog sleep in its basket?",
+        options: [
+            { label: "A", value: "Do", correct: false },
+            { label: "B", value: "Does", correct: true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "______ your pencils in the pencil case?",
+        options: [
+            { label: "A", value: "Is", correct: false },
+            { label: "B", value: "Are", correct: true },
+            { label: "C", value: "Am", correct: false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "Can Mr Wang ______ Chinese chess?",
+        options: [
+            { label: "A", value: "play", correct: true },
+            { label: "B", value: "plays", correct: false }
+        ],
+        difficulty: "情态动词后接动词原形"
+    },
+    {
+        text: "Can the swan ______ in the lake?",
+        options: [
+            { label: "A", value: "swims", correct: false },
+            { label: "B", value: "swim", correct: true }
+        ],
+        difficulty: "情态动词后接动词原形"
+    },
+    {
+        text: "______ your father come home at five o'clock?",
+        options: [
+            { label: "A", value: "Do", correct: false },
+            { label: "B", value: "Does", correct: true }
+        ],
+        difficulty: "一般疑问"
+    },
 
     
 
