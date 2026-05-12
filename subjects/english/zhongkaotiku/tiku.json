@@ -659,6 +659,36 @@
       ],
       "answer": "A. a dozen",
       "explanation": "考查量词 'dozen' 的用法。句意：昨天我妈妈在市场上买了一打鸡蛋。不幸的是，她打碎了两个，还剩下十个。\n1. 根据后文“打碎2个剩10个”，可知总共买了12个，即“一打”。\n2. 'a dozen' 表示“一打（12个）”，符合语境。\n3. 'dozens of' 表示“许多”，数量不确定。\n综上所述，正确答案为A。"
+    },
+    {
+      "id": "45",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "冠词",
+      "question": "Did you enter for ______ high jump or ______ 400-meter race?",
+      "options": [
+        "A. a, a",
+        "B. a, the",
+        "C. the, a",
+        "D. the, the"
+      ],
+      "answer": "D. the, the",
+      "explanation": "考查定冠词的用法。句意：你报名参加跳高还是400米赛跑了？\n1. 在体育比赛项目中，如跳高（high jump）、400米赛跑（400-meter race），通常被视为特指的项目，前面需加定冠词 'the'。\n2. 因此两个空都填 'the'。\n综上所述，正确答案为D。"
+    },
+    {
+      "id": "46",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "冠词",
+      "question": "Her grandmother is in ______ hospital, so she goes to ______ hospital to see her after work.",
+      "options": [
+        "A. a, the",
+        "B. /, a",
+        "C. the, /",
+        "D. /, the"
+      ],
+      "answer": "D. /, the",
+      "explanation": "考查零冠词与定冠词的区别。句意：她的祖母生病住院了，所以她下班后去医院看望她。\n1. 第一空：'in hospital'（英式英语）或 'in the hospital'（美式英语）表示“生病住院”，此处强调状态，用零冠词（或视为固定搭配）。\n2. 第二空：'go to the hospital' 表示“去那家医院（看望病人）”，强调具体的地点和目的，需用定冠词 'the'。\n3. 结合语境，祖母生病住院，她去医院看望，符合 'in hospital' 和 'go to the hospital' 的用法。\n综上所述，正确答案为D。"
     }
   ]
 }
