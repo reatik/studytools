@@ -531,6 +531,38 @@ body.night-mode .knowledge-badge {
 .question-number.incorrect {
     background-color: #C62828 !important;
 }
+#back-top-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 25px;
+    width: 46px;
+    height: 46px;
+    background-color: #5A4B75;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    font-size: 22px;
+    line-height: 46px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    z-index: 9999;
+    display: none;
+    transition: all 0.3s ease;
+}
+#back-top-btn.show {
+    display: block;
+}
+#back-top-btn:hover {
+    background-color: #72638D;
+}
+/* 夜间模式适配 */
+body.night-mode #back-top-btn {
+    background-color: #7E57C2;
+}
+body.night-mode #back-top-btn:hover {
+    background-color: #9C27B0;
+}
 
 @media (max-width: 550px) {
     header {
@@ -587,7 +619,7 @@ body.night-mode .knowledge-badge {
                 <button id="clear-record-btn" class="batch-btn">清空记录</button>
                 <button id="night-mode-toggle" class="mode-toggle-tag">🌙</button>
             </div>
-
+            <button id="back-top-btn">▲</button>
             <div id="question-container">
                 <div class="loading-message">加载题目中...</div>
             </div>
@@ -994,7 +1026,37 @@ body.night-mode .knowledge-badge {
     scrollToTarget();
 };
         }
-    
+        
+// 回到顶部：滚动显示，静止3秒自动隐藏
+const backTopBtn = document.getElementById('back-top-btn');
+let hideTimer = null;
+
+// 显示按钮
+function showBackTop() {
+    backTopBtn.classList.add('show');
+    // 重置倒计时
+    clearTimeout(hideTimer);
+    // 停止滚动3秒后隐藏
+    hideTimer = setTimeout(() => {
+        backTopBtn.classList.remove('show');
+    }, 3000);
+}
+
+// 滚动监听
+window.addEventListener('scroll', () => {
+    // 超过250px才触发
+    if (window.scrollY > 250) {
+        showBackTop();
+    } else {
+        backTopBtn.classList.remove('show');
+        clearTimeout(hideTimer);
+    }
+});
+
+// 点击回顶
+backTopBtn.onclick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
         // 启动
         init();
     </script>
