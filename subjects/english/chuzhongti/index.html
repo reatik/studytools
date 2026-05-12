@@ -44,12 +44,21 @@
         
         header {
             background-color: white;
-            padding: 16px;
+            padding: 12px 16px;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             position: relative;
             transition: background-color 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .header-title-area {
+            flex: 1;
+            text-align: center;
         }
         
         h1 {
@@ -61,19 +70,16 @@
         }
         
         .subtitle {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--light-text);
             font-weight: 400;
             transition: color 0.3s ease;
         }
         
         .header-buttons {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
             display: flex;
             gap: 8px;
+            align-items: center;
         }
         
         .header-btn {
@@ -126,10 +132,8 @@
         }
 
         body.night-mode #wrong-questions-container h2 {
-    color: #ffffff;
-}
-
-
+            color: #ffffff;
+        }
         
         .filter-bar {
             display: flex;
@@ -146,7 +150,7 @@
         
         .filter-group {
             position: relative;
-            min-width: 95px;
+            min-width: 85px;
         }
         
         .filter-group select {
@@ -155,7 +159,7 @@
             border: 1px solid var(--border-color);
             border-radius: 6px;
             background-color: white;
-            font-size: 13px;
+            font-size: 12px;
             appearance: none;
             -webkit-appearance: none;
             cursor: pointer;
@@ -173,51 +177,6 @@
             transform: translateY(-50%);
             pointer-events: none;
             transition: color 0.3s ease;
-        }
-        
-        .jump-panel {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: #E8F5E9;
-            padding: 4px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-        
-        .jump-panel label {
-            font-size: 12px;
-            color: var(--light-text);
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .jump-input {
-            width: 50px;
-            padding: 5px 3px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 500;
-            background: white;
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-        }
-        
-        .jump-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 4px 10px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        
-        .jump-btn:hover {
-            background-color: var(--secondary-color);
         }
         
         /* 大众点评风格标签按钮 */
@@ -568,8 +527,6 @@
             border-radius: 8px;
             font-size: 14px;
         }
-
-        
         
         .wrong-question-option.user-answer {
             background-color: rgba(198, 40, 40, 0.15);
@@ -577,9 +534,9 @@
         }
 
         body.night-mode .wrong-question-option.user-answer {
-    background-color: rgba(198, 68, 68, 0.25);
-    color: #ffffff !important;  /* 加 !important 确保覆盖 */
-}
+            background-color: rgba(198, 68, 68, 0.25);
+            color: #ffffff !important;
+        }
         
         .wrong-question-option.correct-answer {
             background-color: rgba(46, 125, 50, 0.15);
@@ -663,11 +620,6 @@
             border-color: #3d4559;
         }
         
-        body.night-mode .jump-panel {
-            background-color: #1e2533;
-            border-color: #3d4559;
-        }
-        
         body.night-mode .question-card,
         body.night-mode .wrong-question-item {
             background-color: #242a38;
@@ -702,8 +654,8 @@
         }
         
         body.night-mode .wrong-question-number-text {
-    color: #ffffff !important;
-}
+            color: #ffffff !important;
+        }
         
         body.night-mode .option.incorrect {
             border-color: #b57272;
@@ -718,8 +670,8 @@
         }
 
         body.night-mode .wrong-question-text {
-    color: #ffffff !important;
-}
+            color: #ffffff !important;
+        }
         
         body.night-mode .fill-input:focus {
             border-color: #7c9cb0;
@@ -758,16 +710,6 @@
             color: #a8b5c9;
         }
         
-        body.night-mode .jump-input {
-            background-color: #1e2533;
-            border-color: #3d4559;
-            color: #e8edf5;
-        }
-        
-        body.night-mode .jump-panel label {
-            color: #a8b5c9;
-        }
-        
         body.night-mode .batch-btn {
             background-color: #3a4a5a;
             color: #e8edf5;
@@ -801,16 +743,40 @@
         body.night-mode .result-icon.correct-icon {
             color: #ffffff;
         }
+
+        /* 响应式调整：确保header内不遮挡 */
+        @media (max-width: 550px) {
+            header {
+                padding: 10px 12px;
+            }
+            h1 {
+                font-size: 18px;
+            }
+            .subtitle {
+                font-size: 10px;
+            }
+            .header-btn {
+                padding: 4px 8px;
+                font-size: 16px;
+            }
+            .mode-toggle-tag {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>初中题</h1>
-            <div class="subtitle">精选各校作业、校外教辅的好题和易错题</div>
-            <div class="header-buttons">
-                <button id="mode-toggle-btn" class="mode-toggle-tag">顺序</button>
+            <div class="header-buttons" style="order: 1;">
                 <button id="night-mode-toggle" class="mode-toggle-tag">🌙</button>
+            </div>
+            <div class="header-title-area" style="order: 2;">
+                <h1>初中题</h1>
+                <div class="subtitle">精选各校作业、校外教辅的好题和易错题</div>
+            </div>
+            <div class="header-buttons" style="order: 3;">
                 <button id="wrong-book-btn" class="mode-toggle-tag">错题本</button>
             </div>
         </header>
@@ -841,11 +807,7 @@
                         <option value="all">全部考点</option>
                     </select>
                 </div>
-                <div class="jump-panel">
-                    <label>跳至</label>
-                    <input type="number" id="jump-to-input" class="jump-input" min="1" value="1">
-                    <button id="jump-btn" class="jump-btn">Go</button>
-                </div>
+                <button id="mode-toggle-btn" class="mode-toggle-tag">顺序</button>
                 <button id="only-new-btn" class="action-tag">只做新题</button>
                 <button id="only-wrong-btn" class="action-tag">只做错题</button>
             </div>
@@ -910,8 +872,6 @@
         const batchDeleteBtn = document.getElementById('batch-delete-btn');
         const batchPracticeBtn = document.getElementById('batch-practice-btn');
         const resetPracticeBtn = document.getElementById('reset-practice-btn');
-        const jumpToInput = document.getElementById('jump-to-input');
-        const jumpBtn = document.getElementById('jump-btn');
         const wrongBookBtn = document.getElementById('wrong-book-btn');
         const modeToggleBtn = document.getElementById('mode-toggle-btn');
         const onlyNewBtn = document.getElementById('only-new-btn');
@@ -964,12 +924,10 @@
             return filtered;
         }
         
-        // 只做新题：只保留未做过的题
         function toggleOnlyNewMode() {
             isOnlyNewMode = !isOnlyNewMode;
             if (isOnlyNewMode) {
                 onlyNewBtn.classList.add("active");
-                // 如果只做错题模式也开启了，先关闭它
                 if (isOnlyWrongMode) {
                     isOnlyWrongMode = false;
                     onlyWrongBtn.classList.remove("active");
@@ -1002,12 +960,10 @@
             }
         }
         
-        // 只做错题模式
         function toggleOnlyWrongMode() {
             isOnlyWrongMode = !isOnlyWrongMode;
             if (isOnlyWrongMode) {
                 onlyWrongBtn.classList.add("active");
-                // 如果只做新题模式也开启了，先关闭它
                 if (isOnlyNewMode) {
                     isOnlyNewMode = false;
                     onlyNewBtn.classList.remove("active");
@@ -1166,14 +1122,12 @@
         }
         
         function recordAttempt(questionId, isCorrect) {
-    // 记录做过
-    questionAttempts[questionId] = true;
-    // 如果是错题，记录错过
-    if (!isCorrect) {
-        questionCorrectStatus[questionId] = true;  // true 表示曾经错过
-    }
-    saveLast();
-}
+            questionAttempts[questionId] = true;
+            if (!isCorrect) {
+                questionCorrectStatus[questionId] = true;
+            }
+            saveLast();
+        }
         
         function checkAnswer(userAns, correctAns) {
             if (!userAns) return false;
@@ -1296,18 +1250,15 @@
                 badgeDiv.appendChild(knowledgeBadge);
             }
             let hasAttempted = questionAttempts[q.id];
-if (hasAttempted) {
-    let attemptBadge = document.createElement('span');
-    attemptBadge.className = 'attempt-badge';
-    let hasEverWrong = questionCorrectStatus[q.id];
-if (hasEverWrong) {
-    // 只要错过，就显示"错过"标签
-    let attemptBadge = document.createElement('span');
-    attemptBadge.className = 'attempt-badge wrong-attempt';
-    attemptBadge.textContent = `❌ 错过`;
-    badgeDiv.appendChild(attemptBadge);
-}
-}
+            if (hasAttempted) {
+                let hasEverWrong = questionCorrectStatus[q.id];
+                if (hasEverWrong) {
+                    let attemptBadge = document.createElement('span');
+                    attemptBadge.className = 'attempt-badge wrong-attempt';
+                    attemptBadge.textContent = `❌ 错过`;
+                    badgeDiv.appendChild(attemptBadge);
+                }
+            }
             card.appendChild(badgeDiv);
             
             let header = document.createElement('div'); 
@@ -1429,7 +1380,6 @@ if (hasEverWrong) {
             questionContainer.innerHTML = ''; 
             questionContainer.appendChild(card);
             updateNav(); 
-            if(jumpToInput) jumpToInput.value = idx + 1;
         }
         
         function updateNav() {
@@ -1554,16 +1504,6 @@ if (hasEverWrong) {
             refreshPractice(); 
         }
         
-        function jumpTo(seq) { 
-            if(isPracticingWrongQuestions) return; 
-            let idx = Math.min(Math.max(1, seq), currentQuestions.length) - 1; 
-            if(currentQuestionIndex !== idx) { 
-                currentQuestionIndex = idx; 
-                displayQuestion(currentQuestions, currentQuestionIndex); 
-                saveLast(); 
-            } 
-        }
-        
         function toggleMode() {
             isRandomMode = !isRandomMode;
             updateModeButtonDisplay();
@@ -1633,10 +1573,6 @@ if (hasEverWrong) {
             batchDeleteBtn.onclick = deleteSelected;
             batchPracticeBtn.onclick = practiceSelected;
             resetPracticeBtn.onclick = resetNormal;
-            jumpBtn.onclick = () => { 
-                let v = parseInt(jumpToInput.value); 
-                if(!isNaN(v)) jumpTo(v); 
-            };
             nightMode();
         }
         
@@ -1644,4 +1580,3 @@ if (hasEverWrong) {
     </script>
 </body>
 </html>
-```
