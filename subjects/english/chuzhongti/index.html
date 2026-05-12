@@ -5,761 +5,709 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>初中好题易错题</title>
     <style>
-        :root {
-            --primary-color: #6C7A6B;
-            --secondary-color: #9AAA98;
-            --accent-color: #556455;
-            --light-bg: #F2F5EF;
-            --text-color: #1B2E1B;
-            --light-text: #558B2F;
-            --border-color: #477448;
-            --error-color: #C62828;
-            --success-color: #2E7D32;
-            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Roboto', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background-color: var(--light-bg);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
-            background-color: white;
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 20px;
-            transition: background-color 0.3s ease;
-        }
-        
-        header {
-            background-color: white;
-            padding: 12px 16px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            position: relative;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        
-        .header-title-area {
-            flex: 1;
-            text-align: center;
-        }
-        
-        h1 {
-            font-size: 20px;
-            font-weight: 500;
-            color: var(--text-color);
-            margin-bottom: 4px;
-            transition: color 0.3s ease;
-        }
-        
-        .subtitle {
-            font-size: 12px;
-            color: var(--light-text);
-            font-weight: 400;
-            transition: color 0.3s ease;
-        }
-        
-        .header-buttons {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        
-        .header-btn {
-            background: rgba(0,0,0,0.05);
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 6px;
-            line-height: 1;
-            transition: all 0.2s;
-        }
-        
-        .header-btn:hover {
-            background: rgba(0,0,0,0.1);
-            transform: scale(1.02);
-        }
-        
-        #wrong-book-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        body.night-mode .header-btn {
-            background: rgba(255,255,255,0.1);
-            color: #e8edf5;
-        }
-        
-        body.night-mode .header-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        body.night-mode #wrong-book-btn.active {
-            background-color: #5a7a8a;
-        }
-        
-        #practice-container {
-            padding: 16px;
-        }
-        
-        #wrong-questions-container {
-            display: none;
-            padding: 16px;
-        }
-        
-        #wrong-questions-container h2 {
-            margin-bottom: 16px;
-            font-size: 20px;
-            transition: color 0.3s ease;
-        }
+:root {
+    --primary-color: #5A4B75;
+    --secondary-color: #72638D;
+    --accent-color: #4A3C63;
+    --light-bg: #EFEBF5;
+    --text-color: #241B33;
+    --light-text: #5A4B75;
+    --border-color: #9C8EB5;
+    --error-color: #C62828;
+    --success-color: #6A5889;
+    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
 
-        body.night-mode #wrong-questions-container h2 {
-            color: #ffffff;
-        }
-        
-        .filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 16px;
-            background: white;
-            padding: 8px 12px;
-            border-radius: 16px;
-            box-shadow: var(--card-shadow);
-            align-items: center;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .filter-group {
-            position: relative;
-            min-width: 85px;
-        }
-        
-        .filter-group select {
-            width: 100%;
-            padding: 7px 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            background-color: white;
-            font-size: 12px;
-            appearance: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-            padding-right: 26px;
-        }
-        
-        .filter-group::after {
-            content: "▼";
-            font-size: 10px;
-            color: var(--light-text);
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            transition: color 0.3s ease;
-        }
-        
-        /* 大众点评风格标签按钮 */
-        .action-tag {
-            background-color: white;
-            color: var(--text-color);
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 5px 14px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-        
-        .action-tag:hover {
-            background-color: #f5f5f5;
-            border-color: #bbb;
-        }
-        
-        .action-tag.active {
-            background-color: #4CAF50;
-            border-color: #2E7D32;
-            color: white;
-        }
-        
-        .mode-toggle-tag {
-            background-color: white;
-            color: var(--text-color);
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 5px 12px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-        
-        .mode-toggle-tag:hover {
-            background-color: #f5f5f5;
-        }
-        
-        body.night-mode .action-tag,
-        body.night-mode .mode-toggle-tag {
-            background-color: #2a2a3a;
-            border-color: #4a5568;
-            color: #e8edf5;
-        }
-        
-        body.night-mode .action-tag:hover,
-        body.night-mode .mode-toggle-tag:hover {
-            background-color: #3a4a5a;
-        }
-        
-        body.night-mode .action-tag.active {
-            background-color: #4CAF50;
-            border-color: #2E7D32;
-            color: white;
-        }
-        
-        .question-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 16px;
-            gap: 10px;
-        }
-        
-        .batch-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 16px;
-            align-items: center;
-        }
-        
-        .question-card, .wrong-question-item {
-            position: relative;
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: var(--card-shadow);
-            border: 2px solid var(--primary-color);
-            transition: all 0.2s, background-color 0.3s ease, border-color 0.3s ease;
-        }
-        
-        .question-card:hover, .wrong-question-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(46,125,50,0.15);
-        }
-        
-        .question-number, .wrong-question-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            min-width: 28px;
-            height: 28px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-right: 10px;
-            flex-shrink: 0;
-            background-color: var(--primary-color);
-            transition: background-color 0.3s ease;
-        }
-        
-        .question-text {
-            font-size: 15px;
-            margin: 12px 0;
-            line-height: 1.5;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 40px;
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-        }
-        
-        .nav-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            background-color: #8BAA8B;
-        }
-        
-        .nav-btn:hover:not(:disabled) {
-            background-color: var(--secondary-color);
-            transform: translateY(-1px);
-        }
-        
-        .star-btn {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: none;
-            border: none;
-            font-size: 26px;
-            cursor: pointer;
-            transition: all 0.2s;
-            z-index: 1;
-        }
-        
-        .star-btn::before {
-            content: "☆";
-            color: #A5D6A7;
-        }
-        
-        .star-btn.active::before {
-            content: "★";
-            color: #FFC107;
-        }
-        
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .option {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px;
-            border-radius: 12px;
-            background-color: #FBFDF9;
-            cursor: pointer;
-            transition: all 0.2s, background-color 0.3s ease, border-color 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        .option:hover {
-            border-color: var(--primary-color);
-            background-color: #E8F5E9;
-        }
+body {
+    font-family: 'Roboto', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-        .option input[type="radio"] {
-            margin-right: 12px;
-            accent-color: var(--primary-color);
-        }
-        
-        .option .option-text {
-            flex: 1;
-        }
-        
-        .option .result-icon {
-            font-size: 18px;
-            margin-left: 8px;
-            font-weight: bold;
-        }
-        
-        .result-icon.correct-icon {
-            color: var(--success-color);
-        }
-        
-        .result-icon.incorrect-icon {
-            color: var(--error-color);
-        }
-        
-        .option.correct {
-            border-color: var(--success-color);
-            background-color: #E8F5E9;
-        }
-        
-        .option.incorrect {
-            border-color: var(--error-color);
-            background-color: #FFEBEE;
-        }
-        
-        .fill-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 15px;
-            margin-top: 8px;
-            background-color: #FBFDF9;
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-        }
-        
-        .fill-input:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 2px #A5D6A7;
-        }
-        
-        .fill-input.correct {
-            border-color: var(--success-color);
-            background-color: #E8F5E9;
-        }
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: white;
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
 
-        .fill-input.incorrect {
-            border-color: var(--error-color);
-            background-color: #FFEBEE;
-        }
-        
-        .submit-btn {
-            margin-top: 10px;
-            padding: 8px 18px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 40px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-weight: 500;
-        }
-        
-        .submit-btn:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-1px);
-        }
-        
-        .show-answer-btn {
-            margin-top: 10px;
-            padding: 8px 18px;
-            background-color: #558B2F;
-            color: white;
-            border: none;
-            border-radius: 40px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-weight: 500;
-        }
-        
-        .show-answer-btn:hover {
-            background-color: #6A9C3E;
-            transform: translateY(-1px);
-        }
-        
-        .explanation {
-            margin-top: 16px;
-            padding: 12px;
-            background-color: rgba(46, 125, 50, 0.05);
-            border-radius: 8px;
-            display: none;
-            font-size: 14px;
-            border: 1px solid var(--border-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
+header {
+    background-color: white;
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: relative;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
 
-        .explanation-title {
-            font-weight: 800;
-            margin-bottom: 8px;
-            color: var(--primary-color);
-            transition: color 0.3s ease;
-        }
-        
-        .grade-badge, .unit-badge, .knowledge-badge, .attempt-badge {
-            display: inline-block;
-            font-size: 11px;
-            background: #D4E8D4;
-            padding: 3px 10px;
-            border-radius: 4px;
-            margin-right: 8px;
-            color: #1B4D1B;
-            font-weight: 600;
-        }
-        
-        .attempt-badge.correct-attempt {
-            background: #D4E8D4;
-            color: #1B4D1B;
-        }
-        
-        .attempt-badge.wrong-attempt {
-            background: #FFE0B2;
-            color: #E65100;
-        }
-        
-        body.night-mode .grade-badge, body.night-mode .unit-badge, body.night-mode .knowledge-badge {
-            background: #3a5a5a;
-            color: #ffffff;
-        }
-        
-        body.night-mode .attempt-badge.correct-attempt {
-            background: #2a5a2a;
-            color: #ffffff;
-        }
-        
-        body.night-mode .attempt-badge.wrong-attempt {
-            background: #5a3a2a;
-            color: #ffb74d;
-        }
-        
-        .wrong-question-checkbox {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            width: 20px;
-            height: 20px;
-            accent-color: var(--primary-color);
-            cursor: pointer;
-        }
-        
-        .wrong-question-option {
-            padding: 8px 12px;
-            margin: 4px 0;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        
-        .wrong-question-option.user-answer {
-            background-color: rgba(198, 40, 40, 0.15);
-            color: #8B0000;
-        }
+.header-title-area {
+    flex: 1;
+    text-align: center;
+}
 
-        body.night-mode .wrong-question-option.user-answer {
-            background-color: rgba(198, 68, 68, 0.25);
-            color: #ffffff !important;
-        }
-        
-        .wrong-question-option.correct-answer {
-            background-color: rgba(46, 125, 50, 0.15);
-            color: #2E7D32;
-        }
-        
-        body.night-mode .wrong-question-option.correct-answer {
-            background-color: rgba(80, 140, 80, 0.25);
-            color: #ffffff;
-        }
-        
-        .batch-btn {
-            padding: 8px 14px;
-            border-radius: 40px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-left: 8px;
-            border: none;
-            font-weight: 500;
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .select-all-btn {
-            background-color: #43A047;
-        }
-        
-        .delete-btn {
-            background-color: #D32F2F;
-        }
-        
-        .practice-btn {
-            background-color: var(--accent-color);
-        }
-        
-        .batch-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .batch-btn:hover:not(:disabled) {
-            opacity: 0.85;
-            transform: translateY(-1px);
-        }
-        
-        .empty-message {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--light-text);
-            background: #F1F8E9;
-            border-radius: 24px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        .loading-message {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--light-text);
-        }
-        
-        @media (min-width: 768px) {
-            .container {
-                max-width: 800px;
-                margin: 0 auto;
-                box-shadow: 0 0 20px rgba(0,0,0,0.08);
-            }
-        }
+h1 {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 4px;
+    transition: color 0.3s ease;
+}
 
-        body.night-mode {
-            background-color: #1a1e2a;
-        }
-        
-        body.night-mode .container {
-            background-color: #242a38;
-        }
-        
-        body.night-mode header,
-        body.night-mode .filter-bar {
-            background-color: #242a38;
-            border-color: #3d4559;
-        }
-        
-        body.night-mode .question-card,
-        body.night-mode .wrong-question-item {
-            background-color: #242a38;
-            border-color: #5a6e7e;
-        }
-        
-        body.night-mode h1,
-        body.night-mode .question-text,
-        body.night-mode .wrong-question-content {
-            color: #ffffff;
-        }
-        
-        body.night-mode .subtitle {
-            color: #a8b5c9;
-        }
-        
-        body.night-mode .option {
-            background-color: #1e2533;
-            border-color: #3d4559;
-            color: #e8edf5;
-        }
-        
-        body.night-mode .option:hover {
-            background-color: #3a4a5a;
-            border-color: #7c9cb0;
-        }
-        
-        body.night-mode .option.correct {
-            border-color: #6b8f6b;
-            background-color: rgba(107, 143, 107, 0.25);
-            color: #ffffff;
-        }
-        
-        body.night-mode .wrong-question-number-text {
-            color: #ffffff !important;
-        }
-        
-        body.night-mode .option.incorrect {
-            border-color: #b57272;
-            background-color: rgba(181, 114, 114, 0.25);
-            color: #e8b8b8;
-        }
-        
-        body.night-mode .fill-input {
-            background-color: #1e2533;
-            border-color: #3d4559;
-            color: #e8edf5;
-        }
+.subtitle {
+    font-size: 12px;
+    color: var(--light-text);
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
 
-        body.night-mode .wrong-question-text {
-            color: #ffffff !important;
-        }
-        
-        body.night-mode .fill-input:focus {
-            border-color: #7c9cb0;
-            box-shadow: 0 0 0 2px rgba(124, 156, 176, 0.3);
-        }
-        
-        body.night-mode .fill-input.correct {
-            border-color: #6b8f6b;
-            background-color: rgba(107, 143, 107, 0.2);
-            color: #ffffff;
-        }
+.header-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
 
-        body.night-mode .fill-input.incorrect {
-            border-color: #b57272;
-            background-color: rgba(181, 114, 114, 0.2);
-            color: #e8b8b8;
-        }
-        
-        body.night-mode .explanation {
-            background-color: #1e2533;
-            border-color: #3d4559;
-            color: #c8d0e0;
-        }
-        
-        body.night-mode .explanation-title {
-            color: #ffffff;
-        }
-        
-        body.night-mode .filter-group select {
-            background-color: #1e2533;
-            border-color: #3d4559;
-            color: #e8edf5;
-        }
-        
-        body.night-mode .filter-group::after {
-            color: #a8b5c9;
-        }
-        
-        body.night-mode .batch-btn {
-            background-color: #3a4a5a;
-            color: #e8edf5;
-        }
-        
-        body.night-mode .batch-btn.delete-btn {
-            background-color: #8b5a5a;
-        }
-        
-        body.night-mode .select-all-btn {
-            background-color: #5a7a6e;
-        }
-        
-        body.night-mode .empty-message {
-            background-color: #1e2533;
-            color: #a8b5c9;
-        }
-        
-        body.night-mode .question-number {
-            background-color: #5a7a8a;
-        }
-        
-        body.night-mode .nav-btn {
-            background-color: #5a7a8a;
-        }
-        
-        body.night-mode .nav-btn:disabled {
-            background-color: #3a4a5a;
-        }
-        
-        body.night-mode .result-icon.correct-icon {
-            color: #ffffff;
-        }
+/* 统一标签按钮样式（只做新题、全选、删除选中、清空记录 都用这个） */
+.action-tag,
+.mode-toggle-tag,
+.batch-btn {
+    background-color: white;
+    color: var(--text-color);
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 5px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    white-space: nowrap;
+}
 
-        /* 响应式调整：确保header内不遮挡 */
-        @media (max-width: 550px) {
-            header {
-                padding: 10px 12px;
-            }
-            h1 {
-                font-size: 18px;
-            }
-            .subtitle {
-                font-size: 10px;
-            }
-            .header-btn {
-                padding: 4px 8px;
-                font-size: 16px;
-            }
-        }
+.action-tag:hover,
+.mode-toggle-tag:hover,
+.batch-btn:hover:not(:disabled) {
+    background-color: #f5f5f5;
+    border-color: #bbb;
+}
+
+.action-tag.active {
+    background-color: #7E57C2;
+    border-color: #673AB7;
+    color: white;
+}
+
+.batch-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* 清空记录按钮 - 红色边框样式 */
+#clear-record-btn {
+    border-color: var(--error-color);
+    color: var(--error-color);
+}
+
+#clear-record-btn:hover {
+    background-color: #fff5f5;
+}
+
+/* 夜间模式统一适配 */
+body.night-mode .action-tag,
+body.night-mode .mode-toggle-tag,
+body.night-mode .batch-btn {
+    background-color: #2a2a3a;
+    border-color: #4a5568;
+    color: #e8edf5;
+}
+
+body.night-mode .action-tag:hover,
+body.night-mode .mode-toggle-tag:hover,
+body.night-mode .batch-btn:hover:not(:disabled) {
+    background-color: #3a4a5a;
+}
+
+body.night-mode .action-tag.active {
+    background-color: #7E57C2;
+    border-color: #673AB7;
+    color: white;
+}
+
+body.night-mode #clear-record-btn {
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+}
+
+body.night-mode #clear-record-btn:hover {
+    background-color: #3a2a2a;
+}
+
+#practice-container {
+    padding: 16px;
+}
+
+#wrong-questions-container {
+    display: none;
+    padding: 16px;
+}
+
+#wrong-questions-container h2 {
+    margin-bottom: 16px;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+body.night-mode #wrong-questions-container h2 {
+    color: #ffffff;
+}
+
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    align-items: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-group {
+    position: relative;
+    min-width: 85px;
+}
+
+.filter-group select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: white;
+    font-size: 12px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    padding-right: 26px;
+}
+
+.filter-group::after {
+    content: "▼";
+    font-size: 10px;
+    color: var(--light-text);
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: color 0.3s ease;
+}
+
+.question-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    gap: 10px;
+}
+
+.batch-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+    align-items: center;
+    gap: 8px;
+}
+
+.question-card, .wrong-question-item {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--card-shadow);
+    border: 2px solid var(--primary-color);
+    transition: all 0.2s, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.question-card:hover, .wrong-question-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(126, 87, 194, 0.15);
+}
+
+.question-number, .wrong-question-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10px;
+    flex-shrink: 0;
+    background-color: var(--primary-color);
+    transition: background-color 0.3s ease;
+}
+
+.question-text {
+    font-size: 15px;
+    margin: 12px 0;
+    line-height: 1.5;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 40px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.nav-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #B39DDB;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background-color: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+.star-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 1;
+}
+
+.star-btn::before {
+    content: "☆";
+    color: #D1C4E9;
+}
+
+.star-btn.active::before {
+    content: "★";
+    color: #FFC107;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background-color: #FCFAFF;
+    cursor: pointer;
+    transition: all 0.2s, background-color 0.3s ease, border-color 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.option:hover {
+    border-color: var(--primary-color);
+    background-color: #EDE7F6;
+}
+
+.option input[type="radio"] {
+    margin-right: 12px;
+    accent-color: var(--primary-color);
+}
+
+.option .option-text {
+    flex: 1;
+}
+
+.option .result-icon {
+    font-size: 18px;
+    margin-left: 8px;
+    font-weight: bold;
+}
+
+.result-icon.correct-icon {
+    color: var(--success-color);
+}
+
+.result-icon.incorrect-icon {
+    color: var(--error-color);
+}
+
+.option.correct {
+    border-color: #4CAF50;
+    background-color: #e8f5e9;
+}
+
+.option.incorrect {
+    border-color: var(--error-color);
+    background-color: #FFEBEE;
+}
+
+.fill-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 15px;
+    margin-top: 8px;
+    background-color: #FCFAFF;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.fill-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px #D1C4E9;
+}
+
+.fill-input.correct {
+    border-color: #4CAF50;
+    background-color: #e8f5e9;
+}
+
+.fill-input.incorrect {
+    border-color: var(--error-color);
+    background-color: #FFEBEE;
+}
+
+.submit-btn {
+    margin-top: 10px;
+    padding: 8px 18px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: 500;
+}
+
+.submit-btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+.show-answer-btn {
+    margin-top: 10px;
+    padding: 8px 18px;
+    background-color: #7B1FA2;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: 500;
+}
+
+.show-answer-btn:hover {
+    background-color: #9C27B0;
+    transform: translateY(-1px);
+}
+
+.explanation {
+    margin-top: 16px;
+    padding: 12px;
+    background-color: rgba(126, 87, 194, 0.05);
+    border-radius: 8px;
+    display: none;
+    font-size: 14px;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.explanation-title {
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+/* 统一高级紫色标签 */
+.grade-badge, .unit-badge, .knowledge-badge, .attempt-badge {
+    display: inline-block;
+    font-size: 11px;
+    background: #E8E4F0;
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin-right: 8px;
+    color: #5A4B75;
+    font-weight: 500;
+}
+
+.attempt-badge.correct-attempt {
+    background: #DCD4E8;
+    color: #5A4B75;
+}
+
+.attempt-badge.wrong-attempt {
+    background: #F3EADC;
+    color: #9C6B35;
+}
+
+body.night-mode .grade-badge,
+body.night-mode .unit-badge,
+body.night-mode .knowledge-badge {
+    background: #5A4B75;
+    color: #ffffff;
+}
+
+body.night-mode .attempt-badge.correct-attempt {
+    background: #5A4B75;
+    color: #ffffff;
+}
+
+body.night-mode .attempt-badge.wrong-attempt {
+    background: #7a5a4a;
+    color: #ffd7a8;
+}
+
+.wrong-question-checkbox {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+}
+
+.wrong-question-option {
+    padding: 8px 12px;
+    margin: 4px 0;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.wrong-question-option.user-answer {
+    background-color: rgba(198, 40, 40, 0.15);
+    color: #8B0000;
+}
+
+body.night-mode .wrong-question-option.user-answer {
+    background-color: rgba(198, 68, 68, 0.25);
+    color: #ffffff !important;
+}
+
+.wrong-question-option.correct-answer {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+body.night-mode .wrong-question-option.correct-answer {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #81e784;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--light-text);
+    background: #F3E5F5;
+    border-radius: 24px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--light-text);
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 0 20px rgba(0,0,0,0.08);
+    }
+}
+
+body.night-mode {
+    background-color: #1a1e2a;
+}
+
+body.night-mode .container {
+    background-color: #242a38;
+}
+
+body.night-mode header,
+body.night-mode .filter-bar {
+    background-color: #242a38;
+    border-color: #3d4559;
+}
+
+body.night-mode .question-card,
+body.night-mode .wrong-question-item {
+    background-color: #242a38;
+    border-color: #7E57C2;
+}
+
+body.night-mode h1,
+body.night-mode .question-text,
+body.night-mode .wrong-question-content {
+    color: #ffffff;
+}
+
+body.night-mode .subtitle {
+    color: #a8b5c9;
+}
+
+body.night-mode .option {
+    background-color: #1e2533;
+    border-color: #3d4559;
+    color: #e8edf5;
+}
+
+body.night-mode .option:hover {
+    background-color: #3a4a5a;
+    border-color: #7E57C2;
+}
+
+body.night-mode .option.correct {
+    border-color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.25);
+    color: #ffffff;
+}
+
+body.night-mode .wrong-question-number-text {
+    color: #ffffff !important;
+}
+
+body.night-mode .option.incorrect {
+    border-color: #b57272;
+    background-color: rgba(181, 114, 114, 0.25);
+    color: #e8b8b8;
+}
+
+body.night-mode .fill-input {
+    background-color: #1e2533;
+    border-color: #3d4559;
+    color: #e8edf5;
+}
+
+body.night-mode .wrong-question-text {
+    color: #ffffff !important;
+}
+
+body.night-mode .fill-input:focus {
+    border-color: #7E57C2;
+    box-shadow: 0 0 0 2px rgba(126, 87, 194, 0.3);
+}
+
+body.night-mode .fill-input.correct {
+    border-color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #ffffff;
+}
+
+body.night-mode .fill-input.incorrect {
+    border-color: #b57272;
+    background-color: rgba(181, 114, 114, 0.2);
+    color: #e8b8b8;
+}
+
+body.night-mode .explanation {
+    background-color: #1e2533;
+    border-color: #3d4559;
+    color: #c8d0e0;
+}
+
+body.night-mode .explanation-title {
+    color: #D1C4E9;
+}
+
+body.night-mode .filter-group select {
+    background-color: #1e2533;
+    border-color: #3d4559;
+    color: #e8edf5;
+}
+
+body.night-mode .filter-group::after {
+    color: #a8b5c9;
+}
+
+body.night-mode .empty-message {
+    background-color: #1e2533;
+    color: #a8b5c9;
+}
+
+body.night-mode .question-number {
+    background-color: #7E57C2;
+}
+
+body.night-mode .nav-btn {
+    background-color: #7E57C2;
+}
+
+body.night-mode .nav-btn:disabled {
+    background-color: #5a4a7a;
+}
+
+body.night-mode .result-icon.correct-icon {
+    color: #ffffff;
+}
+
+/* 题号状态样式 */
+.question-number.unsolved {
+    background-color: #999 !important;
+}
+.question-number.correct {
+    background-color: #7B1FA2 !important;
+}
+.question-number.incorrect {
+    background-color: #C62828 !important;
+}
+
+/* 响应式 */
+@media (max-width: 550px) {
+    header {
+        padding: 10px 12px;
+    }
+    h1 {
+        font-size: 18px;
+    }
+    .subtitle {
+        font-size: 10px;
+    }
+    .header-btn {
+        padding: 4px 8px;
+        font-size: 16px;
+    }
+}
     </style>
 </head>
 <body>
@@ -820,13 +768,12 @@
         </div>
         
         <div id="wrong-questions-container">
-            <h2>错题本</h2>
             <div class="batch-actions">
                 <div>
                     <button class="batch-btn select-all-btn" id="select-all-btn">全选</button>
                     <button class="batch-btn delete-btn" id="batch-delete-btn" disabled>删除选中</button>
+                    <button class="batch-btn delete-btn" id="clear-record-btn">清空记录</button>
                 </div>
-                <button class="batch-btn practice-btn" id="batch-practice-btn" disabled>✏️ 练习选中</button>
             </div>
             <div id="wrong-questions-list"></div>
         </div>
@@ -866,7 +813,6 @@
         const wrongQuestionsList = document.getElementById('wrong-questions-list');
         const selectAllBtn = document.getElementById('select-all-btn');
         const batchDeleteBtn = document.getElementById('batch-delete-btn');
-        const batchPracticeBtn = document.getElementById('batch-practice-btn');
         const resetPracticeBtn = document.getElementById('reset-practice-btn');
         const wrongBookBtn = document.getElementById('wrong-book-btn');
         const modeToggleBtn = document.getElementById('mode-toggle-btn');
@@ -921,40 +867,41 @@
         }
         
         function toggleOnlyNewMode() {
-            isOnlyNewMode = !isOnlyNewMode;
-            if (isOnlyNewMode) {
-                onlyNewBtn.classList.add("active");
-                if (isOnlyWrongMode) {
-                    isOnlyWrongMode = false;
-                    onlyWrongBtn.classList.remove("active");
-                }
-                let filtered = filterQuestionsRaw();
-                let newOnly = filtered.filter(q => !userAnswers[q.id]);
-                if (newOnly.length === 0) {
-                    alert("所有题目都已经做过了！");
-                    isOnlyNewMode = false;
-                    onlyNewBtn.classList.remove("active");
-                    refreshPractice();
-                    return;
-                }
-                currentQuestions = getCurrentOrderQuestions(newOnly);
-                scoreData = { total: currentQuestions.length, correct: 0 };
-                for (let q of currentQuestions) {
-                    if (userAnswers[q.id] && checkAnswer(userAnswers[q.id], q.answer)) {
-                        scoreData.correct++;
-                    }
-                }
-                currentQuestionIndex = 0;
-                if (currentQuestions.length) {
-                    displayQuestion(currentQuestions, currentQuestionIndex);
-                }
-                updateNav();
-                saveLast();
-            } else {
-                onlyNewBtn.classList.remove("active");
-                refreshPractice();
+    isOnlyNewMode = !isOnlyNewMode;
+    if (isOnlyNewMode) {
+        onlyNewBtn.classList.add("active");
+        if (isOnlyWrongMode) {
+            isOnlyWrongMode = false;
+            onlyWrongBtn.classList.remove("active");
+        }
+        let filtered = filterQuestionsRaw();
+        // 修复：使用 questionAttempts 来判断是否做过题目
+        let newOnly = filtered.filter(q => !questionAttempts[q.id]);
+        if (newOnly.length === 0) {
+            alert("所有题目都已经做过了！");
+            isOnlyNewMode = false;
+            onlyNewBtn.classList.remove("active");
+            refreshPractice();
+            return;
+        }
+        currentQuestions = getCurrentOrderQuestions(newOnly);
+        scoreData = { total: currentQuestions.length, correct: 0 };
+        for (let q of currentQuestions) {
+            if (userAnswers[q.id] && checkAnswer(userAnswers[q.id], q.answer)) {
+                scoreData.correct++;
             }
         }
+        currentQuestionIndex = 0;
+        if (currentQuestions.length) {
+            displayQuestion(currentQuestions, currentQuestionIndex);
+        }
+        updateNav();
+        saveLast();
+    } else {
+        onlyNewBtn.classList.remove("active");
+        refreshPractice();
+    }
+}
         
         function toggleOnlyWrongMode() {
             isOnlyWrongMode = !isOnlyWrongMode;
@@ -964,7 +911,9 @@
                     isOnlyNewMode = false;
                     onlyNewBtn.classList.remove("active");
                 }
-                let wrongQuestionIds = new Set(wrongQuestions.map(w => w.id));
+                let wrongQuestionIds = new Set(
+    Object.keys(questionCorrectStatus).filter(id => questionCorrectStatus[id] === true)
+);
                 let filtered = filterQuestionsRaw();
                 let wrongOnly = filtered.filter(q => wrongQuestionIds.has(q.id));
                 if (wrongOnly.length === 0) {
@@ -1118,12 +1067,11 @@
         }
         
         function recordAttempt(questionId, isCorrect) {
-            questionAttempts[questionId] = true;
-            if (!isCorrect) {
-                questionCorrectStatus[questionId] = true;
-            }
-            saveLast();
-        }
+    questionAttempts[questionId] = true;
+    // 保存每道题对错：true=错，false=对
+    questionCorrectStatus[questionId] = !isCorrect;
+    saveLast();
+}
         
         function checkAnswer(userAns, correctAns) {
             if (!userAns) return false;
@@ -1149,30 +1097,62 @@
         }
         
         function removeFromWrong(id) { 
-            wrongQuestions = wrongQuestions.filter(w => w.id !== id); 
-            saveWrong(); 
-            renderWrong(); 
-        }
+    // 只从错题本删除，不清除答题状态（颜色、是否做过）
+    wrongQuestions = wrongQuestions.filter(w => w.id !== id); 
+    saveWrong(); 
+    renderWrong(); 
+}
         
         function submitFillOrPhonetics(question, inputEl, idx) {
-            let answer = inputEl.value.trim();
-            if (!answer) { 
-                alert("请输入答案"); 
-                return; 
-            }
-            let qid = question.id;
-            if (userAnswers[qid]) return;
-            userAnswers[qid] = answer;
-            let correct = checkAnswer(answer, question.answer);
-            recordAttempt(qid, correct);
-            if (correct) {
-                scoreData.correct++;
-            } else {
-                addToWrong(question, answer);
-            }
-            displayQuestion(currentQuestions, currentQuestionIndex);
-            saveLast();
-        }
+    let answer = inputEl.value.trim();
+    if (!answer) { 
+        alert("请输入答案"); 
+        return; 
+    }
+    let qid = question.id;
+    if (userAnswers[qid]) return;
+    userAnswers[qid] = answer;
+    let correct = checkAnswer(answer, question.answer);
+    recordAttempt(qid, correct);
+    if (correct) {
+        scoreData.correct++;
+    } else {
+        addToWrong(question, answer);
+    }
+    
+    // 修复：如果是"只做新题"模式，提交后重新过滤并跳到下一题或刷新
+    if (isOnlyNewMode && !isPracticingWrongQuestions) {
+    // 重新过滤，排除掉这道刚做过的题
+    let filtered = filterQuestionsRaw();
+    let newOnly = filtered.filter(q => !questionAttempts[q.id]);
+    currentQuestions = getCurrentOrderQuestions(newOnly);
+    scoreData.total = currentQuestions.length;
+    
+    if (currentQuestions.length === 0) {
+        alert("恭喜！所有题目都做完了！");
+        isOnlyNewMode = false;
+        onlyNewBtn.classList.remove("active");
+        refreshPractice();
+        return;
+    }
+    
+    // 找到当前题目在新列表中的位置（如果存在的话）
+    let newIndex = currentQuestions.findIndex(q => q.id === qid);
+    if (newIndex === -1) {
+        // 当前题目已被移除，显示第一题
+        currentQuestionIndex = 0;
+    } else if (newIndex < currentQuestions.length - 1) {
+        currentQuestionIndex = newIndex + 1;
+    } else {
+        currentQuestionIndex = 0;
+    }
+    displayQuestion(currentQuestions, currentQuestionIndex);
+} else {
+    // 不是只做新题 → 不跳题，只刷新当前题
+    displayQuestion(currentQuestions, currentQuestionIndex);
+}
+    saveLast();
+}
         
         function showTransformAnswer(question, idx) {
             let qid = question.id;
@@ -1209,53 +1189,47 @@
                 star.className = 'star-btn';
                 star.classList.toggle('active', markedQuestions.has(q.id));
                 star.onclick = () => { 
-                    if(markedQuestions.has(q.id)) { 
-                        markedQuestions.delete(q.id); 
-                        removeFromWrong(q.id); 
-                    } else { 
-                        markedQuestions.add(q.id); 
-                        if(!wrongQuestions.some(w=>w.id===q.id)) {
-                            wrongQuestions.push({...q, userAnswer: null});
-                            saveWrong(); 
-                        }
-                    } 
-                    star.classList.toggle('active'); 
-                    renderWrong(); 
-                };
+    if(markedQuestions.has(q.id)) { 
+        markedQuestions.delete(q.id); 
+        removeFromWrong(q.id); // 这里只删错题本，没问题
+    } else { 
+        markedQuestions.add(q.id); 
+        if(!wrongQuestions.some(w=>w.id===q.id)) {
+            wrongQuestions.push({...q, userAnswer: null});
+            saveWrong(); 
+        }
+    } 
+    star.classList.toggle('active'); 
+    renderWrong(); 
+};
                 card.appendChild(star);
             }
             
-            let badgeDiv = document.createElement('div');
-            badgeDiv.style.marginBottom = '8px';
-            if (q.grade) {
-                let gradeBadge = document.createElement('span');
-                gradeBadge.className = 'grade-badge';
-                gradeBadge.textContent = q.grade;
-                badgeDiv.appendChild(gradeBadge);
-            }
-            if (q.unit) {
-                let unitBadge = document.createElement('span');
-                unitBadge.className = 'unit-badge';
-                unitBadge.textContent = q.unit;
-                badgeDiv.appendChild(unitBadge);
-            }
-            if (q.knowledge_point && q.knowledge_point.trim() !== '') {
-                let knowledgeBadge = document.createElement('span');
-                knowledgeBadge.className = 'knowledge-badge';
-                knowledgeBadge.textContent = q.knowledge_point;
-                badgeDiv.appendChild(knowledgeBadge);
-            }
-            let hasAttempted = questionAttempts[q.id];
-            if (hasAttempted) {
-                let hasEverWrong = questionCorrectStatus[q.id];
-                if (hasEverWrong) {
-                    let attemptBadge = document.createElement('span');
-                    attemptBadge.className = 'attempt-badge wrong-attempt';
-                    attemptBadge.textContent = `❌ 错过`;
-                    badgeDiv.appendChild(attemptBadge);
-                }
-            }
-            card.appendChild(badgeDiv);
+            // 修改 displayQuestion 函数，在 badgeDiv 部分添加已做标签
+let badgeDiv = document.createElement('div');
+badgeDiv.style.marginBottom = '8px';
+if (q.grade) {
+    let gradeBadge = document.createElement('span');
+    gradeBadge.className = 'grade-badge';
+    gradeBadge.textContent = q.grade;
+    badgeDiv.appendChild(gradeBadge);
+}
+if (q.unit) {
+    let unitBadge = document.createElement('span');
+    unitBadge.className = 'unit-badge';
+    unitBadge.textContent = q.unit;
+    badgeDiv.appendChild(unitBadge);
+}
+if (q.knowledge_point && q.knowledge_point.trim() !== '') {
+    let knowledgeBadge = document.createElement('span');
+    knowledgeBadge.className = 'knowledge-badge';
+    knowledgeBadge.textContent = q.knowledge_point;
+    badgeDiv.appendChild(knowledgeBadge);
+}
+
+
+
+card.appendChild(badgeDiv);
             
             let header = document.createElement('div'); 
             header.style.display = 'flex'; 
@@ -1263,7 +1237,28 @@
             header.style.flexWrap = 'wrap';
             let num = document.createElement('div'); 
             num.className = 'question-number'; 
-            num.textContent = idx + 1;
+            // q.originIndex 存题库原始下标，没有就赋值
+if (q.originIndex === undefined) {
+    q.originIndex = allQuestions.findIndex(item => item.id === q.id);
+}
+num.textContent = q.originIndex + 1;
+// 从本地记录读取，永久保留状态
+let hasDone = questionAttempts[q.id];
+let isWrong = questionCorrectStatus[q.id];
+
+// 先清空旧样式
+num.classList.remove('unsolved','correct','incorrect');
+
+if (!hasDone) {
+    // 没做过：灰色
+    num.classList.add('unsolved');
+} else if (isWrong) {
+    // 做过且做错：红色
+    num.classList.add('incorrect');
+} else {
+    // 做过且做对：紫色
+    num.classList.add('correct');
+}
             header.appendChild(num);
             let qtext = document.createElement('div'); 
             qtext.className = 'question-text'; 
@@ -1301,19 +1296,19 @@
                     }
                     
                     radio.onchange = () => {
-                        if (userAnswers[q.id]) return;
-                        userAnswers[q.id] = opt;
-                        let correct = checkAnswer(opt, q.answer);
-                        recordAttempt(q.id, correct);
-                        if (correct) {
-                            scoreData.correct++;
-                        } else {
-                            addToWrong(q, opt);
-                        }
-                        displayQuestion(questions, idx);
-                        saveLast();
-                    };
-                    
+    if (userAnswers[q.id]) return;
+    userAnswers[q.id] = opt;
+    let correct = checkAnswer(opt, q.answer);
+    recordAttempt(q.id, correct);
+    if (correct) {
+        scoreData.correct++;
+    } else {
+        addToWrong(q, opt);
+    }
+    // 只刷新当前题，不自动跳题
+    displayQuestion(currentQuestions, currentQuestionIndex);
+    saveLast();
+};
                     let span = document.createElement('span'); 
                     span.className = 'option-text';
                     span.textContent = opt;
@@ -1384,36 +1379,41 @@
         }
         
         function refreshPractice() {
-            if (isPracticingWrongQuestions) return;
-            currentType = questionTypeSelect.value;
-            currentGrade = gradeFilter.value;
-            currentUnit = unitFilter.value;
-            currentKnowledge = knowledgeFilter.value;
-            let filtered = filterQuestionsRaw();
-            
-            if (isOnlyWrongMode) {
-                let wrongQuestionIds = new Set(wrongQuestions.map(w => w.id));
-                filtered = filtered.filter(q => wrongQuestionIds.has(q.id));
-            }
-            
-            if (isOnlyNewMode) {
-                filtered = filtered.filter(q => !userAnswers[q.id]);
-            }
-            
-            currentQuestions = getCurrentOrderQuestions(filtered);
-            scoreData = { total: currentQuestions.length, correct: 0 };
-            userAnswers = {};
-            let start = Math.min(Math.max(1, lastPracticePosition), currentQuestions.length) - 1;
-            if (start < 0) start = 0;
-            currentQuestionIndex = start;
-            if (currentQuestions.length) {
-                displayQuestion(currentQuestions, currentQuestionIndex);
-            } else {
-                questionContainer.innerHTML = '<div class="question-card"><p>✨ 没有匹配的题目，请更换筛选条件 ✨</p></div>';
-            }
-            updateNav(); 
-            saveLast();
+    if (isPracticingWrongQuestions) return;
+    currentType = questionTypeSelect.value;
+    currentGrade = gradeFilter.value;
+    currentUnit = unitFilter.value;
+    currentKnowledge = knowledgeFilter.value;
+    let filtered = filterQuestionsRaw();
+    
+    if (isOnlyWrongMode) {
+        let wrongQuestionIds = new Set(wrongQuestions.map(w => w.id));
+        filtered = filtered.filter(q => wrongQuestionIds.has(q.id));
+    }
+    
+    if (isOnlyNewMode) {
+        // 修复：使用 questionAttempts 来判断是否做过题目
+        filtered = filtered.filter(q => !questionAttempts[q.id]);
+    }
+    
+    currentQuestions = getCurrentOrderQuestions(filtered);
+    scoreData = { total: currentQuestions.length, correct: 0 };
+    for (let q of currentQuestions) {
+        if (userAnswers[q.id] && checkAnswer(userAnswers[q.id], q.answer)) {
+            scoreData.correct++;
         }
+    }
+    let start = Math.min(Math.max(1, lastPracticePosition), currentQuestions.length) - 1;
+    if (start < 0) start = 0;
+    currentQuestionIndex = start;
+    if (currentQuestions.length) {
+        displayQuestion(currentQuestions, currentQuestionIndex);
+    } else {
+        questionContainer.innerHTML = '<div class="question-card"><p>✨ 没有匹配的题目，请更换筛选条件 ✨</p></div>';
+    }
+    updateNav(); 
+    saveLast();
+}
         
         function renderWrong() {
             wrongQuestionsList.innerHTML = '';
@@ -1442,11 +1442,9 @@
             });
             updateBatchBtns();
         }
-        
         function updateBatchBtns() { 
-            batchDeleteBtn.disabled = selectedWrongQuestions.size === 0; 
-            batchPracticeBtn.disabled = selectedWrongQuestions.size === 0; 
-        }
+    batchDeleteBtn.disabled = selectedWrongQuestions.size === 0; 
+}
         
         function deleteSelected() { 
             wrongQuestions = wrongQuestions.filter(q => !selectedWrongQuestions.has(q.id)); 
@@ -1456,19 +1454,6 @@
             if (isOnlyWrongMode && !isPracticingWrongQuestions) refreshPractice();
         }
         
-        function practiceSelected() { 
-            if(!selectedWrongQuestions.size) return; 
-            showPractice(); 
-            isPracticingWrongQuestions = true; 
-            resetPracticeBtn.style.display = 'block'; 
-            let selected = wrongQuestions.filter(q=>selectedWrongQuestions.has(q.id)).map(q=>({...q, answer: q.answer})); 
-            currentQuestions = selected; 
-            scoreData = {total: selected.length, correct: 0}; 
-            userAnswers = {}; 
-            currentQuestionIndex = 0; 
-            displayQuestion(currentQuestions, 0); 
-            updateNav(); 
-        }
         
         function toggleSelectAll() { 
             let cbs = document.querySelectorAll('.wrong-question-checkbox'); 
@@ -1508,6 +1493,40 @@
             }
             saveLast();
         }
+
+        // 清空所有做题本地记录
+function clearAllLocalRecord() {
+    if (!confirm('确定要清空所有做题记录吗？\n做题痕迹、对错标记、新题/错题记录都会重置，不可恢复！')) {
+        return;
+    }
+    // 清空做题记录、对错状态、用户答案
+    questionAttempts = {};
+    questionCorrectStatus = {};
+    userAnswers = {};
+    markedQuestions.clear();
+    
+    // 清除本地存储相关 key
+    localStorage.removeItem('questionAttempts');
+    localStorage.removeItem('questionCorrectStatus');
+    localStorage.removeItem('lastPos');
+    localStorage.removeItem('lastType');
+    localStorage.removeItem('lastGrade');
+    localStorage.removeItem('lastUnit');
+    localStorage.removeItem('lastKnow');
+    localStorage.removeItem('randomMode');
+    localStorage.removeItem('onlyWrongMode');
+    localStorage.removeItem('onlyNewMode');
+
+    // 重置模式状态
+    isOnlyNewMode = false;
+    isOnlyWrongMode = false;
+    onlyNewBtn.classList.remove("active");
+    onlyWrongBtn.classList.remove("active");
+
+    // 刷新页面题目，所有题号变回灰色未做
+    refreshPractice();
+    alert('✅ 做题记录已清空！');
+}
         
         function nightMode() {
             let btn = document.getElementById('night-mode-toggle');
@@ -1528,13 +1547,18 @@
         }
         
         async function init() {
-            allQuestions = await loadQuestions();
-            if (allQuestions.length === 0) return;
-            
-            loadLast(); 
-            loadWrong(); 
-            updateFilters(); 
-            refreshPractice();
+    allQuestions = await loadQuestions();
+    if (allQuestions.length === 0) return;
+
+    // 在这里插入！！！
+    allQuestions.forEach((q, index) => {
+        q.originIndex = index;
+    });
+
+    loadLast(); 
+    loadWrong(); 
+    updateFilters(); 
+    refreshPractice();
             
             questionTypeSelect.onchange = onFilterChange;
             gradeFilter.onchange = onFilterChange;
@@ -1543,6 +1567,7 @@
             modeToggleBtn.onclick = toggleMode;
             onlyNewBtn.onclick = toggleOnlyNewMode;
             onlyWrongBtn.onclick = toggleOnlyWrongMode;
+            document.getElementById('clear-record-btn').onclick = clearAllLocalRecord;
             
             prevBtn.onclick = () => { 
                 if(currentQuestionIndex > 0){ 
@@ -1567,7 +1592,6 @@
             };
             selectAllBtn.onclick = toggleSelectAll;
             batchDeleteBtn.onclick = deleteSelected;
-            batchPracticeBtn.onclick = practiceSelected;
             resetPracticeBtn.onclick = resetNormal;
             nightMode();
         }
