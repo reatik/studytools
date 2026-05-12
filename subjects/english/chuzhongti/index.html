@@ -82,7 +82,6 @@ h1 {
     align-items: center;
 }
 
-/* 统一标签按钮样式（只做新题、全选、删除选中、清空记录 都用这个） */
 .action-tag,
 .mode-toggle-tag,
 .batch-btn {
@@ -111,12 +110,6 @@ h1 {
     color: white;
 }
 
-.batch-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* 清空记录按钮 - 红色边框样式 */
 #clear-record-btn {
     border-color: var(--error-color);
     color: var(--error-color);
@@ -126,7 +119,6 @@ h1 {
     background-color: #fff5f5;
 }
 
-/* 夜间模式统一适配 */
 body.night-mode .action-tag,
 body.night-mode .mode-toggle-tag,
 body.night-mode .batch-btn {
@@ -136,8 +128,7 @@ body.night-mode .batch-btn {
 }
 
 body.night-mode .action-tag:hover,
-body.night-mode .mode-toggle-tag:hover,
-body.night-mode .batch-btn:hover:not(:disabled) {
+body.night-mode .mode-toggle-tag:hover {
     background-color: #3a4a5a;
 }
 
@@ -158,21 +149,6 @@ body.night-mode #clear-record-btn:hover {
 
 #practice-container {
     padding: 16px;
-}
-
-#wrong-questions-container {
-    display: none;
-    padding: 16px;
-}
-
-#wrong-questions-container h2 {
-    margin-bottom: 16px;
-    font-size: 20px;
-    transition: color 0.3s ease;
-}
-
-body.night-mode #wrong-questions-container h2 {
-    color: #ffffff;
 }
 
 .filter-bar {
@@ -219,22 +195,9 @@ body.night-mode #wrong-questions-container h2 {
     transition: color 0.3s ease;
 }
 
-.question-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 16px;
-    gap: 10px;
-}
 
-.batch-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-    align-items: center;
-    gap: 8px;
-}
 
-.question-card, .wrong-question-item {
+.question-card {
     position: relative;
     background: white;
     border-radius: 16px;
@@ -245,12 +208,12 @@ body.night-mode #wrong-questions-container h2 {
     transition: all 0.2s, background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.question-card:hover, .wrong-question-item:hover {
+.question-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(126, 87, 194, 0.15);
 }
 
-.question-number, .wrong-question-number {
+.question-number {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -274,51 +237,8 @@ body.night-mode #wrong-questions-container h2 {
     transition: color 0.3s ease;
 }
 
-.nav-btn {
-    flex: 1;
-    padding: 12px;
-    border-radius: 40px;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: none;
-}
 
-.nav-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: #B39DDB;
-}
 
-.nav-btn:hover:not(:disabled) {
-    background-color: var(--secondary-color);
-    transform: translateY(-1px);
-}
-
-.star-btn {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: none;
-    border: none;
-    font-size: 26px;
-    cursor: pointer;
-    transition: all 0.2s;
-    z-index: 1;
-}
-
-.star-btn::before {
-    content: "☆";
-    color: #D1C4E9;
-}
-
-.star-btn.active::before {
-    content: "★";
-    color: #FFC107;
-}
 
 .options-container {
     display: flex;
@@ -372,7 +292,7 @@ body.night-mode #wrong-questions-container h2 {
 }
 
 .option.incorrect {
-    border-color: var(--error-color);
+    border-color: #C62828;
     background-color: #FFEBEE;
 }
 
@@ -448,6 +368,7 @@ body.night-mode #wrong-questions-container h2 {
     font-size: 14px;
     border: 1px solid var(--border-color);
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-family: "SimSun", "宋体", serif !important;
 }
 
 .explanation-title {
@@ -457,8 +378,7 @@ body.night-mode #wrong-questions-container h2 {
     transition: color 0.3s ease;
 }
 
-/* 统一高级紫色标签 */
-.grade-badge, .unit-badge, .knowledge-badge, .attempt-badge {
+.grade-badge, .unit-badge, .knowledge-badge {
     display: inline-block;
     font-size: 11px;
     background: #E8E4F0;
@@ -469,83 +389,19 @@ body.night-mode #wrong-questions-container h2 {
     font-weight: 500;
 }
 
-.attempt-badge.correct-attempt {
-    background: #DCD4E8;
-    color: #5A4B75;
-}
-
-.attempt-badge.wrong-attempt {
-    background: #F3EADC;
-    color: #9C6B35;
-}
-
-body.night-mode .grade-badge,
-body.night-mode .unit-badge,
-body.night-mode .knowledge-badge {
-    background: #5A4B75;
-    color: #ffffff;
-}
-
-body.night-mode .attempt-badge.correct-attempt {
-    background: #5A4B75;
-    color: #ffffff;
-}
-
-body.night-mode .attempt-badge.wrong-attempt {
-    background: #7a5a4a;
-    color: #ffd7a8;
-}
-
-.wrong-question-checkbox {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 20px;
-    height: 20px;
-    accent-color: var(--primary-color);
-    cursor: pointer;
-}
-
-.wrong-question-option {
-    padding: 8px 12px;
-    margin: 4px 0;
-    border-radius: 8px;
-    font-size: 14px;
-}
-
-.wrong-question-option.user-answer {
-    background-color: rgba(198, 40, 40, 0.15);
-    color: #8B0000;
-}
-
-body.night-mode .wrong-question-option.user-answer {
-    background-color: rgba(198, 68, 68, 0.25);
-    color: #ffffff !important;
-}
-
-.wrong-question-option.correct-answer {
-    background-color: #e8f5e9;
-    color: #2e7d32;
-}
-
-body.night-mode .wrong-question-option.correct-answer {
-    background-color: rgba(76, 175, 80, 0.2);
-    color: #81e784;
-}
-
 .empty-message {
     text-align: center;
     padding: 40px 20px;
     color: var(--light-text);
     background: #F3E5F5;
     border-radius: 24px;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.loading-message {
+.loading-more {
     text-align: center;
-    padding: 40px 20px;
+    padding: 20px;
     color: var(--light-text);
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -570,15 +426,13 @@ body.night-mode .filter-bar {
     border-color: #3d4559;
 }
 
-body.night-mode .question-card,
-body.night-mode .wrong-question-item {
+body.night-mode .question-card {
     background-color: #242a38;
     border-color: #7E57C2;
 }
 
 body.night-mode h1,
-body.night-mode .question-text,
-body.night-mode .wrong-question-content {
+body.night-mode .question-text {
     color: #ffffff;
 }
 
@@ -603,10 +457,6 @@ body.night-mode .option.correct {
     color: #ffffff;
 }
 
-body.night-mode .wrong-question-number-text {
-    color: #ffffff !important;
-}
-
 body.night-mode .option.incorrect {
     border-color: #b57272;
     background-color: rgba(181, 114, 114, 0.25);
@@ -617,10 +467,6 @@ body.night-mode .fill-input {
     background-color: #1e2533;
     border-color: #3d4559;
     color: #e8edf5;
-}
-
-body.night-mode .wrong-question-text {
-    color: #ffffff !important;
 }
 
 body.night-mode .fill-input:focus {
@@ -669,19 +515,13 @@ body.night-mode .question-number {
     background-color: #7E57C2;
 }
 
-body.night-mode .nav-btn {
-    background-color: #7E57C2;
-}
-
-body.night-mode .nav-btn:disabled {
-    background-color: #5a4a7a;
-}
-
-body.night-mode .result-icon.correct-icon {
+body.night-mode .grade-badge,
+body.night-mode .unit-badge,
+body.night-mode .knowledge-badge {
+    background: #5A4B75;
     color: #ffffff;
 }
 
-/* 题号状态样式 */
 .question-number.unsolved {
     background-color: #999 !important;
 }
@@ -692,7 +532,6 @@ body.night-mode .result-icon.correct-icon {
     background-color: #C62828 !important;
 }
 
-/* 响应式 */
 @media (max-width: 550px) {
     header {
         padding: 10px 12px;
@@ -703,30 +542,21 @@ body.night-mode .result-icon.correct-icon {
     .subtitle {
         font-size: 10px;
     }
-    .header-btn {
-        padding: 4px 8px;
-        font-size: 16px;
-    }
 }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="header-buttons" style="order: 1;">
-                <button id="night-mode-toggle" class="mode-toggle-tag">🌙</button>
-            </div>
-            <div class="header-title-area" style="order: 2;">
+            <div class="header-title-area">
                 <h1>初中题</h1>
                 <div class="subtitle">精选各校作业、校外教辅的好题和易错题</div>
-            </div>
-            <div class="header-buttons" style="order: 3;">
-                <button id="wrong-book-btn" class="mode-toggle-tag">错题本</button>
             </div>
         </header>
         
         <div id="practice-container">
             <div class="filter-bar">
+
                 <div class="filter-group">
                     <select id="question-type">
                         <option value="all">全部题型</option>
@@ -751,72 +581,43 @@ body.night-mode .result-icon.correct-icon {
                         <option value="all">全部考点</option>
                     </select>
                 </div>
-                <button id="mode-toggle-btn" class="mode-toggle-tag">顺序</button>
-                <button id="only-new-btn" class="action-tag">只做新题</button>
-                <button id="only-wrong-btn" class="action-tag">只做错题</button>
+
+                <button id="only-wrong-btn" class="action-tag">只看错题</button>
+                <button id="jump-last-btn" class="action-tag" style="background:#6a1b9a;color:white;">跳到最新一题</button>
+                <button id="clear-record-btn" class="batch-btn">清空记录</button>
+                <button id="night-mode-toggle" class="mode-toggle-tag">🌙</button>
             </div>
 
             <div id="question-container">
                 <div class="loading-message">加载题目中...</div>
             </div>
-
-            <div class="question-nav">
-                <button class="nav-btn" id="prev-btn">◀ 上一题</button>
-                <button class="nav-btn" id="next-btn">下一题 ▶</button>
-            </div>
-            <button class="nav-btn" id="reset-practice-btn" style="display: none;">📖 返回正常练习</button>
-        </div>
-        
-        <div id="wrong-questions-container">
-            <div class="batch-actions">
-                <div>
-                    <button class="batch-btn select-all-btn" id="select-all-btn">全选</button>
-                    <button class="batch-btn delete-btn" id="batch-delete-btn" disabled>删除选中</button>
-                    <button class="batch-btn delete-btn" id="clear-record-btn">清空记录</button>
-                </div>
-            </div>
-            <div id="wrong-questions-list"></div>
+            <div class="loading-more" id="loading-more" style="display:none;">加载更多题目...</div>
         </div>
     </div>
 
     <script>
         // ---------- 全局变量 ----------
+        const PAGE_SIZE = 10;
         let allQuestions = [];
-        let currentQuestions = [];
-        let currentQuestionIndex = 0;
-        let currentType = 'all';
-        let currentGrade = 'all';
-        let currentUnit = 'all';
-        let currentKnowledge = 'all';
-        let isRandomMode = false;
+        let filteredQuestions = [];
+        let displayedCount = 0;
+        let isOnlyWrongMode = false;
+        let isLoading = false;   // 新加：加载锁
+
         let questionAttempts = {};
         let questionCorrectStatus = {};
         let userAnswers = {};
-        let wrongQuestions = [];
-        let markedQuestions = new Set();
-        let selectedWrongQuestions = new Set();
-        let isPracticingWrongQuestions = false;
-        let lastPracticePosition = 1;
-        let isOnlyWrongMode = false;
-        let isOnlyNewMode = false;
+
+        // 记忆上次做题位置
+        let lastQuestionId = localStorage.getItem('lastQuestionId') || null;
 
         // DOM
         const questionContainer = document.getElementById('question-container');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
+        const loadingMore = document.getElementById('loading-more');
         const questionTypeSelect = document.getElementById('question-type');
         const gradeFilter = document.getElementById('grade-filter');
         const unitFilter = document.getElementById('unit-filter');
         const knowledgeFilter = document.getElementById('knowledge-filter');
-        const practiceContainer = document.getElementById('practice-container');
-        const wrongQuestionsContainer = document.getElementById('wrong-questions-container');
-        const wrongQuestionsList = document.getElementById('wrong-questions-list');
-        const selectAllBtn = document.getElementById('select-all-btn');
-        const batchDeleteBtn = document.getElementById('batch-delete-btn');
-        const resetPracticeBtn = document.getElementById('reset-practice-btn');
-        const wrongBookBtn = document.getElementById('wrong-book-btn');
-        const modeToggleBtn = document.getElementById('mode-toggle-btn');
-        const onlyNewBtn = document.getElementById('only-new-btn');
         const onlyWrongBtn = document.getElementById('only-wrong-btn');
 
         // ---------- 加载题库 ----------
@@ -833,119 +634,35 @@ body.night-mode .result-icon.correct-icon {
             }
         }
 
-        function shuffleArray(arr) {
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr;
-        }
-        
-        function getCurrentOrderQuestions(baseQuestions) {
-            if (isRandomMode) {
-                return shuffleArray([...baseQuestions]);
-            } else {
-                return [...baseQuestions];
-            }
-        }
-        
-        function filterQuestionsRaw() {
-            let filtered = [...allQuestions];
-            if (currentType !== 'all') {
-                filtered = filtered.filter(q => q.type === currentType);
-            }
-            if (currentGrade !== 'all') {
-                filtered = filtered.filter(q => q.grade === currentGrade);
-            }
-            if (currentUnit !== 'all') {
-                filtered = filtered.filter(q => q.unit === currentUnit);
-            }
-            if (currentKnowledge !== 'all') {
-                filtered = filtered.filter(q => q.knowledge_point === currentKnowledge);
-            }
-            return filtered;
-        }
-        
-        function toggleOnlyNewMode() {
-    isOnlyNewMode = !isOnlyNewMode;
-    if (isOnlyNewMode) {
-        onlyNewBtn.classList.add("active");
-        if (isOnlyWrongMode) {
-            isOnlyWrongMode = false;
-            onlyWrongBtn.classList.remove("active");
-        }
-        let filtered = filterQuestionsRaw();
-        // 修复：使用 questionAttempts 来判断是否做过题目
-        let newOnly = filtered.filter(q => !questionAttempts[q.id]);
-        if (newOnly.length === 0) {
-            alert("所有题目都已经做过了！");
-            isOnlyNewMode = false;
-            onlyNewBtn.classList.remove("active");
-            refreshPractice();
-            return;
-        }
-        currentQuestions = getCurrentOrderQuestions(newOnly);
-        scoreData = { total: currentQuestions.length, correct: 0 };
-        for (let q of currentQuestions) {
-            if (userAnswers[q.id] && checkAnswer(userAnswers[q.id], q.answer)) {
-                scoreData.correct++;
-            }
-        }
-        currentQuestionIndex = 0;
-        if (currentQuestions.length) {
-            displayQuestion(currentQuestions, currentQuestionIndex);
-        }
-        updateNav();
-        saveLast();
-    } else {
-        onlyNewBtn.classList.remove("active");
-        refreshPractice();
-    }
-}
-        
-        function toggleOnlyWrongMode() {
-            isOnlyWrongMode = !isOnlyWrongMode;
+        // 综合筛选：下拉 + 搜题 + 只看错题
+        function filterQuestions() {
+            let type = questionTypeSelect.value;
+            let grade = gradeFilter.value;
+            let unit = unitFilter.value;
+            let knowledge = knowledgeFilter.value;
+
+            let res = [...allQuestions];
+
+
+            // 下拉筛选
+            if (type !== 'all') res = res.filter(q => q.type === type);
+            if (grade !== 'all') res = res.filter(q => q.grade === grade);
+            if (unit !== 'all') res = res.filter(q => q.unit === unit);
+            if (knowledge !== 'all') res = res.filter(q => q.knowledge_point === knowledge);
+
+            // 只看错题
             if (isOnlyWrongMode) {
-                onlyWrongBtn.classList.add("active");
-                if (isOnlyNewMode) {
-                    isOnlyNewMode = false;
-                    onlyNewBtn.classList.remove("active");
-                }
-                let wrongQuestionIds = new Set(
-    Object.keys(questionCorrectStatus).filter(id => questionCorrectStatus[id] === true)
-);
-                let filtered = filterQuestionsRaw();
-                let wrongOnly = filtered.filter(q => wrongQuestionIds.has(q.id));
-                if (wrongOnly.length === 0) {
-                    alert("当前没有错题！");
-                    isOnlyWrongMode = false;
-                    onlyWrongBtn.classList.remove("active");
-                    refreshPractice();
-                    return;
-                }
-                currentQuestions = getCurrentOrderQuestions(wrongOnly);
-                scoreData = { total: currentQuestions.length, correct: 0 };
-                for (let q of currentQuestions) {
-                    if (userAnswers[q.id] && checkAnswer(userAnswers[q.id], q.answer)) {
-                        scoreData.correct++;
-                    }
-                }
-                currentQuestionIndex = 0;
-                if (currentQuestions.length) {
-                    displayQuestion(currentQuestions, currentQuestionIndex);
-                }
-                updateNav();
-                saveLast();
-            } else {
-                onlyWrongBtn.classList.remove("active");
-                refreshPractice();
-            }
+    let wrongIds = new Set(Object.keys(questionCorrectStatus).filter(id => questionCorrectStatus[id] === true));
+    res = res.filter(q => wrongIds.has(q.id));
+}
+
+            return res;
         }
-        
+
+        // 初始化年级/单元/考点下拉
         function updateFilters() {
             let grades = new Set();
             allQuestions.forEach(q => { if (q.grade) grades.add(q.grade); });
-            const oldGrade = gradeFilter.value;
             gradeFilter.innerHTML = '<option value="all">全部年级</option>';
             Array.from(grades).sort().forEach(g => {
                 let opt = document.createElement('option');
@@ -953,14 +670,10 @@ body.night-mode .result-icon.correct-icon {
                 opt.textContent = g;
                 gradeFilter.appendChild(opt);
             });
-            if (oldGrade !== 'all' && grades.has(oldGrade)) gradeFilter.value = oldGrade;
-            else gradeFilter.value = 'all';
-            currentGrade = gradeFilter.value;
-            
+
             let units = new Set();
-            let filteredByGrade = allQuestions.filter(q => currentGrade === 'all' || q.grade === currentGrade);
-            filteredByGrade.forEach(q => { if (q.unit) units.add(q.unit); });
-            const oldUnit = unitFilter.value;
+            allQuestions.filter(q => gradeFilter.value === 'all' || q.grade === gradeFilter.value)
+                .forEach(q => { if (q.unit) units.add(q.unit); });
             unitFilter.innerHTML = '<option value="all">全部单元</option>';
             Array.from(units).sort().forEach(u => {
                 let opt = document.createElement('option');
@@ -968,348 +681,154 @@ body.night-mode .result-icon.correct-icon {
                 opt.textContent = u;
                 unitFilter.appendChild(opt);
             });
-            if (oldUnit !== 'all' && units.has(oldUnit)) unitFilter.value = oldUnit;
-            else unitFilter.value = 'all';
-            currentUnit = unitFilter.value;
-            
+
             let points = new Set();
-            let filteredByType = allQuestions.filter(q => {
-                if (currentType !== 'all') return q.type === currentType;
-                return true;
+            allQuestions.forEach(q => {
+                if (q.knowledge_point) points.add(q.knowledge_point);
             });
-            let filteredByGradeAndUnit = filteredByType.filter(q => {
-                if (currentGrade !== 'all' && q.grade !== currentGrade) return false;
-                if (currentUnit !== 'all' && q.unit !== currentUnit) return false;
-                return true;
-            });
-            filteredByGradeAndUnit.forEach(q => {
-                if (q.knowledge_point && q.knowledge_point.trim() !== '') {
-                    points.add(q.knowledge_point);
-                }
-            });
-            const oldKnow = knowledgeFilter.value;
             knowledgeFilter.innerHTML = '<option value="all">全部考点</option>';
-            Array.from(points).sort().forEach(kp => {
+            Array.from(points).sort().forEach(k => {
                 let opt = document.createElement('option');
-                opt.value = kp;
-                opt.textContent = kp;
+                opt.value = k;
+                opt.textContent = k;
                 knowledgeFilter.appendChild(opt);
             });
-            if (oldKnow !== 'all' && points.has(oldKnow)) knowledgeFilter.value = oldKnow;
-            else knowledgeFilter.value = 'all';
-            currentKnowledge = knowledgeFilter.value;
         }
-        
-        function saveLast() {
-            if (!isPracticingWrongQuestions && currentQuestions.length) {
-                localStorage.setItem('lastPos', currentQuestionIndex + 1);
-                localStorage.setItem('lastType', currentType);
-                localStorage.setItem('lastGrade', currentGrade);
-                localStorage.setItem('lastUnit', currentUnit);
-                localStorage.setItem('lastKnow', currentKnowledge);
-                localStorage.setItem('randomMode', isRandomMode);
-                localStorage.setItem('onlyWrongMode', isOnlyWrongMode);
-                localStorage.setItem('onlyNewMode', isOnlyNewMode);
-            }
-            localStorage.setItem('questionAttempts', JSON.stringify(questionAttempts));
-            localStorage.setItem('questionCorrectStatus', JSON.stringify(questionCorrectStatus));
+
+function loadMoreQuestions() {
+    // 正在加载中直接返回，防止重复触发
+    if (isLoading) return;
+    if (filteredQuestions.length === 0 || displayedCount >= filteredQuestions.length) {
+        loadingMore.style.display = 'none';
+        if(displayedCount === 0){
+            questionContainer.innerHTML = '<div class="empty-message">没有匹配的题目</div>';
         }
-        
-        function loadLast() {
-            let pos = localStorage.getItem('lastPos');
-            if (pos && !isNaN(parseInt(pos))) lastPracticePosition = parseInt(pos);
-            let savedType = localStorage.getItem('lastType');
-            if (savedType && ['all', '选择', '填空', '音标', '句型转换'].includes(savedType)) currentType = savedType;
-            let savedGrade = localStorage.getItem('lastGrade');
-            if (savedGrade) currentGrade = savedGrade;
-            let savedUnit = localStorage.getItem('lastUnit');
-            if (savedUnit) currentUnit = savedUnit;
-            let savedKnow = localStorage.getItem('lastKnow');
-            if (savedKnow && savedKnow !== 'undefined') currentKnowledge = savedKnow;
-            let savedRandom = localStorage.getItem('randomMode');
-            if (savedRandom !== null) isRandomMode = savedRandom === 'true';
-            let savedOnlyWrong = localStorage.getItem('onlyWrongMode');
-            if (savedOnlyWrong !== null) isOnlyWrongMode = savedOnlyWrong === 'true';
-            let savedOnlyNew = localStorage.getItem('onlyNewMode');
-            if (savedOnlyNew !== null) isOnlyNewMode = savedOnlyNew === 'true';
-            questionTypeSelect.value = currentType;
-            updateModeButtonDisplay();
-            
-            if (isOnlyWrongMode) {
-                onlyWrongBtn.classList.add("active");
-            } else {
-                onlyWrongBtn.classList.remove("active");
-            }
-            if (isOnlyNewMode) {
-                onlyNewBtn.classList.add("active");
-            } else {
-                onlyNewBtn.classList.remove("active");
-            }
-            
-            let savedAttempts = localStorage.getItem('questionAttempts');
-            if (savedAttempts) {
-                try {
-                    questionAttempts = JSON.parse(savedAttempts);
-                } catch(e) { questionAttempts = {}; }
-            }
-            let savedCorrectStatus = localStorage.getItem('questionCorrectStatus');
-            if (savedCorrectStatus) {
-                try {
-                    questionCorrectStatus = JSON.parse(savedCorrectStatus);
-                } catch(e) { questionCorrectStatus = {}; }
-            }
-        }
-        
-        function updateModeButtonDisplay() {
-            if (modeToggleBtn) {
-                modeToggleBtn.textContent = isRandomMode ? "随机" : "顺序";
-            }
-        }
-        
-        function recordAttempt(questionId, isCorrect) {
-    questionAttempts[questionId] = true;
-    // 保存每道题对错：true=错，false=对
-    questionCorrectStatus[questionId] = !isCorrect;
-    saveLast();
-}
-        
-        function checkAnswer(userAns, correctAns) {
-            if (!userAns) return false;
-            return userAns.trim().toLowerCase() === correctAns.trim().toLowerCase();
-        }
-        
-        function saveWrong() { localStorage.setItem('wrongQ', JSON.stringify(wrongQuestions)); }
-        
-        function loadWrong() {
-            let saved = localStorage.getItem('wrongQ');
-            if (saved) { 
-                wrongQuestions = JSON.parse(saved); 
-                renderWrong(); 
-            }
-        }
-        
-        function addToWrong(q, userAns) {
-            if (!wrongQuestions.some(w => w.id === q.id)) {
-                wrongQuestions.push({ ...q, userAnswer: userAns });
-                saveWrong(); 
-                renderWrong();
-            }
-        }
-        
-        function removeFromWrong(id) { 
-    // 只从错题本删除，不清除答题状态（颜色、是否做过）
-    wrongQuestions = wrongQuestions.filter(w => w.id !== id); 
-    saveWrong(); 
-    renderWrong(); 
-}
-        
-        function submitFillOrPhonetics(question, inputEl, idx) {
-    let answer = inputEl.value.trim();
-    if (!answer) { 
-        alert("请输入答案"); 
-        return; 
-    }
-    let qid = question.id;
-    if (userAnswers[qid]) return;
-    userAnswers[qid] = answer;
-    let correct = checkAnswer(answer, question.answer);
-    recordAttempt(qid, correct);
-    if (correct) {
-        scoreData.correct++;
-    } else {
-        addToWrong(question, answer);
-    }
-    
-    // 修复：如果是"只做新题"模式，提交后重新过滤并跳到下一题或刷新
-    if (isOnlyNewMode && !isPracticingWrongQuestions) {
-    // 重新过滤，排除掉这道刚做过的题
-    let filtered = filterQuestionsRaw();
-    let newOnly = filtered.filter(q => !questionAttempts[q.id]);
-    currentQuestions = getCurrentOrderQuestions(newOnly);
-    scoreData.total = currentQuestions.length;
-    
-    if (currentQuestions.length === 0) {
-        alert("恭喜！所有题目都做完了！");
-        isOnlyNewMode = false;
-        onlyNewBtn.classList.remove("active");
-        refreshPractice();
         return;
     }
-    
-    // 找到当前题目在新列表中的位置（如果存在的话）
-    let newIndex = currentQuestions.findIndex(q => q.id === qid);
-    if (newIndex === -1) {
-        // 当前题目已被移除，显示第一题
-        currentQuestionIndex = 0;
-    } else if (newIndex < currentQuestions.length - 1) {
-        currentQuestionIndex = newIndex + 1;
-    } else {
-        currentQuestionIndex = 0;
-    }
-    displayQuestion(currentQuestions, currentQuestionIndex);
-} else {
-    // 不是只做新题 → 不跳题，只刷新当前题
-    displayQuestion(currentQuestions, currentQuestionIndex);
+
+    isLoading = true;
+    loadingMore.style.display = 'block';
+
+    setTimeout(() => {
+        let end = displayedCount + PAGE_SIZE;
+        let batch = filteredQuestions.slice(displayedCount, end);
+        displayedCount = end;
+
+        batch.forEach(q => {
+            questionContainer.appendChild(createQuestionCard(q));
+        });
+
+        loadingMore.style.display = 'none';
+        isLoading = false;
+
+    }, 200);
 }
-    saveLast();
-}
-        
-        function showTransformAnswer(question, idx) {
-            let qid = question.id;
-            if (userAnswers[qid]) return;
-            recordAttempt(qid, false);
-            let answerDiv = document.createElement('div');
-            answerDiv.className = 'explanation';
-            answerDiv.style.display = 'block';
-            answerDiv.innerHTML = `<div class="explanation-title">📖 参考答案</div><div>${question.answer}</div><div style="margin-top:8px;"><strong>解析：</strong>${question.explanation || '无解析'}</div>`;
-            let container = document.querySelector(`.question-card[data-qid='${qid}']`);
-            if (container && !container.querySelector('.transform-answer-show')) {
-                answerDiv.classList.add('transform-answer-show');
-                container.appendChild(answerDiv);
-            }
-            userAnswers[qid] = '[已查看答案]';
-            saveLast();
+
+        // 滚动监听 上滑到底加载下10道
+        function setupScrollLoad() {
+    window.addEventListener('scroll', () => {
+        // 距离底部150px才触发，并且不在加载中
+        if (!isLoading && window.innerHeight + window.scrollY >= document.body.offsetHeight - 150) {
+            loadMoreQuestions();
         }
-        
-        let scoreData = { total: 0, correct: 0 };
-        
-        function displayQuestion(questions, idx) {
-            if (!questions.length) { 
-                questionContainer.innerHTML = '<div class="question-card"><p>✨ 没有匹配的题目，请更换筛选条件 ✨</p></div>'; 
-                updateNav(); 
-                return; 
-            }
-            let q = questions[idx];
-            let card = document.createElement('div'); 
-            card.className = 'question-card'; 
+    });
+}
+
+        // 生成题目卡片
+        function createQuestionCard(q) {
+            let card = document.createElement('div');
+            card.className = 'question-card';
             card.setAttribute('data-qid', q.id);
-            
-            if (!isPracticingWrongQuestions) {
-                let star = document.createElement('button'); 
-                star.className = 'star-btn';
-                star.classList.toggle('active', markedQuestions.has(q.id));
-                star.onclick = () => { 
-    if(markedQuestions.has(q.id)) { 
-        markedQuestions.delete(q.id); 
-        removeFromWrong(q.id); // 这里只删错题本，没问题
-    } else { 
-        markedQuestions.add(q.id); 
-        if(!wrongQuestions.some(w=>w.id===q.id)) {
-            wrongQuestions.push({...q, userAnswer: null});
-            saveWrong(); 
-        }
-    } 
-    star.classList.toggle('active'); 
-    renderWrong(); 
-};
-                card.appendChild(star);
+
+
+
+            // 标签
+            let badgeDiv = document.createElement('div');
+            badgeDiv.style.marginBottom = '8px';
+            if (q.grade) {
+                let b = document.createElement('span');
+                b.className = 'grade-badge';
+                b.textContent = q.grade;
+                badgeDiv.appendChild(b);
             }
-            
-            // 修改 displayQuestion 函数，在 badgeDiv 部分添加已做标签
-let badgeDiv = document.createElement('div');
-badgeDiv.style.marginBottom = '8px';
-if (q.grade) {
-    let gradeBadge = document.createElement('span');
-    gradeBadge.className = 'grade-badge';
-    gradeBadge.textContent = q.grade;
-    badgeDiv.appendChild(gradeBadge);
-}
-if (q.unit) {
-    let unitBadge = document.createElement('span');
-    unitBadge.className = 'unit-badge';
-    unitBadge.textContent = q.unit;
-    badgeDiv.appendChild(unitBadge);
-}
-if (q.knowledge_point && q.knowledge_point.trim() !== '') {
-    let knowledgeBadge = document.createElement('span');
-    knowledgeBadge.className = 'knowledge-badge';
-    knowledgeBadge.textContent = q.knowledge_point;
-    badgeDiv.appendChild(knowledgeBadge);
-}
+            if (q.unit) {
+                let b = document.createElement('span');
+                b.className = 'unit-badge';
+                b.textContent = q.unit;
+                badgeDiv.appendChild(b);
+            }
+            if (q.knowledge_point) {
+                let b = document.createElement('span');
+                b.className = 'knowledge-badge';
+                b.textContent = q.knowledge_point;
+                badgeDiv.appendChild(b);
+            }
+            card.appendChild(badgeDiv);
 
+            // 题号
+            let num = document.createElement('div');
+            num.className = 'question-number';
+            q.originIndex = allQuestions.findIndex(x => x.id === q.id);
+            num.textContent = q.originIndex + 1;
 
+            let hasDone = questionAttempts[q.id];
+            let isWrong = questionCorrectStatus[q.id];
+            num.classList.remove('unsolved', 'correct', 'incorrect');
+            if (!hasDone) num.classList.add('unsolved');
+            else if (isWrong) num.classList.add('incorrect');
+            else num.classList.add('correct');
 
-card.appendChild(badgeDiv);
-            
-            let header = document.createElement('div'); 
-            header.style.display = 'flex'; 
-            header.style.alignItems = 'center'; 
+            // 题干
+            let header = document.createElement('div');
+            header.style.display = 'flex';
+            header.style.alignItems = 'center';
             header.style.flexWrap = 'wrap';
-            let num = document.createElement('div'); 
-            num.className = 'question-number'; 
-            // q.originIndex 存题库原始下标，没有就赋值
-if (q.originIndex === undefined) {
-    q.originIndex = allQuestions.findIndex(item => item.id === q.id);
-}
-num.textContent = q.originIndex + 1;
-// 从本地记录读取，永久保留状态
-let hasDone = questionAttempts[q.id];
-let isWrong = questionCorrectStatus[q.id];
-
-// 先清空旧样式
-num.classList.remove('unsolved','correct','incorrect');
-
-if (!hasDone) {
-    // 没做过：灰色
-    num.classList.add('unsolved');
-} else if (isWrong) {
-    // 做过且做错：红色
-    num.classList.add('incorrect');
-} else {
-    // 做过且做对：紫色
-    num.classList.add('correct');
-}
             header.appendChild(num);
-            let qtext = document.createElement('div'); 
-            qtext.className = 'question-text'; 
+            let qtext = document.createElement('div');
+            qtext.className = 'question-text';
             qtext.innerHTML = q.question;
             header.appendChild(qtext);
             card.appendChild(header);
-            
+
+            // 选择题
             if (q.type === '选择') {
-                let opts = document.createElement('div'); 
+                let opts = document.createElement('div');
                 opts.className = 'options-container';
                 q.options.forEach(opt => {
-                    let label = document.createElement('label'); 
+                    let label = document.createElement('label');
                     label.className = 'option';
-                    let radio = document.createElement('input'); 
-                    radio.type = 'radio'; 
-                    radio.name = `q_${q.id}`; 
+                    let radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = `q_${q.id}`;
                     radio.value = opt;
                     if (userAnswers[q.id]) radio.disabled = true;
                     if (userAnswers[q.id] === opt) radio.checked = true;
-                    
+
                     let resultIcon = document.createElement('span');
                     resultIcon.className = 'result-icon';
-                    
+
                     if (userAnswers[q.id]) {
-                        let isCor = checkAnswer(userAnswers[q.id], q.answer);
+                        let cor = checkAnswer(userAnswers[q.id], q.answer);
                         if (userAnswers[q.id] === opt) {
-                            label.classList.add(isCor ? 'correct' : 'incorrect');
-                            resultIcon.textContent = isCor ? '✓' : '✗';
-                            resultIcon.classList.add(isCor ? 'correct-icon' : 'incorrect-icon');
-                        } else if (opt === q.answer && userAnswers[q.id] !== opt) {
+                            label.classList.add(cor ? 'correct' : 'incorrect');
+                            resultIcon.textContent = cor ? '✓' : '✗';
+                            resultIcon.classList.add(cor ? 'correct-icon' : 'incorrect-icon');
+                        } else if (opt === q.answer) {
                             label.classList.add('correct');
                             resultIcon.textContent = '✓';
                             resultIcon.classList.add('correct-icon');
                         }
                     }
-                    
+
                     radio.onchange = () => {
-    if (userAnswers[q.id]) return;
-    userAnswers[q.id] = opt;
-    let correct = checkAnswer(opt, q.answer);
-    recordAttempt(q.id, correct);
-    if (correct) {
-        scoreData.correct++;
-    } else {
-        addToWrong(q, opt);
-    }
-    // 只刷新当前题，不自动跳题
-    displayQuestion(currentQuestions, currentQuestionIndex);
-    saveLast();
-};
-                    let span = document.createElement('span'); 
+                        if (userAnswers[q.id]) return;
+                        userAnswers[q.id] = opt;
+                        let cor = checkAnswer(opt, q.answer);
+                        recordAttempt(q.id, cor);
+                        card.replaceWith(createQuestionCard(q));
+                    };
+
+                    let span = document.createElement('span');
                     span.className = 'option-text';
                     span.textContent = opt;
                     label.appendChild(radio);
@@ -1319,283 +838,182 @@ if (!hasDone) {
                 });
                 card.appendChild(opts);
                 if (userAnswers[q.id] && q.explanation) {
-                    let exp = document.createElement('div'); 
-                    exp.className = 'explanation'; 
+                    let exp = document.createElement('div');
+                    exp.className = 'explanation';
                     exp.style.display = 'block';
-                    exp.innerHTML = `<div class="explanation-title">解析</div><div>${q.explanation}</div>`;
+                    exp.innerHTML = `<div class="explanation-title">解析</div>${q.explanation}`;
                     card.appendChild(exp);
                 }
             }
+
+            // 填空 / 音标
             else if (q.type === '填空' || q.type === '音标') {
-                let input = document.createElement('input'); 
-                input.type = 'text'; 
+                let input = document.createElement('input');
+                input.type = 'text';
                 input.className = 'fill-input';
-                input.placeholder = q.type === '音标' ? '输入单词...' : '输入答案...';
+                input.placeholder = '输入答案';
                 if (userAnswers[q.id]) {
                     input.value = userAnswers[q.id];
                     input.disabled = true;
-                    let isCor = checkAnswer(userAnswers[q.id], q.answer);
-                    input.classList.add(isCor ? 'correct' : 'incorrect');
+                    let cor = checkAnswer(userAnswers[q.id], q.answer);
+                    input.classList.add(cor ? 'correct' : 'incorrect');
                 }
                 card.appendChild(input);
+
                 if (!userAnswers[q.id]) {
-                    let submit = document.createElement('button'); 
-                    submit.textContent = '✓ 提交答案'; 
-                    submit.className = 'submit-btn';
-                    submit.onclick = () => submitFillOrPhonetics(q, input, idx);
-                    card.appendChild(submit);
-                } else if (q.type === '填空' && q.explanation) {
-                    let exp = document.createElement('div'); 
-                    exp.className = 'explanation'; 
+                    let btn = document.createElement('button');
+                    btn.className = 'submit-btn';
+                    btn.textContent = '提交答案';
+                    btn.onclick = () => {
+                        let v = input.value.trim();
+                        if (!v) return alert('请输入答案');
+                        userAnswers[q.id] = v;
+                        let cor = checkAnswer(v, q.answer);
+                        recordAttempt(q.id, cor);
+                        card.replaceWith(createQuestionCard(q));
+                    };
+                    card.appendChild(btn);
+                } else if (q.explanation) {
+                    let exp = document.createElement('div');
+                    exp.className = 'explanation';
                     exp.style.display = 'block';
-                    exp.innerHTML = `<div class="explanation-title">解析</div><div>${q.explanation}</div>`;
+                    exp.innerHTML = `<div class="explanation-title">解析</div>${q.explanation}`;
                     card.appendChild(exp);
                 }
             }
+
+            // 句型转换
             else if (q.type === '句型转换') {
                 if (!userAnswers[q.id]) {
-                    let seeBtn = document.createElement('button'); 
-                    seeBtn.textContent = '🔍 查看答案'; 
-                    seeBtn.className = 'show-answer-btn';
-                    seeBtn.onclick = () => showTransformAnswer(q, idx);
-                    card.appendChild(seeBtn);
+                    let btn = document.createElement('button');
+                    btn.className = 'show-answer-btn';
+                    btn.textContent = '查看答案';
+                    btn.onclick = () => {
+                        userAnswers[q.id] = '[查看]';
+                        recordAttempt(q.id, false);
+                        card.replaceWith(createQuestionCard(q));
+                    };
+                    card.appendChild(btn);
                 } else {
-                    let ansDiv = document.createElement('div'); 
-                    ansDiv.className = 'explanation'; 
-                    ansDiv.style.display = 'block';
-                    ansDiv.innerHTML = `<div class="explanation-title">📖 参考答案</div><div>${q.answer}</div><div style="margin-top:8px;"><strong>解析：</strong>${q.explanation || '无解析'}</div>`;
-                    card.appendChild(ansDiv);
+                    let exp = document.createElement('div');
+                    exp.className = 'explanation';
+                    exp.style.display = 'block';
+                    exp.innerHTML = `<div class="explanation-title">答案</div>${q.answer}<br><br><strong>解析</strong><br>${q.explanation || '无'}`;
+                    card.appendChild(exp);
                 }
             }
-            
-            questionContainer.innerHTML = ''; 
-            questionContainer.appendChild(card);
-            updateNav(); 
-        }
-        
-        function updateNav() {
-            prevBtn.disabled = currentQuestionIndex === 0;
-            nextBtn.disabled = currentQuestionIndex >= currentQuestions.length - 1;
-        }
-        
-        function refreshPractice() {
-    if (isPracticingWrongQuestions) return;
-    currentType = questionTypeSelect.value;
-    currentGrade = gradeFilter.value;
-    currentUnit = unitFilter.value;
-    currentKnowledge = knowledgeFilter.value;
-    let filtered = filterQuestionsRaw();
-    
-    if (isOnlyWrongMode) {
-        let wrongQuestionIds = new Set(wrongQuestions.map(w => w.id));
-        filtered = filtered.filter(q => wrongQuestionIds.has(q.id));
-    }
-    
-    if (isOnlyNewMode) {
-        // 修复：使用 questionAttempts 来判断是否做过题目
-        filtered = filtered.filter(q => !questionAttempts[q.id]);
-    }
-    
-    currentQuestions = getCurrentOrderQuestions(filtered);
-    scoreData = { total: currentQuestions.length, correct: 0 };
-    for (let q of currentQuestions) {
-        if (userAnswers[q.id] && checkAnswer(userAnswers[q.id], q.answer)) {
-            scoreData.correct++;
-        }
-    }
-    let start = Math.min(Math.max(1, lastPracticePosition), currentQuestions.length) - 1;
-    if (start < 0) start = 0;
-    currentQuestionIndex = start;
-    if (currentQuestions.length) {
-        displayQuestion(currentQuestions, currentQuestionIndex);
-    } else {
-        questionContainer.innerHTML = '<div class="question-card"><p>✨ 没有匹配的题目，请更换筛选条件 ✨</p></div>';
-    }
-    updateNav(); 
-    saveLast();
-}
-        
-        function renderWrong() {
-            wrongQuestionsList.innerHTML = '';
-            selectedWrongQuestions.clear();
-            if (!wrongQuestions.length) { 
-                wrongQuestionsList.innerHTML = '<div class="empty-message"><p>📭 暂无错题，很棒！继续努力 🌟</p></div>'; 
-                updateBatchBtns(); 
-                return; 
-            }
-            wrongQuestions.forEach((q, idx) => {
-                let item = document.createElement('div'); 
-                item.className = 'wrong-question-item';
-                let cb = document.createElement('input'); 
-                cb.type = 'checkbox'; 
-                cb.className = 'wrong-question-checkbox'; 
-                cb.dataset.id = q.id;
-                cb.onchange = function() { 
-                    this.checked ? selectedWrongQuestions.add(q.id) : selectedWrongQuestions.delete(q.id); 
-                    updateBatchBtns(); 
-                };
-                item.appendChild(cb);
-                let content = document.createElement('div');
-                content.innerHTML = `<strong class="wrong-question-number-text">${idx+1}.</strong> <span class="wrong-question-text">${q.question}</span><div class="wrong-question-option user-answer">❌ 你的答案: ${q.userAnswer || '未作答'}</div><div class="wrong-question-option correct-answer">✅ 正确答案: ${q.answer}</div>${q.explanation && q.type !== '音标' ? `<div class="explanation" style="display:block;margin-top:8px;"><strong>解析</strong><br>${q.explanation}</div>` : ''}`;
-                item.appendChild(content);
-                wrongQuestionsList.appendChild(item);
-            });
-            updateBatchBtns();
-        }
-        function updateBatchBtns() { 
-    batchDeleteBtn.disabled = selectedWrongQuestions.size === 0; 
-}
-        
-        function deleteSelected() { 
-            wrongQuestions = wrongQuestions.filter(q => !selectedWrongQuestions.has(q.id)); 
-            selectedWrongQuestions.clear(); 
-            saveWrong(); 
-            renderWrong(); 
-            if (isOnlyWrongMode && !isPracticingWrongQuestions) refreshPractice();
-        }
-        
-        
-        function toggleSelectAll() { 
-            let cbs = document.querySelectorAll('.wrong-question-checkbox'); 
-            if(selectedWrongQuestions.size === wrongQuestions.length) { 
-                cbs.forEach(cb=>cb.checked=false); 
-                selectedWrongQuestions.clear(); 
-            } else { 
-                cbs.forEach(cb=>{cb.checked=true; selectedWrongQuestions.add(cb.dataset.id);}); 
-            } 
-            updateBatchBtns(); 
-        }
-        
-        function showPractice() { 
-            practiceContainer.style.display = 'block'; 
-            wrongQuestionsContainer.style.display = 'none'; 
-            wrongBookBtn.classList.remove('active'); 
-        }
-        
-        function showWrong() { 
-            practiceContainer.style.display = 'none'; 
-            wrongQuestionsContainer.style.display = 'block'; 
-            wrongBookBtn.classList.add('active'); 
-            renderWrong(); 
-        }
-        
-        function resetNormal() { 
-            isPracticingWrongQuestions = false; 
-            resetPracticeBtn.style.display = 'none'; 
-            refreshPractice(); 
-        }
-        
-        function toggleMode() {
-            isRandomMode = !isRandomMode;
-            updateModeButtonDisplay();
-            if (!isPracticingWrongQuestions) {
-                refreshPractice();
-            }
-            saveLast();
+
+            return card;
         }
 
-        // 清空所有做题本地记录
-function clearAllLocalRecord() {
-    if (!confirm('确定要清空所有做题记录吗？\n做题痕迹、对错标记、新题/错题记录都会重置，不可恢复！')) {
-        return;
-    }
-    // 清空做题记录、对错状态、用户答案
-    questionAttempts = {};
-    questionCorrectStatus = {};
-    userAnswers = {};
-    markedQuestions.clear();
-    
-    // 清除本地存储相关 key
-    localStorage.removeItem('questionAttempts');
-    localStorage.removeItem('questionCorrectStatus');
-    localStorage.removeItem('lastPos');
-    localStorage.removeItem('lastType');
-    localStorage.removeItem('lastGrade');
-    localStorage.removeItem('lastUnit');
-    localStorage.removeItem('lastKnow');
-    localStorage.removeItem('randomMode');
-    localStorage.removeItem('onlyWrongMode');
-    localStorage.removeItem('onlyNewMode');
+        // 工具方法
+        function checkAnswer(userAns, correctAns) {
+            return userAns.trim().toLowerCase() === correctAns.trim().toLowerCase();
+        }
 
-    // 重置模式状态
-    isOnlyNewMode = false;
-    isOnlyWrongMode = false;
-    onlyNewBtn.classList.remove("active");
-    onlyWrongBtn.classList.remove("active");
-
-    // 刷新页面题目，所有题号变回灰色未做
-    refreshPractice();
-    alert('✅ 做题记录已清空！');
+        function recordAttempt(qid, isCorrect) {
+    questionAttempts[qid] = true;
+    questionCorrectStatus[qid] = !isCorrect;
+    localStorage.setItem('lastQuestionId', qid); // 保存最后做的题 ID
+    saveAllData();
 }
-        
+
+        function saveAllData() {
+            localStorage.setItem('questionAttempts', JSON.stringify(questionAttempts));
+            localStorage.setItem('questionCorrectStatus', JSON.stringify(questionCorrectStatus));
+            localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+        }
+
+        function loadAllData() {
+            try {
+                questionAttempts = JSON.parse(localStorage.getItem('questionAttempts')) || {};
+                questionCorrectStatus = JSON.parse(localStorage.getItem('questionCorrectStatus')) || {};
+                userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
+            } catch (e) {}
+        }
+
+        // 只看错题 开关
+        function toggleOnlyWrongMode() {
+            isOnlyWrongMode = !isOnlyWrongMode;
+            onlyWrongBtn.classList.toggle('active', isOnlyWrongMode);
+            refreshFilter();
+        }
+
+        // 刷新筛选列表
+        function refreshFilter() {
+            filteredQuestions = filterQuestions();
+            displayedCount = 0;
+            questionContainer.innerHTML = '';
+            loadMoreQuestions();
+        }
+
+        // 清空所有做题记录
+        function clearAllLocalRecord() {
+            if (!confirm('确定要清空所有做题记录、对错标记吗？不可恢复！')) return;
+            questionAttempts = {};
+            questionCorrectStatus = {};
+            userAnswers = {};
+            localStorage.clear();
+            location.reload();
+        }
+
+        // 夜间模式
         function nightMode() {
-            let btn = document.getElementById('night-mode-toggle');
-            let saved = localStorage.getItem('nightMode');
-            if(saved === 'true') document.body.classList.add('night-mode');
-            btn.onclick = () => { 
-                document.body.classList.toggle('night-mode'); 
-                localStorage.setItem('nightMode', document.body.classList.contains('night-mode')); 
-                btn.textContent = document.body.classList.contains('night-mode') ? '☀️' : '🌙'; 
+            let dark = localStorage.getItem('nightMode') === 'true';
+            if (dark) document.body.classList.add('night-mode');
+            document.getElementById('night-mode-toggle').onclick = () => {
+                document.body.classList.toggle('night-mode');
+                localStorage.setItem('nightMode', document.body.classList.contains('night-mode'));
             };
-            btn.textContent = saved === 'true' ? '☀️' : '🌙';
         }
-        
-        function onFilterChange() {
-            if(isPracticingWrongQuestions) resetNormal();
-            updateFilters();
-            refreshPractice();
-        }
-        
-        async function init() {
+
+// 初始化
+async function init() {
     allQuestions = await loadQuestions();
-    if (allQuestions.length === 0) return;
+    if (!allQuestions.length) return;
 
-    // 在这里插入！！！
-    allQuestions.forEach((q, index) => {
-        q.originIndex = index;
-    });
+    loadAllData();
+    userAnswers = {};
+    updateFilters();
+    refreshFilter();
+    setupScrollLoad();
+    nightMode();
 
-    loadLast(); 
-    loadWrong(); 
-    updateFilters(); 
-    refreshPractice();
-            
-            questionTypeSelect.onchange = onFilterChange;
-            gradeFilter.onchange = onFilterChange;
-            unitFilter.onchange = onFilterChange;
-            knowledgeFilter.onchange = onFilterChange;
-            modeToggleBtn.onclick = toggleMode;
-            onlyNewBtn.onclick = toggleOnlyNewMode;
-            onlyWrongBtn.onclick = toggleOnlyWrongMode;
-            document.getElementById('clear-record-btn').onclick = clearAllLocalRecord;
-            
-            prevBtn.onclick = () => { 
-                if(currentQuestionIndex > 0){ 
-                    currentQuestionIndex--; 
-                    displayQuestion(currentQuestions, currentQuestionIndex); 
-                    saveLast(); 
-                } 
-            };
-            nextBtn.onclick = () => { 
-                if(currentQuestionIndex < currentQuestions.length - 1){ 
-                    currentQuestionIndex++; 
-                    displayQuestion(currentQuestions, currentQuestionIndex); 
-                    saveLast(); 
-                } 
-            };
-            wrongBookBtn.onclick = () => { 
-                if(wrongQuestionsContainer.style.display === 'block') {
-                    showPractice(); 
-                } else { 
-                    showWrong(); 
-                } 
-            };
-            selectAllBtn.onclick = toggleSelectAll;
-            batchDeleteBtn.onclick = deleteSelected;
-            resetPracticeBtn.onclick = resetNormal;
-            nightMode();
+    // 绑定事件
+    questionTypeSelect.onchange = refreshFilter;
+    gradeFilter.onchange = refreshFilter;
+    unitFilter.onchange = refreshFilter;
+    knowledgeFilter.onchange = refreshFilter;
+    onlyWrongBtn.onclick = toggleOnlyWrongMode;
+    document.getElementById('clear-record-btn').onclick = clearAllLocalRecord;
+
+    // ✅ 跳到最新一题（最终稳定版，一定能用）
+    document.getElementById('jump-last-btn').onclick = function() {
+        let lastId = localStorage.getItem('lastQuestionId');
+        if (!lastId) {
+            alert('暂无做题记录');
+            return;
         }
-        
+
+        let count = 0;
+        let maxCount = 30;
+
+        function tryJump() {
+            let target = document.querySelector('.question-card[data-qid="' + lastId + '"]');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                count++;
+                if (count < maxCount) {
+                    loadMoreQuestions();
+                    setTimeout(tryJump, 300);
+                }
+            }
+        }
+
+        tryJump();
+    };
+}
         init();
     </script>
 </body>
