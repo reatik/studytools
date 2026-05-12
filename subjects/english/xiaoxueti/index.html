@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>初中好题易错题</title>
+    <title>小学题</title>
     <style>
-        :root {
-            --primary-color: #6C7A6B;
-            --secondary-color: #9AAA98;
-            --accent-color: #556455;
-            --light-bg: #F2F5EF;
-            --text-color: #1B2E1B;
-            --light-text: #558B2F;
-            --border-color: #477448;
-            --error-color: #C62828;
-            --success-color: #2E7D32;
-            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-        }
+:root {
+    --primary-color: #7db4c4;    /* 天空蓝 - 主色 */
+    --secondary-color: #B5D8FF;    /* 浅蓝 - 辅助色 */
+    --accent-color: #5FA3E8;       /* 强调色 - 中蓝色 */
+    --light-bg: #F0F8FF;           /* 爱丽丝蓝背景 */
+    --text-color: #3A5B7A;         /* 深海蓝文字 */
+    --light-text: #6C9BCF;         /* 柔和蓝文字 */
+    --border-color: #CDE5FF;       /* 淡蓝边框 */
+    --error-color: #FFA69E;        /* 柔红错误 */
+    --success-color: #98c1d9;      /* 薄荷绿正确 */
+    --card-shadow: 0 4px 12px rgba(126, 185, 255, 0.15);
+}
         
         * {
             box-sizing: border-box;
@@ -199,8 +199,8 @@
         }
         
         .action-tag.active {
-            background-color: #4CAF50;
-            border-color: #2E7D32;
+            background-color: #4c8baf;
+            border-color: #2e597d;
             color: white;
         }
         
@@ -233,8 +233,8 @@
         }
         
         body.night-mode .action-tag.active {
-            background-color: #4CAF50;
-            border-color: #2E7D32;
+            background-color: #4c93af;
+            border-color: #2e6d7d;
             color: white;
         }
         
@@ -308,7 +308,7 @@
         .nav-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            background-color: #8BAA8B;
+            background-color: #8b9faa;
         }
         
         .nav-btn:hover:not(:disabled) {
@@ -330,7 +330,7 @@
         
         .star-btn::before {
             content: "☆";
-            color: #A5D6A7;
+            color: #a5c6d6;
         }
         
         .star-btn.active::before {
@@ -350,7 +350,7 @@
             justify-content: space-between;
             padding: 12px 16px;
             border-radius: 12px;
-            background-color: #FBFDF9;
+            background-color: #f9fbfd;
             cursor: pointer;
             transition: all 0.2s, background-color 0.3s ease, border-color 0.3s ease;
             border: 1px solid var(--border-color);
@@ -358,7 +358,7 @@
 
         .option:hover {
             border-color: var(--primary-color);
-            background-color: #E8F5E9;
+            background-color: #e8eff5;
         }
 
         .option input[type="radio"] {
@@ -386,7 +386,7 @@
         
         .option.correct {
             border-color: var(--success-color);
-            background-color: #E8F5E9;
+            background-color: #e8f0f5;
         }
         
         .option.incorrect {
@@ -401,19 +401,19 @@
             border-radius: 12px;
             font-size: 15px;
             margin-top: 8px;
-            background-color: #FBFDF9;
+            background-color: #f9fbfd;
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
         
         .fill-input:focus {
             border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 2px #A5D6A7;
+            box-shadow: 0 0 0 2px #a5c0d6;
         }
         
         .fill-input.correct {
             border-color: var(--success-color);
-            background-color: #E8F5E9;
+            background-color: #e8f0f5;
         }
 
         .fill-input.incorrect {
@@ -427,7 +427,7 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 40px;
+            border-radius: 8px;
             font-size: 13px;
             cursor: pointer;
             transition: 0.2s;
@@ -442,10 +442,10 @@
         .show-answer-btn {
             margin-top: 10px;
             padding: 8px 18px;
-            background-color: #558B2F;
+            background-color: #2f628b;
             color: white;
             border: none;
-            border-radius: 40px;
+            border-radius: 8px;
             font-size: 13px;
             cursor: pointer;
             transition: 0.2s;
@@ -453,7 +453,7 @@
         }
         
         .show-answer-btn:hover {
-            background-color: #6A9C3E;
+            background-color: #3e819c;
             transform: translateY(-1px);
         }
         
@@ -478,17 +478,17 @@
         .grade-badge, .unit-badge, .knowledge-badge, .attempt-badge {
             display: inline-block;
             font-size: 11px;
-            background: #D4E8D4;
+            background: #d4e0e8;
             padding: 3px 10px;
             border-radius: 4px;
             margin-right: 8px;
-            color: #1B4D1B;
+            color: #1b314d;
             font-weight: 600;
         }
         
         .attempt-badge.correct-attempt {
             background: #D4E8D4;
-            color: #1B4D1B;
+            color: #1b354d;
         }
         
         .attempt-badge.wrong-attempt {
@@ -502,7 +502,7 @@
         }
         
         body.night-mode .attempt-badge.correct-attempt {
-            background: #2a5a2a;
+            background: #2a4b5a;
             color: #ffffff;
         }
         
@@ -540,7 +540,7 @@
         
         .wrong-question-option.correct-answer {
             background-color: rgba(46, 125, 50, 0.15);
-            color: #2E7D32;
+            color: #2e5d7d;
         }
         
         body.night-mode .wrong-question-option.correct-answer {
@@ -550,7 +550,7 @@
         
         .batch-btn {
             padding: 8px 14px;
-            border-radius: 40px;
+            border-radius: 8px;
             font-size: 13px;
             cursor: pointer;
             transition: all 0.2s;
@@ -562,7 +562,7 @@
         }
         
         .select-all-btn {
-            background-color: #43A047;
+            background-color: #4395a0;
         }
         
         .delete-btn {
@@ -587,8 +587,8 @@
             text-align: center;
             padding: 40px 20px;
             color: var(--light-text);
-            background: #F1F8E9;
-            border-radius: 24px;
+            background: #e9f1f8;
+            border-radius: 8px;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         
@@ -648,7 +648,7 @@
         }
         
         body.night-mode .option.correct {
-            border-color: #6b8f6b;
+            border-color: #6b848f;
             background-color: rgba(107, 143, 107, 0.25);
             color: #ffffff;
         }
@@ -679,7 +679,7 @@
         }
         
         body.night-mode .fill-input.correct {
-            border-color: #6b8f6b;
+            border-color: #6b8b8f;
             background-color: rgba(107, 143, 107, 0.2);
             color: #ffffff;
         }
@@ -773,7 +773,7 @@
                 <button id="night-mode-toggle" class="mode-toggle-tag">🌙</button>
             </div>
             <div class="header-title-area" style="order: 2;">
-                <h1>初中题</h1>
+                <h1>小学题</h1>
                 <div class="subtitle">精选各校作业、校外教辅的好题和易错题</div>
             </div>
             <div class="header-buttons" style="order: 3;">
