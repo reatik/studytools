@@ -2,8 +2,8 @@
   "questions": [
     {
       "id": "1",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "Tom, you should do more ________. Don't always be at the desk busy doing your ________.",
       "options": [
@@ -17,8 +17,8 @@
     },
     {
       "id": "2",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "______ will win the English composition contest?",
       "options": [
@@ -32,8 +32,8 @@
     },
     {
       "id": "3",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "Nothing was found but ______ broken.",
       "options": [
@@ -47,8 +47,8 @@
     },
     {
       "id": "4",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "I'm going to call at ______ this evening.",
       "options": [
@@ -62,8 +62,8 @@
     },
     {
       "id": "5",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "Some ________ are even thinner than your little finger.",
       "options": [
@@ -77,8 +77,8 @@
     },
     {
       "id": "6",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "代词",
       "question": "His isn't fit for the work. Please get me ________.",
       "options": [
@@ -92,8 +92,8 @@
     },
     {
       "id": "7",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "Excuse me, how can I get to the nearest ________ shop?",
       "options": [
@@ -107,8 +107,8 @@
     },
     {
       "id": "8",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "代词",
       "question": "We can see the mountain clearly from our room because there is ________ blocking our view.",
       "options": [
@@ -122,8 +122,8 @@
     },
     {
       "id": "9",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "It's not far, only ________ walk from here to our school.",
       "options": [
@@ -137,8 +137,8 @@
     },
     {
       "id": "10",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "Though ________ is a long way from here, we'll do our best to reach there in time.",
       "options": [
@@ -152,8 +152,8 @@
     },
     {
       "id": "11",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "Old as he is, he has ________ to do every day.",
       "options": [
@@ -167,8 +167,8 @@
     },
     {
       "id": "12",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "He wants nothing but a house of ________.",
       "options": [
@@ -182,8 +182,8 @@
     },
     {
       "id": "13",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "代词",
       "question": "______ comes first will be served first.",
       "options": [
@@ -197,8 +197,8 @@
     },
     {
       "id": "14",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "They say that the meeting will be ______.",
       "options": [
@@ -212,8 +212,8 @@
     },
     {
       "id": "15",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "I had ______ sleep yesterday.",
       "options": [
@@ -227,8 +227,8 @@
     },
     {
       "id": "16",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "These young people are now making an active ______ to save the old building.",
       "options": [
@@ -242,8 +242,8 @@
     },
     {
       "id": "17",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "代词",
       "question": "______ must do ______ best to serve the people.",
       "options": [
@@ -257,8 +257,8 @@
     },
     {
       "id": "18",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "A plant depends on its green leaves for using ______ to make food for itself.",
       "options": [
@@ -272,8 +272,8 @@
     },
     {
       "id": "19",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "代词",
       "question": "— Is this your sock, Kathy? — Yes, it is. But where is ______?",
       "options": [
@@ -287,8 +287,8 @@
     },
     {
       "id": "20",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "The outer space is no longer a mystery. The moon has been visited by ______ already.",
       "options": [
@@ -302,8 +302,8 @@
     },
     {
       "id": "21",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "名词",
       "question": "We have to make ______ for your journey.",
       "options": [
@@ -317,8 +317,8 @@
     },
       {
         "id": "22",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "— Who will interview the winner of the race?\n— ______ of us will do.",
         "options": [
@@ -332,8 +332,8 @@
       },
       {
         "id": "23",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "名词",
         "question": "Years have passed. I find Mum has ______.",
         "options": [
@@ -347,8 +347,8 @@
       },
       {
         "id": "24",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "I took her pen by mistake. I mistook ______.",
         "options": [
@@ -362,8 +362,8 @@
       },
       {
         "id": "25",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "— The test isn't difficult, is it?\n— No, but I don't think ______ will pass it.",
         "options": [
@@ -377,8 +377,8 @@
       },
       {
         "id": "26",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "Is this museum ______ you visited last Sunday?",
         "options": [
@@ -392,8 +392,8 @@
       },
       {
         "id": "27",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "名词",
         "question": "While washing up, she broke a ______.",
         "options": [
@@ -407,8 +407,8 @@
       },
       {
         "id": "28",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "There're so many kinds of computers on sale that I can't make up my mind ______ to buy.",
         "options": [
@@ -422,8 +422,8 @@
       },
       {
         "id": "29",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "名词",
         "question": "Usually ______ are more careful in doing their homework.",
         "options": [
@@ -437,8 +437,8 @@
       },
       {
         "id": "30",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "One of them hasn't got ______ lessons prepared.",
         "options": [
@@ -452,8 +452,8 @@
       },
       {
         "id": "31",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "名词",
         "question": "You have worked out the plan and now we must put it into ______.",
         "options": [
@@ -467,8 +467,8 @@
       },
       {
         "id": "32",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "Of the four books, one is written by a young writer and ______ by an old one.",
         "options": [
@@ -482,8 +482,8 @@
       },
       {
         "id": "33",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "Some students of the English club are from Grade 8, while ______ all come from Grade 9.",
         "options": [
@@ -497,8 +497,8 @@
       },
       {
         "id": "34",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "______ have known each other for ten years.",
         "options": [
@@ -512,8 +512,8 @@
       },
       {
         "id": "35",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "Everybody is here, ______?",
         "options": [
@@ -527,9 +527,9 @@
       },
       {
         "id": "36",
-        "type": "choice",
-        "grade": "中考",
-        "knowledge_point": "强调句",
+        "type": "选择",
+        "grade": "中考难题",
+        "knowledge_point": "代词",
         "question": "It was ______ who donated money for the poor children in western China.",
         "options": [
           "A. he",
@@ -542,8 +542,8 @@
       },
       {
         "id": "37",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "代词",
         "question": "Please write on the paper ______ line.",
         "options": [
@@ -557,8 +557,8 @@
       },
       {
         "id": "38",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "名词",
         "question": "Here's my card. Let's keep in ______.",
         "options": [
@@ -572,8 +572,8 @@
       },
       {
         "id": "39",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "冠词",
         "question": "When Linda was a child, her mother always let her have ______ bed.",
         "options": [
@@ -587,8 +587,8 @@
     },
     {
         "id": "40",
-        "type": "choice",
-        "grade": "中考",
+        "type": "选择",
+        "grade": "中考难题",
         "knowledge_point": "冠词",
         "question": "Beyond ______ stars the astronaut saw nothing but ______ space.",
         "options": [
@@ -602,9 +602,9 @@
     },
     {
       "id": "41",
-      "type": "choice",
-      "grade": "中考",
-      "knowledge_point": "冠词与名词",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
       "question": "We are going to take ______ to the zoo.",
       "options": [
         "A. No. 96 bus",
@@ -617,8 +617,8 @@
     },
     {
       "id": "42",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "冠词",
       "question": "Both ______ Great Wall and ______ Tian'anmen Square are interesting places in Beijing.",
       "options": [
@@ -632,8 +632,8 @@
     },
     {
       "id": "43",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "数词",
       "question": "The experiment is not successful. We'll have to do it ______.",
       "options": [
@@ -647,9 +647,9 @@
     },
     {
       "id": "44",
-      "type": "choice",
-      "grade": "中考",
-      "knowledge_point": "量词",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "数词",
       "question": "Yesterday my mother bought ______ eggs in the market. Unfortunately, she broke two and ten were left.",
       "options": [
         "A. a dozen",
@@ -662,8 +662,8 @@
     },
     {
       "id": "45",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "冠词",
       "question": "Did you enter for ______ high jump or ______ 400-meter race?",
       "options": [
@@ -677,8 +677,8 @@
     },
     {
       "id": "46",
-      "type": "choice",
-      "grade": "中考",
+      "type": "选择",
+      "grade": "中考难题",
       "knowledge_point": "冠词",
       "question": "Her grandmother is in ______ hospital, so she goes to ______ hospital to see her after work.",
       "options": [
@@ -689,6 +689,575 @@
       ],
       "answer": "D. /, the",
       "explanation": "考查零冠词与定冠词的区别。句意：她的祖母生病住院了，所以她下班后去医院看望她。\n1. 第一空：'in hospital'（英式英语）或 'in the hospital'（美式英语）表示“生病住院”，此处强调状态，用零冠词（或视为固定搭配）。\n2. 第二空：'go to the hospital' 表示“去那家医院（看望病人）”，强调具体的地点和目的，需用定冠词 'the'。\n3. 结合语境，祖母生病住院，她去医院看望，符合 'in hospital' 和 'go to the hospital' 的用法。\n综上所述，正确答案为D。"
+    },
+    {
+      "id": "47",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "She is ______ newcomer to ______ chemistry but she has already made some important discoveries.",
+      "options": [
+        "A. the, the",
+        "B. the, /",
+        "C. a, /",
+        "D. a, the"
+      ],
+      "answer": "C. a, /",
+      "explanation": "考查冠词的用法。句意：她是化学领域的新手，但已经取得了一些重要发现。\n1. 第一空：'newcomer'是可数名词单数，此处表示“一个新手”，用不定冠词'a'。\n2. 第二空：'chemistry'是学科名词，学科名词前通常不加冠词。\n综上所述，正确答案为C。"
+    },
+    {
+      "id": "48",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "数词",
+      "question": "\"The year 2022\" should be read \"the year ______\".",
+      "options": [
+        "A. two thousand twenty - two",
+        "B. two thousand and twenty - two",
+        "C. twenty and twenty - two",
+        "D. two zero two two"
+      ],
+      "answer": "B. two thousand and twenty - two",
+      "explanation": "考查年份的读法。句意：“2022年”应该读作“the year two thousand and twenty - two”。\n1. 年份“2022”的正确读法是“two thousand and twenty - two”。\n2. A选项缺少“and”，C选项读法错误，D选项是数字的逐个读法，不符合年份的规范读法。\n综上所述，正确答案为B。"
+    },
+    {
+      "id": "49",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "The boy led the blind man by ______ arm to cross ______ street.",
+      "options": [
+        "A. an, the",
+        "B. the, the",
+        "C. the, a",
+        "D. an, a"
+      ],
+      "answer": "B. the, the",
+      "explanation": "考查冠词的用法。句意：男孩拉着盲人的胳膊过马路。\n1. 第一空：“by + the + 身体部位”是固定结构，表示“抓住/拉着某人的……部位”，所以用“the”。\n2. 第二空：“street”在这里是特指他们要过的那条街道，用定冠词“the”。\n综上所述，正确答案为B。"
+    },
+    {
+      "id": "50",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "—What's the matter with you? —I caught ______ bad cold and had to stay in ______ bed.",
+      "options": [
+        "A. a, /",
+        "B. a, the",
+        "C. a, a",
+        "D. the, the"
+      ],
+      "answer": "A. a, /",
+      "explanation": "考查冠词的固定搭配。句意：——你怎么了？——我得了重感冒，不得不卧床休息。\n1. 第一空：'catch a bad cold'是固定短语，意为“得重感冒”，用不定冠词'a'。\n2. 第二空：'stay in bed'是固定短语，意为“卧床（休息）”，bed前不加冠词。\n综上所述，正确答案为A。"
+    },
+    {
+      "id": "51",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "What ______ great help Tom has given us!",
+      "options": [
+        "A. a",
+        "B. an",
+        "C. /",
+        "D. the"
+      ],
+      "answer": "C. /",
+      "explanation": "考查感叹句中冠词的用法。句意：汤姆给了我们多大的帮助啊！\n1. 此句是what引导的感叹句，结构为'What + (a/an) + 形容词 + 名词 + 主语 + 谓语！'。\n2. 'help'在这里是抽象名词，不可数，因此前面不加冠词。\n综上所述，正确答案为C。"
+    },
+    {
+      "id": "52",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "He is ______ younger of the two brothers.",
+      "options": [
+        "A. a",
+        "B. the",
+        "C. /",
+        "D. one"
+      ],
+      "answer": "B. the",
+      "explanation": "考查比较级前冠词的用法。句意：他是两个兄弟中较年轻的那个。\n1. 当比较级用于特指“两者中较……的一个”时，比较级前要加定冠词'the'。\n2. 此处'the younger of the two brothers'表示“两个兄弟中较年轻的那个”，是特指。\n综上所述，正确答案为B。"
+    },
+    {
+      "id": "53",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "Many people agree that ______ knowledge of English is a must in ______ international trade today.",
+      "options": [
+        "A. a, /",
+        "B. the, an",
+        "C. the, the",
+        "D. /, the"
+      ],
+      "answer": "A. a, /",
+      "explanation": "考查冠词的用法。句意：许多人认为，在当今的国际贸易中，掌握英语知识是必备的。\n1. 第一空：'a knowledge of...'是固定短语，意为“掌握……知识”，knowledge虽为不可数名词，但与of搭配表示“某一方面的知识”时，前加'a'。\n2. 第二空：'international trade'（国际贸易）是抽象名词，表示泛指，前不加冠词。\n综上所述，正确答案为A。"
+    },
+    {
+      "id": "54",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "—What's the matter with you? —I caught ______ bad cold and had to stay in ______ bed.",
+      "options": [
+        "A. a, /",
+        "B. a, the",
+        "C. a, a",
+        "D. the, the"
+      ],
+      "answer": "A. a, /",
+      "explanation": "考查冠词的固定搭配。句意：——你怎么了？——我得了重感冒，不得不卧床休息。\n1. 第一空：'catch a bad cold'是固定短语，意为“得重感冒”，用不定冠词'a'。\n2. 第二空：'stay in bed'是固定短语，意为“卧床（休息）”，bed前不加冠词。\n综上所述，正确答案为A。"
+    },
+    {
+      "id": "55",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "What ______ great help Tom has given us!",
+      "options": [
+        "A. a",
+        "B. an",
+        "C. /",
+        "D. the"
+      ],
+      "answer": "C. /",
+      "explanation": "考查感叹句中冠词的用法。句意：汤姆给了我们多大的帮助啊！\n1. 此句是what引导的感叹句，结构为'What + (a/an) + 形容词 + 名词 + 主语 + 谓语！'。\n2. 'help'在这里是抽象名词，不可数，因此前面不加冠词。\n综上所述，正确答案为C。"
+    },
+    {
+      "id": "56",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "He is ______ younger of the two brothers.",
+      "options": [
+        "A. a",
+        "B. the",
+        "C. /",
+        "D. one"
+      ],
+      "answer": "B. the",
+      "explanation": "考查比较级前冠词的用法。句意：他是两个兄弟中较年轻的那个。\n1. 当比较级用于特指“两者中较……的一个”时，比较级前要加定冠词'the'。\n2. 此处'the younger of the two brothers'表示“两个兄弟中较年轻的那个”，是特指。\n综上所述，正确答案为B。"
+    },
+    {
+      "id": "57",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "Many people agree that ______ knowledge of English is a must in ______ international trade today.",
+      "options": [
+        "A. a, /",
+        "B. the, an",
+        "C. the, the",
+        "D. /, the"
+      ],
+      "answer": "A. a, /",
+      "explanation": "考查冠词的用法。句意：许多人认为，在当今的国际贸易中，掌握英语知识是必备的。\n1. 第一空：'a knowledge of...'是固定短语，意为“掌握……知识”，knowledge虽为不可数名词，但与of搭配表示“某一方面的知识”时，前加'a'。\n2. 第二空：'international trade'（国际贸易）是抽象名词，表示泛指，前不加冠词。\n综上所述，正确答案为A。"
+    },
+    {
+      "id": "58",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "— Have you seen ______ pen? I left it here this morning. — Is it ______ black one? I think I saw it somewhere.",
+      "options": [
+        "A. a, the",
+        "B. the, the",
+        "C. the, a",
+        "D. a, a"
+      ],
+      "answer": "D. a, a",
+      "explanation": "考查冠词的用法。句意：——你看到一支钢笔了吗？我今天早上把它落在这儿了。——是一支黑色的吗？我想我在某个地方看到过。第一空表示“一支钢笔”，用不定冠词 a；第二空表示“一支黑色的（钢笔）”，也用不定冠词 a。"
+    },
+    {
+      "id": "59",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "Most of the representatives (代表) think that the meeting was very successful ______.",
+      "options": [
+        "A. on whole of",
+        "B. on a whole",
+        "C. on the whole",
+        "D. on the whole that"
+      ],
+      "answer": "C. on the whole",
+      "explanation": "考查固定短语。句意：大多数代表认为这次会议总体上是成功的。on the whole 是固定短语，意为“总体上，大体上”。"
+    },
+    {
+      "id": "60",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "数词",
+      "question": "John is honest and helpful. We all like the boy ______.",
+      "options": [
+        "A. of ten years old",
+        "B. ten-year-old",
+        "C. at ten old",
+        "D. of age of ten"
+      ],
+      "answer": "A. of ten years old",
+      "explanation": "考查年龄的表达。句意：约翰诚实又乐于助人。我们都喜欢这个十岁的男孩。of + 基数词 + years old 可作后置定语，修饰名词 boy；ten - year - old 是复合形容词，需放在名词前作定语，此处结构不符；C、D 选项表达错误。"
+    },
+    {
+      "id": "61",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "Are there enough rooms for the travel group to stay in at ______ time?",
+      "options": [
+        "A. a",
+        "B. an",
+        "C. the",
+        "D. /"
+      ],
+      "answer": "C",
+      "explanation": "考查固定短语。'at the time' 是固定搭配，意为“当时；在那时”，此处特指旅行团停留的那个时间，需用定冠词 the。"
+    },
+    {
+      "id": "62",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "Many people are still in ______ habit of writing silly things in ______ public places.",
+      "options": [
+        "A. the, the",
+        "B. /, /",
+        "C. the, /",
+        "D. /, the"
+      ],
+      "answer": "C",
+      "explanation": "考查冠词的用法。第一空，in the habit of... 是固定搭配，意为“有……的习惯”，此处特指“写无聊东西的习惯”，故用定冠词the；第二空，in public places 是泛指“在公共场所”，public places 是复数名词表示泛指，前面不需要加冠词，用零冠词（/）。"
+    },
+    {
+      "id": "63",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "数词",
+      "question": "Shakespeare was born in ______.",
+      "options": [
+        "A. 1660s",
+        "B. 1660’s",
+        "C. the 1660s",
+        "D. the 1660s’"
+      ],
+      "answer": "C",
+      "explanation": "考查年代表达。表示“……世纪……年代”的结构是 'in + the + 年份复数（或年份’s）'，因此“17 世纪 60 年代”应表达为 'in the 1660s' 或 'in the 1660’s'，选项中 C 正确。"
+    },
+    {
+      "id": "64",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "数词",
+      "question": "______ of students donated money and clothes to the victims through the Red Cross after they learned the news.",
+      "options": [
+        "A. Hundreds",
+        "B. Hundred",
+        "C. Five hundred",
+        "D. Several hundred"
+      ],
+      "answer": "A",
+      "explanation": "考查 hundred 的用法。当 hundred 前有具体数字（如 five, several）时，hundred 用单数，且不与 of 连用；当表示“数以百计的”时，用 'hundreds of'（hundred 加 -s，后接 of）。题干中横线后有 of，因此用 'Hundreds of'，选 A。"
+    },
+    {
+      "id": "65",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "When he left ______ college, he got a job as ______ reporter in a newspaper office.",
+      "options": [
+        "A. /; a",
+        "B. /; the",
+        "C. a; the",
+        "D. the; the"
+      ],
+      "answer": "A",
+      "explanation": "考查冠词用法。'leave college'是固定短语，意为“大学毕业”，中间不加冠词；'reporter'是可数名词单数，此处表示“一名记者”，用不定冠词'a'修饰。"
+    },
+    {
+      "id": "66",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "The Wilsons live in ______ A - shaped house near the coast. It is ______ 17th century cottage.",
+      "options": [
+        "A. the; /",
+        "B. an; the",
+        "C. /; the",
+        "D. an; a"
+      ],
+      "answer": "D",
+      "explanation": "考查冠词用法。'A - shaped'以元音音素开头，所以第一空用'an'；第二空表示“一个17世纪的小屋”，'17th'以辅音音素开头，用不定冠词'a'。"
+    },
+    {
+      "id": "67",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "—John, there is ______ Mr Wilson on the phone for you. —I'm in ______ bath.",
+      "options": [
+        "A. a; the",
+        "B. the; a",
+        "C. a; /",
+        "D. the; /"
+      ],
+      "answer": "A",
+      "explanation": "考查冠词用法。第一空用'a'表示“一位叫Wilson的先生”；'in the bath'是固定短语，意为“在洗澡”，所以第二空用'the'。"
+    },
+    {
+      "id": "68",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "It is ______ world of wonders, ______ world where anything can happen.",
+      "options": [
+        "A. a; the",
+        "B. a; a",
+        "C. the; a",
+        "D. /; /"
+      ],
+      "answer": "B",
+      "explanation": "考查冠词用法。两个空都表示“一个……的世界”，是泛指，且'world'以辅音音素开头，所以都用不定冠词'a'。"
+    },{
+      "id": "69",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "Many people have come to realize that they should go on ______ balanced diet and make ______ room in their day for exercise.",
+      "options": [
+        "A. a; /",
+        "B. the; a",
+        "C. the; the",
+        "D. /; a"
+      ],
+      "answer": "A",
+      "explanation": "考查冠词用法。第一空：go on a diet是固定短语，意为“节食”，balanced以辅音音素开头，故用不定冠词a；第二空：make room for是固定短语，意为“为……腾出空间”，room在此处意为“空间”，是不可数名词，前面不加冠词，用零冠词（/）。"
+    },
+    {
+      "id": "70",
+      "type": "c",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "It's ______ pity that many wild animals are now in danger. Please have ______ pity on them since they are part of our big family.",
+      "options": [
+        "A. a; /",
+        "B. a; a",
+        "C. /; a",
+        "D. /; /"
+      ],
+      "answer": "A",
+      "explanation": "考查冠词用法。第一空：It's a pity that...是固定句型，意为“很遗憾……”，pity在此处作可数名词，表示“一件遗憾的事”，故用不定冠词a；第二空：have pity on sb.是固定短语，意为“怜悯某人；同情某人”，pity在此处作不可数名词，前面不加冠词，用零冠词（/）。"
+    },
+    {
+      "id": "71",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "For him ______ stage is just ______ means of making a living.",
+      "options": [
+        "A. a; a",
+        "B. the; a",
+        "C. the; the",
+        "D. a; the"
+      ],
+      "answer": "B",
+      "explanation": "考查冠词。第一空：the stage 表示“舞台（演艺行业）”，是特指的职业领域，用定冠词 the；第二空：a means of... 是固定搭配，意为“一种……的方式”，means 是单复数同形的名词，此处表示“一种谋生手段”，用不定冠词 a。"
+    },
+    {
+      "id": "72",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "Don't worry if you can't come to ______ party—I'll save ______ cake for you.",
+      "options": [
+        "A. the; some",
+        "B. a; much",
+        "C. the; any",
+        "D. a; little"
+      ],
+      "answer": "A",
+      "explanation": "考查冠词和限定词。第一空：特指说话双方都知道的那个聚会，用定冠词 the；第二空：some 用于肯定句，修饰不可数名词 cake，表示“一些蛋糕”，符合语境。"
+    },
+    {
+      "id": "73",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "For a long time they walked without saying ______ word. Jim was the first to break ______ silence.",
+      "options": [
+        "A. the; a",
+        "B. a; the",
+        "C. a; /",
+        "D. the; /"
+      ],
+      "answer": "B",
+      "explanation": "考查冠词。第一空：say a word 是固定搭配，意为“说一句话”，用不定冠词 a；第二空：break the silence 是固定搭配，意为“打破沉默”，silence 此处特指当时的沉默氛围，用定冠词 the。"
+    },
+    {
+      "id": "74",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "Everywhere man has cut down ______ forests in order to grow crops, or to use ______ wood as fuel or as building material.",
+      "options": [
+        "A. the; the",
+        "B. the; /",
+        "C. /; the",
+        "D. /; /"
+      ],
+      "answer": "C",
+      "explanation": "考查冠词。第一空：forests 是复数名词，表示泛指“森林”，前面不加冠词；第二空：wood 此处特指“被砍伐的木材”，用定冠词 the。"
+    },
+    {
+      "id": "75",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "—Did you watch ______ show of the Voice of China in the Bird Nest last night? —Yes. It was really ______ great success.",
+      "options": [
+        "A. the; a",
+        "B. the; /",
+        "C. a; a",
+        "D. a; /"
+      ],
+      "answer": "A",
+      "explanation": "考查冠词。第一空：特指“昨晚在鸟巢的《中国好声音》节目”，用定冠词 the；第二空：success 此处作可数名词，意为“一件成功的事”，用不定冠词 a。"
+    },
+    {
+      "id": "76",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "The most important thing about cotton in history is ______ part that it played in ______ Industrial Revolution.",
+      "options": [
+        "A. /; /",
+        "B. the; /",
+        "C. the; the",
+        "D. a; the"
+      ],
+      "answer": "C",
+      "explanation": "考查冠词。第一空：part 后有定语从句 that it played... 修饰，表示特指“它在工业革命中扮演的角色”，用定冠词 the；第二空：Industrial Revolution（工业革命）是专有名词，前面用定冠词 the。"
+    },
+    {
+      "id": "77",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "______ on-going division between English-speaking Canadians and French-speaking Canadians is ______ major concern of the country.",
+      "options": [
+        "A. The; /",
+        "B. The; a",
+        "C. An; the",
+        "D. An; /"
+      ],
+      "answer": "B",
+      "explanation": "考查冠词。第一空：division 后有 between... and... 短语修饰，特指“英语加拿大人和法语加拿大人之间的分歧”，用定冠词 the；第二空：a major concern 表示“一个主要关注的问题”，是泛指，用不定冠词 a。"
+    },
+    {
+      "id": "78",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "As a rule, domestic servants doing odd jobs are paid ______.",
+      "options": [
+        "A. by the hour",
+        "B. by hour",
+        "C. by an hour",
+        "D. by hours"
+      ],
+      "answer": "A",
+      "explanation": "考查固定短语。by the hour 是固定搭配，意为“按小时（计费/支付）”，表示计酬方式。"
+    },
+    {
+      "id": "79",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "An accident happened at ______ crossroads a few metres away from ______ bank.",
+      "options": [
+        "A. a; a",
+        "B. /; a",
+        "C. /; the",
+        "D. the; /"
+      ],
+      "answer": "A",
+      "explanation": "考查冠词。第一空：at a crossroads 是固定短语，意为“在一个十字路口”，crossroads 是单复数同形，此处表示“一个”，用不定冠词 a；第二空：bank 是可数名词，此处泛指“一家银行”，用不定冠词 a。"
+    },
+    {
+      "id": "80",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "One way to understand thousands of new words is to gain ______ good knowledge of basic word formation.",
+      "options": [
+        "A. /",
+        "B. the",
+        "C. a",
+        "D. one"
+      ],
+      "answer": "C",
+      "explanation": "考查固定短语。gain a good knowledge of... 是固定搭配，意为“掌握……的知识”，knowledge 虽是不可数名词，但前面有形容词 good 修饰时，可加不定冠词 a。"
+    },
+    {
+      "id": "81",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "This book tells ______ life story of John Smith, who left ______ school and worked for a newspaper at the age of 16.",
+      "options": [
+        "A. the; the",
+        "B. a; the",
+        "C. the; /",
+        "D. a; /"
+      ],
+      "answer": "C",
+      "explanation": "考查冠词。第一空：特指 John Smith 的人生故事，用定冠词 the；第二空：leave school 是固定短语，意为“辍学、毕业”，中间不加冠词，用零冠词（/）。"
+    },
+    {
+      "id": "82",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "If you grow up in ______ large family, you are more likely to develop ______ ability to get on well with ______ others.",
+      "options": [
+        "A. /; an; the",
+        "B. a; the; /",
+        "C. the; an; the",
+        "D. a; the; the"
+      ],
+      "answer": "B",
+      "explanation": "考查冠词。第一空：泛指“一个大家庭”，large 以辅音音素开头，用不定冠词 a；第二空：特指“与他人相处的能力”，用定冠词 the；第三空：others 是代词，泛指“其他人”，前面不加冠词，用零冠词（/）。"
+    },
+    {
+      "id": "83",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "On May 5, 2005, at ______ World Table Tennis Championship, Kong Linghui and Wang Hao won the gold medal in men's doubles with ______ score of 4:3.",
+      "options": [
+        "A. a; a",
+        "B. /; the",
+        "C. a; /",
+        "D. the; a"
+      ],
+      "answer": "D",
+      "explanation": "考查冠词。第一空：World Table Tennis Championship 是专有名词，特指该赛事，前面需加定冠词 the；第二空：with a score of... 是固定搭配，意为“以……的比分”，用不定冠词 a。"
+    },
+    {
+      "id": "84",
+      "type": "选择",
+      "grade": "中考难题",
+      "knowledge_point": "冠词",
+      "question": "While he was investigating ways to improve the telescope, Newton made ______ discovery which completely changed ______ man's understanding of colour.",
+      "options": [
+        "A. a; /",
+        "B. a; the",
+        "C. /; the",
+        "D. the; a"
+      ],
+      "answer": "A",
+      "explanation": "考查冠词。第一空：make a discovery 是固定短语，意为“做出一个发现”，discovery 是可数名词，此处表示泛指，用不定冠词 a；第二空：man's understanding 中，man 泛指“人类”，前面不加冠词，用零冠词（/）。"
     }
   ]
 }
