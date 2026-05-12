@@ -1,0 +1,665 @@
+{
+  "questions": [
+    {
+      "id": "1",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "Tom, you should do more ________. Don't always be at the desk busy doing your ________.",
+      "options": [
+        "A. exercises, exercises",
+        "B. exercise, exercise",
+        "C. exercises, exercise",
+        "D. exercise, exercises"
+      ],
+      "answer": "D. exercise, exercises",
+      "explanation": "本题考查名词 'exercise' 的可数与不可数用法。第一空：'do more exercise' 指‘多做锻炼’，此时 'exercise' 作‘体育运动/锻炼’讲，是不可数名词，用原形。第二空：'doing your exercises' 指‘做你的练习题’，此时 'exercise' 作‘练习题、习题’讲，是可数名词，常用复数形式。因此正确答案为 D。"
+    },
+    {
+      "id": "2",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "______ will win the English composition contest?",
+      "options": [
+        "A. Who of them you think",
+        "B. Do you think who of them",
+        "C. Which of them do you think",
+        "D. Whom do you think"
+      ],
+      "answer": "C. Which of them do you think",
+      "explanation": "考查特殊疑问句及插入语的用法。'Who' 作主语，'Whom' 是宾格不能作主语，排除D。特殊疑问句的结构通常为“疑问词 + 助动词 + 主语 + 谓语”，但在此句中 'do you think' 作为插入语，应放在疑问词之后。'Who of them' 和 'Do you think who of them' 语序有误，正确语序应为 'Which of them do you think'。"
+    },
+    {
+      "id": "3",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "Nothing was found but ______ broken.",
+      "options": [
+        "A. the room window",
+        "B. the rooms' window",
+        "C. the room of the window",
+        "D. the window of room"
+      ],
+      "answer": "A. the room window",
+      "explanation": "考查名词作定语的用法。当名词作定语修饰另一个名词时，通常用单数形式（除 man, woman 外）。'room window' 意为“房间的窗户”，room 作定语修饰 window。选项 B 用了复数名词所有格，不符合常规表达；选项 C 和 D 语义不通顺。"
+    },
+    {
+      "id": "4",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "I'm going to call at ______ this evening.",
+      "options": [
+        "A. Mr. Black",
+        "B. the Blacks",
+        "C. Mr. Black's",
+        "D. Blacks'"
+      ],
+      "answer": "C. Mr. Black's",
+      "explanation": "考查名词所有格的用法。'call at + 地点' 表示“拜访某地”。表示“拜访某人的家”可以用名词所有格形式，'Mr. Black's' 是 'Mr. Black's home' 的省略。选项 A 缺少地点信息；选项 B 表示布莱克一家人；选项 D 表示布莱克家族的复数所有格，不符合题意。"
+    },
+    {
+      "id": "5",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "Some ________ are even thinner than your little finger.",
+      "options": [
+        "A. bamboo",
+        "B. bamboos",
+        "C. kinds of bamboo",
+        "D. kinds of bamboos"
+      ],
+      "answer": "B. bamboos",
+      "explanation": "考查名词单复数。根据句中的be动词 'are' 可知，主语必须是复数形式。\n1. 选项A 'bamboo' 是不可数名词（泛指竹子这种材料），谓语应用单数。\n2. 选项C 'kinds of bamboo' 中，表达的是“一些种类的竹子”。\n3. 选项B 'bamboos' 将 'bamboo' 视为可数名词（指一根根具体的竹子）。\n综上所述，正确答案为B。"
+    },
+    {
+      "id": "6",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "代词",
+      "question": "His isn't fit for the work. Please get me ________.",
+      "options": [
+        "A. something else",
+        "B. somebody else",
+        "C. someone else's",
+        "D. somebody's else"
+      ],
+      "answer": "C. someone else's",
+      "explanation": "考查复合不定代词的所有格。句意：他的不适合这份工作。请给我找个别人的。前一句 'His' 指的是 'His one'（他的人/东西）。后一句需要找一个对应的“别人的（东西/人）”，应用所有格形式 'someone else's'，相当于 'someone else's (one)'。故选C。"
+    },
+    {
+      "id": "7",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "Excuse me, how can I get to the nearest ________ shop?",
+      "options": [
+        "A. shoes",
+        "B. shoe",
+        "C. shoes'",
+        "D. shoe's"
+      ],
+      "answer": "B. shoe",
+      "explanation": "考查名词作定语。句意：打扰一下，请问去最近的鞋店怎么走？当名词作定语修饰另一个名词时，通常使用单数形式（除 man, woman 等少数词外）。'shoe shop' 意为“鞋店”，'shoe' 作定语修饰 'shop'。故选B。"
+    },
+    {
+      "id": "8",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "代词",
+      "question": "We can see the mountain clearly from our room because there is ________ blocking our view.",
+      "options": [
+        "A. something",
+        "B. anything",
+        "C. nothing",
+        "D. everything"
+      ],
+      "answer": "C. nothing",
+      "explanation": "考查不定代词。句意：从我们的房间可以清楚地看到山，因为没有什么东西挡住我们的视线。根据前半句 'clearly'（清楚地）可知，视线没有被阻挡，因此选否定意义的不定代词 'nothing'（没有东西）。故选C。"
+    },
+    {
+      "id": "9",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "It's not far, only ________ walk from here to our school.",
+      "options": [
+        "A. a ten minutes",
+        "B. ten minutes'",
+        "C. a ten minutes'",
+        "D. ten minutes'"
+      ],
+      "answer": "C. a ten minutes'",
+      "explanation": "考查名词所有格及固定搭配。句意：不远，从这里到我们学校只有十分钟的步行路程。“十分钟的步行路程”常用表达为 'a ten minutes' walk' 或 'a ten-minute walk'。\n1. 选项A缺少所有格符号。\n2. 选项B和D虽然所有格正确，但前面缺少冠词 'a'，因为 'walk' 在此处作可数名词，表示“一段路程”。\n故选C。"
+    },
+    {
+      "id": "10",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "Though ________ is a long way from here, we'll do our best to reach there in time.",
+      "options": [
+        "A. there",
+        "B. it",
+        "C. its",
+        "D. itself"
+      ],
+      "answer": "B. it",
+      "explanation": "考查代词。句意：虽然离这儿很远，但我们会尽力及时到达那里。在英语中，常用代词 'it' 来指代距离、时间、天气或环境等抽象概念。此处指代 'a long way'（一段很长的路），故选B。"
+    },
+    {
+      "id": "11",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "Old as he is, he has ________ to do every day.",
+      "options": [
+        "A. a lot of work",
+        "B. much works",
+        "C. lots of homeworks",
+        "D. quite a lot of homeworks"
+      ],
+      "answer": "A. a lot of work",
+      "explanation": "考查不可数名词。句意：尽管他年纪大了，但他每天有很多工作要做。\n1. 'work'（工作）和 'homework'（家庭作业）都是不可数名词，没有复数形式，不能加 's'。因此排除B、C、D。\n2. 'a lot of' 既可以修饰可数名词也可以修饰不可数名词，修饰不可数名词 'work' 正确。\n故选A。"
+    },
+    {
+      "id": "12",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "He wants nothing but a house of ________.",
+      "options": [
+        "A. his own",
+        "B. himself",
+        "C. his father",
+        "D. his own house"
+      ],
+      "answer": "A. his own",
+      "explanation": "考查固定搭配。句意：他只想要一所属于自己的房子。'of one's own' 是固定短语，意为“属于某人自己的”，常用来强调所属关系。'a house of his own' 相当于 'his own house'。故选A。"
+    },
+    {
+      "id": "13",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "代词",
+      "question": "______ comes first will be served first.",
+      "options": [
+        "A. Who",
+        "B. Anybody",
+        "C. All that",
+        "D. Whoever"
+      ],
+      "answer": "D. Whoever",
+      "explanation": "考查代词（复合关系代词）。句意：无论谁先来，就先服务谁。\n1. 分析句子结构：'______ comes first' 是主语从句，且从句中缺少主语。\n2. 选项A 'Who' 虽然可以引导主语从句，但通常用于询问身份（谁），语境不符。\n3. 选项B 'Anybody' 是不定代词，不能引导从句，后面需要加定语从句 'who' 才能完整。\n4. 选项C 'All that' 意为“所有……的东西”，不符合句意。\n5. 选项D 'Whoever' 相当于 'Anyone who'，意为“无论谁”，既可以引导主语从句，又在从句中作主语，完全符合语法和语境。\n综上所述，正确答案为D。"
+    },
+    {
+      "id": "14",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "They say that the meeting will be ______.",
+      "options": [
+        "A. of very important",
+        "B. great importance",
+        "C. of great importance",
+        "D. great important"
+      ],
+      "answer": "C. of great importance",
+      "explanation": "考查名词及固定搭配。句意：他们说这次会议非常重要。\n1. 固定搭配：'be of + 抽象名词' = 'be + 该名词对应的形容词'。例如：be of importance = be important。\n2. 因此，'be of great importance' = 'be very important'。\n3. 选项A 'of very important' 错误，因为 'important' 是形容词，不能直接放在 'of' 后面。\n4. 选项B 'great importance' 缺少介词 'of'，不能直接作表语。\n5. 选项D 'great important' 语法错误，形容词不能用 'great' 修饰。\n综上所述，正确答案为C。"
+    },
+    {
+      "id": "15",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "I had ______ sleep yesterday.",
+      "options": [
+        "A. a good night",
+        "B. a good-night",
+        "C. a good night's",
+        "D. a good-night's"
+      ],
+      "answer": "C. a good night's",
+      "explanation": "考查名词所有格。句意：我昨天睡了个好觉。\n1. 表达“一夜的睡眠”需要用名词所有格形式修饰 'sleep'。\n2. 'night' 是名词，其所有格形式是 'night's'。\n3. 'good' 是形容词，修饰 'night'，放在前面，即 'a good night's sleep'。\n4. 选项A 'a good night' 缺少所有格，意思变成了“一个好的夜晚”，而不是“一夜的好睡眠”。\n5. 选项B和D的 'good-night' 通常是合成词，用作问候语（晚安），不用于修饰名词。\n综上所述，正确答案为C。"
+    },
+    {
+      "id": "16",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "These young people are now making an active ______ to save the old building.",
+      "options": [
+        "A. part",
+        "B. effort",
+        "C. decision",
+        "D. plan"
+      ],
+      "answer": "B. effort",
+      "explanation": "考查名词辨析。句意：这些年轻人现在正在积极努力拯救这座老建筑。\n1. make an effort to do sth. 是固定搭配，意为“努力做某事”。\n2. make a decision to do sth. 意为“决定做某事”，make a plan to do sth. 意为“计划做某事”，make part 搭配不当。\n3. 根据句意，拯救老建筑需要付出努力，因此 effort 最符合语境。\n综上所述，正确答案为B。"
+    },
+    {
+      "id": "17",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "代词",
+      "question": "______ must do ______ best to serve the people.",
+      "options": [
+        "A. One, his",
+        "B. One, her",
+        "C. One, one",
+        "D. Ones, ones'"
+      ],
+      "answer": "A. One, his",
+      "explanation": "考查不定代词 one 的用法。句意：一个人必须尽他最大的努力为人民服务。\n1. one 作主语时，其对应的物主代词通常用 his（传统用法，泛指），现代英语中也可用 their，但选项中只有 his。\n2. one's best 是固定搭配，意为“某人最大的努力”。\n3. 选项B用her，性别限定，不符合泛指；选项C第二个空应为物主代词；选项D ones 不符合语法。\n综上所述，正确答案为A。"
+    },
+    {
+      "id": "18",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "A plant depends on its green leaves for using ______ to make food for itself.",
+      "options": [
+        "A. the sun energy",
+        "B. the sun's energy",
+        "C. the energy of sun",
+        "D. energy of the sun"
+      ],
+      "answer": "B. the sun's energy",
+      "explanation": "考查名词所有格。句意：植物依靠它的绿叶利用太阳能来为自己制造食物。\n1. 表示“太阳的能量”，需要用名词所有格形式，即 the sun's energy。\n2. 选项A the sun energy 缺少所有格；选项C the energy of sun 中 sun 前应加 the；选项D energy of the sun 语序不当，且 energy 前应加 the。\n综上所述，正确答案为B。"
+    },
+    {
+      "id": "19",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "代词",
+      "question": "— Is this your sock, Kathy? — Yes, it is. But where is ______?",
+      "options": [
+        "A. the other",
+        "B. another one",
+        "C. other one",
+        "D. others"
+      ],
+      "answer": "A. the other",
+      "explanation": "考查代词辨析。句意：— 凯西，这是你的袜子吗？— 是的，它是。但另一只在哪里？\n1. 袜子通常是成对的，指两者中的另一个，应用 the other。\n2. another one 指三者或以上中的另一个；other one 缺少定冠词 the；others 泛指其他人或物。\n3. 根据语境，问的是成对袜子中的另一只，因此 the other 最准确。\n综上所述，正确答案为A。"
+    },
+    {
+      "id": "20",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "The outer space is no longer a mystery. The moon has been visited by ______ already.",
+      "options": [
+        "A. men",
+        "B. a man",
+        "C. man",
+        "D. the men"
+      ],
+      "answer": "C. man",
+      "explanation": "考查名词 man 的用法。句意：外太空不再是一个谜。人类已经访问过月球了。\n1. man 在此处泛指“人类”，是不可数名词，不加冠词，也不用复数。\n2. 选项A men 是复数，指多个男人；选项B a man 指一个男人；选项D the men 指特定的男人们。\n3. 根据句意，是“人类”访问了月球，因此用 man。\n综上所述，正确答案为C。"
+    },
+    {
+      "id": "21",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "名词",
+      "question": "We have to make ______ for your journey.",
+      "options": [
+        "A. preparing",
+        "B. preparation",
+        "C. a preparation",
+        "D. preparations"
+      ],
+      "answer": "D. preparations",
+      "explanation": "考查名词 preparation 的用法。句意：我们必须为你的旅行做准备。\n1. make preparations for... 是固定搭配，意为“为……做准备”，preparation 通常用复数形式。\n2. preparing 是动名词，不能直接跟在 make 后面；preparation 单数形式不常用；a preparation 不符合习惯用法。\n综上所述，正确答案为D。"
+    },
+      {
+        "id": "22",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "— Who will interview the winner of the race?\n— ______ of us will do.",
+        "options": [
+          "A. Somebody",
+          "B. Any",
+          "C. Anyone",
+          "D. Someone"
+        ],
+        "answer": "B. Any",
+        "explanation": "考查不定代词的用法。句意：——谁将采访比赛的获胜者？——我们中的任何一个人都可以。\n1. 'Any of us' 意为“我们中的任何一个”，符合语境，表示任意一个人都可以完成任务。\n2. 'Somebody' 和 'Someone' 通常用于肯定句，表示“某人”，不符合此处“任何一个”的语境。\n3. 'Anyone' 通常用于疑问句或否定句，且不能与 'of us' 直接搭配使用。\n综上所述，正确答案为B。"
+      },
+      {
+        "id": "23",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "名词",
+        "question": "Years have passed. I find Mum has ______.",
+        "options": [
+          "A. a little white hair",
+          "B. much white hair",
+          "C. some white hair",
+          "D. a few white hairs"
+        ],
+        "answer": "D. a few white hairs",
+        "explanation": "考查名词的可数与不可数。句意：多年过去了，我发现妈妈有了几根白头发。\n1. 'hair' 作“头发”总称时是不可数名词，但表示“几根头发”时是可数名词。\n2. 'a few' 修饰可数名词复数，表示“一些，几个”，符合语境，表示妈妈有了几根白头发。\n3. 'a little' 和 'much' 修饰不可数名词，不符合此处“几根”的语境。\n4. 'some' 可以修饰可数名词复数或不可数名词，但此处强调“几根”，'a few' 更准确。\n综上所述，正确答案为D。"
+      },
+      {
+        "id": "24",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "I took her pen by mistake. I mistook ______.",
+        "options": [
+          "A. hers for mine",
+          "B. hers to mine",
+          "C. she's to mine",
+          "D. her for mine"
+        ],
+        "answer": "A. hers for mine",
+        "explanation": "考查代词的用法。句意：我错拿了她的笔。我把她的错当成我的了。\n1. 'mistake A for B' 是固定搭配，意为“把A错当成B”。\n2. 此处 'hers' 是名词性物主代词，指代 'her pen'；'mine' 是名词性物主代词，指代 'my pen'。\n3. 'her' 是形容词性物主代词，不能单独使用；'she's' 是 'she is' 的缩写，不符合语境。\n综上所述，正确答案为A。"
+      },
+      {
+        "id": "25",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "— The test isn't difficult, is it?\n— No, but I don't think ______ will pass it.",
+        "options": [
+          "A. anyone",
+          "B. no one",
+          "C. everyone",
+          "D. someone"
+        ],
+        "answer": "C. everyone",
+        "explanation": "考查不定代词的用法。句意：——考试不难，是吗？——是的，但我认为不是每个人都能通过。\n1. 'everyone' 意为“每个人”，符合语境，表示不是所有人都能通过考试。\n2. 'anyone' 通常用于疑问句或否定句，不符合此处肯定句的语境。\n3. 'no one' 意为“没有人”，与句意不符。\n4. 'someone' 意为“某人”，不符合此处“每个人”的语境。\n综上所述，正确答案为C。"
+      },
+      {
+        "id": "26",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "Is this museum ______ you visited last Sunday?",
+        "options": [
+          "A. that",
+          "B. /",
+          "C. the one",
+          "D. which"
+        ],
+        "answer": "C. the one",
+        "explanation": "考查代词的用法。句意：这个博物馆是你上周日参观的那个吗？\n1. 'the one' 指代前文提到的 'museum'，并在定语从句中作宾语。\n2. 'that' 和 'which' 通常引导定语从句，但此处需要一个代词来指代 'museum'。\n3. 省略关系代词 '/' 不符合此处语境。\n综上所述，正确答案为C。"
+      },
+      {
+        "id": "27",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "名词",
+        "question": "While washing up, she broke a ______.",
+        "options": [
+          "A. glass wine",
+          "B. wine glass",
+          "C. glass of wine",
+          "D. wine of glass"
+        ],
+        "answer": "B. wine glass",
+        "explanation": "考查名词的用法。句意：洗碗时，她打碎了一个酒杯。\n1. 'wine glass' 是固定搭配，意为“酒杯”。\n2. 'glass wine' 不符合英语表达习惯。\n3. 'glass of wine' 意为“一杯酒”，不符合此处“酒杯”的语境。\n4. 'wine of glass' 不符合英语表达习惯。\n综上所述，正确答案为B。"
+      },
+      {
+        "id": "28",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "There're so many kinds of computers on sale that I can't make up my mind ______ to buy.",
+        "options": [
+          "A. what",
+          "B. where",
+          "C. how",
+          "D. which"
+        ],
+        "answer": "D. which",
+        "explanation": "考查疑问代词的用法。句意：有这么多类型的电脑在出售，我无法决定买哪一台。\n1. 'which' 意为“哪一个”，符合语境，表示在众多电脑中选择一台。\n2. 'what' 意为“什么”，不符合此处“哪一个”的语境。\n3. 'where' 意为“哪里”，不符合此处“哪一个”的语境。\n4. 'how' 意为“如何”，不符合此处“哪一个”的语境。\n综上所述，正确答案为D。"
+      },
+      {
+        "id": "29",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "名词",
+        "question": "Usually ______ are more careful in doing their homework.",
+        "options": [
+          "A. girls students",
+          "B. girl students",
+          "C. girl's students",
+          "D. girls' students"
+        ],
+        "answer": "B. girl students",
+        "explanation": "考查名词的用法。句意：通常女学生在做作业时更仔细。\n1. 'girl students' 是固定搭配，意为“女学生”。\n2. 'girls students' 不符合英语表达习惯。\n3. 'girl's students' 和 'girls' students' 表示“女孩的学生”，不符合此处“女学生”的语境。\n综上所述，正确答案为B。"
+      },
+      {
+        "id": "30",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "One of them hasn't got ______ lessons prepared.",
+        "options": [
+          "A. her",
+          "B. its",
+          "C. one's",
+          "D. his"
+        ],
+        "answer": "D. his",
+        "explanation": "考查代词的用法。句意：他们中有一个还没有准备好他的功课。\n1. 'One of them' 指的是“他们中的一个”，通常用单数代词来指代。\n2. 'his' 是形容词性物主代词，修饰名词 'lessons'，符合语境。\n3. 'her' 指代女性，'its' 指代物，'one's' 是泛指，不符合此处特定指代“他们中的一个”的语境。\n综上所述，正确答案为D。"
+      },
+      {
+        "id": "31",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "名词",
+        "question": "You have worked out the plan and now we must put it into ______.",
+        "options": [
+          "A. fall",
+          "B. reality",
+          "C. practice",
+          "D. deed"
+        ],
+        "answer": "C. practice",
+        "explanation": "考查名词辨析。句意：你已经制定了计划，现在我们必须把它付诸实践。\n1. 'put into practice' 是固定搭配，意为“付诸实践”，符合语境。\n2. 'fall' 意为“秋天”，'reality' 意为“现实”，'deed' 意为“行为”，均不符合此处“实施计划”的语境。\n综上所述，正确答案为C。"
+      },
+      {
+        "id": "32",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "Of the four books, one is written by a young writer and ______ by an old one.",
+        "options": [
+          "A. other three",
+          "B. three other",
+          "C. the other three",
+          "D. the three other"
+        ],
+        "answer": "C. the other three",
+        "explanation": "考查代词的用法。句意：这四本书中，一本是由一位年轻作家写的，另外三本是由一位老作家写的。\n1. 'the other three' 指的是“另外三本”，符合语境，表示在四本书中，除了已提到的一本，剩下的三本。\n2. 'other three' 缺少定冠词 'the'，'three other' 语序不当，'the three other' 语序也不符合英语习惯。\n综上所述，正确答案为C。"
+      },
+      {
+        "id": "33",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "Some students of the English club are from Grade 8, while ______ all come from Grade 9.",
+        "options": [
+          "A. another",
+          "B. others",
+          "C. the other",
+          "D. the others"
+        ],
+        "answer": "D. the others",
+        "explanation": "考查代词的用法。句意：英语俱乐部的一些学生来自八年级，而其他的学生都来自九年级。\n1. 'the others' 指的是“其他的人或物”，符合语境，表示除了八年级的学生，剩下的学生都来自九年级。\n2. 'another' 指的是“另一个”，'others' 指的是“其他人”，'the other' 指的是“另一个”，均不符合此处“其他学生”的语境。\n综上所述，正确答案为D。"
+      },
+      {
+        "id": "34",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "______ have known each other for ten years.",
+        "options": [
+          "A. I, you and he",
+          "B. He, you and I",
+          "C. You, he and I",
+          "D. You, he and me"
+        ],
+        "answer": "C. You, he and I",
+        "explanation": "考查代词的用法。句意：你、他和我已经认识十年了。\n1. 在英语中，当有多个主语时，通常按照“你、他/她、我”的顺序排列，因此 'You, he and I' 是正确的顺序。\n2. 'I, you and he' 和 'He, you and I' 的顺序不符合英语习惯，'You, he and me' 中的 'me' 是宾格，不能作主语。\n综上所述，正确答案为C。"
+      },
+      {
+        "id": "35",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "Everybody is here, ______?",
+        "options": [
+          "A. isn't everybody",
+          "B. isn't it",
+          "C. isn't he",
+          "D. aren't they"
+        ],
+        "answer": "D. aren't they",
+        "explanation": "考查反意疑问句的用法。句意：大家都在这儿，是吗？\n1. 当陈述部分的主语是 'everybody' 时，反意疑问句的主语通常用 'they'，因此 'aren't they' 是正确的。\n2. 'isn't everybody' 和 'isn't he' 不符合反意疑问句的规则，'isn't it' 的主语 'it' 不符合此处指代“大家”的语境。\n综上所述，正确答案为D。"
+      },
+      {
+        "id": "36",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "强调句",
+        "question": "It was ______ who donated money for the poor children in western China.",
+        "options": [
+          "A. he",
+          "B. him",
+          "C. himself",
+          "D. his"
+        ],
+        "answer": "A. he",
+        "explanation": "考查强调句型。句意：是他为西部的贫困儿童捐赠了钱。\n1. 这是一个 'It is/was ... who/that ...' 的强调句型，用来强调句子的主语。\n2. 被强调的部分是句子的主语，应该使用人称代词的主格形式。\n3. 原句可以还原为 'He donated money for the poor children in western China.'，因此被强调的主语是 'he'。\n综上所述，正确答案为A。"
+      },
+      {
+        "id": "37",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "代词",
+        "question": "Please write on the paper ______ line.",
+        "options": [
+          "A. each other",
+          "B. every other",
+          "C. all other",
+          "D. this and that"
+        ],
+        "answer": "B. every other",
+        "explanation": "考查固定搭配。句意：请隔行书写。\n1. 'every other line' 是一个固定短语，意思是“每隔一行”或“隔行”，符合语境。\n2. 'each other' 意为“互相”，通常作宾语。\n3. 'all other' 意为“所有其他的”，后面接名词复数。\n4. 'this and that' 意为“这个和那个”，不符合语境。\n综上所述，正确答案为B。"
+      },
+      {
+        "id": "38",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "名词",
+        "question": "Here's my card. Let's keep in ______.",
+        "options": [
+          "A. touch",
+          "B. relation",
+          "C. connection",
+          "D. friendship"
+        ],
+        "answer": "A. touch",
+        "explanation": "考查固定搭配。句意：这是我的名片。让我们保持联系。\n1. 'keep in touch' 是一个固定短语，意为“保持联系”，符合语境。\n2. 'relation' (关系), 'connection' (连接), 'friendship' (友谊) 虽然意思相关，但不能与 'keep in' 构成此意的固定搭配。\n综上所述，正确答案为A。"
+      },
+      {
+        "id": "39",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "冠词",
+        "question": "When Linda was a child, her mother always let her have ______ bed.",
+        "options": [
+            "A. the breakfast in",
+            "B. the breakfast in the",
+            "C. breakfast in",
+            "D. breakfast in the"
+        ],
+        "answer": "C. breakfast in",
+        "explanation": "考查冠词的用法。句意：当琳达还是个孩子的时候，她妈妈总是让她在床上吃早餐。\n1. 第一空：表示三餐的名词（breakfast/lunch/dinner）前，通常不加冠词，即零冠词，所以排除A、B选项。\n2. 第二空：固定搭配in bed表示“（躺在床上）卧床”，是泛指的抽象用法，不加定冠词the；而in the bed特指“在某张具体的床上”，不符合语境，所以排除D选项。\n综上所述，正确答案为C。"
+    },
+    {
+        "id": "40",
+        "type": "choice",
+        "grade": "中考",
+        "knowledge_point": "冠词",
+        "question": "Beyond ______ stars the astronaut saw nothing but ______ space.",
+        "options": [
+            "A. the, /",
+            "B. /, the",
+            "C. /, /",
+            "D. the, the"
+        ],
+        "answer": "A. the, /",
+        "explanation": "考查冠词的用法。句意：除了星星之外，宇航员什么也没看见，只看见了太空。\n1. 第一空：'stars' 这里特指宇航员在太空中看到的那些星星，或者指代宇宙中特定的星体集合，通常加定冠词 'the'。此外，独一无二的事物或特指的事物前加 'the'。\n2. 第二空：'space' 意为“太空、宇宙空间”，是抽象名词/不可数名词，表示泛指概念时，前面通常不加冠词（零冠词）。\n3. 手写笔记提示：“作‘宇宙’抽象词，不加the”，“星体或独一无二的东西加the”。\n综上所述，正确答案为A。"
+    },
+    {
+      "id": "41",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "冠词与名词",
+      "question": "We are going to take ______ to the zoo.",
+      "options": [
+        "A. No. 96 bus",
+        "B. a No. 96 bus",
+        "C. a No. 96th bus",
+        "D. a bus 96"
+      ],
+      "answer": "B. a No. 96 bus",
+      "explanation": "考查交通工具的表达。句意：我们要乘96路公交车去动物园。\n1. 表示“一辆……路公交车”，需要用不定冠词 'a'。\n2. 'No. 96' 是专有名词的一部分，不需要加 'th'。\n3. 正确语序是 'a No. 96 bus'。\n综上所述，正确答案为B。"
+    },
+    {
+      "id": "42",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "冠词",
+      "question": "Both ______ Great Wall and ______ Tian'anmen Square are interesting places in Beijing.",
+      "options": [
+        "A. the, the",
+        "B. the, /",
+        "C. /, the",
+        "D. /, /"
+      ],
+      "answer": "B. the, /",
+      "explanation": "考查专有名词前的冠词。句意：长城和天安门广场都是北京有趣的地方。\n1. 'Great Wall'（长城）是独一无二的事物，前面必须加定冠词 'the'。\n2. 'Tian'anmen Square'（天安门广场）是专有名词，广场名称前通常不加冠词。\n综上所述，正确答案为B。"
+    },
+    {
+      "id": "43",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "数词",
+      "question": "The experiment is not successful. We'll have to do it ______.",
+      "options": [
+        "A. two times",
+        "B. second time",
+        "C. a second time",
+        "D. the second time"
+      ],
+      "answer": "C. a second time",
+      "explanation": "考查不定冠词与序数词的连用。句意：实验不成功。我们将不得不再做一次。\n1. 'a + 序数词 + time' 表示“又一次，再一次”。\n2. 这里指在失败后“再做一次”，即“第二次做”，用 'a second time'。\n综上所述，正确答案为C。"
+    },
+    {
+      "id": "44",
+      "type": "choice",
+      "grade": "中考",
+      "knowledge_point": "量词",
+      "question": "Yesterday my mother bought ______ eggs in the market. Unfortunately, she broke two and ten were left.",
+      "options": [
+        "A. a dozen",
+        "B. dozens of",
+        "C. dozen",
+        "D. several dozens"
+      ],
+      "answer": "A. a dozen",
+      "explanation": "考查量词 'dozen' 的用法。句意：昨天我妈妈在市场上买了一打鸡蛋。不幸的是，她打碎了两个，还剩下十个。\n1. 根据后文“打碎2个剩10个”，可知总共买了12个，即“一打”。\n2. 'a dozen' 表示“一打（12个）”，符合语境。\n3. 'dozens of' 表示“许多”，数量不确定。\n综上所述，正确答案为A。"
+    }
+  ]
+}
+ 

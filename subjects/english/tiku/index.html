@@ -1000,7 +1000,7 @@
             if (question.explanation) {
                 const explanationDiv = document.createElement('div');
                 explanationDiv.className = 'explanation';
-                explanationDiv.innerHTML = `<div class="explanation-title">AI解析</div><div>${question.explanation}</div>`;
+                explanationDiv.innerHTML = `<div class="explanation-title">解析</div><div>${question.explanation}</div>`;
                 if (userAnswers[`${question.id}`]) explanationDiv.style.display = 'block';
                 questionDiv.appendChild(explanationDiv);
             }
@@ -1108,7 +1108,7 @@
                     const expDiv = document.createElement('div');
                     expDiv.className = 'explanation';
                     expDiv.style.display = 'block';
-                    expDiv.innerHTML = `<div class="explanation-title">AI解析</div><div>${question.explanation}</div>`;
+                    expDiv.innerHTML = `<div class="explanation-title">解析</div><div>${question.explanation}</div>`;
                     content.appendChild(expDiv);
                 }
                 item.appendChild(content);
