@@ -7,13 +7,13 @@
 
 <style>
 :root {
-    --bg: #eef4ee;
-    --card: #ffffff;
-    --text: #1f2f1f;
-    --border: #3a5a3a;
-    --correct: #4caf7f;
-    --wrong: #e57373;
-    --primary: #549754;
+    --bg: #f2f7f2;         /* 浅森系背景：淡薄荷绿 */
+    --card: #ffffff;       /* 卡片白 */
+    --text: #2c3e2c;       /* 深墨绿文字，柔和不黑 */
+    --border: #a8c5a8;     /* 浅绿边框 */
+    --correct: #64a573;    /* 清新绿（正确） */
+    --wrong: #e58989;      /* 柔和红（错误） */
+    --primary: #75a875;    /* 主色：浅森林绿 */
 }
 
 body {
@@ -28,7 +28,7 @@ body {
     text-align: center;
     font-size: 30px;
     font-family: "Comic Sans MS", "Chalkboard SE", "Marker Felt", "Microsoft YaHei", sans-serif;
-    color: #3a5a3a;
+    color: #406640; /* 深一点森绿标题 */
     font-weight: bold;
     margin-bottom: 24px;
 }
@@ -46,7 +46,7 @@ body {
     background: var(--card);
     border-radius: 14px;
     padding: 20px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+    box-shadow: 0 6px 16px rgba(120,160,120,0.08); /* 淡绿阴影 */
 }
 
 .setting-item {
@@ -65,6 +65,7 @@ body {
     font-size: 16px;
     border: 2px solid var(--border);
     border-radius: 8px;
+    background: #fafdfa; /* 极浅绿输入框 */
 }
 
 .radio-group {
@@ -77,7 +78,7 @@ body {
     padding: 10px 16px;
     border: 2px solid var(--border);
     border-radius: 10px;
-    background: #f6faf6;
+    background: #f0f8f0; /* 浅绿按钮底色 */
     color: var(--text);
     cursor: pointer;
     font-size: 15px;
@@ -86,12 +87,12 @@ body {
 }
 
 .level-btn:hover {
-    background: #eaf5ea;
+    background: #e0f0e0;
 }
 
 .level-btn.active {
     background: var(--primary);
-    border-color: var(--border);
+    border-color: #5f8f5f;
     color: #fff;
 }
 
@@ -99,7 +100,7 @@ body {
     width: 100%;
     padding: 12px;
     font-size: 18px;
-    border: 2px solid var(--border);
+    border: 2px solid #5f8f5f;
     border-radius: 12px;
     background: var(--primary);
     color: #fff;
@@ -120,6 +121,7 @@ body {
 
 .subject {
     font-weight: 700;
+    color: #507d50; /* 重点浅森绿 */
 }
 
 #questionText {
@@ -127,7 +129,7 @@ body {
 }
 
 .option.correct-text {
-    color: #7ab987; /* 更明显的淡绿 */
+    color: var(--correct);
 }
 
 .options {
@@ -143,6 +145,7 @@ body {
     cursor: pointer;
     position: relative;
     color: var(--text);
+    background: #fafdfa;
 }
 
 .option span {
@@ -168,18 +171,19 @@ body {
     border-radius: 10px;
     cursor: pointer;
     color: var(--text);
+    background: #f0f8f0;
 }
 
 #prevBtn {
-    background: #ff9fc9;
-    border-color: #ff6fa8;
-    color: #ffffff;
+    background: #e8d8e8; /* 浅紫森系 */
+    border-color: #c8b0c8;
+    color: #5a3a5a;
 }
 
 #nextBtn {
-    background: #7fc8ff;
-    border-color: #4f9fe0;
-    color: #ffffff;
+    background: #d0e8e8; /* 浅青森系 */
+    border-color: #a0c8c8;
+    color: #2a4a4a;
 }
 
 .nav button:disabled {
@@ -194,6 +198,7 @@ body {
     padding: 12px;
     border: 1px solid var(--border);
     border-radius: 10px;
+    background: #fafdfa;
 }
 
 .summary-title {
@@ -206,7 +211,7 @@ body {
 }
 
 .back-btn {
-    background: #d6ffe7;
+    background: #d8eed8;
     border: 2px solid var(--border);
     padding: 8px 14px;
     border-radius: 10px;
@@ -215,7 +220,7 @@ body {
 }
 
 .back-btn:hover {
-    background: #bcf5ca;
+    background: #c0e8c0;
 }
 </style>
 </head>
@@ -227,7 +232,7 @@ body {
 <div class="container" id="settingPanel">
     <div class="card">
         <div class="setting-item">
-            <label>题型选择（可多选）：</label>
+            <label>题型选择</label>
             <div class="radio-group" id="levelGroup">
                 <button type="button" class="level-btn active" data-value="陈述">陈述句</button>
                 <button type="button" class="level-btn" data-value="否定">否定句</button>
@@ -277,98 +282,146 @@ body {
 <script src="sentences.js"></script>
 
 <script>
-    document.querySelectorAll(".level-btn").forEach(btn => {
-        btn.onclick = () => {
-            btn.classList.toggle("active");
-            updateLevelInput();
-            updateMaxCount();
-        };
-    });
-    
-    function updateLevelInput() {
-        const levels = Array.from(document.querySelectorAll(".level-btn.active"))
-            .map(btn => btn.dataset.value);
-        document.getElementById("levelInput").value = levels.join(",");
+// ======================
+// 自动排查代码（我加的）
+// ======================
+function debugCheck() {
+    let err = [];
+
+    // 1. 检查 sentenceBank 是否存在
+    if (typeof sentenceBank === 'undefined') {
+        err.push("❌ 错误：sentences.js 加载失败 / 不存在");
+    } else if (!sentenceBank || sentenceBank.length === 0) {
+        err.push("❌ 错误：sentenceBank 是空的，没有题目");
+    } else {
+        console.log("✅ 题目总数：" + sentenceBank.length);
     }
-    
-    function updateMaxCount() {
+
+    if (err.length > 0) {
+        alert("排查结果：\n\n" + err.join("\n"));
+        return false;
+    }
+    return true;
+}
+
+// ======================
+// 你原来的代码（我修复过）
+// ======================
+document.querySelectorAll(".level-btn").forEach(btn => {
+    btn.onclick = () => {
+        btn.classList.toggle("active");
+        updateLevelInput();
+        updateMaxCount();
+    };
+});
+
+function updateLevelInput() {
+    const levels = Array.from(document.querySelectorAll(".level-btn.active"))
+        .map(btn => btn.dataset.value);
+    document.getElementById("levelInput").value = levels.join(",");
+}
+
+function updateMaxCount() {
+    try {
         const levels = document.getElementById("levelInput").value.split(",").filter(Boolean);
         const totalInput = document.getElementById("totalCount");
         const maxCount = sentenceBank.filter(q => levels.includes(q.difficulty)).length;
         totalInput.max = maxCount;
         if (+totalInput.value > maxCount) totalInput.value = maxCount;
-    }
-    
-    updateLevelInput();
-    updateMaxCount();
-    
-    let questionPool = [];
-    let usedQuestions = [];
-    let answers = [];
-    let wrongQuestions = [];
-    let targetCount = 20;
-    let correctCount = 0;
-    let currentIndex = 0;
-    
-    function startPractice() {
+    } catch (e) {}
+}
+
+updateLevelInput();
+try { updateMaxCount(); } catch (e) {}
+
+let questionPool = [];
+let usedQuestions = [];
+let answers = [];
+let wrongQuestions = [];
+let targetCount = 20;
+let correctCount = 0;
+let currentIndex = 0;
+
+function startPractice() {
+    // ========== 运行前自动排查 ==========
+    if (!debugCheck()) return;
+
+    try {
         const levels = document.getElementById("levelInput").value.split(",").filter(Boolean);
         targetCount = Number(document.getElementById("totalCount").value) || 20;
-    
-        questionPool = shuffle(
-            sentenceBank.filter(q => levels.includes(q.difficulty))
-        );
-    
-        if (questionPool.length < 10) {
-            alert("所选题型题目不足 10 道，无法开始练习");
+
+        // 筛选题目
+        questionPool = shuffle([...sentenceBank].filter(q => levels.includes(q.difficulty)));
+
+        console.log("筛选后题目：", questionPool);
+
+        if (questionPool.length === 0) {
+            alert("❌ 没有找到匹配题型的题目！\n\n检查 JS 里 difficulty 文字是否和按钮一致");
             return;
         }
-    
+        if (questionPool.length < 10) {
+            alert("⚠️ 题目不足 10 题，当前可用：" + questionPool.length);
+            return;
+        }
+
+        // 开始
         usedQuestions = [];
         answers = [];
         wrongQuestions = [];
         correctCount = 0;
         currentIndex = 0;
-    
+
         document.querySelector(".home-title").classList.add("hidden");
         document.getElementById("settingPanel").classList.add("hidden");
         document.getElementById("practicePanel").classList.remove("hidden");
-    
+
         showQuestion(0);
+    } catch (e) {
+        alert("startPractice 崩溃：\n" + e.message);
     }
-    
-    function showQuestion(index) {
+}
+
+function showQuestion(index) {
+    try {
         const q = questionPool[index];
+        if (!q) { alert("题目为空"); return; }
+
         usedQuestions[index] = q;
-    
+
         document.getElementById("questionText").innerHTML =
             `<span class="question-number">${index + 1}.</span>` +
             q.text.replace(/{(.*?)}/g, '<span class="subject">$1</span>');
-    
+
         document.getElementById("options").innerHTML = q.options.map((opt, i) => `
             <div class="option" data-index="${i}">
                 ${opt.label}. ${opt.value}
             </div>
         `).join("");
-    
+
         document.querySelectorAll(".option").forEach(el => {
             el.onclick = () => selectOption(el, q, index);
         });
-    
+
         restoreAnswer(q, index);
         updateNavButtons();
         updateProgress();
+    } catch (e) {
+        alert("showQuestion 报错：" + e.message);
     }
-    
-    function selectOption(el, q, index) {
-        if (answers[index]) return;
-    
+}
+
+function selectOption(el, q, index) {
+    if (answers[index]) return;
+
+    try {
         const selectedIndex = +el.dataset.index;
         const selected = q.options[selectedIndex];
         answers[index] = selected;
-    
+
         document.querySelectorAll(".option").forEach((optEl, i) => {
             const opt = q.options[i];
-    
+            optEl.style.pointerEvents = "none";
+
             if (i === selectedIndex && !opt.correct) {
                 const mark = document.createElement("span");
                 mark.className = "wrong";
@@ -376,7 +429,6 @@ body {
                 optEl.appendChild(mark);
                 optEl.classList.add("wrong");
             }
-    
             if (opt.correct) {
                 optEl.classList.add("correct-text");
                 const mark = document.createElement("span");
@@ -384,14 +436,12 @@ body {
                 mark.innerText = "✔";
                 optEl.appendChild(mark);
             }
-    
-            optEl.style.pointerEvents = "none";
         });
-    
+
         if (selected.correct) {
             correctCount++;
             updateProgress();
-    
+
             if (correctCount >= targetCount) {
                 setTimeout(finish, 1000);
             } else {
@@ -403,93 +453,79 @@ body {
                 }, 1000);
             }
         }
-    
         updateNavButtons();
+    } catch (e) {
+        alert("答题报错：" + e.message);
     }
-    
-    function restoreAnswer(q, index) {
-        const ans = answers[index];
-        if (!ans) return;
-    
-        document.querySelectorAll(".option").forEach((optEl, i) => {
-            const opt = q.options[i];
-            const mark = document.createElement("span");
-            mark.className = opt.correct ? "correct" : "wrong";
-            mark.innerText = opt.correct ? "✔" : "✗";
-            optEl.appendChild(mark);
-            optEl.style.pointerEvents = "none";
-    
-            if (opt === ans && !opt.correct) {
-                optEl.classList.add("wrong");
-            }
-        });
+}
+
+function restoreAnswer(q, index) {
+    const ans = answers[index];
+    if (!ans) return;
+
+    document.querySelectorAll(".option").forEach((optEl, i) => {
+        const opt = q.options[i];
+        const mark = document.createElement("span");
+        mark.className = opt.correct ? "correct" : "wrong";
+        mark.innerText = opt.correct ? "✔" : "✗";
+        optEl.appendChild(mark);
+        optEl.style.pointerEvents = "none";
+        if (opt === ans && !opt.correct) optEl.classList.add("wrong");
+    });
+}
+
+function updateNavButtons() {
+    document.getElementById("prevBtn").disabled = currentIndex === 0;
+    const hasAnswered = !!answers[currentIndex];
+    const isLast = currentIndex === questionPool.length - 1;
+    document.getElementById("nextBtn").disabled = !hasAnswered || isLast;
+}
+
+function updateProgress() {
+    const remaining = targetCount - correctCount;
+    document.getElementById("progressInfo").innerText = `剩余 ${remaining} 题`;
+}
+
+function prev() {
+    if (currentIndex > 0) { currentIndex--; showQuestion(currentIndex); }
+}
+
+function next() {
+    if (currentIndex < questionPool.length - 1 && answers[currentIndex]) {
+        currentIndex++; showQuestion(currentIndex);
     }
-    
-    function updateNavButtons() {
-        document.getElementById("prevBtn").disabled = currentIndex === 0;
-    
-        const hasAnswered = !!answers[currentIndex];
-        const isLast = currentIndex === questionPool.length - 1;
-    
-        document.getElementById("nextBtn").disabled = !hasAnswered || isLast;
-    }
-    
-    function updateProgress() {
-        const remaining = targetCount - correctCount;
-        document.getElementById("progressInfo").innerText =
-            `剩余 ${remaining} 题`;
-    }
-    
-    function prev() {
-        if (currentIndex > 0) {
-            currentIndex--;
-            showQuestion(currentIndex);
-        }
-    }
-    
-    function next() {
-        if (currentIndex < questionPool.length - 1 && answers[currentIndex]) {
-            currentIndex++;
-            showQuestion(currentIndex);
-        }
-    }
-    
-    function goBackToSetting() {
-        document.querySelector(".home-title").classList.remove("hidden");
-        document.getElementById("practicePanel").classList.add("hidden");
-        document.getElementById("settingPanel").classList.remove("hidden");
-    }
-    
-    function finish() {
-        wrongQuestions = [];
-        answers.forEach((ans, i) => {
-            if (ans && !ans.correct) {
-                wrongQuestions.push(usedQuestions[i]);
-            }
-        });
-    
-        document.getElementById("practicePanel").classList.add("hidden");
-        document.getElementById("resultPanel").classList.remove("hidden");
-    
-        document.getElementById("scoreInfo").innerText =
-            `${targetCount} 题，答错 ${wrongQuestions.length} 题。`;
-    
-        document.getElementById("errorList").innerHTML =
-            wrongQuestions.length === 0
-                ? "<p>太棒了，没有错题！</p>"
-                : wrongQuestions.map((q, i) => `
-                    <div class="summary-item">
-                        <div class="summary-title">错题 ${i + 1}</div>
-                        <div>${q.text.replace(/{(.*?)}/g, '<b>$1</b>')}</div>
-                        <div>正确答案：${q.options.find(o => o.correct).value}</div>
-                    </div>
-                `).join("");
-    }
-    
-    function shuffle(arr) {
-        return arr.sort(() => Math.random() - 0.5);
-    }
-    </script>
+}
+
+function goBackToSetting() {
+    document.querySelector(".home-title").classList.remove("hidden");
+    document.getElementById("practicePanel").classList.add("hidden");
+    document.getElementById("settingPanel").classList.remove("hidden");
+}
+
+function finish() {
+    wrongQuestions = [];
+    answers.forEach((ans, i) => {
+        if (ans && !ans.correct) wrongQuestions.push(usedQuestions[i]);
+    });
+
+    document.getElementById("practicePanel").classList.add("hidden");
+    document.getElementById("resultPanel").classList.remove("hidden");
+    document.getElementById("scoreInfo").innerText = `${targetCount} 题，答错 ${wrongQuestions.length} 题。`;
+    document.getElementById("errorList").innerHTML = wrongQuestions.length === 0
+        ? "<p>太棒了，没有错题！</p>"
+        : wrongQuestions.map((q, i) => `
+            <div class="summary-item">
+                <div class="summary-title">错题 ${i + 1}</div>
+                <div>${q.text.replace(/{(.*?)}/g, '<b>$1</b>')}</div>
+                <div>正确答案：${q.options.find(o => o.correct).value}</div>
+            </div>
+        `).join("");
+}
+
+function shuffle(arr) {
+    return arr.sort(() => Math.random() - 0.5);
+}
+</script>
 
 </body>
 </html>

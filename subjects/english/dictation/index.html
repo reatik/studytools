@@ -798,13 +798,13 @@ button:disabled {
             <div class="dictation-controls">
                 <div class="control-row-top">
                     <button id="prevBtn" class="dictation-btn prev-btn">
-                        <img src="back1.png" alt="上一个">
+                        <img src="../../../images/back1.png" alt="上一个">
                     </button>
                     <button id="readBtn" class="dictation-btn">
-                        <img id="playImg" src="play1.png" alt="播放">
+                        <img id="playImg" src="../../../play1.png" alt="播放">
                     </button>
                     <button id="nextBtn" class="dictation-btn next-btn">
-                        <img src="next1.png" alt="下一个">
+                        <img src="../../../images/next1.png" alt="下一个">
                     </button>
                 </div>
             
@@ -879,11 +879,11 @@ button:disabled {
             synth.onvoiceschanged = initVoices;
     
             function resetPlayIcon() {
-                elements.playImg.src = 'play1.png';
+                elements.playImg.src = '../../../images/play1.png';
                 autoPlayLockPlay2 = false;
             }
             function setPlayIconActive() {
-                elements.playImg.src = 'play2.png';
+                elements.playImg.src = '../../../images/play2.png';
             }
     
             elements.clearBtn.addEventListener('click', function() {
