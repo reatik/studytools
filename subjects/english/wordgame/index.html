@@ -13,8 +13,7 @@
         
         body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    /* 干净清新蓝绿渐变，不发脏、通透柔和 */
-    background: linear-gradient(180deg, #6298d8 0%, #78c2ac 100%);
+    background: linear-gradient(180deg, #e8f1fb 0%, #edf8f4 100%);
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -50,7 +49,7 @@
     align-items: center;
     background-color: #ffffff;
     border-radius: 8px;
-    color: #2d5a7c;
+    color: #162938;
     font-size: 14px;
     box-shadow: none;
     width: auto;
@@ -59,6 +58,7 @@
     cursor: pointer;
     transition: transform 0.1s;
     padding: 0 12px;
+    white-space: nowrap;
 }
 
 .action-btn:active {
@@ -73,7 +73,7 @@
             justify-content: space-between;
             padding: 5px 0;
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: -10px;
         }
         
         .cards-section {
@@ -110,8 +110,7 @@
     text-align: center;
     font-size: 12px;
     font-weight: bold;
-    /* 只保留外部悬浮阴影，去掉所有上下内高光 */
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 变弱、变浅 */
     transition: all 0.3s ease;
     padding: 10px 5px;
     word-wrap: break-word;
@@ -127,32 +126,30 @@
         }
         
         .chinese {
-            background-color: #d0e6ff;
-            color: #2d5a7c;
-            border: 1px solid #b3c7e0;
+            background-color: #8cbbd1;
+            color: #1c3547;
+            border: 1px solid #687686;
         }
         
         .chinese.selected {
-            background-color: #b3cfe0;
-            border: 3px solid #2d5a7c;
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(45, 90, 124, 0.25), 
-                        inset 0 2px 3px rgba(255,255,255,0.5);
-        }
+    background-color: #b3cfe0;
+    border: 3px solid #2d5a7c;
+    transform: scale(1);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+}
         
         .english {
-            background-color: #d7fce7;
-            color: #2d7c5a;
-            border: 1px solid #b3d9c0;
+            background-color: #adddc2;
+            color: #1e5039;
+            border: 1px solid #5c7966;
         }
         
         .english.selected {
-            background-color: #b3d9c0;
-            border: 3px solid #2d7c5a;
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(45, 124, 90, 0.25),
-                        inset 0 2px 3px rgba(255,255,255,0.5);
-        }
+    background-color: #bde7cc;
+    border: 3px solid #2d7c5a;
+    transform: scale(1);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+}
         
         .matched {
             opacity: 0.45;
@@ -224,91 +221,109 @@
         }
         
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba0, 0, 0, 0.6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-        
-        .grade-picker-content {
-            width: 100%;
-            max-width: 400px;
-            background-color: white;
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            max-height: 80vh;
-        }
-        
-        .grade-picker-header {
-            padding: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            border-bottom: 1px solid #e0e0e0;
-            color: #222;
-        }
-        
-        .grade-picker-body {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-        }
-        
-        .grade-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 10px;
-            border-bottom: 1px solid #eeeeee;
-            color: #222;
-        }
-        
-        .grade-item input[type="checkbox"] {
-            margin-right: 12px;
-            transform: scale(1.2);
-        }
-        
-        .grade-picker-footer {
-            display: flex;
-            border-top: 1px solid #e0e0e0;
-        }
-        
-        .picker-btn {
-            flex: 1;
-            height: 50px;
-            line-height: 50px;
-            text-align: center;
-            font-size: 16px;
-            border-radius: 0;
-            margin: 0;
-            background-color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .picker-btn:active {
-            background-color: #eeeeee;
-        }
-        
-        .picker-btn.cancel {
-            color: #444;
-            border-right: 1px solid #e0e0e0;
-        }
-        
-        .picker-btn.confirm {
-            color: #3b91c2;
-            font-weight: bold;
-        }
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.grade-picker-content {
+    width: 100%;
+    max-width: 380px;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.grade-picker-header {
+    padding: 18px;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    background: #f7f9fc;
+}
+
+.grade-picker-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.grade-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.grade-tag {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    border-radius: 12px;
+    font-size: 15px;
+    color: #555;
+    background: #f2f5f9;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.grade-tag.active {
+    background: #d0e6ff;
+    border-color: #4c85be;
+    color: #2d5a7c;
+    font-weight: 500;
+}
+
+.grade-tag:active {
+    transform: scale(0.97);
+}
+
+.grade-picker-footer {
+    display: flex;
+    border-top: 1px solid #eee;
+}
+
+.picker-btn {
+    flex: 1;
+    height: 52px;
+    line-height: 52px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 0;
+    margin: 0;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.picker-btn:active {
+    background-color: #f5f7fa;
+}
+
+.picker-btn.cancel {
+    color: #666;
+    border-right: 1px solid #eee;
+}
+
+.picker-btn.confirm {
+    color: #4c85be;
+    font-weight: bold;
+}
         
         .correct-animate {
             animation: flipNumber 0.5s ease-out;
@@ -397,8 +412,8 @@
             <div class="grade-picker-body" id="gradePickerBody">
             </div>
             <div class="grade-picker-footer">
-                <button class="picker-btn cancel" id="cancelGradeSelect">取消</button>
                 <button class="picker-btn confirm" id="confirmGradeSelect">确定</button>
+                <button class="picker-btn cancel" id="cancelGradeSelect">取消</button>
             </div>
         </div>
     </div>
@@ -425,7 +440,6 @@ const gameState = {
 
 const elements = {
     gradeSelectBtn: document.getElementById('gradeSelectBtn'),
-    selectedGradeText: document.getElementById('selectedGradeText'),
     comboDisplay: document.getElementById('comboDisplay'),
     englishCardsRow: document.getElementById('englishCardsRow'),
     chineseCardsRow: document.getElementById('chineseCardsRow'),
@@ -456,6 +470,14 @@ function initGame() {
     }
     getGrades();
     setupEventListeners();
+}
+
+function setupEventListeners() {
+    elements.gradeSelectBtn.addEventListener('click', showGradePicker);
+    elements.cancelGradeSelect.addEventListener('click', () => {
+        elements.gradePickerModal.style.display = 'none';
+    });
+    elements.confirmGradeSelect.addEventListener('click', confirmGradeSelect);
 }
 
 function getGrades() {
@@ -512,10 +534,8 @@ function saveGradesToLocal() {
 
 function updateGradeSelectText() {
     if (gameState.selectedGrades.length === 1) {
-        // 只选一个：直接显示年级名
         elements.gradeSelectBtn.textContent = gameState.selectedGrades[0];
     } else {
-        // 选多个：显示 已选X个年级
         elements.gradeSelectBtn.textContent = `已选${gameState.selectedGrades.length}个年级`;
     }
 }
@@ -702,39 +722,50 @@ function showComboAnimation(count) {
 
 function showGradePicker() {
     elements.gradePickerBody.innerHTML = '';
+    const gradeMap = {};
     gameState.grades.forEach(g => {
-        const item = document.createElement('div');
-        item.className = 'grade-item';
-        const cb = document.createElement('input');
-        cb.type = 'checkbox';
-        cb.value = g;
-        cb.id = `g-${g}`;
-        cb.checked = gameState.selectedGrades.includes(g);
-        const lb = document.createElement('label');
-        lb.htmlFor = `g-${g}`;
-        lb.textContent = g;
-        item.appendChild(cb);
-        item.appendChild(lb);
-        elements.gradePickerBody.appendChild(item);
+        const base = g.replace(/[上下]$/, '');
+        if(!gradeMap[base]) gradeMap[base] = [];
+        gradeMap[base].push(g);
     });
+
+    Object.keys(gradeMap).forEach(baseName => {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'grade-group';
+
+        gradeMap[baseName].forEach(gradeFull => {
+            const tag = document.createElement('div');
+            tag.className = 'grade-tag';
+            if(gameState.selectedGrades.includes(gradeFull)){
+                tag.classList.add('active');
+            }
+            tag.textContent = gradeFull;
+            tag.dataset.grade = gradeFull;
+
+            tag.addEventListener('click', () => {
+                tag.classList.toggle('active');
+            });
+
+            groupDiv.appendChild(tag);
+        });
+
+        elements.gradePickerBody.appendChild(groupDiv);
+    });
+
     elements.gradePickerModal.style.display = 'flex';
 }
 
 function confirmGradeSelect() {
-    const list = elements.gradePickerBody.querySelectorAll('input:checked');
-    if (list.length === 0) { alert('至少选一个'); return; }
-    gameState.selectedGrades = Array.from(list).map(c => c.value);
+    const activeTags = elements.gradePickerBody.querySelectorAll('.grade-tag.active');
+    if (activeTags.length === 0) { 
+        alert('至少选一个年级'); 
+        return; 
+    }
+    gameState.selectedGrades = Array.from(activeTags).map(el => el.dataset.grade);
     saveGradesToLocal();
     updateGradeSelectText();
     initGameRound();
     elements.gradePickerModal.style.display = 'none';
-}
-
-function setupEventListeners() {
-    elements.gradeSelectBtn.addEventListener('click', showGradePicker);
-    elements.cancelGradeSelect.addEventListener('click', () => elements.gradePickerModal.style.display = 'none');
-    elements.confirmGradeSelect.addEventListener('click', confirmGradeSelect);
-    document.addEventListener('click', () => {}, { once: true });
 }
 
 window.onload = initGame;
