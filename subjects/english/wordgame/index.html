@@ -6,7 +6,6 @@
     <script src="../words.js"></script>
     <title>单词配对游戏</title>
     <style>
-        /* 基础样式 */
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
@@ -14,7 +13,7 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-            background-color: white;
+            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -26,11 +25,6 @@
             gap: 8px;
         }
         
-        .home-btn {
-            background-color: #ff6b6b;
-        }
-        
-        /* 游戏容器 */
         .game-container {
             display: flex;
             flex-direction: column;
@@ -39,26 +33,23 @@
             box-sizing: border-box;
         }
         
-        /* 顶部信息栏 - 手机优化 */
         .header-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             padding: 8px 10px;
             margin-bottom: 10px;
-            flex-wrap: wrap;
         }
         
-        /* 通用按钮样式 - 手机优化 */
         .action-btn {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #87ceeb;
+            background-color: #5a9ac1;
             border-radius: 8px;
             color: white;
             font-size: 14px;
-            box-shadow: 0 2px 4px rgba(135, 206, 235, 0.3);
+            box-shadow: 0 2px 4px rgba(90, 154, 193, 0.3);
             width: 90px;
             height: 36px;
             border: none;
@@ -70,48 +61,6 @@
             transform: scale(0.95);
         }
         
-        .record-btn {
-            background-color: #60d48d;
-        }
-        
-        /* 计数器容器 - 手机优化 */
-        .counter-container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 5px;
-            min-width: 120px;
-        }
-        
-        .kda-display {
-            display: flex;
-            align-items: center;
-        }
-        
-        .kda-number {
-            min-width: 28px;
-            height: 28px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 2px;
-            font-weight: bold;
-            font-size: 15px;
-        }
-        
-        .kda-slash {
-            margin: 0 2px;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        /* 数字颜色 */
-        .correct { color: #2cd12c; }
-        .wrong { color: #ff6b6b; }
-        .remaining { color: #5495df; }
-        
-        /* 游戏区域 - 手机优化 */
         .game-area {
             flex: 1;
             display: flex;
@@ -119,10 +68,9 @@
             justify-content: space-between;
             padding: 5px 0;
             overflow: hidden;
-            margin-bottom: 100px;
+            margin-bottom: 20px;
         }
         
-        /* 卡片区域 */
         .cards-section {
             flex: 1;
             display: flex;
@@ -147,7 +95,6 @@
             padding: 5px;
         }
         
-        /* 卡片样式 - 手机优化 */
         .card {
             min-width: 28%;
             max-width: 28%;
@@ -163,7 +110,7 @@
             padding: 10px 5px;
             word-wrap: break-word;
             cursor: pointer;
-            height: 50x;
+            height: 50px;
             box-sizing: border-box;
         }
         
@@ -171,44 +118,40 @@
             transform: scale(0.95);
         }
         
-        /* 英文卡片 */
         .english {
-            background-color: #e0f0ff;
-            color: #4a8aaf;
-            border: 1px solid #d0e0ff;
+            background-color: #c6d9ee;
+            color: #2d5a7c;
+            border: 1px solid #b3c7e0;
         }
         
         .english.selected {
-            background-color: #d0e0ff;
-            border-color: #4a8aaf;
-            box-shadow: 0 3px 6px rgba(0, 105, 192, 0.2);
+            background-color: #b3c7e0;
+            border-color: #2d5a7c;
+            box-shadow: 0 3px 6px rgba(45, 90, 124, 0.2);
         }
         
-        /* 中文卡片 */
         .chinese {
-            background-color: #e0fae0;
-            color: #4aaf8a;
-            border: 1px solid #d0f0d0;
+            background-color: #c6e9d6;
+            color: #2d7c5a;
+            border: 1px solid #b3d9c0;
         }
         
         .chinese.selected {
-            background-color: #d0f0d0;
-            border-color: #4aaf8a;
-            box-shadow: 0 3px 6px rgba(0, 128, 0, 0.2);
+            background-color: #b3d9c0;
+            border-color: #2d7c5a;
+            box-shadow: 0 3px 6px rgba(45, 124, 90, 0.2);
         }
         
-        /* 已匹配卡片 */
         .matched {
             opacity: 0.5;
             transform: scale(0.9);
             box-shadow: none;
         }
         
-        /* 错误卡片样式 */
         .wrong-card {
             animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-            background-color: #ffebee;
-            border-color: #ff6b6b !important;
+            background-color: #f5d6d6;
+            border-color: #e55353 !important;
         }
         
         @keyframes shake {
@@ -218,66 +161,63 @@
             75% { transform: translateX(-3px); }
         }
         
-        /* 错误计数抖动 */
         .wrong-animate {
             animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
         }
         
-        /* 连击显示 - 手机优化 */
         .combo-display {
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-            opacity: 0;
-            transition: 
-                opacity 0.3s ease-out,
-                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: -1000;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-            pointer-events: none;
-            
-        }
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1000;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    pointer-events: none;
+    animation: none;
+    opacity: 0;
+}
+
+@keyframes comboAnim {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+    }
+    20% {    /* 20% 就变清晰（变快） */
+        opacity: 1;
+        transform: translate(-50%, 0px);
+    }
+    80% {    /* 80% 才开始消失（清晰保持超久） */
+        opacity: 1;
+        transform: translate(-50%, 0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -10px);
+    }
+}
         
-        .combo-display.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        
-        .combo-display.hide {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.5);
-            transition: 
-                opacity 0.2s ease-in,
-                transform 0.2s ease-in;
-        }
-        
-        /* 连击级别颜色 */
-        .combo-level-2 { color: #4fc3f7; }
-        .combo-level-3 { color: #66bb6a; }
-        .combo-level-4 { color: #ffa726; }
-        .combo-level-5 { color: #ef5350; }
-        .combo-level-6 { color: #ab47bc; }
-        .combo-level-7 { color: #5c6bc0; }
-        .combo-level-8 { color: #26a69a; }
-        .combo-level-9 { color: #ff7043; }
+        .combo-level-2 { color: #3b91c2; }
+        .combo-level-3 { color: #3d915a; }
+        .combo-level-4 { color: #cc851f; }
+        .combo-level-5 { color: #c24441; }
+        .combo-level-6 { color: #8c3b9c; }
+        .combo-level-7 { color: #4a59a6; }
+        .combo-level-8 { color: #238a7d; }
+        .combo-level-9 { color: #cc5a33; }
         .combo-level-10 { 
-            color: #ec407a;
-            font-size: 22px;
+            color: #c23866;
+            font-size: 24px;
         }
         
-        
-        /* 年级选择弹窗 - 手机优化 */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.6);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -302,7 +242,8 @@
             font-size: 16px;
             font-weight: bold;
             text-align: center;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #e0e0e0;
+            color: #222;
         }
         
         .grade-picker-body {
@@ -315,7 +256,8 @@
             display: flex;
             align-items: center;
             padding: 12px 10px;
-            border-bottom: 1px solid #f5f5f5;
+            border-bottom: 1px solid #eeeeee;
+            color: #222;
         }
         
         .grade-item input[type="checkbox"] {
@@ -325,7 +267,7 @@
         
         .grade-picker-footer {
             display: flex;
-            border-top: 1px solid #f0f0f0;
+            border-top: 1px solid #e0e0e0;
         }
         
         .picker-btn {
@@ -343,20 +285,19 @@
         }
         
         .picker-btn:active {
-            background-color: #f5f5f5;
+            background-color: #eeeeee;
         }
         
         .picker-btn.cancel {
-            color: #666;
-            border-right: 1px solid #f0f0f0;
+            color: #444;
+            border-right: 1px solid #e0e0e0;
         }
         
         .picker-btn.confirm {
-            color: #4fc3f7;
+            color: #3b91c2;
             font-weight: bold;
         }
         
-        /* 动画 */
         .correct-animate {
             animation: flipNumber 0.5s ease-out;
         }
@@ -372,7 +313,6 @@
             100% { transform: rotateX(0deg); opacity: 1; }
         }
         
-        /* 响应式调整 - 平板和桌面 */
         @media (min-width: 600px) {
             .card {
                 min-width: 22%;
@@ -385,12 +325,6 @@
                 width: 100px;
                 height: 40px;
                 font-size: 15px;
-            }
-            
-            .kda-number {
-                min-width: 32px;
-                height: 32px;
-                font-size: 16px;
             }
         }
         
@@ -414,7 +348,6 @@
             }
         }
         
-        /* 防止长文本溢出 */
         .card {
             word-break: break-word;
             overflow-wrap: break-word;
@@ -423,57 +356,33 @@
 </head>
 <body>
     <div class="game-container">
-        <!-- 顶部信息栏 -->
         <div class="header-container">
-            <!-- 左侧返回按钮和年级选择按钮 -->
             <div class="left-actions">
                 <button class="action-btn grade-select" id="gradeSelectBtn">
                     <span class="btn-text">选择年级</span>
                 </button>
             </div>
-            
-            <!-- 中间计数器 -->
-            <div class="counter-container">
-                <div class="kda-display">
-                    <div class="kda-number correct" id="correctAttempts">0</div>
-                    <span class="kda-slash">/</span>
-                    <div class="kda-number wrong" id="wrongAttempts">0</div>
-                    <span class="kda-slash">/</span>
-                    <div class="kda-number remaining" id="remainingWords">0</div>
-                </div>
-            </div>
-            
-            <!-- 右侧游戏记录按钮 -->
-            <button class="action-btn record-btn" id="recordBtn">
-                <span class="btn-text">游戏记录</span>
-            </button>
         </div>
 
-        <!-- 连击显示 -->
         <div class="combo-display" id="comboDisplay"></div>
 
-        <!-- 游戏区域 -->
         <div class="game-area">
-            <!-- 英文卡片区域 -->
             <div class="cards-section english-section">
                 <div class="cards-row" id="englishCardsRow"></div>
             </div>
 
-            <!-- 中文卡片区域 -->
             <div class="cards-section chinese-section">
                 <div class="cards-row" id="chineseCardsRow"></div>
             </div>
         </div>
     </div>
 
-    <!-- 年级选择弹窗 -->
     <div class="modal-overlay" id="gradePickerModal" style="display: none;">
         <div class="grade-picker-content">
             <div class="grade-picker-header">
                 <span>选择年级(可多选)</span>
             </div>
             <div class="grade-picker-body" id="gradePickerBody">
-                <!-- 年级选项将在这里动态生成 -->
             </div>
             <div class="grade-picker-footer">
                 <button class="picker-btn cancel" id="cancelGradeSelect">取消</button>
@@ -484,34 +393,26 @@
 
     <script>
 const words = wordData.words;
-     // 游戏状态
-     const gameState = {
+const gameState = {
     englishCards: [],
     chineseCards: [],
     selectedCard: null,
     matchedPairs: 0,
-    totalPairs: 10, // 固定每轮10组
+    totalPairs: 10,
     combo: 0,
+    failCombo: 0,
     maxCombo: 0,
     selectedGrades: [],
     grades: [],
     totalWordsCount: 0,
     usedWordIds: [],
     currentGameWords: [],
-    gradeProgress: {}, // 每个年级的进度（正确数、错误数、已用单词等）
-    currentRoundStats: {
-        correct: 0,
-        wrong: 0
-    }
+    gradeProgress: {},
+    currentRoundStats: { correct: 0, wrong: 0 }
 };
 
-// DOM元素
 const elements = {
     gradeSelectBtn: document.getElementById('gradeSelectBtn'),
-    recordBtn: document.getElementById('recordBtn'),
-    correctAttempts: document.getElementById('correctAttempts'),
-    wrongAttempts: document.getElementById('wrongAttempts'),
-    remainingWords: document.getElementById('remainingWords'),
     comboDisplay: document.getElementById('comboDisplay'),
     englishCardsRow: document.getElementById('englishCardsRow'),
     chineseCardsRow: document.getElementById('chineseCardsRow'),
@@ -521,44 +422,28 @@ const elements = {
     confirmGradeSelect: document.getElementById('confirmGradeSelect')
 };
 
-// 语音合成对象
 const speechSynthesis = window.speechSynthesis;
 
-// 朗读单词函数
 function speakWord(word, lang = 'en-US') {
-    if (!speechSynthesis) {
-        console.warn('您的浏览器不支持语音合成功能');
-        return;
-    }
+    if (!speechSynthesis) return;
     speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = lang;
     utterance.rate = 0.9;
     const voices = speechSynthesis.getVoices();
-    const englishVoice = voices.find(voice => voice.lang === 'en-GB' || voice.lang === 'en-US');
+    const englishVoice = voices.find(v => v.lang === 'en-GB' || v.lang === 'en-US');
     if (englishVoice) utterance.voice = englishVoice;
     speechSynthesis.speak(utterance);
 }
 
-// 全屏功能
-function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => console.error(`全屏错误: ${err.message}`));
-    } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-    }
-}
-
-// 初始化游戏
 function initGame() {
     if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = () => console.log('语音列表已加载');
+        speechSynthesis.onvoiceschanged = () => {};
     }
     getGrades();
     setupEventListeners();
 }
 
-// 获取年级数据
 function getGrades() {
     try {
         const allGrades = [...new Set(words.map(w => w.grade))];
@@ -572,15 +457,11 @@ function getGrades() {
             return aTerm - bTerm;
         });
 
-        // 初始化每个年级的进度
         const gradeProgress = {};
         sortedGrades.forEach(grade => {
             const totalWords = words.filter(w => w.grade === grade).length;
             gradeProgress[grade] = {
-                correctAttempts: 0, // 当前年级正确数
-                wrongAttempts: 0,   // 当前年级错误数
-                usedWordIds: [],   // 当前年级已用单词ID
-                totalWords: totalWords
+                correctAttempts: 0, wrongAttempts: 0, usedWordIds: [], totalWords
             };
         });
 
@@ -588,332 +469,250 @@ function getGrades() {
         gameState.selectedGrades = [sortedGrades[0]];
         gameState.gradeProgress = gradeProgress;
         updateGradeSelectText();
-        updateWordsCount();
         initGameRound();
     } catch (error) {
-        console.error('获取年级数据出错:', error);
-        alert('加载年级数据出错');
+        console.error('错误', error);
+        alert('加载失败');
     }
 }
 
-// 更新年级选择按钮文本
 function updateGradeSelectText() {
-    const displayText = gameState.selectedGrades.length > 1 ? 
-        `${gameState.selectedGrades.length}个年级` : 
-        gameState.selectedGrades[0];
+    const displayText = gameState.selectedGrades.length > 1 
+        ? `${gameState.selectedGrades.length}个年级` 
+        : gameState.selectedGrades[0];
     elements.gradeSelectBtn.textContent = displayText;
 }
 
-// 更新单词计数（计算所有已选年级的总单词数）
-function updateWordsCount() {
-    if (gameState.selectedGrades.length === 0) {
-        gameState.totalWordsCount = 0;
-    } else {
-        gameState.totalWordsCount = words.filter(w => 
-            gameState.selectedGrades.includes(w.grade)
-        ).length;
-    }
-    updateStatsDisplay();
-}
-
-// 初始化游戏回合（从多个年级选单词）
 function initGameRound() {
     if (gameState.selectedGrades.length === 0) return;
     gameState.currentRoundStats = { correct: 0, wrong: 0 };
     gameState.matchedPairs = 0;
 
-    // 从所有已选年级获取可用单词
     let selectedWords = getAvailableWords();
     if (selectedWords.length < gameState.totalPairs) {
-        const allGradeWords = words.filter(w => gameState.selectedGrades.includes(w.grade));
-        const needed = gameState.totalPairs - selectedWords.length;
-        const recycledWords = getRandomWords(
-            allGradeWords.filter(w => !selectedWords.some(sw => sw.id === w.id)),
-            needed
-        );
-        selectedWords = selectedWords.concat(recycledWords);
-        // 重置已用单词记录（可选）
-        gameState.selectedGrades.forEach(grade => {
-            gameState.gradeProgress[grade].usedWordIds = [];
-        });
+        const all = words.filter(w => gameState.selectedGrades.includes(w.grade));
+        const need = gameState.totalPairs - selectedWords.length;
+        const add = getRandomWords(all.filter(w => !selectedWords.some(x => x.id === w.id)), need);
+        selectedWords = selectedWords.concat(add);
+        gameState.selectedGrades.forEach(g => { gameState.gradeProgress[g].usedWordIds = []; });
     } else {
         selectedWords = getRandomWords(selectedWords, gameState.totalPairs);
     }
 
     gameState.currentGameWords = selectedWords;
-    gameState.englishCards = shuffleArray(selectedWords.map((word, index) => ({
-        id: index, word: word.english, matched: false, selected: false, grade: word.grade
+    gameState.englishCards = shuffleArray(selectedWords.map((w, i) => ({
+        id: i, word: w.english, matched: false, selected: false, grade: w.grade
     })));
-    gameState.chineseCards = shuffleArray(selectedWords.map((word, index) => ({
-        id: index, word: word.chinese, matched: false, selected: false, grade: word.grade
+    gameState.chineseCards = shuffleArray(selectedWords.map((w, i) => ({
+        id: i, word: w.chinese, matched: false, selected: false, grade: w.grade
     })));
     renderCards();
 }
 
-// 获取可用单词（跨年级）
 function getAvailableWords() {
-    let availableWords = [];
-    gameState.selectedGrades.forEach(grade => {
-        const progress = getGradeProgress(grade);
-        const gradeWords = words.filter(w => 
-            w.grade === grade && !progress.usedWordIds.includes(w.id)
-        );
-        availableWords = [...availableWords, ...gradeWords];
+    let arr = [];
+    gameState.selectedGrades.forEach(g => {
+        const p = gameState.gradeProgress[g];
+        arr = [...arr, ...words.filter(w => w.grade === g && !p.usedWordIds.includes(w.id))];
     });
-    return availableWords;
+    return arr;
 }
 
-// 获取年级进度
-function getGradeProgress(grade) {
-    if (!gameState.gradeProgress[grade]) {
-        gameState.gradeProgress[grade] = {
-            correctAttempts: 0,
-            wrongAttempts: 0,
-            usedWordIds: [],
-            totalWords: words.filter(w => w.grade === grade).length
-        };
-    }
-    return gameState.gradeProgress[grade];
+function getRandomWords(arr, n) {
+    return arr.length < n ? arr : shuffleArray([...arr]).slice(0, n);
 }
 
-// 随机获取单词
-function getRandomWords(array, count) {
-    return array.length < count ? array : shuffleArray([...array]).slice(0, count);
-}
-
-// 洗牌算法
-function shuffleArray(array) {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
+function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        [a[i], a[j]] = [a[j], a[i]];
     }
-    return newArray;
+    return a;
 }
 
-// 渲染卡片
 function renderCards() {
     elements.englishCardsRow.innerHTML = '';
     elements.chineseCardsRow.innerHTML = '';
-    gameState.englishCards.forEach((card, index) => {
-        const cardElement = document.createElement('div');
-        cardElement.className = `card english ${card.matched ? 'matched' : ''} ${card.selected ? 'selected' : ''}`;
-        cardElement.textContent = card.word;
-        cardElement.dataset.type = 'english';
-        cardElement.dataset.index = index;
-        cardElement.addEventListener('click', handleCardClick);
-        elements.englishCardsRow.appendChild(cardElement);
+    gameState.englishCards.forEach((c, i) => {
+        const el = document.createElement('div');
+        el.className = `card english ${c.matched ? 'matched' : ''} ${c.selected ? 'selected' : ''}`;
+        el.textContent = c.word;
+        el.dataset.type = 'english';
+        el.dataset.index = i;
+        el.addEventListener('click', handleCardClick);
+        elements.englishCardsRow.appendChild(el);
     });
-    gameState.chineseCards.forEach((card, index) => {
-        const cardElement = document.createElement('div');
-        cardElement.className = `card chinese ${card.matched ? 'matched' : ''} ${card.selected ? 'selected' : ''}`;
-        cardElement.textContent = card.word;
-        cardElement.dataset.type = 'chinese';
-        cardElement.dataset.index = index;
-        cardElement.addEventListener('click', handleCardClick);
-        elements.chineseCardsRow.appendChild(cardElement);
+    gameState.chineseCards.forEach((c, i) => {
+        const el = document.createElement('div');
+        el.className = `card chinese ${c.matched ? 'matched' : ''} ${c.selected ? 'selected' : ''}`;
+        el.textContent = c.word;
+        el.dataset.type = 'chinese';
+        el.dataset.index = i;
+        el.addEventListener('click', handleCardClick);
+        elements.chineseCardsRow.appendChild(el);
     });
 }
 
-// 处理卡片点击
-function handleCardClick(event) {
-    const type = event.currentTarget.dataset.type;
-    const index = parseInt(event.currentTarget.dataset.index);
-    const cards = gameState[`${type}Cards`];
-    const card = cards[index];
-    const wordGrade = card.grade; // 当前单词的年级
+function getFailText(count) {
+    if(count >= 20) return "乱点被我发现了哦";
+    if(count >= 10) return "瞎蒙呢？";
+    if(count >= 5) return "你不适合这个难度";
+    if(count >= 2) return "菜就多练";
+    return "";
+}
+
+function getComboText(count) {
+    if(count >= 200) return "去练更难的内容吧";
+    if(count >= 100) return "清北欢迎你";
+    if(count >= 90) return "学霸你好";
+    if(count >= 80) return "好吧，承认你很厉害";
+    if(count >= 70) return "可怕的英语天赋";
+    if(count >= 60) return "你是谁？那么厉害？";
+    if(count >= 50) return "不对劲是不是耍赖了？";
+    if(count >= 40) return "不是一般人";
+    if(count >= 30) return "还挺强";
+    if(count >= 20) return "有点实力";
+    if(count >= 10) return "会一点嘛";
+    if(count >= 5)  return "不错";
+    if(count >= 2)  return "可以哦";
+    return "";
+}
+
+function handleCardClick(e) {
+    const type = e.currentTarget.dataset.type;
+    const idx = parseInt(e.currentTarget.dataset.index);
+    const cards = gameState[type + 'Cards'];
+    const card = cards[idx];
 
     if (type === 'english') speakWord(card.word);
     if (card.matched || card.selected) return;
 
     if (!gameState.selectedCard) {
-        gameState.selectedCard = { type, index };
-        cards[index].selected = true;
+        gameState.selectedCard = { type, index: idx };
+        cards[idx].selected = true;
         renderCards();
         return;
     }
 
-    const { type: selectedType, index: selectedIndex } = gameState.selectedCard;
-    const selectedCard = gameState[`${selectedType}Cards`][selectedIndex];
+    const st = gameState.selectedCard.type;
+    const si = gameState.selectedCard.index;
+    const selCard = gameState[st + 'Cards'][si];
 
-    if (selectedType === type) {
-        gameState[selectedType + 'Cards'][selectedIndex].selected = false;
-        gameState.selectedCard = { type, index };
-        cards[index].selected = true;
+    if (st === type) {
+        gameState[st + 'Cards'][si].selected = false;
+        gameState.selectedCard = { type, index: idx };
+        cards[idx].selected = true;
         renderCards();
         return;
     }
 
-    const selectedWord = selectedCard.word;
-    const currentWord = card.word;
-    const isMatch = gameState.currentGameWords.some(w =>
-        (selectedType === 'english' && w.english === selectedWord && w.chinese === currentWord) ||
-        (selectedType === 'chinese' && w.chinese === selectedWord && w.english === currentWord)
+    const match = gameState.currentGameWords.some(w => 
+        (st === 'english' && w.english === selCard.word && w.chinese === card.word) ||
+        (st === 'chinese' && w.chinese === selCard.word && w.english === card.word)
     );
 
-    if (isMatch) {
-        gameState[selectedType + 'Cards'][selectedIndex].matched = true;
-        gameState[type + 'Cards'][index].matched = true;
-        gameState[selectedType + 'Cards'][selectedIndex].selected = false;
-        gameState[type + 'Cards'][index].selected = false;
+    if (match) {
+        gameState[st + 'Cards'][si].matched = true;
+        gameState[type + 'Cards'][idx].matched = true;
+        gameState[st + 'Cards'][si].selected = false;
+        gameState[type + 'Cards'][idx].selected = false;
         gameState.selectedCard = null;
-
-        // 更新当前单词所属年级的正确数
-        const gradeProgress = getGradeProgress(wordGrade);
-        gradeProgress.correctAttempts++;
-        gradeProgress.usedWordIds.push(gameState.currentGameWords[index].id);
 
         gameState.matchedPairs++;
         gameState.combo++;
-        gameState.maxCombo = Math.max(gameState.maxCombo, gameState.combo);
-        gameState.currentRoundStats.correct++;
+        gameState.failCombo = 0;
+        showComboAnimation(gameState.combo);
 
-        updateStatsDisplay();
         renderCards();
-
-        if (gameState.combo >= 2) showComboAnimation();
         if (gameState.matchedPairs === gameState.totalPairs) {
             setTimeout(() => {
                 gameState.matchedPairs = 0;
-                gameState.currentRoundStats = { correct: 0, wrong: 0 };
                 initGameRound();
-            }, 1000);
+            }, 800);
         }
     } else {
         gameState.combo = 0;
+        gameState.failCombo++;
+        const txt = getFailText(gameState.failCombo);
+        if (txt) {
+            elements.comboDisplay.className = 'combo-display';
+            setTimeout(() => {
+                elements.comboDisplay.textContent = txt;
+                elements.comboDisplay.className = 'combo-display combo-level-5 show';
+                setTimeout(() => {
+                    elements.comboDisplay.classList.add('fade-out');
+                }, 3000);
+            }, 50);
+        }
 
-        // 更新当前单词所属年级的错误数
-        const gradeProgress = getGradeProgress(wordGrade);
-        gradeProgress.wrongAttempts++;
-
-        gameState.currentRoundStats.wrong++;
-        animateElement(elements.wrongAttempts, 'wrong-animate');
-        updateStatsDisplay();
-
-        gameState[selectedType + 'Cards'][selectedIndex].wrong = true;
-        gameState[type + 'Cards'][index].wrong = true;
+        gameState[st + 'Cards'][si].wrong = true;
+        gameState[type + 'Cards'][idx].wrong = true;
         renderCards();
 
-        elements.comboDisplay.className = 'combo-display';
         setTimeout(() => {
-            gameState[selectedType + 'Cards'][selectedIndex].selected = false;
-            gameState[type + 'Cards'][index].selected = false;
-            gameState[selectedType + 'Cards'][selectedIndex].wrong = false;
-            gameState[type + 'Cards'][index].wrong = false;
+            gameState[st + 'Cards'][si].selected = false;
+            gameState[type + 'Cards'][idx].selected = false;
+            gameState[st + 'Cards'][si].wrong = false;
+            gameState[type + 'Cards'][idx].wrong = false;
             gameState.selectedCard = null;
             renderCards();
         }, 500);
     }
 }
 
-// 更新统计显示（汇总所有已选年级）
-function updateStatsDisplay() {
-    let totalCorrect = 0;
-    let totalWrong = 0;
-    let totalRemaining = 0;
+function showComboAnimation(count) {
+    const txt = getComboText(count);
+    if (!txt) return;
 
-    gameState.selectedGrades.forEach(grade => {
-        const progress = getGradeProgress(grade);
-        totalCorrect += progress.correctAttempts;
-        totalWrong += progress.wrongAttempts;
-        totalRemaining += (progress.totalWords - progress.usedWordIds.length);
-    });
+    // 强制重置动画，立刻从头播放
+    elements.comboDisplay.style.animation = 'none';
+    elements.comboDisplay.offsetHeight;
 
-    elements.correctAttempts.textContent = totalCorrect;
-    elements.wrongAttempts.textContent = totalWrong;
-    elements.remainingWords.textContent = totalRemaining;
-
-    animateElement(elements.correctAttempts, 'correct-animate');
-    animateElement(elements.remainingWords, 'total-animate');
+    const level = Math.min(count, 10);
+    elements.comboDisplay.className = `combo-display combo-level-${level}`;
+    elements.comboDisplay.textContent = `${txt} ×${count}`;
+    // 直接开启动画，全程自动跑完
+    elements.comboDisplay.style.animation = 'comboAnim 2s linear forwards';
 }
 
-// 显示连击动画
-function showComboAnimation() {
-    const combo = gameState.combo;
-    let comboText = "";
-    if (combo >= 10) comboText = `Legendary! x${combo}`;
-    else if (combo === 9) comboText = "Unstoppable! x9";
-    else if (combo === 8) comboText = "Incredible! x8";
-    else if (combo === 7) comboText = "Fantastic! x7";
-    else if (combo === 6) comboText = "Perfect! x6";
-    else if (combo === 5) comboText = "Amazing! x5";
-    else if (combo === 4) comboText = "Awesome! x4";
-    else if (combo === 3) comboText = "Great! x3";
-    else if (combo === 2) comboText = "Good! x2";
-
-    elements.comboDisplay.classList.add('hide');
-    setTimeout(() => {
-        elements.comboDisplay.textContent = comboText;
-        elements.comboDisplay.className = `combo-display combo-level-${combo >= 10 ? 10 : combo}`;
-        void elements.comboDisplay.offsetWidth;
-        elements.comboDisplay.classList.add('show');
-        if (combo >= 5) elements.comboDisplay.style.animation = 'comboPulse 1s 0.3s infinite ease-in-out';
-    }, 200);
-}
-
-// 元素动画
-function animateElement(element, className) {
-    element.classList.add(className);
-    setTimeout(() => element.classList.remove(className), 500);
-}
-
-// 显示年级选择弹窗
 function showGradePicker() {
     elements.gradePickerBody.innerHTML = '';
-    gameState.grades.forEach(grade => {
-        const gradeItem = document.createElement('div');
-        gradeItem.className = 'grade-item';
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.value = grade;
-        checkbox.id = `grade-${grade}`;
-        checkbox.checked = gameState.selectedGrades.includes(grade);
-        const label = document.createElement('label');
-        label.htmlFor = `grade-${grade}`;
-        label.textContent = grade;
-        gradeItem.appendChild(checkbox);
-        gradeItem.appendChild(label);
-        elements.gradePickerBody.appendChild(gradeItem);
+    gameState.grades.forEach(g => {
+        const item = document.createElement('div');
+        item.className = 'grade-item';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.value = g;
+        cb.id = `g-${g}`;
+        cb.checked = gameState.selectedGrades.includes(g);
+        const lb = document.createElement('label');
+        lb.htmlFor = `g-${g}`;
+        lb.textContent = g;
+        item.appendChild(cb);
+        item.appendChild(lb);
+        elements.gradePickerBody.appendChild(item);
     });
     elements.gradePickerModal.style.display = 'flex';
 }
 
-// 确认年级选择
 function confirmGradeSelect() {
-    const checkboxes = elements.gradePickerBody.querySelectorAll('input[type="checkbox"]:checked');
-    if (checkboxes.length === 0) {
-        alert('请至少选择一个年级');
-        return;
-    }
-    gameState.selectedGrades = Array.from(checkboxes).map(cb => cb.value);
+    const list = elements.gradePickerBody.querySelectorAll('input:checked');
+    if (list.length === 0) { alert('至少选一个'); return; }
+    gameState.selectedGrades = Array.from(list).map(c => c.value);
     updateGradeSelectText();
-    updateWordsCount();
     initGameRound();
     elements.gradePickerModal.style.display = 'none';
 }
 
-// 设置事件监听器
 function setupEventListeners() {
     elements.gradeSelectBtn.addEventListener('click', showGradePicker);
-    elements.recordBtn.addEventListener('click', () => alert('游戏记录功能开发中'));
     elements.cancelGradeSelect.addEventListener('click', () => elements.gradePickerModal.style.display = 'none');
     elements.confirmGradeSelect.addEventListener('click', confirmGradeSelect);
-    document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
-    document.addEventListener('fullscreenchange', () => {
-        const btn = document.getElementById('fullscreenBtn');
-        btn.textContent = document.fullscreenElement ? '退出全屏' : '全屏';
-    });
-    document.addEventListener('click', function() {
-        const voices = speechSynthesis.getVoices();
-        if (voices.length === 0 && speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = () => console.log('语音列表已加载');
-        }
-    }, { once: true });
+    document.addEventListener('click', () => {}, { once: true });
 }
 
-// 初始化游戏
 window.onload = initGame;
 </script>
-    
 </body>
 </html>

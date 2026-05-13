@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Learning tools</title>
     <style>
-        /* ----- 全局重置 & Mac 风格 ----- */
         * {
             margin: 0;
             padding: 0;
@@ -17,11 +16,10 @@
             background: #f5f5f7;
             color: #1d1d1f;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            -webkit-font-smoothing: antialiasead;
-            padding-bottom: 70px; /* 为底部导航栏留出充裕空间 */
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 70px;
         }
 
-        /* 顶部导航栏 */
         .navbar {
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(20px);
@@ -59,7 +57,6 @@
             font-size: 1.5rem;
         }
 
-        /* 彩色公告栏 */
         .announcement-bar {
             background: linear-gradient(105deg, #30b46c, #1e9c6e);
             color: white;
@@ -89,14 +86,12 @@
             100% { transform: translateX(-30%); }
         }
 
-        /* 主内容容器 */
         .main-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px 16px 32px;
         }
 
-        /* 学习板块切换 */
         .section-area {
             display: none;
             animation: fadeIn 0.25s ease;
@@ -111,7 +106,6 @@
             to { opacity: 1; transform: translateY(0);}
         }
 
-        /* ---------- 功能卡片: 全新撑满布局，图标巨大，文字移除 ---------- */
         .feature-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -129,13 +123,12 @@
             transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02), 0 0 0 0.5px rgba(0, 0, 0, 0.02);
             border: 0.5px solid rgba(0, 0, 0, 0.04);
-            aspect-ratio: 1 / 1;  /* 保持正方形，撑满视觉 */
+            aspect-ratio: 1 / 1;
             position: relative;
             overflow: hidden;
             cursor: pointer;
         }
 
-        /* 图标撑满整个卡片内部 (移除文字区域) */
         .feature-card .custom-icon,
         .feature-card i {
             width: 100%;
@@ -145,17 +138,15 @@
             align-items: center;
             justify-content: center;
             transition: transform 0.2s ease;
-            font-size: 3.6rem;   /* 针对fontawesome图标 */
+            font-size: 3.6rem;
             color: currentColor;
         }
 
-        /* 完全隐藏任何文本 (span 和 其他直接文字节点) */
         .feature-card span,
         .feature-card .card-text {
             display: none;
         }
 
-        /* 如果有开发标签特殊处理 - 保留小标记但缩小且不干扰视觉 */
         .feature-card .dev-tag {
             position: absolute;
             top: 10px;
@@ -175,48 +166,58 @@
             pointer-events: none;
         }
 
-        /* 禁用状态卡片效果 */
         .feature-card.disabled {
             opacity: 0.5;
             filter: grayscale(0.1);
             pointer-events: none;
         }
 
-        /* 悬浮微动效 */
         .feature-card:hover {
             transform: scale(0.97);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             background: #fefefe;
         }
 
-        /* 各学科主题色仅用于图标+悬浮光晕 */
         .english-card { color: #0071e3; }
         .chinese-card { color: #d4264a; }
         .math-card { color: #30b46c; }
         .games-card { color: #8e44ad; }
         .tools-card { color: #e67e22; }
 
-        /* 底部导航栏 Mac风格 */
         .bottom-nav {
             position: fixed;
             bottom: 12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
+            width: 92%;
             max-width: 480px;
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 16px;
             border-radius: 36px;
             box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08), 0 0 0 0.5px rgba(0, 0, 0, 0.02);
             z-index: 110;
             border: 0.5px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .nav-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding: 6px 10px;
+            gap: 6px;
+        }
+
+        .nav-slider::-webkit-scrollbar {
+            display: none;
         }
 
         .nav-btn {
+            flex: 0 0 25%;
+            scroll-snap-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -225,10 +226,11 @@
             color: #8e8e93;
             font-size: 0.7rem;
             font-weight: 500;
-            padding: 6px 12px;
+            padding: 8px 4px;
             border-radius: 40px;
             transition: all 0.2s ease;
             gap: 4px;
+            min-width: 70px;
         }
 
         .nav-btn i {
@@ -247,7 +249,6 @@
         .nav-btn[data-tab="math"].active { color: #30b46c; background: rgba(48,180,108,0.08); }
         .nav-btn[data-tab="games"].active { color: #8e44ad; background: rgba(142,68,173,0.08); }
 
-        /* 密码弹窗 Mac风 */
         .custom-prompt {
             position: fixed;
             top: 0;
@@ -335,7 +336,6 @@
             color: white;
         }
 
-        /* 移动端适配：卡片更大方，保持正方形完全填充图标 */
         @media (max-width: 640px) {
             .feature-cards {
                 grid-template-columns: repeat(2, 1fr);
@@ -354,9 +354,6 @@
                 bottom: 12px;
                 width: 94%;
             }
-            .nav-btn {
-                padding: 4px 8px;
-            }
         }
 
         @media (max-width: 480px) {
@@ -370,12 +367,10 @@
             }
         }
 
-        /* 隐藏桌面顶部tab导航条 (原始设计中不存在但保留干净) */
         .tab-nav {
             display: none;
         }
 
-        /* 辅助: 禁用状态无指针事件 */
         a.feature-card[href="#"] {
             cursor: pointer;
         }
@@ -393,16 +388,14 @@
     </div>
 </nav>
 
-
 <div class="main-container">
-    <!-- 英语板块 -->
     <section id="english" class="section-area active">
         <div class="feature-cards">
-            <a href="subjects/english/word-list/index.html" class="feature-card english-card">
-                <img src="images/wordlist.png" class="custom-icon" alt="单词表">
-            </a>
             <a href="subjects/english/shuahaoti/index.html" class="feature-card english-card">
                 <img src="images/shuahaoti.png" class="custom-icon" alt="刷好题">
+            </a>
+            <a href="subjects/english/word-list/index.html" class="feature-card english-card">
+                <img src="images/wordlist.png" class="custom-icon" alt="单词表">
             </a>
             <a href="subjects/english/dictation/index.html" class="feature-card english-card">
                 <img src="images/tingxie.png" class="custom-icon" alt="单词听写">
@@ -413,7 +406,6 @@
             <a href="subjects/english/spellgame/index.html" class="feature-card english-card">
                 <img src="images/pinxie.png" class="custom-icon" alt="拼写练习">
             </a>
-            </a>
             <a href="subjects/english/sandan/index.html" class="feature-card english-card">
                 <img src="images/sandan.png" class="custom-icon" alt="三单练习">
             </a>
@@ -423,7 +415,6 @@
         </div>
     </section>
 
-    <!-- 语文板块 -->
     <section id="chinese" class="section-area">
         <div class="feature-cards">
             <a href="subjects/chinese/gushiyuxi/index.html" class="feature-card chinese-card">
@@ -438,7 +429,6 @@
         </div>
     </section>
 
-    <!-- 数学板块 -->
     <section id="math" class="section-area">
         <div class="feature-cards">
             <a href="subjects/math/24dian/index.html" class="feature-card math-card">
@@ -453,7 +443,6 @@
         </div>
     </section>
 
-    <!-- 游戏/其他区 (包含字帖生成器等) -->
     <section id="games" class="section-area">
         <div class="feature-cards">
             <a href="game/quiz/index.html" class="feature-card games-card">
@@ -471,8 +460,6 @@
             <a href="game/talent1/index.html" class="feature-card games-card">
                 <img src="images/circle.png" class="custom-icon" alt="圆点游戏">
             </a>
-            <!-- 原有的作业记录功能（保留入口但未在卡片中显示名称，但为了完整性额外加一个作业记录卡片） 
-                 由于之前代码中有 homeworkTrackerBtn，但原html里没有对应卡片，这里补充一个卡片在游戏区中，依旧无文字 -->
             <a href="#" class="feature-card tools-card" id="homeworkTrackerBtn">
                 <i class="fas fa-clipboard-list custom-icon"></i>
             </a>
@@ -480,29 +467,29 @@
     </section>
 </div>
 
-<!-- 底部导航栏 -->
 <div class="bottom-nav">
-    <a href="#" class="nav-btn active" data-tab="english">
-        <i class="fas fa-language"></i>
-        <span>英语</span>
-    </a>
-    <a href="#" class="nav-btn" data-tab="chinese">
-        <i class="fas fa-book"></i>
-        <span>语文</span>
-    </a>
-    <a href="#" class="nav-btn" data-tab="math">
-        <i class="fas fa-calculator"></i>
-        <span>数学</span>
-    </a>
-    <a href="#" class="nav-btn" data-tab="games">
-        <i class="fas fa-gamepad"></i>
-        <span>其他</span>
-    </a>
+    <div class="nav-slider">
+        <a href="#" class="nav-btn active" data-tab="english">
+            <i class="fas fa-language"></i>
+            <span>英语</span>
+        </a>
+        <a href="#" class="nav-btn" data-tab="chinese">
+            <i class="fas fa-book"></i>
+            <span>语文</span>
+        </a>
+        <a href="#" class="nav-btn" data-tab="math">
+            <i class="fas fa-calculator"></i>
+            <span>数学</span>
+        </a>
+        <a href="#" class="nav-btn" data-tab="games">
+            <i class="fas fa-gamepad"></i>
+            <span>其他</span>
+        </a>
+    </div>
 </div>
 
 <script>
-    // 底部导航切换 + 板块切换（保持active样式）
-    const navBtns = document.querySelectorAll('.bottom-nav .nav-btn');
+    const navBtns = document.querySelectorAll('.nav-slider .nav-btn');
     const sections = document.querySelectorAll('.section-area');
 
     function switchTab(tabId) {
@@ -527,7 +514,6 @@
         });
     });
 
-    // 优雅密码弹窗函数 (完全重构但保持体验一致)
     function showCustomPrompt(title, callback) {
         const overlay = document.createElement('div');
         overlay.className = 'custom-prompt';
@@ -603,7 +589,6 @@
         }, 20);
     }
 
-    // 作业记录按钮（存在于游戏区最后一张卡片）
     const homeworkBtn = document.getElementById('homeworkTrackerBtn');
     if (homeworkBtn) {
         homeworkBtn.addEventListener('click', (e) => {
@@ -618,7 +603,6 @@
         });
     }
 
-    // 字帖生成按钮（原卡片位置tools-card）
     const calligraphyBtn = document.getElementById('calligraphyGeneratorBtn');
     if (calligraphyBtn) {
         calligraphyBtn.addEventListener('click', (e) => {
@@ -633,18 +617,14 @@
         });
     }
 
-    // 确保所有卡片没有文本泄漏: 如果某些卡片因为html结构存留任何<span>或文字，再次隐藏
-    // 另外处理动态以防万一: 所有的.feature-card span 确保除了特殊标记之外不可见
     const allCards = document.querySelectorAll('.feature-card');
     allCards.forEach(card => {
-        // 移除任何可能的额外文本节点
         const spans = card.querySelectorAll('span:not(.dev-tag)');
         spans.forEach(span => {
             if(!span.classList || !span.classList.contains('dev-tag')) {
                 span.style.display = 'none';
             }
         });
-        // 确保图标正确居中放大比例, 如有内联样式冲突，强制重设
         const iconImg = card.querySelector('.custom-icon');
         if (iconImg) {
             iconImg.style.width = '90%';
@@ -659,8 +639,6 @@
         }
     });
     
-    // 针对原始页面缺失某图片可能导致icon不对，不影响体验
-    // 额外优化移动端卡片触摸感
     if ('ontouchstart' in window) {
         document.body.style.cursor = 'pointer';
     }
