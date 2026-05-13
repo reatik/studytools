@@ -215,33 +215,42 @@ button:disabled {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0px !important; /* 干掉外层大间距 */
     width: 100%;
+    margin-top: 20px !important;
+}
+
+.control-row-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px !important; /* 按钮之间0间距 */
+    width: auto !important; /* 不撑宽 */
 }
 
 .dictation-btn {
-    width: 100%;
-    padding: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 6px;
-    margin-top: 10px;
-    height: 48px;
-    background-color: var(--primary-color); /* 添加蓝色背景 */
-    color: white; /* 文字改为白色 */
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50%;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 -8px !important; /* 强负边距，直接重叠靠拢 */
+    flex: none !important; /* 禁止被拉伸 */
 }
 
-.next-btn {
-    background-color: var(--light-gray); /* 改为浅灰色背景 */
-    color: var(--dark-gray); /* 改为深灰色文字 */
-    font-size: 15px;
-    padding: 12px;
-    font-weight: 500;
+.dictation-btn img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain;
+    display: block !important;
 }
 
-.prev-btn {
-    background-color: var(--light-gray);
-    color: var(--dark-gray);
-}
+
 
 .progress {
     margin: 12px 0;
@@ -255,15 +264,14 @@ button:disabled {
     align-items: center;
     margin-top: 12px;
     width: 100%;
-    white-space: nowrap; /* 防止换行 */
+    white-space: nowrap;
 }
 
 .language-toggle-container {
     display: flex;
     align-items: center;
-    gap: 6px; /* 缩小间距使更紧凑 */
+    gap: 6px;
 }
-
 
 .language-btn {
     padding: 6px 10px;
@@ -320,7 +328,6 @@ button:disabled {
     display: none;
 }
 
-/* 修改后的自动播报控制区域样式 */
 .auto-play-controls {
     display: flex;
     flex-direction: column;
@@ -436,15 +443,13 @@ button:disabled {
     transform: translateX(26px);
 }
 
-
-
 .language-toggle-btn {
-    padding: 4px 8px; /* 更紧凑的内边距 */
+    padding: 4px 8px;
     border-radius: 4px;
     background-color: transparent;
     color: var(--dark-gray);
     font-size: 13px;
-    min-width: 40px; /* 更小的最小宽度 */
+    min-width: 40px;
     cursor: pointer;
     transition: all 0.2s;
     text-align: center;
@@ -524,7 +529,7 @@ button:disabled {
 }
 
 .order-indicator {
-    display: none; /* 隐藏顺序指示器以节省空间 */
+    display: none;
 }
 
 .prompt-help {
@@ -587,18 +592,18 @@ button:disabled {
     bottom: -50px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: white; /* 改为白色背景 */
-    color: #202124; /* 深灰色文字 */
+    background-color: white;
+    color: #202124;
     padding: 8px 16px;
-    border-radius: 4px; /* 减小圆角 */
+    border-radius: 4px;
     font-size: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* 更柔和的阴影 */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     z-index: 1000;
     transition: bottom 0.3s ease;
     display: flex;
     align-items: center;
     gap: 8px;
-    border: 1px solid #DADCE0; /* 添加浅灰色边框 */
+    border: 1px solid #DADCE0;
 }
 
 .copy-notification.show {
@@ -611,10 +616,62 @@ button:disabled {
 }
 
 #exitBtn {
-    background-color: var(--light-gray); /* 改为浅灰色背景 */
-    color: var(--dark-gray); /* 改为深灰色文字 */
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    width: auto;
+    height: 44px;
+    border-radius: 6px;
+    padding: 0 20px;
+    font-size: 14px;
+    border: 1px solid var(--medium-gray); /* 加边框 */
+    margin-top: 15px; /* 往下移 */
 }
 
+/* 进度文字放到中文下一行 */
+.progress-text {
+    font-size: 13px;
+    color: var(--dark-gray);
+    text-align: center;
+    margin-top: 12px;
+}
+
+/* 进度条外层容器 */
+.progress-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background-color: var(--medium-gray);
+    border-radius: 3px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+/* 进度条蓝色填充 */
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--primary-color);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* 上一个 / 下一个 图标悬停变蓝色 */
+#prevBtn:hover img,
+#nextBtn:hover img {
+    filter: brightness(0) saturate(100%) invert(26%) sepia(99%) saturate(1765%) hue-rotate(206deg) brightness(97%) contrast(101%);
+    transition: filter 0.2s ease;
+}
+
+/* 点击时也保持蓝色 */
+#prevBtn:active img,
+#nextBtn:active img {
+    filter: brightness(0) saturate(100%) invert(26%) sepia(99%) saturate(1765%) hue-rotate(206deg) brightness(97%) contrast(101%);
+}
+
+#readBtn:hover img,
+#readBtn:active img {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(99%) saturate(1765%) hue-rotate(206deg) brightness(97%) contrast(101%);
+  transition: filter 0.2s ease;
+}
     </style>
 </head>
 <body>
@@ -689,9 +746,7 @@ button:disabled {
         </div>
 
         <div id="dictationPanel" class="panel hidden">
-            <div class="progress">
-                <span id="progressText">0/0</span>
-            </div>
+
             
             <div class="language-modes">
                 <div class="language-toggle-container">
@@ -730,23 +785,38 @@ button:disabled {
     </div>
 </div>
             
-            <div class="dictation-content">
-                <div id="dictationEnglish" class="dictation-english"></div>
-                <div id="dictationChinese" class="dictation-chinese"></div>
-            </div>
+<div class="dictation-content">
+    <div id="dictationEnglish" class="dictation-english"></div>
+    <div id="dictationChinese" class="dictation-chinese"></div>
+    <!-- 新增进度文字 + 进度条 -->
+    <div class="progress-text" id="progressText">0/0</div>
+    <div class="progress-bar-wrap">
+        <div class="progress-bar"></div>
+    </div>
+</div>
             
             <div class="dictation-controls">
-                <button id="prevBtn" class="dictation-btn prev-btn">上一个</button>
-                <button id="readBtn" class="dictation-btn">朗读</button>
-                <button id="nextBtn" class="dictation-btn next-btn">下一个</button>
-                <button id="exitBtn" class="dictation-btn">退出</button>
+                <div class="control-row-top">
+                    <button id="prevBtn" class="dictation-btn prev-btn">
+                        <img src="back1.png" alt="上一个">
+                    </button>
+                    <button id="readBtn" class="dictation-btn">
+                        <img id="playImg" src="play1.png" alt="播放">
+                    </button>
+                    <button id="nextBtn" class="dictation-btn next-btn">
+                        <img src="next1.png" alt="下一个">
+                    </button>
+                </div>
+            
+                <div class="control-row-bottom">
+                    <button id="exitBtn">退出</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // DOM元素
             const elements = {
                 inputPanel: document.getElementById('inputPanel'),
                 dictationPanel: document.getElementById('dictationPanel'),
@@ -755,6 +825,7 @@ button:disabled {
                 prevBtn: document.getElementById('prevBtn'),
                 nextBtn: document.getElementById('nextBtn'),
                 readBtn: document.getElementById('readBtn'),
+                playImg: document.getElementById('playImg'),
                 exitBtn: document.getElementById('exitBtn'),
                 progressText: document.getElementById('progressText'),
                 contentList: document.getElementById('contentList'),
@@ -766,665 +837,500 @@ button:disabled {
                 statusInfo: document.getElementById('statusInfo'),
                 dictationEnglish: document.getElementById('dictationEnglish'),
                 dictationChinese: document.getElementById('dictationChinese'),
-                // 新增自动播报相关元素
                 autoPlayToggle: document.getElementById('autoPlayToggle'),
                 decreaseCountBtn: document.getElementById('decreaseCountBtn'),
                 increaseCountBtn: document.getElementById('increaseCountBtn'),
                 repeatCountValue: document.getElementById('repeatCountValue'),
-                // 新增间隔调节相关元素
                 decreaseIntervalBtn: document.getElementById('decreaseIntervalBtn'),
                 increaseIntervalBtn: document.getElementById('increaseIntervalBtn'),
                 intervalValue: document.getElementById('intervalValue'),
-                // 新增语言切换相关元素
                 englishToggleBtn: document.getElementById('englishToggleBtn'),
                 chineseToggleBtn: document.getElementById('chineseToggleBtn'),
                 toggleArrow: document.getElementById('toggleArrow')
             };
-
-            // 语音合成
+    
             const synth = window.speechSynthesis;
             let voices = [];
             let currentLineIndex = 0;
             let lines = [];
             let isReading = false;
             let currentUtterance = null;
-            
-            // 自动播报相关变量
-            let autoPlayEnabled = true; // 默认开启自动播报
-            let repeatCount = 1; // 默认朗读1遍
-            let currentRepeat = 0; // 当前朗读遍数
-            let autoPlayTimeout = null; // 自动播报定时器
-            let perCharInterval = 300; // 默认每个字符增加300ms间隔
-            
-            // 交互状态
-            let selectedRows = []; // 存储被选中的行索引
-            
-            // 语言模式相关变量
+            let isPlaying = false;
+    
+            let autoPlayEnabled = true;
+            let repeatCount = 1;
+            let currentRepeat = 0;
+            let autoPlayTimeout = null;
+            let perCharInterval = 300;
+    
+            let selectedRows = [];
             let englishEnabled = true;
             let chineseEnabled = true;
-            let languageOrder = 'english-first'; // 默认英语在前
-            
-            // 初始化语音
+            let languageOrder = 'english-first';
+    
+            let autoPlayLockPlay2 = false;
+            let isReadingGroup = false;
+
             function initVoices() {
                 voices = synth.getVoices();
-                if (voices.length === 0) {
-                    setTimeout(initVoices, 100);
-                }
+                if (voices.length === 0) setTimeout(initVoices, 100);
             }
             initVoices();
             synth.onvoiceschanged = initVoices;
-            
-            // 清空内容
+    
+            function resetPlayIcon() {
+                elements.playImg.src = 'play1.png';
+                autoPlayLockPlay2 = false;
+            }
+            function setPlayIconActive() {
+                elements.playImg.src = 'play2.png';
+            }
+    
             elements.clearBtn.addEventListener('click', function() {
-    selectedRows = []; // 清空选中的行索引
-    renderContentGrid(); // 重新渲染以更新UI
-    updateStatusInfo(); // 更新状态信息
-    updateToggleSelectAllButton(); // 更新全选按钮状态
-});
-
-            // 自动导入函数
+                selectedRows = [];
+                renderContentGrid();
+                updateStatusInfo();
+                updateToggleSelectAllButton();
+            });
+    
             function autoImportContent() {
-    const text = elements.inputText.value.trim();
-
-    // 新增：根据输入框内容显示/隐藏提示区域
-    document.getElementById('promptHelp').style.display = text ? 'none' : 'block';
-
-    if (!text) {
-        // 如果输入框为空，隐藏相关UI
-        lines = [];
-        selectedRows = [];
-        elements.contentGrid.innerHTML = '';
-        elements.startBtn.classList.add('hidden');
-        elements.actionButtons.classList.add('hidden');
-        elements.statusInfo.classList.add('hidden');
-        return;
-    }
+                const text = elements.inputText.value.trim();
+                document.getElementById('promptHelp').style.display = text ? 'none' : 'block';
     
-    const rawLines = text.split('\n').filter(line => line.trim() !== '');
-    lines = [];
+                if (!text) {
+                    lines = []; selectedRows = [];
+                    elements.contentGrid.innerHTML = '';
+                    elements.startBtn.classList.add('hidden');
+                    elements.actionButtons.classList.add('hidden');
+                    elements.statusInfo.classList.add('hidden');
+                    return;
+                }
     
-    rawLines.forEach(line => {
-        line = line.trim();
-        let english = '';
-        let chinese = '';
-        
-        // 改进的分割逻辑 - 寻找第一个中文字符或中文标点符号
-        let splitPos = -1;
-        for (let i = 0; i < line.length; i++) {
-            const char = line[i];
-            // 如果遇到中文字符、中文标点或中文数字
-            if (isChineseChar(char) || isChinesePunctuation(char) || 
-                (isChineseNumber(char) && i > 0 && !isEnglishChar(line[i-1]))) {
-                splitPos = i;
-                break;
-            }
-        }
-        
-        if (splitPos > 0) {
-            english = line.substring(0, splitPos).trim();
-            chinese = line.substring(splitPos).trim();
-            
-            // 确保中文标点符号不会被单独留在英文部分
-            if (english.endsWith('《') || english.endsWith('「') || 
-                english.endsWith('（') || english.endsWith('【')) {
-                chinese = english.slice(-1) + chinese;
-                english = english.slice(0, -1).trim();
-            }
-        } else if (splitPos === 0) {
-            // 整行都是中文
-            chinese = line;
-        } else {
-            // 整行都是英文
-            english = line;
-        }
-        
-        lines.push({
-            english: english,
-            chinese: chinese
-        });
-    });
+                const rawLines = text.split('\n').filter(line => line.trim() !== '');
+                lines = [];
     
-    // 更新UI
-    selectedRows = Array.from({ length: lines.length }, (_, i) => i);
-    elements.actionButtons.classList.remove('hidden');
-    elements.statusInfo.classList.remove('hidden');
-    elements.startBtn.classList.remove('hidden');
-    updateStatusInfo();
-    renderContentGrid();
+                rawLines.forEach(line => {
+                    line = line.trim();
+                    let english = '', chinese = '';
+                    let splitPos = -1;
+    
+                    for (let i = 0; i < line.length; i++) {
+                        const char = line[i];
+                        if (isChineseChar(char) || isChinesePunctuation(char) ||
+                            (isChineseNumber(char) && i > 0 && !isEnglishChar(line[i-1]))) {
+                            splitPos = i; break;
+                        }
+                    }
+    
+                    if (splitPos > 0) {
+                        english = line.substring(0, splitPos).trim();
+                        chinese = line.substring(splitPos).trim();
+                    } else if (splitPos === 0) {
+                        chinese = line;
+                    } else {
+                        english = line;
+                    }
+    
+                    lines.push({ english, chinese });
+                });
+    
+                selectedRows = Array.from({ length: lines.length }, (_, i) => i);
+                elements.actionButtons.classList.remove('hidden');
+                elements.statusInfo.classList.remove('hidden');
+                elements.startBtn.classList.remove('hidden');
+                updateStatusInfo();
+                renderContentGrid();
             }
-
+    
             document.getElementById('copyPromptBtn').addEventListener('click', function() {
-    const promptText = "提取图片中的中英文对照内容：英文在前中文在后，单空格分隔；保留原始格式（包括连字符单词）；每组独立成行";
+                const promptText = "提取图片中的中英文对照内容：英文在前中文在后，单空格分隔；保留原始格式（包括连字符单词）；每组独立成行";
+                const textarea = document.createElement('textarea');
+                textarea.value = promptText;
+                textarea.style.position = 'fixed';
+                document.body.appendChild(textarea);
+                textarea.select();
     
-    // 创建临时textarea元素用于复制
-    const textarea = document.createElement('textarea');
-    textarea.value = promptText;
-    textarea.style.position = 'fixed';
-    document.body.appendChild(textarea);
-    textarea.select();
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        const btn = this;
+                        const notification = document.getElementById('copyNotification');
+                        const copyText = btn.querySelector('.copy-text');
+                        const copyIcon = btn.querySelector('.copy-icon');
     
-    try {
-        // 执行复制命令
-        const successful = document.execCommand('copy');
-        
-        if (successful) {
-            const btn = this;
-            const notification = document.getElementById('copyNotification');
-            const copyText = btn.querySelector('.copy-text');
-            const copyIcon = btn.querySelector('.copy-icon');
-            
-            // 隐藏文字，显示打勾图标
-            copyText.style.display = 'none';
-            copyIcon.style.display = 'block';
-            
-            // 显示通知
-            notification.classList.add('show');
-            
-            // 3秒后恢复原状
-            setTimeout(() => {
-                notification.classList.remove('show');
-                copyText.style.display = 'block';
-                copyIcon.style.display = 'none';
-            }, 2000);
-        }
-    } catch (err) {
-        console.error('复制失败:', err);
-    } finally {
-        // 移除临时textarea
-        document.body.removeChild(textarea);
-    }
-});
-            // 输入框事件监听
+                        copyText.style.display = 'none';
+                        copyIcon.style.display = 'block';
+                        notification.classList.add('show');
+    
+                        setTimeout(() => {
+                            notification.classList.remove('show');
+                            copyText.style.display = 'block';
+                            copyIcon.style.display = 'none';
+                        }, 2000);
+                    }
+                } catch (err) {
+                    console.error('复制失败:', err);
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            });
+    
             let debounceTimer;
             elements.inputText.addEventListener('input', function() {
                 clearTimeout(debounceTimer);
                 debounceTimer = setTimeout(autoImportContent, 500);
             });
-
-            // 页面加载时检查是否有内容
-            if (elements.inputText.value.trim()) {
-                autoImportContent();
-            }
-
+    
+            if (elements.inputText.value.trim()) autoImportContent();
+    
             function isChinesePunctuation(char) {
-                // 中文标点符号：书名号、引号、括号等
                 return /[《》「」『』【】（）]/.test(char);
             }
-
-            // 判断是否是英文字符（包括连字符）
             function isEnglishChar(char) {
                 return /[a-zA-Z\-]/.test(char);
             }
-
-            // 新增判断中文数字的函数
             function isChineseNumber(char) {
                 return /[一二三四五六七八九十百千万亿]/.test(char);
             }
-
-            // 判断是否是中文字符
             function isChineseChar(char) {
                 return /[\u4e00-\u9fa5]/.test(char);
             }
-
-            // 更新状态信息
+    
             function updateStatusInfo() {
                 elements.statusInfo.textContent = `已导入 ${lines.length} 条，选中 ${selectedRows.length} 条`;
             }
-
+    
             function renderContentGrid() {
-                // 清空容器
                 elements.contentGrid.innerHTML = '';
-                
-                // 按照导入顺序渲染所有内容
                 lines.forEach((line, rowIndex) => {
                     const item = createContentItem(line, rowIndex);
                     elements.contentGrid.appendChild(item);
                 });
-                
                 setupItemInteractions();
                 updateStatusInfo();
             }
-
+    
             function createContentItem(line, rowIndex) {
                 const item = document.createElement('div');
                 item.className = 'content-item';
                 item.dataset.rowIndex = rowIndex;
-                
-                if (isRowSelected(rowIndex)) {
-                    item.classList.add('selected');
-                }
-                
+                if (isRowSelected(rowIndex)) item.classList.add('selected');
+    
                 item.innerHTML = `
-                    <div class="english-container">${line.english}</div>
-                    ${line.chinese ? `<div class="chinese-container">${line.chinese}</div>` : ''}
-                `;
-                
+                        <div class="english-container">${line.english}</div>
+                        ${line.chinese ? `<div class="chinese-container">${line.chinese}</div>` : ''}
+                    `;
                 return item;
             }
-            
-            // 检查行是否被选中
+    
             function isRowSelected(rowIndex) {
                 return selectedRows.includes(rowIndex);
             }
-            
-            // 设置项目交互
+    
             function setupItemInteractions() {
-                let touchStartTime = 0;
-                let touchStartY = 0;
-                let activeElement = null;
-                const MAX_TAP_DURATION = 200; // 毫秒
-                const MAX_TAP_DISTANCE = 8; // 像素
-
                 document.querySelectorAll('.content-item').forEach(item => {
-                    // 触摸开始
-                    item.addEventListener('touchstart', function(e) {
-                        touchStartTime = Date.now();
-                        touchStartY = e.touches[0].clientY;
-                        activeElement = this;
-                    }, { passive: true });
-
-                    // 触摸移动（仅标记不处理）
-                    item.addEventListener('touchmove', function() {
-                        activeElement = null; // 标记为滑动操作
-                    }, { passive: true });
-
-                    // 触摸结束
-                    item.addEventListener('touchend', function(e) {
-                        if (!activeElement) return;
-                        
-                        const touchEndY = e.changedTouches[0].clientY;
-                        const touchDuration = Date.now() - touchStartTime;
-                        const distance = Math.abs(touchEndY - touchStartY);
-                        
-                        // 判断是否为有效点击
-                        if (touchDuration <= MAX_TAP_DURATION && distance <= MAX_TAP_DISTANCE) {
-                            e.preventDefault();
-                            handleItemSelection(parseInt(this.dataset.rowIndex));
-                        }
-                    }, { passive: false });
-
-                    // 点击事件（鼠标）
-                    item.addEventListener('click', function() {
-                        handleItemSelection(parseInt(this.dataset.rowIndex));
+                    item.addEventListener('click', () => {
+                        const rowIndex = parseInt(item.dataset.rowIndex);
+                        handleItemSelection(rowIndex);
                     });
                 });
             }
-            
-            // 切换行选择状态
+    
             function handleItemSelection(rowIndex) {
                 const isSelected = isRowSelected(rowIndex);
                 toggleRowSelection(rowIndex, !isSelected);
             }
-
-            // 切换行选择状态
+    
             function toggleRowSelection(rowIndex, select) {
                 if (select) {
-                    if (!isRowSelected(rowIndex)) {
-                        selectedRows.push(rowIndex);
-                    }
+                    if (!isRowSelected(rowIndex)) selectedRows.push(rowIndex);
                 } else {
                     selectedRows = selectedRows.filter(index => index !== rowIndex);
                 }
-                
-                // 重新渲染以更新UI
                 renderContentGrid();
                 updateToggleSelectAllButton();
             }
-            
-            // 反选功能
+    
             elements.invertSelectionBtn.addEventListener('click', invertSelection);
-            
             function invertSelection() {
                 const allRowIndices = Array.from({ length: lines.length }, (_, i) => i);
                 selectedRows = allRowIndices.filter(rowIndex => !selectedRows.includes(rowIndex));
                 renderContentGrid();
                 updateToggleSelectAllButton();
             }
-            
-            // 全选/取消全选
+    
             elements.toggleSelectAllBtn.addEventListener('click', function() {
                 const allSelected = lines.length > 0 && selectedRows.length === lines.length;
-                
-                if (allSelected) {
-                    deselectAll();
-                    this.textContent = '全选';
-                } else {
-                    selectAll();
-                    this.textContent = '取消全选';
-                }
+                allSelected ? deselectAll() : selectAll();
             });
-            
-            // 全选所有内容
+    
             function selectAll() {
                 selectedRows = Array.from({ length: lines.length }, (_, i) => i);
                 renderContentGrid();
                 elements.toggleSelectAllBtn.textContent = '取消全选';
             }
-            
-            // 取消全选
+    
             function deselectAll() {
                 selectedRows = [];
                 renderContentGrid();
                 elements.toggleSelectAllBtn.textContent = '全选';
             }
-            
-            // 更新全选按钮状态
+    
             function updateToggleSelectAllButton() {
                 const allSelected = lines.length > 0 && selectedRows.length === lines.length;
                 elements.toggleSelectAllBtn.textContent = allSelected ? '取消全选' : '全选';
             }
-
-            // 开始朗读
+    
             elements.startBtn.addEventListener('click', function() {
-                if (lines.length === 0) {
-                    alert('没有可朗读的内容');
-                    return;
-                }
-                
-                if (selectedRows.length === 0) {
-                    alert('请选择要朗读的内容');
-                    return;
-                }
-                
-                currentLineIndex = 0;
-                currentRepeat = 0;
+                if (lines.length === 0) return alert('没有可朗读的内容');
+                if (selectedRows.length === 0) return alert('请选择要朗读的内容');
+    
+                currentLineIndex = 0; currentRepeat = 0;
                 elements.inputPanel.classList.add('hidden');
                 elements.dictationPanel.classList.remove('hidden');
                 updateProgress();
                 updateDictationContent();
-                
-
+                resetPlayIcon();
             });
-
-            // 更新进度
+    
             function updateProgress() {
-                elements.progressText.textContent = `${currentLineIndex + 1}/${selectedRows.length}`;
+                let now = currentLineIndex + 1;
+                let total = selectedRows.length;
+                elements.progressText.textContent = `${now}/${total}`;
+                let percent = total === 0 ? 0 : (now / total) * 100;
+                document.querySelector('.progress-bar').style.width = percent + '%';
             }
-            
-            // 更新朗读内容显示
+    
             function updateDictationContent() {
                 if (currentLineIndex >= selectedRows.length) return;
-                
                 const rowIndex = selectedRows[currentLineIndex];
                 const line = lines[rowIndex];
-                
-
-
-                    elements.dictationChinese.textContent = line.chinese || '';
-                    elements.dictationChinese.style.display = 'block';
-
-                
+                elements.dictationChinese.textContent = line.chinese || '';
+                elements.dictationChinese.style.display = 'block';
             }
-
-            // 朗读当前项
+    
             function readCurrentItem() {
-                stopReading();
+                if (isReadingGroup) return;
+                stopReading(false);
                 
                 if (currentLineIndex >= selectedRows.length) {
                     currentLineIndex = selectedRows.length - 1;
                     return;
                 }
-                
+
                 const rowIndex = selectedRows[currentLineIndex];
                 const line = lines[rowIndex];
                 if (!line) return;
-                
-                isReading = true;
-                readContentWithSettings(line);
+
+                isPlaying = true;
+                isReadingGroup = true;
+                setPlayIconActive();
+
+                readContentWithSettings(line, function(){
+                    isReadingGroup = false;
+                    if (!autoPlayEnabled) {
+                        resetPlayIcon();
+                        isPlaying = false;
+                    }
+                    if (autoPlayEnabled) {
+                        setTimeout(() => {
+                            handleAutoPlayNext();
+                        }, 800);
+                    }
+                });
             }
 
-            // 根据设置朗读内容
-            function readContentWithSettings(line) {
-                if (!englishEnabled && !chineseEnabled) return; // 理论上不会发生
-                
+            function readContentWithSettings(line, allEndCallback) {
+                if (!englishEnabled && !chineseEnabled) {
+                    allEndCallback && allEndCallback();
+                    return;
+                }
+
+                const delay = 500;
+
                 if (englishEnabled && chineseEnabled) {
-                    // 两种语言都启用
                     if (languageOrder === 'english-first') {
-                        // 英语在前模式
                         if (line.english && line.chinese) {
                             readText(line.english, 'en', () => {
-                                setTimeout(() => readText(line.chinese, 'zh'), 500);
+                                setTimeout(() => {
+                                    readText(line.chinese, 'zh', allEndCallback);
+                                }, delay);
                             });
                         } else if (line.english) {
-                            readText(line.english, 'en');
+                            readText(line.english, 'en', allEndCallback);
                         } else if (line.chinese) {
-                            readText(line.chinese, 'zh');
+                            readText(line.chinese, 'zh', allEndCallback);
                         }
                     } else {
-                        // 中文在前模式
                         if (line.chinese && line.english) {
                             readText(line.chinese, 'zh', () => {
-                                setTimeout(() => readText(line.english, 'en'), 500);
+                                setTimeout(() => {
+                                    readText(line.english, 'en', allEndCallback);
+                                }, delay);
                             });
                         } else if (line.chinese) {
-                            readText(line.chinese, 'zh');
+                            readText(line.chinese, 'zh', allEndCallback);
                         } else if (line.english) {
-                            readText(line.english, 'en');
+                            readText(line.english, 'en', allEndCallback);
                         }
                     }
                 } else if (englishEnabled) {
-                    // 仅英语模式
-                    if (line.english) readText(line.english, 'en');
+                    if (line.english) readText(line.english, 'en', allEndCallback);
+                    else allEndCallback && allEndCallback();
                 } else if (chineseEnabled) {
-                    // 仅中文模式
-                    if (line.chinese) readText(line.chinese, 'zh');
+                    if (line.chinese) readText(line.chinese, 'zh', allEndCallback);
+                    else allEndCallback && allEndCallback();
                 }
             }
-            
-            // 朗读文本
+
             function readText(text, lang, onEnd) {
-                stopReading();
-                
+                if (!text) {
+                    onEnd && onEnd();
+                    return;
+                }
+
                 currentUtterance = new SpeechSynthesisUtterance(text);
                 currentUtterance.rate = lang === 'zh' ? 0.9 : 1.0;
-                
+
                 const voice = voices.find(v => v.lang.includes(lang === 'zh' ? 'zh' : 'en'));
                 if (voice) currentUtterance.voice = voice;
-                
+
                 currentUtterance.onend = function() {
-                    if (onEnd) {
-                        onEnd();
-                    }
-                    
-                    // 自动播报逻辑
-                    if (autoPlayEnabled) {
-                        // 计算停顿时间（基于字符数）
-                        const charCount = text.length;
-                        const pauseTime = calculatePauseTime(charCount);
-                        
-                        // 设置下一个自动播报
-                        autoPlayTimeout = setTimeout(() => {
-                            if (autoPlayEnabled) {
-                                handleAutoPlayNext();
-                            }
-                        }, pauseTime);
-                    }
+                    onEnd && onEnd();
                 };
-                
+
                 synth.speak(currentUtterance);
             }
-            
-            // 根据字符数计算停顿时间
+    
             function calculatePauseTime(charCount) {
-                // 基础停顿时间（毫秒）
                 const baseTime = 200;
-                // 使用用户设置的每个字符间隔时间
                 const perCharTime = perCharInterval;
-                
-                // 计算总停顿时间（最小200ms，最大8000ms）
                 return Math.min(Math.max(baseTime + charCount * perCharTime, 200), 8000);
             }
-
-            // 停止朗读
-            function stopReading() {
-                if (currentUtterance) {
-                    synth.cancel();
-                    currentUtterance = null;
-                }
+    
+            function stopReading(needReset = true) {
                 clearTimeout(autoPlayTimeout);
+                if (synth.speaking) {
+                    synth.cancel();
+                }
+                currentUtterance = null;
+                isPlaying = false;
+                isReadingGroup = false;
+                if (needReset) resetPlayIcon();
             }
-
-            // 上一个
+    
             elements.prevBtn.addEventListener('click', function() {
+                stopReading();
                 if (currentLineIndex > 0) {
                     currentLineIndex--;
                     currentRepeat = 0;
                     updateProgress();
                     updateDictationContent();
-                    
+                    readCurrentItem();
+                }
+            });
+    
+            elements.nextBtn.addEventListener('click', function() {
+                stopReading();
+                if (currentLineIndex < selectedRows.length - 1) {
+                    currentLineIndex++;
+                    currentRepeat = 0;
+                    updateProgress();
+                    updateDictationContent();
+                    readCurrentItem();
+                }
+            });
+    
+            elements.readBtn.addEventListener('click', function() {
+                if (isPlaying) {
+                    stopReading();
+                } else {
                     if (autoPlayEnabled) {
-                        startAutoPlay();
+                        currentRepeat = 0;
+                        autoPlayLockPlay2 = true;
+                        readCurrentItem();
                     } else {
                         readCurrentItem();
                     }
                 }
             });
-
-            // 下一个
-            elements.nextBtn.addEventListener('click', function() {
-                handleNextItem();
-            });
-            
-            // 处理下一个项目
-            function handleNextItem() {
-                currentLineIndex++;
-                currentRepeat = 0;
-                
-                if (currentLineIndex >= selectedRows.length) {
-                    alert('朗读已完成！');
-                    currentLineIndex = selectedRows.length - 1;
-                    updateProgress();
-                    return;
-                }
-                
-                updateProgress();
-                updateDictationContent();
-                
-                if (autoPlayEnabled) {
-                    startAutoPlay();
-                } else {
-                    readCurrentItem();
-                }
-            }
-
-            // 朗读当前项
-            elements.readBtn.addEventListener('click', function() {
-                // 如果自动播报开启，点击朗读会重置当前项的朗读遍数
-                if (autoPlayEnabled) {
-                    currentRepeat = 0;
-                    startAutoPlay();
-                } else {
-                    readCurrentItem();
-                }
-            });
-
-            // 退出
+    
             elements.exitBtn.addEventListener('click', exitDictation);
-
-            // 退出朗读模式
+    
             function exitDictation() {
                 if (confirm('确定要退出听写模式吗？')) {
                     stopReading();
                     elements.inputPanel.classList.remove('hidden');
                     elements.dictationPanel.classList.add('hidden');
                     isReading = false;
+                    resetPlayIcon();
                 }
             }
-
-            // 切换英语状态
+    
             elements.englishToggleBtn.addEventListener('click', function() {
-                if (!chineseEnabled && englishEnabled) return; // 不能都关闭
-                
+                if (!chineseEnabled && englishEnabled) return;
                 englishEnabled = !englishEnabled;
                 updateLanguageToggleButtons();
-                
-                if (isReading) {
+    
+                if (isPlaying) {
+                    stopReading(false);
                     updateDictationContent();
-                    if (autoPlayEnabled) {
-                        startAutoPlay();
-                    } else {
-                        readCurrentItem();
-                    }
+                    setTimeout(() => readCurrentItem(), 300);
                 }
             });
-            
-            // 切换中文状态
+    
             elements.chineseToggleBtn.addEventListener('click', function() {
-                if (!englishEnabled && chineseEnabled) return; // 不能都关闭
-                
+                if (!englishEnabled && chineseEnabled) return;
                 chineseEnabled = !chineseEnabled;
                 updateLanguageToggleButtons();
-                
-                if (isReading) {
+    
+                if (isPlaying) {
+                    stopReading(false);
                     updateDictationContent();
-                    if (autoPlayEnabled) {
-                        startAutoPlay();
-                    } else {
-                        readCurrentItem();
-                    }
+                    setTimeout(() => readCurrentItem(), 300);
                 }
             });
-            
-            // 切换语言顺序
+    
             elements.toggleArrow.addEventListener('click', function() {
                 languageOrder = languageOrder === 'english-first' ? 'chinese-first' : 'english-first';
                 updateLanguageToggleButtons();
-                
-                if (isReading) {
+    
+                if (isPlaying) {
+                    stopReading(false);
                     updateDictationContent();
-                    if (autoPlayEnabled) {
-                        startAutoPlay();
-                    } else {
-                        readCurrentItem();
-                    }
+                    setTimeout(() => readCurrentItem(), 300);
                 }
             });
-            
-            // 更新语言切换按钮状态
+    
             function updateLanguageToggleButtons() {
                 elements.englishToggleBtn.classList.toggle('active', englishEnabled);
                 elements.chineseToggleBtn.classList.toggle('active', chineseEnabled);
-                
-                // 如果只有一个启用，禁用另一个按钮
-                if (!englishEnabled || !chineseEnabled) {
-                    elements.englishToggleBtn.classList.toggle('disabled', !englishEnabled);
-                    elements.chineseToggleBtn.classList.toggle('disabled', !chineseEnabled);
-                } else {
-                    elements.englishToggleBtn.classList.remove('disabled');
-                    elements.chineseToggleBtn.classList.remove('disabled');
-                }
-                
-                // 更新箭头方向
+    
                 elements.toggleArrow.textContent = languageOrder === 'english-first' ? '→' : '←';
             }
-            
-            // 自动播报切换
+    
             elements.autoPlayToggle.addEventListener('change', function() {
                 autoPlayEnabled = this.checked;
-                
-                if (autoPlayEnabled && isReading) {
-                    startAutoPlay();
-                } else {
-                    clearTimeout(autoPlayTimeout);
+                if (!autoPlayEnabled) {
+                    autoPlayLockPlay2 = false;
+                    stopReading();
                 }
             });
-            
-            // 调整朗读遍数
+    
             elements.decreaseCountBtn.addEventListener('click', function() {
                 if (repeatCount > 1) {
                     repeatCount--;
                     elements.repeatCountValue.textContent = repeatCount;
                 }
             });
-            
+    
             elements.increaseCountBtn.addEventListener('click', function() {
                 if (repeatCount < 5) {
                     repeatCount++;
                     elements.repeatCountValue.textContent = repeatCount;
                 }
             });
-
-            // 间隔调节功能
+    
             elements.intervalValue.addEventListener('change', function() {
                 let value = parseInt(this.value);
                 if (isNaN(value)) value = 300;
@@ -1432,37 +1338,38 @@ button:disabled {
                 this.value = value;
                 perCharInterval = value;
             });
-
+    
             elements.decreaseIntervalBtn.addEventListener('click', function() {
                 let value = parseInt(elements.intervalValue.value) - 50;
                 value = Math.max(100, value);
                 elements.intervalValue.value = value;
                 perCharInterval = value;
             });
-
+    
             elements.increaseIntervalBtn.addEventListener('click', function() {
                 let value = parseInt(elements.intervalValue.value) + 50;
                 value = Math.min(1000, value);
                 elements.intervalValue.value = value;
                 perCharInterval = value;
             });
-            
-            // 开始自动播报
-            function startAutoPlay() {
-                clearTimeout(autoPlayTimeout);
-                readCurrentItem();
-            }
-            
-            // 处理自动播报下一个
+    
             function handleAutoPlayNext() {
                 currentRepeat++;
-                
                 if (currentRepeat < repeatCount) {
-                    // 继续朗读当前项
                     readCurrentItem();
                 } else {
-                    // 当前项朗读完成，移动到下一项
-                    handleNextItem();
+                    currentLineIndex++;
+                    currentRepeat = 0;
+                    if (currentLineIndex >= selectedRows.length) {
+                        resetPlayIcon();
+                        alert('朗读已完成！');
+                        currentLineIndex = selectedRows.length - 1;
+                        updateProgress();
+                        return;
+                    }
+                    updateProgress();
+                    updateDictationContent();
+                    readCurrentItem();
                 }
             }
         });
