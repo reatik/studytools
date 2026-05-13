@@ -17,44 +17,9 @@
             color: #1d1d1f;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             -webkit-font-smoothing: antialiased;
-            padding-bottom: 70px;
-        }
-
-        .navbar {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 12px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .logo {
-            color: #1d1d1f;
-            font-weight: 600;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1.35rem;
-            letter-spacing: -0.3px;
-        }
-
-        .logo i {
-            color: #0071e3;
-            font-size: 1.5rem;
+            padding-top: 70px;
+            padding-bottom: 20px;
+            overflow-x: hidden;
         }
 
         .announcement-bar {
@@ -185,53 +150,51 @@
         .tools-card { color: #e67e22; }
 
         .bottom-nav {
-            position: fixed;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 92%;
-            max-width: 480px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 36px;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08), 0 0 0 0.5px rgba(0, 0, 0, 0.02);
-            z-index: 110;
-            border: 0.5px solid rgba(255, 255, 255, 0.3);
-            overflow: hidden;
-        }
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    z-index: 110;
+}
 
-        .nav-slider {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            padding: 6px 10px;
-            gap: 6px;
-        }
-
-        .nav-slider::-webkit-scrollbar {
-            display: none;
-        }
+.nav-slider {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+}
+.nav-slider::-webkit-scrollbar {
+    display: none;
+}
 
         .nav-btn {
-            flex: 0 0 25%;
-            scroll-snap-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: #8e8e93;
-            font-size: 0.7rem;
-            font-weight: 500;
-            padding: 8px 4px;
-            border-radius: 40px;
-            transition: all 0.2s ease;
-            gap: 4px;
-            min-width: 70px;
-        }
+    flex: 0 0 25%;
+    scroll-snap-align: center;
+    display: flex;
+    /* 改成只文字、不竖排 */
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #8e8e93;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 10px 4px;
+    border-radius: 0;   /* 按钮也不要圆角 */
+    transition: all 0.2s ease;
+    gap: 0;              /* 删掉图标和文字间距 */
+    min-width: 70px;
+}
 
         .nav-btn i {
             font-size: 1.35rem;
@@ -350,10 +313,6 @@
             .main-container {
                 padding: 16px 12px 32px;
             }
-            .bottom-nav {
-                bottom: 12px;
-                width: 94%;
-            }
         }
 
         @media (max-width: 480px) {
@@ -379,14 +338,23 @@
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="nav-container">
-        <a href="#" class="logo" style="pointer-events: none;">
-            <i class="fas fa-book-open"></i>
-            Training Space
+<!-- 顶部导航栏 -->
+<div class="bottom-nav">
+    <div class="nav-slider">
+        <a href="#" class="nav-btn active" data-tab="english">
+            <span>英语</span>
+        </a>
+        <a href="#" class="nav-btn" data-tab="chinese">
+            <span>语文</span>
+        </a>
+        <a href="#" class="nav-btn" data-tab="math">
+            <span>数学</span>
+        </a>
+        <a href="#" class="nav-btn" data-tab="games">
+            <span>其他</span>
         </a>
     </div>
-</nav>
+</div>
 
 <div class="main-container">
     <section id="english" class="section-area active">
@@ -467,31 +435,13 @@
     </section>
 </div>
 
-<div class="bottom-nav">
-    <div class="nav-slider">
-        <a href="#" class="nav-btn active" data-tab="english">
-            <i class="fas fa-language"></i>
-            <span>英语</span>
-        </a>
-        <a href="#" class="nav-btn" data-tab="chinese">
-            <i class="fas fa-book"></i>
-            <span>语文</span>
-        </a>
-        <a href="#" class="nav-btn" data-tab="math">
-            <i class="fas fa-calculator"></i>
-            <span>数学</span>
-        </a>
-        <a href="#" class="nav-btn" data-tab="games">
-            <i class="fas fa-gamepad"></i>
-            <span>其他</span>
-        </a>
-    </div>
-</div>
-
 <script>
     const navBtns = document.querySelectorAll('.nav-slider .nav-btn');
     const sections = document.querySelectorAll('.section-area');
+    const tabOrder = ['english', 'chinese', 'math', 'games'];
+    let currentTab = 0;
 
+    // 切换标签
     function switchTab(tabId) {
         sections.forEach(section => section.classList.remove('active'));
         const targetSection = document.getElementById(tabId);
@@ -504,6 +454,7 @@
                 btn.classList.remove('active');
             }
         });
+        currentTab = tabOrder.indexOf(tabId);
     }
 
     navBtns.forEach(btn => {
@@ -514,6 +465,38 @@
         });
     });
 
+    // 左右滑动切换科目
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const minSwipeDistance = 70;
+
+    document.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) < minSwipeDistance) return;
+
+        if (diff > 0) {
+            // 向左滑 → 下一个
+            if (currentTab < tabOrder.length - 1) {
+                switchTab(tabOrder[currentTab + 1]);
+            }
+        } else {
+            // 向右滑 → 上一个
+            if (currentTab > 0) {
+                switchTab(tabOrder[currentTab - 1]);
+            }
+        }
+    }
+
+    // 密码弹窗
     function showCustomPrompt(title, callback) {
         const overlay = document.createElement('div');
         overlay.className = 'custom-prompt';
