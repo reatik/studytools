@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>音标练习</title>
 <style>
-/* 莫兰迪高级柔和色系 */
+/* 柔和深一点的绿色系，降低亮度 */
 * {
     margin: 0;
     padding: 0;
@@ -13,8 +13,8 @@
     font-family: "微软雅黑", sans-serif;
 }
 body {
-    background: #f5f3f0;
-    color: #444;
+    background: #eef4f1;
+    color: #333;
     padding: 15px;
     line-height: 1.6;
 }
@@ -22,12 +22,12 @@ body {
 .top-desc {
     position: sticky;
     top: 0;
-    background: #e8e5e0;
+    background: #dce8e3;
     padding: 12px 15px;
     border-radius: 10px;
     text-align: center;
     font-size: 17px;
-    color: #555;
+    color: #2c6e54;
     z-index: 99;
     margin-bottom: 25px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
@@ -35,7 +35,7 @@ body {
 /* 回到上次位置提示 */
 .back-tip {
     display: inline-block;
-    background: #b8b3a9;
+    background: #659b87;
     color: #fff;
     padding: 3px 12px;
     border-radius: 15px;
@@ -47,79 +47,123 @@ body {
     max-width: 480px;
     margin: 0 auto;
 }
-.q-title {
-    font-size: 19px;
-    margin-bottom: 30px;
-    padding-left: 5px;
-}
 /* 选项横向布局 */
 .option-row {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 15px 10px;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start;
 }
+
+/* 序号容器 —— 和选项完全一样的结构！ */
+.num-item {
+    flex: 0 0 auto;
+    min-width: 40px;
+    text-align: center;
+    padding: 10px 5px;
+    padding-bottom: 25px;
+    cursor: default;
+    border-radius: 8px;
+    background: transparent;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.num-text {
+    font-size: 19px;
+    color: #245c46;
+    height: 28px;
+    line-height: 28px;
+    font-weight: bold;
+}
+
+/* 选项样式 */
 .option-item {
     flex: 1;
     min-width: 90px;
+    max-width: 120px;
     text-align: center;
     padding: 10px 5px;
+    padding-bottom: 25px;
     cursor: pointer;
     border-radius: 8px;
     transition: all 0.2s ease;
     border: 1px solid transparent;
+    background: transparent;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
-/* 点击悬浮样式 */
+/* 悬浮效果 */
 .option-item:hover {
-    background: #ebe7e0;
+    background: #e2ebe7;
 }
 /* 选中样式 */
 .option-item.active {
-    background: #e0dbd2;
-    border-color: #c9c2b6;
+    background: #d0e0da;
+    border-color: #a0c7bb;
 }
-/* 正确样式 绿色+勾 */
+/* 正确错误 */
 .option-item.correct {
-    background: #edf7ef;
-    border-color: #b3d9bc;
-    color: #2e7d32;
+    background: transparent;
+    border-color: transparent;
+    color: #24805c;
 }
-/* 错误样式 红色+叉 */
 .option-item.wrong {
-    background: #fef0f0;
-    border-color: #f5c0c0;
-    color: #c62828;
+    background: transparent;
+    border-color: transparent;
+    color: #333;
 }
-/* 单词 红色下划线 */
+/* 单词文字 */
 .word-text {
     font-size: 18px;
+    position: relative;
+    padding-right: 22px;
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
 }
+/* 勾叉 */
+.icon-tag {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-weight: bold;
+}
+.icon-tag.correct-icon { color: #24805c; }
+.icon-tag.wrong-icon { color: #d32f2f; }
+/* 下划线 */
 u {
     color: #d32f2f;
     text-decoration-color: #d32f2f;
     text-underline-offset: 3px;
     font-weight: 500;
 }
-/* 音标对齐划线 */
+/* 音标 */
 .phonetic-line {
     font-size: 14px;
-    color: #777;
-    margin-top: 5px;
+    color: #666;
     display: none;
-}
-/* 勾叉符号 */
-.icon-tag {
-    margin-left: 6px;
-    font-weight: bold;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
 }
 .btn-box {
     text-align: center;
     margin: 50px 0 30px;
 }
 button {
-    background: #d1cbc0;
+    background: #70a892;
     border: none;
-    color: #444;
+    color: #fff;
     padding: 10px 28px;
     border-radius: 8px;
     font-size: 16px;
@@ -128,16 +172,14 @@ button {
     transition: background 0.2s;
 }
 button:hover {
-    background: #c0b8aa;
+    background: #5c947f;
 }
 </style>
 </head>
 <body>
 
 <div id="tipLabel" class="back-tip" style="display:none;">自动回到上次做题位置</div>
-
-<div class="top-desc">选出划线部分发音不同的一项</div>
-
+<div class="top-desc">选出划线发音不同的一项</div>
 <div class="q-container" id="qWrap"></div>
 
 <div class="btn-box">
@@ -153,15 +195,12 @@ let curIdx = 0;
 let answerRecord = {};
 let hasLoadAll = false;
 
-// 红色下划线格式化
 function formatWord(str) {
     return str.replace(/\[(.+?)\]/g, "<u>$1</u>");
 }
-// 纯单词 朗读用
 function getPureWord(str) {
     return str.replace(/\[|\]/g, "");
 }
-// 生成前置空格 让音标对齐下划线
 function getAlignSpace(word) {
     let left = word.match(/^([^\[]+)/)?.[1] || "";
     let space = "";
@@ -169,7 +208,6 @@ function getAlignSpace(word) {
     return space;
 }
 
-// 记忆当前题号
 function savePos(idx) {
     localStorage.setItem("phoneticLastIdx", idx);
 }
@@ -178,7 +216,6 @@ function getLastPos() {
     return idx ? parseInt(idx) : 0;
 }
 
-// 初始化
 function init() {
     showList = allList.slice(0, 10);
     let last = getLastPos();
@@ -191,7 +228,6 @@ function init() {
     bindScrollLoad();
 }
 
-// 上滑加载后10题
 function bindScrollLoad() {
     window.addEventListener("scroll", ()=>{
         if(hasLoadAll) return;
@@ -205,15 +241,18 @@ function bindScrollLoad() {
     });
 }
 
-// 渲染单题
+// 核心渲染：序号也放进同结构容器
 function renderQ() {
     savePos(curIdx);
     let q = showList[curIdx];
     let isAnswered = answerRecord[curIdx] !== undefined;
 
     let html = `
-        <div class="q-title">第${curIdx + 1}题：选出划线发音不同的一项</div>
-        <div class="option-row">
+    <div class="option-row">
+        <!-- 序号容器：和选项结构完全一样 -->
+        <div class="num-item">
+            <div class="num-text">${curIdx + 1}.</div>
+        </div>
     `;
 
     q.words.forEach((item, i) => {
@@ -222,16 +261,15 @@ function renderQ() {
         let pureW = getPureWord(item.word);
         let space = getAlignSpace(item.word);
 
-        // 已答题状态
         let statusClass = "";
         let icon = "";
         if(isAnswered) {
             if(i === q.answerIndex) {
                 statusClass = "correct";
-                icon = '<span class="icon-tag">✔</span>';
+                icon = '<span class="icon-tag correct-icon">✔</span>';
             } else if(i === answerRecord[curIdx]) {
                 statusClass = "wrong";
-                icon = '<span class="icon-tag">✘</span>';
+                icon = '<span class="icon-tag wrong-icon">✘</span>';
             }
         }
 
@@ -246,35 +284,27 @@ function renderQ() {
     html += `</div>`;
     document.getElementById("qWrap").innerHTML = html;
 
-    // 绑定选项点击
     document.querySelectorAll(".option-item").forEach(el => {
         el.onclick = function() {
             if(answerRecord[curIdx] !== undefined) return;
-            // 增加选中样式
             document.querySelectorAll(".option-item").forEach(x => x.classList.remove("active"));
             this.classList.add("active");
             selectAns(this, q);
         };
     });
 
-    // 已答题：显示音标、锁定点击改为朗读
     if(isAnswered) {
         document.querySelectorAll(".phonetic-line").forEach(el => el.style.display = "block");
         bindReadOnly();
     }
 }
 
-// 选择答案 判断对错
 function selectAns(el, q) {
     let myIdx = parseInt(el.dataset.idx);
-    let rightIdx = q.answerIndex;
     answerRecord[curIdx] = myIdx;
-
-    // 刷新状态 显示对错颜色+勾叉
     renderQ();
 }
 
-// 答题后：只允许朗读 不能再选题
 function bindReadOnly() {
     document.querySelectorAll(".option-item").forEach(el => {
         el.onclick = function() {
@@ -286,25 +316,22 @@ function bindReadOnly() {
     });
 }
 
-// 上一题
 function prevQ() {
     if(curIdx > 0) {
         curIdx--;
         renderQ();
-        window.scrollTo(0, 0);
+        window.scrollTo(0,0);
     }
 }
-// 下一题
 function nextQ() {
-    if(curIdx < showList.length - 1) {
+    if(curIdx < showList.length -1) {
         curIdx++;
         renderQ();
-        window.scrollTo(0, 0);
+        window.scrollTo(0,0);
     }
 }
 
 init();
 </script>
-
 </body>
 </html>
