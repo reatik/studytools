@@ -1263,7 +1263,7 @@
       "id": "85",
       "type": "选择",
       "grade": "六年级下",
-      "unit": "U6",
+      "unit": "U5",
       "knowledge_point": "名词",
       "question": "You can see quite a few ______ in the Carrefour supermarket nearby.",
       "options": [
@@ -1279,7 +1279,7 @@
       "id": "86",
       "type": "选择",
       "grade": "六年级下",
-      "unit": "U6",
+      "unit": "U5",
       "knowledge_point": "代词",
       "question": "There is a flower shop on ______ side of the street. Let's go and buy some flowers.",
       "options": [
@@ -1295,7 +1295,7 @@
       "id": "87",
       "type": "选择",
       "grade": "六年级下",
-      "unit": "U6",
+      "unit": "U5",
       "knowledge_point": "形容词",
       "question": "We usually keep at least 2 windows ______ while we're having a lesson in the classroom.",
       "options": [
@@ -1311,7 +1311,7 @@
       "id": "88",
       "type": "选择",
       "grade": "六年级下",
-      "unit": "U6",
+      "unit": "U5",
       "knowledge_point": "副词",
       "question": "They worked as ______ as before although the weather got cold.",
       "options": [
@@ -1322,6 +1322,172 @@
       ],
       "answer": "B",
       "explanation": "考查 'as...as' 结构。该结构中间必须使用形容词或副词的原级。此处修饰动词 'worked'，应用副词 'hard'（努力地）。C项 'hardly' 意为“几乎不”，语意不通。"
+    },
+    {
+      "id": "89",
+      "type": "选择",
+      "grade": "六年级下",
+      "unit": "U5",
+      "knowledge_point": "名词辨析",
+      "question": "You can see quite a few ______ in the Carrefour supermarket nearby.",
+      "options": [
+        "A. fruit",
+        "B. fish",
+        "C. sugar",
+        "D. food"
+      ],
+      "answer": "B",
+      "explanation": "考查名词的数。'quite a few' 意为“许多”，后接可数名词复数。A项fruit作水果种类时可数，作水果统称或果肉时不可数；C项sugar和D项food通常作不可数名词；B项fish指鱼的条数时，单复数同形，符合语法要求。"
+    },
+    {
+      "id": "90",
+      "type": "选择",
+      "grade": "六年级下",
+      "unit": "U5",
+      "knowledge_point": "代词",
+      "question": "There is a flower shop on ______ side of the street. Let's go and buy some flowers.",
+      "options": [
+        "A. another",
+        "B. the other",
+        "C. other",
+        "D. others"
+      ],
+      "answer": "B",
+      "explanation": "考查不定代词。街道通常只有两边，表示两者中的另一个用 'the other'。'the other side of the street' 意为“街道的另一边”。"
+    },
+    {
+      "id": "91",
+      "type": "选择",
+      "grade": "六年级下",
+      "unit": "U5",
+      "knowledge_point": "动词",
+      "question": "We usually keep at least 2 windows ______ while we're having a lesson in the classroom.",
+      "options": [
+        "A. to open",
+        "B. opening",
+        "C. open",
+        "D. opened"
+      ],
+      "answer": "C",
+      "explanation": "考查 'keep' 的用法。'keep + 宾语 + 形容词' 表示“使……保持某种状态”。此处 'open' 作形容词，意为“开着的”，符合句意“保持窗户开着”。"
+    },
+    {
+      "id": "92",
+      "type": "选择",
+      "grade": "六年级下",
+      "unit": "U5",
+      "knowledge_point": "副词",
+      "question": "They worked as ______ as before although the weather got cold.",
+      "options": [
+        "A. harder",
+        "B. hard",
+        "C. hardly",
+        "D. hardest"
+      ],
+      "answer": "B",
+      "explanation": "考查 'as...as' 结构。该结构中间必须使用形容词或副词的原级。此处修饰动词 'worked'，应用副词 'hard'（努力地）。C项 'hardly' 意为“几乎不”，语意不通。"
+    },
+    {
+      "id": "93",
+      "type": "选择",
+      "grade": "六年级下",
+      "unit": "U5",
+      "knowledge_point": "代词",
+      "question": "Peter, show me your ______ hand. What is in it?",
+      "options": [
+        "A. the other",
+        "B. other",
+        "C. another",
+        "D. others"
+      ],
+      "answer": "B",
+      "explanation": "考查代词辨析。人有两只手，一只手是one hand，另一只手是the other hand。但在有物主代词your修饰时，不能再用定冠词the，因此直接用'your other hand'。"
+    },
+    {
+      "id": "94",
+      "type": "选择",
+      "grade": "六年级下",
+      "unit": "U5",
+      "knowledge_point": "固定搭配",
+      "question": "The students put ______ some events to raise money for the homeless.",
+      "options": [
+        "A. out",
+        "B. on",
+        "C. off",
+        "D. up"
+      ],
+      "answer": "B",
+      "explanation": "考查动词短语辨析。句意为：学生们举办了一些活动为无家可归者筹款。put on 在此处引申为'举办、组织（活动/演出）'。put out意为扑灭；put off意为推迟；put up意为张贴/搭建。"
+    },
+    {
+      "id": "95",
+      "type": "填空",
+      "grade": "六年级下",
+      "unit": "U5",
+      "question": "Yiming ______ (use) the water to wash the clothes after he takes a shower.",
+      "options": [],
+      "answer": "reuses",
+      "explanation": "考查动词词形转换。根据句意“一鸣在淋浴后______水来洗衣服”，结合括号内的词根use（使用），此处应填reuse（重复利用/循环使用）。由于主语Yiming是第三人称单数，且句子描述的是习惯性动作（一般现在时），因此动词需变为单三形式reuses。"
+    },
+    {
+      "id": "96",
+      "type": "填空",
+      "grade": "六年级下",
+      "unit": "U5",
+      "question": "Everyone in our city can r______ sewage (污水) by taking short showers.",
+      "options": [],
+      "answer": "reduce",
+      "explanation": "考查首字母填空。句意为：我们城市的每个人都可以通过缩短淋浴时间来______污水。根据句意和首字母r提示，此处应填reduce（减少）。can是情态动词，后接动词原形。"
+    },
+    {
+      "id": "97",
+      "type": "填空",
+      "grade": "六年级下",
+      "unit": "U5",
+      "question": "The Peony Pavilion is a ______ drama and I'm going to watch it again. (class)",
+      "options": [],
+      "answer": "classic",
+      "explanation": "1. Classic (经典的)：指具有持久价值、公认优秀的杰作（如经典电影、经典设计）。\n2. Classical (古典的)：多指古希腊罗马时期或传统严肃艺术（如 classical music 古典音乐）。\n本题中《牡丹亭》是公认的传世佳作，故选 classic。"
+    },
+    {
+      "id": "98",
+      "type": "音标",
+      "grade": "六年级下",
+      "unit": "U5",
+      "question": "All the countries should do their ________ /ʃeə(r)/ to make the Earth greener.",
+      "options": [],
+      "answer": "share",
+      "explanation": "短语 do one's share 意为“尽某人的职责/尽一份力”。音标 /ʃeə(r)/ 对应的单词是 share。"
+    },
+    {
+      "id": "99",
+      "type": "选择",
+      "grade": "六年级下",
+      "unit": "U5",
+      "question_text": "The books on the desk are mine. The ______ on the shelf are my sister's.",
+      "options": {
+        "A": "one",
+        "B": "other",
+        "C": "others",
+        "D": "ones"
+      },
+      "answer": "D",
+      "explanation": "句意： 桌子上的书是我的，书架上的那些是我妹妹的。'The ones on the shelf' 指代 '书架上的那些书'。C选项the others：表示“（一定范围内）剩下的全部”，但题目中的范围并不相同。"
+    },
+    {
+      "id": "100",
+      "type": "选择",
+      "grade": "六年级下",
+      "unit": "U5",
+      "question_text": "Lu Yao is making a speech ______ his home town.",
+      "options": {
+        "A": "introduce",
+        "B": "to introduce",
+        "C": "introducing",
+        "D": "introduced"
+      },
+      "answer": "B",
+      "explanation": "此处需用动词不定式 'to introduce' 表示做演讲的目的。make a speech introduce变成了使演讲介绍，不通。"
     },
     {
       "id": "C001",
@@ -5665,7 +5831,7 @@
             "D．from"
           ],
           "answer": "A．through",
-          "explanation": "介词辨析：'through'（穿过三维空间），'across'（横穿平面）。月光穿过窗户应用'through'。"
+          "explanation": "'through'（穿过三维空间），'across'（横穿平面）。月光穿过窗户应用'through'。"
         },
         {
           "id": "C324",
