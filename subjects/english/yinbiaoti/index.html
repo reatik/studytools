@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>音标练习</title>
 <style>
-/* 柔和深一点的绿色系，降低亮度 */
+/* 小朋友护眼 · 暖黄橙主体 + 淡紫点缀 */
 * {
     margin: 0;
     padding: 0;
@@ -13,172 +13,159 @@
     font-family: "微软雅黑", sans-serif;
 }
 body {
-    background: #eef4f1;
-    color: #333;
+    background: #fff9f0;
+    color: #4a4a4a;
     padding: 15px;
     line-height: 1.6;
 }
-/* 顶部固定说明 */
 .top-desc {
-    position: sticky;
-    top: 0;
-    background: #dce8e3;
-    padding: 12px 15px;
-    border-radius: 10px;
     text-align: center;
     font-size: 17px;
-    color: #2c6e54;
-    z-index: 99;
-    margin-bottom: 25px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    color: #d48e55;
+    font-weight: bold;
+    margin-bottom: 18px;
 }
-/* 回到上次位置提示 */
 .back-tip {
     display: inline-block;
-    background: #659b87;
+    background: #e6b688;
     color: #fff;
     padding: 3px 12px;
     border-radius: 15px;
     font-size: 13px;
     margin-bottom: 12px;
 }
-/* 题目区域 */
-.q-container {
-    max-width: 480px;
-    margin: 0 auto;
-}
-/* 选项横向布局 */
-.option-row {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 10px;
-    justify-content: flex-start;
-}
 
-/* 序号容器 —— 和选项完全一样的结构！ */
-.num-item {
-    flex: 0 0 auto;
-    min-width: 40px;
-    text-align: center;
-    padding: 10px 5px;
-    padding-bottom: 25px;
-    cursor: default;
-    border-radius: 8px;
-    background: transparent;
-    white-space: nowrap;
+/* 题目容器：自动适应内容宽度 */
+.q-container {
     display: flex;
     flex-direction: column;
+    gap: 14px;
     align-items: center;
-    position: relative;
+}
+
+/* 题目卡片：自动包裹所有内容 */
+.question-card {
+    background: #ffffff;
+    border: 1px solid #f7e4d1;
+    border-radius: 12px;
+    padding: 14px 12px;
+    width: auto;
+    max-width: 90vw;
+}
+
+/* 一行排列：从左到右，自动适应 */
+.option-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    white-space: nowrap;
+    width: auto;
+}
+
+/* 序号：固定宽度 */
+.num-item {
+    width: 50px;
+    text-align: center;
+    padding: 12px 0;
 }
 .num-text {
     font-size: 19px;
-    color: #245c46;
-    height: 28px;
-    line-height: 28px;
+    color: #d48e55;
     font-weight: bold;
 }
 
-/* 选项样式 */
+/* 选项框：宽度自动适应文字！！核心 */
 .option-item {
-    flex: 1;
-    min-width: 90px;
-    max-width: 120px;
-    text-align: center;
-    padding: 10px 5px;
-    padding-bottom: 25px;
+    padding: 12px 10px;
     cursor: pointer;
     border-radius: 8px;
     transition: all 0.2s ease;
     border: 1px solid transparent;
-    background: transparent;
-    white-space: nowrap;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+    width: auto;
+    min-width: 0;
+    flex: none;
+    text-align: center;
 }
-/* 悬浮效果 */
+
 .option-item:hover {
-    background: #e2ebe7;
+    background: #f9d9b5;
 }
-/* 选中样式 */
 .option-item.active {
-    background: #d0e0da;
-    border-color: #a0c7bb;
+    background: #f9e3c7;
+    border-color: #f1c79e;
 }
-/* 正确错误 */
 .option-item.correct {
-    background: transparent;
-    border-color: transparent;
-    color: #24805c;
+    color: #6e9c68;
 }
 .option-item.wrong {
-    background: transparent;
-    border-color: transparent;
-    color: #333;
+    color: #4a4a4a;
 }
-/* 单词文字 */
+
 .word-text {
     font-size: 18px;
     position: relative;
     padding-right: 22px;
-    display: inline-block;
-    height: 28px;
-    line-height: 28px;
+    line-height: 1.4;
+    white-space: nowrap;
 }
-/* 勾叉 */
+
 .icon-tag {
     position: absolute;
     right: 0;
     top: 0;
     font-weight: bold;
 }
-.icon-tag.correct-icon { color: #24805c; }
-.icon-tag.wrong-icon { color: #d32f2f; }
-/* 下划线 */
+.icon-tag.correct-icon { color: #6e9c68; }
+.icon-tag.wrong-icon { color: #e27070; }
+
+/* 下划线红色 */
 u {
-    color: #d32f2f;
-    text-decoration-color: #d32f2f;
+    color: #e74c3c;
+    text-decoration-color: #e74c3c;
     text-underline-offset: 3px;
-    font-weight: 500;
+    display: inline-block;
+    position: relative;
 }
-/* 音标 */
-.phonetic-line {
-    font-size: 14px;
-    color: #666;
-    display: none;
+
+/* 音标：默认隐藏，答完显示在下划线正下方 */
+.phonetic-under {
     position: absolute;
     top: 100%;
-    left: 0;
-    width: 100%;
-    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: #888;
     white-space: nowrap;
+    margin-top: 2px;
+    display: none;
 }
+.show-phonetic .phonetic-under {
+    display: block;
+}
+
 .btn-box {
     text-align: center;
-    margin: 50px 0 30px;
+    margin: 30px 0;
 }
 button {
-    background: #70a892;
+    background: #a886c7;
     border: none;
     color: #fff;
     padding: 10px 28px;
     border-radius: 8px;
     font-size: 16px;
-    margin: 0 10px;
     cursor: pointer;
-    transition: background 0.2s;
 }
 button:hover {
-    background: #5c947f;
+    background: #9472b3;
 }
 </style>
 </head>
 <body>
 
-<div id="tipLabel" class="back-tip" style="display:none;">自动回到上次做题位置</div>
+
 <div class="top-desc">选出划线发音不同的一项</div>
 <div class="q-container" id="qWrap"></div>
 
@@ -193,19 +180,12 @@ let allList = phoneticBank;
 let showList = [];
 let curIdx = 0;
 let answerRecord = {};
-let hasLoadAll = false;
 
-function formatWord(str) {
-    return str.replace(/\[(.+?)\]/g, "<u>$1</u>");
+function formatWord(str, phonetic) {
+    return str.replace(/\[(.+?)\]/g, "<u>$1<span class='phonetic-under'>"+phonetic+"</span></u>");
 }
 function getPureWord(str) {
     return str.replace(/\[|\]/g, "");
-}
-function getAlignSpace(word) {
-    let left = word.match(/^([^\[]+)/)?.[1] || "";
-    let space = "";
-    for(let i = 0; i < left.length; i++) space += "&nbsp;&nbsp;";
-    return space;
 }
 
 function savePos(idx) {
@@ -217,49 +197,30 @@ function getLastPos() {
 }
 
 function init() {
-    showList = allList.slice(0, 10);
+    showList = allList;
     let last = getLastPos();
     curIdx = last;
-    if(last > 0) {
-        document.getElementById("tipLabel").style.display = "inline-block";
-        setTimeout(()=>document.getElementById("tipLabel").style.display="none", 2500);
-    }
+
     renderQ();
-    bindScrollLoad();
 }
 
-function bindScrollLoad() {
-    window.addEventListener("scroll", ()=>{
-        if(hasLoadAll) return;
-        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        let scrollHeight = document.documentElement.scrollHeight;
-        let clientHeight = document.documentElement.clientHeight;
-        if(scrollTop + clientHeight >= scrollHeight - 60) {
-            showList = allList.slice(0, 20);
-            hasLoadAll = true;
-        }
-    });
-}
-
-// 核心渲染：序号也放进同结构容器
 function renderQ() {
     savePos(curIdx);
     let q = showList[curIdx];
     let isAnswered = answerRecord[curIdx] !== undefined;
 
     let html = `
-    <div class="option-row">
-        <!-- 序号容器：和选项结构完全一样 -->
-        <div class="num-item">
-            <div class="num-text">${curIdx + 1}.</div>
-        </div>
+    <div class="question-card">
+        <div class="option-row ${isAnswered ? 'show-phonetic' : ''}">
+            <div class="num-item">
+                <div class="num-text">${curIdx + 1}.</div>
+            </div>
     `;
 
     q.words.forEach((item, i) => {
         let letter = String.fromCharCode(65 + i);
-        let showW = formatWord(item.word);
+        let showW = formatWord(item.word, item.phonetic);
         let pureW = getPureWord(item.word);
-        let space = getAlignSpace(item.word);
 
         let statusClass = "";
         let icon = "";
@@ -276,12 +237,11 @@ function renderQ() {
         html += `
             <div class="option-item ${statusClass}" data-idx="${i}" data-pure="${pureW}">
                 <div class="word-text">${letter}. ${showW}${icon}</div>
-                <div class="phonetic-line">${space}${item.phonetic}</div>
             </div>
         `;
     });
 
-    html += `</div>`;
+    html += `</div></div>`;
     document.getElementById("qWrap").innerHTML = html;
 
     document.querySelectorAll(".option-item").forEach(el => {
@@ -292,11 +252,6 @@ function renderQ() {
             selectAns(this, q);
         };
     });
-
-    if(isAnswered) {
-        document.querySelectorAll(".phonetic-line").forEach(el => el.style.display = "block");
-        bindReadOnly();
-    }
 }
 
 function selectAns(el, q) {
@@ -305,29 +260,16 @@ function selectAns(el, q) {
     renderQ();
 }
 
-function bindReadOnly() {
-    document.querySelectorAll(".option-item").forEach(el => {
-        el.onclick = function() {
-            let w = this.dataset.pure;
-            let u = new SpeechSynthesisUtterance(w);
-            u.lang = "en-US";
-            speechSynthesis.speak(u);
-        };
-    });
-}
-
 function prevQ() {
     if(curIdx > 0) {
         curIdx--;
         renderQ();
-        window.scrollTo(0,0);
     }
 }
 function nextQ() {
     if(curIdx < showList.length -1) {
         curIdx++;
         renderQ();
-        window.scrollTo(0,0);
     }
 }
 

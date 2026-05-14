@@ -1,142 +1,192 @@
 // 音标找不同 20 题（带ID + 修复显示格式）
 const phoneticBank = [
     { id: 1, words: [
-        { word:"c[a]t", phonetic:"/æ/" },
-        { word:"b[a]g", phonetic:"/æ/" },
-        { word:"c[a]ke", phonetic:"/eɪ/" },
-        { word:"m[a]p", phonetic:"/æ/" }
-    ], answerIndex:2 },
-
+        { word:"wh[e]n", phonetic:"/e/" },
+        { word:"b[e]gin", phonetic:"/ɪ/" },
+        { word:"s[e]cond", phonetic:"/e/" }
+    ], answerIndex:1 },
+    
     { id: 2, words: [
-        { word:"h[i]t", phonetic:"/ɪ/" },
-        { word:"b[i]g", phonetic:"/ɪ/" },
-        { word:"l[i]ke", phonetic:"/aɪ/" },
-        { word:"s[i]t", phonetic:"/ɪ/" }
+        { word:"[th]ird", phonetic:"/ɜː/" },
+        { word:"bir[th]day", phonetic:"/ɜː/" },
+        { word:"smoo[th]", phonetic:"/ð/" }
     ], answerIndex:2 },
-
+    
     { id: 3, words: [
-        { word:"p[en]", phonetic:"/e/" },
-        { word:"b[ed]", phonetic:"/e/" },
-        { word:"sh[e]", phonetic:"/iː/" },
-        { word:"l[eg]", phonetic:"/e/" }
-    ], answerIndex:2 },
-
+        { word:"kn[o]w", phonetic:"/əʊ/" },
+        { word:"n[o]w", phonetic:"/aʊ/" },
+        { word:"cr[o]w", phonetic:"/əʊ/" }
+    ], answerIndex:1 },
+    
     { id: 4, words: [
-        { word:"b[ox]", phonetic:"/ɒ/" },
-        { word:"d[og]", phonetic:"/ɒ/" },
-        { word:"h[ome]", phonetic:"/əʊ/" },
-        { word:"s[ock]", phonetic:"/ɒ/" }
+        { word:"s[ou]nd", phonetic:"/aʊ/" },
+        { word:"r[ou]nd", phonetic:"/aʊ/" },
+        { word:"r[ou]gh", phonetic:"/ʌ/" }
     ], answerIndex:2 },
-
+    
     { id: 5, words: [
-        { word:"c[up]", phonetic:"/ʌ/" },
-        { word:"b[us]", phonetic:"/ʌ/" },
-        { word:"r[ul]er", phonetic:"/uː/" },
-        { word:"m[ug]", phonetic:"/ʌ/" }
-    ], answerIndex:2 },
-
+        { word:"p[ar]ty", phonetic:"/ɑː/" },
+        { word:"qu[ar]ter", phonetic:"/ɔː/" },
+        { word:"l[ar]ge", phonetic:"/ɑː/" }
+    ], answerIndex:1 },
+    
     { id: 6, words: [
-        { word:"f[ood]", phonetic:"/uː/" },
-        { word:"b[ook]", phonetic:"/ʊ/" },
-        { word:"r[oom]", phonetic:"/uː/" },
-        { word:"sch[oo]l", phonetic:"/uː/" }
+        { word:"[ar]m", phonetic:"/ɑː/" },
+        { word:"tr[a]ffic", phonetic:"/æ/" },
+        { word:"gr[a]ss", phonetic:"/ɑː/" }
     ], answerIndex:1 },
-
+    
     { id: 7, words: [
-        { word:"c[a]r", phonetic:"/ɑː/" },
-        { word:"c[a]t", phonetic:"/æ/" },
-        { word:"h[a]rd", phonetic:"/ɑː/" },
-        { word:"f[a]r", phonetic:"/ɑː/" }
+        { word:"cr[o]ss", phonetic:"/ɒ/" },
+        { word:"[o]ften", phonetic:"/ɒ/" },
+        { word:"d[o]es", phonetic:"/ʌ/" }
+    ], answerIndex:2 },
+    
+    { id: 8, words: [
+        { word:"w[a]it", phonetic:"/eɪ/" },
+        { word:"p[a]vement", phonetic:"/eɪ/" },
+        { word:"t[a]xi", phonetic:"/æ/" }
+    ], answerIndex:2 },
+    
+    { id: 9, words: [
+        { word:"[wh]ere", phonetic:"/eə/" },
+        { word:"[wh]ose", phonetic:"/uː/" },
+        { word:"[wh]en", phonetic:"/e/" }
+    ], answerIndex:1 },
+    
+    { id: 10, words: [
+        { word:"c[o]usin", phonetic:"/ʌ/" },
+        { word:"ab[ou]t", phonetic:"/aʊ/" },
+        { word:"undergr[ou]nd", phonetic:"/aʊ/" }
+    ], answerIndex:0 },
+    
+    { id: 11, words: [
+        { word:"w[or]ker", phonetic:"/ɜː/" },
+        { word:"f[or]ty", phonetic:"/ɔː/" },
+        { word:"m[or]ning", phonetic:"/ɔː/" }
+    ], answerIndex:0 },
+    
+    { id: 12, words: [
+        { word:"c[oo]k", phonetic:"/ʊ/" },
+        { word:"f[oo]d", phonetic:"/uː/" },
+        { word:"sch[oo]l", phonetic:"/uː/" }
+    ], answerIndex:0 },
+    
+    { id: 13, words: [
+        { word:"dr[ea]m", phonetic:"/iː/" },
+        { word:"str[ee]t", phonetic:"/iː/" },
+        { word:"br[ea]kfast", phonetic:"/e/" }
+    ], answerIndex:2 },
+    
+    { id: 14, words: [
+        { word:"w[a]nt", phonetic:"/ɒ/" },
+        { word:"tr[a]veller", phonetic:"/æ/" },
+        { word:"tr[a]ffic", phonetic:"/æ/" }
+    ], answerIndex:0 },
+    
+    { id: 15, words: [
+        { word:"j[o]b", phonetic:"/ɒ/" },
+        { word:"pil[o]t", phonetic:"/aɪ/" },
+        { word:"d[o]ctor", phonetic:"/ɒ/" }
+    ], answerIndex:1 },
+    
+    { id: 16, words: [
+        { word:"ch[e]ss", phonetic:"/e/" },
+        { word:"r[e]d", phonetic:"/e/" },
+        { word:"e-m[a]il", phonetic:"/eɪ/" }
+    ], answerIndex:2 },
+    
+    { id: 17, words: [
+        { word:"grandp[a]", phonetic:"/æ/" },
+        { word:"[a]sk", phonetic:"/ɑː/" },
+        { word:"[a]way", phonetic:"/ə/" }
+    ], answerIndex:2 },
+    
+    { id: 18, words: [
+        { word:"toge[th]er", phonetic:"/ə/" },
+        { word:"mou[th]", phonetic:"/θ/" },
+        { word:"[th]ing", phonetic:"/ɪ/" }
+    ], answerIndex:1 },
+    
+    { id: 19, words: [
+        { word:"w[ea]r", phonetic:"/eə/" },
+        { word:"h[ea]r", phonetic:"/ɪə/" },
+        { word:"p[ea]r", phonetic:"/eə/" }
+    ], answerIndex:1 },
+    
+    { id: 20, words: [
+        { word:"sh[ow]", phonetic:"/əʊ/" },
+        { word:"h[ow]", phonetic:"/aʊ/" },
+        { word:"br[ow]n", phonetic:"/aʊ/" }
+    ], answerIndex:0 },
+    
+    { id: 21, words: [
+        { word:"b[a]nk", phonetic:"/æ/" },
+        { word:"[a]pple", phonetic:"/æ/" },
+        { word:"b[a]r", phonetic:"/ɑː/" },
+        { word:"h[a]ve", phonetic:"/æ/" }
+    ], answerIndex:2 },
+    { id: 22, words: [
+        { word:"f[oo]t", phonetic:"/ʊ/" },
+        { word:"z[oo]", phonetic:"/uː/" },
+        { word:"sch[oo]l", phonetic:"/uː/" },
+        { word:"f[oo]d", phonetic:"/uː/" }
+    ], answerIndex:0 },
+    
+    { id: 23, words: [
+        { word:"[s]trong", phonetic:"/s/" },
+        { word:"dog[s]", phonetic:"/z/" },
+        { word:"thi[s]", phonetic:"/s/" },
+        { word:"ni[c]e", phonetic:"/s/" }
+    ], answerIndex:1 },
+    
+    { id: 24, words: [
+        { word:"smoo[th]", phonetic:"/ð/" },
+        { word:"too[th]", phonetic:"/θ/" },
+        { word:"bo[th]", phonetic:"/θ/" },
+        { word:"[th]ree", phonetic:"/θ/" }
+    ], answerIndex:0 },
+    
+    { id: 25, words: [
+        { word:"[b]ag", phonetic:"/b/" },
+        { word:"[b]ank", phonetic:"/b/" },
+        { word:"cu[b]e", phonetic:"/b/" },
+        { word:"clim[b]", phonetic:"/" }
+    ], answerIndex:3 },
+    
+    { id: 26, words: [
+        { word:"sh[a]rp", phonetic:"/ɑː/" },
+        { word:"f[a]ther", phonetic:"/ɑː/" },
+        { word:"b[a]kery", phonetic:"/eɪ/" },
+        { word:"p[a]st", phonetic:"/ɑː/" }
+    ], answerIndex:2 },
+    
+    { id: 27, words: [
+        { word:"too[th]ache", phonetic:"/uː/" },
+        { word:"mou[th]", phonetic:"/θ/" },
+        { word:"smoo[th]", phonetic:"/ð/" },
+        { word:"bo[th]", phonetic:"/θ/" }
+    ], answerIndex:2 },
+    
+    { id: 28, words: [
+        { word:"c[o]ld", phonetic:"/əʊ/" },
+        { word:"n[o]se", phonetic:"/əʊ/" },
+        { word:"th[o]se", phonetic:"/əʊ/" },
+        { word:"d[o]", phonetic:"/uː/" }
+    ], answerIndex:3 },
+    
+    { id: 29, words: [
+        { word:"doct[or]", phonetic:"/ə/" },
+        { word:"p[ur]ple", phonetic:"/ɜː/" },
+        { word:"g[ir]l", phonetic:"/ɜː/" },
+        { word:"w[or]k", phonetic:"/ɜː/" }
+    ], answerIndex:0 },
+    
+    { id: 30, words: [
+        { word:"[wh]at", phonetic:"/w/" },
+        { word:"[wh]o", phonetic:"/h/" },
+        { word:"[wh]ich", phonetic:"/w/" },
+        { word:"[wh]ere", phonetic:"/w/" }
     ], answerIndex:1 },
 
-    { id: 8, words: [
-        { word:"b[ird]", phonetic:"/ɜː/" },
-        { word:"g[irl]", phonetic:"/ɜː/" },
-        { word:"h[orse]", phonetic:"/ɔː/" },
-        { word:"sh[irt]", phonetic:"/ɜː/" }
-    ], answerIndex:2 },
-
-    { id: 9, words: [
-        { word:"h[air]", phonetic:"/eə/" },
-        { word:"ch[air]", phonetic:"/eə/" },
-        { word:"n[ear]", phonetic:"/ɪə/" },
-        { word:"p[ear]", phonetic:"/eə/" }
-    ], answerIndex:2 },
-
-    { id:10, words: [
-        { word:"wh[a]t", phonetic:"/ɒ/" },
-        { word:"w[a]sh", phonetic:"/ɒ/" },
-        { word:"w[a]ter", phonetic:"/ɔː/" },
-        { word:"w[a]tch", phonetic:"/ɒ/" }
-    ], answerIndex:2 },
-
-    { id:11, words: [
-        { word:"th[is]", phonetic:"/ð/" },
-        { word:"th[at]", phonetic:"/ð/" },
-        { word:"th[ree]", phonetic:"/θ/" },
-        { word:"th[ese]", phonetic:"/ð/" }
-    ], answerIndex:2 },
-
-    { id:12, words: [
-        { word:"[sh]e", phonetic:"/ʃ/" },
-        { word:"[sh]ip", phonetic:"/ʃ/" },
-        { word:"[ch]air", phonetic:"/tʃ/" },
-        { word:"[sh]op", phonetic:"/ʃ/" }
-    ], answerIndex:2 },
-
-    { id:13, words: [
-        { word:"[th]in", phonetic:"/θ/" },
-        { word:"[th]ank", phonetic:"/θ/" },
-        { word:"[th]is", phonetic:"/ð/" },
-        { word:"[th]ree", phonetic:"/θ/" }
-    ], answerIndex:2 },
-
-    { id:14, words: [
-        { word:"[c]at", phonetic:"/k/" },
-        { word:"[c]ap", phonetic:"/k/" },
-        { word:"[c]ity", phonetic:"/s/" },
-        { word:"[c]ar", phonetic:"/k/" }
-    ], answerIndex:2 },
-
-    { id:15, words: [
-        { word:"[g]o", phonetic:"/ɡ/" },
-        { word:"[g]et", phonetic:"/ɡ/" },
-        { word:"[g]iraffe", phonetic:"/dʒ/" },
-        { word:"[g]ame", phonetic:"/ɡ/" }
-    ], answerIndex:2 },
-
-    { id:16, words: [
-        { word:"[n]o", phonetic:"/n/" },
-        { word:"[n]et", phonetic:"/n/" },
-        { word:"[ng]ood", phonetic:"/ŋ/" },
-        { word:"[n]ut", phonetic:"/n/" }
-    ], answerIndex:2 },
-
-    { id:17, words: [
-        { word:"[s]un", phonetic:"/s/" },
-        { word:"[s]ea", phonetic:"/s/" },
-        { word:"i[s]", phonetic:"/z/" },
-        { word:"[s]it", phonetic:"/s/" }
-    ], answerIndex:2 },
-
-    { id:18, words: [
-        { word:"[z]oo", phonetic:"/z/" },
-        { word:"[z]one", phonetic:"/z/" },
-        { word:"[s]un", phonetic:"/s/" },
-        { word:"[z]ebra", phonetic:"/z/" }
-    ], answerIndex:2 },
-
-    { id:19, words: [
-        { word:"[wh]o", phonetic:"/h/" },
-        { word:"[wh]om", phonetic:"/h/" },
-        { word:"[wh]at", phonetic:"/w/" },
-        { word:"[wh]ose", phonetic:"/h/" }
-    ], answerIndex:2 },
-
-    { id:20, words: [
-        { word:"[kn]ow", phonetic:"/n/" },
-        { word:"[kn]ee", phonetic:"/n/" },
-        { word:"[k]ey", phonetic:"/k/" },
-        { word:"[kn]ife", phonetic:"/n/" }
-    ], answerIndex:2 }
 ];
