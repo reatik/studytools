@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>音标练习</title>
+<style>
+/* 莫兰迪高级柔和色系 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "微软雅黑", sans-serif;
+}
+body {
+    background: #f5f3f0;
+    color: #444;
+    padding: 15px;
+    line-height: 1.6;
+}
+/* 顶部固定说明 */
+.top-desc {
+    position: sticky;
+    top: 0;
+    background: #e8e5e0;
+    padding: 12px 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 17px;
+    color: #555;
+    z-index: 99;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+/* 回到上次位置提示 */
+.back-tip {
+    display: inline-block;
+    background: #b8b3a9;
+    color: #fff;
+    padding: 3px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+/* 题目区域 */
+.q-container {
+    max-width: 480px;
+    margin: 0 auto;
+}
+.q-title {
+    font-size: 19px;
+    margin-bottom: 30px;
+    padding-left: 5px;
+}
+/* 选项横向布局 */
+.option-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px 10px;
+}
+.option-item {
+    flex: 1;
+    min-width: 90px;
+    text-align: center;
+    padding: 10px 5px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+/* 点击悬浮样式 */
+.option-item:hover {
+    background: #ebe7e0;
+}
+/* 选中样式 */
+.option-item.active {
+    background: #e0dbd2;
+    border-color: #c9c2b6;
+}
+/* 正确样式 绿色+勾 */
+.option-item.correct {
+    background: #edf7ef;
+    border-color: #b3d9bc;
+    color: #2e7d32;
+}
+/* 错误样式 红色+叉 */
+.option-item.wrong {
+    background: #fef0f0;
+    border-color: #f5c0c0;
+    color: #c62828;
+}
+/* 单词 红色下划线 */
+.word-text {
+    font-size: 18px;
+}
+u {
+    color: #d32f2f;
+    text-decoration-color: #d32f2f;
+    text-underline-offset: 3px;
+    font-weight: 500;
+}
+/* 音标对齐划线 */
+.phonetic-line {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+    display: none;
+}
+/* 勾叉符号 */
+.icon-tag {
+    margin-left: 6px;
+    font-weight: bold;
+}
+.btn-box {
+    text-align: center;
+    margin: 50px 0 30px;
+}
+button {
+    background: #d1cbc0;
+    border: none;
+    color: #444;
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+button:hover {
+    background: #c0b8aa;
+}
+</style>
+</head>
+<body>
+
+<div id="tipLabel" class="back-tip" style="display:none;">自动回到上次做题位置</div>
+
+<div class="top-desc">选出划线部分发音不同的一项</div>
+
+<div class="q-container" id="qWrap"></div>
+
+<div class="btn-box">
+    <button onclick="prevQ()">上一题</button>
+    <button onclick="nextQ()">下一题</button>
+</div>
+
+<script src="phonetic.js"></script>
+<script>
+let allList = phoneticBank;
+let showList = [];
+let curIdx = 0;
+let answerRecord = {};
+let hasLoadAll = false;
+
+// 红色下划线格式化
+function formatWord(str) {
+    return str.replace(/\[(.+?)\]/g, "<u>$1</u>");
+}
+// 纯单词 朗读用
+function getPureWord(str) {
+    return str.replace(/\[|\]/g, "");
+}
+// 生成前置空格 让音标对齐下划线
+function getAlignSpace(word) {
+    let left = word.match(/^([^\[]+)/)?.[1] || "";
+    let space = "";
+    for(let i = 0; i < left.length; i++) space += "&nbsp;&nbsp;";
+    return space;
+}
+
+// 记忆当前题号
+function savePos(idx) {
+    localStorage.setItem("phoneticLastIdx", idx);
+}
+function getLastPos() {
+    let idx = localStorage.getItem("phoneticLastIdx");
+    return idx ? parseInt(idx) : 0;
+}
+
+// 初始化
+function init() {
+    showList = allList.slice(0, 10);
+    let last = getLastPos();
+    curIdx = last;
+    if(last > 0) {
+        document.getElementById("tipLabel").style.display = "inline-block";
+        setTimeout(()=>document.getElementById("tipLabel").style.display="none", 2500);
+    }
+    renderQ();
+    bindScrollLoad();
+}
+
+// 上滑加载后10题
+function bindScrollLoad() {
+    window.addEventListener("scroll", ()=>{
+        if(hasLoadAll) return;
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        let scrollHeight = document.documentElement.scrollHeight;
+        let clientHeight = document.documentElement.clientHeight;
+        if(scrollTop + clientHeight >= scrollHeight - 60) {
+            showList = allList.slice(0, 20);
+            hasLoadAll = true;
+        }
+    });
+}
+
+// 渲染单题
+function renderQ() {
+    savePos(curIdx);
+    let q = showList[curIdx];
+    let isAnswered = answerRecord[curIdx] !== undefined;
+
+    let html = `
+        <div class="q-title">第${curIdx + 1}题：选出划线发音不同的一项</div>
+        <div class="option-row">
+    `;
+
+    q.words.forEach((item, i) => {
+        let letter = String.fromCharCode(65 + i);
+        let showW = formatWord(item.word);
+        let pureW = getPureWord(item.word);
+        let space = getAlignSpace(item.word);
+
+        // 已答题状态
+        let statusClass = "";
+        let icon = "";
+        if(isAnswered) {
+            if(i === q.answerIndex) {
+                statusClass = "correct";
+                icon = '<span class="icon-tag">✔</span>';
+            } else if(i === answerRecord[curIdx]) {
+                statusClass = "wrong";
+                icon = '<span class="icon-tag">✘</span>';
+            }
+        }
+
+        html += `
+            <div class="option-item ${statusClass}" data-idx="${i}" data-pure="${pureW}">
+                <div class="word-text">${letter}. ${showW}${icon}</div>
+                <div class="phonetic-line">${space}${item.phonetic}</div>
+            </div>
+        `;
+    });
+
+    html += `</div>`;
+    document.getElementById("qWrap").innerHTML = html;
+
+    // 绑定选项点击
+    document.querySelectorAll(".option-item").forEach(el => {
+        el.onclick = function() {
+            if(answerRecord[curIdx] !== undefined) return;
+            // 增加选中样式
+            document.querySelectorAll(".option-item").forEach(x => x.classList.remove("active"));
+            this.classList.add("active");
+            selectAns(this, q);
+        };
+    });
+
+    // 已答题：显示音标、锁定点击改为朗读
+    if(isAnswered) {
+        document.querySelectorAll(".phonetic-line").forEach(el => el.style.display = "block");
+        bindReadOnly();
+    }
+}
+
+// 选择答案 判断对错
+function selectAns(el, q) {
+    let myIdx = parseInt(el.dataset.idx);
+    let rightIdx = q.answerIndex;
+    answerRecord[curIdx] = myIdx;
+
+    // 刷新状态 显示对错颜色+勾叉
+    renderQ();
+}
+
+// 答题后：只允许朗读 不能再选题
+function bindReadOnly() {
+    document.querySelectorAll(".option-item").forEach(el => {
+        el.onclick = function() {
+            let w = this.dataset.pure;
+            let u = new SpeechSynthesisUtterance(w);
+            u.lang = "en-US";
+            speechSynthesis.speak(u);
+        };
+    });
+}
+
+// 上一题
+function prevQ() {
+    if(curIdx > 0) {
+        curIdx--;
+        renderQ();
+        window.scrollTo(0, 0);
+    }
+}
+// 下一题
+function nextQ() {
+    if(curIdx < showList.length - 1) {
+        curIdx++;
+        renderQ();
+        window.scrollTo(0, 0);
+    }
+}
+
+init();
+</script>
+
+</body>
+</html>

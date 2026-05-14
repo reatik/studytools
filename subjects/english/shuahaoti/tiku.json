@@ -1272,7 +1272,7 @@
         "C. sugar",
         "D. food"
       ],
-      "answer": "B",
+      "answer": "B. fish",
       "explanation": "考查名词的数。'quite a few' 意为“许多”，后接可数名词复数。A项fruit作水果种类时可数，作水果统称或果肉时不可数；C项sugar和D项food通常作不可数名词；B项fish指鱼的条数时，单复数同形，符合语法要求。"
     },
     {
@@ -1288,7 +1288,7 @@
         "C. other",
         "D. others"
       ],
-      "answer": "B",
+      "answer": "B. the other",
       "explanation": "考查不定代词。街道通常只有两边，表示两者中的另一个用 'the other'。'the other side of the street' 意为“街道的另一边”。"
     },
     {
@@ -1304,7 +1304,7 @@
         "C. open",
         "D. opened"
       ],
-      "answer": "C",
+      "answer": "C. open",
       "explanation": "考查 'keep' 的用法。'keep + 宾语 + 形容词' 表示“使……保持某种状态”。此处 'open' 作形容词，意为“开着的”，符合句意“保持窗户开着”。"
     },
     {
@@ -1320,7 +1320,7 @@
         "C. hardly",
         "D. hardest"
       ],
-      "answer": "B",
+      "answer": "B. hard",
       "explanation": "考查 'as...as' 结构。该结构中间必须使用形容词或副词的原级。此处修饰动词 'worked'，应用副词 'hard'（努力地）。C项 'hardly' 意为“几乎不”，语意不通。"
     },
     {
@@ -1336,7 +1336,7 @@
         "C. sugar",
         "D. food"
       ],
-      "answer": "B",
+      "answer": "B. fish",
       "explanation": "考查名词的数。'quite a few' 意为“许多”，后接可数名词复数。A项fruit作水果种类时可数，作水果统称或果肉时不可数；C项sugar和D项food通常作不可数名词；B项fish指鱼的条数时，单复数同形，符合语法要求。"
     },
     {
@@ -1352,7 +1352,7 @@
         "C. other",
         "D. others"
       ],
-      "answer": "B",
+      "answer": "B. the other",
       "explanation": "考查不定代词。街道通常只有两边，表示两者中的另一个用 'the other'。'the other side of the street' 意为“街道的另一边”。"
     },
     {
@@ -1368,7 +1368,7 @@
         "C. open",
         "D. opened"
       ],
-      "answer": "C",
+      "answer": "C. open",
       "explanation": "考查 'keep' 的用法。'keep + 宾语 + 形容词' 表示“使……保持某种状态”。此处 'open' 作形容词，意为“开着的”，符合句意“保持窗户开着”。"
     },
     {
@@ -1384,7 +1384,7 @@
         "C. hardly",
         "D. hardest"
       ],
-      "answer": "B",
+      "answer": "B. hard",
       "explanation": "考查 'as...as' 结构。该结构中间必须使用形容词或副词的原级。此处修饰动词 'worked'，应用副词 'hard'（努力地）。C项 'hardly' 意为“几乎不”，语意不通。"
     },
     {
@@ -1400,7 +1400,7 @@
         "C. another",
         "D. others"
       ],
-      "answer": "B",
+      "answer": "B. other",
       "explanation": "考查代词辨析。人有两只手，一只手是one hand，另一只手是the other hand。但在有物主代词your修饰时，不能再用定冠词the，因此直接用'your other hand'。"
     },
     {
@@ -1416,7 +1416,7 @@
         "C. off",
         "D. up"
       ],
-      "answer": "B",
+      "answer": "B. on",
       "explanation": "考查动词短语辨析。句意为：学生们举办了一些活动为无家可归者筹款。put on 在此处引申为'举办、组织（活动/演出）'。put out意为扑灭；put off意为推迟；put up意为张贴/搭建。"
     },
     {
@@ -1464,31 +1464,43 @@
       "type": "选择",
       "grade": "六年级下",
       "unit": "U5",
-      "question_text": "The books on the desk are mine. The ______ on the shelf are my sister's.",
-      "options": {
-        "A": "one",
-        "B": "other",
-        "C": "others",
-        "D": "ones"
-      },
-      "answer": "D",
-      "explanation": "句意： 桌子上的书是我的，书架上的那些是我妹妹的。'The ones on the shelf' 指代 '书架上的那些书'。C选项the others：表示“（一定范围内）剩下的全部”，但题目中的范围并不相同。"
-    },
-    {
+      "knowledge_point": "代词",
+      "question": "The books on the desk are mine. The ______ on the shelf are my sister's.",
+      "options": [
+        "A. one",
+        "B. other",
+        "C. others",
+        "D. ones"
+      ],
+      "answer": "D. ones",
+      "explanation": "句意：桌子上的书是我的，书架上的那些是我妹妹的。'The ones on the shelf' 指代 '书架上的那些书'。C选项the others：表示“（一定范围内）剩下的全部”，但题目中的范围并不相同。"
+},
+{
       "id": "100",
       "type": "选择",
       "grade": "六年级下",
       "unit": "U5",
-      "question_text": "Lu Yao is making a speech ______ his home town.",
-      "options": {
-        "A": "introduce",
-        "B": "to introduce",
-        "C": "introducing",
-        "D": "introduced"
-      },
-      "answer": "B",
-      "explanation": "此处需用动词不定式 'to introduce' 表示做演讲的目的。make a speech introduce变成了使演讲介绍，不通。"
-    },
+      "knowledge_point": "动词",
+      "question": "Lu Yao is making a speech ______ his home town.",
+      "options": [
+        "A. introduce",
+        "B. to introduce",
+        "C. introducing",
+        "D. introduced"
+      ],
+      "answer": "B. to introduce",
+      "explanation": "此处需用动词不定式 'to introduce' 表示做演讲的目的。make a speech to introduce 表示“发表演讲来介绍”。"
+},
+{
+  "id": "103",
+  "type": "句型转换",
+  "grade": "六年级下",
+  "unit": "U5",
+  "question": "The shopping bags <u>on the desk</u> are my cousin's. (对画线部分提问)<br>_______ _______ _______ are your cousin's?",
+  "options": [],
+  "answer": "Which shopping bags",
+  "explanation": "原句中画线部分 'on the desk' 是介词短语作后置定语，修饰主语 'The shopping bags'，特指桌子上的那些购物袋。对定语（即“哪一个/哪一些”）提问，应使用疑问词 Which。因此，填入 'Which shopping bags'，意为“哪一些购物袋是你表亲的？”。"
+},
     {
       "id": "C001",
       "type": "选择",
