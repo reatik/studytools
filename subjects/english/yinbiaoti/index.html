@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>音标练习</title>
 <style>
-/* 小朋友护眼 · 暖黄橙主体 + 淡紫点缀 */
 * {
     margin: 0;
     padding: 0;
@@ -25,25 +24,12 @@ body {
     font-weight: bold;
     margin-bottom: 18px;
 }
-.back-tip {
-    display: inline-block;
-    background: #e6b688;
-    color: #fff;
-    padding: 3px 12px;
-    border-radius: 15px;
-    font-size: 13px;
-    margin-bottom: 12px;
-}
-
-/* 题目容器：自动适应内容宽度 */
 .q-container {
     display: flex;
     flex-direction: column;
     gap: 14px;
     align-items: center;
 }
-
-/* 题目卡片：自动包裹所有内容 */
 .question-card {
     background: #ffffff;
     border: 1px solid #f7e4d1;
@@ -52,8 +38,6 @@ body {
     width: auto;
     max-width: 90vw;
 }
-
-/* 一行排列：从左到右，自动适应 */
 .option-row {
     display: flex;
     flex-direction: row;
@@ -63,8 +47,6 @@ body {
     white-space: nowrap;
     width: auto;
 }
-
-/* 序号：固定宽度 */
 .num-item {
     width: 50px;
     text-align: center;
@@ -75,8 +57,6 @@ body {
     color: #d48e55;
     font-weight: bold;
 }
-
-/* 选项框：宽度自动适应文字！！核心 */
 .option-item {
     padding: 12px 10px;
     cursor: pointer;
@@ -88,7 +68,6 @@ body {
     flex: none;
     text-align: center;
 }
-
 .option-item:hover {
     background: #f9d9b5;
 }
@@ -102,7 +81,6 @@ body {
 .option-item.wrong {
     color: #4a4a4a;
 }
-
 .word-text {
     font-size: 18px;
     position: relative;
@@ -110,7 +88,6 @@ body {
     line-height: 1.4;
     white-space: nowrap;
 }
-
 .icon-tag {
     position: absolute;
     right: 0;
@@ -119,8 +96,6 @@ body {
 }
 .icon-tag.correct-icon { color: #6e9c68; }
 .icon-tag.wrong-icon { color: #e27070; }
-
-/* 下划线红色 */
 u {
     color: #e74c3c;
     text-decoration-color: #e74c3c;
@@ -128,8 +103,6 @@ u {
     display: inline-block;
     position: relative;
 }
-
-/* 音标：默认隐藏，答完显示在下划线正下方 */
 .phonetic-under {
     position: absolute;
     top: 100%;
@@ -144,7 +117,6 @@ u {
 .show-phonetic .phonetic-under {
     display: block;
 }
-
 .btn-box {
     text-align: center;
     margin: 30px 0;
@@ -165,7 +137,6 @@ button:hover {
 </head>
 <body>
 
-
 <div class="top-desc">选出划线发音不同的一项</div>
 <div class="q-container" id="qWrap"></div>
 
@@ -176,6 +147,41 @@ button:hover {
 
 <script src="phonetic.js"></script>
 <script>
+// 👇 把这里换成你新表单的链接
+const FEISHU_URL = "https://xcnsaubdgn7c.feishu.cn/share/base/form/shrcnzUWZ3RHri52w97tUTo0pje";
+
+// 自动生成用户信息
+function getUserId(){
+    let id = localStorage.getItem("stu_uid");
+    if(!id) id = "stu_"+Date.now();
+    localStorage.setItem("stu_uid",id);
+    return id;
+}
+function getUserName(){
+    let n = localStorage.getItem("stu_name");
+    if(!n){
+        n = prompt("请输入你的昵称（用于排行榜）：","学生");
+        localStorage.setItem("stu_name",n);
+    }
+    return n;
+}
+
+// 自动提交做题记录
+function sendRecord(qNum, isRight){
+    let name = encodeURIComponent(getUserName());
+    let uid = getUserId();
+    let qid = qNum;
+    let res = isRight ? "是" : "否";
+    let score = isRight ? 10 : 0;
+
+    // 用GET方式提交，绕过跨域限制
+    let api = `${FEISHU_URL}?username=${name}&user_id=${uid}&question_id=${qid}&is_correct=${res}&score=${score}`;
+    let img = new Image();
+    img.src = api;
+    console.log("✅ 数据已尝试提交");
+}
+
+// 原题做题逻辑
 let allList = phoneticBank;
 let showList = [];
 let curIdx = 0;
@@ -184,10 +190,6 @@ let answerRecord = {};
 function formatWord(str, phonetic) {
     return str.replace(/\[(.+?)\]/g, "<u>$1<span class='phonetic-under'>"+phonetic+"</span></u>");
 }
-function getPureWord(str) {
-    return str.replace(/\[|\]/g, "");
-}
-
 function savePos(idx) {
     localStorage.setItem("phoneticLastIdx", idx);
 }
@@ -198,9 +200,7 @@ function getLastPos() {
 
 function init() {
     showList = allList;
-    let last = getLastPos();
-    curIdx = last;
-
+    curIdx = getLastPos();
     renderQ();
 }
 
@@ -220,7 +220,6 @@ function renderQ() {
     q.words.forEach((item, i) => {
         let letter = String.fromCharCode(65 + i);
         let showW = formatWord(item.word, item.phonetic);
-        let pureW = getPureWord(item.word);
 
         let statusClass = "";
         let icon = "";
@@ -235,7 +234,7 @@ function renderQ() {
         }
 
         html += `
-            <div class="option-item ${statusClass}" data-idx="${i}" data-pure="${pureW}">
+            <div class="option-item ${statusClass}" data-idx="${i}">
                 <div class="word-text">${letter}. ${showW}${icon}</div>
             </div>
         `;
@@ -247,17 +246,13 @@ function renderQ() {
     document.querySelectorAll(".option-item").forEach(el => {
         el.onclick = function() {
             if(answerRecord[curIdx] !== undefined) return;
-            document.querySelectorAll(".option-item").forEach(x => x.classList.remove("active"));
-            this.classList.add("active");
-            selectAns(this, q);
+            let myIdx = parseInt(el.dataset.idx);
+            answerRecord[curIdx] = myIdx;
+            let ok = (myIdx === q.answerIndex);
+            sendRecord(curIdx+1, ok);
+            renderQ();
         };
     });
-}
-
-function selectAns(el, q) {
-    let myIdx = parseInt(el.dataset.idx);
-    answerRecord[curIdx] = myIdx;
-    renderQ();
 }
 
 function prevQ() {
