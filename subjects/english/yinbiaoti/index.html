@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>音标练习</title>
 <style>
+/* 小朋友护眼 · 暖黄橙主体 + 淡紫点缀 */
 * {
     margin: 0;
     padding: 0;
@@ -24,99 +25,123 @@ body {
     font-weight: bold;
     margin-bottom: 18px;
 }
+.back-tip {
+    display: inline-block;
+    background: #e6b688;
+    color: #fff;
+    padding: 3px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+/* 题目容器 */
 .q-container {
     display: flex;
     flex-direction: column;
     gap: 14px;
     align-items: center;
 }
+
+/* 题目卡片 */
 .question-card {
-    background: #ffffff;
-    border: 1px solid #f7e4d1;
+
+
     border-radius: 12px;
-    padding: 14px 12px;
-    width: auto;
-    max-width: 90vw;
+    padding: 16px 15px;
+    width: 100%;
+    max-width: 600px;
 }
+
+/* 整体布局：序号 + 内容主体 */
 .option-row {
     display: flex;
-    flex-direction: row;
     align-items: flex-start;
-    justify-content: flex-start;
-    gap: 10px;
-    white-space: nowrap;
-    width: auto;
+    gap: 15px;
+    width: 100%;
 }
+
+/* 左侧题号 */
 .num-item {
     width: 50px;
     text-align: center;
-    padding: 12px 0;
+    padding-top: 12px;
+    flex-shrink: 0;
 }
 .num-text {
     font-size: 19px;
     color: #d48e55;
     font-weight: bold;
 }
-.option-item {
-    padding: 12px 10px;
-    cursor: pointer;
+
+/* 右侧选项+音标 容器 竖排 */
+.option-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 单行选项布局：单词列 + 音标列 */
+.option-line {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 12px;
     border-radius: 8px;
     transition: all 0.2s ease;
+    cursor: pointer;
     border: 1px solid transparent;
-    width: auto;
-    min-width: 0;
-    flex: none;
-    text-align: center;
 }
-.option-item:hover {
+.option-line:hover {
     background: #f9d9b5;
 }
-.option-item.active {
+.option-line.active {
     background: #f9e3c7;
     border-color: #f1c79e;
 }
-.option-item.correct {
+.option-line.correct {
     color: #6e9c68;
 }
-.option-item.wrong {
+.option-line.wrong {
     color: #4a4a4a;
 }
-.word-text {
+
+/* 单词区域 */
+.word-box {
     font-size: 18px;
-    position: relative;
-    padding-right: 22px;
-    line-height: 1.4;
-    white-space: nowrap;
+    flex: 1;
 }
+/* 音标区域 固定靠右 */
+.phonetic-box {
+    font-size: 15px;
+    color: #888;
+    min-width: 100px;
+    text-align: left;
+}
+
 .icon-tag {
-    position: absolute;
-    right: 0;
-    top: 0;
+    margin-left: 8px;
     font-weight: bold;
 }
 .icon-tag.correct-icon { color: #6e9c68; }
 .icon-tag.wrong-icon { color: #e27070; }
+
+/* 下划线红色 */
 u {
     color: #e74c3c;
     text-decoration-color: #e74c3c;
     text-underline-offset: 3px;
-    display: inline-block;
-    position: relative;
 }
-.phonetic-under {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 14px;
-    color: #888;
-    white-space: nowrap;
-    margin-top: 2px;
+
+/* 答题后才显示音标 */
+.hide-pho .phonetic-box {
     display: none;
 }
-.show-phonetic .phonetic-under {
+.show-pho .phonetic-box {
     display: block;
 }
+
 .btn-box {
     text-align: center;
     margin: 30px 0;
@@ -129,6 +154,7 @@ button {
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
+    margin: 0 6px;
 }
 button:hover {
     background: #9472b3;
@@ -147,49 +173,19 @@ button:hover {
 
 <script src="phonetic.js"></script>
 <script>
-// 👇 把这里换成你新表单的链接
-const FEISHU_URL = "https://xcnsaubdgn7c.feishu.cn/share/base/form/shrcnzUWZ3RHri52w97tUTo0pje";
-
-// 自动生成用户信息
-function getUserId(){
-    let id = localStorage.getItem("stu_uid");
-    if(!id) id = "stu_"+Date.now();
-    localStorage.setItem("stu_uid",id);
-    return id;
-}
-function getUserName(){
-    let n = localStorage.getItem("stu_name");
-    if(!n){
-        n = prompt("请输入你的昵称（用于排行榜）：","学生");
-        localStorage.setItem("stu_name",n);
-    }
-    return n;
-}
-
-// 自动提交做题记录
-function sendRecord(qNum, isRight){
-    let name = encodeURIComponent(getUserName());
-    let uid = getUserId();
-    let qid = qNum;
-    let res = isRight ? "是" : "否";
-    let score = isRight ? 10 : 0;
-
-    // 用GET方式提交，绕过跨域限制
-    let api = `${FEISHU_URL}?username=${name}&user_id=${uid}&question_id=${qid}&is_correct=${res}&score=${score}`;
-    let img = new Image();
-    img.src = api;
-    console.log("✅ 数据已尝试提交");
-}
-
-// 原题做题逻辑
 let allList = phoneticBank;
 let showList = [];
 let curIdx = 0;
 let answerRecord = {};
 
-function formatWord(str, phonetic) {
-    return str.replace(/\[(.+?)\]/g, "<u>$1<span class='phonetic-under'>"+phonetic+"</span></u>");
+// 只处理划线，不再内嵌音标
+function formatWord(str) {
+    return str.replace(/\[(.+?)\]/g, "<u>$1</u>");
 }
+function getPureWord(str) {
+    return str.replace(/\[|\]/g, "");
+}
+
 function savePos(idx) {
     localStorage.setItem("phoneticLastIdx", idx);
 }
@@ -200,7 +196,8 @@ function getLastPos() {
 
 function init() {
     showList = allList;
-    curIdx = getLastPos();
+    let last = getLastPos();
+    curIdx = last;
     renderQ();
 }
 
@@ -208,18 +205,21 @@ function renderQ() {
     savePos(curIdx);
     let q = showList[curIdx];
     let isAnswered = answerRecord[curIdx] !== undefined;
+    let phoClass = isAnswered ? 'show-pho' : 'hide-pho';
 
     let html = `
     <div class="question-card">
-        <div class="option-row ${isAnswered ? 'show-phonetic' : ''}">
+        <div class="option-row">
             <div class="num-item">
                 <div class="num-text">${curIdx + 1}.</div>
             </div>
+            <div class="option-wrap ${phoClass}">
     `;
 
     q.words.forEach((item, i) => {
         let letter = String.fromCharCode(65 + i);
-        let showW = formatWord(item.word, item.phonetic);
+        let showW = formatWord(item.word);
+        let pureW = getPureWord(item.word);
 
         let statusClass = "";
         let icon = "";
@@ -234,25 +234,31 @@ function renderQ() {
         }
 
         html += `
-            <div class="option-item ${statusClass}" data-idx="${i}">
-                <div class="word-text">${letter}. ${showW}${icon}</div>
+            <div class="option-line ${statusClass}" data-idx="${i}" data-pure="${pureW}">
+                <div class="word-box">${letter}. ${showW}${icon}</div>
+                <div class="phonetic-box">${item.phonetic}</div>
             </div>
         `;
     });
 
-    html += `</div></div>`;
+    html += `</div></div></div>`;
     document.getElementById("qWrap").innerHTML = html;
 
-    document.querySelectorAll(".option-item").forEach(el => {
+    // 绑定点击
+    document.querySelectorAll(".option-line").forEach(el => {
         el.onclick = function() {
             if(answerRecord[curIdx] !== undefined) return;
-            let myIdx = parseInt(el.dataset.idx);
-            answerRecord[curIdx] = myIdx;
-            let ok = (myIdx === q.answerIndex);
-            sendRecord(curIdx+1, ok);
-            renderQ();
+            document.querySelectorAll(".option-line").forEach(x => x.classList.remove("active"));
+            this.classList.add("active");
+            selectAns(this, q);
         };
     });
+}
+
+function selectAns(el, q) {
+    let myIdx = parseInt(el.dataset.idx);
+    answerRecord[curIdx] = myIdx;
+    renderQ();
 }
 
 function prevQ() {
