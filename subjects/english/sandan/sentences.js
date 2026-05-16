@@ -404,7 +404,7 @@ const sentenceBank = [
     },
     
     {
-        text: "The rabbit {Can} ______ very fast.",
+        text: "The rabbit {can} ______ very fast.",
         options: [
             { label: "A", value: "run", correct: true },
             { label: "B", value: "runs", correct: false }
@@ -413,7 +413,7 @@ const sentenceBank = [
     },
 
     {
-        text: "The fish {Can} ______ in the river.",
+        text: "The fish {can} ______ in the river.",
         options: [
             { label: "A", value: "swim", correct: true },
             { label: "B", value: "swims", correct: false }
@@ -421,7 +421,7 @@ const sentenceBank = [
         difficulty: "陈述"
     },
     {
-        text: "Miss Li {Can} ______ English songs.",
+        text: "Miss Li {can} ______ English songs.",
         options: [
             { label: "A", value: "sing", correct: true },
             { label: "B", value: "sings", correct: false }
@@ -429,7 +429,7 @@ const sentenceBank = [
         difficulty: "陈述"
     },
     {
-        text: "The cat {Can} ______ up the tree.",
+        text: "The cat {can} ______ up the tree.",
         options: [
             { label: "A", value: "climb", correct: true },
             { label: "B", value: "climbs", correct: false }
@@ -437,7 +437,7 @@ const sentenceBank = [
         difficulty: "陈述"
     },
     {
-        text: "We {Can} ______ pictures in the park.",
+        text: "We {can} ______ pictures in the park.",
         options: [
             { label: "A", value: "draw", correct: true },
             { label: "B", value: "draws", correct: false }
@@ -445,7 +445,7 @@ const sentenceBank = [
         difficulty: "陈述"
     },
     {
-        text: "My father {Can} ______ a car.",
+        text: "My father {can} ______ a car.",
         options: [
             { label: "A", value: "drive", correct: true },
             { label: "B", value: "drives", correct: false }
@@ -453,7 +453,7 @@ const sentenceBank = [
         difficulty: "陈述"
     },
     {
-        text: "The boy {Can} ______ a kite.",
+        text: "The boy {can} ______ a kite.",
         options: [
             { label: "A", value: "fly", correct: true },
             { label: "B", value: "flies", correct: false }
@@ -461,7 +461,7 @@ const sentenceBank = [
         difficulty: "陈述"
     },
     {
-        text: "They {Can} ______ on the ice.",
+        text: "They {can} ______ on the ice.",
         options: [
             { label: "A", value: "skate", correct: true },
             { label: "B", value: "skates", correct: false }
@@ -551,7 +551,7 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{The bird} {Can}'t ______ in the rain.",
+        text: "The bird {can}'t ______ in the rain.",
         options: [
             { label: "A", value: "fly", correct: true },
             { label: "B", value: "flies", correct: false }
@@ -559,7 +559,7 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{My sister} {Can}'t ______ the piano.",
+        text: "My sister {can}'t ______ the piano.",
         options: [
             { label: "A", value: "play", correct: true },
             { label: "B", value: "plays", correct: false }
@@ -567,7 +567,7 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{The dog} {Can}'t ______ in the pool.",
+        text: "The dog {can}'t ______ in the pool.",
         options: [
             { label: "A", value: "swim", correct: true },
             { label: "B", value: "swims", correct: false }
@@ -575,7 +575,7 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{Mrs Li} {Can}'t ______ English very well.",
+        text: "Mrs Li {can}'t ______ English very well.",
         options: [
             { label: "A", value: "speak", correct: true },
             { label: "B", value: "speaks", correct: false }
@@ -583,7 +583,7 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{The baby} {Can}'t ______ on the wall.",
+        text: "The baby {can}'t ______ on the wall.",
         options: [
             { label: "A", value: "write", correct: true },
             { label: "B", value: "writes", correct: false }
@@ -591,7 +591,7 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{We} {Can}'t ______ photos here.",
+        text: "We {can}'t ______ photos here.",
         options: [
             { label: "A", value: "take", correct: true },
             { label: "B", value: "takes", correct: false }
@@ -599,7 +599,7 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{The lion} {Can}'t ______ trees.",
+        text: "The lion {can}'t ______ trees.",
         options: [
             { label: "A", value: "climb", correct: true },
             { label: "B", value: "climbs", correct: false }
@@ -607,7 +607,7 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{I} {Can}'t ______ spicy(辣的) food.",
+        text: "I {can}'t ______ spicy(辣的) food.",
         options: [
             { label: "A", value: "eat", correct: true },
             { label: "B", value: "eats", correct: false }
@@ -615,7 +615,7 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{The students} {Can}'t ______ quietly.",
+        text: "The students {can}'t ______ quietly.",
         options: [
             { label: "A", value: "sit", correct: true },
             { label: "B", value: "sits", correct: false }
@@ -623,7 +623,7 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{The robot} {Can}'t ______ by itself.",
+        text: "The robot {can}'t ______ by itself.",
         options: [
             { label: "A", value: "think", correct: true },
             { label: "B", value: "thinks", correct: false }
@@ -936,12 +936,12 @@ const sentenceBank = [
         difficulty: "否定"
     },
     {
-        text: "{We} {Can}'t ______ see the moon in the day.",
+        text: "{We} {can}'t ______ see the moon in the day.",
         options: [
             { label: "A", value: "doesn't", correct: false },
             { label: "B", value: "don't", correct: true }
         ],
-        difficulty: "{Can} / do辨析"
+        difficulty: "{can} / do辨析"
     },
     {
         text: "{That grasshopper} ______ like ants.",
