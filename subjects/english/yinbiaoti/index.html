@@ -45,8 +45,6 @@ body {
 
 /* 题目卡片 */
 .question-card {
-
-
     border-radius: 12px;
     padding: 16px 15px;
     width: 100%;
@@ -57,15 +55,15 @@ body {
 .option-row {
     display: flex;
     align-items: flex-start;
-    gap: 15px;
+    gap: 8px; /* 🔴 缩小题号与题目间距（原来15px） */
     width: 100%;
 }
 
 /* 左侧题号 */
 .num-item {
-    width: 50px;
+    width: 36px; /* 🔴 题号宽度缩小，更紧凑 */
     text-align: center;
-    padding-top: 12px;
+    padding-top: 10px;
     flex-shrink: 0;
 }
 .num-text {
@@ -86,12 +84,14 @@ body {
 .option-line {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
     padding: 10px 12px;
     border-radius: 8px;
     transition: all 0.2s ease;
     cursor: pointer;
     border: 1px solid transparent;
+    white-space: nowrap; /* 🔴 强制不换行 */
+    flex-wrap: nowrap;    /* 🔴 禁止换行 */
 }
 .option-line:hover {
     background: #f9d9b5;
@@ -116,8 +116,10 @@ body {
 .phonetic-box {
     font-size: 15px;
     color: #888;
-    min-width: 100px;
+    min-width: unset; /* 🔴 去掉固定宽度 */
+    width: auto;
     text-align: left;
+    flex-shrink: 0; /* 🔴 防止音标被挤压换行 */
 }
 
 .icon-tag {

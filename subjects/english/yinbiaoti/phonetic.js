@@ -103,9 +103,9 @@ const phoneticBank = [
     ], answerIndex:2 },
     
     { id: 18, words: [
-        { word:"toge[th]er", phonetic:"/ə/" },
+        { word:"toge[th]er", phonetic:"/ð/" },
         { word:"mou[th]", phonetic:"/θ/" },
-        { word:"[th]ing", phonetic:"/ɪ/" }
+        { word:"[th]ing", phonetic:"/θ/" }
     ], answerIndex:1 },
     
     { id: 19, words: [
