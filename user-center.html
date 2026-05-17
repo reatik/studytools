@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>个人中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft Yahei", sans-serif;
+            background-color: #f7f8fa;
+            color: #333;
+            padding-bottom: 30px;
+        }
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 46px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-shadow: 0 0.5px 3px rgba(0,0,0,0.08);
+            z-index: 99;
+        }
+        .header-bar a {
+            font-size: 15px;
+            color: #067aff;
+            text-decoration: none;
+        }
+        .header-bar .title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #111;
+        }
+        body {
+            padding-top: 46px;
+        }
+        .user-top-card {
+            background: linear-gradient(135deg, #52b8ff 0%, #369eff 100%);
+            margin: 12px;
+            border-radius: 16px;
+            padding: 25px 20px;
+            color: #fff;
+        }
+        .avatar-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #ffffff40;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+        }
+        .user-name {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .user-desc {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .list-wrap {
+            margin: 12px;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        .list-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .list-icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+            color: #666;
+        }
+        .list-text {
+            font-size: 15px;
+            color: #333;
+        }
+        .list-arrow {
+            color: #c8c9cc;
+            font-size: 14px;
+        }
+
+        /* 弹窗遮罩 */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .modal-box {
+            background: #fff;
+            width: 85%;
+            max-width: 340px;
+            border-radius: 20px;
+            padding: 28px 24px;
+        }
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-item {
+            margin-bottom: 12px;
+        }
+        .input-item input {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            font-size: 15px;
+            background: #f9fafb;
+        }
+        .modal-btn {
+            width: 100%;
+            height: 48px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+        .btn-blue {
+            background: #369eff;
+            color: #fff;
+        }
+        .btn-gray {
+            background: #eef0f3;
+            color: #333;
+        }
+        .tip-text {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .hide {
+            display: none !important;
+        }
+
+        .data-panel {
+            margin: 12px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 18px;
+        }
+        .data-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        .data-line {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* 主流风格：顶部双切换登录注册 */
+        .tab-row {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            background: #f5f7fa;
+            overflow: hidden;
+        }
+        .tab {
+            flex: 1;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .tab.active {
+            background: #369eff;
+            color: #fff;
+        }
+        .panel {
+            display: none;
+        }
+        .panel.active {
+            display: block;
+        }
+
+        /* 提示文字 */
+        .form-tip {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 8px;
+            height: 16px;
+        }
+        .tip-success {
+            color: #07c160;
+        }
+        .tip-error {
+            color: #fa3f3f;
+        }
+        .auth-tip {
+            text-align: center;
+            padding: 15px;
+            color: #999;
+            font-size: 13px;
+        }
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .avatar-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: #f0f0f0;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .avatar-option:hover {
+            transform: scale(1.1);
+            border-color: #369eff;
+        }
+        .avatar-option.selected {
+            border-color: #369eff;
+            background: #e6f2ff;
+        }
+        .avatar-option.color-avatar {
+            font-size: 14px;
+            color: #fff;
+            font-weight: bold;
+        }
+        .avatar-edit-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 18px;
+            height: 18px;
+            background: #369eff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 10px;
+        }
+        .avatar-box {
+            position: relative;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<div class="header-bar">
+    <a href="index.html"><i class="fas fa-arrow-left"></i> 返回</a>
+    <div class="title">个人中心</div>
+    <span></span>
+</div>
+
+<!-- 用户卡片 -->
+<div class="user-top-card">
+    <div class="avatar-box">
+        <div class="avatar" id="userAvatar" onclick="showAvatarModal()"><i class="fas fa-user"></i></div>
+        <div class="user-info-text">
+            <div class="user-name" id="showUserName">游客用户</div>
+            <div class="user-desc" id="showUserDesc">仅本地游玩，数据不上传云端</div>
+        </div>
+    </div>
+</div>
+
+<!-- 头像选择弹窗 -->
+<div class="modal-overlay" id="avatarModal">
+    <div class="modal-box">
+        <div class="modal-title">选择头像</div>
+        <div class="avatar-grid" id="avatarGrid"></div>
+        <button class="modal-btn btn-gray" onclick="closeAvatarModal()">取消</button>
+    </div>
+</div>
+
+<!-- 游客菜单 - 显示登录注册表单 -->
+<div id="guestView">
+    <div class="list-wrap">
+        <div class="list-item" onclick="showAuthModal()" style="cursor:pointer;">
+            <div class="list-left">
+                <div class="list-icon"><i class="fas fa-user-plus"></i></div>
+                <div class="list-text">登录 / 注册</div>
+            </div>
+            <div class="list-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+    </div>
+    <div class="auth-tip">
+        <p>登录后可将学习数据同步到云端</p>
+    </div>
+</div>
+
+<!-- 登录用户菜单 -->
+<div id="userView" class="hide">
+    <div class="list-wrap">
+        <div class="list-item" onclick="logout()" style="cursor:pointer;">
+            <div class="list-left">
+                <div class="list-icon"><i class="fas fa-sign-out-alt"></i></div>
+                <div class="list-text">退出登录</div>
+            </div>
+            <div class="list-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+    </div>
+</div>
+
+<!-- 统一主流风格登录注册弹窗 -->
+<div class="modal-overlay" id="authModal">
+    <div class="modal-box">
+        <div class="tab-row">
+            <div class="tab active" onclick="switchTab('login')">登录</div>
+            <div class="tab" onclick="switchTab('register')">注册</div>
+        </div>
+
+        <!-- 登录面板 -->
+        <div class="panel active" id="loginPanel">
+            <div class="input-item">
+                <input type="text" id="loginNick" placeholder="请输入昵称">
+            </div>
+            <div class="input-item">
+                <input type="password" id="loginPwd" placeholder="请输入密码">
+            </div>
+            <div class="form-tip" id="loginTip"></div>
+            <button class="modal-btn btn-blue" onclick="login()">登录</button>
+            <button class="modal-btn btn-gray" onclick="closeAllModals()">取消</button>
+        </div>
+
+        <!-- 注册面板 -->
+        <div class="panel" id="registerPanel">
+            <div class="input-item">
+                <input type="text" id="regNick" placeholder="请输入昵称">
+            </div>
+            <div class="input-item">
+                <input type="password" id="regPwd" placeholder="请输入密码">
+            </div>
+            <div class="form-tip" id="regTip"></div>
+            <button class="modal-btn btn-blue" onclick="register()">注册</button>
+            <button class="modal-btn btn-gray" onclick="closeAllModals()">取消</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="common.js"></script>
+<script>
+window.onload = function () {
+    updateUserView();
+};
+
+function updateUserView() {
+    let isLogin = localStorage.getItem("game_logged_in") === "true";
+    let uid = localStorage.getItem("game_user_id");
+    let name = localStorage.getItem("game_nickname");
+    let avatar = localStorage.getItem("user_avatar");
+
+    if (isLogin && uid) {
+        document.getElementById("guestView").classList.add("hide");
+        document.getElementById("userView").classList.remove("hide");
+        document.getElementById("showUserName").innerText = name;
+        document.getElementById("showUserDesc").innerText = "已登录 · 数据云端同步";
+        // 显示头像
+        updateAvatarDisplay(avatar);
+    } else {
+        document.getElementById("guestView").classList.remove("hide");
+        document.getElementById("userView").classList.add("hide");
+        document.getElementById("showUserName").innerText = "游客用户";
+        document.getElementById("showUserDesc").innerText = "仅本地游玩，数据不上传云端";
+        // 显示默认头像
+        updateAvatarDisplay(null);
+    }
+}
+
+// 更新头像显示
+function updateAvatarDisplay(avatar) {
+    let avatarEl = document.getElementById("userAvatar");
+    if (avatar) {
+        avatarEl.innerHTML = avatar + '<div class="avatar-edit-icon"><i class="fas fa-pen"></i></div>';
+    } else {
+        avatarEl.innerHTML = '<i class="fas fa-user"></i><div class="avatar-edit-icon"><i class="fas fa-pen"></i></div>';
+    }
+}
+
+// 头像选项列表
+const avatarList = [
+    "😊", "😄", "🥰", "😎", "🤔", "😴", "🤗", "😇",
+    "🙂", "🤩", "🥳", "😋", "🤓", "😌", "🥺", "😤",
+    "🦁", "🐱", "🐶", "🐰", "🐼", "🦊", "🐸", "🐵",
+    "🌟", "⭐", "🌙", "☀️", "🌈", "❤️", "💙", "💚"
+];
+
+// 显示头像选择弹窗
+function showAvatarModal() {
+    let grid = document.getElementById("avatarGrid");
+    let currentAvatar = localStorage.getItem("user_avatar") || "";
+    
+    grid.innerHTML = avatarList.map(av => {
+        let selected = (av === currentAvatar) ? 'selected' : '';
+        return `<div class="avatar-option ${selected}" onclick="selectAvatar('${av}')">${av}</div>`;
+    }).join('');
+    
+    document.getElementById("avatarModal").style.display = "flex";
+}
+
+// 关闭头像弹窗
+function closeAvatarModal() {
+    document.getElementById("avatarModal").style.display = "none";
+}
+
+// 选择头像
+function selectAvatar(avatar) {
+    localStorage.setItem("user_avatar", avatar);
+    updateAvatarDisplay(avatar);
+    closeAvatarModal();
+}
+
+let currentTab = "login";
+function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+    document.getElementById("loginTip").innerText = "";
+    document.getElementById("regTip").innerText = "";
+
+    if (tab === "login") {
+        document.querySelector(".tab:nth-child(1)").classList.add("active");
+        document.getElementById("loginPanel").classList.add("active");
+    } else {
+        document.querySelector(".tab:nth-child(2)").classList.add("active");
+        document.getElementById("registerPanel").classList.add("active");
+    }
+}
+
+function showAuthModal() {
+    document.getElementById("authModal").style.display = "flex";
+}
+function closeAllModals() {
+    document.getElementById("authModal").style.display = "none";
+}
+
+// 登录
+async function login() {
+    let nick = document.getElementById("loginNick").value.trim();
+    let pwd = document.getElementById("loginPwd").value.trim();
+    let tip = document.getElementById("loginTip");
+
+    if (!nick || !pwd) {
+        tip.className = "form-tip tip-error";
+        tip.innerText = "请填写昵称和密码";
+        return;
+    }
+
+    let sb = getSupabaseClient();
+    
+    // 检查用户和密码
+    let { data, err } = await sb.from("user_stats")
+        .select("user_id,username,password")
+        .eq("username", nick)
+        .limit(1);
+
+    if (err || !data || data.length === 0) {
+        tip.className = "form-tip tip-error";
+        tip.innerText = "该用户不存在，请先注册";
+        return;
+    }
+
+    let userData = data[0];
+    
+    // 检查是否有密码字段
+    if (!userData.password) {
+        tip.className = "form-tip tip-error";
+        tip.innerText = "该用户未设置密码，请先注册";
+        return;
+    }
+
+    if (userData.password !== pwd) {
+        tip.className = "form-tip tip-error";
+        tip.innerText = "密码错误，请重新输入";
+        return;
+    }
+
+    localStorage.setItem("game_logged_in", "true");
+    localStorage.setItem("game_user_id", userData.user_id);
+    localStorage.setItem("game_nickname", userData.username);
+    
+    closeAllModals();
+    updateUserView();
+}
+
+// 注册
+async function register() {
+    let nick = document.getElementById("regNick").value.trim();
+    let pwd = document.getElementById("regPwd").value.trim();
+    let tip = document.getElementById("regTip");
+
+    if (!nick || !pwd) {
+        tip.className = "form-tip tip-error";
+        tip.innerText = "请输入昵称和密码";
+        return;
+    }
+
+    let sb = getSupabaseClient();
+    let { data: exist } = await sb.from("user_stats")
+        .select("username")
+        .eq("username", nick)
+        .single();
+
+    if (exist) {
+        tip.className = "form-tip tip-error";
+        tip.innerText = "该昵称已被注册";
+        return;
+    }
+
+    let newUid = "user_" + Math.random().toString(36).slice(2, 10);
+    await sb.from("user_stats").upsert([{
+        user_id: newUid,
+        username: nick,
+        password: pwd,
+        max_combo: 0,
+        total_correct: 0,
+        total_questions: 0,
+        accuracy: 0
+    }]);
+
+    // 注册成功 显示绿色提示
+    tip.className = "form-tip tip-success";
+    tip.innerText = "注册成功！正在跳转登录...";
+
+    // 自动填入登录框
+    document.getElementById("loginNick").value = nick;
+    document.getElementById("loginPwd").value = pwd;
+
+    // 自动切换到登录
+    setTimeout(() => {
+        switchTab('login');
+    }, 800);
+}
+
+// 退出登录
+function logout() {
+    localStorage.removeItem("game_logged_in");
+    localStorage.removeItem("game_user_id");
+    localStorage.removeItem("game_nickname");
+    updateUserView();
+}
+</script>
+</body>
+</html>

@@ -7,8 +7,8 @@ const phoneticBank = [
     ], answerIndex:1 },
     
     { id: 2, words: [
-        { word:"[th]ird", phonetic:"/ɜː/" },
-        { word:"bir[th]day", phonetic:"/ɜː/" },
+        { word:"[th]ird", phonetic:"/θ/" },
+        { word:"bir[th]day", phonetic:"/θ/" },
         { word:"smoo[th]", phonetic:"/ð/" }
     ], answerIndex:2 },
     
@@ -49,13 +49,13 @@ const phoneticBank = [
     ], answerIndex:2 },
     
     { id: 9, words: [
-        { word:"[wh]ere", phonetic:"/eə/" },
-        { word:"[wh]ose", phonetic:"/uː/" },
-        { word:"[wh]en", phonetic:"/e/" }
+        { word:"[wh]ere", phonetic:"/w/" },
+        { word:"[wh]ose", phonetic:"/h/" },
+        { word:"[wh]en", phonetic:"/w/" }
     ], answerIndex:1 },
     
     { id: 10, words: [
-        { word:"c[o]usin", phonetic:"/ʌ/" },
+        { word:"c[ou]sin", phonetic:"/ʌ/" },
         { word:"ab[ou]t", phonetic:"/aʊ/" },
         { word:"undergr[ou]nd", phonetic:"/aʊ/" }
     ], answerIndex:0 },
@@ -97,7 +97,7 @@ const phoneticBank = [
     ], answerIndex:2 },
     
     { id: 17, words: [
-        { word:"grandp[a]", phonetic:"/æ/" },
+        { word:"grandp[a]", phonetic:"/ɑː/" },
         { word:"[a]sk", phonetic:"/ɑː/" },
         { word:"[a]way", phonetic:"/ə/" }
     ], answerIndex:2 },
@@ -162,7 +162,7 @@ const phoneticBank = [
     ], answerIndex:2 },
     
     { id: 27, words: [
-        { word:"too[th]ache", phonetic:"/uː/" },
+        { word:"too[th]ache", phonetic:"/θ/" },
         { word:"mou[th]", phonetic:"/θ/" },
         { word:"smoo[th]", phonetic:"/ð/" },
         { word:"bo[th]", phonetic:"/θ/" }

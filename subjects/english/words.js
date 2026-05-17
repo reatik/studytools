@@ -701,7 +701,7 @@ const wordData = {
 {"english":"flat","phonetic":"/flæt/","chinese":"公寓；一套房间","pos":"n.","unit":"Unit 2","grade":"六年级上","type":"word"},
 {"english":"fun","phonetic":"/fʌn/","chinese":"乐趣；快乐","pos":"n.","unit":"Unit 2","grade":"六年级上","type":"word"},
 {"english":"celebration","phonetic":"/ˌselɪˈbreɪʃn/","chinese":"庆典；庆祝活动","pos":"n.","unit":"Unit 2","grade":"六年级上","type":"word"},
-{"english":"prep.are","phonetic":"/prɪˈpeə(r)/","chinese":"使做好准备；把…… 预备好","pos":"v.","unit":"Unit 2","grade":"六年级上","type":"word"},
+{"english":"prepare","phonetic":"/prɪˈpeə(r)/","chinese":"使做好准备；把…… 预备好","pos":"v.","unit":"Unit 2","grade":"六年级上","type":"word"},
 {"english":"decorate","phonetic":"/ˈdekəreɪt/","chinese":"装饰","pos":"v.","unit":"Unit 2","grade":"六年级上","type":"word"},
 {"english":"living room","phonetic":"/ˈlɪvɪŋ ruːm/","chinese":"客厅；起居室","pos":"n.","unit":"Unit 2","grade":"六年级上","type":"phrase"},
 {"english":"balloon","phonetic":"/bəˈluːn/","chinese":"气球","pos":"n.","unit":"Unit 2","grade":"六年级上","type":"word"},

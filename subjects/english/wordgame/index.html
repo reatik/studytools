@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../../common.js"></script>
     <script src="../words.js"></script>
     <title>单词配对游戏</title>
     <style>
@@ -12,59 +15,36 @@
         }
         
         body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    background: linear-gradient(180deg, #e8f1fb 0%, #edf8f4 100%);
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    touch-action: manipulation;
-}
+            font-family: sans-serif;
+            background: linear-gradient(180deg, #e8f1fb 0%, #edf8f4 100%);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
         
-        .left-actions {
+        .header-container {
             display: flex;
-            align-items: center;
-            gap: 12px;
+            justify-content: space-between;
+            padding: 8px 10px;
+        }
+        
+        .action-btn {
+            background: #fff;
+            border-radius: 8px;
+            padding: 0 12px;
+            height: 36px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            font-size: 14px;
         }
 
-        
         .game-container {
             display: flex;
             flex-direction: column;
             height: 100vh;
             padding: 10px;
-            box-sizing: border-box;
         }
-        
-        .header-container {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 8px 10px;
-            margin-bottom: 10px;
-        }
-        
-        .action-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #ffffff;
-    border-radius: 8px;
-    color: #162938;
-    font-size: 14px;
-    box-shadow: none;
-    width: auto;
-    height: 36px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    transition: transform 0.1s;
-    padding: 0 12px;
-    white-space: nowrap;
-}
-
-.action-btn:active {
-    transform: scale(0.95);
-    background-color: #fff;
-}
         
         .game-area {
             flex: 1;
@@ -73,7 +53,6 @@
             justify-content: space-between;
             padding: 5px 0;
             overflow: hidden;
-            margin-bottom: -10px;
         }
         
         .cards-section {
@@ -84,13 +63,8 @@
             overflow-y: auto;
         }
         
-        .english-section {
-            justify-content: flex-start;
-        }
-        
-        .chinese-section {
-            justify-content: flex-end;
-        }
+        .english-section { justify-content: flex-start; }
+        .chinese-section { justify-content: flex-end; }
         
         .cards-row {
             display: flex;
@@ -101,671 +75,531 @@
         }
         
         .card {
-    min-width: 28%;
-    max-width: 28%;
-    border-radius: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 12px;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 变弱、变浅 */
-    transition: all 0.3s ease;
-    padding: 10px 5px;
-    word-wrap: break-word;
-    cursor: pointer;
-    height: 50px;
-    box-sizing: border-box;
-    transform: scale(1);
-    backdrop-filter: blur(2px);
-}
-        .card:active {
-            transform: scale(0.92);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            min-width: 28%;
+            max-width: 28%;
+            border-radius: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 10px 5px;
+            cursor: pointer;
+            height: 50px;
         }
+        .card:active { transform: scale(0.92); }
         
-        .chinese {
-            background-color: #8cbbd1;
-            color: #1c3547;
-            border: 1px solid #687686;
+        .chinese { background: #8cbbd1; color: #1c3547; }
+        .english { background: #adddc2; color: #1e5039; }
+        .chinese.selected, .english.selected {
+            border: 3px solid #2d5a7c;
+            transform: scale(1);
+            box-shadow: 0 10px 10px rgba(0,0,0,0.25);
         }
-        
-        .chinese.selected {
-    background-color: #b3cfe0;
-    border: 3px solid #2d5a7c;
-    transform: scale(1);
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
-}
-        
-        .english {
-            background-color: #adddc2;
-            color: #1e5039;
-            border: 1px solid #5c7966;
-        }
-        
-        .english.selected {
-    background-color: #bde7cc;
-    border: 3px solid #2d7c5a;
-    transform: scale(1);
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
-}
-        
-        .matched {
-            opacity: 0.45;
-            transform: scale(0.9) translateY(0);
-            box-shadow: none;
-        }
-        
-        .wrong-card {
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-            background-color: #f5d6d6;
-            border-color: #e55353 !important;
-        }
+        .matched { opacity: 0.45; transform: scale(0.9); }
+        .wrong-card { animation: shake 0.5s; background: #f5d6d6; }
         
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-3px); }
-            50% { transform: translateX(3px); }
-            75% { transform: translateX(-3px); }
-        }
-        
-        .wrong-animate {
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}50%{transform:translateX(3px)}
         }
         
         .combo-display {
             position: fixed;
             left: 50%;
             top: 50%;
-            font-size: 22px;
+            transform: translate(-50%, -50%);
+            font-size: 26px;
             font-weight: bold;
-            text-align: center;
-            z-index: 1000;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-            pointer-events: none;
-            animation: none;
+            color: #ff3c50;
+            text-shadow: 0 0 10px #fff;
+            z-index: 9999;
             opacity: 0;
+            pointer-events: none;
         }
 
         @keyframes comboAnim {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, 10px);
-            }
-            20% {
-                opacity: 1;
-                transform: translate(-50%, 0px);
-            }
-            80% {
-                opacity: 1;
-                transform: translate(-50%, 0px);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -10px);
-            }
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
         }
-        
-        .combo-level-2 { color: #3b91c2; }
-        .combo-level-3 { color: #3d915a; }
-        .combo-level-4 { color: #cc851f; }
-        .combo-level-5 { color: #c24441; }
-        .combo-level-6 { color: #8c3b9c; }
-        .combo-level-7 { color: #4a59a6; }
-        .combo-level-8 { color: #238a7d; }
-        .combo-level-9 { color: #cc5a33; }
-        .combo-level-10 { 
-            color: #c23866;
-            font-size: 24px;
+
+        /* 排行榜弹窗 */
+        .rank-modal {
+            position: fixed;
+            top:0;left:0;right:0;bottom:0;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
         }
-        
-        .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    padding: 15px;
-    box-sizing: border-box;
-}
-
-.grade-picker-content {
-    width: 100%;
-    max-width: 380px;
-    background-color: white;
-    border-radius: 20px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    max-height: 80vh;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-}
-
-.grade-picker-header {
-    padding: 18px;
-    font-size: 17px;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
-    background: #f7f9fc;
-}
-
-.grade-picker-body {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-}
-
-.grade-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
-}
-
-.grade-tag {
-    flex: 1;
-    text-align: center;
-    padding: 12px 0;
-    border-radius: 12px;
-    font-size: 15px;
-    color: #555;
-    background: #f2f5f9;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.grade-tag.active {
-    background: #d0e6ff;
-    border-color: #4c85be;
-    color: #2d5a7c;
-    font-weight: 500;
-}
-
-.grade-tag:active {
-    transform: scale(0.97);
-}
-
-.grade-picker-footer {
-    display: flex;
-    border-top: 1px solid #eee;
-}
-
-.picker-btn {
-    flex: 1;
-    height: 52px;
-    line-height: 52px;
-    text-align: center;
-    font-size: 16px;
-    border-radius: 0;
-    margin: 0;
-    background-color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.picker-btn:active {
-    background-color: #f5f7fa;
-}
-
-.picker-btn.cancel {
-    color: #666;
-    border-right: 1px solid #eee;
-}
-
-.picker-btn.confirm {
-    color: #4c85be;
-    font-weight: bold;
-}
-        
-        .correct-animate {
-            animation: flipNumber 0.5s ease-out;
+        .rank-box {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 20px;
+            padding: 20px;
         }
-        
-        .total-animate {
-            animation: flipNumber 0.5s ease-out;
+        .rank-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
         }
-        
-        @keyframes flipNumber {
-            0% { transform: rotateX(0deg); opacity: 1; }
-            50% { transform: rotateX(90deg); opacity: 0; }
-            51% { transform: rotateX(-90deg); opacity: 0; }
-            100% { transform: rotateX(0deg); opacity: 1; }
+        .rank-tab {
+            flex:1;
+            padding: 8px;
+            text-align: center;
+            background: #f0f0f0;
+            border-radius: 8px;
+            cursor: pointer;
         }
-        
-        @media (min-width: 600px) {
-            .card {
-                min-width: 22%;
-                max-width: 22%;
-                font-size: 15px;
-                height: 80px;
-            }
-            
-            .action-btn {
-                width: 100px;
-                height: 40px;
-                font-size: 15px;
-            }
+        .rank-tab.active {
+            background: #4c85be;
+            color: white;
         }
-        
-        @media (min-width: 768px) {
-            .cards-row {
-                gap: 12px;
-            }
-            
-            .card {
-                min-width: 120px;
-                max-width: 120px;
-                padding: 12px 8px;
-                font-size: 16px;
-                height: 90px;
-            }
-            
-            .action-btn {
-                width: 110px;
-                height: 42px;
-                font-size: 16px;
-            }
+        .rank-list {
+            max-height: 400px;
+            overflow-y: auto;
         }
-        
-        .card {
-            word-break: break-word;
-            overflow-wrap: break-word;
+        .rank-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
         }
+        .rank-item .no { width: 30px; }
+        .rank-item .name { flex:1; }
+        .rank-item .val { width: 60px; text-align: right; }
+
     </style>
 </head>
 <body>
-    <div class="game-container">
-        <div class="header-container">
-            <div class="left-actions">
-                <button class="action-btn grade-select" id="gradeSelectBtn">
-                    选择年级
-                </button>
-            </div>
-        </div>
 
-        <div class="combo-display" id="comboDisplay"></div>
-
-        <div class="game-area">
-            <div class="cards-section english-section">
-                <div class="cards-row" id="englishCardsRow"></div>
-            </div>
-
-            <div class="cards-section chinese-section">
-                <div class="cards-row" id="chineseCardsRow"></div>
-            </div>
-        </div>
+<div class="game-container">
+    <div class="header-container">
+        <button class="action-btn grade-select" id="gradeSelectBtn">选择年级</button>
+        <button class="action-btn" id="rankBtn">排行榜</button>
     </div>
 
-    <div class="modal-overlay" id="gradePickerModal" style="display: none;">
-        <div class="grade-picker-content">
-            <div class="grade-picker-header">
-                <span>选择年级(可多选)</span>
-            </div>
-            <div class="grade-picker-body" id="gradePickerBody">
-            </div>
-            <div class="grade-picker-footer">
-                <button class="picker-btn confirm" id="confirmGradeSelect">确定</button>
-                <button class="picker-btn cancel" id="cancelGradeSelect">取消</button>
-            </div>
+    <div class="combo-display" id="comboDisplay"></div>
+    <div class="game-area">
+        <div class="cards-section english-section"><div class="cards-row" id="englishCardsRow"></div></div>
+        <div class="cards-section chinese-section"><div class="cards-row" id="chineseCardsRow"></div></div>
+    </div>
+</div>
+
+<!-- 排行榜弹窗 -->
+<div class="rank-modal" id="rankModal">
+    <div class="rank-box">
+        <h3 style="margin:0 0 10px;">🏆 排行榜</h3>
+        <div class="rank-tabs">
+            <div class="rank-tab active" data-sort="max_combo">最高连击</div>
+            <div class="rank-tab" data-sort="total_correct">最多答对</div>
+            <div class="rank-tab" data-sort="accuracy">最高正确率</div>
+        </div>
+        <div class="rank-list" id="rankList"></div>
+        <button style="width:100%;margin-top:10px;padding:8px;border-radius:8px;background:#eee;border:none;" onclick="closeRank()">关闭</button>
+    </div>
+</div>
+
+<!-- 年级选择弹窗 -->
+<div class="modal-overlay" id="gradePickerModal" style="display:none;">
+    <div class="grade-picker-content">
+        <div class="grade-picker-header">选择年级(可多选)</div>
+        <div class="grade-picker-body" id="gradePickerBody"></div>
+        <div class="grade-picker-footer">
+            <button class="picker-btn confirm" id="confirmGradeSelect">确定</button>
+            <button class="picker-btn cancel" id="cancelGradeSelect">取消</button>
         </div>
     </div>
+</div>
 
-    <script>
+<script>
 const words = wordData.words;
 const gameState = {
-    englishCards: [],
-    chineseCards: [],
-    selectedCard: null,
-    matchedPairs: 0,
-    totalPairs: 10,
-    combo: 0,
-    failCombo: 0,
-    maxCombo: 0,
-    selectedGrades: [],
-    grades: [],
-    totalWordsCount: 0,
-    usedWordIds: [],
-    currentGameWords: [],
-    gradeProgress: {},
-    currentRoundStats: { correct: 0, wrong: 0 }
+    englishCards: [], chineseCards: [], selectedCard: null,
+    matchedPairs: 0, totalPairs: 10, combo: 0, failCombo: 0,
+    currentRoundStats: { correct:0, wrong:0 }
 };
+
+// 检查登录状态
+function checkLoginStatus() {
+    const isLoggedIn = localStorage.getItem("game_logged_in") === "true";
+    const username = localStorage.getItem("game_nickname");
+    const userId = localStorage.getItem("game_user_id");
+    if (!isLoggedIn || !username) {
+        console.log("⚠️ 未登录或用户名为空，数据将不会上传到云端");
+        return false;
+    }
+    console.log("✅ 已登录:", username, "user_id:", userId);
+    return true;
+}
 
 const elements = {
     gradeSelectBtn: document.getElementById('gradeSelectBtn'),
-    comboDisplay: document.getElementById('comboDisplay'),
-    englishCardsRow: document.getElementById('englishCardsRow'),
-    chineseCardsRow: document.getElementById('chineseCardsRow'),
-    gradePickerModal: document.getElementById('gradePickerModal'),
-    gradePickerBody: document.getElementById('gradePickerBody'),
-    cancelGradeSelect: document.getElementById('cancelGradeSelect'),
-    confirmGradeSelect: document.getElementById('confirmGradeSelect')
+    rankBtn: document.getElementById('rankBtn'),
+    rankModal: document.getElementById('rankModal'),
+    rankList: document.getElementById('rankList'),
 };
 
+// 打开/关闭排行榜
+elements.rankBtn.onclick = openRank;
+function openRank() { loadRank(); elements.rankModal.style.display = "flex"; }
+function closeRank() { elements.rankModal.style.display = "none"; }
+
+// 加载排行榜
+async function loadRank(sortBy = "max_combo") {
+    const client = getSupabaseClient();
+    if (!client) { alert("数据库未连接"); return; }
+
+    const { data, error } = await client
+        .from("user_stats")
+        .select("username, max_combo, total_correct, accuracy")
+        .order(sortBy, { ascending: false })
+        .limit(50);
+
+    if (error) { console.error(error); return; }
+
+    let html = "";
+    data.forEach((item, i) => {
+        let val = "";
+        if (sortBy === "max_combo") val = item.max_combo;
+        if (sortBy === "total_correct") val = item.total_correct;
+        if (sortBy === "accuracy") val = item.accuracy + "%";
+
+        html += `
+        <div class="rank-item">
+            <div class="no">${i+1}</div>
+            <div class="name">${item.username || "游客"}</div>
+            <div class="val">${val}</div>
+        </div>`;
+    });
+    elements.rankList.innerHTML = html;
+
+    document.querySelectorAll(".rank-tab").forEach(t => t.classList.remove("active"));
+    document.querySelector(`[data-sort=${sortBy}]`).classList.add("active");
+}
+
+// 切换排行榜类型
+document.querySelectorAll(".rank-tab").forEach(tab => {
+    tab.onclick = () => loadRank(tab.dataset.sort);
+});
+
+// ===================== 游戏逻辑 ========================
 const speechSynthesis = window.speechSynthesis;
 const STORAGE_KEY = "wordGameSelectedGrades";
 
-function speakWord(word, lang = 'en-US') {
-    if (!speechSynthesis) return;
+function speakWord(word, lang='en-US'){
+    if(!speechSynthesis) return;
     speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = lang;
-    utterance.rate = 0.9;
-    const voices = speechSynthesis.getVoices();
-    const englishVoice = voices.find(v => v.lang === 'en-GB' || v.lang === 'en-US');
-    if (englishVoice) utterance.voice = englishVoice;
-    speechSynthesis.speak(utterance);
+    const u = new SpeechSynthesisUtterance(word);
+    u.lang=lang; u.rate=0.9;
+    const v = speechSynthesis.getVoices().find(x=>x.lang==='en-US'||x.lang==='en-GB');
+    if(v) u.voice=v;
+    speechSynthesis.speak(u);
 }
 
-function initGame() {
-    if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = () => {};
-    }
+function initGame(){
+    checkLoginStatus();
     getGrades();
     setupEventListeners();
 }
 
-function setupEventListeners() {
-    elements.gradeSelectBtn.addEventListener('click', showGradePicker);
-    elements.cancelGradeSelect.addEventListener('click', () => {
-        elements.gradePickerModal.style.display = 'none';
-    });
-    elements.confirmGradeSelect.addEventListener('click', confirmGradeSelect);
+function setupEventListeners(){
+    document.getElementById('cancelGradeSelect').onclick = ()=>{ document.getElementById('gradePickerModal').style.display='none'; }
+    document.getElementById('confirmGradeSelect').onclick = confirmGradeSelect;
+    document.getElementById('gradeSelectBtn').onclick = showGradePicker;
 }
 
-function getGrades() {
-    try {
-        const allGrades = [...new Set(words.map(w => w.grade))];
-        const chineseNumbers = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
-        const sortedGrades = allGrades.sort((a, b) => {
-            const aNum = chineseNumbers.indexOf(a.charAt(0));
-            const bNum = chineseNumbers.indexOf(b.charAt(0));
-            if (aNum !== bNum) return aNum - bNum;
-            const aTerm = a.includes('上') ? 0 : (a.includes('下') ? 1 : 2);
-            const bTerm = b.includes('上') ? 0 : (b.includes('下') ? 1 : 2);
-            return aTerm - bTerm;
+function getGrades(){
+    try{
+        const all = [...new Set(words.map(w=>w.grade))];
+        const cn = ['一','二','三','四','五','六','七','八','九','十'];
+        const sorted = all.sort((a,b)=>{
+            const an = cn.indexOf(a[0]);
+            const bn = cn.indexOf(b[0]);
+            if(an!==bn) return an-bn;
+            const at = a.includes('上')?0:a.includes('下')?1:2;
+            const bt = b.includes('上')?0:b.includes('下')?1:2;
+            return at-bt;
         });
-
-        const gradeProgress = {};
-        sortedGrades.forEach(grade => {
-            const totalWords = words.filter(w => w.grade === grade).length;
-            gradeProgress[grade] = {
-                correctAttempts: 0, wrongAttempts: 0, usedWordIds: [], totalWords
-            };
-        });
-
-        gameState.grades = sortedGrades;
+        const gp = {};
+        sorted.forEach(g=>{ gp[g]={usedWordIds:[], total:words.filter(x=>x.grade===g).length}; });
+        gameState.grades = sorted;
         loadSavedGrades();
-        gameState.gradeProgress = gradeProgress;
+        gameState.gradeProgress = gp;
         updateGradeSelectText();
         initGameRound();
-    } catch (error) {
-        console.error('错误', error);
-        alert('加载失败');
-    }
+    }catch(e){ console.error(e); alert('加载失败'); }
 }
 
-function loadSavedGrades() {
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            const list = JSON.parse(saved);
-            if (Array.isArray(list) && list.length > 0) {
-                gameState.selectedGrades = list;
-                return;
-            }
-        }
-    } catch (e) {}
+function loadSavedGrades(){
+    try{
+        const s = localStorage.getItem(STORAGE_KEY);
+        if(s){ const list=JSON.parse(s); if(list.length>0) { gameState.selectedGrades=list; return; } }
+    }catch(e){}
     gameState.selectedGrades = [gameState.grades[0]];
 }
 
-function saveGradesToLocal() {
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState.selectedGrades));
-    } catch (e) {}
+function saveGradesToLocal(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState.selectedGrades)); }catch(e){}
 }
 
-function updateGradeSelectText() {
-    if (gameState.selectedGrades.length === 1) {
-        elements.gradeSelectBtn.textContent = gameState.selectedGrades[0];
-    } else {
-        elements.gradeSelectBtn.textContent = `已选${gameState.selectedGrades.length}个年级`;
-    }
+function updateGradeSelectText(){
+    const t = gameState.selectedGrades.length===1 ? gameState.selectedGrades[0] : `已选${gameState.selectedGrades.length}个年级`;
+    document.getElementById('gradeSelectBtn').textContent = t;
 }
 
-function initGameRound() {
-    if (gameState.selectedGrades.length === 0) return;
-    gameState.currentRoundStats = { correct: 0, wrong: 0 };
-    gameState.matchedPairs = 0;
-
-    let selectedWords = getAvailableWords();
-    if (selectedWords.length < gameState.totalPairs) {
-        const all = words.filter(w => gameState.selectedGrades.includes(w.grade));
-        const need = gameState.totalPairs - selectedWords.length;
-        const add = getRandomWords(all.filter(w => !selectedWords.some(x => x.id === w.id)), need);
-        selectedWords = selectedWords.concat(add);
-        gameState.selectedGrades.forEach(g => { gameState.gradeProgress[g].usedWordIds = []; });
-    } else {
-        selectedWords = getRandomWords(selectedWords, gameState.totalPairs);
-    }
-
-    gameState.currentGameWords = selectedWords;
-    gameState.englishCards = shuffleArray(selectedWords.map((w, i) => ({
-        id: i, word: w.english, matched: false, selected: false, grade: w.grade
-    })));
-    gameState.chineseCards = shuffleArray(selectedWords.map((w, i) => ({
-        id: i, word: w.chinese, matched: false, selected: false, grade: w.grade
-    })));
-    renderCards();
-}
-
-function getAvailableWords() {
-    let arr = [];
-    gameState.selectedGrades.forEach(g => {
-        const p = gameState.gradeProgress[g];
-        arr = [...arr, ...words.filter(w => w.grade === g && !p.usedWordIds.includes(w.id))];
+function getAvailableWords(){
+    let arr=[];
+    gameState.selectedGrades.forEach(g=>{
+        const p=gameState.gradeProgress[g];
+        arr = arr.concat(words.filter(w=>w.grade===g&&!p.usedWordIds.includes(w.id)));
     });
     return arr;
 }
 
-function getRandomWords(arr, n) {
-    return arr.length < n ? arr : shuffleArray([...arr]).slice(0, n);
+function getRandomWords(arr,n){ return arr.length<n ? arr : shuffle([...arr]).slice(0,n); }
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+function renderCards(){
+    const eRow = document.getElementById('englishCardsRow');
+    const cRow = document.getElementById('chineseCardsRow');
+    eRow.innerHTML = ''; cRow.innerHTML = '';
+
+    gameState.englishCards.forEach((card, i) => {
+        const div = document.createElement('div');
+        div.className = `card english ${card.matched?'matched':''} ${card.selected?'selected':''}`;
+        div.textContent = card.word;
+        div.dataset.type = 'english';
+        div.dataset.index = i;
+        div.onclick = handleCardClick;
+        eRow.appendChild(div);
+    });
+
+    gameState.chineseCards.forEach((card, i) => {
+        const div = document.createElement('div');
+        div.className = `card chinese ${card.matched?'matched':''} ${card.selected?'selected':''}`;
+        div.textContent = card.word;
+        div.dataset.type = 'chinese';
+        div.dataset.index = i;
+        div.onclick = handleCardClick;
+        cRow.appendChild(div);
+    });
 }
 
-function shuffleArray(arr) {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
+function getFailText(c){
+    if(c>=20)return"乱点被我发现了哦";
+    if(c>=10)return"瞎蒙呢？";
+    if(c>=5)return"你不适合这个难度";
+    if(c>=2)return"菜就多练";
+    return"";
+}
+function getComboText(c){
+    if(c>=200)return"去练更难的内容吧";
+    if(c>=100)return"清北欢迎你";
+    if(c>=90)return"学霸你好";
+    if(c>=80)return"好吧，承认你很厉害";
+    if(c>=70)return"可怕的英语天赋";
+    if(c>=60)return"你是谁？那么厉害？";
+    if(c>=50)return"不对劲是不是耍赖了？";
+    if(c>=40)return"不是一般人";
+    if(c>=30)return"还挺强";
+    if(c>=20)return"有点实力";
+    if(c>=10)return"会一点嘛";
+    if(c>=5)return"不错";
+    if(c>=2)return"可以哦";
+    return"";
+}
+
+// ✅ 修复：真正能上传的保存逻辑
+function saveRoundStats() {
+    const c = gameState.currentRoundStats.correct;
+    const total = c + gameState.currentRoundStats.wrong;
+    const acc = total > 0 ? Math.round(c / total * 100) : 0;
+    const currentUsername = localStorage.getItem("game_nickname");
+    const isLoggedIn = localStorage.getItem("game_logged_in") === "true";
+    const userId = localStorage.getItem("game_user_id");
+    const userPwd = localStorage.getItem("game_password") || "default_pwd";
+
+    if (!isLoggedIn || !currentUsername || !userId) return;
+    if (c === 0 && total === 0) return;
+
+    const client = getSupabaseClient();
+    if (!client) return;
+
+    // 强制更新用户成绩
+    client.from("user_stats").upsert({
+        user_id: userId,
+        username: currentUsername,
+        password: userPwd,
+        max_combo: gameState.combo,
+        total_correct: c,
+        total_questions: total,
+        accuracy: acc,
+        last_page: "单词配对游戏",
+        update_time: new Date().toISOString()
+    }, { onConflict: "user_id" }).then(res => {
+        if (res.error) {
+            console.error("上传失败", res.error);
+        } else {
+            console.log("✅ 成绩已上传到数据库！");
+        }
+    });
+}
+
+function initGameRound(){
+    saveRoundStats();
+    
+    if(!gameState.selectedGrades.length) return;
+    gameState.currentRoundStats = {correct:0, wrong:0};
+    gameState.matchedPairs=0;
+
+    let list = getAvailableWords();
+    if(list.length < 10){
+        const all = words.filter(w=>gameState.selectedGrades.includes(w.grade));
+        const need = 10-list.length;
+        const add = getRandomWords(all.filter(word=>!list.some(item=>item.id===word.id)), need);
+        list = list.concat(add);
+        gameState.selectedGrades.forEach(g=>{ gameState.gradeProgress[g].usedWordIds=[]; });
+    }else{
+        list = getRandomWords(list,10);
     }
-    return a;
+
+    gameState.currentGameWords = list;
+    gameState.englishCards = shuffle(list.map(w=>({id:w.id, word:w.english, matched:false, selected:false})));
+    gameState.chineseCards = shuffle(list.map(w=>({id:w.id, word:w.chinese, matched:false, selected:false})));
+    gameState.combo = 0;
+    renderCards();
 }
 
-function renderCards() {
-    elements.englishCardsRow.innerHTML = '';
-    elements.chineseCardsRow.innerHTML = '';
-    gameState.englishCards.forEach((c, i) => {
-        const el = document.createElement('div');
-        el.className = `card english ${c.matched ? 'matched' : ''} ${c.selected ? 'selected' : ''}`;
-        el.textContent = c.word;
-        el.dataset.type = 'english';
-        el.dataset.index = i;
-        el.addEventListener('click', handleCardClick);
-        elements.englishCardsRow.appendChild(el);
-    });
-    gameState.chineseCards.forEach((c, i) => {
-        const el = document.createElement('div');
-        el.className = `card chinese ${c.matched ? 'matched' : ''} ${c.selected ? 'selected' : ''}`;
-        el.textContent = c.word;
-        el.dataset.type = 'chinese';
-        el.dataset.index = i;
-        el.addEventListener('click', handleCardClick);
-        elements.chineseCardsRow.appendChild(el);
-    });
-}
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) saveRoundStats();
+});
+window.addEventListener('beforeunload', saveRoundStats);
 
-function getFailText(count) {
-    if(count >= 20) return "乱点被我发现了哦";
-    if(count >= 10) return "瞎蒙呢？";
-    if(count >= 5) return "你不适合这个难度";
-    if(count >= 2) return "菜就多练";
-    return "";
-}
-
-function getComboText(count) {
-    if(count >= 200) return "去练更难的内容吧";
-    if(count >= 100) return "清北欢迎你";
-    if(count >= 90) return "学霸你好";
-    if(count >= 80) return "好吧，承认你很厉害";
-    if(count >= 70) return "可怕的英语天赋";
-    if(count >= 60) return "你是谁？那么厉害？";
-    if(count >= 50) return "不对劲是不是耍赖了？";
-    if(count >= 40) return "不是一般人";
-    if(count >= 30) return "还挺强";
-    if(count >= 20) return "有点实力";
-    if(count >= 10) return "会一点嘛";
-    if(count >= 5)  return "不错";
-    if(count >= 2)  return "可以哦";
-    return "";
-}
-
-function handleCardClick(e) {
+function handleCardClick(e){
     const type = e.currentTarget.dataset.type;
-    const idx = parseInt(e.currentTarget.dataset.index);
+    const idx = +e.currentTarget.dataset.index;
     const cards = gameState[type + 'Cards'];
     const card = cards[idx];
 
-    if (type === 'english') speakWord(card.word);
-    if (card.matched || card.selected) return;
+    if(type === 'english') speakWord(card.word);
+    if(card.matched || card.selected) return;
 
-    if (!gameState.selectedCard) {
-        gameState.selectedCard = { type, index: idx };
-        cards[idx].selected = true;
+    if(!gameState.selectedCard){
+        gameState.selectedCard = {type, index:idx};
+        card.selected = true;
         renderCards();
         return;
     }
 
     const st = gameState.selectedCard.type;
     const si = gameState.selectedCard.index;
-    const selCard = gameState[st + 'Cards'][si];
+    const sel = gameState[st + 'Cards'][si];
 
-    if (st === type) {
-        gameState[st + 'Cards'][si].selected = false;
-        gameState.selectedCard = { type, index: idx };
-        cards[idx].selected = true;
+    if(st === type){
+        sel.selected = false;
+        gameState.selectedCard = {type, index:idx};
+        card.selected = true;
         renderCards();
         return;
     }
 
-    const match = gameState.currentGameWords.some(w => 
-        (st === 'english' && w.english === selCard.word && w.chinese === card.word) ||
-        (st === 'chinese' && w.chinese === selCard.word && w.english === card.word)
+    const ok = gameState.currentGameWords.some(w => 
+        (st === 'english' && w.english === sel.word && w.chinese === card.word) ||
+        (st === 'chinese' && w.chinese === sel.word && w.english === card.word)
     );
 
-    if (match) {
-        gameState[st + 'Cards'][si].matched = true;
-        gameState[type + 'Cards'][idx].matched = true;
-        gameState[st + 'Cards'][si].selected = false;
-        gameState[type + 'Cards'][idx].selected = false;
+    if(ok){
+        gameState.currentRoundStats.correct++;
+        sel.matched = true;
+        card.matched = true;
+        sel.selected = false;
+        card.selected = false;
         gameState.selectedCard = null;
-
         gameState.matchedPairs++;
         gameState.combo++;
         gameState.failCombo = 0;
-        showComboAnimation(gameState.combo);
-
+        showCombo(gameState.combo);
         renderCards();
-        if (gameState.matchedPairs === gameState.totalPairs) {
-            setTimeout(() => {
+        saveRoundStats();
+
+        if(gameState.matchedPairs === 10){
+            setTimeout(()=>{
                 gameState.matchedPairs = 0;
                 initGameRound();
             }, 800);
         }
-    } else {
+    }else{
+        gameState.currentRoundStats.wrong++;
         gameState.combo = 0;
         gameState.failCombo++;
         const txt = getFailText(gameState.failCombo);
-        if (txt) {
-            elements.comboDisplay.style.animation = 'none';
-            elements.comboDisplay.offsetHeight;
-            elements.comboDisplay.className = 'combo-display combo-level-5';
-            elements.comboDisplay.textContent = txt;
-            elements.comboDisplay.style.animation = 'comboAnim 2s linear forwards';
+        const cd = document.getElementById('comboDisplay');
+        if(txt){
+            cd.style.animation = 'none';
+            cd.offsetHeight;
+            cd.className = 'combo-display combo-level-5';
+            cd.textContent = txt;
+            cd.style.animation = 'comboAnim 2s linear forwards';
         }
-
-        gameState[st + 'Cards'][si].selected = false;
-        gameState[type + 'Cards'][idx].selected = false;
+        sel.selected = false;
+        card.selected = false;
         gameState.selectedCard = null;
         renderCards();
+        saveRoundStats();
     }
 }
 
-function showComboAnimation(count) {
-    const txt = getComboText(count);
-    if (!txt) return;
-
-    elements.comboDisplay.style.animation = 'none';
-    elements.comboDisplay.offsetHeight;
-
-    const level = Math.min(count, 10);
-    elements.comboDisplay.className = `combo-display combo-level-${level}`;
-    elements.comboDisplay.textContent = `${txt} ×${count}`;
-    elements.comboDisplay.style.animation = 'comboAnim 2s linear forwards';
+function showCombo(c){
+    const txt = getComboText(c);
+    if(!txt) return;
+    const cd = document.getElementById('comboDisplay');
+    cd.style.animation = 'none';
+    cd.offsetHeight;
+    cd.className = `combo-display combo-level-${Math.min(c,10)}`;
+    cd.textContent = `${txt} ×${c}`;
+    cd.style.animation = 'comboAnim 2s linear forwards';
 }
 
-function showGradePicker() {
-    elements.gradePickerBody.innerHTML = '';
-    const gradeMap = {};
+function showGradePicker(){
+    const b = document.getElementById('gradePickerBody');
+    b.innerHTML = '';
+    const map = {};
     gameState.grades.forEach(g => {
-        const base = g.replace(/[上下]$/, '');
-        if(!gradeMap[base]) gradeMap[base] = [];
-        gradeMap[base].push(g);
+        const k = g.replace(/[上下]$/, '');
+        if(!map[k]) map[k] = [];
+        map[k].push(g);
     });
-
-    Object.keys(gradeMap).forEach(baseName => {
-        const groupDiv = document.createElement('div');
-        groupDiv.className = 'grade-group';
-
-        gradeMap[baseName].forEach(gradeFull => {
-            const tag = document.createElement('div');
-            tag.className = 'grade-tag';
-            if(gameState.selectedGrades.includes(gradeFull)){
-                tag.classList.add('active');
-            }
-            tag.textContent = gradeFull;
-            tag.dataset.grade = gradeFull;
-
-            tag.addEventListener('click', () => {
-                tag.classList.toggle('active');
-            });
-
-            groupDiv.appendChild(tag);
+    Object.keys(map).forEach(k => {
+        const g = document.createElement('div');
+        g.className = 'grade-group';
+        map[k].forEach(n => {
+            const t = document.createElement('div');
+            t.className = 'grade-tag';
+            if(gameState.selectedGrades.includes(n)) t.classList.add('active');
+            t.textContent = n;
+            t.dataset.grade = n;
+            t.onclick = () => t.classList.toggle('active');
+            g.appendChild(t);
         });
-
-        elements.gradePickerBody.appendChild(groupDiv);
+        b.appendChild(g);
     });
-
-    elements.gradePickerModal.style.display = 'flex';
+    document.getElementById('gradePickerModal').style.display = 'flex';
 }
 
-function confirmGradeSelect() {
-    const activeTags = elements.gradePickerBody.querySelectorAll('.grade-tag.active');
-    if (activeTags.length === 0) { 
-        alert('至少选一个年级'); 
-        return; 
-    }
-    gameState.selectedGrades = Array.from(activeTags).map(el => el.dataset.grade);
+function confirmGradeSelect(){
+    const tags = [...document.querySelectorAll('.grade-tag.active')].map(x => x.dataset.grade);
+    if(!tags.length) { alert('至少选一个年级'); return; }
+    gameState.selectedGrades = tags;
     saveGradesToLocal();
     updateGradeSelectText();
     initGameRound();
-    elements.gradePickerModal.style.display = 'none';
+    document.getElementById('gradePickerModal').style.display = 'none';
 }
 
 window.onload = initGame;
