@@ -44,7 +44,8 @@
             flex-direction: column;
             height: 100vh;
             padding: 10px;
-            padding-bottom: 40px;
+            padding-bottom: 80px;
+            position: relative;  /* 👈 加上这个 */
         }
         
         .game-area {
@@ -107,7 +108,7 @@
         }
         
         .combo-display {
-            position: fixed;
+            position: absolute; 
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
