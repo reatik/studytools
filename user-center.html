@@ -402,19 +402,16 @@ function updateUserView() {
         document.getElementById("userView").classList.remove("hide");
         document.getElementById("showUserName").innerText = name;
         document.getElementById("showUserDesc").innerText = "已登录 · 数据云端同步";
-        // 显示头像
         updateAvatarDisplay(avatar);
     } else {
         document.getElementById("guestView").classList.remove("hide");
         document.getElementById("userView").classList.add("hide");
         document.getElementById("showUserName").innerText = "游客用户";
         document.getElementById("showUserDesc").innerText = "仅本地游玩，数据不上传云端";
-        // 显示默认头像
         updateAvatarDisplay(null);
     }
 }
 
-// 更新头像显示
 function updateAvatarDisplay(avatar) {
     let avatarEl = document.getElementById("userAvatar");
     if (avatar) {
@@ -424,7 +421,6 @@ function updateAvatarDisplay(avatar) {
     }
 }
 
-// 头像选项列表
 const avatarList = [
     "😊", "😄", "🥰", "😎", "🤔", "😴", "🤗", "😇",
     "🙂", "🤩", "🥳", "😋", "🤓", "😌", "🥺", "😤",
@@ -432,7 +428,6 @@ const avatarList = [
     "🌟", "⭐", "🌙", "☀️", "🌈", "❤️", "💙", "💚"
 ];
 
-// 显示头像选择弹窗
 function showAvatarModal() {
     let grid = document.getElementById("avatarGrid");
     let currentAvatar = localStorage.getItem("user_avatar") || "";
@@ -445,12 +440,10 @@ function showAvatarModal() {
     document.getElementById("avatarModal").style.display = "flex";
 }
 
-// 关闭头像弹窗
 function closeAvatarModal() {
     document.getElementById("avatarModal").style.display = "none";
 }
 
-// 选择头像
 function selectAvatar(avatar) {
     localStorage.setItem("user_avatar", avatar);
     updateAvatarDisplay(avatar);
@@ -481,7 +474,6 @@ function closeAllModals() {
     document.getElementById("authModal").style.display = "none";
 }
 
-// 登录
 async function login() {
     let nick = document.getElementById("loginNick").value.trim();
     let pwd = document.getElementById("loginPwd").value.trim();
@@ -495,7 +487,6 @@ async function login() {
 
     let sb = getSupabaseClient();
     
-    // 检查用户和密码
     let { data, err } = await sb.from("user_stats")
         .select("user_id,username,password")
         .eq("username", nick)
@@ -509,7 +500,6 @@ async function login() {
 
     let userData = data[0];
     
-    // 检查是否有密码字段
     if (!userData.password) {
         tip.className = "form-tip tip-error";
         tip.innerText = "该用户未设置密码，请先注册";
@@ -525,12 +515,12 @@ async function login() {
     localStorage.setItem("game_logged_in", "true");
     localStorage.setItem("game_user_id", userData.user_id);
     localStorage.setItem("game_nickname", userData.username);
+    localStorage.setItem("game_password", pwd);
     
     closeAllModals();
     updateUserView();
 }
 
-// 注册
 async function register() {
     let nick = document.getElementById("regNick").value.trim();
     let pwd = document.getElementById("regPwd").value.trim();
@@ -565,27 +555,42 @@ async function register() {
         accuracy: 0
     }]);
 
-    // 注册成功 显示绿色提示
     tip.className = "form-tip tip-success";
     tip.innerText = "注册成功！正在跳转登录...";
 
-    // 自动填入登录框
     document.getElementById("loginNick").value = nick;
     document.getElementById("loginPwd").value = pwd;
 
-    // 自动切换到登录
     setTimeout(() => {
         switchTab('login');
     }, 800);
 }
 
-// 退出登录
 function logout() {
     localStorage.removeItem("game_logged_in");
     localStorage.removeItem("game_user_id");
     localStorage.removeItem("game_nickname");
     updateUserView();
 }
+
+// ===================== 防休眠：每天自动保活，永不休眠 =====================
+(function supabaseKeepAlive() {
+    const lastPing = localStorage.getItem("last_supabase_ping");
+    const now = Date.now();
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    if (!lastPing || now - lastPing > oneDay) {
+        try {
+            const sb = getSupabaseClient();
+            if (sb) {
+                sb.from("user_stats").select("user_id", { head: true, count: "exact" }).limit(1);
+                localStorage.setItem("last_supabase_ping", now);
+                console.log("✅ Supabase 保活成功");
+            }
+        } catch (e) {}
+    }
+    setTimeout(supabaseKeepAlive, oneDay);
+})();
 </script>
 </body>
 </html>
