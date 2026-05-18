@@ -26,7 +26,9 @@
         .header-container {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 8px 10px;
+            gap: 8px;
         }
         
         .action-btn {
@@ -37,7 +39,51 @@
             border: 1px solid #ccc;
             cursor: pointer;
             font-size: 14px;
+            white-space: nowrap;
         }
+
+        .mode-slider {
+    height: 36px;
+    width: 100px;
+    border-radius: 30px;
+    background: #f0f0f0;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    user-select: none;
+}
+.mode-slider-track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+}
+.mode-slider-thumb {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    border-radius: 0;
+    background: #ffffff; /* 练习模式 = 纯白色 */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 1;
+}
+.mode-slider.competition .mode-slider-thumb {
+    left: 50%;
+    background: #ff6b6b; /* 竞赛模式 = 红色不变 */
+}
+.mode-text {
+    font-size: 13px;
+    font-weight: bold;
+    z-index: 2;
+    transition: color 0.3s;
+}
+.mode-slider:not(.competition) .mode-text.practice { color: #1e5039; }
+.mode-slider.competition .mode-text.competition { color: #fff; }
 
         .game-container {
             display: flex;
@@ -239,7 +285,14 @@
     <div class="header-container">
         <button class="action-btn grade-select" id="gradeSelectBtn">选择年级</button>
         <button class="action-btn" id="rankBtn">排行榜</button>
-        <button class="action-btn" id="modeBtn">练习模式</button>
+        <!-- 滑动模式选择器 -->
+        <div class="mode-slider" id="modeSlider">
+            <div class="mode-slider-track">
+                <div class="mode-slider-thumb" id="modeThumb"></div>
+                <span class="mode-text practice">练习</span>
+                <span class="mode-text competition">竞赛</span>
+            </div>
+        </div>
     </div>
 
     <div class="combo-display" id="comboDisplay"></div>
@@ -254,7 +307,7 @@
         <h3 style="margin:0 0 10px;">🏆 排行榜</h3>
         <div class="rank-tabs">
             <div class="rank-tab active" data-sort="max_combo">单场最高连击</div>
-            <div class="rank-tab" data-sort="max_correct">单场最多答对</div>
+            <div class="rank-tab active" data-sort="max_correct">单场最多答对</div>
             <div class="rank-tab" data-sort="total_correct">总答对数</div>
         </div>
         <div class="rank-list" id="rankList"></div>
@@ -279,46 +332,67 @@ const gameState = {
     englishCards: [], chineseCards: [], selectedCard: null,
     matchedPairs: 0, totalPairs: 10, combo: 0, failCombo: 0,
     currentRoundStats: { correct:0, wrong:0 },
-    sessionCorrect: 0,  // session累计答对数
-    sessionTotal: 0     // session累计总答题数
+    sessionCorrect: 0,
+    sessionTotal: 0
 };
 
-// 竞赛模式配置：六年级上到九年级下
+// 竞赛模式配置
 const COMPETITION_GRADES = ['六年级上', '六年级下', '七年级上', '七年级下', '八年级上', '八年级下', '九年级上', '九年级下'];
-
-// 当前模式：true=竞赛模式，false=练习模式
 let isCompetitionMode = false;
+
+// 滑动选择器变量
+const slider = document.getElementById('modeSlider');
+const thumb = document.getElementById('modeThumb');
+let isDragging = false;
 
 function checkLoginStatus() {
     const isLoggedIn = localStorage.getItem("game_logged_in") === "true";
     const username = localStorage.getItem("game_nickname");
     const userId = localStorage.getItem("game_user_id");
-    if (!isLoggedIn || !username || !userId) {
-        return false;
-    }
+    if (!isLoggedIn || !username || !userId) return false;
     return true;
 }
 
-// 更新模式按钮显示
-function updateModeButton() {
-    const modeBtn = document.getElementById('modeBtn');
-    if (isCompetitionMode) {
-        modeBtn.textContent = '竞赛模式';
-        modeBtn.style.background = '#ff6b6b';
-        modeBtn.style.color = '#fff';
-        modeBtn.style.borderColor = '#ff6b6b';
-    } else {
-        modeBtn.textContent = '练习模式';
-        modeBtn.style.background = '#fff';
-        modeBtn.style.color = '#333';
-        modeBtn.style.borderColor = '#ccc';
-    }
+// 更新滑动条UI
+function updateSliderUI() {
+    isCompetitionMode ? slider.classList.add('competition') : slider.classList.remove('competition');
+}
+
+// 初始化滑动交互
+function initModeSlider() {
+    const startDrag = (e) => {isDragging = true;e.preventDefault();};
+    const stopDrag = () => {
+        if(!isDragging)return;
+        isDragging = false;
+        const l = parseFloat(thumb.style.left||0);
+        if(l>=25 && !isCompetitionMode) toggleMode();
+        if(l<25 && isCompetitionMode) toggleMode();
+        updateSliderUI();
+    };
+    const onDrag = (e)=>{
+        if(!isDragging)return;
+        const x = e.type.includes('touch')?e.touches[0].clientX:e.clientX;
+        const rect=slider.getBoundingClientRect();
+        let p=((x-rect.left)/rect.width)*100;
+        p=Math.max(0,Math.min(50,p));
+        thumb.style.left=p+'%';
+    };
+    slider.addEventListener('click',e=>{
+        const r=slider.getBoundingClientRect();
+        e.clientX-r.left > r.width/2 ? (!isCompetitionMode&&toggleMode()) : (isCompetitionMode&&toggleMode());
+    });
+    slider.addEventListener('mousedown',startDrag);
+    document.addEventListener('mousemove',onDrag);
+    document.addEventListener('mouseup',stopDrag);
+    slider.addEventListener('touchstart',startDrag);
+    document.addEventListener('touchmove',onDrag);
+    document.addEventListener('touchend',stopDrag);
 }
 
 // 切换模式
 function toggleMode() {
     isCompetitionMode = !isCompetitionMode;
-    updateModeButton();
+    updateSliderUI();
     localStorage.setItem('wordgame_mode', isCompetitionMode ? 'competition' : 'practice');
 
     if (isCompetitionMode) {
@@ -331,27 +405,20 @@ function toggleMode() {
 
     updateGradeSelectText();
     initGameRound();
-
-    alert(isCompetitionMode 
-      ? '已进入竞赛模式！...' 
-      : '已进入练习模式！...');
 }
-
 
 const elements = {
     gradeSelectBtn: document.getElementById('gradeSelectBtn'),
     rankBtn: document.getElementById('rankBtn'),
     rankModal: document.getElementById('rankModal'),
     rankList: document.getElementById('rankList'),
-    modeBtn: document.getElementById('modeBtn'),
 };
 
 elements.rankBtn.onclick = openRank;
-document.getElementById('modeBtn').onclick = toggleMode;
 function openRank() { loadRank(); elements.rankModal.style.display = "flex"; }
 function closeRank() { elements.rankModal.style.display = "none"; }
 
-// 最终版排行榜：分步查询，100%兼容你的表结构
+// 排行榜
 async function loadRank(sortBy = "max_combo") {
     try {
         const client = getSupabaseClient();
@@ -359,27 +426,10 @@ async function loadRank(sortBy = "max_combo") {
             elements.rankList.innerHTML = "<div style='text-align:center'>数据库未连接</div>";
             return;
         }
-
-        // 1. 先获取所有用户的 ID 和用户名（核心！）
-        const { data: userList } = await client
-            .from("users")
-            .select("user_id, username");
-        
-        // 生成映射表：user_id => username
+        const { data: userList } = await client.from("users").select("user_id, username");
         const userMap = {};
-        if (userList) {
-            userList.forEach(user => {
-                userMap[user.user_id] = user.username;
-            });
-        }
-
-        // 2. 获取成绩数据
-        const { data: stats } = await client
-            .from("wordgame_stats")
-            .select("*")
-            .order(sortBy, { ascending: false })
-            .limit(50);
-
+        if (userList) userList.forEach(user => { userMap[user.user_id] = user.username; });
+        const { data: stats } = await client.from("wordgame_stats").select("*").order(sortBy, { ascending: false }).limit(50);
         const data = stats || [];
         if (data.length === 0) {
             elements.rankList.innerHTML = "<div style='text-align:center'>暂无成绩</div>";
@@ -387,40 +437,26 @@ async function loadRank(sortBy = "max_combo") {
             document.querySelector(`[data-sort="${sortBy}"]`).classList.add("active");
             return;
         }
-
-        // 3. 匹配用户名
         let html = "";
         data.forEach((item, index) => {
-            // 通过 user_id 找名字，没有就显示「玩家」
             const username = userMap[item.user_id] || "玩家";
             let val = 0;
             if (sortBy === "max_combo") val = item.max_combo || 0;
             if (sortBy === "max_correct") val = item.max_correct || 0;
             if (sortBy === "total_correct") val = item.total_correct || 0;
-
-            let rankPrefix = index === 0 ? '🏆 ' : index === 1 ? '🥈 ' : index === 2 ? '🥉 ' : (index + 1) + '. ';
-            html += `
-            <div class="rank-item">
-                <div class="no">${rankPrefix}</div>
-                <div class="name">${username}</div>
-                <div class="val">${val}</div>
-            </div>`;
+            const rankPrefix = index === 0 ? '🏆 ' : index === 1 ? '🥈 ' : index === 2 ? '🥉 ' : (index + 1) + '. ';
+            html += `<div class="rank-item"><div class="no">${rankPrefix}</div><div class="name">${username}</div><div class="val">${val}</div></div>`;
         });
-
         elements.rankList.innerHTML = html;
         document.querySelectorAll(".rank-tab").forEach(t => t.classList.remove("active"));
         document.querySelector(`[data-sort="${sortBy}"]`).classList.add("active");
-
     } catch (err) {
         elements.rankList.innerHTML = "<div style='text-align:center'>加载成功</div>";
         console.log("排行榜正常运行", err);
     }
 }
 document.querySelectorAll(".rank-tab").forEach(tab => {
-    tab.onclick = function() {
-        const sortBy = this.dataset.sort;
-        loadRank(sortBy);
-    };
+    tab.onclick = function() { loadRank(this.dataset.sort); };
 });
 
 const speechSynthesis = window.speechSynthesis;
@@ -437,25 +473,20 @@ function speakWord(word, lang='en-US'){
 }
 
 function initGame(){
-    // 恢复上次模式
     const savedMode = localStorage.getItem('wordgame_mode');
     isCompetitionMode = savedMode === 'competition';
-    updateModeButton();
+    initModeSlider();
+    updateSliderUI();
 
-    // 每次打开/刷新 从0开始
     gameState.sessionCorrect = 0;
     gameState.sessionTotal = 0;
 
-    // 先加载年级列表
     getGrades();
     
-    // 竞赛模式：锁定年级，隐藏按钮
     if (isCompetitionMode) {
         gameState.selectedGrades = [...COMPETITION_GRADES];
         document.getElementById('gradeSelectBtn').style.display = 'none';
-    } 
-    // 练习模式：显示按钮，并加载上次保存的年级
-    else {
+    } else {
         document.getElementById('gradeSelectBtn').style.display = '';
         loadSavedGrades();
     }
@@ -488,7 +519,6 @@ function getGrades(){
         sorted.forEach(g=>{ gp[g]={usedWordIds:[], total:words.filter(x=>x.grade===g).length}; });
         gameState.grades = sorted;
         
-        // 竞赛模式：只保留六年级上到九年级下的年级
         if (isCompetitionMode) {
             const availableCompGrades = sorted.filter(g => COMPETITION_GRADES.includes(g));
             availableCompGrades.forEach(g => { 
@@ -504,21 +534,17 @@ function getGrades(){
 }
 
 function loadSavedGrades(){
-    // 竞赛模式：使用固定的年级
     if (isCompetitionMode) {
         gameState.selectedGrades = [...COMPETITION_GRADES];
         return;
     }
-    
     try{
         const s = localStorage.getItem(STORAGE_KEY);
         if(s){ const list=JSON.parse(s); if(list.length>0) { gameState.selectedGrades=list; return; } }
     }catch(e){}
-    // 兼容处理：grades可能还未初始化
     if (gameState.grades && gameState.grades.length > 0) {
         gameState.selectedGrades = [gameState.grades[0]];
     } else {
-        // 延迟设置，等getGrades完成
         const checkGrades = setInterval(() => {
             if (gameState.grades && gameState.grades.length > 0) {
                 gameState.selectedGrades = [gameState.grades[0]];
@@ -607,13 +633,11 @@ async function saveRoundStats() {
     if (!isCompetitionMode || !isRealLoginUser()) return;
 
     const oldData = await getCloudData("wordgame_stats") || {};
-    
     const newTotalCorrect = (oldData.total_correct || 0) + 1;
     const sessionAccuracy = gameState.sessionTotal > 0 
         ? Math.round((gameState.sessionCorrect / gameState.sessionTotal) * 100)
         : (oldData.accuracy || 0);
 
-    // 🔥 修复后：只保留成绩表需要的字段，无多余内容
     const saveData = {
         user_id: localStorage.getItem("game_user_id"),
         max_combo: Math.max(gameState.combo, oldData.max_combo || 0),
@@ -625,11 +649,9 @@ async function saveRoundStats() {
     };
 
     await saveCloudData("wordgame_stats", saveData);
-    console.log("✅ 成绩上传成功:", saveData);
 }
 
 function initGameRound(){
-    // 每局都清零
     gameState.currentRoundStats = {correct:0, wrong:0};
     gameState.matchedPairs=0;
 
@@ -652,7 +674,6 @@ function initGameRound(){
     renderCards();
 }
 
-// 只保留关闭页面上传
 window.addEventListener('beforeunload', saveRoundStats);
 
 function handleCardClick(e){
@@ -690,8 +711,8 @@ function handleCardClick(e){
 
     if(ok){
         gameState.currentRoundStats.correct++;
-        gameState.sessionCorrect++;  // session累计答对+1
-        gameState.sessionTotal++;    // session累计总题数+1
+        gameState.sessionCorrect++;
+        gameState.sessionTotal++;
         sel.matched = true;
         card.matched = true;
         sel.selected = false;
@@ -712,7 +733,7 @@ function handleCardClick(e){
         }
     }else{
         gameState.currentRoundStats.wrong++;
-        gameState.sessionTotal++;    // session累计总题数+1
+        gameState.sessionTotal++;
         gameState.combo = 0;
         gameState.failCombo++;
         const txt = getFailText(gameState.failCombo);
@@ -728,7 +749,6 @@ function handleCardClick(e){
         card.selected = false;
         gameState.selectedCard = null;
         renderCards();
-        // 答错不上传
     }
 }
 
