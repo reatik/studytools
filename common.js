@@ -1,245 +1,152 @@
-// ========== 公共云端数据配置 ==========
+// ========== 公共云端数据库配置 ==========
 const SUPABASE_URL = "https://bcyvaqstzddaqklchstx.supabase.co";
 const SUPABASE_KEY = "sb_publishable_MRPLCWIbFx9MXWVDD493AA_gWoK9QLP";
 
-// 初始化数据库
+// 全局Supabase客户端单例
 let supabaseClient = null;
 
+// 初始化数据库客户端
 function getSupabaseClient() {
     if (!supabaseClient) {
         if (!window.supabase) {
-            console.error("❌ Supabase SDK 未加载！window.supabase 是 undefined");
-            console.log("   请检查网络连接或 Supabase CDN 是否可访问");
+            console.error("❌ Supabase SDK 未加载，请检查引入脚本");
             return null;
         }
         try {
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             console.log("✅ Supabase 客户端初始化成功");
-        } catch (e) {
-            console.error("❌ Supabase 客户端初始化失败:", e);
+        } catch (err) {
+            console.error("❌ 客户端初始化失败：", err);
             return null;
         }
     }
     return supabaseClient;
 }
 
-// 测试 Supabase 连接
+// 测试数据库连通性
 async function testSupabaseConnection() {
-    console.log("🔍 开始测试 Supabase 连接...");
     const client = getSupabaseClient();
-    if (!client) {
-        console.error("❌ 无法获取 Supabase 客户端");
-        return false;
-    }
-    
+    if (!client) return false;
     try {
-        // 测试读取数据
-        const { data, error } = await client
-            .from("user_stats")
-            .select("id, username")
-            .limit(5);
-        
-        if (error) {
-            console.error("❌ Supabase 连接测试失败:", error);
-            console.error("   错误代码:", error.code);
-            console.error("   错误消息:", error.message);
-            console.error("   错误详情:", error.details);
-            return false;
-        }
-        
-        console.log("✅ Supabase 连接成功！当前表中有", data?.length || 0, "条记录");
-        if (data && data.length > 0) {
-            console.log("   示例数据:", data[0]);
-        }
+        const { error } = await client.from("users").select("id").limit(1);
+        if (error) throw error;
+        console.log("✅ 数据库连接正常");
         return true;
-    } catch (e) {
-        console.error("❌ Supabase 连接异常:", e);
+    } catch (err) {
+        console.error("❌ 数据库连接失败：", err);
         return false;
     }
 }
 
-// 页面加载完成后检查 Supabase 状态
-window.addEventListener('load', function() {
-    console.log("🔧 页面加载完成，检查 Supabase 状态:");
-    console.log("   window.supabase:", typeof window.supabase);
-    if (window.supabase) {
-        console.log("   ✅ Supabase SDK 已加载");
-    } else {
-        console.warn("   ⚠️ Supabase SDK 未加载");
-    }
-});
-
-// ==============================================
-// 获取用户ID（核心：登录用户 / 游客 自动区分）
-// ==============================================
+// ========== 用户身份核心方法 ==========
+// 获取用户唯一ID（登录账号ID / 游客本地ID）
 function getUserId() {
-    // 1. 已登录 → 用云端账号ID
+    // 已登录优先取云端账号ID
     if (localStorage.getItem("game_logged_in") === "true") {
-        const uid = localStorage.getItem("game_user_id");
-        if (!uid) {
-            console.warn("⚠️ 已登录但 game_user_id 为空，回退到游客模式");
-            // 回退到游客ID
-        } else {
-            return uid;
-        }
+        const loginUid = localStorage.getItem("game_user_id");
+        if (loginUid) return loginUid;
     }
-
-    // 2. 未登录 → 游客ID（只本地用，不上传）
-    let vid = localStorage.getItem("visitor_id");
-    if (!vid) {
-        vid = "visitor_" + Math.random().toString(36).substr(2, 10);
-        localStorage.setItem("visitor_id", vid);
-    }
-    return vid;
+    // 未登录/登录ID失效，生成游客ID
+    return getVisitorUniqueId();
 }
 
-// ==============================================
-// 保存数据（所有页面共用）
-// 规则：
-// ✅ 游客 → 只存本地，不上传云端
-// ✅ 登录 → 自动上传云端
-// ==============================================
-async function saveUserStats(pageName, stats) {
-    const userId = getUserId();
-    const isLoggedIn = localStorage.getItem("game_logged_in") === "true";
+// 生成本地游客ID
+function getVisitorUniqueId() {
+    let visitorId = localStorage.getItem("visitor_id");
+    if (!visitorId) {
+        visitorId = "visitor_" + Math.random().toString(36).slice(2, 12);
+        localStorage.setItem("visitor_id", visitorId);
+    }
+    return visitorId;
+}
+
+// 判断当前是否为正式登录用户
+function isRealLoginUser() {
+    const loginState = localStorage.getItem("game_logged_in") === "true";
+    const uid = localStorage.getItem("game_user_id");
     const nickname = localStorage.getItem("game_nickname");
-    
-    console.log("=".repeat(50));
-    console.log(`🔍 saveUserStats 开始执行`);
-    console.log(`   pageName: ${pageName}`);
-    console.log(`   userId: ${userId}`);
-    console.log(`   isLoggedIn: ${isLoggedIn}`);
-    console.log(`   nickname: ${nickname}`);
-    console.log(`   stats:`, stats);
-    console.log("=".repeat(50));
+    return loginState && !!uid && !!nickname;
+}
 
-    // ======================
-    // 游客：只存本地，不上传
-    // ======================
-    if (!isLoggedIn || !nickname || !userId || userId.startsWith("visitor_")) {
-        console.log(`📌 【游客/未登录】${pageName} 数据只保存本地`);
-        localStorage.setItem(
-            "visitor_stats_" + pageName,
-            JSON.stringify(stats)
-        );
-        console.log(`📌 【游客】${pageName} 数据已本地保存`);
-        console.log(`   原因: isLoggedIn=${isLoggedIn}, nickname=${nickname}, userId=${userId}`);
+// ========== 通用云端数据保存【核心】 ==========
+/**
+ * @param {string} tableName 数据表名
+ * @param {object} saveData 要保存的字段数据
+ * 规则：游客仅本地存储，登录用户自动上传对应数据表
+ */
+async function saveCloudData(tableName, saveData) {
+    const userId = getUserId();
+    const isLogin = isRealLoginUser();
+
+    // 游客模式：仅存本地localStorage
+    if (!isLogin || userId.startsWith("visitor_")) {
+        localStorage.setItem(`local_data_${tableName}`, JSON.stringify(saveData));
+        console.log(`📌 游客模式：${tableName} 数据本地保存完成`);
         return;
     }
 
-    // ======================
-    // 登录用户：上传云端
-    // ======================
-    console.log(`📤 【登录用户】准备上传到云端...`);
-    
+    // 登录用户：存入对应云端数据表，自动绑定user_id
     const client = getSupabaseClient();
-    if (!client) {
-        console.log("❌ Supabase 客户端获取失败");
-        return;
-    }
-    
-    console.log("✅ Supabase 客户端正常");
-
-    // 使用 fetch API 直接发送请求（更详细的调试）
-    const payload = {
-        user_id: userId,
-        username: nickname,
-        max_combo: stats.max_combo || stats.maxCombo || 0,
-        total_correct: stats.total_correct || stats.totalCorrect || 0,
-        total_questions: stats.total_questions || stats.totalQuestions || 0,
-        accuracy: stats.accuracy || 0,
-        last_page: pageName,
-        update_time: new Date().toISOString()
-    };
-    
-    console.log("📦 准备发送的数据:", JSON.stringify(payload, null, 2));
+    if (!client) return;
+    const submitData = { user_id: userId, ...saveData };
 
     try {
-        // 方法1: 使用 Supabase SDK 的 upsert
-        console.log("📡 尝试使用 SDK upsert...");
-        const { data, error, status, statusText } = await client
-            .from("user_stats")
-            .upsert([payload], { 
-                onConflict: 'user_id'
-            });
-
-        console.log(`📥 SDK upsert 响应: status=${status}, statusText=${statusText}`);
-        console.log("   data:", data);
-        console.log("   error:", error);
-
-        if (error) {
-            console.log("❌ SDK upsert 失败，尝试使用 fetch API...");
-            
-            // 方法2: 使用 fetch API 直接发送请求
-            try {
-                const tableUrl = `${SUPABASE_URL}/rest/v1/user_stats`;
-                console.log(`📡 尝试使用 fetch API: ${tableUrl}`);
-                
-                const fetchResponse = await fetch(tableUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`,
-                        'Prefer': 'resolution=merge-duplicates'
-                    },
-                    body: JSON.stringify(payload)
-                });
-                
-                console.log(`📥 fetch 响应状态: ${fetchResponse.status} ${fetchResponse.statusText}`);
-                const responseText = await fetchResponse.text();
-                console.log(`📥 fetch 响应内容: ${responseText}`);
-                
-                if (fetchResponse.ok) {
-                    console.log(`✅ 【登录】${pageName} 数据已同步云端 (fetch)`);
-                } else {
-                    console.log(`❌ fetch 失败: ${fetchResponse.status} ${fetchResponse.statusText}`);
-                    console.log(`   响应: ${responseText}`);
-                }
-            } catch (fetchErr) {
-                console.error("❌ fetch API 也失败了:", fetchErr);
-            }
-        } else {
-            console.log(`✅ 【登录】${pageName} 数据已同步云端`);
-        }
-    } catch (e) {
-        console.error("⚠️ 保存过程出现异常:", e);
-        console.error("   错误类型:", e.name);
-        console.error("   错误消息:", e.message);
-        console.error("   错误堆栈:", e.stack);
+        const { error } = await client
+            .from(tableName)
+            .upsert([submitData], { onConflict: "user_id" });
+        if (error) throw error;
+        console.log(`✅ 云端保存成功 | 表：${tableName}`);
+    } catch (err) {
+        console.error(`❌ 云端保存失败 ${tableName}：`, err);
     }
-    
-    console.log("=".repeat(50));
 }
 
-// ==============================================
-// 以下是给 个人中心 使用的工具函数（不用管）
-// ==============================================
+// ========== 通用云端数据读取【核心】 ==========
+/**
+ * @param {string} tableName 数据表名
+ * @returns {object|null} 读取到的数据
+ */
+async function getCloudData(tableName) {
+    const userId = getUserId();
+    const isLogin = isRealLoginUser();
 
+    // 游客读取本地数据
+    if (!isLogin || userId.startsWith("visitor_")) {
+        const localStr = localStorage.getItem(`local_data_${tableName}`);
+        return localStr ? JSON.parse(localStr) : null;
+    }
+
+    // 登录用户读取云端数据
+    const client = getSupabaseClient();
+    if (!client) return null;
+    const { data, error } = await client
+        .from(tableName)
+        .select("*")
+        .eq("user_id", userId)
+        .single();
+
+    return error ? null : data;
+}
+
+// ========== 登录退出工具方法 ==========
 // 退出登录
-function logout() {
+function userLogout() {
     localStorage.removeItem("game_logged_in");
     localStorage.removeItem("game_user_id");
     localStorage.removeItem("game_nickname");
+    location.reload();
 }
 
-// 清空游客本地数据
-function clearVisitorAllData() {
+// 清空所有游客本地缓存数据
+function clearAllVisitorLocalData() {
     Object.keys(localStorage).forEach(key => {
-        if (key.startsWith("visitor_")) {
+        if (key.startsWith("visitor_") || key.startsWith("local_data_")) {
             localStorage.removeItem(key);
         }
     });
 }
 
-// 清空登录用户云端数据（个人中心用）
-async function clearUserCloudData() {
-    const userId = getUserId();
-    if (userId.startsWith("visitor_")) return;
-
-    const client = getSupabaseClient();
-    if (client) {
-        await client.from("user_stats").delete().eq("user_id", userId);
-    }
-    logout();
-}
+// 页面加载初始化
+window.addEventListener("load", () => {
+    console.log("📦 通用公共工具库 common.js 加载完成");
+});
