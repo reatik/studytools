@@ -202,13 +202,15 @@
             margin-bottom: 10px;
         }
         .rank-tab {
-            flex:1;
-            padding: 8px;
-            text-align: center;
-            background: #f0f0f0;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+    flex:1;
+    padding: 8px 4px;      /* 左右padding减小 */
+    text-align: center;
+    background: #f0f0f0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;       /* 字体调小 */
+    white-space: nowrap;   /* 强制不换行 */
+}
         .rank-tab.active {
             background: #4c85be;
             color: white;
@@ -311,8 +313,8 @@
     <div class="rank-box">
         <h3 style="margin:0 0 10px;">🏆 排行榜</h3>
         <div class="rank-tabs">
-            <div class="rank-tab active" data-sort="max_combo">单场最高连击</div>
-            <div class="rank-tab active" data-sort="max_correct">单场最多答对</div>
+            <div class="rank-tab active" data-sort="max_combo">最高连击</div>
+            <div class="rank-tab active" data-sort="max_correct">最多答对</div>
             <div class="rank-tab" data-sort="total_correct">总答对数</div>
         </div>
         <div class="rank-list" id="rankList"></div>
@@ -420,7 +422,7 @@ async function loadRank(sortBy = "max_combo") {
         const { data: userList } = await client.from("users").select("user_id, username");
         const userMap = {};
         if (userList) userList.forEach(user => { userMap[user.user_id] = user.username; });
-        const { data: stats } = await client.from("wordgame_stats").select("*").order(sortBy, { ascending: false }).limit(50);
+        const { data: stats } = await client.from("wordgame_stats").select("*").order(sortBy, { ascending: false }).limit(10);
         const data = stats || [];
         if (data.length === 0) {
             elements.rankList.innerHTML = "<div style='text-align:center'>暂无成绩</div>";
