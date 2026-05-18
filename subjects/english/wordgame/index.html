@@ -45,7 +45,7 @@
         .mode-slider {
     height: 36px;
     width: 100px;
-    border-radius: 30px;
+    border-radius: 0;
     background: #f0f0f0;
     position: relative;
     cursor: pointer;
@@ -68,22 +68,27 @@
     width: 50%;
     height: 100%;
     border-radius: 0;
-    background: #ffffff; /* 练习模式 = 纯白色 */
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    background: #1e5039; /* 练习：绿色 */
+    transition: all 0.3s ease;
     z-index: 1;
 }
 .mode-slider.competition .mode-slider-thumb {
     left: 50%;
-    background: #ff6b6b; /* 竞赛模式 = 红色不变 */
+    background: #ff6b6b; /* 竞赛：红色 */
 }
 .mode-text {
     font-size: 13px;
     font-weight: bold;
     z-index: 2;
     transition: color 0.3s;
+    color: #666;
 }
-.mode-slider:not(.competition) .mode-text.practice { color: #1e5039; }
-.mode-slider.competition .mode-text.competition { color: #fff; }
+.mode-slider:not(.competition) .mode-text.practice {
+    color: #fff; /* 练习选中：白色文字 */
+}
+.mode-slider.competition .mode-text.competition {
+    color: #fff; /* 竞赛选中：白色文字 */
+}
 
         .game-container {
             display: flex;
@@ -176,14 +181,14 @@
         }
 
         .rank-modal {
-            position: fixed;
-            top:0;left:0;right:0;bottom:0;
-            background: rgba(0,0,0,0.6);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
+    position: fixed;
+    top:0;left:0;right:0;bottom:0;
+    background: rgba(0,0,0,0.6);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center; /* 修复这里 */
+}
         .rank-box {
             background: white;
             width: 90%;
@@ -358,35 +363,14 @@ function updateSliderUI() {
     isCompetitionMode ? slider.classList.add('competition') : slider.classList.remove('competition');
 }
 
-// 初始化滑动交互
 function initModeSlider() {
-    const startDrag = (e) => {isDragging = true;e.preventDefault();};
-    const stopDrag = () => {
-        if(!isDragging)return;
-        isDragging = false;
-        const l = parseFloat(thumb.style.left||0);
-        if(l>=25 && !isCompetitionMode) toggleMode();
-        if(l<25 && isCompetitionMode) toggleMode();
-        updateSliderUI();
-    };
-    const onDrag = (e)=>{
-        if(!isDragging)return;
-        const x = e.type.includes('touch')?e.touches[0].clientX:e.clientX;
-        const rect=slider.getBoundingClientRect();
-        let p=((x-rect.left)/rect.width)*100;
-        p=Math.max(0,Math.min(50,p));
-        thumb.style.left=p+'%';
-    };
+    // 只保留点击切换，无拖动
     slider.addEventListener('click',e=>{
         const r=slider.getBoundingClientRect();
         e.clientX-r.left > r.width/2 ? (!isCompetitionMode&&toggleMode()) : (isCompetitionMode&&toggleMode());
+        // 切换后直接复位滑块位置，不会卡在中间
+        thumb.style.left = isCompetitionMode ? '50%' : '0%';
     });
-    slider.addEventListener('mousedown',startDrag);
-    document.addEventListener('mousemove',onDrag);
-    document.addEventListener('mouseup',stopDrag);
-    slider.addEventListener('touchstart',startDrag);
-    document.addEventListener('touchmove',onDrag);
-    document.addEventListener('touchend',stopDrag);
 }
 
 // 切换模式
