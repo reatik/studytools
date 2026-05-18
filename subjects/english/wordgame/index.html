@@ -181,14 +181,14 @@
         }
 
         .rank-modal {
-    position: fixed;
-    top:0;left:0;right:0;bottom:0;
-    background: rgba(0,0,0,0.6);
-    z-index: 2000;
-    display: none;
-    justify-content: center;
-    align-items: center; /* 修复这里 */
-}
+            position: fixed;
+            top:0;left:0;right:0;bottom:0;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
         .rank-box {
             background: white;
             width: 90%;
@@ -386,6 +386,13 @@ function toggleMode() {
         document.getElementById('gradeSelectBtn').style.display = '';
         loadSavedGrades();
     }
+
+    // ===== 添加下面这4行 =====
+    gameState.sessionCorrect = 0;
+    gameState.sessionTotal = 0;
+    gameState.combo = 0;
+    gameState.currentRoundStats = { correct: 0, wrong: 0 };
+    // ===== 添加结束 =====
 
     updateGradeSelectText();
     initGameRound();
@@ -614,7 +621,8 @@ async function saveRoundStats() {
     const wrong = gameState.currentRoundStats.wrong;
     const total = correct + wrong;
     if (total === 0) return;
-    if (!isCompetitionMode || !isRealLoginUser()) return;
+    if (!isCompetitionMode) return;
+    if (!isRealLoginUser()) return;
 
     const oldData = await getCloudData("wordgame_stats") || {};
     const newTotalCorrect = (oldData.total_correct || 0) + 1;
