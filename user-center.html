@@ -387,7 +387,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://static.cloudbase.net/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
 <script src="common.js"></script>
 <script>
 // ===================== 密码加密函数（MD5 不可逆）=====================
@@ -642,15 +642,25 @@ async function login() {
         }
 
         let pwdMd5 = md5(pwd);
-        let sb = getSupabaseClient();
+        const app = await getCloudBaseApp();
+        if (!app) {
+            tip.className = "form-tip tip-error";
+            tip.innerText = "数据库未连接";
+            return;
+        }
         
-        // 查询user_id（适配你的表）
-        let { data, error } = await sb.from("users")
-            .select("user_id,username,password")
-            .eq("username", nick)
-            .limit(1);
+        const db = app.database();
+        
+        // 查询用户
+        let data = [];
+        try {
+            const res = await db.collection("users").where({ username: nick }).get();
+            data = res && res.data ? res.data : [];
+        } catch (e) {
+            console.error("查询用户失败:", e);
+        }
 
-        if (error || !data.length) {
+        if (!data.length) {
             tip.className = "form-tip tip-error";
             tip.innerText = "用户不存在";
             return;
@@ -663,7 +673,7 @@ async function login() {
             return;
         }
 
-        // 存储user_id（和表完全匹配）
+        // 存储user_id
         localStorage.setItem("game_logged_in", "true");
         localStorage.setItem("game_user_id", user.user_id);
         localStorage.setItem("game_nickname", user.username);
@@ -673,11 +683,11 @@ async function login() {
 
     } catch (err) {
         document.getElementById("loginTip").innerText = "登录失败";
+        console.error("登录错误:", err);
     }
 }
 
-// ===================== 最终修复版注册 =====================
-// ===================== 完美修复版注册 =====================
+// ===================== CloudBase 注册 =====================
 async function register() {
     try {
         let nick = document.getElementById("regNick").value.trim();
@@ -690,16 +700,24 @@ async function register() {
             return;
         }
 
-        // 修复：强制保留加密后的文本密码（英文+数字密码完全支持）
         let pwdMd5 = md5(pwd).toString();
+        const app = await getCloudBaseApp();
+        if (!app) {
+            tip.className = "form-tip tip-error";
+            tip.innerText = "数据库未连接";
+            return;
+        }
         
-        let sb = getSupabaseClient();
+        const db = app.database();
 
         // 检查昵称重复
-        let { data: exist } = await sb.from("users")
-            .select("username")
-            .eq("username", nick)
-            .limit(1);
+        let exist = [];
+        try {
+            const existRes = await db.collection("users").where({ username: nick }).get();
+            exist = existRes && existRes.data ? existRes.data : [];
+        } catch (e) {
+            console.log("查询用户出错:", e);
+        }
 
         if (exist && exist.length > 0) {
             tip.className = "form-tip tip-error";
@@ -709,17 +727,17 @@ async function register() {
 
         let newUid = "user_" + Math.random().toString(36).slice(2, 10);
 
-        // 插入数据（适配你的表结构）
-        let { error: insertErr } = await sb.from("users").insert([{
-            user_id: newUid,
-            username: nick,
-            password: pwdMd5
-        }]);
-
-        if (insertErr) {
+        // 插入数据
+        try {
+            await db.collection("users").add({
+                user_id: newUid,
+                username: nick,
+                password: pwdMd5
+            });
+        } catch (err) {
             tip.className = "form-tip tip-error";
-            tip.innerText = "注册失败";
-            console.error(insertErr);
+            tip.innerText = "注册失败，请检查数据库权限";
+            console.error("添加用户失败:", err);
             return;
         }
 
@@ -730,6 +748,7 @@ async function register() {
 
     } catch (err) {
         document.getElementById("regTip").innerText = "注册异常";
+        console.error("注册错误:", err);
     }
 }
 
@@ -746,10 +765,6 @@ async function clearUserData() {
     const userId = localStorage.getItem("game_user_id");
     if (!userId) return;
 
-    const sb = getSupabaseClient();
-    // 注意：用户表没有这些字段，这个函数其实是给游戏数据用的，暂时注释掉
-    // await sb.from("users").update({...}).eq("user_id", userId);
-
     alert("✅ 用户数据已清空（游戏数据需在游戏内操作）");
 }
 
@@ -760,9 +775,15 @@ async function deleteAccount() {
     const userId = localStorage.getItem("game_user_id");
     if (!userId) return;
 
-    const sb = getSupabaseClient();
-    // 修复：表名改为 users
-    await sb.from("users").delete().eq("user_id", userId);
+    try {
+        const app = await getCloudBaseApp();
+        if (app) {
+            const db = app.database();
+            await db.collection("users").where({ user_id: userId }).remove();
+        }
+    } catch (err) {
+        console.error("删除账号失败:", err);
+    }
 
     localStorage.removeItem("game_logged_in");
     localStorage.removeItem("game_user_id");
@@ -772,21 +793,22 @@ async function deleteAccount() {
     updateUserView();
 }
 
-(function supabaseKeepAlive() {
-    const lastPing = localStorage.getItem("last_supabase_ping");
+// CloudBase Keep Alive
+(async function cloudbaseKeepAlive() {
+    const lastPing = localStorage.getItem("last_cloudbase_ping");
     const now = Date.now();
     const oneDay = 24 * 60 * 60 * 1000;
 
     if (!lastPing || now - lastPing > oneDay) {
         try {
-            const sb = getSupabaseClient();
-            if (sb) {
-                sb.from("user_stats").select("user_id", { head: true, count: "exact" }).limit(1);
-                localStorage.setItem("last_supabase_ping", now);
+            const db = await getCloudBaseDb();
+            if (db) {
+                await db.collection("users").limit(1).get();
+                localStorage.setItem("last_cloudbase_ping", now);
             }
         } catch (e) {}
     }
-    setTimeout(supabaseKeepAlive, oneDay);
+    setTimeout(cloudbaseKeepAlive, oneDay);
 })();
 </script>
 </body>

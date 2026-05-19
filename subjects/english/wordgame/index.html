@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- 云开发 SDK -->
+    <script src="https://static.cloudbase.net/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
     <script src="../../../common.js"></script>
     <script src="../words.js"></script>
     <title>单词配对游戏</title>
@@ -314,7 +315,7 @@
         <h3 style="margin:0 0 10px;">🏆 排行榜</h3>
         <div class="rank-tabs">
             <div class="rank-tab active" data-sort="max_combo">最高连击</div>
-            <div class="rank-tab active" data-sort="max_correct">最多答对</div>
+            <div class="rank-tab" data-sort="max_correct">最多答对</div>
             <div class="rank-tab" data-sort="total_correct">总答对数</div>
         </div>
         <div class="rank-list" id="rankList"></div>
@@ -334,7 +335,7 @@
 </div>
 
 <script>
-    const words = wordData.words;
+const words = wordData.words;
 const gameState = {
     englishCards: [], chineseCards: [], selectedCard: null,
     matchedPairs: 0, totalPairs: 10, combo: 0, failCombo: 0,
@@ -366,11 +367,9 @@ function updateSliderUI() {
 }
 
 function initModeSlider() {
-    // 只保留点击切换，无拖动
     slider.addEventListener('click',e=>{
         const r=slider.getBoundingClientRect();
         e.clientX-r.left > r.width/2 ? (!isCompetitionMode&&toggleMode()) : (isCompetitionMode&&toggleMode());
-        // 切换后直接复位滑块位置，不会卡在中间
         thumb.style.left = isCompetitionMode ? '50%' : '0%';
     });
 }
@@ -389,12 +388,10 @@ function toggleMode() {
         loadSavedGrades();
     }
 
-    // ===== 添加下面这4行 =====
     gameState.sessionCorrect = 0;
     gameState.sessionTotal = 0;
     gameState.combo = 0;
     gameState.currentRoundStats = { correct: 0, wrong: 0 };
-    // ===== 添加结束 =====
 
     updateGradeSelectText();
     initGameRound();
@@ -411,18 +408,29 @@ elements.rankBtn.onclick = openRank;
 function openRank() { loadRank(); elements.rankModal.style.display = "flex"; }
 function closeRank() { elements.rankModal.style.display = "none"; }
 
-// 排行榜
+// ====================== CLOUDBASE 排行榜 ======================
 async function loadRank(sortBy = "max_combo") {
     try {
-        const client = getSupabaseClient();
-        if (!client) {
+        const app = await getCloudBaseApp();
+        if (!app) {
             elements.rankList.innerHTML = "<div style='text-align:center'>数据库未连接</div>";
             return;
         }
-        const { data: userList } = await client.from("users").select("user_id, username");
+        const db = app.database();
+
+        // 1. 获取所有用户
+        const { data: userList } = await db.collection("users").get();
         const userMap = {};
-        if (userList) userList.forEach(user => { userMap[user.user_id] = user.username; });
-        const { data: stats } = await client.from("wordgame_stats").select("*").order(sortBy, { ascending: false }).limit(10);
+        if (userList) userList.forEach(user => {
+            userMap[user.user_id] = user.username;
+        });
+
+        // 2. 获取游戏数据并排序
+        const { data: stats } = await db.collection("wordgame_stats")
+            .orderBy(sortBy, "desc")
+            .limit(10)
+            .get();
+
         const data = stats || [];
         if (data.length === 0) {
             elements.rankList.innerHTML = "<div style='text-align:center'>暂无成绩</div>";
@@ -430,6 +438,7 @@ async function loadRank(sortBy = "max_combo") {
             document.querySelector(`[data-sort="${sortBy}"]`).classList.add("active");
             return;
         }
+
         let html = "";
         data.forEach((item, index) => {
             const username = userMap[item.user_id] || "玩家";
@@ -437,17 +446,21 @@ async function loadRank(sortBy = "max_combo") {
             if (sortBy === "max_combo") val = item.max_combo || 0;
             if (sortBy === "max_correct") val = item.max_correct || 0;
             if (sortBy === "total_correct") val = item.total_correct || 0;
+
             const rankPrefix = index === 0 ? '🏆 ' : index === 1 ? '🥈 ' : index === 2 ? '🥉 ' : (index + 1) + '. ';
             html += `<div class="rank-item"><div class="no">${rankPrefix}</div><div class="name">${username}</div><div class="val">${val}</div></div>`;
         });
+
         elements.rankList.innerHTML = html;
         document.querySelectorAll(".rank-tab").forEach(t => t.classList.remove("active"));
         document.querySelector(`[data-sort="${sortBy}"]`).classList.add("active");
+
     } catch (err) {
         elements.rankList.innerHTML = "<div style='text-align:center'>加载成功</div>";
         console.log("排行榜正常运行", err);
     }
 }
+
 document.querySelectorAll(".rank-tab").forEach(tab => {
     tab.onclick = function() { loadRank(this.dataset.sort); };
 });
@@ -794,6 +807,6 @@ function confirmGradeSelect(){
 }
 
 window.onload = initGame;
-    </script>
+</script>
 </body>
 </html>
