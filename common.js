@@ -12,13 +12,12 @@ async function getCloudBaseApp() {
     try {
         cloudbaseApp = cloudbase.init({
             env: CLOUDBASE_ENV_ID,
-            // 关键：关闭跨域校验，用匿名登录绕开限制
             timeout: 30000
         });
 
-        // 强制匿名登录，绕过跨域限制
+        // 强制匿名登录（免费版唯一解决方案）
         await cloudbaseApp.auth().anonymousAuthProvider().signIn();
-        console.log("✅ 匿名登录成功，可直接访问数据库");
+        console.log("✅ 匿名登录成功");
     } catch (err) {
         console.error("❌ 初始化失败", err);
         return null;
@@ -34,7 +33,6 @@ async function getCloudBaseDb() {
     if (!app) return null;
     
     cloudbaseDb = app.database();
-    console.log("✅ 数据库对象获取成功");
     return cloudbaseDb;
 }
 
@@ -70,7 +68,7 @@ async function saveCloudData(tableName, saveData) {
 
     if (!isLogin || userId.startsWith("visitor_")) {
         localStorage.setItem(`local_data_${tableName}`, JSON.stringify(saveData));
-        console.log(`📌 游客模式：${tableName} 数据本地保存完成`);
+        console.log(`📌 游客模式：${tableName} 数据本地保存`);
         return;
     }
 
@@ -82,7 +80,7 @@ async function saveCloudData(tableName, saveData) {
         const submitData = { user_id: userId, ...saveData };
         
         const res = await db.collection(tableName).where({ user_id: userId }).get();
-        if (res && res.data && res.data.length > 0) {
+        if (res?.data?.length > 0) {
             await db.collection(tableName).where({ user_id: userId }).update(saveData);
         } else {
             await db.collection(tableName).add(submitData);
@@ -109,8 +107,7 @@ async function getCloudData(tableName) {
     try {
         const db = app.database();
         const res = await db.collection(tableName).where({ user_id: userId }).get();
-        if (!res) return null;
-        return res.data && res.data.length ? res.data[0] : null;
+        return res?.data?.length ? res.data[0] : null;
     } catch (err) {
         console.error(`❌ 云端读取失败 ${tableName}：`, err);
         return null;
