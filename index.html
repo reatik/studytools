@@ -456,12 +456,28 @@
 </div>
 
 <script>
-    const adModal = document.getElementById('adModal');
-    const adClose = document.getElementById('adClose');
-    adClose.addEventListener('click', () => adModal.classList.add('hidden'));
-    adModal.addEventListener('click', (e) => {
-        if(e.target === adModal) adModal.classList.add('hidden');
-    });
+const adModal = document.getElementById('adModal');
+const adClose = document.getElementById('adClose');
+
+if(sessionStorage.homeAdCloseFlag){
+    adModal.classList.add('hidden');
+}
+
+adClose.addEventListener('click', () => {
+    adModal.classList.add('hidden');
+    sessionStorage.homeAdCloseFlag = 1;
+});
+adModal.addEventListener('click', (e) => {
+    if(e.target === adModal){
+        adModal.classList.add('hidden');
+        sessionStorage.homeAdCloseFlag = 1;
+    }
+});
+
+// 刷新页面 清除标记 = 刷新重新弹广告
+if (performance.navigation.type === 1) {
+    sessionStorage.removeItem('homeAdCloseFlag');
+}
 
     const navBtns = document.querySelectorAll('.nav-slider .nav-btn');
     const sections = document.querySelectorAll('.section-area');
