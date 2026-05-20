@@ -733,6 +733,11 @@ button:disabled {
     border-radius:6px;
     border:1px solid #ccc;
 }
+
+/* 只在听写面板显示时，禁止页面上下拉刷新 */
+body.dictation-active {
+  overscroll-behavior-y: contain; /* 阻止下拉刷新 + 上滑回弹刷新 */
+}
     </style>
 </head>
 <body>
@@ -951,21 +956,22 @@ button:disabled {
                     }
                 }
             });
-            // 滑动切换上下一题
-            elements.dictationMainBox.addEventListener('touchstart', function(e){
-                touchStartY = e.touches[0].clientY;
-            });
-            elements.dictationMainBox.addEventListener('touchend', function(e){
-                const touchEndY = e.changedTouches[0].clientY;
-                const diffY = touchEndY - touchStartY;
-                if(diffY < -SWIPE_THRESHOLD){
-                    elements.nextBtn.click();
-                }
-                else if(diffY > SWIPE_THRESHOLD){
-                    elements.prevBtn.click();
-                }
-            });
+            document.addEventListener('touchstart', function(e) {
+    touchStartY = e.touches[0].clientY;
+});
 
+document.addEventListener('touchend', function(e) {
+    if (elements.dictationPanel.classList.contains('hidden')) return;
+
+    const touchEndY = e.changedTouches[0].clientY;
+    const diffY = touchEndY - touchStartY;
+
+    if (diffY < -SWIPE_THRESHOLD) {
+        elements.nextBtn.click();
+    } else if (diffY > SWIPE_THRESHOLD) {
+        elements.prevBtn.click();
+    }
+});
             // 悬浮返回按钮
             document.getElementById('floatExitBtn').addEventListener('click',exitDictation);
 
@@ -1213,6 +1219,7 @@ button:disabled {
                 allCompleted = false;
                 elements.inputPanel.classList.add('hidden');
                 elements.dictationPanel.classList.remove('hidden');
+                document.body.classList.add('dictation-active'); // 加上这句
                 updateDictationContent();
                 resetPlayIcon();
                 syncAutoStyle();
@@ -1358,7 +1365,8 @@ button:disabled {
                 if(confirm('确定退出听写吗？')){
                     stopReading();
                     elements.inputPanel.classList.remove('hidden');
-                    elements.dictationPanel.classList.add('hidden');
+elements.dictationPanel.classList.add('hidden');
+document.body.classList.remove('dictation-active'); // 加上这句
                     isReading = false;
                     resetPlayIcon();
                 }
