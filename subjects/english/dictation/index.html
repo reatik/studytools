@@ -375,18 +375,47 @@ button:disabled {
 }
 
 .dictation-chinese {
-    font-size: 28px;           /* 大字号，清晰醒目 */
-    font-weight: 600;          /* 加粗 */
-    color: #202124;            /* 深黑灰色，护眼不刺眼 */
-    text-align: center;        /* 居中 */
-    line-height: 1.6;          /* 行高舒适 */
-    padding: 0 20px;           /* 左右留白，不贴边 */
-    word-break: break-word;    /* 自动换行 */
+    font-size: 28px;
+    font-weight: 600;
+    color: #202124;
+    text-align: center;
+    line-height: 1.6;
+    padding: 0 20px;
+    word-break: break-word;
     white-space: pre-line;
     max-width: 90%;
     margin: 0 auto;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1); /* 轻微阴影更立体 */
-    letter-spacing: 1px;       /* 字间距宽松 */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    letter-spacing: 1px;
+
+    /* 过渡核心：透明度 + 位移 */
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease-out; /* 0.3秒平滑过渡 */
+}
+
+/* 退场：向上滑出、透明 */
+.dictation-chinese.slide-up {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+/* 退场：向下滑出、透明 */
+.dictation-chinese.slide-down {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* 入场：从上方滑入 */
+.dictation-chinese.fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 入场：从下方滑入 */
+.dictation-chinese.fade-in-down {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
@@ -1225,16 +1254,42 @@ document.addEventListener('touchend', function(e) {
                 syncAutoStyle();
             });
             
-            // 播放页只显示中文，隐藏英文 + 序号
-            function updateDictationContent() {
-                if(currentLineIndex >= selectedRows.length)return;
-                let idx = selectedRows[currentLineIndex];
-                let item = lines[idx];
-                // 显示序号+中文
-                let number = currentLineIndex + 1;
-                elements.dictationChinese.innerText = `${number}.${item.chinese || ''}`;
-                elements.dictationChinese.style.display = 'block';
-            }
+// 播放页只显示中文，隐藏英文 + 序号（带上下滑动过渡）
+function updateDictationContent(direction = 'next') { // direction: next=下一题(上滑), prev=上一题(下滑)
+    if(currentLineIndex >= selectedRows.length) return;
+
+    const chineseEl = elements.dictationChinese;
+    // 1. 先播放退场动画
+    if (direction === 'next') {
+        chineseEl.classList.add('slide-up');
+    } else {
+        chineseEl.classList.add('slide-down');
+    }
+
+    // 2. 等退场动画结束（300ms），再换文字 + 入场动画
+    setTimeout(() => {
+        let idx = selectedRows[currentLineIndex];
+        let item = lines[idx];
+        let number = currentLineIndex + 1;
+
+        // 换文字
+        chineseEl.innerText = `${number}.${item.chinese || ''}`;
+        chineseEl.style.display = 'block';
+
+        // 清掉退场class，加上入场class
+        chineseEl.classList.remove('slide-up', 'slide-down');
+        if (direction === 'next') {
+            chineseEl.classList.add('fade-in-down'); // 下一题：从下往上入
+        } else {
+            chineseEl.classList.add('fade-in-up');   // 上一题：从上往下入
+        }
+
+        // 动画结束清掉入场class
+        setTimeout(() => {
+            chineseEl.classList.remove('fade-in-up', 'fade-in-down');
+        }, 300);
+    }, 300);
+}
     
             // 朗读当前条目
             function readCurrentItem() {
