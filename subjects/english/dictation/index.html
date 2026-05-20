@@ -36,7 +36,7 @@ body {
 }
 
 .panel {
-    background-color: white;
+    background-color: #f5f5f5;
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 8px;
@@ -215,17 +215,31 @@ button:disabled {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0px !important; /* 干掉外层大间距 */
+    gap: 0px !important;
     width: 100%;
     margin-top: 20px !important;
 }
 
-.control-row-top {
+.play-controls-center {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 40px !important; /* 按钮之间0间距 */
-    width: auto !important; /* 不撑宽 */
+    gap: 30px;
+}
+
+.auto-play-btn {
+    background: #f1f3f4;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.auto-play-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
 }
 
 .dictation-btn {
@@ -239,8 +253,8 @@ button:disabled {
     border: none;
     cursor: pointer;
     padding: 0;
-    margin: 0 -8px !important; /* 强负边距，直接重叠靠拢 */
-    flex: none !important; /* 禁止被拉伸 */
+    margin: 0 -8px !important;
+    flex: none !important;
 }
 
 .dictation-btn img {
@@ -249,8 +263,6 @@ button:disabled {
     object-fit: contain;
     display: block !important;
 }
-
-
 
 .progress {
     margin: 12px 0;
@@ -262,9 +274,48 @@ button:disabled {
 .language-modes {
     display: flex;
     align-items: center;
-    margin-top: 12px;
+    margin-top: 16px;
     width: 100%;
     white-space: nowrap;
+}
+
+.mode-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding: 10px 12px;
+    background-color: #f1f3f4;
+    border: 1px solid #dadce0;
+    border-radius: 6px;
+}
+
+.mode-row-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.play-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    gap: 40px;
+}
+
+.play-controls-left {
+    width: 50px;
+}
+
+.play-controls-center {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.play-controls-right {
+    width: 50px;
 }
 
 .language-toggle-container {
@@ -295,19 +346,26 @@ button:disabled {
 }
 
 .dictation-content {
-    margin: 20px 0;
-    padding: 15px;
-    border: 1px solid var(--medium-gray);
-    border-radius: 8px;
-    background-color: white;
-    min-height: 100px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background-color: #f5f5f5;
+    width: 100vw;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
 }
 
+/* 强制隐藏英文 */
 .dictation-english {
+    display: none !important;
     font-size: 1.2rem;
     font-weight: 500;
     margin-bottom: 10px;
@@ -317,30 +375,23 @@ button:disabled {
 }
 
 .dictation-chinese {
-    font-size: 1rem;
-    color: var(--secondary-color);
-    text-align: center;
-    word-break: break-word;
+    font-size: 28px;           /* 大字号，清晰醒目 */
+    font-weight: 600;          /* 加粗 */
+    color: #202124;            /* 深黑灰色，护眼不刺眼 */
+    text-align: center;        /* 居中 */
+    line-height: 1.6;          /* 行高舒适 */
+    padding: 0 20px;           /* 左右留白，不贴边 */
+    word-break: break-word;    /* 自动换行 */
     white-space: pre-line;
+    max-width: 90%;
+    margin: 0 auto;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1); /* 轻微阴影更立体 */
+    letter-spacing: 1px;       /* 字间距宽松 */
 }
+
 
 .dictation-chinese.hidden {
     display: none;
-}
-
-.auto-play-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 12px;
-    width: 100%;
-}
-
-.auto-play-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
 }
 
 .combined-controls {
@@ -349,46 +400,38 @@ button:disabled {
     gap: 10px;
 }
 
-.auto-play-count, 
-.auto-play-interval {
+.repeat-mini {
     display: flex;
     align-items: center;
-    gap: 4px;
-    width: 100%;
+    gap: 2px;
 }
 
-.auto-play-count-btn, 
-.auto-play-interval-btn {
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
+.repeat-mini-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    background-color: var(--light-gray);
+    border: 1px solid var(--medium-gray);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--light-gray);
-    font-size: 12px;
     padding: 0;
 }
 
-.auto-play-count-value, 
-.auto-play-interval-value {
-    min-width: 24px;
+.repeat-mini-val {
+    min-width: 20px;
     text-align: center;
     font-size: 12px;
+    color: var(--dark-gray);
 }
 
-.auto-play-interval-value {
-    width: 50px;
-    padding: 2px;
-    font-size: 12px;
-}
-
-.auto-play-label {
+.repeat-mini-label {
     font-size: 12px;
     color: var(--dark-gray);
-    white-space: nowrap;
-    min-width: auto;
-    margin-right: 4px;
+    margin-left: 4px;
 }
 
 .auto-play-toggle {
@@ -538,7 +581,6 @@ button:disabled {
     padding: 12px;
     margin-bottom: 12px;
     font-size: 13px;
-
 }
 
 .prompt-content {
@@ -615,53 +657,32 @@ button:disabled {
     height: 16px;
 }
 
-#exitBtn {
-    background-color: var(--light-gray);
-    color: var(--dark-gray);
-    width: auto;
-    height: 44px;
-    border-radius: 6px;
-    padding: 0 20px;
-    font-size: 14px;
-    border: 1px solid var(--medium-gray); /* 加边框 */
-    margin-top: 15px; /* 往下移 */
-}
-
-/* 进度文字放到中文下一行 */
 .progress-text {
     font-size: 13px;
     color: var(--dark-gray);
+    min-width: 40px;
+}
+
+.complete-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    background-color: var(--success-color);
+    color: white;
+    font-size: 14px;
+    line-height: 22px;
     text-align: center;
-    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* 进度条外层容器 */
-.progress-bar-wrap {
-    width: 100%;
-    height: 6px;
-    background-color: var(--medium-gray);
-    border-radius: 3px;
-    margin-top: 10px;
-    overflow: hidden;
-}
-
-/* 进度条蓝色填充 */
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background-color: var(--primary-color);
-    border-radius: 3px;
-    transition: width 0.3s ease;
-}
-
-/* 上一个 / 下一个 图标悬停变蓝色 */
 #prevBtn:hover img,
 #nextBtn:hover img {
     filter: brightness(0) saturate(100%) invert(26%) sepia(99%) saturate(1765%) hue-rotate(206deg) brightness(97%) contrast(101%);
     transition: filter 0.2s ease;
 }
 
-/* 点击时也保持蓝色 */
 #prevBtn:active img,
 #nextBtn:active img {
     filter: brightness(0) saturate(100%) invert(26%) sepia(99%) saturate(1765%) hue-rotate(206deg) brightness(97%) contrast(101%);
@@ -672,6 +693,46 @@ button:disabled {
   filter: brightness(0) saturate(100%) invert(26%) sepia(99%) saturate(1765%) hue-rotate(206deg) brightness(97%) contrast(101%);
   transition: filter 0.2s ease;
 }
+
+/* 左上角悬浮返回 */
+.fix-back-btn{
+    position: fixed;
+    top:15px;
+    left:15px;
+    z-index:9999;
+    padding:6px 15px;
+    background:#fff;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:14px;
+}
+
+/* 右侧悬浮设置面板 */
+.right-fix-set{
+    position:fixed;
+    right:15px;
+    top:80%; /* 下移控件 */
+    transform:translateY(-50%);
+    z-index:9999;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+.set-btn{
+    padding:8px 12px;
+    border-radius:6px;
+    border:none;
+    background:#fff;
+    box-shadow:0 0 5px #ddd;
+    font-size:14px;
+}
+.count-select{
+    width:70px;
+    text-align:center;
+    padding:6px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
     </style>
 </head>
 <body>
@@ -680,63 +741,50 @@ button:disabled {
             <h2>听写工具</h2>
             <textarea id="inputText" placeholder="请将默写的内容粘贴到此处"></textarea>
 
-            <div id="promptHelp" class="prompt-help">
-                <div class="prompt-title">使用说明</div>
-                <p>
-                    <strong>1.准备默写内容</strong><br>
-
-                    - 拍摄文本内容（确保光线充足、文字清晰）<br>
-                    - 将照片导入AI工具（如豆包、腾讯元宝、deepseek等），使用以下提示词：
-                    <div style="background:#f8f9fa; padding:12px; border-radius:4px; margin:8px 0; position:relative; min-height:50px;">
-                        <div style="padding-right:100px; word-break:break-word; line-height:1.5;">
-                            提取图片中的中英文对照内容：英文在前中文在后，单空格分隔；保留原始格式（包括连字符单词）；每组独立成行
-                        </div>
-                        <button id="copyPromptBtn" class="copy-btn" title="复制提示词">
-                            <span class="copy-text">复制提示词</span>
-                            <svg class="copy-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-                                <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="#34A853"/>
-                            </svg>
-                        </button>
+            <div id="promptHelp" class="prompt-help" style="margin-bottom: 12px;">
+                <div style="background:#f8f9fa; padding:12px; border-radius:4px; position:relative; min-height:50px;">
+                    <div style="padding-right:100px; word-break:break-word; line-height:1.5;">
+                        提取图片中的中英文对照内容：英文在前中文在后，单空格分隔；保留原始格式（包括连字符单词）；每组独立成行
                     </div>
-                    
-                    <div id="copyNotification" class="copy-notification">
-                        <svg class="check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <button id="copyPromptBtn" class="copy-btn" title="复制提示词">
+                        <span class="copy-text">复制AI提示词</span>
+                        <svg class="copy-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
                             <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="#34A853"/>
                         </svg>
-                        <span>已复制</span>
-                    </div>
-                    <em>如果已准备好默写内容，可跳过此步骤直接粘贴</em><br><br>
-                    
-                    <strong>2.放入输入框</strong><br>
-                    将中英文内容粘贴到上方输入框中，注意：<br>
-                    - 每组"英文 中文"保持在同一行<br>
-                    - 中英文间用单个空格分隔<br>
-                    示例：<br>
-                    <code style="background:#f1f3f4; padding:2px 4px; border-radius:3px;">apple 苹果</code><br>
-                    <code style="background:#f1f3f4; padding:2px 4px; border-radius:3px;">banana 香蕉</code><br><br>
-                    
-                    <strong>4.选择内容</strong><br>
-                    系统会自动生成内容卡片：<br>
-                    - 点击单条切换选中状态（蓝色边框标识）<br>
-                    - 支持"全选/反选"批量操作<br><br>
-                    
-                    <strong>5.开始朗读</strong><br>
-                    点击"朗读"开始听写，可调整：<br>
-                    - 语言组合：中英/中文/英文<br>
-                    - 播报顺序：中→英 或 英→中<br>
-                    - 自动播报开关<br>
-                    - 重复次数（1-5遍）<br>
-                    - 播报间隔时间
-                </p>
+                    </button>
+                </div>
+                <div id="copyNotification" class="copy-notification">
+                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="#34A853"/>
+                    </svg>
+                    <span>已复制</span>
+                </div>
+            </div>
+            
+            <div id="tutorialSection" class="prompt-help" style="cursor:pointer;">
+                <div class="prompt-title" style="display:flex; align-items:center; justify-content:space-between;">
+                    <span>详细教程</span>
+                    <span id="tutorialArrow">▼</span>
+                </div>
+                <div id="tutorialContent" style="display:none; margin-top:10px;">
+                    <p>
+                        <strong>1.准备默写内容</strong><br>
+                        - 拍摄文本内容（确保光线充足、文字清晰）<br>
+                        - 将照片导入AI工具使用上方提示词转换<br>
+                        <em>已有内容可直接跳过</em><br><br>
+                        <strong>2.粘贴内容</strong><br>
+                        格式：英文 中文 一行一组<br><br>
+                        <strong>3.勾选内容开始听写</strong>
+                    </p>
+                </div>
             </div>
             
             <div class="button-group">
                 <div id="actionButtons" class="button-row hidden">
-                    <button id="toggleSelectAllBtn" class="small-btn">取消全选</button>
+                    <button id="toggleSelectAllBtn" class="small-btn">全选</button>
                     <button id="invertSelectionBtn" class="small-btn">反选</button>
                     <button id="clearBtn" class="small-btn">清空</button>
                 </div>
-                <div id="statusInfo" class="status-info hidden"></div>
                 <button id="startBtn" class="btn-primary hidden">开始朗读</button>
             </div>
             
@@ -745,72 +793,59 @@ button:disabled {
             </div>
         </div>
 
+        <!-- 听写播放页面 -->
         <div id="dictationPanel" class="panel hidden">
+            <!-- 悬浮返回 -->
+            <button class="fix-back-btn" id="floatExitBtn">返回</button>
+            <!-- 右侧悬浮设置 -->
+            <div class="right-fix-set">
+                <button class="set-btn" id="floatAutoBtn">auto</button>
+                <select class="count-select" id="countSelect">
+                    <option value="1">1遍</option>
+                    <option value="2">2遍</option>
+                    <option value="3">3遍</option>
+                    <option value="4">4遍</option>
+                    <option value="5">5遍</option>
+                    <option value="99">无限循环</option>
+                </select>
+            </div>
 
-            
-            <div class="language-modes">
-                <div class="language-toggle-container">
+            <div class="mode-row">
+                <div class="mode-row-left">
                     <span class="play-order-label">播放模式</span>
                     <div id="englishToggleBtn" class="language-toggle-btn active">英</div>
                     <div id="toggleArrow" class="toggle-arrow">↔</div>
                     <div id="chineseToggleBtn" class="language-toggle-btn active">中</div>
                 </div>
+                <div class="repeat-mini">
+                    <button id="decreaseCountBtn" class="repeat-mini-btn">-</button>
+                    <span id="repeatCountValue" class="repeat-mini-val">1</span>
+                    <button id="increaseCountBtn" class="repeat-mini-btn">+</button>
+                    <span class="repeat-mini-label">遍</span>
+                </div>
             </div>
             
-            <div class="auto-play-controls">
-    <div class="auto-play-row">
-        <span class="auto-play-label">自动播报</span>
-        <div class="auto-play-toggle">
-            <div class="auto-play-toggle-switch">
-                <input type="checkbox" id="autoPlayToggle" checked>
-                <label for="autoPlayToggle"></label>
+            <div class="dictation-content" id="dictationMainBox">
+                <div id="dictationEnglish" class="dictation-english"></div>
+                <div id="dictationChinese" class="dictation-chinese"></div>
             </div>
-        </div>
-    </div>
-    <div class="auto-play-row">
-        <div class="auto-play-count">
-            <span class="auto-play-label">朗读遍数</span>
-            <button id="decreaseCountBtn" class="auto-play-count-btn">-</button>
-            <span id="repeatCountValue" class="auto-play-count-value">1</span>
-            <button id="increaseCountBtn" class="auto-play-count-btn">+</button>
-        </div>
-    </div>
-    <div class="auto-play-row">
-        <div class="auto-play-interval">
-            <span class="auto-play-label">间隔(ms)</span>
-            <button id="decreaseIntervalBtn" class="auto-play-interval-btn">-</button>
-            <input type="number" id="intervalValue" class="auto-play-interval-value" value="300" min="100" max="1000">
-            <button id="increaseIntervalBtn" class="auto-play-interval-btn">+</button>
-        </div>
-    </div>
-</div>
             
-<div class="dictation-content">
-    <div id="dictationEnglish" class="dictation-english"></div>
-    <div id="dictationChinese" class="dictation-chinese"></div>
-    <!-- 新增进度文字 + 进度条 -->
-    <div class="progress-text" id="progressText">0/0</div>
-    <div class="progress-bar-wrap">
-        <div class="progress-bar"></div>
-    </div>
-</div>
-            
-            <div class="dictation-controls">
-                <div class="control-row-top">
+            <div class="play-controls">
+                <div class="play-controls-left">
+                    <button id="autoPlayBtn" class="auto-play-btn active">自动</button>
+                </div>
+                <div class="play-controls-center">
                     <button id="prevBtn" class="dictation-btn prev-btn">
                         <img src="../../../images/back1.png" alt="上一个">
                     </button>
                     <button id="readBtn" class="dictation-btn">
-                        <img id="playImg" src="../../../play1.png" alt="播放">
+                        <img id="playImg" src="../../../images/play1.png" alt="播放">
                     </button>
                     <button id="nextBtn" class="dictation-btn next-btn">
                         <img src="../../../images/next1.png" alt="下一个">
                     </button>
                 </div>
-            
-                <div class="control-row-bottom">
-                    <button id="exitBtn">退出</button>
-                </div>
+                <div class="play-controls-right"></div>
             </div>
         </div>
     </div>
@@ -826,7 +861,6 @@ button:disabled {
                 nextBtn: document.getElementById('nextBtn'),
                 readBtn: document.getElementById('readBtn'),
                 playImg: document.getElementById('playImg'),
-                exitBtn: document.getElementById('exitBtn'),
                 progressText: document.getElementById('progressText'),
                 contentList: document.getElementById('contentList'),
                 contentGrid: document.getElementById('contentGrid'),
@@ -834,19 +868,16 @@ button:disabled {
                 invertSelectionBtn: document.getElementById('invertSelectionBtn'),
                 clearBtn: document.getElementById('clearBtn'),
                 actionButtons: document.getElementById('actionButtons'),
-                statusInfo: document.getElementById('statusInfo'),
                 dictationEnglish: document.getElementById('dictationEnglish'),
                 dictationChinese: document.getElementById('dictationChinese'),
-                autoPlayToggle: document.getElementById('autoPlayToggle'),
+                autoPlayBtn: document.getElementById('autoPlayBtn'),
+                englishToggleBtn: document.getElementById('englishToggleBtn'),
+                chineseToggleBtn: document.getElementById('chineseToggleBtn'),
+                toggleArrow: document.getElementById('toggleArrow'),
                 decreaseCountBtn: document.getElementById('decreaseCountBtn'),
                 increaseCountBtn: document.getElementById('increaseCountBtn'),
                 repeatCountValue: document.getElementById('repeatCountValue'),
-                decreaseIntervalBtn: document.getElementById('decreaseIntervalBtn'),
-                increaseIntervalBtn: document.getElementById('increaseIntervalBtn'),
-                intervalValue: document.getElementById('intervalValue'),
-                englishToggleBtn: document.getElementById('englishToggleBtn'),
-                chineseToggleBtn: document.getElementById('chineseToggleBtn'),
-                toggleArrow: document.getElementById('toggleArrow')
+                dictationMainBox: document.getElementById('dictationMainBox')
             };
     
             const synth = window.speechSynthesis;
@@ -856,6 +887,7 @@ button:disabled {
             let isReading = false;
             let currentUtterance = null;
             let isPlaying = false;
+            let allCompleted = false;
     
             let autoPlayEnabled = true;
             let repeatCount = 1;
@@ -870,7 +902,118 @@ button:disabled {
     
             let autoPlayLockPlay2 = false;
             let isReadingGroup = false;
+            let tutorialExpanded = false;
+            let currentPlayingLineIndex = -1;
+            let dragReadTimeout = null;
+            let readSessionId = 0;
 
+            let touchStartY = 0;
+            const SWIPE_THRESHOLD = 60;
+
+            // 本地存储工具
+            const Storage = {
+                get(key, def) {
+                    try {
+                        let v = localStorage.getItem(key);
+                        return v == null ? def : JSON.parse(v);
+                    } catch(e) { return def; }
+                },
+                set(key, val) {
+                    try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
+                }
+            };
+
+            // 加载上次设置
+            let savedAuto = Storage.get('dict_auto', true);
+            let savedCount = Storage.get('dict_count', 1);
+            autoPlayEnabled = savedAuto;
+            repeatCount = savedCount;
+
+            const countSelect = document.getElementById('countSelect');
+            countSelect.value = repeatCount;
+            if(repeatCount === 99){
+                elements.repeatCountValue.innerText = "无限";
+            }else{
+                elements.repeatCountValue.innerText = repeatCount;
+            }
+
+            // 全屏区域点击播放暂停
+            elements.dictationMainBox.addEventListener('click', function(e){
+                if (isPlaying) {
+                    stopReading();
+                } else {
+                    if (autoPlayEnabled) {
+                        currentRepeat = 0;
+                        autoPlayLockPlay2 = true;
+                        readCurrentItem();
+                    } else {
+                        readCurrentItem();
+                    }
+                }
+            });
+            // 滑动切换上下一题
+            elements.dictationMainBox.addEventListener('touchstart', function(e){
+                touchStartY = e.touches[0].clientY;
+            });
+            elements.dictationMainBox.addEventListener('touchend', function(e){
+                const touchEndY = e.changedTouches[0].clientY;
+                const diffY = touchEndY - touchStartY;
+                if(diffY < -SWIPE_THRESHOLD){
+                    elements.nextBtn.click();
+                }
+                else if(diffY > SWIPE_THRESHOLD){
+                    elements.prevBtn.click();
+                }
+            });
+
+            // 悬浮返回按钮
+            document.getElementById('floatExitBtn').addEventListener('click',exitDictation);
+
+            // 右侧悬浮自动按钮联动
+            const floatAutoBtn = document.getElementById('floatAutoBtn');
+            function syncAutoStyle(){
+                if(autoPlayEnabled){
+                    floatAutoBtn.style.background='#1A73E8';
+                    floatAutoBtn.style.color='#fff';
+                    elements.autoPlayBtn.classList.add('active');
+                }else{
+                    floatAutoBtn.style.background='#fff';
+                    floatAutoBtn.style.color='#333';
+                    elements.autoPlayBtn.classList.remove('active');
+                }
+            }
+            syncAutoStyle();
+
+            floatAutoBtn.addEventListener('click',function(){
+                autoPlayEnabled = !autoPlayEnabled;
+                Storage.set('dict_auto', autoPlayEnabled);
+                syncAutoStyle();
+                if(!autoPlayEnabled){
+                    clearTimeout(autoPlayTimeout);
+                }
+            });
+
+            // 右侧下拉选择播放遍数
+            countSelect.addEventListener('change',function(){
+                repeatCount = parseInt(this.value);
+                Storage.set('dict_count', repeatCount);
+                if(repeatCount === 99){
+                    elements.repeatCountValue.innerText = "无限";
+                }else{
+                    elements.repeatCountValue.innerText = repeatCount;
+                }
+            });
+
+            // 教程展开收起
+            document.getElementById('tutorialSection').addEventListener('click', function() {
+                const content = document.getElementById('tutorialContent');
+                const arrow = document.getElementById('tutorialArrow');
+                tutorialExpanded = !tutorialExpanded;
+                content.style.display = tutorialExpanded ? 'block' : 'none';
+                arrow.textContent = tutorialExpanded ? '▲' : '▼';
+            });
+
+            // 初始化语音音色
             function initVoices() {
                 voices = synth.getVoices();
                 if (voices.length === 0) setTimeout(initVoices, 100);
@@ -889,20 +1032,20 @@ button:disabled {
             elements.clearBtn.addEventListener('click', function() {
                 selectedRows = [];
                 renderContentGrid();
-                updateStatusInfo();
                 updateToggleSelectAllButton();
             });
     
+            // 自动解析粘贴文本
             function autoImportContent() {
                 const text = elements.inputText.value.trim();
                 document.getElementById('promptHelp').style.display = text ? 'none' : 'block';
+                document.getElementById('tutorialSection').style.display = text ? 'none' : 'block';
     
                 if (!text) {
                     lines = []; selectedRows = [];
                     elements.contentGrid.innerHTML = '';
                     elements.startBtn.classList.add('hidden');
                     elements.actionButtons.classList.add('hidden');
-                    elements.statusInfo.classList.add('hidden');
                     return;
                 }
     
@@ -936,12 +1079,11 @@ button:disabled {
     
                 selectedRows = Array.from({ length: lines.length }, (_, i) => i);
                 elements.actionButtons.classList.remove('hidden');
-                elements.statusInfo.classList.remove('hidden');
                 elements.startBtn.classList.remove('hidden');
-                updateStatusInfo();
                 renderContentGrid();
             }
     
+            // 复制提示词
             document.getElementById('copyPromptBtn').addEventListener('click', function() {
                 const promptText = "提取图片中的中英文对照内容：英文在前中文在后，单空格分隔；保留原始格式（包括连字符单词）；每组独立成行";
                 const textarea = document.createElement('textarea');
@@ -949,30 +1091,16 @@ button:disabled {
                 textarea.style.position = 'fixed';
                 document.body.appendChild(textarea);
                 textarea.select();
-    
                 try {
-                    const successful = document.execCommand('copy');
-                    if (successful) {
-                        const btn = this;
-                        const notification = document.getElementById('copyNotification');
-                        const copyText = btn.querySelector('.copy-text');
-                        const copyIcon = btn.querySelector('.copy-icon');
-    
-                        copyText.style.display = 'none';
-                        copyIcon.style.display = 'block';
-                        notification.classList.add('show');
-    
-                        setTimeout(() => {
-                            notification.classList.remove('show');
-                            copyText.style.display = 'block';
-                            copyIcon.style.display = 'none';
-                        }, 2000);
+                    const ok = document.execCommand('copy');
+                    if(ok){
+                        document.getElementById('copyNotification').classList.add('show');
+                        setTimeout(()=>{
+                            document.getElementById('copyNotification').classList.remove('show');
+                        },2000);
                     }
-                } catch (err) {
-                    console.error('复制失败:', err);
-                } finally {
-                    document.body.removeChild(textarea);
-                }
+                }catch(e){}
+                document.body.removeChild(textarea);
             });
     
             let debounceTimer;
@@ -983,6 +1111,7 @@ button:disabled {
     
             if (elements.inputText.value.trim()) autoImportContent();
     
+            // 字符判断
             function isChinesePunctuation(char) {
                 return /[《》「」『』【】（）]/.test(char);
             }
@@ -996,10 +1125,7 @@ button:disabled {
                 return /[\u4e00-\u9fa5]/.test(char);
             }
     
-            function updateStatusInfo() {
-                elements.statusInfo.textContent = `已导入 ${lines.length} 条，选中 ${selectedRows.length} 条`;
-            }
-    
+            // 渲染列表
             function renderContentGrid() {
                 elements.contentGrid.innerHTML = '';
                 lines.forEach((line, rowIndex) => {
@@ -1007,7 +1133,6 @@ button:disabled {
                     elements.contentGrid.appendChild(item);
                 });
                 setupItemInteractions();
-                updateStatusInfo();
             }
     
             function createContentItem(line, rowIndex) {
@@ -1015,11 +1140,10 @@ button:disabled {
                 item.className = 'content-item';
                 item.dataset.rowIndex = rowIndex;
                 if (isRowSelected(rowIndex)) item.classList.add('selected');
-    
                 item.innerHTML = `
-                        <div class="english-container">${line.english}</div>
-                        ${line.chinese ? `<div class="chinese-container">${line.chinese}</div>` : ''}
-                    `;
+                    <div class="english-container">${line.english}</div>
+                    ${line.chinese ? `<div class="chinese-container">${line.chinese}</div>` : ''}
+                `;
                 return item;
             }
     
@@ -1030,22 +1154,22 @@ button:disabled {
             function setupItemInteractions() {
                 document.querySelectorAll('.content-item').forEach(item => {
                     item.addEventListener('click', () => {
-                        const rowIndex = parseInt(item.dataset.rowIndex);
-                        handleItemSelection(rowIndex);
+                        const idx = parseInt(item.dataset.rowIndex);
+                        handleItemSelection(idx);
                     });
                 });
             }
     
             function handleItemSelection(rowIndex) {
-                const isSelected = isRowSelected(rowIndex);
-                toggleRowSelection(rowIndex, !isSelected);
+                const sel = isRowSelected(rowIndex);
+                toggleRowSelection(rowIndex,!sel);
             }
     
             function toggleRowSelection(rowIndex, select) {
-                if (select) {
-                    if (!isRowSelected(rowIndex)) selectedRows.push(rowIndex);
-                } else {
-                    selectedRows = selectedRows.filter(index => index !== rowIndex);
+                if(select){
+                    if(!selectedRows.includes(rowIndex)) selectedRows.push(rowIndex);
+                }else{
+                    selectedRows = selectedRows.filter(i=>i!==rowIndex);
                 }
                 renderContentGrid();
                 updateToggleSelectAllButton();
@@ -1053,212 +1177,185 @@ button:disabled {
     
             elements.invertSelectionBtn.addEventListener('click', invertSelection);
             function invertSelection() {
-                const allRowIndices = Array.from({ length: lines.length }, (_, i) => i);
-                selectedRows = allRowIndices.filter(rowIndex => !selectedRows.includes(rowIndex));
+                const all = Array.from({length:lines.length},(_,i)=>i);
+                selectedRows = all.filter(i=>!selectedRows.includes(i));
                 renderContentGrid();
                 updateToggleSelectAllButton();
             }
     
             elements.toggleSelectAllBtn.addEventListener('click', function() {
-                const allSelected = lines.length > 0 && selectedRows.length === lines.length;
-                allSelected ? deselectAll() : selectAll();
+                const allSel = lines.length>0 && selectedRows.length===lines.length;
+                allSel ? deselectAll() : selectAll();
             });
     
             function selectAll() {
-                selectedRows = Array.from({ length: lines.length }, (_, i) => i);
+                selectedRows = Array.from({length:lines.length},(_,i)=>i);
                 renderContentGrid();
-                elements.toggleSelectAllBtn.textContent = '取消全选';
+                elements.toggleSelectAllBtn.innerText = '取消全选';
             }
-    
             function deselectAll() {
                 selectedRows = [];
                 renderContentGrid();
-                elements.toggleSelectAllBtn.textContent = '全选';
+                elements.toggleSelectAllBtn.innerText = '全选';
             }
     
             function updateToggleSelectAllButton() {
-                const allSelected = lines.length > 0 && selectedRows.length === lines.length;
-                elements.toggleSelectAllBtn.textContent = allSelected ? '取消全选' : '全选';
+                const allSel = lines.length>0 && selectedRows.length===lines.length;
+                elements.toggleSelectAllBtn.innerText = allSel ? '取消全选' : '全选';
             }
     
+            // 进入听写页面
             elements.startBtn.addEventListener('click', function() {
-                if (lines.length === 0) return alert('没有可朗读的内容');
-                if (selectedRows.length === 0) return alert('请选择要朗读的内容');
-    
-                currentLineIndex = 0; currentRepeat = 0;
+                if(lines.length===0) return alert('暂无内容');
+                if(selectedRows.length===0) return alert('请勾选需要听写的内容');
+                currentLineIndex = 0;
+                currentRepeat = 0;
+                allCompleted = false;
                 elements.inputPanel.classList.add('hidden');
                 elements.dictationPanel.classList.remove('hidden');
-                updateProgress();
                 updateDictationContent();
                 resetPlayIcon();
+                syncAutoStyle();
             });
-    
-            function updateProgress() {
-                let now = currentLineIndex + 1;
-                let total = selectedRows.length;
-                elements.progressText.textContent = `${now}/${total}`;
-                let percent = total === 0 ? 0 : (now / total) * 100;
-                document.querySelector('.progress-bar').style.width = percent + '%';
-            }
-    
+            
+            // 播放页只显示中文，隐藏英文 + 序号
             function updateDictationContent() {
-                if (currentLineIndex >= selectedRows.length) return;
-                const rowIndex = selectedRows[currentLineIndex];
-                const line = lines[rowIndex];
-                elements.dictationChinese.textContent = line.chinese || '';
+                if(currentLineIndex >= selectedRows.length)return;
+                let idx = selectedRows[currentLineIndex];
+                let item = lines[idx];
+                // 显示序号+中文
+                let number = currentLineIndex + 1;
+                elements.dictationChinese.innerText = `${number}.${item.chinese || ''}`;
                 elements.dictationChinese.style.display = 'block';
             }
     
+            // 朗读当前条目
             function readCurrentItem() {
-                if (isReadingGroup) return;
+                if(isReadingGroup)return;
                 stopReading(false);
-                
-                if (currentLineIndex >= selectedRows.length) {
-                    currentLineIndex = selectedRows.length - 1;
+                if(currentLineIndex >= selectedRows.length){
+                    currentLineIndex = selectedRows.length-1;
                     return;
                 }
-
-                const rowIndex = selectedRows[currentLineIndex];
-                const line = lines[rowIndex];
-                if (!line) return;
-
+                let idx = selectedRows[currentLineIndex];
+                let item = lines[idx];
+                if(!item)return;
+                let sid = ++readSessionId;
                 isPlaying = true;
+                isReading = true;
                 isReadingGroup = true;
+                currentPlayingLineIndex = currentLineIndex;
                 setPlayIconActive();
-
-                readContentWithSettings(line, function(){
-                    isReadingGroup = false;
-                    if (!autoPlayEnabled) {
-                        resetPlayIcon();
-                        isPlaying = false;
-                    }
-                    if (autoPlayEnabled) {
-                        setTimeout(() => {
-                            handleAutoPlayNext();
-                        }, 800);
-                    }
-                });
+                readContentWithSettings(item,()=>{
+    isReadingGroup = false;
+    if(sid !== readSessionId)return;
+    
+    // 不管是否自动，都执行重复逻辑
+    if(autoPlayEnabled){
+        setTimeout(()=>{
+            if(sid !== readSessionId)return;
+            handleAutoPlayNext();
+        },800);
+    } else {
+        // 非自动模式：也按设置遍数朗读
+        handleAutoPlayNext();
+    }
+});
             }
 
-            function readContentWithSettings(line, allEndCallback) {
-                if (!englishEnabled && !chineseEnabled) {
-                    allEndCallback && allEndCallback();
-                    return;
-                }
-
-                const delay = 500;
-
-                if (englishEnabled && chineseEnabled) {
-                    if (languageOrder === 'english-first') {
-                        if (line.english && line.chinese) {
-                            readText(line.english, 'en', () => {
-                                setTimeout(() => {
-                                    readText(line.chinese, 'zh', allEndCallback);
-                                }, delay);
+            // 按设置朗读
+            function readContentWithSettings(line,cb) {
+                if(!englishEnabled && !chineseEnabled){cb&&cb();return;}
+                let delay = 500;
+                if(englishEnabled && chineseEnabled){
+                    if(languageOrder === 'english-first'){
+                        if(line.english && line.chinese){
+                            readText(line.english,'en',()=>{
+                                setTimeout(()=>readText(line.chinese,'zh',cb),delay);
                             });
-                        } else if (line.english) {
-                            readText(line.english, 'en', allEndCallback);
-                        } else if (line.chinese) {
-                            readText(line.chinese, 'zh', allEndCallback);
-                        }
-                    } else {
-                        if (line.chinese && line.english) {
-                            readText(line.chinese, 'zh', () => {
-                                setTimeout(() => {
-                                    readText(line.english, 'en', allEndCallback);
-                                }, delay);
+                        }else if(line.english) readText(line.english,'en',cb);
+                        else readText(line.chinese,'zh',cb);
+                    }else{
+                        if(line.chinese && line.english){
+                            readText(line.chinese,'zh',()=>{
+                                setTimeout(()=>readText(line.english,'en',cb),delay);
                             });
-                        } else if (line.chinese) {
-                            readText(line.chinese, 'zh', allEndCallback);
-                        } else if (line.english) {
-                            readText(line.english, 'en', allEndCallback);
-                        }
+                        }else if(line.chinese) readText(line.chinese,'zh',cb);
+                        else readText(line.english,'en',cb);
                     }
-                } else if (englishEnabled) {
-                    if (line.english) readText(line.english, 'en', allEndCallback);
-                    else allEndCallback && allEndCallback();
-                } else if (chineseEnabled) {
-                    if (line.chinese) readText(line.chinese, 'zh', allEndCallback);
-                    else allEndCallback && allEndCallback();
+                }else if(englishEnabled){
+                    line.english ? readText(line.english,'en',cb) : cb&&cb();
+                }else{
+                    line.chinese ? readText(line.chinese,'zh',cb) : cb&&cb();
                 }
             }
 
-            function readText(text, lang, onEnd) {
-                if (!text) {
-                    onEnd && onEnd();
-                    return;
-                }
-
-                currentUtterance = new SpeechSynthesisUtterance(text);
-                currentUtterance.rate = lang === 'zh' ? 0.9 : 1.0;
-
-                const voice = voices.find(v => v.lang.includes(lang === 'zh' ? 'zh' : 'en'));
-                if (voice) currentUtterance.voice = voice;
-
-                currentUtterance.onend = function() {
-                    onEnd && onEnd();
-                };
-
-                synth.speak(currentUtterance);
+            // 语音朗读
+            function readText(text,lang,cb) {
+                if(!text){cb&&cb();return;}
+                let sid = readSessionId;
+                let u = new SpeechSynthesisUtterance(text);
+                u.rate = lang==='zh'?0.9:1.0;
+                let v = voices.find(x=>x.lang.includes(lang==='zh'?'zh':'en'));
+                if(v)u.voice = v;
+                u.onend = ()=>{if(sid===readSessionId)cb&&cb();};
+                u.onerror = ()=>{if(sid===readSessionId)cb&&cb();};
+                synth.speak(u);
             }
     
-            function calculatePauseTime(charCount) {
-                const baseTime = 200;
-                const perCharTime = perCharInterval;
-                return Math.min(Math.max(baseTime + charCount * perCharTime, 200), 8000);
-            }
-    
-            function stopReading(needReset = true) {
+            // 停止朗读
+            function stopReading(reset=true) {
                 clearTimeout(autoPlayTimeout);
-                if (synth.speaking) {
-                    synth.cancel();
-                }
+                readSessionId++;
+                synth.cancel();
                 currentUtterance = null;
                 isPlaying = false;
                 isReadingGroup = false;
-                if (needReset) resetPlayIcon();
+                if(reset) resetPlayIcon();
             }
     
+            // 上一题
             elements.prevBtn.addEventListener('click', function() {
                 stopReading();
-                if (currentLineIndex > 0) {
+                allCompleted = false;
+                if(currentLineIndex>0){
                     currentLineIndex--;
-                    currentRepeat = 0;
-                    updateProgress();
+                    currentRepeat=0;
                     updateDictationContent();
                     readCurrentItem();
                 }
             });
     
+            // 下一题
             elements.nextBtn.addEventListener('click', function() {
                 stopReading();
-                if (currentLineIndex < selectedRows.length - 1) {
+                allCompleted = false;
+                if(currentLineIndex < selectedRows.length-1){
                     currentLineIndex++;
-                    currentRepeat = 0;
-                    updateProgress();
+                    currentRepeat=0;
                     updateDictationContent();
                     readCurrentItem();
                 }
             });
     
+            // 播放暂停按钮
             elements.readBtn.addEventListener('click', function() {
-                if (isPlaying) {
+                if(isPlaying){
                     stopReading();
-                } else {
-                    if (autoPlayEnabled) {
-                        currentRepeat = 0;
-                        autoPlayLockPlay2 = true;
+                }else{
+                    if(autoPlayEnabled){
+                        currentRepeat=0;
+                        autoPlayLockPlay2=true;
                         readCurrentItem();
-                    } else {
+                    }else{
                         readCurrentItem();
                     }
                 }
             });
     
-            elements.exitBtn.addEventListener('click', exitDictation);
-    
+            // 退出听写
             function exitDictation() {
-                if (confirm('确定要退出听写模式吗？')) {
+                if(confirm('确定退出听写吗？')){
                     stopReading();
                     elements.inputPanel.classList.remove('hidden');
                     elements.dictationPanel.classList.add('hidden');
@@ -1267,111 +1364,118 @@ button:disabled {
                 }
             }
     
+            // 中英文显示切换
             elements.englishToggleBtn.addEventListener('click', function() {
-                if (!chineseEnabled && englishEnabled) return;
+                if(!chineseEnabled && englishEnabled)return;
                 englishEnabled = !englishEnabled;
-                updateLanguageToggleButtons();
-    
-                if (isPlaying) {
+                updateLangBtn();
+                if(isPlaying){
                     stopReading(false);
-                    updateDictationContent();
-                    setTimeout(() => readCurrentItem(), 300);
+                    setTimeout(readCurrentItem,300);
                 }
             });
-    
             elements.chineseToggleBtn.addEventListener('click', function() {
-                if (!englishEnabled && chineseEnabled) return;
+                if(!englishEnabled && chineseEnabled)return;
                 chineseEnabled = !chineseEnabled;
-                updateLanguageToggleButtons();
-    
-                if (isPlaying) {
+                updateLangBtn();
+                if(isPlaying){
                     stopReading(false);
-                    updateDictationContent();
-                    setTimeout(() => readCurrentItem(), 300);
+                    setTimeout(readCurrentItem,300);
                 }
             });
-    
-            elements.toggleArrow.addEventListener('click', function() {
-                languageOrder = languageOrder === 'english-first' ? 'chinese-first' : 'english-first';
-                updateLanguageToggleButtons();
-    
-                if (isPlaying) {
-                    stopReading(false);
-                    updateDictationContent();
-                    setTimeout(() => readCurrentItem(), 300);
-                }
-            });
-    
-            function updateLanguageToggleButtons() {
-                elements.englishToggleBtn.classList.toggle('active', englishEnabled);
-                elements.chineseToggleBtn.classList.toggle('active', chineseEnabled);
-    
-                elements.toggleArrow.textContent = languageOrder === 'english-first' ? '→' : '←';
+            function updateLangBtn(){
+                englishEnabled ? elements.englishToggleBtn.classList.add('active') : elements.englishToggleBtn.classList.remove('active');
+                chineseEnabled ? elements.chineseToggleBtn.classList.add('active') : elements.chineseToggleBtn.classList.remove('active');
             }
     
-            elements.autoPlayToggle.addEventListener('change', function() {
-                autoPlayEnabled = this.checked;
-                if (!autoPlayEnabled) {
-                    autoPlayLockPlay2 = false;
-                    stopReading();
+            // 切换朗读顺序
+            elements.toggleArrow.addEventListener('click',function(){
+                languageOrder = languageOrder==='english-first' ? 'chinese-first' : 'english-first';
+                if(isPlaying){
+                    stopReading(false);
+                    setTimeout(readCurrentItem,300);
                 }
             });
     
-            elements.decreaseCountBtn.addEventListener('click', function() {
-                if (repeatCount > 1) {
-                    repeatCount--;
-                    elements.repeatCountValue.textContent = repeatCount;
+            // 原生自动按钮
+            elements.autoPlayBtn.addEventListener('click',function(){
+                autoPlayEnabled = !autoPlayEnabled;
+                Storage.set('dict_auto', autoPlayEnabled);
+                syncAutoStyle();
+                if(!autoPlayEnabled){
+                    clearTimeout(autoPlayTimeout);
                 }
             });
     
-            elements.increaseCountBtn.addEventListener('click', function() {
-                if (repeatCount < 5) {
+            // 增减遍数
+            elements.increaseCountBtn.addEventListener('click',function(){
+                if(repeatCount<5){
                     repeatCount++;
-                    elements.repeatCountValue.textContent = repeatCount;
+                    elements.repeatCountValue.innerText = repeatCount;
+                    countSelect.value = repeatCount;
+                    Storage.set('dict_count', repeatCount);
+                }
+            });
+            elements.decreaseCountBtn.addEventListener('click',function(){
+                if(repeatCount>1){
+                    repeatCount--;
+                    elements.repeatCountValue.innerText = repeatCount;
+                    countSelect.value = repeatCount;
+                    Storage.set('dict_count', repeatCount);
                 }
             });
     
-            elements.intervalValue.addEventListener('change', function() {
-                let value = parseInt(this.value);
-                if (isNaN(value)) value = 300;
-                value = Math.max(100, Math.min(1000, value));
-                this.value = value;
-                perCharInterval = value;
-            });
+            // 自动播放下一条逻辑
+function handleAutoPlayNext() {
+    if(repeatCount === 99){
+        // 无限循环：间隔2秒重复当前
+        autoPlayTimeout = setTimeout(()=>{
+            readCurrentItem();
+        }, 800);
+        return;
+    }
+
+    currentRepeat++;
+    if(currentRepeat < repeatCount){
+        readCurrentItem();
+        return;
+    }
+    currentRepeat = 0;
+
+    // ========== 核心修改 ==========
+    // 只有自动模式才自动切下一题，非自动只读完遍数停住
+    if(autoPlayEnabled){
+        currentLineIndex++;
+        if(currentLineIndex >= selectedRows.length){
+            allCompleted = true;
+            stopReading();
+            return;
+        }
+        updateDictationContent();
+        readCurrentItem();
+    }else{
+        // 非自动：读完设定遍数直接停止，不跳转下一题
+        resetPlayIcon();
+        isPlaying = false;
+    }
+}
+
+// 键盘上下方向键切换题目
+document.addEventListener('keydown', function(e){
+    // 只在听写页面生效
+    if(elements.dictationPanel.classList.contains('hidden')) return;
     
-            elements.decreaseIntervalBtn.addEventListener('click', function() {
-                let value = parseInt(elements.intervalValue.value) - 50;
-                value = Math.max(100, value);
-                elements.intervalValue.value = value;
-                perCharInterval = value;
-            });
-    
-            elements.increaseIntervalBtn.addEventListener('click', function() {
-                let value = parseInt(elements.intervalValue.value) + 50;
-                value = Math.min(1000, value);
-                elements.intervalValue.value = value;
-                perCharInterval = value;
-            });
-    
-            function handleAutoPlayNext() {
-                currentRepeat++;
-                if (currentRepeat < repeatCount) {
-                    readCurrentItem();
-                } else {
-                    currentLineIndex++;
-                    currentRepeat = 0;
-                    if (currentLineIndex >= selectedRows.length) {
-                        resetPlayIcon();
-                        alert('朗读已完成！');
-                        currentLineIndex = selectedRows.length - 1;
-                        updateProgress();
-                        return;
-                    }
-                    updateProgress();
-                    updateDictationContent();
-                    readCurrentItem();
-                }
-            }
+    // 上箭头 = 上一题
+    if(e.key === 'ArrowUp'){
+        e.preventDefault();
+        elements.prevBtn.click();
+    }
+    // 下箭头 = 下一题
+    if(e.key === 'ArrowDown'){
+        e.preventDefault();
+        elements.nextBtn.click();
+    }
+});
         });
     </script>
 </body>
