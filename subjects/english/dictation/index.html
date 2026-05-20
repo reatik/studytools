@@ -1287,8 +1287,7 @@ document.addEventListener('mouseup', function(e) {
                 syncAutoStyle();
             });
             
-// 更新题目 + 左右动画方向
-function updateDictationContent(direction = 'next') {
+            function updateDictationContent(direction = 'next') {
     if(currentLineIndex >= selectedRows.length) return;
 
     const chineseEl = elements.dictationChinese;
@@ -1314,12 +1313,20 @@ function updateDictationContent(direction = 'next') {
             chineseEl.classList.add('fade-in-up');   // 从左入
         }
 
+        // 等待入场动画完成 + 额外停顿，再朗读
         setTimeout(() => {
             chineseEl.classList.remove('fade-in-up', 'fade-in-down');
+            // 【核心修改】动画结束后再额外等待 800ms 再朗读，视觉停留足够明显
+            setTimeout(()=>{
+                // 仅自动播放模式才自动朗读
+                if(autoPlayEnabled){
+                    readCurrentItem();
+                }
+            }, 800);
         }, 300);
+
     }, 300);
 }
-    
             // 朗读当前条目
             function readCurrentItem() {
                 if(isReadingGroup)return;
@@ -1516,26 +1523,26 @@ document.body.classList.remove('dictation-active'); // 加上这句
                     Storage.set('dict_count', repeatCount);
                 }
             });
-    
-            // 自动播放下一条逻辑
-function handleAutoPlayNext() {
+            function handleAutoPlayNext() {
+    // 无限循环：间隔2秒重复当前
     if(repeatCount === 99){
-        // 无限循环：间隔2秒重复当前
         autoPlayTimeout = setTimeout(()=>{
             readCurrentItem();
-        }, 800);
+        }, 2000);
         return;
     }
 
+    // 普通重复：每一遍之间停顿2秒
     currentRepeat++;
     if(currentRepeat < repeatCount){
-        readCurrentItem();
+        autoPlayTimeout = setTimeout(() => {
+            readCurrentItem();
+        }, 2000);
         return;
     }
+    
+    // 读完所有遍数，重置并切下一题
     currentRepeat = 0;
-
-    // ========== 核心修改 ==========
-    // 只有自动模式才自动切下一题，非自动只读完遍数停住
     if(autoPlayEnabled){
         currentLineIndex++;
         if(currentLineIndex >= selectedRows.length){
@@ -1546,7 +1553,6 @@ function handleAutoPlayNext() {
         updateDictationContent();
         readCurrentItem();
     }else{
-        // 非自动：读完设定遍数直接停止，不跳转下一题
         resetPlayIcon();
         isPlaying = false;
     }
