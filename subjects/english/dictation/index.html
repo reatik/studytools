@@ -394,28 +394,28 @@ button:disabled {
     transition: all 0.3s ease-out; /* 0.3秒平滑过渡 */
 }
 
-/* 退场：向上滑出、透明 */
+/* 退场：向左滑出 */
 .dictation-chinese.slide-up {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateX(-100px);
 }
 
-/* 退场：向下滑出、透明 */
+/* 退场：向右滑出 */
 .dictation-chinese.slide-down {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(100px);
 }
 
-/* 入场：从上方滑入 */
+/* 入场：从右侧滑入 */
 .dictation-chinese.fade-in-up {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
 }
 
-/* 入场：从下方滑入 */
+/* 入场：从左侧滑入 */
 .dictation-chinese.fade-in-down {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
 }
 
 
@@ -942,7 +942,6 @@ body.dictation-active {
             let readSessionId = 0;
 
             let touchStartY = 0;
-            const SWIPE_THRESHOLD = 60;
 
             // 本地存储工具
             const Storage = {
@@ -985,22 +984,56 @@ body.dictation-active {
                     }
                 }
             });
-            document.addEventListener('touchstart', function(e) {
-    touchStartY = e.touches[0].clientY;
+// 统一：触屏左右滑 + 网页鼠标左右拖
+let touchStartX = 0;
+let isMouseDown = false;
+const SWIPE_THRESHOLD = 60;
+
+// ---------- 触屏 ----------
+document.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
 });
 
 document.addEventListener('touchend', function(e) {
     if (elements.dictationPanel.classList.contains('hidden')) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diffX = touchEndX - touchStartX;
 
-    const touchEndY = e.changedTouches[0].clientY;
-    const diffY = touchEndY - touchStartY;
-
-    if (diffY < -SWIPE_THRESHOLD) {
-        elements.nextBtn.click();
-    } else if (diffY > SWIPE_THRESHOLD) {
+    if (diffX > SWIPE_THRESHOLD) {
+        // 右滑 → 上一题
         elements.prevBtn.click();
+    } else if (diffX < -SWIPE_THRESHOLD) {
+        // 左滑 → 下一题
+        elements.nextBtn.click();
     }
 });
+
+// ---------- 网页鼠标拖动左右切换 ----------
+elements.dictationMainBox.addEventListener('mousedown', function(e) {
+    if (e.button !== 0) return;
+    isMouseDown = true;
+    touchStartX = e.clientX;
+    e.preventDefault();
+});
+
+document.addEventListener('mousemove', function(e) {
+    if (!isMouseDown) return;
+    e.preventDefault();
+});
+
+document.addEventListener('mouseup', function(e) {
+    if (!isMouseDown) return;
+    isMouseDown = false;
+    const endX = e.clientX;
+    const diffX = endX - touchStartX;
+
+    if (diffX > SWIPE_THRESHOLD) {
+        elements.prevBtn.click();
+    } else if (diffX < -SWIPE_THRESHOLD) {
+        elements.nextBtn.click();
+    }
+});
+
             // 悬浮返回按钮
             document.getElementById('floatExitBtn').addEventListener('click',exitDictation);
 
@@ -1254,37 +1287,33 @@ document.addEventListener('touchend', function(e) {
                 syncAutoStyle();
             });
             
-// 播放页只显示中文，隐藏英文 + 序号（带上下滑动过渡）
-function updateDictationContent(direction = 'next') { // direction: next=下一题(上滑), prev=上一题(下滑)
+// 更新题目 + 左右动画方向
+function updateDictationContent(direction = 'next') {
     if(currentLineIndex >= selectedRows.length) return;
 
     const chineseEl = elements.dictationChinese;
-    // 1. 先播放退场动画
+    // 退场动画
     if (direction === 'next') {
-        chineseEl.classList.add('slide-up');
+        chineseEl.classList.add('slide-up'); // 左滑出 → 下一题
     } else {
-        chineseEl.classList.add('slide-down');
+        chineseEl.classList.add('slide-down'); // 右滑出 → 上一题
     }
 
-    // 2. 等退场动画结束（300ms），再换文字 + 入场动画
     setTimeout(() => {
         let idx = selectedRows[currentLineIndex];
         let item = lines[idx];
         let number = currentLineIndex + 1;
 
-        // 换文字
         chineseEl.innerText = `${number}.${item.chinese || ''}`;
         chineseEl.style.display = 'block';
 
-        // 清掉退场class，加上入场class
         chineseEl.classList.remove('slide-up', 'slide-down');
         if (direction === 'next') {
-            chineseEl.classList.add('fade-in-down'); // 下一题：从下往上入
+            chineseEl.classList.add('fade-in-down'); // 从右入
         } else {
-            chineseEl.classList.add('fade-in-up');   // 上一题：从上往下入
+            chineseEl.classList.add('fade-in-up');   // 从左入
         }
 
-        // 动画结束清掉入场class
         setTimeout(() => {
             chineseEl.classList.remove('fade-in-up', 'fade-in-down');
         }, 300);
@@ -1523,18 +1552,17 @@ function handleAutoPlayNext() {
     }
 }
 
-// 键盘上下方向键切换题目
 document.addEventListener('keydown', function(e){
     // 只在听写页面生效
     if(elements.dictationPanel.classList.contains('hidden')) return;
     
-    // 上箭头 = 上一题
-    if(e.key === 'ArrowUp'){
+    // 左箭头 ← = 上一题
+    if(e.key === 'ArrowLeft'){
         e.preventDefault();
         elements.prevBtn.click();
     }
-    // 下箭头 = 下一题
-    if(e.key === 'ArrowDown'){
+    // 右箭头 → = 下一题
+    if(e.key === 'ArrowRight'){
         e.preventDefault();
         elements.nextBtn.click();
     }
