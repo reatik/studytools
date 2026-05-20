@@ -365,25 +365,18 @@ tr:hover {
     border-color: var(--secondary-color);
 }
 
+.checkbox-item.selected {
+    background: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+}
+
+.checkbox-item.selected:hover {
+    background: #4aaf8a;
+}
+
 .checkbox-item input {
-    margin-right: 10px;
-    accent-color: var(--secondary-color);
-}
-
-/* 全选样式 */
-.select-all {
-    font-weight: bold;
-    padding: 12px 15px;
-    background: white;
-    border-radius: 6px;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.select-all input {
-    margin-right: 10px;
+    display: none;
 }
 
 /* 弹窗头部和底部 */
@@ -565,15 +558,12 @@ tr:hover {
                 <button class="close-btn" id="close-grade-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="select-all">
-                    <input type="checkbox" id="select-all-grades">
-                    <label for="select-all-grades">全部年级</label>
-                </div>
                 <div class="grade-group" id="grade-checkboxes"></div>
             </div>
             <div class="modal-footer">
-                <button class="modal-btn modal-btn-secondary" id="cancel-grade">取消</button>
                 <button class="modal-btn modal-btn-primary" id="confirm-grade">确认</button>
+                <button class="modal-btn modal-btn-secondary" id="cancel-grade">取消</button>
+
             </div>
         </div>
     </div>
@@ -586,15 +576,12 @@ tr:hover {
                 <button class="close-btn" id="close-unit-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="select-all">
-                    <input type="checkbox" id="select-all-units">
-                    <label for="select-all-units">全部单元</label>
-                </div>
                 <div class="unit-container" id="unit-checkboxes"></div>
             </div>
             <div class="modal-footer">
-                <button class="modal-btn modal-btn-secondary" id="cancel-unit">取消</button>
                 <button class="modal-btn modal-btn-primary" id="confirm-unit">确认</button>
+                <button class="modal-btn modal-btn-secondary" id="cancel-unit">取消</button>
+
             </div>
         </div>
     </div>
@@ -611,10 +598,31 @@ let englishVisible = true;
 let chineseVisible = true;
 let selectedGrades = [];
 let selectedUnits = [];
+let tempSelectedGrades = [];  // 暂存年级选择（确认前）
+let tempSelectedUnits = [];    // 暂存单元选择（确认前）
 let allGrades = [];
 let allUnits = [];
 let longPressTimer = null;
 const mobileTooltip = document.getElementById('phonetic-tooltip-mobile');
+
+// ====================== 【记忆：保存到本地】 ======================
+function saveSelection() {
+  localStorage.setItem('selectedGrades', JSON.stringify(selectedGrades));
+  localStorage.setItem('selectedUnits', JSON.stringify(selectedUnits));
+}
+
+// ====================== 【记忆：从本地读取】 ======================
+function loadSelection() {
+  try {
+    const g = localStorage.getItem('selectedGrades');
+    const u = localStorage.getItem('selectedUnits');
+    if (g) selectedGrades = JSON.parse(g);
+    if (u) selectedUnits = JSON.parse(u);
+  } catch (e) {
+    selectedGrades = [];
+    selectedUnits = [];
+  }
+}
 
 // 自定义年级排序函数
 function sortGrades(a, b) {
@@ -642,23 +650,19 @@ function sortGrades(a, b) {
 
 // 自定义单元排序函数
 function sortUnits(a, b) {
-    // 提取数字的函数，支持M几U几和Unit几两种格式
     const extractNumber = (str) => {
-        // 尝试匹配M几U几格式
         const mFormat = str.match(/M(\d+)U(\d+)/i);
         if (mFormat) return [parseInt(mFormat[1]), parseInt(mFormat[2])];
         
-        // 尝试匹配Unit几格式
         const unitFormat = str.match(/Unit\s*(\d+)/i);
-        if (unitFormat) return [0, parseInt(unitFormat[1])]; // 默认模块号为0
+        if (unitFormat) return [0, parseInt(unitFormat[1])];
         
-        return [0, 0]; // 默认值
+        return [0, 0];
     };
     
     const [aModule, aUnit] = extractNumber(a);
     const [bModule, bUnit] = extractNumber(b);
     
-    // 先比较模块号，再比较单元号
     if (aModule !== bModule) {
         return aModule - bModule;
     }
@@ -702,7 +706,7 @@ function updateButtonText() {
     }
 }
 
-// 填充年级复选框（上下学期放在同一行）
+// 填充年级点选（上下学期放在同一行）
 function populateGradeCheckboxes() {
     const gradeCheckboxes = document.getElementById('grade-checkboxes');
     gradeCheckboxes.innerHTML = '';
@@ -717,18 +721,25 @@ function populateGradeCheckboxes() {
         gradeMap[baseGrade].push(grade);
     });
     
-    // 创建年级复选框
+    // 创建年级点选项
     Object.entries(gradeMap).forEach(([baseGrade, grades]) => {
         const gradeRow = document.createElement('div');
         gradeRow.className = 'grade-item';
         
         grades.forEach(grade => {
             const div = document.createElement('div');
-            div.className = 'checkbox-item';
-            div.innerHTML = `
-                <input type="checkbox" id="grade-${grade}" value="${grade}">
-                <label for="grade-${grade}">${grade}</label>
-            `;
+            div.className = 'checkbox-item' + (tempSelectedGrades.includes(grade) ? ' selected' : '');
+            div.textContent = grade;
+            div.addEventListener('click', () => {
+                const index = tempSelectedGrades.indexOf(grade);
+                if (index > -1) {
+                    tempSelectedGrades.splice(index, 1);
+                    div.classList.remove('selected');
+                } else {
+                    tempSelectedGrades.push(grade);
+                    div.classList.add('selected');
+                }
+            });
             gradeRow.appendChild(div);
         });
         
@@ -736,7 +747,7 @@ function populateGradeCheckboxes() {
     });
 }
 
-// 填充单元复选框（从左到右，从上到下排列）
+// 填充单元点选（从左到右，从上到下排列，显示对应年级）
 function populateUnitCheckboxes() {
     const unitCheckboxes = document.getElementById('unit-checkboxes');
     unitCheckboxes.innerHTML = '';
@@ -746,15 +757,34 @@ function populateUnitCheckboxes() {
     const container = document.createElement('div');
     container.className = 'unit-container';
     
+    // 获取每个单元对应的年级
+    const unitGradeMap = {};
+    words.forEach(word => {
+        if (tempSelectedGrades.includes(word.grade)) {
+            unitGradeMap[word.unit] = word.grade;
+        }
+    });
+    
     allUnits.forEach(unit => {
+        const grade = unitGradeMap[unit];
+        const displayText = grade ? `${grade} - ${unit}` : unit;
+        
         const div = document.createElement('div');
         div.className = 'unit-item';
-        div.innerHTML = `
-            <div class="checkbox-item">
-                <input type="checkbox" id="unit-${unit}" value="${unit}">
-                <label for="unit-${unit}">${unit}</label>
-            </div>
-        `;
+        const item = document.createElement('div');
+        item.className = 'checkbox-item' + (tempSelectedUnits.includes(unit) ? ' selected' : '');
+        item.textContent = displayText;
+        item.addEventListener('click', () => {
+            const index = tempSelectedUnits.indexOf(unit);
+            if (index > -1) {
+                tempSelectedUnits.splice(index, 1);
+                item.classList.remove('selected');
+            } else {
+                tempSelectedUnits.push(unit);
+                item.classList.add('selected');
+            }
+        });
+        div.appendChild(item);
         container.appendChild(div);
     });
     
@@ -1002,6 +1032,9 @@ function speakWord(text) {
 
 // 初始化页面
 document.addEventListener('DOMContentLoaded', function() {
+    // 1. 页面加载时：先读取上次保存的年级、单元
+    loadSelection();
+
     // 获取所有年级并排序
     allGrades = [...new Set(words.map(word => word.grade))].filter(grade => grade);
     allGrades.sort(sortGrades);
@@ -1011,15 +1044,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 绑定年级按钮点击事件
     document.getElementById('grade-btn').addEventListener('click', function() {
+        tempSelectedGrades = [...selectedGrades];
+        tempSelectedUnits = [];
         document.getElementById('grade-modal').style.display = 'flex';
-        
-        const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = selectedGrades.includes(checkbox.value);
-        });
-        
-        document.getElementById('select-all-grades').checked = 
-            selectedGrades.length === allGrades.length && allGrades.length > 0;
+        populateGradeCheckboxes();
     });
     
     // 绑定单元按钮点击事件
@@ -1032,62 +1060,38 @@ document.addEventListener('DOMContentLoaded', function() {
         unitsInGrades.sort(sortUnits);
         allUnits = unitsInGrades;
         
-        // 填充单元复选框
+        tempSelectedUnits = [...selectedUnits];
         populateUnitCheckboxes();
         
         document.getElementById('unit-modal').style.display = 'flex';
-        
-        const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = selectedUnits.includes(checkbox.value);
-        });
-        
-        document.getElementById('select-all-units').checked = 
-            selectedUnits.length === allUnits.length && allUnits.length > 0;
     });
     
-    // 绑定"全部年级"复选框事件
-    document.getElementById('select-all-grades').addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = this.checked;
-        });
-    });
-    
-    // 绑定"全部单元"复选框事件
-    document.getElementById('select-all-units').addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = this.checked;
-        });
-    });
-    
-    // 绑定年级弹窗确认按钮
+    // 确认年级选择
     document.getElementById('confirm-grade').addEventListener('click', function() {
-        const checkboxes = document.querySelectorAll('#grade-checkboxes input[type="checkbox"]:checked');
-        selectedGrades = Array.from(checkboxes).map(checkbox => checkbox.value);
-        
-        if (document.getElementById('select-all-grades').checked) {
-            selectedGrades = [...allGrades];
-        }
-        
+        selectedGrades = [...tempSelectedGrades];
         selectedUnits = [];
+        saveSelection();
         updateButtonText();
         applyFilters();
         document.getElementById('grade-modal').style.display = 'none';
     });
     
-    // 绑定单元弹窗确认按钮
+    // 取消年级选择
+    document.getElementById('cancel-grade').addEventListener('click', function() {
+        document.getElementById('grade-modal').style.display = 'none';
+    });
+    
+    // 确认单元选择
     document.getElementById('confirm-unit').addEventListener('click', function() {
-        const checkboxes = document.querySelectorAll('#unit-checkboxes input[type="checkbox"]:checked');
-        selectedUnits = Array.from(checkboxes).map(checkbox => checkbox.value);
-        
-        if (document.getElementById('select-all-units').checked) {
-            selectedUnits = [...allUnits];
-        }
-        
+        selectedUnits = [...tempSelectedUnits];
+        saveSelection();
         updateButtonText();
         applyFilters();
+        document.getElementById('unit-modal').style.display = 'none';
+    });
+    
+    // 取消单元选择
+    document.getElementById('cancel-unit').addEventListener('click', function() {
         document.getElementById('unit-modal').style.display = 'none';
     });
     
@@ -1097,14 +1101,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     document.getElementById('close-unit-modal').addEventListener('click', function() {
-        document.getElementById('unit-modal').style.display = 'none';
-    });
-    
-    document.getElementById('cancel-grade').addEventListener('click', function() {
-        document.getElementById('grade-modal').style.display = 'none';
-    });
-    
-    document.getElementById('cancel-unit').addEventListener('click', function() {
         document.getElementById('unit-modal').style.display = 'none';
     });
     
@@ -1132,7 +1128,9 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = '../wordgame/index.html';
     });
     
+    // 4. 初始渲染：恢复上次的选择并显示表格
     updateButtonText();
+    applyFilters();
 });
     </script>
 </body>
