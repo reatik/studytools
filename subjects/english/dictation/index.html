@@ -1405,26 +1405,26 @@ function updateDictationContent(direction = 'next') {
                 if(reset) resetPlayIcon();
             }
     
-            // 上一题
+            // 上一题（点击左侧按钮，显示上一题内容）
             elements.prevBtn.addEventListener('click', function() {
                 stopReading();
                 allCompleted = false;
                 if(currentLineIndex>0){
                     currentLineIndex--;
                     currentRepeat=0;
-                    updateDictationContent();
+                    updateDictationContent('prev'); // 旧内容向右消失，新内容从左边进来
                     readCurrentItem();
                 }
             });
     
-            // 下一题
+            // 下一题（点击右侧按钮，显示下一题内容）
             elements.nextBtn.addEventListener('click', function() {
                 stopReading();
                 allCompleted = false;
                 if(currentLineIndex < selectedRows.length-1){
                     currentLineIndex++;
                     currentRepeat=0;
-                    updateDictationContent();
+                    updateDictationContent('next'); // 旧内容向左消失，新内容从右边进来
                     readCurrentItem();
                 }
             });
