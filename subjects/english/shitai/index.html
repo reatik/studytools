@@ -250,7 +250,7 @@ body {
 }
 
 .question-area {
-    margin-bottom: 16px;
+    margin-bottom: 0;
 }
 
 .question-text {
@@ -351,7 +351,7 @@ body {
 
 .fill-input:focus {
     border-bottom-color: #4a8fc2;
-    background: #f8f8ff;
+
 }
 
 .fill-footer {
@@ -1207,6 +1207,52 @@ fetch('sentences.json')
         console.error('加载题库出错:', err);
         document.getElementById('questionText').innerText = '题库加载失败，请刷新重试';
     });
+
+    // ==============================================
+// 👉 左右滑动切换题目（和上一题/下一题功能一致）
+// ==============================================
+let touchStartX = 0;
+let touchEndX = 0;
+const minSwipeDistance = 70; // 最小滑动距离
+
+// 监听触摸开始
+document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+// 监听触摸结束
+document.addEventListener('touchend', function(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
+
+// 处理滑动逻辑
+function handleSwipe() {
+    // 正在显示下拉菜单时，不允许滑动切换
+    if (
+        document.getElementById('typeDropdown').classList.contains('open') ||
+        document.getElementById('tenseDropdown').classList.contains('open') ||
+        document.getElementById('sentenceDropdown').classList.contains('open')
+    ) {
+        return;
+    }
+
+    const diff = touchEndX - touchStartX;
+
+    // 👉 向右滑动 = 上一题
+    if (diff > minSwipeDistance) {
+        if (!document.getElementById('prevBtn').disabled) {
+            prev();
+        }
+    }
+
+    // 👉 向左滑动 = 下一题
+    if (diff < -minSwipeDistance) {
+        if (!document.getElementById('nextBtn').disabled) {
+            next();
+        }
+    }
+}
 </script>
 
 </body>

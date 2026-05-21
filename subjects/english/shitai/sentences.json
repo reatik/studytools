@@ -452,7 +452,7 @@
         },
         {
           "id": 46,
-          "text": "My sister often ______ her homework at home. (do)",
+          "text": "My sister often ______(do) her homework at home. ",
           "meaning": "我的姐姐经常在家做作业。",
           "answer": "does",
           "explanation": "my sister 三单，do 变为 does。",
@@ -462,7 +462,7 @@
         },
         {
           "id": 47,
-          "text": "You can ______ to bed now. (go)",
+          "text": "You can ______(go) to bed now. ",
           "meaning": "你现在可以去睡觉了。",
           "answer": "go",
           "explanation": "can 后面跟动词原形。",
@@ -472,7 +472,7 @@
         },
         {
           "id": 48,
-          "text": "He is ______ in the room. (sing)",
+          "text": "He is ______(clean) in the room. x",
           "meaning": "他正在房间里唱歌。",
           "answer": "singing",
           "explanation": "现在进行时 be + doing。",
@@ -482,7 +482,7 @@
         },
         {
           "id": 49,
-          "text": "Is she ______ the window now? (clean)",
+          "text": "Is she ______(clean) the window now? ",
           "meaning": "她现在正在擦窗户吗？",
           "answer": "cleaning",
           "explanation": "现在进行时一般疑问句，be + 主语 + doing。",
@@ -502,7 +502,7 @@
         },
         {
           "id": 51,
-          "text": "She is ______ in Room Two. (dance)",
+          "text": "She is ______(dance) in Room Two. ",
           "meaning": "她正在二号房间跳舞。",
           "answer": "dancing",
           "explanation": "现在进行时 be + doing。",
@@ -512,7 +512,7 @@
         },
         {
           "id": 52,
-          "text": "He often ______ up late on Sundays. (get)",
+          "text": "He often ______(get) up late on Sundays. ",
           "meaning": "他星期天经常起床很晚。",
           "answer": "gets",
           "explanation": "he 三单，get 加 s。",
@@ -522,7 +522,7 @@
         },
         {
           "id": 53,
-          "text": "My father usually ______ TV at night. (watch)",
+          "text": "My father usually ______(watch) TV at night. ",
           "meaning": "我的爸爸通常在晚上看电视。",
           "answer": "watches",
           "explanation": "my father 三单，watch 以 ch 结尾加 es。",
@@ -532,7 +532,7 @@
         },
         {
           "id": 54,
-          "text": "Mary can ______ books by herself. (read)",
+          "text": "Mary can ______ (swim) books by herself. ",
           "meaning": "Mary 可以自己看书。",
           "answer": "read",
           "explanation": "can 后面跟动词原形。",
@@ -542,7 +542,7 @@
         },
         {
           "id": 55,
-          "text": "Sam ______ in the pool. (swim)",
+          "text": "Sam ______ (swim) in the pool.",
           "meaning": "Sam 正在游泳池里游泳。",
           "answer": "is swimming",
           "explanation": "现在进行时，Sam 三单用 is swimming。",
@@ -662,7 +662,7 @@
         },
         {
             "id": 67,
-            "text": "Tom often ______ TV on Sundays. Today is Sunday. He ______ TV now.",
+            "text": "Tom often ______(watch) TV on Sundays. Today is Sunday. He ______ (watch) TV now.",
             "meaning": "Tom 经常在周日看电视。今天是周日，他现在正在看电视。",
             "answer": "watches;is watching",
             "explanation": "often 表示习惯性动作，用一般现在时，Tom 是第三人称单数，动词 watch 变为 watches；now 表示正在进行的动作，用现在进行时 is watching。",
@@ -682,7 +682,7 @@
         },
         {
             "id": 69,
-            "text": "Sam ______ Chinese food very much.",
+            "text": "Sam ______(like) Chinese food very much.",
             "meaning": "Sam 非常喜欢中国食物。",
             "answer": "likes",
             "explanation": "句子描述的是一种长期的喜好，用一般现在时。Sam 是第三人称单数，动词 like 变为 likes。",
@@ -692,7 +692,7 @@
         },
         {
             "id": 70,
-            "text": "Be quiet. The students ______ an English class.",
+            "text": "Be quiet. The students ______ (have) an English class.",
             "meaning": "安静。学生们正在上英语课。",
             "answer": "are having",
             "explanation": "Be quiet. 暗示了当前正在发生的动作，用现在进行时。主语 The students 是复数，be 动词用 are，have 变为 having。",
@@ -702,7 +702,7 @@
         },
         {
             "id": 71,
-            "text": "Listen! The children ______ in the music room.",
+            "text": "Listen! The children ______ (sing)in the music room.",
             "meaning": "听！孩子们正在音乐室唱歌。",
             "answer": "are singing",
             "explanation": "Listen! 是现在进行时的标志词，表示动作正在发生。主语 The children 是复数，be 动词用 are，sing 变为 singing。",
@@ -722,7 +722,7 @@
         },
         {
             "id": 73,
-            "text": "May ______ for a walk after dinner every evening.",
+            "text": "May ______(go) for a walk after dinner every evening.",
             "meaning": "May 每天晚饭后去散步。",
             "answer": "goes",
             "explanation": "every evening 表示习惯性动作，用一般现在时。主语 May 是第三人称单数，动词 go 变为 goes。",
@@ -732,7 +732,7 @@
         },
         {
             "id": 74,
-            "text": "______ your father ______ his car every Sunday?",
+            "text": "______ your father ______ (wash)his car every Sunday?",
             "meaning": "你的爸爸每个周日洗车吗？",
             "answer": "Does;wash",
             "explanation": "every Sunday 表示习惯性动作，用一般现在时。主语 your father 是第三人称单数，一般疑问句用助动词 Does 开头，后面的实义动词 wash 用原形。",
