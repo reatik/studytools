@@ -1,0 +1,745 @@
+
+[
+    {
+        "id": 1,
+        "text": "He often ______ (have) dinner at home.",
+        "meaning": "他经常在家吃晚饭。",
+        "answer": "has",
+        "explanation": "He 是第三人称单数，have 变为 has。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 2,
+        "text": "Daniel and Tommy ______ (be) in Class One.",
+        "meaning": "Daniel 和 Tommy 在一班。",
+        "answer": "are",
+        "explanation": "两个人是复数，be 动词用 are。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 3,
+        "text": "______ they ______ (like) the World Cup?",
+        "meaning": "他们喜欢世界杯吗？",
+        "answer": "Do; like",
+        "explanation": "一般现在时一般疑问句，主语 they 用助动词 Do，后面动词用原形。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "一般疑问句"
+      },
+      {
+        "id": 4,
+        "text": "What ______ they often ______ (do) on Saturdays?",
+        "meaning": "他们星期六经常做什么？",
+        "answer": "do; do",
+        "explanation": "一般现在时特殊疑问句，主语 they 用助动词 do，后面动词用原形。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "特殊疑问句"
+      },
+      {
+        "id": 5,
+        "text": "______ your parents ______ (read) newspapers every day?",
+        "meaning": "你的父母每天看报纸吗？",
+        "answer": "Do; read",
+        "explanation": "parents 是复数，一般现在时一般疑问句用 Do 开头，动词用原形。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "一般疑问句"
+      },
+      {
+        "id": 6,
+        "text": "The girl ______ (teach) us English on Sundays.",
+        "meaning": "这个女孩每周日教我们英语。",
+        "answer": "teaches",
+        "explanation": "the girl 是三单，teach 以 ch 结尾，加 es。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 7,
+        "text": "She and I ______ (take) a walk together every evening.",
+        "meaning": "她和我每天晚上一起散步。",
+        "answer": "take",
+        "explanation": "she and I 是两个人，复数，动词用原形。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 8,
+        "text": "There ______ (be) some water in the bottle.",
+        "meaning": "瓶子里有一些水。",
+        "answer": "is",
+        "explanation": "water 是不可数名词，be 动词用 is。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 9,
+        "text": "Mike ______ (like) cooking.",
+        "meaning": "Mike 喜欢做饭。",
+        "answer": "likes",
+        "explanation": "Mike 是三单，动词直接加 s。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 10,
+        "text": "They ______ (have) the same hobby.",
+        "meaning": "他们有相同的爱好。",
+        "answer": "have",
+        "explanation": "they 是复数，动词用原形。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 11,
+        "text": "My aunt ______ (look) after her baby carefully.",
+        "meaning": "我的阿姨细心照顾她的宝宝。",
+        "answer": "looks",
+        "explanation": "my aunt 是三单，动词加 s。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 12,
+        "text": "You always ______ (do) your homework well.",
+        "meaning": "你总是把作业做得很好。",
+        "answer": "do",
+        "explanation": "you 是第二人称，动词用原形。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 13,
+        "text": "I ______ (be) ill. I’m staying in bed.",
+        "meaning": "我生病了，我正躺在床上。",
+        "answer": "am",
+        "explanation": "I 后面的 be 动词固定用 am。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 14,
+        "text": "She ______ (go) to school from Monday to Friday.",
+        "meaning": "她周一到周五去上学。",
+        "answer": "goes",
+        "explanation": "she 是三单，go 以 o 结尾，加 es。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 15,
+        "text": "Liu Tao ______ (do) not like PE.",
+        "meaning": "刘涛不喜欢体育。",
+        "answer": "does",
+        "explanation": "Liu Tao 是三单，否定句用 does not。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "否定句"
+      },
+      {
+        "id": 16,
+        "text": "The child often ______ (watch) TV in the evening.",
+        "meaning": "这个孩子经常在晚上看电视。",
+        "answer": "watches",
+        "explanation": "the child 是三单，watch 以 ch 结尾，加 es。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 17,
+        "text": "Su Hai and Su Yang ______ (have) eight lessons this term.",
+        "meaning": "苏海和苏阳这学期有八节课。",
+        "answer": "have",
+        "explanation": "两个人是复数，用动词原形 have。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 18,
+        "text": "What day ______ (be) it today? － It’s Saturday.",
+        "meaning": "今天星期几？今天星期六。",
+        "answer": "is",
+        "explanation": "it 是三单，be 动词用 is。",
+        "type": "fill",
+        "difficulty": "一般现在时",
+        "sentenceType": "特殊疑问句"
+      },
+      {
+        "id": 19,
+        "text": "The boy ______ (draw) a picture now.",
+        "meaning": "这个男孩现在正在画画。",
+        "answer": "is drawing",
+        "explanation": "now 是现在进行时标志，结构：be + 动词 ing。",
+        "type": "fill",
+        "difficulty": "现在进行时",
+        "sentenceType": "陈述句"
+      },
+      {
+        "id": 20,
+        "text": "Listen. Some girls ______ (sing) in the classroom.",
+        "meaning": "听，一些女孩正在教室里唱歌。",
+        "answer": "are singing",
+        "explanation": "listen 提示正在进行，girls 复数用 are singing。",
+        "type": "fill",
+        "difficulty": "现在进行时",
+        "sentenceType": "陈述句"
+      },
+        {
+          "id": 21,
+          "text": "My mother ______ (cook) some nice food now.",
+          "meaning": "我的妈妈现在正在做好吃的食物。",
+          "answer": "is cooking",
+          "explanation": "now 表示现在进行时，mother 三单用 is cooking。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 22,
+          "text": "What ______ you ______ (do) now?",
+          "meaning": "你现在正在做什么？",
+          "answer": "are; doing",
+          "explanation": "现在进行时特殊疑问句：be 动词 + 主语 + doing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "特殊疑问句"
+        },
+        {
+          "id": 23,
+          "text": "Look! They ______ (have) an English lesson.",
+          "meaning": "看！他们正在上英语课。",
+          "answer": "are having",
+          "explanation": "look 提示正在进行，they 复数用 are having。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 24,
+          "text": "They ______ (not water) the flowers now.",
+          "meaning": "他们现在没有在浇花。",
+          "answer": "aren't watering",
+          "explanation": "现在进行时否定句：be + not + doing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "否定句"
+        },
+        {
+          "id": 25,
+          "text": "Look! The girls ______ (dance) in the classroom.",
+          "meaning": "看！女孩们正在教室里跳舞。",
+          "answer": "are dancing",
+          "explanation": "look 提示正在进行，girls 复数用 are dancing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 26,
+          "text": "What is our granddaughter doing? She ______ (listen) to music.",
+          "meaning": "我们的孙女在做什么？她在听音乐。",
+          "answer": "is listening",
+          "explanation": "现在进行时，she 三单用 is listening。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 27,
+          "text": "It’s 5 o’clock now. We ______ (have) supper now.",
+          "meaning": "现在五点了，我们正在吃晚饭。",
+          "answer": "are having",
+          "explanation": "now 表示现在进行时，we 用 are having。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 28,
+          "text": "______ Helen ______ (wash) clothes? Yes, she is.",
+          "meaning": "Helen 正在洗衣服吗？是的。",
+          "answer": "Is; washing",
+          "explanation": "现在进行时一般疑问句，Helen 三单用 Is ... washing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "一般疑问句"
+        },
+        {
+          "id": 29,
+          "text": "Tom often ______ (go) to school on foot. But today is rain. He ______ (go) to school by bike.",
+          "meaning": "Tom 经常步行去上学。但今天下雨，他骑自行车去上学。",
+          "answer": "goes; goes",
+          "explanation": "两句都是一般现在时，Tom 是三单，用 goes。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 30,
+          "text": "What do you usually do at weekends? I usually ______ (watch) TV and ______ (catch) insects.",
+          "meaning": "你周末通常做什么？我通常看电视和捉昆虫。",
+          "answer": "watch; catch",
+          "explanation": "usually 是一般现在时，I 用动词原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 31,
+          "text": "I ______ (plan) for my study now.",
+          "meaning": "我现在正在为我的学习做计划。",
+          "answer": "am planning",
+          "explanation": "now 现在进行时，I 用 am planning。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 32,
+          "text": "______ he ______ (fly) a kite on Sunday? Yes, he ______.",
+          "meaning": "他星期天放风筝吗？是的。",
+          "answer": "Does; fly; does",
+          "explanation": "一般现在时一般疑问句，he 用 Does 开头，动词用原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "一般疑问句"
+        },
+        {
+          "id": 33,
+          "text": "Helen ______ (milk) a cow on Friday.",
+          "meaning": "Helen 在周五挤牛奶。",
+          "answer": "milks",
+          "explanation": "Helen 是三单，动词加 s。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 34,
+          "text": "______ they ______ (sweep) the floor on Sunday? No, they ______.",
+          "meaning": "他们星期天扫地吗？不，他们不扫。",
+          "answer": "Do; sweep; don't",
+          "explanation": "they 复数，一般现在时一般疑问句用 Do 开头。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "一般疑问句"
+        },
+        {
+          "id": 35,
+          "text": "I ______ (watch) a cartoon on Monday.",
+          "meaning": "我在周一看动画片。",
+          "answer": "watch",
+          "explanation": "I 用一般现在时动词原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 36,
+          "text": "She ____ (be) a pretty girl. Look, she ______ (do) Chinese dances.",
+          "meaning": "她是一个漂亮的女孩。看，她正在跳中国舞。",
+          "answer": "is; is doing",
+          "explanation": "前句一般现在时用 is；后句现在进行时用 is doing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 37,
+          "text": "The students often ______ (draw) some pictures in the art room.",
+          "meaning": "学生们经常在美术室画画。",
+          "answer": "draw",
+          "explanation": "the students 复数，一般现在时用原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 38,
+          "text": "He is ______ (read) a book now.",
+          "meaning": "他现在正在看书。",
+          "answer": "reading",
+          "explanation": "现在进行时：be + doing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 39,
+          "text": "My sister often ______ (go) to school at 7:00.",
+          "meaning": "我的姐姐经常 7 点去上学。",
+          "answer": "goes",
+          "explanation": "my sister 三单，go 加 es。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 40,
+          "text": "Mary can ______ (ride) a bike.",
+          "meaning": "Mary 会骑自行车。",
+          "answer": "ride",
+          "explanation": "情态动词 can 后面一律跟动词原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 41,
+          "text": "She ______ (sing) now.",
+          "meaning": "她现在正在唱歌。",
+          "answer": "is singing",
+          "explanation": "now 现在进行时，she 用 is singing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 42,
+          "text": "What ______ you ______ (do) on Saturday?",
+          "meaning": "你星期六做什么？",
+          "answer": "do; do",
+          "explanation": "一般现在时特殊疑问句，you 用助动词 do。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "特殊疑问句"
+        },
+        {
+          "id": 43,
+          "text": "Tom ______ (not do) his homework at weekends.",
+          "meaning": "Tom 周末不做家庭作业。",
+          "answer": "doesn't do",
+          "explanation": "Tom 三单，一般现在时否定用 doesn't + 动词原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "否定句"
+        },
+        {
+          "id": 44,
+          "text": "Look. She ______(dance) over there.",
+          "meaning": "看，她正在那边跳舞。",
+          "answer": "is dancing",
+          "explanation": "look 提示现在进行时，she 用 is dancing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 45,
+          "text": "May I ______ (ride) the bike?",
+          "meaning": "我可以骑这辆自行车吗？",
+          "answer": "ride",
+          "explanation": "情态动词 may 后面跟动词原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "一般疑问句"
+        },
+        {
+          "id": 46,
+          "text": "My sister often ______ her homework at home. (do)",
+          "meaning": "我的姐姐经常在家做作业。",
+          "answer": "does",
+          "explanation": "my sister 三单，do 变为 does。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 47,
+          "text": "You can ______ to bed now. (go)",
+          "meaning": "你现在可以去睡觉了。",
+          "answer": "go",
+          "explanation": "can 后面跟动词原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 48,
+          "text": "He is ______ in the room. (sing)",
+          "meaning": "他正在房间里唱歌。",
+          "answer": "singing",
+          "explanation": "现在进行时 be + doing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 49,
+          "text": "Is she ______ the window now? (clean)",
+          "meaning": "她现在正在擦窗户吗？",
+          "answer": "cleaning",
+          "explanation": "现在进行时一般疑问句，be + 主语 + doing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "一般疑问句"
+        },
+        {
+          "id": 50,
+          "text": "The Greens ______ (stay) at home on Friday.",
+          "meaning": "格林一家星期五待在家里。",
+          "answer": "stay",
+          "explanation": "the Greens 表示一家人，复数，用动词原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 51,
+          "text": "She is ______ in Room Two. (dance)",
+          "meaning": "她正在二号房间跳舞。",
+          "answer": "dancing",
+          "explanation": "现在进行时 be + doing。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 52,
+          "text": "He often ______ up late on Sundays. (get)",
+          "meaning": "他星期天经常起床很晚。",
+          "answer": "gets",
+          "explanation": "he 三单，get 加 s。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 53,
+          "text": "My father usually ______ TV at night. (watch)",
+          "meaning": "我的爸爸通常在晚上看电视。",
+          "answer": "watches",
+          "explanation": "my father 三单，watch 以 ch 结尾加 es。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 54,
+          "text": "Mary can ______ books by herself. (read)",
+          "meaning": "Mary 可以自己看书。",
+          "answer": "read",
+          "explanation": "can 后面跟动词原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 55,
+          "text": "Sam ______ in the pool. (swim)",
+          "meaning": "Sam 正在游泳池里游泳。",
+          "answer": "is swimming",
+          "explanation": "现在进行时，Sam 三单用 is swimming。",
+          "type": "fill",
+          "difficulty": "现在进行时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 56,
+          "text": "In China, spring ______ (begin) in February.",
+          "meaning": "在中国，春天在二月开始。",
+          "answer": "begins",
+          "explanation": "spring 是三单，动词加 s。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 57,
+          "text": "Tom ______ (watch) TV every evening.",
+          "meaning": "汤姆每天晚上都看电视。",
+          "answer": "watches",
+          "explanation": "Tom是第三人称单数，watch以ch结尾，动词加es。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 58,
+          "text": "She ______ (have) lunch at 12 o'clock.",
+          "meaning": "她十二点吃午饭。",
+          "answer": "has",
+          "explanation": "She是第三人称单数，have变为has。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 59,
+          "text": "My father ______ (go) to work by bus.",
+          "meaning": "我的爸爸坐公交车去上班。",
+          "answer": "goes",
+          "explanation": "My father是第三人称单数，go以o结尾，动词加es。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 60,
+          "text": "The cat ______ (like) fish.",
+          "meaning": "这只猫喜欢吃鱼。",
+          "answer": "likes",
+          "explanation": "The cat是第三人称单数，普通动词后面直接加s。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 61,
+          "text": "We ______ (play) football on Sundays.",
+          "meaning": "我们在周日踢足球。",
+          "answer": "play",
+          "explanation": "We是复数人称，主语不是三单，动词直接用原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 62,
+          "text": "He ______ (read) books before bed.",
+          "meaning": "他睡前看书。",
+          "answer": "reads",
+          "explanation": "He是第三人称单数，普通动词后面直接加s。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 63,
+          "text": "I ______ (eat) breakfast at 7 o'clock.",
+          "meaning": "我七点吃早餐。",
+          "answer": "eat",
+          "explanation": "I是第一人称单数，不用变换形式，动词使用原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 64,
+          "text": "The sun ______ (rise) in the east.",
+          "meaning": "太阳从东方升起。",
+          "answer": "rises",
+          "explanation": "The sun是第三人称单数，普通动词后面直接加s。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 65,
+          "text": "They ______ (live) in Beijing.",
+          "meaning": "他们住在北京。",
+          "answer": "live",
+          "explanation": "They是复数人称，动词直接用原形。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+          "id": 66,
+          "text": "My mother ______ (cook) dinner every day.",
+          "meaning": "我的妈妈每天做晚饭。",
+          "answer": "cooks",
+          "explanation": "My mother是第三人称单数，普通动词后面直接加s。",
+          "type": "fill",
+          "difficulty": "一般现在时",
+          "sentenceType": "陈述句"
+        },
+        {
+            "id": 67,
+            "text": "Tom often ______ TV on Sundays. Today is Sunday. He ______ TV now.",
+            "meaning": "Tom 经常在周日看电视。今天是周日，他现在正在看电视。",
+            "answer": "watches;is watching",
+            "explanation": "often 表示习惯性动作，用一般现在时，Tom 是第三人称单数，动词 watch 变为 watches；now 表示正在进行的动作，用现在进行时 is watching。",
+            "type": "fill",
+            "difficulty": "现在进行时",
+            "sentenceType": "陈述句"
+        },
+        {
+            "id": 68,
+            "text": "Listen! Tom ______ (listen)to music now.",
+            "meaning": "听！Tom 现在正在听音乐。",
+            "answer": "is listening",
+            "explanation": "Listen! 和 now 都是现在进行时的标志词，表示动作正在发生，结构为 be + 动词-ing 形式。Tom 是第三人称单数，be 动词用 is，listen 变为 listening。",
+            "type": "fill",
+            "difficulty": "现在进行时",
+            "sentenceType": "陈述句"
+        },
+        {
+            "id": 69,
+            "text": "Sam ______ Chinese food very much.",
+            "meaning": "Sam 非常喜欢中国食物。",
+            "answer": "likes",
+            "explanation": "句子描述的是一种长期的喜好，用一般现在时。Sam 是第三人称单数，动词 like 变为 likes。",
+            "type": "fill",
+            "difficulty": "一般现在时",
+            "sentenceType": "陈述句"
+        },
+        {
+            "id": 70,
+            "text": "Be quiet. The students ______ an English class.",
+            "meaning": "安静。学生们正在上英语课。",
+            "answer": "are having",
+            "explanation": "Be quiet. 暗示了当前正在发生的动作，用现在进行时。主语 The students 是复数，be 动词用 are，have 变为 having。",
+            "type": "fill",
+            "difficulty": "现在进行时",
+            "sentenceType": "陈述句"
+        },
+        {
+            "id": 71,
+            "text": "Listen! The children ______ in the music room.",
+            "meaning": "听！孩子们正在音乐室唱歌。",
+            "answer": "are singing",
+            "explanation": "Listen! 是现在进行时的标志词，表示动作正在发生。主语 The children 是复数，be 动词用 are，sing 变为 singing。",
+            "type": "fill",
+            "difficulty": "现在进行时",
+            "sentenceType": "陈述句"
+        },
+        {
+            "id": 72,
+            "text": "______ she ______ (leave)home at six every day?",
+            "meaning": "她每天六点回家吗？",
+            "answer": "Does;leave",
+            "explanation": "every day 表示习惯性动作，用一般现在时。主语 she 是第三人称单数，一般疑问句要用助动词 Does 开头，后面的实义动词 leave 用原形。",
+            "type": "fill",
+            "difficulty": "一般现在时",
+            "sentenceType": "一般疑问句"
+        },
+        {
+            "id": 73,
+            "text": "May ______ for a walk after dinner every evening.",
+            "meaning": "May 每天晚饭后去散步。",
+            "answer": "goes",
+            "explanation": "every evening 表示习惯性动作，用一般现在时。主语 May 是第三人称单数，动词 go 变为 goes。",
+            "type": "fill",
+            "difficulty": "一般现在时",
+            "sentenceType": "陈述句"
+        },
+        {
+            "id": 74,
+            "text": "______ your father ______ his car every Sunday?",
+            "meaning": "你的爸爸每个周日洗车吗？",
+            "answer": "Does;wash",
+            "explanation": "every Sunday 表示习惯性动作，用一般现在时。主语 your father 是第三人称单数，一般疑问句用助动词 Does 开头，后面的实义动词 wash 用原形。",
+            "type": "fill",
+            "difficulty": "一般现在时",
+            "sentenceType": "一般疑问句"
+        }
+      
+]
+    

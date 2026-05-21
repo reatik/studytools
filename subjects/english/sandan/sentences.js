@@ -2276,7 +2276,7 @@ const sentenceBank = [
         difficulty: "一般疑问"
     },
     {
-        text: "______ your parents often have dinner at six o'clock?",
+        text: "______ {your parents} often have dinner at six o'clock?",
         options: [
             { label: "A", value: "Do", correct: true },
             { label: "B", value: "Does", correct: false }
