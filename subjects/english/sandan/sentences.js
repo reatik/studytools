@@ -2523,8 +2523,8 @@ const sentenceBank = [
     {
         text: "What ______ {the lovely parrots} like doing?",
         options: [
-            { label: "A", value: "do", correct: false },
-            { label: "B", value: "does", correct: true }
+            { label: "A", value: "do", correct: true },
+            { label: "B", value: "does", correct: false }
         ],
         difficulty: "特殊疑问"
     },
@@ -3042,7 +3042,7 @@ const sentenceBank = [
         difficulty: "特殊疑问"
     },
     {
-        text: "{Where} ______ {the two pairs of shoes}?",
+        text: "Where ______ {the two pairs of shoes}?",
         options: [
             { label: "A", value: "is", correct: false },
             { label: "B", value: "are", correct: true }
@@ -3050,7 +3050,7 @@ const sentenceBank = [
         difficulty: "特殊疑问"
     },
     {
-        text: "{How many} ______ {these pairs of socks}?",
+        text: "How many ______ {these pairs of socks}?",
         options: [
             { label: "A", value: "is", correct: false },
             { label: "B", value: "are", correct: true }
@@ -3058,7 +3058,7 @@ const sentenceBank = [
         difficulty: "特殊疑问"
     },
     {
-        text: "{What colour} ______ {those pairs of jeans}?",
+        text: "What colour ______ {those pairs of jeans}?",
         options: [
             { label: "A", value: "is", correct: false },
             { label: "B", value: "are", correct: true }
@@ -3066,7 +3066,7 @@ const sentenceBank = [
         difficulty: "特殊疑问"
     },
     {
-        text: "{How much} ______ {two pairs of gloves}?",
+        text: "How much ______ {two pairs of gloves}?",
         options: [
             { label: "A", value: "is", correct: false },
             { label: "B", value: "are", correct: true }

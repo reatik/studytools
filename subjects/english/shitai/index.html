@@ -31,6 +31,7 @@ body {
 .container {
     max-width: 640px;
     margin: auto;
+    position: relative; /* 👈 加上这一行 */
 }
 
 .home-title {
@@ -46,6 +47,9 @@ body {
     border-radius: 14px;
     padding: 20px;
     box-shadow: 0 6px 16px rgba(90,150,200,0.08);
+    border: none; /* 先把原来的border去掉 */
+    outline: 2px dashed var(--border); /* 用outline代替border */
+    outline-offset: -6px; /* 👈 负数 = 向内缩，数值越大缩得越多，-4~-8px之间效果最好 */
 }
 
 .top-bar {
@@ -57,18 +61,30 @@ body {
 }
 
 .back-btn {
-    background: #d8e8f0;
+    position: fixed;
+    top: 10px;
+    left: 20px; /* 和题目板左侧对齐，和body的padding:20px一致 */
+    width: 32px;       /* 按钮整体缩小：从40px改成32px */
+    height: 32px;      /* 按钮整体缩小：从40px改成32px */
+    border-radius: 6px; /* 圆角也跟着缩小，更协调 */
+    background: #fff;
     border: 2px solid var(--border);
-    padding: 10px 14px;
-    border-radius: 10px;
-    font-size: 14px;
     cursor: pointer;
-    white-space: nowrap;
-    height: 44px;
+    z-index: 999;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn img {
+    width: 18px;       /* 图标缩小：从24px改成18px */
+    height: 18px;
+    display: block;
 }
 
 .back-btn:hover {
-    background: #c0d8f0;
+    background: #f0f6fa;
 }
 
 .control-group {
@@ -597,7 +613,9 @@ body {
 
 <div class="container" id="practicePanel">
     <div class="top-bar">
-        <button onclick="goHome()" class="back-btn">返回</button>
+        <button onclick="goHome()" class="back-btn">
+            <img src="../../../images/fanhuiblack.png" alt="返回">
+        </button>
         <div class="control-group">
             <div class="type-selector">
                 <div class="type-dropdown" id="typeDropdown">
@@ -1208,51 +1226,28 @@ fetch('sentences.json')
         document.getElementById('questionText').innerText = '题库加载失败，请刷新重试';
     });
 
-    // ==============================================
-// 👉 左右滑动切换题目（和上一题/下一题功能一致）
-// ==============================================
-let touchStartX = 0;
-let touchEndX = 0;
-const minSwipeDistance = 70; // 最小滑动距离
+   // ======================
+// 滑动题目卡片切换上下题
+// ======================
+let card = document.querySelector('.card');
+let startX = 0;
 
-// 监听触摸开始
-document.addEventListener('touchstart', function(e) {
-    touchStartX = e.changedTouches[0].screenX;
+card.addEventListener('touchstart', function(e) {
+  startX = e.changedTouches[0].clientX;
 });
 
-// 监听触摸结束
-document.addEventListener('touchend', function(e) {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
+card.addEventListener('touchend', function(e) {
+  let endX = e.changedTouches[0].clientX;
+  let diff = endX - startX;
+
+  if (Math.abs(diff) < 50) return;
+
+  if (diff > 0) {
+    if (!document.getElementById('prevBtn').disabled) prev();
+  } else {
+    if (!document.getElementById('nextBtn').disabled) next();
+  }
 });
-
-// 处理滑动逻辑
-function handleSwipe() {
-    // 正在显示下拉菜单时，不允许滑动切换
-    if (
-        document.getElementById('typeDropdown').classList.contains('open') ||
-        document.getElementById('tenseDropdown').classList.contains('open') ||
-        document.getElementById('sentenceDropdown').classList.contains('open')
-    ) {
-        return;
-    }
-
-    const diff = touchEndX - touchStartX;
-
-    // 👉 向右滑动 = 上一题
-    if (diff > minSwipeDistance) {
-        if (!document.getElementById('prevBtn').disabled) {
-            prev();
-        }
-    }
-
-    // 👉 向左滑动 = 下一题
-    if (diff < -minSwipeDistance) {
-        if (!document.getElementById('nextBtn').disabled) {
-            next();
-        }
-    }
-}
 </script>
 
 </body>
