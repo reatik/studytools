@@ -232,14 +232,23 @@ body {
     background: #e8f0f8;
     padding: 4px 12px;
     border-radius: 6px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 150px;
+    text-align: center;
+}
+.question-index:read-only {
+    background: #e8f0f8;
 }
 
 .card-progress {
     font-size: 14px;
     color: var(--correct);
     font-weight: 600;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
-
 .question-tags {
     display: none; /* 隐藏旧标签 */
 }
@@ -338,7 +347,7 @@ body {
     font-size: 13px;
     color: #4a6a8a;
     background: linear-gradient(135deg, #e8f4f8 0%, #d8eaf4 100%);
-    padding: 12px 16px;
+    padding: 2px 10px;
     border-radius: 12px;
     margin-top: 10px;
     box-shadow: 0 2px 8px rgba(90,150,200,0.15);
@@ -415,20 +424,20 @@ body {
 .options {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
-    margin-top: 16px;
-    padding-bottom: 40px;
+    gap: 8px;
+
 }
 
 .option {
     border: 2px solid var(--border);
     border-radius: 10px;
-    padding: 16px;
+    padding: 10px 14px; /* 👈 原来 16px，改成 10px 14px，高度变小 */
     cursor: pointer;
     position: relative;
     color: var(--text);
     background: #fafcfd;
-    font-size: 16px;
+    font-size: 15px;     /* 👈 文字稍微小一点 */
+    min-height: 44px;    /* 👈 控制最小高度，更紧凑 */
     transition: all 0.2s;
 }
 
@@ -439,15 +448,16 @@ body {
 
 .option .option-letter {
     display: inline-block;
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
+    width: 24px;       /* 👈 从 28px → 24px 变小 */
+    height: 24px;      /* 👈 从 28px → 24px 变小 */
+    line-height: 24px;
     text-align: center;
     background: #e8f0f8;
     border-radius: 6px;
-    margin-right: 12px;
+    margin-right: 10px;
     font-weight: bold;
     color: var(--text);
+    font-size: 14px;   /* 👈 字母也缩小 */
 }
 
 .option .option-text {
@@ -455,13 +465,21 @@ body {
 }
 
 .option.correct {
-    background: #e8f0f8;
-    border-color: var(--correct);
+    background: #E6F7E6;    /* 浅绿色背景 */
+    border-color: #3f9414;  /* 绿色边框 */
+}
+.option.correct .option-letter {
+    background: #398612;    /* 绿色字母背景 */
+    color: white;
 }
 
-.option.correct .option-letter {
-    background: var(--correct);
-    color: white;
+/* 勾 = 绿色 */
+.option.correct .result-icon {
+    color: #2e7d32;
+}
+/* 叉 = 红色 */
+.option.wrong .result-icon {
+    color: #d32f2f;
 }
 
 .option.wrong {
@@ -483,8 +501,11 @@ body {
     position: absolute;
     right: 16px;
     top: 50%;
-    transform: translateY(-50%);
+    /* 关键：一开始就设置正确的居中，动画只做缩放 */
+    transform: translateY(-50%) scale(1);
     font-size: 20px;
+    /* 防止跳动 */
+    backface-visibility: hidden;
 }
 
 .nav {
@@ -532,9 +553,9 @@ body {
 
 /* 动画 */
 @keyframes bounce-in {
-    0% { transform: scale(0); opacity: 0; }
-    50% { transform: scale(1.3); }
-    100% { transform: scale(1); opacity: 1; }
+    0% { transform: translateY(-50%) scale(0); opacity: 0; }
+    50% { transform: translateY(-50%) scale(1.3); }
+    100% { transform: translateY(-50%) scale(1); opacity: 1; }
 }
 
 @keyframes shake {
@@ -545,10 +566,18 @@ body {
     80% { transform: translateX(5px); }
 }
 
-@keyframes pop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1); }
+/* 纯数字 3D 翻转动画（只有数字会翻！） */
+@keyframes numFlip {
+    0% { transform: rotateX(0deg); opacity: 1; }
+    50% { transform: rotateX(-90deg); opacity: 0.5; }
+    100% { transform: rotateX(0deg); opacity: 1; }
+}
+
+/* 数字专用动画样式 */
+.pop {
+    animation: numFlip 0.4s ease-out;
+    display: inline-block;
+    transform-origin: center center;
 }
 
 .bounce-in {
@@ -559,9 +588,7 @@ body {
     animation: shake 0.4s ease-out;
 }
 
-.pop {
-    animation: pop 0.3s ease-out;
-}
+
 
 /* 结果页 */
 .result-card {
@@ -699,7 +726,15 @@ body {
     <div class="card">
         <div class="card-header">
             <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="question-index" id="questionIndex"></span>
+                <input 
+                type="text" 
+                id="questionIndex" 
+                class="question-index" 
+                readonly
+                onclick="makeIdEditable()"
+                onblur="jumpToId()" 
+            >
+                <button id="orderSwitchBtn" style="padding:3px 8px;border:1px solid var(--border);border-radius:4px;background:#f8f8f8;font-size:12px;cursor:pointer;" onclick="toggleOrderMode()">随机</button>
                 <span class="tag tag-wrong" id="wrongTag" style="display: none;">错题</span>
             </div>
             <span class="card-progress" id="cardProgress">正确 0</span>
@@ -734,17 +769,6 @@ body {
     </div>
 </div>
 
-<div class="container hidden" id="resultPanel">
-    <div class="card result-card">
-        <h2 style="text-align:center;">练习结果</h2>
-        <div class="score-display">
-            <div class="big" id="finalScore"></div>
-            <div class="total" id="scoreInfo"></div>
-        </div>
-        <div id="errorList"></div>
-        <button class="restart-btn" onclick="location.reload()">重新开始</button>
-    </div>
-</div>
 
 <script>
 let sentenceBank = [];
@@ -758,6 +782,7 @@ let correctCount = 0;
 let currentIndex = 0;
 let currentAnswer = null;
 let currentMeaning = '';
+let isRandomMode = true;
 
 // 从localStorage恢复选择
 function loadSelections() {
@@ -930,9 +955,10 @@ function hideMeaning() {
 
 function resetQuestions() {
     if (selectedTenses.length === 0 || selectedSentences.length === 0) return;
-    questionPool = shuffle([...sentenceBank].filter(q => 
-        selectedTenses.includes(q.difficulty) && selectedTypes.includes(q.type) && selectedSentences.includes(q.sentenceType)
-    ));
+    let filterList = [...sentenceBank].filter(q => 
+    selectedTenses.includes(q.difficulty) && selectedTypes.includes(q.type) && selectedSentences.includes(q.sentenceType)
+);
+questionPool = isRandomMode ? shuffle(filterList) : filterList;
     answers = [];
     correctCount = 0;
     currentIndex = 0;
@@ -952,7 +978,7 @@ function showQuestion(index) {
     }
     
     // 显示序号
-    document.getElementById("questionIndex").innerText = `第 ${index + 1} 题`;
+    document.getElementById("questionIndex").value = `第${index + 1}题 · ID${q.id}`;
     
 // 显示标签（清空旧标签）
 const tagsEl = document.getElementById("questionTags");
@@ -979,7 +1005,17 @@ if (wasAnswered && !answers[index].correct) {
     hintEl.innerText = "";
     
     if (q.type === 'fill') {
-        questionText.innerHTML = q.text.replace(/______/g, `<input type="text" class="fill-input inline-fill" autocomplete="off" value="${wasAnswered ? answers[index].value : ''}">`);
+        if(wasAnswered){
+    let ansArr = answers[index].value.split(';');
+    let idx = 0;
+    questionText.innerHTML = q.text.replace(/______/g, ()=>{
+        let val = ansArr[idx] || '';
+        idx++;
+        return `<input type="text" class="fill-input inline-fill" autocomplete="off" value="${val}">`;
+    });
+}else{
+    questionText.innerHTML = q.text.replace(/______/g, `<input type="text" class="fill-input inline-fill" autocomplete="off" value="">`);
+}
         document.getElementById("fillArea").classList.remove("hidden");
         document.getElementById("options").innerHTML = "";
         
@@ -1079,48 +1115,45 @@ function submitFillAnswer() {
     const resultText = document.getElementById("fillResultText");
     const hintEl = document.getElementById("answerHint");
 
-    // 收集答案
     let userAnswers = [];
     inputList.forEach(inp => {
         userAnswers.push(inp.value.trim());
     });
-    
-    let rightAnswers = q.answer.split(";").map(item => item.trim());
 
-    // 判断对错
+    let rightAnswers = q.answer.split(';').map(item => item.trim());
+
     let allRight = true;
-    for (let i = 0; i < rightAnswers.length; i++) {
-        if (userAnswers[i] !== rightAnswers[i]) {
-            allRight = false;
-            break;
+    if (userAnswers.length !== rightAnswers.length) {
+        allRight = false;
+    } else {
+        for (let i = 0; i < rightAnswers.length; i++) {
+            if (userAnswers[i] !== rightAnswers[i]) {
+                allRight = false;
+                break;
+            }
         }
     }
 
-    // 禁用输入 + 按钮
     inputList.forEach(inp => inp.disabled = true);
     submitBtn.disabled = true;
 
-    answers[currentIndex] = { value: userAnswers.join(","), correct: allRight };
-    currentAnswer = answers[currentIndex];
+    answers[currentIndex] = { value: userAnswers.join(";"), correct: allRight };
 
-    // ========== 按钮状态 + 右侧提示 ==========
     if (allRight) {
         submitBtn.innerText = "✓ 正确";
         submitBtn.classList.add("correct");
-        resultText.innerText = "";
-        resultText.style.color = "var(--correct)";
         correctCount++;
         updateProgress(true);
+        resultText.innerText = q.answer;
+        resultText.style.color = "var(--correct)";
     } else {
         submitBtn.innerText = "✗ 错误";
         submitBtn.classList.add("wrong");
-        resultText.innerText = `正确答案：${q.answer}`;
+        resultText.innerText = q.answer;
         resultText.style.color = "var(--wrong)";
     }
 
-    // 解析
     if (q.explanation) {
-        resultText.innerText += "";
         hintEl.innerHTML = `<div class="explanation">${q.explanation}</div>`;
     }
 }
@@ -1180,12 +1213,10 @@ function updateProgress(animate) {
     }
 }
 
-function goNext() {
+function next() {
     if (currentIndex < questionPool.length - 1) {
         currentIndex++;
         showQuestion(currentIndex);
-    } else {
-        finish();
     }
 }
 
@@ -1196,52 +1227,10 @@ function prev() {
     }
 }
 
-function next() {
-    if (currentIndex < questionPool.length - 1) {
-        currentIndex++;
-        showQuestion(currentIndex);
-    }
-}
-
 function goHome() {
-    finish();
+    location.reload();
 }
 
-function finish() {
-    const wrongQuestions = [];
-    answers.forEach((ans, i) => {
-        if (ans && !ans.correct) {
-            wrongQuestions.push({q: questionPool[i], ans: ans});
-        }
-    });
-
-    document.getElementById("practicePanel").classList.add("hidden");
-    document.getElementById("resultPanel").classList.remove("hidden");
-    
-    const total = questionPool.length;
-    const score = total > 0 ? Math.round(correctCount / total * 100) : 0;
-    
-    document.getElementById("finalScore").innerText = score + "分";
-    document.getElementById("scoreInfo").innerText = `答对 ${correctCount} 题，答错 ${wrongQuestions.length} 题（共 ${total} 题）`;
-    
-    document.getElementById("errorList").innerHTML = wrongQuestions.length === 0
-        ? "<p style='color:var(--correct);font-size:18px;'>太棒了，全部正确！</p>"
-        : wrongQuestions.map((item, i) => {
-            const q = item.q;
-            const ans = item.ans;
-            const userAnswer = q.type === 'fill' ? ans.value : ans.value;
-            const expHtml = q.explanation ? `<div class="explanation">${q.explanation}</div>` : '';
-            return `
-                <div class="summary-item">
-                    <div class="summary-title">错题 ${i + 1}</div>
-                    <div>${q.text.replace(/{(.*?)}/g, '<b>$1</b>').replace(/______/g, '____')}</div>
-                    <div style="color:var(--wrong);">你的答案：${userAnswer}</div>
-                    <div style="color:var(--correct);">正确答案：${q.type === 'fill' ? q.answer : q.options.find(o => o.correct).value}</div>
-                    ${expHtml}
-                </div>
-            `;
-        }).join("");
-}
 
 function shuffle(arr) {
     // Fisher-Yates 洗牌算法确保真正随机
@@ -1296,6 +1285,58 @@ card.addEventListener('touchend', function(e) {
     if (!document.getElementById('nextBtn').disabled) next();
   }
 });
+
+function makeIdEditable() {
+    const el = document.getElementById('questionIndex');
+    el.readOnly = false;
+    el.focus();
+    
+    // 自动选中 ID 数字
+    const val = el.value;
+    const idText = val.split('ID')[1];
+    if (idText) {
+        const start = val.indexOf('ID') + 2;
+        const end = val.length;
+        el.setSelectionRange(start, end);
+    }
+}
+
+// 回车跳转题目
+function jumpToId() {
+    const el = document.getElementById('questionIndex');
+    const val = el.value.trim();
+    
+    // 提取数字（不管怎么写，只认最后面的数字）
+    const num = val.match(/\d+$/);
+    if (!num) {
+        el.readOnly = true;
+        showQuestion(currentIndex);
+        return;
+    }
+
+    const targetId = parseInt(num[0]);
+    const idx = questionPool.findIndex(q => q.id === targetId);
+
+    if (idx === -1) {
+        alert('未找到 ID：' + targetId);
+        el.readOnly = true;
+        showQuestion(currentIndex);
+        return;
+    }
+
+    // 跳转
+    currentIndex = idx;
+    el.readOnly = true;
+    showQuestion(currentIndex);
+    updateNavButtons();
+}
+
+function toggleOrderMode(){
+    isRandomMode = !isRandomMode;
+    const btn = document.getElementById('orderSwitchBtn');
+    btn.innerText = isRandomMode ? "随机" : "顺序";
+    resetQuestions();
+}
 </script>
 
 </body>

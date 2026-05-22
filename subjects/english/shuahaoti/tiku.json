@@ -7339,6 +7339,30 @@
           ],
           "answer": "D．to keep",
           "explanation": "'it's important to do'固定结构。不定式作真正主语，'keeping'动名词不能用于此结构。"
+        },
+        {
+          "id": "104",
+          "question": "Would you like ______ the Chinese chess club?",
+          "meaning": "你想要加入中国象棋俱乐部吗？",
+          "answer": "C. to join",
+          "explanation": "固定搭配 would like to do sth. 想要做某事。",
+          "type": "选择",
+          "grade": "四年级",
+          "options": [
+              "A. joining",
+              "B. join",
+              "C. to join"
+          ]
+        },
+        {
+          "id": "105",
+          "type": "填空",
+          "grade": "五年级",
+          "unit": "",
+          "question": "The ______ (child) shadows are short in the afternoon.",
+          "options": [],
+          "answer": "children's",
+          "explanation": "考查名词所有格。shadows 是名词，前面需要用名词所有格来表示“孩子们的影子”。child 的复数是 children，复数名词的所有格直接在词尾加 '，所以填 children's。"
         }
   ]
 }
