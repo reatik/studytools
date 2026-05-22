@@ -11,7 +11,7 @@
     --card: #ffffff;
     --text: #2c3e50;
     --border: #a8c5d8;
-    --correct: #4a90c2;
+    --correct: #3f9414;
     --wrong: #e58989;
     --primary: #5a9fd4;
     --present: #4a8ac2;
@@ -97,33 +97,32 @@ body {
     flex: 1;
 }
 
-.type-selector, .tense-selector, .sentence-selector {
+.type-selector, .tense-selector {
     position: relative;
     flex: 1;
 }
 
-.type-dropdown, .tense-dropdown, .sentence-dropdown {
+.type-dropdown, .tense-dropdown {
     position: relative;
     width: 100%;
 }
 
 .dropdown-btn {
     width: 100%;
-    padding: 10px 14px;
+    height: 40px;
+    padding: 0 10px;
     border: 2px solid var(--border);
     border-radius: 10px;
-    background: linear-gradient(135deg, #f8fafc 0%, #e8f0f8 100%);
+    background: #fff;
     color: var(--text);
-    font-size: 14px;
-    cursor: pointer;
+    /* 手机12px ~ 桌面14px 自适应 */
+    font-size: clamp(12px, 2.5vw, 14px) !important;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    transition: all 0.25s ease;
-    box-shadow: 0 2px 8px rgba(90,150,200,0.1);
-    height: 44px;
+    justify-content: space-between;
+    cursor: pointer;
+    white-space: nowrap; /* 强制不换行 */
 }
-
 .dropdown-btn:hover {
     border-color: var(--primary);
 }
@@ -132,6 +131,7 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
 }
 
 .dropdown-btn .arrow {
@@ -141,15 +141,13 @@ body {
 }
 
 .type-dropdown.open .dropdown-btn,
-.tense-dropdown.open .dropdown-btn,
-.sentence-dropdown.open .dropdown-btn {
+.tense-dropdown.open .dropdown-btn {
     border-radius: 10px 10px 0 0;
     border-bottom-color: transparent;
 }
 
 .type-dropdown.open .arrow,
-.tense-dropdown.open .arrow,
-.sentence-dropdown.open .arrow {
+.tense-dropdown.open .arrow {
     transform: rotate(180deg);
 }
 
@@ -169,8 +167,7 @@ body {
 }
 
 .type-dropdown.open .dropdown-menu,
-.tense-dropdown.open .dropdown-menu,
-.sentence-dropdown.open .dropdown-menu {
+.tense-dropdown.open .dropdown-menu {
     display: block;
     animation: slideDown 0.25s ease;
 }
@@ -228,18 +225,41 @@ body {
 .question-index {
     font-size: 14px;
     font-weight: bold;
+    height: 30px;
+    line-height: 30px;
     color: var(--primary);
-    background: #e8f0f8;
-    padding: 4px 12px;
-    border-radius: 6px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e8f0f8 100%);
+    padding: 0 0 0 8px;
+    border-radius: 8px 0 0 8px;
+    border: none;
+    white-space: nowrap;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+}
+
+.question-id-input {
+    font-size: 14px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    color: var(--primary);
+    background: linear-gradient(135deg, #f8fafc 0%, #e8f0f8 100%);
+    padding: 0 4px;
+    border-radius: 0 8px 8px 0;
     border: none;
     outline: none;
-    cursor: pointer;
-    width: 150px;
-    text-align: center;
+    text-align: left;
+    width: 42px;
+    box-sizing: border-box;
 }
-.question-index:read-only {
-    background: #e8f0f8;
+.question-id-input:focus {
+    border-color: var(--primary);
+}
+.question-id-input::-webkit-inner-spin-button,
+.question-id-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .card-progress {
@@ -306,18 +326,18 @@ body {
     align-items: center;
     gap: 4px;
     padding: 5px 10px;
-    border: 1px dashed #a0c8a0;
+    border: 1px dashed #9b88d8;
     border-radius: 8px;
-    background: #f8fdf8;
-    color: #5a8a6a;
+    background: #f5f2fc;
+    color: #6b5cad;
     font-size: 13px;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s;
 }
 .meaning-toggle-btn:hover {
-    background: #e8f8f0;
-    border-color: #6aaa6a;
+    background: #e3ecf8;
+    border-color: #45689e;
 }
 .meaning-toggle-btn .arrow-icon {
     transition: transform 0.25s;
@@ -330,8 +350,23 @@ body {
 
 .meaning-content {
     font-size: 13px;
-    color: #5a7a6a;
-    background: linear-gradient(135deg, #e8f8f0 0%, #d8f0e8 100%);
+    color: #2d4a77;
+    background: linear-gradient(135deg, #f1f5fb 0%, #e3ecf8 100%);
+    padding: 5px 12px;
+    border-radius: 8px;
+    line-height: 1.6;
+    display: none;
+    flex: 1;
+}
+.meaning-content.show {
+    display: block;
+    animation: slideLeft 0.25s ease;
+}
+
+.meaning-content {
+    font-size: 13px;
+    color: #2c5c9e;
+    background: linear-gradient(135deg, #e8f4ff 0%, #d8e8fa 100%);
     padding: 5px 12px;
     border-radius: 8px;
     line-height: 1.6;
@@ -395,26 +430,26 @@ body {
 
 .fill-submit-btn {
     padding: 6px 16px;
-    border: 1px solid var(--border);
+    border: 1px solid #3f9414;
     border-radius: 8px;
-    background: #f0f6fa;
-    color: var(--text);
+    background: #3f9414;  /* 默认绿色背景 */
+    color: #fff;         /* 白色文字 */
     font-size: 13px;
     cursor: pointer;
     transition: all 0.2s;
 }
 .fill-submit-btn:hover {
-    background: #e8f0f8;
+    background: #368010;  /* 深一点的绿色 */
 }
 .fill-submit-btn.correct {
-    background: #e8f0f8;
-    border-color: var(--correct);
-    color: var(--correct);
+    background: #3f9414;
+    border-color: #3f9414;
+    color: #fff;
 }
 .fill-submit-btn.wrong {
-    background: #fff0f0;
-    border-color: var(--wrong);
-    color: var(--wrong);
+    background: #e58989;
+    border-color: #e58989;
+    color: #fff;
 }
 .fill-submit-btn:disabled {
     opacity: 0.7;
@@ -647,6 +682,7 @@ body {
 .fill-submit-btn.hide{
     display: none;
 }
+
 </style>
 </head>
 
@@ -696,48 +732,21 @@ body {
                     </div>
                 </div>
             </div>
-            <div class="sentence-selector">
-                <div class="sentence-dropdown" id="sentenceDropdown">
-                    <button type="button" class="dropdown-btn" onclick="toggleSentenceDropdown()">
-                        <span class="selected-text" id="selectedSentenceName">句型</span>
-                        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M6 9l6 6 6-6"/>
-                        </svg>
-                    </button>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-item selected" data-value="陈述句" onclick="toggleSentence('陈述句')">
-                            <span class="item-text">陈述句</span>
-                        </div>
-                        <div class="dropdown-item selected" data-value="否定句" onclick="toggleSentence('否定句')">
-                            <span class="item-text">否定句</span>
-                        </div>
-                        <div class="dropdown-item selected" data-value="一般疑问句" onclick="toggleSentence('一般疑问句')">
-                            <span class="item-text">一般疑问句</span>
-                        </div>
-                        <div class="dropdown-item selected" data-value="特殊疑问句" onclick="toggleSentence('特殊疑问句')">
-                            <span class="item-text">特殊疑问句</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <button id="orderSwitchBtn" style="padding:0 10px;border:2px solid var(--border);border-radius:10px;background:linear-gradient(135deg, #f8fafc 0%, #e8f0f8 100%);color:var(--text);font-size:12px;cursor:pointer;height:40px;flex-shrink:0;white-space:nowrap;" onclick="toggleOrderMode()">随机</button>
         </div>
     </div>
 
     <div class="card">
         <div class="card-header">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <input 
-                type="text" 
-                id="questionIndex" 
-                class="question-index" 
-                readonly
-                onclick="makeIdEditable()"
-                onblur="jumpToId()" 
-            >
-                <button id="orderSwitchBtn" style="padding:3px 8px;border:1px solid var(--border);border-radius:4px;background:#f8f8f8;font-size:12px;cursor:pointer;" onclick="toggleOrderMode()">随机</button>
-                <span class="tag tag-wrong" id="wrongTag" style="display: none;">错题</span>
+            <div style="display: flex; align-items: center; gap: 0;">
+                <span class="question-index" id="questionLabel">第1题 · ID</span>
+                <input type="number" id="questionId" class="question-id-input" onblur="jumpToId()" onkeypress="if(event.key==='Enter')this.blur()">
+                <span class="tag tag-wrong" id="wrongTag" style="display: none; margin-left: 6px;">错题</span>
             </div>
-            <span class="card-progress" id="cardProgress">正确 0</span>
+            <div style="display: flex; gap: 4px;">
+                <span class="card-progress" id="cardProgress">正确 0</span>
+                <span class="card-progress" id="errorProgress" style="color: #e58989;">错误 0</span>
+            </div>
         </div>
         <div class="question-area">
             <div class="question-tags" id="questionTags"></div>
@@ -772,13 +781,12 @@ body {
 
 <script>
 let sentenceBank = [];
-let currentType = 'fill';
 let selectedTypes = ['fill', 'choice'];
 let selectedTenses = ['一般现在时', '现在进行时'];
-let selectedSentences = ['陈述句', '否定句', '一般疑问句', '特殊疑问句'];
 let questionPool = [];
 let answers = [];
 let correctCount = 0;
+let errorCount = 0;
 let currentIndex = 0;
 let currentAnswer = null;
 let currentMeaning = '';
@@ -788,11 +796,9 @@ let isRandomMode = true;
 function loadSelections() {
     const savedTypes = localStorage.getItem('shitai_types');
     const savedTenses = localStorage.getItem('shitai_tenses');
-    const savedSentences = localStorage.getItem('shitai_sentences');
     
     if (savedTypes) selectedTypes = JSON.parse(savedTypes);
     if (savedTenses) selectedTenses = JSON.parse(savedTenses);
-    if (savedSentences) selectedSentences = JSON.parse(savedSentences);
 }
 
 // 初始化时更新下拉菜单UI
@@ -803,12 +809,8 @@ function initDropdownUI() {
     document.querySelectorAll('#tenseDropdown .dropdown-item').forEach(item => {
         item.classList.toggle('selected', selectedTenses.includes(item.dataset.value));
     });
-    document.querySelectorAll('#sentenceDropdown .dropdown-item').forEach(item => {
-        item.classList.toggle('selected', selectedSentences.includes(item.dataset.value));
-    });
     updateTypeName();
     updateTenseName();
-    updateSentenceName();
 }
 
 loadSelections();
@@ -823,14 +825,6 @@ function toggleTenseDropdown() {
     const dropdown = document.getElementById('tenseDropdown');
     dropdown.classList.toggle('open');
     document.getElementById('typeDropdown').classList.remove('open');
-    document.getElementById('sentenceDropdown').classList.remove('open');
-}
-
-function toggleSentenceDropdown() {
-    const dropdown = document.getElementById('sentenceDropdown');
-    dropdown.classList.toggle('open');
-    document.getElementById('typeDropdown').classList.remove('open');
-    document.getElementById('tenseDropdown').classList.remove('open');
 }
 
 function toggleType(type) {
@@ -895,37 +889,6 @@ function updateTenseName() {
     document.getElementById('selectedTenseName').innerText = text;
 }
 
-function toggleSentence(sentence) {
-    const idx = selectedSentences.indexOf(sentence);
-    if (idx > -1) {
-        selectedSentences.splice(idx, 1);
-    } else {
-        selectedSentences.push(sentence);
-    }
-    
-    document.querySelectorAll('#sentenceDropdown .dropdown-item').forEach(item => {
-        item.classList.toggle('selected', selectedSentences.includes(item.dataset.value));
-    });
-    
-    updateSentenceName();
-    localStorage.setItem('shitai_sentences', JSON.stringify(selectedSentences));
-    
-    if (selectedSentences.length > 0) {
-        resetQuestions();
-    }
-}
-
-function updateSentenceName() {
-    const names = { '陈述句': '陈述', '否定句': '否定', '一般疑问句': '一般疑问', '特殊疑问句': '特殊疑问' };
-    let text = selectedSentences.map(t => names[t]).join('+');
-    if (selectedSentences.length === 0) {
-        text = '请选择句型';
-    } else if (selectedSentences.length === 4) {
-        text = '全部句型';
-    }
-    document.getElementById('selectedSentenceName').innerText = text;
-}
-
 // 点击外部关闭下拉菜单
 document.addEventListener('click', function(e) {
     if (!document.getElementById('typeDropdown').contains(e.target)) {
@@ -933,9 +896,6 @@ document.addEventListener('click', function(e) {
     }
     if (!document.getElementById('tenseDropdown').contains(e.target)) {
         document.getElementById('tenseDropdown').classList.remove('open');
-    }
-    if (!document.getElementById('sentenceDropdown').contains(e.target)) {
-        document.getElementById('sentenceDropdown').classList.remove('open');
     }
 });
 
@@ -954,13 +914,14 @@ function hideMeaning() {
 }
 
 function resetQuestions() {
-    if (selectedTenses.length === 0 || selectedSentences.length === 0) return;
+    if (selectedTypes.length === 0 || selectedTenses.length === 0) return;
     let filterList = [...sentenceBank].filter(q => 
-    selectedTenses.includes(q.difficulty) && selectedTypes.includes(q.type) && selectedSentences.includes(q.sentenceType)
+    selectedTypes.includes(q.type) && selectedTenses.includes(q.difficulty)
 );
 questionPool = isRandomMode ? shuffle(filterList) : filterList;
     answers = [];
     correctCount = 0;
+    errorCount = 0;
     currentIndex = 0;
     updateProgress();
     showQuestion(0);
@@ -978,7 +939,8 @@ function showQuestion(index) {
     }
     
     // 显示序号
-    document.getElementById("questionIndex").value = `第${index + 1}题 · ID${q.id}`;
+    document.getElementById("questionLabel").innerText = `第${index + 1}题 · ID`;
+    document.getElementById("questionId").value = q.id;
     
 // 显示标签（清空旧标签）
 const tagsEl = document.getElementById("questionTags");
@@ -1143,15 +1105,16 @@ function submitFillAnswer() {
         submitBtn.innerText = "✓ 正确";
         submitBtn.classList.add("correct");
         correctCount++;
-        updateProgress(true);
         resultText.innerText = q.answer;
         resultText.style.color = "var(--correct)";
     } else {
         submitBtn.innerText = "✗ 错误";
         submitBtn.classList.add("wrong");
+        errorCount++;
         resultText.innerText = q.answer;
         resultText.style.color = "var(--wrong)";
     }
+    updateProgress(true);
 
     if (q.explanation) {
         hintEl.innerHTML = `<div class="explanation">${q.explanation}</div>`;
@@ -1191,8 +1154,10 @@ function selectOption(el, q) {
 
     if (selected.correct) {
         correctCount++;
-        updateProgress(true);
+    } else {
+        errorCount++;
     }
+    updateProgress(true);
     updateNavButtons();
     document.getElementById("fillSubmitBtn").classList.add('hide');
 }
@@ -1206,6 +1171,7 @@ function updateNavButtons() {
 function updateProgress(animate) {
     const el = document.getElementById("cardProgress");
     el.innerText = `正确 ${correctCount}`;
+    document.getElementById("errorProgress").innerText = `错误 ${errorCount}`;
     if (animate) {
         el.classList.remove("pop");
         void el.offsetWidth;
@@ -1228,9 +1194,9 @@ function prev() {
 }
 
 function goHome() {
-    location.reload();
+    // 返回上一页，回到主页
+    window.history.back();
 }
-
 
 function shuffle(arr) {
     // Fisher-Yates 洗牌算法确保真正随机
@@ -1286,47 +1252,25 @@ card.addEventListener('touchend', function(e) {
   }
 });
 
-function makeIdEditable() {
-    const el = document.getElementById('questionIndex');
-    el.readOnly = false;
-    el.focus();
-    
-    // 自动选中 ID 数字
-    const val = el.value;
-    const idText = val.split('ID')[1];
-    if (idText) {
-        const start = val.indexOf('ID') + 2;
-        const end = val.length;
-        el.setSelectionRange(start, end);
-    }
-}
-
-// 回车跳转题目
 function jumpToId() {
-    const el = document.getElementById('questionIndex');
+    const el = document.getElementById('questionId');
     const val = el.value.trim();
     
-    // 提取数字（不管怎么写，只认最后面的数字）
-    const num = val.match(/\d+$/);
-    if (!num) {
-        el.readOnly = true;
-        showQuestion(currentIndex);
+    if (!val) {
+        el.value = questionPool[currentIndex] ? questionPool[currentIndex].id : '';
         return;
     }
-
-    const targetId = parseInt(num[0]);
+    
+    const targetId = parseInt(val);
     const idx = questionPool.findIndex(q => q.id === targetId);
 
     if (idx === -1) {
         alert('未找到 ID：' + targetId);
-        el.readOnly = true;
-        showQuestion(currentIndex);
+        el.value = questionPool[currentIndex] ? questionPool[currentIndex].id : '';
         return;
     }
 
-    // 跳转
     currentIndex = idx;
-    el.readOnly = true;
     showQuestion(currentIndex);
     updateNavButtons();
 }

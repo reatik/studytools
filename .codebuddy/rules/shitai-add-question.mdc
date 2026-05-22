@@ -1,0 +1,199 @@
+---
+description: 
+alwaysApply: false
+enabled: true
+updatedAt: 2026-05-22T13:21:38.137Z
+provider: 
+---
+
+# 英语时态题目添加技能
+
+## 目标文件
+`e:\py\pyfile\github-studytools\subjects\english\shitai\sentences.json`
+
+## 使用方式
+用户提供题目时，会给出：
+- 题目题干（text）
+- 如果是选择题，还会提供选项（options）
+
+AI 需要自动补全以下字段后，将新题目追加到 JSON 数组中。
+
+---
+
+## JSON 题目结构
+
+### 填空题 (type: "fill")
+```json
+{
+    "id": <自增编号>,
+    "text": "<题干，用 ______ 表示填空，用 (word) 给出提示词>",
+    "meaning": "<中文翻译>",
+    "answer": "<正确答案>",
+    "explanation": "<语法解释，中文>",
+    "type": "fill",
+    "difficulty": "<一般现在时 或 现在进行时>",
+    "sentenceType": "<陈述句|否定句|一般疑问句|特殊疑问句>"
+}
+```
+
+### 选择题 (type: "choice")
+```json
+{
+    "id": <自增编号>,
+    "text": "<题干，可能包含 ______ 缺口>",
+    "meaning": "<中文翻译>",
+    "answer": "<正确选项的字母，如 A/B/C>",
+    "explanation": "<语法解释，中文>",
+    "type": "choice",
+    "difficulty": "<一般现在时 或 现在进行时>",
+    "sentenceType": "<陈述句|否定句|一般疑问句|特殊疑问句>",
+    "options": [
+        {"label":"A","value":"<选项值>","correct":false},
+        {"label":"B","value":"<选项值>","correct":true},
+        {"label":"C","value":"<选项值>","correct":false}
+    ]
+}
+```
+
+---
+
+## 字段填写规范
+
+### 1. id
+- 读取 `sentences.json` 中最后一个题目的 `id`，新题目 `id = 最大id + 1`
+- 当前最大 id 是 258，下一个从 259 开始
+
+### 2. 换行处理（重要）
+- 题目题干中如有换行（如对话形式的多行文本等），**必须使用 `<br>` 替代 `\n`**
+- 示例：
+  - 对话形式：`"— What ______ you ______ (do) now?<br>— I ______ (read) English books."`
+- **禁止使用 `\n`**，统一使用 `<br>` 标签
+
+### 2b. choice 类型 text 字段规范（重要）
+- **text 字段只包含题干本身**，不要包含 `( )` 题号和 A/B/C 选项行
+- 选项内容只放在 `options` 数组中，由页面自动渲染
+- ❌ 错误：`"( ) 7. It's time ______ lunch.<br>A. to have<br>B. for have<br>C. to having"`
+- ✅ 正确：`"It's time ______ lunch."`
+
+### 3. type（题目类型）
+- **fill（填空）**：题干中有 `______` 配对 `(word)` 提示词，需要填入动词正确形式
+- **choice（选择）**：题干中有缺口，给出 A/B/C 选项，通常有 `options` 数组
+- 根据用户提供的题干风格判断
+
+### 4. difficulty（难度/时态）
+- **"一般现在时"**：
+  - 有频率词：often, usually, always, sometimes, never, every day/week...
+  - 客观真理
+  - 有 can/may/must 等情态动词
+  - 有 like doing / want to do / would like to do 等固定搭配
+  - 祈使句（Don't / Let's / Please）
+  - 无任何时间标志的常规描述
+- **"现在进行时"**：
+  - 有 Look!, Listen!, now, at the moment 等标志词
+  - It's ... o'clock 表示此刻
+  - Where is ... / Where are ... 询问当前动作
+  - Be quiet. / Don't make a noise. 等暗示当前动作
+  - 对划线部分提问涉及 be+doing 结构
+
+### 5. sentenceType（句型）
+- **"陈述句"**：普通的肯定句或否定陈述
+  - He likes football. / They don't like music.
+  - 祈使句也归为陈述句（如 Close your eyes. / Don't talk. / Let's go.）
+- **"否定句"**：题干本身是否定形式
+  - He doesn't like... / They aren't playing...
+  - Don't + 动词原形的祈使句也归为"否定句"
+- **"一般疑问句"**：可以用 Yes/No 回答的问句
+  - Does he like...? / Is she singing...? / Do they...?
+- **"特殊疑问句"**：以 Wh- 开头的问句
+  - What does he...? / Where are they...? / How does it...?
+  - 注意：如果对话形式中主句是特殊疑问句，如 "— What are you doing? — I'm reading."，sentenceType 判断对话中**被考察**的部分
+
+### 6. meaning（中文翻译）
+- 用通顺的中文翻译完整句意
+- 如果题干是选择题，翻译完整的正确句子含义
+
+### 7. answer（答案）
+- **fill 类型**：填写需要填入空白处的词或短语
+  - 单空：直接写词，如 `"has"`、`"is singing"`
+  - 多空：用分号分隔，如 `"Does; fly; does"`、`"are; doing; are cleaning"`
+- **choice 类型**：写正确选项的字母，如 `"C"`
+
+### 8. explanation（解释）
+- 用中文解释为什么是这个答案
+- 要点：
+  - 指出时态判断依据（时间标志词）
+  - 指出主语是人称单数还是复数
+  - 指出动词变化规则（加s/es/ing/双写等）
+  - 如果是固定搭配（can do / like doing / want to do 等），明确指出
+
+### 9. options（仅 choice 类型）
+- 数组，每个元素包含 `label`（字母标签）、`value`（选项值）、`correct`（是否正确）
+- 通常 3 个选项（A/B/C），只有一个是 true
+
+---
+
+## 筛选规则（必须在添加题目前执行）
+
+**本题库只收录考察动词时态/动词形式的题目。** 添加每道题目前，必须先判断是否属于以下任意一种情况，如果是，则**拒绝添加并告知用户**：
+
+### 应拒绝的题目类型（非动词考点）
+- 考察名词（单复数、所有格等），如：How many ______ (sheep) are there?
+- 考察代词（人称代词、物主代词等），如：This is ______ (I) book.
+- 考察形容词/副词（比较级、最高级等），如：He runs ______ (fast) than me.
+- 考察介词（in/on/at 等），如：He is good ______ English.
+- 考察冠词（a/an/the），如：There is ______ apple on the table.
+- 考察连词（and/but/because 等）
+- 纯词汇拼写题（不涉及动词变化）
+- 选项与动词形式无关的选择题
+
+### 应接受的题目类型（动词考点）
+- 考察动词时态变化（一般现在时第三人称单数、现在进行时 be+doing 等）
+- 考察情态动词后接原形（can do / must do）
+- 考察固定搭配中的动词形式（like doing / want to do / would like to do）
+- 考察助动词 do/does/did 在疑问句和否定句中的使用
+- 考察 be 动词的时态和人称变化（am/is/are/was/were）
+- 考察祈使句中动词原形
+
+### 判断方法
+- **填空题**：看 `(word)` 提示词是否为动词（如 do, play, have, make, be, run 等）
+- **选择题**：看选项是否全部是关于动词变化（如 do/does/doing, am/is/are, go/goes/went 等）
+
+如果所有选项和题干考察点与动词无关，**不要添加**，直接回复用户"该题目不是动词考点，已跳过"。
+
+---
+
+## 执行步骤
+
+1. **先读取文件**，获取最后一个 id
+2. **筛选**：按照上述筛选规则，判断题目是否考察动词时态/形式。如果不是，拒绝添加，跳到下一题
+3. **分析用户提供的题干**，判断 type（fill/choice）、difficulty（时态）、sentenceType（句型）
+4. **生成 meaning**（中文翻译）
+5. **确定 answer**（正确答案）
+6. **编写 explanation**（语法解释）
+7. **如果是 choice 类型**，补全 options
+8. **使用 replace_in_file 工具**，在 JSON 数组末尾的 `]` 之前追加新题目
+9. **追加格式**：在最后一个 `}` 后面加逗号，然后插入新题目 JSON，最后以 `]` 结尾
+
+## 追加示例
+
+假设文件末尾是：
+```
+  {"id": 258, ...}
+]
+```
+
+追加后变为：
+```
+  {"id": 258, ...},
+  {
+    "id": 259,
+    "text": "...",
+    ...
+  }
+]
+```
+
+注意：
+- 每个字段独占一行或适当排版，保持与已有题目一致的缩进风格（2空格缩进）
+- 对象最后一个字段后面不加逗号
+- 确保 JSON 格式正确
