@@ -47,9 +47,13 @@ body {
     border-radius: 14px;
     padding: 20px;
     box-shadow: 0 6px 16px rgba(90,150,200,0.08);
-    border: none; /* 先把原来的border去掉 */
-    outline: 2px dashed var(--border); /* 用outline代替border */
-    outline-offset: -6px; /* 👈 负数 = 向内缩，数值越大缩得越多，-4~-8px之间效果最好 */
+    border: none;
+    outline: 2px dashed var(--border);
+    outline-offset: -6px;
+
+    /* 👇 加上这两行 */
+    height: 450px;        /* 固定高度（你可以自己调数值） */
+    overflow-y: auto;     /* 内容超长自动出现滚动条 */
 }
 
 .top-bar {
@@ -216,8 +220,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 10px;
+    margin-bottom: 4px; /* 👈 从12px改成4px，把横线和下面的间距缩小 */
+    padding-bottom: 6px; /* 👈 也可以顺便把横线本身的上下内边距缩小一点 */
     border-bottom: 1px solid var(--border);
 }
 
@@ -237,11 +241,7 @@ body {
 }
 
 .question-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-    min-height: 28px;
+    display: none; /* 隐藏旧标签 */
 }
 
 .tag {
@@ -266,6 +266,7 @@ body {
 }
 
 .question-area {
+
     margin-bottom: 0;
 }
 
@@ -372,27 +373,42 @@ body {
 
 .fill-footer {
     display: flex;
-    justify-content: flex-start; /* 这里改 */
     align-items: center;
+    margin-top: 10px;
+}
+/* 清空旧冲突样式 */
+.answer-hint {
+    font-size: 14px;
+    color: #888;
     margin-top: 12px;
+    min-height: 24px;
 }
 
 .fill-submit-btn {
-    padding: 8px 24px;
-    background: var(--primary);
-    color: white;
-    border: none;
+    padding: 6px 16px;
+    border: 1px solid var(--border);
     border-radius: 8px;
+    background: #f0f6fa;
+    color: var(--text);
+    font-size: 13px;
     cursor: pointer;
-    font-size: 15px;
+    transition: all 0.2s;
 }
-
 .fill-submit-btn:hover {
-    background: #4a90c2;
+    background: #e8f0f8;
 }
-
+.fill-submit-btn.correct {
+    background: #e8f0f8;
+    border-color: var(--correct);
+    color: var(--correct);
+}
+.fill-submit-btn.wrong {
+    background: #fff0f0;
+    border-color: var(--wrong);
+    color: var(--wrong);
+}
 .fill-submit-btn:disabled {
-    background: #ccc;
+    opacity: 0.7;
     cursor: not-allowed;
 }
 
@@ -682,7 +698,10 @@ body {
 
     <div class="card">
         <div class="card-header">
-            <span class="question-index" id="questionIndex"></span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="question-index" id="questionIndex"></span>
+                <span class="tag tag-wrong" id="wrongTag" style="display: none;">错题</span>
+            </div>
             <span class="card-progress" id="cardProgress">正确 0</span>
         </div>
         <div class="question-area">
@@ -694,13 +713,18 @@ body {
                 </button>
                 <div class="meaning-content" id="meaningContent"></div>
             </div>
-        </div>
-        <div id="fillArea" class="hidden">
-            <div class="answer-hint" id="answerHint"></div>
+    
+            <!-- 提交按钮 放在 句意 下方 -->
             <div class="fill-footer">
-                <button class="fill-submit-btn" id="fillSubmitBtn">确认</button>
+                <button class="fill-submit-btn" id="fillSubmitBtn">提交</button>
+                <span id="fillResultText" style="margin-left:10px; font-size:13px;"></span>
             </div>
         </div>
+    
+        <div id="fillArea" class="hidden">
+            <div class="answer-hint" id="answerHint"></div>
+        </div>
+    
         <div class="options" id="options"></div>
     </div>
 
@@ -930,42 +954,60 @@ function showQuestion(index) {
     // 显示序号
     document.getElementById("questionIndex").innerText = `第 ${index + 1} 题`;
     
-    // 显示标签
-    const tagsEl = document.getElementById("questionTags");
-    tagsEl.innerHTML = '';
-    if (wasAnswered) {
-        tagsEl.innerHTML = '<span class="tag tag-count">已作答</span>';
-    }
+// 显示标签（清空旧标签）
+const tagsEl = document.getElementById("questionTags");
+tagsEl.innerHTML = '';
+
+// 显示红色【错题】标签（仅答错显示）
+const wrongTag = document.getElementById("wrongTag");
+if (wasAnswered && !answers[index].correct) {
+    wrongTag.style.display = "inline-flex";
+} else {
+    wrongTag.style.display = "none";
+}
 
     const questionText = document.getElementById("questionText");
+    const submitBtn = document.getElementById("fillSubmitBtn");
+    const resultText = document.getElementById("fillResultText");
+    const hintEl = document.getElementById("answerHint");
+
+    // 重置按钮
+    submitBtn.disabled = false;
+    submitBtn.innerText = "提交";
+    submitBtn.className = "fill-submit-btn";
+    if(resultText) resultText.innerText = "";
+    hintEl.innerText = "";
     
     if (q.type === 'fill') {
         questionText.innerHTML = q.text.replace(/______/g, `<input type="text" class="fill-input inline-fill" autocomplete="off" value="${wasAnswered ? answers[index].value : ''}">`);
         document.getElementById("fillArea").classList.remove("hidden");
         document.getElementById("options").innerHTML = "";
         
-        document.getElementById("fillSubmitBtn").disabled = wasAnswered;
-        
         const inputList = document.querySelectorAll(".inline-fill");
+        
         if (wasAnswered) {
             inputList.forEach(el => el.disabled = true);
             const isCorrect = answers[index].correct;
             inputList.forEach(el => el.classList.add(isCorrect ? 'correct' : 'wrong'));
-            const hintEl = document.getElementById("answerHint");
+
+            submitBtn.disabled = true;
             if (isCorrect) {
-                hintEl.innerHTML = '<span class="bounce-in">✓ 正确！</span>';
-                hintEl.style.color = "var(--correct)";
+                submitBtn.innerText = "✓ 正确";
+                submitBtn.classList.add("correct");
+                if(resultText) resultText.innerText = "";
             } else {
-                hintEl.innerHTML = `<span class="bounce-in">✗ 正确答案：${q.answer}</span>`;
-                hintEl.style.color = "var(--wrong)";
+                submitBtn.innerText = "✗ 错误";
+                submitBtn.classList.add("wrong");
+                if(resultText) resultText.innerText = `正确答案：${q.answer}`;
+                if(resultText) resultText.style.color = "var(--wrong)";
             }
             if (q.explanation) {
-                hintEl.innerHTML += `<div class="explanation">${q.explanation}</div>`;
+                hintEl.innerHTML = `<div class="explanation">${q.explanation}</div>`;
             }
         } else {
+            inputList.forEach(el => el.classList.remove('correct', 'wrong'));
             document.getElementById("answerHint").innerText = "";
             if(inputList.length > 0) inputList[0].focus();
-            const submitBtn = document.getElementById("fillSubmitBtn");
             const handler = () => submitFillAnswer();
             submitBtn.onclick = handler;
             inputList.forEach(el => {
@@ -1034,47 +1076,53 @@ function submitFillAnswer() {
     const q = questionPool[currentIndex];
     const inputList = document.querySelectorAll(".inline-fill");
     const submitBtn = document.getElementById("fillSubmitBtn");
+    const resultText = document.getElementById("fillResultText");
     const hintEl = document.getElementById("answerHint");
 
-    // 收集所有空答案 —— 严格去空格，但保留大小写
+    // 收集答案
     let userAnswers = [];
     inputList.forEach(inp => {
-        userAnswers.push(inp.value.trim()); // 👈 只去首尾空格，保留大小写
+        userAnswers.push(inp.value.trim());
     });
     
-    // 标准答案 —— 只去空格，保留大小写
     let rightAnswers = q.answer.split(";").map(item => item.trim());
 
-    // 精准判断：完全一样才算对（大小写敏感）
+    // 判断对错
     let allRight = true;
     for (let i = 0; i < rightAnswers.length; i++) {
-        if (userAnswers[i] !== rightAnswers[i]) { // 👈 精准严格匹配
+        if (userAnswers[i] !== rightAnswers[i]) {
             allRight = false;
             break;
         }
     }
 
-    submitBtn.disabled = true;
+    // 禁用输入 + 按钮
     inputList.forEach(inp => inp.disabled = true);
+    submitBtn.disabled = true;
 
     answers[currentIndex] = { value: userAnswers.join(","), correct: allRight };
     currentAnswer = answers[currentIndex];
 
+    // ========== 按钮状态 + 右侧提示 ==========
     if (allRight) {
-        inputList.forEach(inp => inp.classList.add("correct"));
-        hintEl.innerHTML = '<span class="bounce-in">✓ 全部正确！</span>';
-        hintEl.style.color = "var(--correct)";
+        submitBtn.innerText = "✓ 正确";
+        submitBtn.classList.add("correct");
+        resultText.innerText = "";
+        resultText.style.color = "var(--correct)";
         correctCount++;
         updateProgress(true);
     } else {
-        inputList.forEach(inp => inp.classList.add("wrong","shake"));
-        hintEl.innerHTML = `<span class="bounce-in">✗ 正确答案：${q.answer}</span>`;
-        hintEl.style.color = "var(--wrong)";
+        submitBtn.innerText = "✗ 错误";
+        submitBtn.classList.add("wrong");
+        resultText.innerText = `正确答案：${q.answer}`;
+        resultText.style.color = "var(--wrong)";
     }
+
+    // 解析
     if (q.explanation) {
-        hintEl.innerHTML += `<div class="explanation">${q.explanation}</div>`;
+        resultText.innerText += "";
+        hintEl.innerHTML = `<div class="explanation">${q.explanation}</div>`;
     }
-    submitBtn.classList.add('hide');
 }
 
 function selectOption(el, q) {
