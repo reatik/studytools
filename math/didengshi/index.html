@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>递等式巧算练习</title>
+    <title>递等式计算练习</title>
     <style>
         :root {
             --primary: #4A6CF7;
@@ -37,53 +37,153 @@
             gap: 10px;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 200;
             box-shadow: var(--shadow);
         }
         .header h1 { font-size: 19px; color: var(--primary); font-weight: 700; white-space: nowrap; }
-        .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .select-box {
-            padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 8px;
+            height: 34px; padding: 0 10px; border: 1.5px solid var(--border); border-radius: 8px;
             font-size: 14px; font-family: inherit; background: #fff; cursor: pointer;
-            outline: none; min-width: 94px;
+            outline: none; min-width: 94px; box-sizing: border-box;
         }
         .select-box:focus { border-color: var(--primary); }
         .btn {
-            padding: 8px 18px; border: none; border-radius: 8px; font-size: 14px;
+            height: 34px; padding: 0 16px; border: none; border-radius: 8px; font-size: 14px;
             cursor: pointer; font-weight: 500; transition: all 0.2s;
-            font-family: inherit; white-space: nowrap;
+            font-family: inherit; white-space: nowrap; display: inline-flex;
+            align-items: center; justify-content: center;
         }
         .btn-gen { background: var(--primary); color: #fff; }
         .btn-gen:hover { background: var(--primary-light); }
-        .btn-preview { background: #fff; border: 1.5px solid #f59e0b; color: #f59e0b; }
-        .btn-preview:hover { background: #fff8eb; }
+        .qiaosuan-toggle {
+            height: 34px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 8px;
+            font-size: 13px; cursor: pointer; font-family: inherit; background: #fff;
+            transition: all 0.2s; white-space: nowrap; font-weight: 500;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .qiaosuan-toggle:hover { border-color: var(--primary); }
+        .qiaosuan-toggle.active {
+            background: var(--primary); color: #fff; border-color: var(--primary);
+        }
+        .setting-toggle {
+            height: 34px; width: 34px; cursor: pointer; border: 1.5px solid var(--border);
+            border-radius: 8px; background: #fff; font-size: 15px; padding: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+        .setting-toggle:hover { border-color: var(--primary); }
+        .setting-toggle.active {
+            background: #e8f0fe; border-color: var(--primary); color: var(--primary);
+        }
+        .qiaosuan-badge {
+            display: inline-block;
+            background: #f2f2f2; color: #333;
+            font-size: 10px; padding: 1px 5px;
+            border-radius: 3px; margin-left: 5px;
+            font-weight: 500; vertical-align: middle;
+            border: 1px solid #ccc;
+        }
         .btn-outline {
             background: transparent; border: 1.5px solid var(--border);
             color: var(--text);
         }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
         .btn-sm { padding: 4px 10px; font-size: 12px; border-radius: 6px; }
-        .tip-text { font-size: 12px; color: #f59e0b; display: none; }
-        .print-icon-btn {
+        .tip-text { display: none; }
+        .icon-btn {
             width: 34px; height: 34px; cursor: pointer; border: none; background: none;
-            border-radius: 6px; padding: 4px; transition: all 0.2s; display: none;
+            border-radius: 6px; padding: 4px; transition: all 0.2s; display: inline-flex;
+            align-items: center; justify-content: center; flex-shrink: 0;
         }
-        .print-icon-btn:hover { background: #fef3c7; transform: scale(1.08); }
-        .print-icon-btn img { width: 100%; height: 100%; object-fit: contain; }
+        .icon-btn:hover { background: #e8ecf1; transform: scale(1.08); }
+        .icon-btn img { width: 100%; height: 100%; object-fit: contain; }
+        .page-input-wrap {
+            font-size: 13px; color: var(--text-secondary);
+            display: inline-flex; align-items: center; gap: 4px;
+            white-space: nowrap; margin-left: 2px;
+        }
+        .page-input {
+            width: 48px; height: 34px; padding: 0 4px; border: 1.5px solid var(--border); border-radius: 8px;
+            font-size: 14px; font-family: inherit; text-align: center; outline: none;
+        }
+        .page-input:focus { border-color: var(--primary); }
 
-        /* ===== 布局 ===== */
-        .main-layout {
-            display: flex;
-            min-height: calc(100vh - 58px);
+        /* 历史记录按钮（上方最右边） */
+        .history-btn-wrap {
+            position: relative; display: inline-flex; flex-shrink: 0;
         }
+        .history-btn-wrap .badge {
+            position: absolute; top: -5px; right: -7px;
+            background: #e53e3e; color: #fff; font-size: 10px; border-radius: 10px;
+            padding: 1px 5px; min-width: 16px; text-align: center;
+            line-height: 1.4; z-index: 1; pointer-events: none;
+        }
+
+        /* 历史下拉面板 */
+        .history-dropdown {
+            display: none;
+            position: absolute; top: 100%; right: 0;
+            width: 340px; max-height: 420px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            z-index: 300; overflow-y: auto; padding: 12px;
+            margin-top: 8px;
+        }
+        .history-dropdown.show { display: block; }
+        .history-dropdown h4 {
+            font-size: 13px; margin-bottom: 8px; display: flex; justify-content: space-between;
+            align-items: center;
+        }
+        .history-dropdown .h-list { display: flex; flex-direction: column; gap: 4px; }
+        .history-dropdown .h-item {
+            border: 1px solid var(--border); border-radius: 6px; font-size: 12px; overflow: hidden;
+        }
+        .history-dropdown .h-item-header {
+            padding: 8px 10px; cursor: pointer; display: flex; align-items: center;
+            justify-content: space-between; user-select: none;
+        }
+        .history-dropdown .h-item-header:hover { background: #f8faff; }
+        .history-dropdown .h-item-header .h-arrow {
+            font-size: 10px; color: #aaa; transition: transform 0.2s;
+        }
+        .history-dropdown .h-item.expanded .h-arrow { transform: rotate(180deg); }
+        .history-dropdown .h-item-body {
+            display: none; padding: 0 10px 10px; border-top: 1px solid #f0f0f0;
+            max-height: 260px; overflow-y: auto;
+        }
+        .history-dropdown .h-item.expanded .h-item-body { display: block; }
+        .h-inner-paper {
+            background: #fff; border: 1px solid #eee; border-radius: 4px; padding: 8px 10px;
+        }
+        .h-inner-paper .h-title { font-weight: 700; text-align: center; font-size: 13px; margin-bottom: 6px; }
+        .h-inner-paper .h-q { margin-bottom: 4px; padding: 2px 0; border-bottom: 1px dashed #f5f5f5; }
+        .h-inner-paper .h-q-expr { font-weight: 600; font-family: 'Consolas','KaiTi',monospace; }
+        .h-inner-paper .h-q-steps {
+            font-family: 'Consolas','KaiTi',monospace; color: var(--answer-green);
+            font-size: 11px; margin-left: 12px; margin-top: 1px;
+        }
+        .h-inner-paper .h-q-steps .step { padding: 1px 0; }
+        .h-inner-paper .h-q-steps .step:last-child { font-weight: 700; }
+        .h-item-actions { margin-top: 6px; display: flex; gap: 4px; }
+        .no-history { text-align: center; color: #bbb; padding: 16px; font-size: 12px; }
+        .h-clear-btn {
+            font-size: 11px; color: #e53e3e; cursor: pointer; border: none;
+            background: none; font-family: inherit;
+        }
+        .h-clear-btn:hover { text-decoration: underline; }
+
+        /* ===== 内容区 ===== */
         .content-area {
-            flex: 1; padding: 20px; max-width: 1000px; margin: 0 auto; width: 100%;
+            padding: 20px; width: 100%;
+            display: flex; flex-direction: column; align-items: center;
         }
 
         /* ===== 卷子 ===== */
         .paper {
-            background: #fff; border: 1px solid #ddd; padding: 36px 40px 40px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            background: #fff; border: 1px solid #ddd; padding: 32px 36px 36px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 20px;
+            width: 210mm; min-height: 297mm;
         }
         .paper-top {
             text-align: center;
@@ -108,59 +208,59 @@
         .q-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px 24px;
+            gap: 0 24px;
         }
+
         .q-item {
-            padding: 8px 0;
+            padding: 6px 0 0 22px;
             page-break-inside: avoid;
         }
         .q-item-header {
-            display: flex; align-items: baseline; gap: 4px;
+            display: flex; align-items: baseline;
         }
-        .q-item-header .q-index { font-weight: 700; font-size: 15px; min-width: 22px; }
         .q-item-header .q-expr {
             font-size: 17px; font-weight: 600;
             font-family: 'Consolas', 'Courier New', 'KaiTi', 'SimSun', monospace;
             letter-spacing: 1px;
         }
+        .q-item-header .q-expr-wrap { flex: 1; min-width: 0; }
 
-        /* 答案区 - 纯深绿色字，无装饰 */
+        /* 占位区 - 保持间距 */
+        .q-spacer { min-height: 180px; }
+        .q-item.show-ans .q-spacer { display: none; }
+
+        /* 答案区 - 深绿色 */
         .q-item .q-answer {
             display: none;
-            margin-top: 4px; margin-left: 26px;
+            margin-top: 4px; margin-left: 0;
             font-family: 'Consolas', 'Courier New', 'KaiTi', 'SimSun', monospace;
             font-size: 14px; line-height: 1.7;
             color: var(--answer-green);
+            min-height: 180px;
         }
-        .q-item .q-answer.show { display: block; }
+        .q-item.show-ans .q-answer { display: block; }
         .q-item .q-answer .step { color: var(--answer-green); }
         .q-item .q-answer .step:last-child { font-weight: 700; }
 
-        .q-toggle-btn {
-            margin-left: 26px; margin-top: 2px;
-            background: none; border: 1px solid #ddd; border-radius: 4px;
-            padding: 1px 8px; font-size: 11px; cursor: pointer; color: #aaa;
-            font-family: inherit; transition: all 0.15s;
-        }
-        .q-toggle-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .q-toggle-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-
-        /* 操作按钮行 */
-        .paper-actions {
-            text-align: right; margin-bottom: 10px; display: flex; justify-content: flex-end;
-            gap: 8px;
-        }
+        /* 操作按钮 */
+        .paper-actions { text-align: right; margin-bottom: 14px; display: flex; justify-content: flex-end; gap: 8px; }
         .btn-show-answers {
             background: #fff; border: 1.5px solid var(--answer-green); color: var(--answer-green);
-            font-size: 13px; padding: 6px 16px; border-radius: 6px;
+            font-size: 12px; padding: 4px 14px; border-radius: 6px;
             cursor: pointer; font-family: inherit; transition: all 0.15s;
         }
         .btn-show-answers:hover { background: #f0fdf4; }
-
-        .paper-footer {
-            margin-top: 16px; text-align: right; font-size: 12px; color: #bbb;
-            border-top: 1px solid #eee; padding-top: 8px;
+        .btn-label-toggle {
+            background: #fff; border: 1.5px solid var(--border);
+            font-size: 12px; padding: 4px 10px; border-radius: 6px;
+            cursor: pointer; font-family: inherit; transition: all 0.15s; color: #888;
         }
+        .btn-label-toggle:hover { border-color: #999; color: #555; }
+        .btn-label-toggle.active { border-color: #333; color: #333; background: #f5f5f5; }
+        .q-btn-ans { display: none; }
+
+        /* ===== 分页标记 ===== */
+        .page-break { margin-top: 20px; }
 
         /* ===== 空状态 ===== */
         .empty-state {
@@ -182,7 +282,7 @@
             background: #f5f5f7;
             border-radius: 8px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            width: 210mm; /* A4 宽 */
+            width: 210mm;
             min-height: 200px;
             position: relative;
             flex-shrink: 0;
@@ -196,125 +296,74 @@
         }
         .preview-close:hover { background: rgba(0,0,0,0.7); }
         .preview-box .paper {
-            margin: 0;
-            border: 1px solid #ccc;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            margin: 0; border: 1px solid #ccc; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
         .preview-box .paper-actions { display: none !important; }
-        .preview-box .q-toggle-btn { display: none !important; }
         .preview-box .q-answer { display: none !important; }
-        .preview-box .paper-footer { display: none; }
-
-        /* ===== 历史面板 ===== */
-        .history-panel {
-            width: 320px; background: var(--card-bg); border-left: 1px solid var(--border);
-            padding: 16px; overflow-y: auto; max-height: calc(100vh - 58px);
-            position: sticky; top: 58px; flex-shrink: 0;
-        }
-        .history-panel h3 {
-            font-size: 14px; margin-bottom: 12px; color: var(--text);
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .history-list { display: flex; flex-direction: column; gap: 6px; }
-        .history-item {
-            border: 1px solid var(--border);
-            border-radius: 8px; transition: all 0.2s; font-size: 13px;
-            overflow: hidden;
-        }
-        .history-item-header {
-            padding: 10px 12px; cursor: pointer;
-            display: flex; align-items: center; justify-content: space-between;
-            user-select: none;
-        }
-        .history-item-header:hover { background: #f8faff; }
-        .history-item-header .hi-date { font-weight: 600; }
-        .history-item-header .hi-meta { color: var(--text-secondary); font-size: 11px; }
-        .history-item-header .hi-arrow {
-            font-size: 11px; color: #aaa; transition: transform 0.2s;
-        }
-        .history-item.expanded .hi-arrow { transform: rotate(180deg); }
-        .history-item .hi-body {
-            display: none;
-            padding: 0 12px 12px;
-            border-top: 1px solid #f0f0f0;
-            max-height: 350px;
-            overflow-y: auto;
-        }
-        .history-item.expanded .hi-body { display: block; }
-
-        /* 历史内嵌卷子 */
-        .hi-paper {
-            background: #fff; border: 1px solid #eee; border-radius: 6px;
-            padding: 10px 12px; font-size: 12px;
-        }
-        .hi-paper .hi-title {
-            font-weight: 700; text-align: center; font-size: 14px; margin-bottom: 6px;
-        }
-        .hi-paper .hi-meta-row {
-            text-align: center; font-size: 11px; color: #888; margin-bottom: 8px;
-        }
-        .hi-paper .hi-q-item {
-            margin-bottom: 6px; padding: 4px 0; border-bottom: 1px dashed #f0f0f0;
-        }
-        .hi-paper .hi-q-expr { font-weight: 600; font-family: 'Consolas','KaiTi',monospace; }
-        .hi-paper .hi-q-steps {
-            font-family: 'Consolas','KaiTi',monospace; color: var(--answer-green);
-            font-size: 12px; margin-left: 14px; margin-top: 2px;
-        }
-        .hi-paper .hi-q-steps .step { padding: 1px 0; }
-        .hi-paper .hi-q-steps .step:last-child { font-weight: 700; }
-        .hi-actions { margin-top: 8px; display: flex; gap: 6px; }
-
-        .no-history { text-align: center; color: #bbb; padding: 20px; font-size: 13px; }
-        .clear-btn {
-            font-size: 11px; color: #e53e3e; cursor: pointer; border: none;
-            background: none; font-family: inherit;
-        }
-        .clear-btn:hover { text-decoration: underline; }
 
         /* ===== 打印样式 ===== */
         @media print {
-            @page { margin: 12mm 14mm; size: A4; }
+            @page { margin: 14mm 14mm; size: A4; }
+            html, body { height: auto; min-height: 0; margin: 0; padding: 0; }
             body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .header { display: none !important; }
-            .history-panel { display: none !important; }
-            .content-area { padding: 0; max-width: 100%; }
-            .paper { border: none; padding: 0; box-shadow: none; }
-            .paper-top { border-bottom: 2px solid #000; }
+            .history-dropdown { display: none !important; }
+            .content-area { padding: 0; max-width: 100%; display: block !important; width: 100% !important; }
+            .paper {
+                border: none; padding: 0; box-shadow: none; margin: 0; width: auto;
+                min-height: calc(100vh - 28mm);
+                height: calc(100vh - 28mm);
+                max-height: calc(100vh - 28mm);
+                display: flex; flex-direction: column;
+                overflow: hidden;
+            }
+            .paper-top { border-bottom: 2px solid #000; flex-shrink: 0; }
             .paper-meta { color: #000; }
             .paper-meta .blank { border-bottom-color: #000; }
-            .q-toggle-btn { display: none !important; }
-            .q-item .q-answer { display: none !important; }
             .paper-actions { display: none !important; }
-            .paper-footer { display: none; }
-            .q-grid { gap: 4px 20px; }
+            .page-break { page-break-before: always; }
+            .q-grid {
+                flex: 1;
+                gap: 0 20px;
+                grid-template-rows: repeat(5, 1fr);
+            }
+            .q-item {
+                display: flex; flex-direction: column;
+                padding: 4px 0 0 20px;
+                overflow: hidden;
+            }
+            .q-item-header { flex-shrink: 0; }
             .q-item-header .q-expr { font-size: 15px; }
+            .q-item .q-answer { display: none !important; }
+            .q-item.show-ans .q-spacer { display: block !important; }
+            .q-spacer {
+                flex: 1;
+                min-height: 4px;
+            }
         }
 
         /* ===== 响应式 ===== */
         @media (max-width: 900px) {
-            .main-layout { flex-direction: column; }
             .content-area { padding: 10px; }
-            .history-panel {
-                width: 100%; max-height: none; position: relative; top: 0;
-                border-left: none; border-top: 1px solid var(--border);
-            }
             .header { padding: 10px 14px; }
             .header h1 { font-size: 16px; }
-            .paper { padding: 20px 16px 28px; }
+            .paper { padding: 20px 16px 28px; width: 95vw; min-height: auto; }
             .paper-title { font-size: 18px; }
             .q-item-header .q-expr { font-size: 15px; }
             .preview-box { width: 95vw; }
+            .history-dropdown { width: 300px; right: -60px; }
         }
         @media (max-width: 640px) {
             .q-grid { grid-template-columns: 1fr; gap: 6px 0; }
-            .paper { padding: 14px 10px 20px; }
+            .paper { padding: 14px 10px 20px; width: 96vw; min-height: auto; }
             .paper-title { font-size: 16px; }
             .paper-meta { font-size: 13px; gap: 12px; }
             .q-item-header .q-expr { font-size: 14px; }
+            .history-dropdown { width: 280px; right: -100px; }
         }
         @media (max-width: 400px) {
             .header { gap: 6px; }
+            .header-center { gap: 4px; }
             .header-right { gap: 4px; }
             .select-box { font-size: 13px; padding: 6px 8px; min-width: 80px; }
             .btn { padding: 6px 12px; font-size: 13px; }
@@ -325,42 +374,31 @@
 <body>
 
     <div class="header">
-        <h1>📐 递等式巧算</h1>
-        <div class="header-right">
-            <span class="tip-text" id="tip-text"></span>
-            <select class="select-box" id="grade-select">
-                <option value="">-- 选择年级 --</option>
-                <option value="三年级">三年级</option>
-                <option value="四年级">四年级</option>
-                <option value="五年级">五年级</option>
-                <option value="六年级">六年级</option>
-            </select>
+        <h1>递等式计算</h1>
+        <div class="header-actions">
             <button class="btn btn-gen" id="gen-btn" onclick="onGenerate()">生成试卷</button>
-            <button class="btn btn-preview" id="preview-btn" style="display:none;" onclick="openPreview()">👁 预览</button>
-            <button class="print-icon-btn" id="print-btn" onclick="printPaper()" title="打印试卷">
-                <img src="../../images/打印.png" alt="打印">
-            </button>
+            <span class="page-input-wrap">页数：<input type="number" id="page-count" value="1" min="1" max="20" class="page-input" onchange="saveSettings()"></span>
+            <select class="select-box" id="grade-select" onchange="saveSettings()">
+                <option value="">-- 选择年级 --</option>
+                <option value="三年级上">三年级上</option>
+                <option value="三年级下">三年级下</option>
+                <option value="四年级上">四年级上</option>
+                <option value="四年级下">四年级下</option>
+                <option value="五年级上">五年级上</option>
+                <option value="五年级下">五年级下</option>
+            </select>
+            <button class="qiaosuan-toggle" id="qiaosuan-toggle" onclick="toggleQiaosuan()" title="仅出巧算题">巧算</button>
+            <button class="icon-btn" id="preview-btn" style="display:none;" onclick="openPreview()" title="预览试卷"><img src="../../images/预览.png" alt="预览"></button>
+            <button class="icon-btn" id="print-btn" style="display:none;" onclick="printPaper()" title="打印试卷"><img src="../../images/打印.png" alt="打印"></button>
+            <span class="history-btn-wrap">
+                <button class="icon-btn" id="history-toggle-btn" onclick="toggleHistoryDropdown()" title="打印记录"><img src="../../images/记录.png" alt="记录"></button>
+                <span class="badge" id="history-badge" style="display:none;">0</span>
+            </span>
+            <div class="history-dropdown" id="history-dropdown"></div>
         </div>
     </div>
 
-    <div class="main-layout">
-        <div class="content-area" id="content-area">
-            <div class="empty-state">
-                <div class="icon">🧮</div>
-                <p>选择年级后点击「生成试卷」</p>
-            </div>
-        </div>
-
-        <div class="history-panel" id="history-panel">
-            <h3>
-                📋 打印记录
-                <button class="clear-btn" id="clear-all-btn" style="display:none;" onclick="clearAllHistory()">清空全部</button>
-            </h3>
-            <div class="history-list" id="history-list">
-                <div class="no-history">暂无打印记录</div>
-            </div>
-        </div>
-    </div>
+    <div class="content-area" id="content-area"></div>
 
     <!-- 预览浮层 -->
     <div class="preview-overlay" id="preview-overlay" onclick="closePreview(event)">
@@ -387,9 +425,16 @@
                 const data = await resp.json();
                 questionBank = data.questions || [];
             } catch(e) {
-                console.error('加载题库失败', e);
                 questionBank = [];
             }
+        }
+
+        function saveLastPaper() {
+            if (!currentPaperData) return;
+            const toSave = { ...currentPaperData };
+            toSave.qiaosuanOnly = qiaosuanOnly;
+            toSave.showQiaosuanLabel = showQiaosuanLabel;
+            try { localStorage.setItem('didengshi_last_paper', JSON.stringify(toSave)); } catch(e) {}
         }
 
         // ===== 点击生成 =====
@@ -399,34 +444,27 @@
                 alert('请先选择年级');
                 return;
             }
-            currentPaperData = generatePaper(grade);
+            currentPaperData = generatePaper(grade, getPageCount());
             if (!currentPaperData) return;
+            saveLastPaper();
+            saveToHistory(currentPaperData);
             renderPaper(currentPaperData, false);
-            document.getElementById('print-btn').style.display = 'inline-block';
-            document.getElementById('preview-btn').style.display = 'inline-block';
-            updateTip();
+            document.getElementById('print-btn').style.display = 'inline-flex';
+            document.getElementById('preview-btn').style.display = 'inline-flex';
         };
 
-        function updateTip() {
-            const grade = currentPaperData ? currentPaperData.grade : '';
-            const used = getUsedQuestions();
-            const usedIds = used[grade] || [];
-            const remaining = questionBank.filter(q => q.grade === grade && !usedIds.includes(q.id)).length;
-            const tip = document.getElementById('tip-text');
-            if (remaining > 0) {
-                tip.textContent = `💡 该年级剩余 ${remaining} 题未出`;
-                tip.style.display = 'inline';
-            } else {
-                tip.textContent = '💡 该年级题目已全部出过';
-                tip.style.display = 'inline';
-            }
-        }
-
-        function generatePaper(grade) {
+        function generatePaper(grade, pageCount) {
             let pool = questionBank.filter(q => q.grade === grade);
             if (pool.length === 0) {
                 alert(`暂无「${grade}」的题目，请补充题库`);
                 return null;
+            }
+            if (qiaosuanOnly) {
+                pool = pool.filter(q => q.isQiaosuan === true);
+                if (pool.length === 0) {
+                    alert(`「${grade}」暂无巧算题，请先关闭巧算筛选再生成`);
+                    return null;
+                }
             }
             const used = getUsedQuestions();
             const usedIds = used[grade] || [];
@@ -439,8 +477,9 @@
                 alert(`「${grade}」所有题目已出过一轮，现已重置，开始新一轮随机出题`);
             }
 
-            const maxCount = Math.min(10, available.length);
             const shuffled = [...available].sort(() => Math.random() - 0.5);
+            // 按页数取题：每页10题，优先填满前页
+            const maxCount = pageCount * 10;
             const selected = shuffled.slice(0, maxCount);
 
             const now = new Date();
@@ -457,110 +496,164 @@
             };
         }
 
+        // ===== 分页：每页固定 10 题，优先填满前页 =====
+        function getPageCount() {
+            const val = parseInt(document.getElementById('page-count').value) || 1;
+            return Math.max(1, Math.min(val, 50));
+        }
+        function paginateQuestions(questions) {
+            const pages = [];
+            for (let i = 0; i < questions.length; i += 10) {
+                pages.push(questions.slice(i, i + 10));
+            }
+            return pages;
+        }
+
         // ===== 渲染试卷 =====
+        let answersVisible = false;
+        let qiaosuanOnly = false;
+        let showQiaosuanLabel = false;
+
         function renderPaper(paperData, showAnswers) {
+            answersVisible = showAnswers;
             const area = document.getElementById('content-area');
-            const qs = paperData.questions;
+            const pages = paginateQuestions(paperData.questions);
             const now = new Date();
             const autoDate = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')}`;
 
-            area.innerHTML = `
-                <div class="paper" id="main-paper">
-                    <div class="paper-top">
-                        <div class="paper-title">递等式巧算练习</div>
-                        <div class="paper-meta">
-                            <span>班级：<span class="blank"></span></span>
-                            <span>姓名：<span class="blank"></span></span>
-                            <span>日期：<span class="auto-date">${autoDate}</span></span>
+            const pagesHtml = pages.map((pageQs, pageIdx) => {
+                const isPageBreak = pageIdx > 0;
+                return `
+                    <div class="paper${isPageBreak ? ' page-break' : ''}" data-page="${pageIdx}">
+                        ${pageIdx === 0 ? `
+                        <div class="paper-top">
+                            <div class="paper-title">${paperData.grade}递等式计算练习</div>
+                            <div class="paper-meta">
+                                <span>班级：<span class="blank"></span></span>
+                                <span>姓名：<span class="blank"></span></span>
+                                <span>日期：<span class="auto-date">${autoDate}</span></span>
+                            </div>
+                        </div>
+                        <div class="paper-actions">
+                            <button class="btn-label-toggle${showQiaosuanLabel ? ' active' : ''}" onclick="toggleSetting()">${showQiaosuanLabel ? '✓' : ''} 巧算标注</button>
+                            <button class="btn-show-answers" onclick="toggleAllAnswers()" id="show-answers-btn">显示答案</button>
+                        </div>
+                        ` : ``}
+                        <div class="q-grid">
+                            ${pageQs.map((q, i) => {
+                                return `
+                                <div class="q-item${showAnswers ? ' show-ans' : ''}">
+                                    <div class="q-item-header">
+                                        <span class="q-expr-wrap"><span class="q-expr">${q.expression}</span>${showQiaosuanLabel && q.isQiaosuan ? '<span class="qiaosuan-badge">巧算</span>' : ''}</span>
+                                    </div>
+                                    <div class="q-spacer"></div>
+                                    <div class="q-answer">
+                                        ${q.steps.map(s => `<div class="step">${s}</div>`).join('')}
+                                    </div>
+                                </div>
+                                `;
+                            }).join('')}
                         </div>
                     </div>
-                    <div class="paper-actions">
-                        <button class="btn-show-answers" onclick="toggleAllAnswers()" id="show-answers-btn">显示答案</button>
-                    </div>
-                    <div class="q-grid">
-                        ${qs.map((q, i) => `
-                            <div class="q-item">
-                                <div class="q-item-header">
-                                    <span class="q-index">${i + 1}.</span>
-                                    <span class="q-expr">${q.expression}</span>
-                                </div>
-                                <div class="q-answer${showAnswers ? ' show' : ''}" id="ans-${i}">
-                                    ${q.steps.map(s => `<div class="step">${s}</div>`).join('')}
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="paper-footer">
-                        ${paperData.grade} | ${paperData.date} ${paperData.time} | 共 ${paperData.count} 题
-                    </div>
-                </div>
-            `;
+                `;
+            }).join('');
+
+            area.innerHTML = pagesHtml;
         }
 
         // ===== 显示/隐藏答案 =====
-        let answersVisible = false;
         window.toggleAllAnswers = function() {
             answersVisible = !answersVisible;
             const btn = document.getElementById('show-answers-btn');
-            document.querySelectorAll('.q-answer').forEach(div => {
-                if (answersVisible) div.classList.add('show'); else div.classList.remove('show');
+            document.querySelectorAll('.q-item').forEach(item => {
+                if (answersVisible) {
+                    item.classList.add('show-ans');
+                } else {
+                    item.classList.remove('show-ans');
+                }
             });
-            btn.textContent = answersVisible ? '隐藏答案' : '显示答案';
+            if (btn) btn.textContent = answersVisible ? '隐藏答案' : '显示答案';
+            document.querySelectorAll('.btn-show-answers').forEach(b => {
+                b.textContent = answersVisible ? '隐藏答案' : '显示答案';
+            });
+        };
+
+        // ===== 巧算筛选开关 =====
+        window.toggleQiaosuan = function() {
+            qiaosuanOnly = !qiaosuanOnly;
+            const btn = document.getElementById('qiaosuan-toggle');
+            if (qiaosuanOnly) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+            saveSettings();
+        };
+
+        // ===== 巧算标注开关 =====
+        window.toggleSetting = function() {
+            showQiaosuanLabel = !showQiaosuanLabel;
+            saveSettings();
+            if (currentPaperData) {
+                renderPaper(currentPaperData, answersVisible);
+            }
+        };
+
+        // ===== 持久化设置 =====
+        window.saveSettings = function() {
+            const settings = {
+                grade: document.getElementById('grade-select').value,
+                qiaosuanOnly: qiaosuanOnly,
+                showQiaosuanLabel: showQiaosuanLabel,
+                pageCount: getPageCount()
+            };
+            try { localStorage.setItem('didengshi_settings', JSON.stringify(settings)); } catch(e) {}
         };
 
         // ===== 打印 =====
         window.printPaper = function() {
             if (!currentPaperData) return;
-
-            // 标记已使用
-            const used = getUsedQuestions();
-            const grade = currentPaperData.grade;
-            if (!used[grade]) used[grade] = [];
-            const currentIds = currentPaperData.questions.map(q => q.id);
-            used[grade] = [...new Set([...used[grade], ...currentIds])];
-            saveUsedQuestions(used);
-
-            // 记录到历史
-            saveToHistory(currentPaperData);
-            updateTip();
-
-            // 打印前隐藏答案
-            const wasVisible = answersVisible;
-            if (wasVisible) toggleAllAnswers();
             window.print();
-            // 打印后恢复
-            setTimeout(() => { if (wasVisible) toggleAllAnswers(); }, 500);
         };
 
         // ===== 预览 =====
         window.openPreview = function() {
             if (!currentPaperData) return;
-            const qs = currentPaperData.questions;
+            const pages = paginateQuestions(currentPaperData.questions);
             const now = new Date();
             const autoDate = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')}`;
 
-            document.getElementById('preview-box').innerHTML = `
-                <div class="paper">
-                    <div class="paper-top">
-                        <div class="paper-title">递等式巧算练习</div>
-                        <div class="paper-meta">
-                            <span>班级：<span class="blank"></span></span>
-                            <span>姓名：<span class="blank"></span></span>
-                            <span>日期：<span class="auto-date">${autoDate}</span></span>
+            const pagesHtml = pages.map((pageQs, pageIdx) => {
+                const isPageBreak = pageIdx > 0;
+                return `
+                    <div class="paper${isPageBreak ? ' page-break' : ''}">
+                        ${pageIdx === 0 ? `
+                        <div class="paper-top">
+                            <div class="paper-title">${currentPaperData.grade} 递等式计算练习</div>
+                            <div class="paper-meta">
+                                <span>班级：<span class="blank"></span></span>
+                                <span>姓名：<span class="blank"></span></span>
+                                <span>日期：<span class="auto-date">${autoDate}</span></span>
+                            </div>
+                        </div>
+                        ` : ''}
+                        <div class="q-grid">
+                            ${pageQs.map((q, i) => {
+                                return `
+                                <div class="q-item">
+                                    <div class="q-item-header">
+                                        <span class="q-expr-wrap"><span class="q-expr">${q.expression}</span>${showQiaosuanLabel && q.isQiaosuan ? '<span class="qiaosuan-badge">巧算</span>' : ''}</span>
+                                    </div>
+                                    <div class="q-spacer"></div>
+                                </div>
+                                `;
+                            }).join('')}
                         </div>
                     </div>
-                    <div class="q-grid">
-                        ${qs.map((q, i) => `
-                            <div class="q-item">
-                                <div class="q-item-header">
-                                    <span class="q-index">${i + 1}.</span>
-                                    <span class="q-expr">${q.expression}</span>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
+                `;
+            }).join('');
+
+            document.getElementById('preview-box').innerHTML = pagesHtml;
             document.getElementById('preview-overlay').classList.add('show');
             document.body.style.overflow = 'hidden';
         };
@@ -572,7 +665,7 @@
         };
 
         // ===== 历史记录 =====
-        const STORAGE_KEY = 'didengshi_history_v3';
+        const STORAGE_KEY = 'didengshi_history_v4';
 
         function getHistory() {
             try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
@@ -583,7 +676,7 @@
             const history = getHistory();
             const exists = history.find(h => h.id === paperData.id);
             if (!exists) history.unshift(paperData);
-            if (history.length > 30) history.length = 30;
+            if (history.length > 50) history.length = 50;
             localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
             renderHistory();
         }
@@ -604,13 +697,8 @@
         }
 
         function toggleHistoryItem(el, id) {
-            // 展开/收起
-            const wasExpanded = el.classList.contains('expanded');
-            // 先收起所有
-            document.querySelectorAll('.history-item').forEach(item => item.classList.remove('expanded'));
-            if (!wasExpanded) {
-                el.classList.add('expanded');
-            }
+            // 点击记录 → 直接在主面板加载该卷子（默认显示答案）
+            loadToMain(id);
         }
 
         function loadToMain(id) {
@@ -618,68 +706,113 @@
             const item = history.find(h => h.id === id);
             if (item) {
                 currentPaperData = item;
+                saveLastPaper();
                 renderPaper(item, true);
                 answersVisible = true;
-                document.getElementById('show-answers-btn').textContent = '隐藏答案';
-                document.getElementById('print-btn').style.display = 'inline-block';
-                document.getElementById('preview-btn').style.display = 'inline-block';
-                document.getElementById('tip-text').style.display = 'none';
+                document.getElementById('print-btn').style.display = 'inline-flex';
+                document.getElementById('preview-btn').style.display = 'inline-flex';
+                document.getElementById('history-dropdown').classList.remove('show');
             }
         }
 
         function renderHistory() {
             const history = getHistory();
-            const list = document.getElementById('history-list');
-            const clearBtn = document.getElementById('clear-all-btn');
+            const dropdown = document.getElementById('history-dropdown');
+            const badge = document.getElementById('history-badge');
 
             if (history.length === 0) {
-                list.innerHTML = '<div class="no-history">暂无打印记录</div>';
-                clearBtn.style.display = 'none';
+                badge.style.display = 'none';
+                dropdown.innerHTML = '<div class="no-history">暂无打印记录</div>';
             } else {
-                clearBtn.style.display = 'inline';
-                list.innerHTML = history.map(h => `
-                    <div class="history-item" id="hi-${h.id}">
-                        <div class="history-item-header" onclick="toggleHistoryItem(this.parentElement, ${h.id})">
-                            <div>
-                                <div class="hi-date">📄 ${h.date} ${h.time}</div>
-                                <div class="hi-meta">${h.grade} · ${h.count} 题</div>
-                            </div>
-                            <span class="hi-arrow">▼</span>
-                        </div>
-                        <div class="hi-body">
-                            <div class="hi-paper">
-                                <div class="hi-title">递等式巧算练习</div>
-                                <div class="hi-meta-row">${h.grade} | ${h.date} | ${h.count} 题</div>
-                                ${h.questions.map((q, i) => `
-                                    <div class="hi-q-item">
-                                        <div class="hi-q-expr">${i+1}. ${q.expression}</div>
-                                        <div class="hi-q-steps">
-                                            ${q.steps.map(s => `<div class="step">${s}</div>`).join('')}
-                                        </div>
+                badge.textContent = history.length;
+                badge.style.display = 'inline';
+                dropdown.innerHTML = `
+                    <h4>
+                        📋 打印记录（${history.length}）
+                        <button class="h-clear-btn" onclick="clearAllHistory()">清空全部</button>
+                    </h4>
+                    <div class="h-list">
+                        ${history.map(h => `
+                            <div class="h-item" id="hitem-${h.id}">
+                                <div class="h-item-header" onclick="event.stopPropagation();loadToMain(${h.id})" style="cursor:pointer;">
+                                    <div>
+                                        <strong>📄 ${h.date} ${h.time}</strong>
+                                        <span style="color:#888;margin-left:6px;">${h.grade} · ${h.count} 题</span>
                                     </div>
-                                `).join('')}
+                                    <button class="btn btn-outline btn-sm" onclick="deleteHistoryItem(event, ${h.id})" style="color:#e53e3e;" title="删除">×</button>
+                                </div>
                             </div>
-                            <div class="hi-actions">
-                                <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();loadToMain(${h.id})">复制到主面板</button>
-                                <button class="btn btn-outline btn-sm" onclick="deleteHistoryItem(event, ${h.id})" style="color:#e53e3e;">删除</button>
-                            </div>
-                        </div>
+                        `).join('')}
                     </div>
-                `).join('');
+                `;
             }
         }
+
+        // ===== 历史下拉面板切换 =====
+        window.toggleHistoryDropdown = function() {
+            const dropdown = document.getElementById('history-dropdown');
+            const isOpen = dropdown.classList.contains('show');
+            if (isOpen) {
+                dropdown.classList.remove('show');
+            } else {
+                renderHistory();
+                dropdown.classList.add('show');
+            }
+        };
+
+        // 点击外部关闭历史下拉
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('history-dropdown');
+            const toggleBtn = document.getElementById('history-toggle-btn');
+            if (dropdown.classList.contains('show') && !toggleBtn.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
 
         // ===== 初始化 =====
         async function init() {
             await loadQuestions();
             renderHistory();
-            if (questionBank.length > 0) {
-                document.getElementById('content-area').innerHTML = `
-                    <div class="empty-state">
-                        <div class="icon">🧮</div>
-                        <p>选择年级后点击「生成试卷」</p>
-                        <p style="font-size:13px;color:#bbb;margin-top:6px;">题库共 ${questionBank.length} 道（三~六年级）</p>
-                    </div>`;
+            // 恢复设置（年级、巧算、标注、页数）
+            try {
+                const settings = JSON.parse(localStorage.getItem('didengshi_settings'));
+                if (settings) {
+                    if (settings.grade) {
+                        document.getElementById('grade-select').value = settings.grade;
+                    }
+                    qiaosuanOnly = settings.qiaosuanOnly || false;
+                    showQiaosuanLabel = settings.showQiaosuanLabel || false;
+                    if (settings.pageCount) {
+                        document.getElementById('page-count').value = settings.pageCount;
+                    }
+                }
+            } catch(e) {}
+            applySettingsUI();
+            // 恢复上一次生成的试卷
+            try {
+                const lastPaper = JSON.parse(localStorage.getItem('didengshi_last_paper'));
+                if (lastPaper && lastPaper.questions && lastPaper.questions.length > 0) {
+                    currentPaperData = lastPaper;
+                    if (lastPaper.grade) {
+                        document.getElementById('grade-select').value = lastPaper.grade;
+                    }
+                    renderPaper(currentPaperData, false);
+                    answersVisible = false;
+                    document.getElementById('print-btn').style.display = 'inline-flex';
+                    document.getElementById('preview-btn').style.display = 'inline-flex';
+                    return;
+                }
+            } catch(e) {}
+            // 无历史试卷 → 留空
+            document.getElementById('content-area').innerHTML = '';
+        }
+
+        function applySettingsUI() {
+            const qbtn = document.getElementById('qiaosuan-toggle');
+            if (qiaosuanOnly) {
+                qbtn.classList.add('active');
+            } else {
+                qbtn.classList.remove('active');
             }
         }
         init();

@@ -1,164 +1,2947 @@
 {
-    "questions": [
-        {
-            "id": 1,
-            "grade": "四年级",
-            "title": "368 + 125 + 132",
-            "expression": "368 + 125 + 132",
-            "steps": ["= 368 + 132 + 125", "= 500 + 125", "= 625"],
-            "answer": "625"
-        },
-        {
-            "id": 2,
-            "grade": "四年级",
-            "title": "728 - 56 - 144",
-            "expression": "728 - 56 - 144",
-            "steps": ["= 728 - (56 + 144)", "= 728 - 200", "= 528"],
-            "answer": "528"
-        },
-        {
-            "id": 3,
-            "grade": "四年级",
-            "title": "25 × 37 × 4",
-            "expression": "25 × 37 × 4",
-            "steps": ["= 25 × 4 × 37", "= 100 × 37", "= 3700"],
-            "answer": "3700"
-        },
-        {
-            "id": 4,
-            "grade": "四年级",
-            "title": "125 × 56",
-            "expression": "125 × 56",
-            "steps": ["= 125 × 8 × 7", "= 1000 × 7", "= 7000"],
-            "answer": "7000"
-        },
-        {
-            "id": 5,
-            "grade": "四年级",
-            "title": "48 × 99 + 48",
-            "expression": "48 × 99 + 48",
-            "steps": ["= 48 × (99 + 1)", "= 48 × 100", "= 4800"],
-            "answer": "4800"
-        },
-        {
-            "id": 6,
-            "grade": "四年级",
-            "title": "65 × 102",
-            "expression": "65 × 102",
-            "steps": ["= 65 × 100 + 65 × 2", "= 6500 + 130", "= 6630"],
-            "answer": "6630"
-        },
-        {
-            "id": 7,
-            "grade": "四年级",
-            "title": "810 ÷ 18 ÷ 5",
-            "expression": "810 ÷ 18 ÷ 5",
-            "steps": ["= 810 ÷ (18 × 5)", "= 810 ÷ 90", "= 9"],
-            "answer": "9"
-        },
-        {
-            "id": 8,
-            "grade": "四年级",
-            "title": "456 - (156 + 87)",
-            "expression": "456 - (156 + 87)",
-            "steps": ["= 456 - 156 - 87", "= 300 - 87", "= 213"],
-            "answer": "213"
-        },
-        {
-            "id": 9,
-            "grade": "四年级",
-            "title": "28 × 72 + 28 × 28",
-            "expression": "28 × 72 + 28 × 28",
-            "steps": ["= 28 × (72 + 28)", "= 28 × 100", "= 2800"],
-            "answer": "2800"
-        },
-        {
-            "id": 10,
-            "grade": "四年级",
-            "title": "547 + 98",
-            "expression": "547 + 98",
-            "steps": ["= 547 + 100 - 2", "= 647 - 2", "= 645"],
-            "answer": "645"
-        },
-        {
-            "id": 11,
-            "grade": "四年级",
-            "title": "632 - 103",
-            "expression": "632 - 103",
-            "steps": ["= 632 - 100 - 3", "= 532 - 3", "= 529"],
-            "answer": "529"
-        },
-        {
-            "id": 12,
-            "grade": "四年级",
-            "title": "125 × 32 × 25",
-            "expression": "125 × 32 × 25",
-            "steps": ["= (125 × 8) × (4 × 25)", "= 1000 × 100", "= 100000"],
-            "answer": "100000"
-        },
-        {
-            "id": 13,
-            "grade": "四年级",
-            "title": "3500 ÷ 28",
-            "expression": "3500 ÷ 28",
-            "steps": ["= 3500 ÷ 7 ÷ 4", "= 500 ÷ 4", "= 125"],
-            "answer": "125"
-        },
-        {
-            "id": 14,
-            "grade": "四年级",
-            "title": "78 × 101 - 78",
-            "expression": "78 × 101 - 78",
-            "steps": ["= 78 × (101 - 1)", "= 78 × 100", "= 7800"],
-            "answer": "7800"
-        },
-        {
-            "id": 15,
-            "grade": "四年级",
-            "title": "167 + 29 + 33",
-            "expression": "167 + 29 + 33",
-            "steps": ["= 167 + 33 + 29", "= 200 + 29", "= 229"],
-            "answer": "229"
-        },
-        {
-            "id": 16,
-            "grade": "四年级",
-            "title": "943 - 248 - 152",
-            "expression": "943 - 248 - 152",
-            "steps": ["= 943 - (248 + 152)", "= 943 - 400", "= 543"],
-            "answer": "543"
-        },
-        {
-            "id": 17,
-            "grade": "四年级",
-            "title": "44 × 25",
-            "expression": "44 × 25",
-            "steps": ["= 11 × (4 × 25)", "= 11 × 100", "= 1100"],
-            "answer": "1100"
-        },
-        {
-            "id": 18,
-            "grade": "四年级",
-            "title": "36 × 15 + 64 × 15",
-            "expression": "36 × 15 + 64 × 15",
-            "steps": ["= (36 + 64) × 15", "= 100 × 15", "= 1500"],
-            "answer": "1500"
-        },
-        {
-            "id": 19,
-            "grade": "四年级",
-            "title": "720 ÷ 45",
-            "expression": "720 ÷ 45",
-            "steps": ["= 720 ÷ 9 ÷ 5", "= 80 ÷ 5", "= 16"],
-            "answer": "16"
-        },
-        {
-            "id": 20,
-            "grade": "四年级",
-            "title": "58 × 98",
-            "expression": "58 × 98",
-            "steps": ["= 58 × 100 - 58 × 2", "= 5800 - 116", "= 5684"],
-            "answer": "5684"
-        }
-    ]
+  "questions": [
+      {
+          "id": 1,
+          "grade": "三年级下",
+          "title": "645 + 64 + 55",
+          "expression": "645 + 64 + 55",
+          "steps": ["= 645 + 55 + 64", "= 700 + 64", "= 764"],
+          "isQiaosuan": true,
+          "answer": "764"
+      },
+      {
+          "id": 2,
+          "grade": "三年级下",
+          "title": "433 - 33 - 267 + 67",
+          "expression": "433 - 33 - 267 + 67",
+          "steps": ["= (433 - 33) - (267 - 67)", "= 400 - 200", "= 200"],
+          "isQiaosuan": true,
+          "answer": "200"
+      },
+      {
+          "id": 3,
+          "grade": "三年级下",
+          "title": "27 × 72 + 72 × 72 + 72",
+          "expression": "27 × 72 + 72 × 72 + 72",
+          "steps": ["= 72 × (27 + 72 + 1)", "= 72 × 100", "= 7200"],
+          "isQiaosuan": true,
+          "answer": "7200"
+      },
+      {
+          "id": 4,
+          "grade": "三年级下",
+          "title": "50 × 7 × 2",
+          "expression": "50 × 7 × 2",
+          "steps": ["= 50 × 2 × 7", "= 100 × 7", "= 700"],
+          "isQiaosuan": true,
+          "answer": "700"
+      },
+      {
+          "id": 5,
+          "grade": "三年级下",
+          "title": "350 × 8 ÷ 7",
+          "expression": "350 × 8 ÷ 7",
+          "steps": ["= 350 ÷ 7 × 8", "= 50 × 8", "= 400"],
+          "isQiaosuan": true,
+          "answer": "400"
+      },
+      {
+          "id": 6,
+          "grade": "三年级下",
+          "title": "124 × 28 - 24 × 28",
+          "expression": "124 × 28 - 24 × 28",
+          "steps": ["= (124 - 24) × 28", "= 100 × 28", "= 2800"],
+          "isQiaosuan": true,
+          "answer": "2800"
+      },
+      {
+          "id": 7,
+          "grade": "三年级下",
+          "title": "43 × 34 + 34 × 57",
+          "expression": "43 × 34 + 34 × 57",
+          "steps": ["= 34 × (43 + 57)", "= 34 × 100", "= 3400"],
+          "isQiaosuan": true,
+          "answer": "3400"
+      },
+      {
+          "id": 8,
+          "grade": "三年级下",
+          "title": "376 - 76 × 4",
+          "expression": "376 - 76 × 4",
+          "steps": ["= 376 - 304", "= 72"],
+          "isQiaosuan": false,
+          "answer": "72"
+      },
+      {
+          "id": 9,
+          "grade": "三年级下",
+          "title": "560 ÷ (2 × 5)",
+          "expression": "560 ÷ (2 × 5)",
+          "steps": ["= 560 ÷ 10", "= 56"],
+          "isQiaosuan": true,
+          "answer": "56"
+      },
+      {
+          "id": 10,
+          "grade": "三年级下",
+          "title": "101 × 99",
+          "expression": "101 × 99",
+          "steps": ["= 101 × (100 - 1)", "= 10100 - 101", "= 9999"],
+          "isQiaosuan": true,
+          "answer": "9999"
+      },
+      {
+          "id": 11,
+          "grade": "三年级下",
+          "title": "2300 ÷ 4 ÷ 25",
+          "expression": "2300 ÷ 4 ÷ 25",
+          "steps": ["= 2300 ÷ (4 × 25)", "= 2300 ÷ 100", "= 23"],
+          "isQiaosuan": true,
+          "answer": "23"
+      },
+      {
+          "id": 12,
+          "grade": "三年级下",
+          "title": "28 × (490 ÷ 7)",
+          "expression": "28 × (490 ÷ 7)",
+          "steps": ["= 28 × 70", "= 1960"],
+          "isQiaosuan": true,
+          "answer": "1960"
+      },
+      {
+          "id": 13,
+          "grade": "三年级下",
+          "title": "478 + 337 + 222",
+          "expression": "478 + 337 + 222",
+          "steps": ["= 478 + 222 + 337", "= 700 + 337", "= 1037"],
+          "isQiaosuan": true,
+          "answer": "1037"
+      },
+      {
+          "id": 14,
+          "grade": "三年级下",
+          "title": "865 - 65 × 2",
+          "expression": "865 - 65 × 2",
+          "steps": ["= 865 - 130", "= 735"],
+          "isQiaosuan": false,
+          "answer": "735"
+      },
+      {
+          "id": 15,
+          "grade": "三年级下",
+          "title": "987 - (478 + 287)",
+          "expression": "987 - (478 + 287)",
+          "steps": ["= 987 - 287 - 478", "= 700 - 478", "= 222"],
+          "isQiaosuan": true,
+          "answer": "222"
+      },
+      {
+          "id": 16,
+          "grade": "三年级下",
+          "title": "812 × 6 ÷ 3",
+          "expression": "812 × 6 ÷ 3",
+          "steps": ["= 812 × (6 ÷ 3)", "= 812 × 2", "= 1624"],
+          "isQiaosuan": true,
+          "answer": "1624"
+      },
+      {
+          "id": 17,
+          "grade": "三年级下",
+          "title": "758 - 145 - 255",
+          "expression": "758 - 145 - 255",
+          "steps": ["= 758 - (145 + 255)", "= 758 - 400", "= 358"],
+          "isQiaosuan": true,
+          "answer": "358"
+      },
+      {
+          "id": 18,
+          "grade": "三年级下",
+          "title": "99 × 7 - 5 × 99",
+          "expression": "99 × 7 - 5 × 99",
+          "steps": ["= 99 × (7 - 5)", "= 99 × 2", "= 198"],
+          "isQiaosuan": true,
+          "answer": "198"
+      },
+      {
+          "id": 19,
+          "grade": "三年级下",
+          "title": "656 × 62 - 56 × 62",
+          "expression": "656 × 62 - 56 × 62",
+          "steps": ["= 62 × (656 - 56)", "= 62 × 600", "= 37200"],
+          "isQiaosuan": true,
+          "answer": "37200"
+      },
+      {
+          "id": 20,
+          "grade": "三年级下",
+          "title": "2 × 98 + 98 × 98",
+          "expression": "2 × 98 + 98 × 98",
+          "steps": ["= 98 × (2 + 98)", "= 98 × 100", "= 9800"],
+          "isQiaosuan": true,
+          "answer": "9800"
+      },
+      {
+          "id": 21,
+          "grade": "三年级下",
+          "title": "101 × 101 - 101",
+          "expression": "101 × 101 - 101",
+          "steps": ["= 101 × (101 - 1)", "= 101 × 100", "= 10100"],
+          "isQiaosuan": true,
+          "answer": "10100"
+      },
+      {
+          "id": 22,
+          "grade": "三年级下",
+          "title": "3265 + 806 - 265",
+          "expression": "3265 + 806 - 265",
+          "steps": ["= 3265 - 265 + 806", "= 3000 + 806", "= 3806"],
+          "isQiaosuan": true,
+          "answer": "3806"
+      },
+      {
+          "id": 23,
+          "grade": "三年级下",
+          "title": "265 + 35 × 9",
+          "expression": "265 + 35 × 9",
+          "steps": ["= 265 + 315", "= 580"],
+          "isQiaosuan": false,
+          "answer": "580"
+      },
+      {
+          "id": 24,
+          "grade": "三年级下",
+          "title": "18 × 25 + 25 × 22",
+          "expression": "18 × 25 + 25 × 22",
+          "steps": ["= 25 × (18 + 22)", "= 25 × 40", "= 1000"],
+          "isQiaosuan": true,
+          "answer": "1000"
+      },
+      {
+          "id": 25,
+          "grade": "三年级下",
+          "title": "125 × 32",
+          "expression": "125 × 32",
+          "steps": ["= 125 × 8 × 4", "= 1000 × 4", "= 4000"],
+          "isQiaosuan": true,
+          "answer": "4000"
+      },
+      {
+          "id": 26,
+          "grade": "三年级下",
+          "title": "40 × (625 ÷ 25)",
+          "expression": "40 × (625 ÷ 25)",
+          "steps": ["= 40 × 25", "= 1000"],
+          "isQiaosuan": true,
+          "answer": "1000"
+      },
+      {
+          "id": 27,
+          "grade": "三年级下",
+          "title": "158 × 99 + 158",
+          "expression": "158 × 99 + 158",
+          "steps": ["= 158 × (99 + 1)", "= 158 × 100", "= 15800"],
+          "isQiaosuan": true,
+          "answer": "15800"
+      },
+      {
+          "id": 28,
+          "grade": "三年级下",
+          "title": "432 × 16 ÷ 12",
+          "expression": "432 × 16 ÷ 12",
+          "steps": ["= 6912 ÷ 12", "= 576"],
+          "isQiaosuan": false,
+          "answer": "576"
+      },
+      {
+          "id": 29,
+          "grade": "三年级下",
+          "title": "92 × 101",
+          "expression": "92 × 101",
+          "steps": ["= 92 × (100 + 1)", "= 9200 + 92", "= 9292"],
+          "isQiaosuan": true,
+          "answer": "9292"
+      },
+      {
+          "id": 30,
+          "grade": "三年级下",
+          "title": "2000 ÷ 25 ÷ 8",
+          "expression": "2000 ÷ 25 ÷ 8",
+          "steps": ["= 2000 ÷ (25 × 8)", "= 2000 ÷ 200", "= 10"],
+          "isQiaosuan": true,
+          "answer": "10"
+      },
+      {
+          "id": 31,
+          "grade": "三年级下",
+          "title": "(2216 + 888) ÷ 32",
+          "expression": "(2216 + 888) ÷ 32",
+          "steps": ["= (3200 - 96) ÷ 32", "= 100 - 3", "= 97"],
+          "isQiaosuan": true,
+          "answer": "97"
+      },
+      {
+          "id": 32,
+          "grade": "三年级下",
+          "title": "46 × 64 - 64 × 36",
+          "expression": "46 × 64 - 64 × 36",
+          "steps": ["= 64 × (46 - 36)", "= 64 × 10", "= 640"],
+          "isQiaosuan": true,
+          "answer": "640"
+      },
+      {
+          "id": 33,
+          "grade": "三年级下",
+          "title": "33 + 77 × 101",
+          "expression": "33 + 77 × 101",
+          "steps": ["= 33 + 7777", "= 7810"],
+          "isQiaosuan": false,
+          "answer": "7810"
+      },
+      {
+          "id": 34,
+          "grade": "三年级下",
+          "title": "2623 - 1746 + 1377",
+          "expression": "2623 - 1746 + 1377",
+          "steps": ["= 2623 + 1377 - 1746", "= 4000 - 1746", "= 2254"],
+          "isQiaosuan": true,
+          "answer": "2254"
+      },
+      {
+          "id": 35,
+          "grade": "三年级下",
+          "title": "203 × 15 + 85",
+          "expression": "203 × 15 + 85",
+          "steps": ["= 3045 + 85", "= 3130"],
+          "isQiaosuan": false,
+          "answer": "3130"
+      },
+      {
+          "id": 36,
+          "grade": "三年级下",
+          "title": "45 × 235 - 45 × 135",
+          "expression": "45 × 235 - 45 × 135",
+          "steps": ["= 45 × (235 - 135)", "= 45 × 100", "= 4500"],
+          "isQiaosuan": true,
+          "answer": "4500"
+      },
+      {
+          "id": 37,
+          "grade": "三年级下",
+          "title": "9090 ÷ 15 × 20",
+          "expression": "9090 ÷ 15 × 20",
+          "steps": ["= 606 × 20", "= 12120"],
+          "isQiaosuan": false,
+          "answer": "12120"
+      },
+      {
+          "id": 38,
+          "grade": "三年级下",
+          "title": "1700 ÷ 25 ÷ 4",
+          "expression": "1700 ÷ 25 ÷ 4",
+          "steps": ["= 1700 ÷ (25 × 4)", "= 1700 ÷ 100", "= 17"],
+          "isQiaosuan": true,
+          "answer": "17"
+      },
+      {
+          "id": 39,
+          "grade": "三年级下",
+          "title": "333 × 9 ÷ 111",
+          "expression": "333 × 9 ÷ 111",
+          "steps": ["= 333 ÷ 111 × 9", "= 3 × 9", "= 27"],
+          "isQiaosuan": true,
+          "answer": "27"
+      },
+      {
+          "id": 40,
+          "grade": "三年级下",
+          "title": "786 - 278 - 222",
+          "expression": "786 - 278 - 222",
+          "steps": ["= 786 - (278 + 222)", "= 786 - 500", "= 286"],
+          "isQiaosuan": true,
+          "answer": "286"
+      },
+      {
+          "id": 41,
+          "grade": "三年级下",
+          "title": "75 × 55 ÷ 11",
+          "expression": "75 × 55 ÷ 11",
+          "steps": ["= 75 × (55 ÷ 11)", "= 75 × 5", "= 375"],
+          "isQiaosuan": true,
+          "answer": "375"
+      },
+      {
+          "id": 42,
+          "grade": "三年级下",
+          "title": "555 × 20 ÷ 5",
+          "expression": "555 × 20 ÷ 5",
+          "steps": ["= 555 ÷ 5 × 20", "= 111 × 20", "= 2220"],
+          "isQiaosuan": true,
+          "answer": "2220"
+      },
+      {
+          "id": 43,
+          "grade": "三年级下",
+          "title": "(438 - 362) ÷ 19",
+          "expression": "(438 - 362) ÷ 19",
+          "steps": ["= 76 ÷ 19", "= 4"],
+          "isQiaosuan": false,
+          "answer": "4"
+      },
+      {
+          "id": 44,
+          "grade": "三年级下",
+          "title": "25 × 16 + 25 × 13 + 25",
+          "expression": "25 × 16 + 25 × 13 + 25",
+          "steps": ["= 25 × (16 + 13 + 1)", "= 25 × 30", "= 750"],
+          "isQiaosuan": true,
+          "answer": "750"
+      },
+      {
+          "id": 45,
+          "grade": "三年级下",
+          "title": "(379 - 193) × 15",
+          "expression": "(379 - 193) × 15",
+          "steps": ["= 186 × 15", "= 2790"],
+          "isQiaosuan": false,
+          "answer": "2790"
+      },
+      {
+          "id": 46,
+          "grade": "三年级下",
+          "title": "(1000 - 244) ÷ 42",
+          "expression": "(1000 - 244) ÷ 42",
+          "steps": ["= 756 ÷ 42", "= 18"],
+          "isQiaosuan": false,
+          "answer": "18"
+      },
+      {
+          "id": 47,
+          "grade": "三年级下",
+          "title": "105 × 87 - 87 × 5",
+          "expression": "105 × 87 - 87 × 5",
+          "steps": ["= 87 × (105 - 5)", "= 87 × 100", "= 8700"],
+          "isQiaosuan": true,
+          "answer": "8700"
+      },
+      {
+          "id": 48,
+          "grade": "三年级下",
+          "title": "1152 ÷ 36 × 39",
+          "expression": "1152 ÷ 36 × 39",
+          "steps": ["= 32 × 39", "= 1248"],
+          "isQiaosuan": false,
+          "answer": "1248"
+      },
+      {
+          "id": 49,
+          "grade": "三年级下",
+          "title": "(316 - 16 ÷ 16) × 20",
+          "expression": "(316 - 16 ÷ 16) × 20",
+          "steps": ["= (316 - 1) × 20", "= 315 × 20", "= 6300"],
+          "isQiaosuan": false,
+          "answer": "6300"
+      },
+      {
+          "id": 50,
+          "grade": "三年级下",
+          "title": "7079 × 830",
+          "expression": "7079 × 830",
+          "steps": ["= 5875570"],
+          "isQiaosuan": false,
+          "answer": "5875570"
+      },
+      {
+          "id": 51,
+          "grade": "三年级下",
+          "title": "623 × 741",
+          "expression": "623 × 741",
+          "steps": ["= 461643"],
+          "isQiaosuan": false,
+          "answer": "461643"
+      },
+      {
+          "id": 52,
+          "grade": "三年级下",
+          "title": "3802 + 19578",
+          "expression": "3802 + 19578",
+          "steps": ["= 23380"],
+          "isQiaosuan": false,
+          "answer": "23380"
+      },
+      {
+          "id": 53,
+          "grade": "三年级下",
+          "title": "2000 - 1763 - 22",
+          "expression": "2000 - 1763 - 22",
+          "steps": ["= 2000 - (1763 + 22)", "= 2000 - 1785", "= 215"],
+          "isQiaosuan": true,
+          "answer": "215"
+      },
+      {
+          "id": 54,
+          "grade": "三年级下",
+          "title": "2040 ÷ 40 × 203",
+          "expression": "2040 ÷ 40 × 203",
+          "steps": ["= 51 × 203", "= 10353"],
+          "isQiaosuan": false,
+          "answer": "10353"
+      },
+      {
+          "id": 55,
+          "grade": "三年级下",
+          "title": "25 × 43 + 95",
+          "expression": "25 × 43 + 95",
+          "steps": ["= 1075 + 95", "= 1170"],
+          "isQiaosuan": false,
+          "answer": "1170"
+      },
+      {
+          "id": 56,
+          "grade": "三年级下",
+          "title": "7200 ÷ 24 × 105",
+          "expression": "7200 ÷ 24 × 105",
+          "steps": ["= 300 × 105", "= 31500"],
+          "isQiaosuan": false,
+          "answer": "31500"
+      },
+      {
+          "id": 57,
+          "grade": "三年级下",
+          "title": "(18539 - 829) ÷ 35",
+          "expression": "(18539 - 829) ÷ 35",
+          "steps": ["= 17710 ÷ 35", "= 506"],
+          "isQiaosuan": false,
+          "answer": "506"
+      },
+      {
+          "id": 58,
+          "grade": "三年级下",
+          "title": "2960 - 1086 + 379",
+          "expression": "2960 - 1086 + 379",
+          "steps": ["= 1874 + 379", "= 2253"],
+          "isQiaosuan": false,
+          "answer": "2253"
+      },
+      {
+          "id": 59,
+          "grade": "三年级下",
+          "title": "5763 + 1034 - 2569",
+          "expression": "5763 + 1034 - 2569",
+          "steps": ["= 6797 - 2569", "= 4228"],
+          "isQiaosuan": false,
+          "answer": "4228"
+      },
+      {
+          "id": 60,
+          "grade": "三年级下",
+          "title": "26910 ÷ 345 × 583",
+          "expression": "26910 ÷ 345 × 583",
+          "steps": ["= 78 × 583", "= 45474"],
+          "isQiaosuan": false,
+          "answer": "45474"
+      },
+      {
+          "id": 61,
+          "grade": "三年级下",
+          "title": "6104 ÷ 56 × 120",
+          "expression": "6104 ÷ 56 × 120",
+          "steps": ["= 109 × 120", "= 13080"],
+          "isQiaosuan": false,
+          "answer": "13080"
+      },
+      {
+          "id": 62,
+          "grade": "三年级下",
+          "title": "144 + 76 × 21",
+          "expression": "144 + 76 × 21",
+          "steps": ["= 144 + 1596", "= 1740"],
+          "isQiaosuan": false,
+          "answer": "1740"
+      },
+      {
+          "id": 63,
+          "grade": "三年级下",
+          "title": "617 - 2277 ÷ 69",
+          "expression": "617 - 2277 ÷ 69",
+          "steps": ["= 617 - 33", "= 584"],
+          "isQiaosuan": false,
+          "answer": "584"
+      },
+      {
+          "id": 64,
+          "grade": "三年级下",
+          "title": "1430 ÷ (112 - 57)",
+          "expression": "1430 ÷ (112 - 57)",
+          "steps": ["= 1430 ÷ 55", "= 26"],
+          "isQiaosuan": false,
+          "answer": "26"
+      },
+      {
+          "id": 65,
+          "grade": "三年级下",
+          "title": "2368 ÷ (1792 ÷ 28)",
+          "expression": "2368 ÷ (1792 ÷ 28)",
+          "steps": ["= 2368 ÷ 64", "= 37"],
+          "isQiaosuan": false,
+          "answer": "37"
+      },
+      {
+          "id": 66,
+          "grade": "三年级下",
+          "title": "469 - 148 - 269 - 48",
+          "expression": "469 - 148 - 269 - 48",
+          "steps": ["= (469 - 269) - (148 + 48)", "= 200 - 196", "= 4"],
+          "isQiaosuan": true,
+          "answer": "4"
+      },
+      {
+          "id": 67,
+          "grade": "三年级下",
+          "title": "87 × 136 - 87 × 37 + 87",
+          "expression": "87 × 136 - 87 × 37 + 87",
+          "steps": ["= 87 × (136 - 37 + 1)", "= 87 × 100", "= 8700"],
+          "isQiaosuan": true,
+          "answer": "8700"
+      },
+      {
+          "id": 68,
+          "grade": "三年级下",
+          "title": "125 × 32 × 25",
+          "expression": "125 × 32 × 25",
+          "steps": ["= (125 × 8) × (4 × 25)", "= 1000 × 100", "= 100000"],
+          "isQiaosuan": true,
+          "answer": "100000"
+      },
+      {
+          "id": 69,
+          "grade": "三年级下",
+          "title": "144 × 59 ÷ 16",
+          "expression": "144 × 59 ÷ 16",
+          "steps": ["= 8496 ÷ 16", "= 531"],
+          "isQiaosuan": false,
+          "answer": "531"
+      },
+      {
+          "id": 70,
+          "grade": "三年级下",
+          "title": "4500 ÷ 125",
+          "expression": "4500 ÷ 125",
+          "steps": ["= 36"],
+          "isQiaosuan": false,
+          "answer": "36"
+      },
+      {
+          "id": 71,
+          "grade": "三年级下",
+          "title": "108 × 22 + 778",
+          "expression": "108 × 22 + 778",
+          "steps": ["= 2376 + 778", "= 3154"],
+          "isQiaosuan": false,
+          "answer": "3154"
+      },
+      {
+          "id": 72,
+          "grade": "三年级下",
+          "title": "25 × 125 × 64",
+          "expression": "25 × 125 × 64",
+          "steps": ["= (25 × 8) × (125 × 8)", "= 200 × 1000", "= 200000"],
+          "isQiaosuan": true,
+          "answer": "200000"
+      },
+      {
+          "id": 73,
+          "grade": "三年级下",
+          "title": "83 × 540 + 540 × 17",
+          "expression": "83 × 540 + 540 × 17",
+          "steps": ["= 540 × (83 + 17)", "= 540 × 100", "= 54000"],
+          "isQiaosuan": true,
+          "answer": "54000"
+      },
+      {
+          "id": 74,
+          "grade": "三年级下",
+          "title": "640 × 12 ÷ 80",
+          "expression": "640 × 12 ÷ 80",
+          "steps": ["= 7680 ÷ 80", "= 96"],
+          "isQiaosuan": false,
+          "answer": "96"
+      },
+      {
+          "id": 75,
+          "grade": "三年级下",
+          "title": "4000 - 1725 - 275 - 500",
+          "expression": "4000 - 1725 - 275 - 500",
+          "steps": ["= 4000 - (1725 + 275 + 500)", "= 4000 - 2500", "= 1500"],
+          "isQiaosuan": true,
+          "answer": "1500"
+      },
+      {
+          "id": 76,
+          "grade": "三年级下",
+          "title": "88 × 125",
+          "expression": "88 × 125",
+          "steps": ["= 11 × (8 × 125)", "= 11 × 1000", "= 11000"],
+          "isQiaosuan": true,
+          "answer": "11000"
+      },
+      {
+          "id": 77,
+          "grade": "三年级下",
+          "title": "233 + 67 × 15",
+          "expression": "233 + 67 × 15",
+          "steps": ["= 233 + 1005", "= 1238"],
+          "isQiaosuan": false,
+          "answer": "1238"
+      },
+      {
+          "id": 78,
+          "grade": "三年级下",
+          "title": "234 × 98 ÷ 49",
+          "expression": "234 × 98 ÷ 49",
+          "steps": ["= 234 × (98 ÷ 49)", "= 234 × 2", "= 468"],
+          "isQiaosuan": true,
+          "answer": "468"
+      },
+      {
+          "id": 79,
+          "grade": "三年级下",
+          "title": "18900 ÷ (918 - 891)",
+          "expression": "18900 ÷ (918 - 891)",
+          "steps": ["= 18900 ÷ 27", "= 700"],
+          "isQiaosuan": false,
+          "answer": "700"
+      },
+      {
+          "id": 80,
+          "grade": "三年级下",
+          "title": "102 × 45",
+          "expression": "102 × 45",
+          "steps": ["= (100 + 2) × 45", "= 4500 + 90", "= 4590"],
+          "isQiaosuan": true,
+          "answer": "4590"
+      },
+      {
+          "id": 81,
+          "grade": "三年级下",
+          "title": "74 × 179 + 22 × 74 - 74",
+          "expression": "74 × 179 + 22 × 74 - 74",
+          "steps": ["= 74 × (179 + 22 - 1)", "= 74 × 200", "= 14800"],
+          "isQiaosuan": true,
+          "answer": "14800"
+      },
+      {
+          "id": 82,
+          "grade": "三年级下",
+          "title": "125 × (8 + 4) × 25",
+          "expression": "125 × (8 + 4) × 25",
+          "steps": ["= 125 × 3 × (4 × 25)", "= 375 × 100", "= 37500"],
+          "isQiaosuan": true,
+          "answer": "37500"
+      },
+      {
+          "id": 83,
+          "grade": "三年级下",
+          "title": "5290 - 39 × 46",
+          "expression": "5290 - 39 × 46",
+          "steps": ["= 5290 - 1794", "= 3496"],
+          "isQiaosuan": false,
+          "answer": "3496"
+      },
+      {
+          "id": 84,
+          "grade": "三年级下",
+          "title": "34 × 25 + 25 × 65 + 25",
+          "expression": "34 × 25 + 25 × 65 + 25",
+          "steps": ["= 25 × (34 + 65 + 1)", "= 25 × 100", "= 2500"],
+          "isQiaosuan": true,
+          "answer": "2500"
+      },
+      {
+          "id": 85,
+          "grade": "三年级下",
+          "title": "735 × 25 ÷ 15",
+          "expression": "735 × 25 ÷ 15",
+          "steps": ["= 18375 ÷ 15", "= 1225"],
+          "isQiaosuan": false,
+          "answer": "1225"
+      },
+      {
+          "id": 86,
+          "grade": "三年级下",
+          "title": "3424 ÷ (383 - 367)",
+          "expression": "3424 ÷ (383 - 367)",
+          "steps": ["= 3424 ÷ 16", "= 214"],
+          "isQiaosuan": false,
+          "answer": "214"
+      },
+      {
+          "id": 87,
+          "grade": "三年级下",
+          "title": "1275 - 488 + 625",
+          "expression": "1275 - 488 + 625",
+          "steps": ["= 1275 + 625 - 488", "= 1900 - 488", "= 1412"],
+          "isQiaosuan": true,
+          "answer": "1412"
+      },
+      {
+          "id": 88,
+          "grade": "三年级下",
+          "title": "4987 + 113 × 33",
+          "expression": "4987 + 113 × 33",
+          "steps": ["= 4987 + 3729", "= 8716"],
+          "isQiaosuan": false,
+          "answer": "8716"
+      },
+      {
+          "id": 89,
+          "grade": "三年级下",
+          "title": "32 × 101",
+          "expression": "32 × 101",
+          "steps": ["= 32 × (100 + 1)", "= 3200 + 32", "= 3232"],
+          "isQiaosuan": true,
+          "answer": "3232"
+      },
+      {
+          "id": 90,
+          "grade": "三年级下",
+          "title": "3045 ÷ 15 + 75 × 15",
+          "expression": "3045 ÷ 15 + 75 × 15",
+          "steps": ["= 203 + 1125", "= 1328"],
+          "isQiaosuan": false,
+          "answer": "1328"
+      },
+      {
+          "id": 91,
+          "grade": "三年级下",
+          "title": "96 × 27 ÷ 32",
+          "expression": "96 × 27 ÷ 32",
+          "steps": ["= 96 ÷ 32 × 27", "= 3 × 27", "= 81"],
+          "isQiaosuan": true,
+          "answer": "81"
+      },
+      {
+          "id": 92,
+          "grade": "三年级下",
+          "title": "2456 - 724 - 456 - 776",
+          "expression": "2456 - 724 - 456 - 776",
+          "steps": ["= (2456 - 456) - (724 + 776)", "= 2000 - 1500", "= 500"],
+          "isQiaosuan": true,
+          "answer": "500"
+      },
+      {
+          "id": 93,
+          "grade": "三年级下",
+          "title": "304 × 101 - 304",
+          "expression": "304 × 101 - 304",
+          "steps": ["= 304 × (101 - 1)", "= 304 × 100", "= 30400"],
+          "isQiaosuan": true,
+          "answer": "30400"
+      },
+      {
+          "id": 94,
+          "grade": "三年级下",
+          "title": "3304 ÷ (681 - 625)",
+          "expression": "3304 ÷ (681 - 625)",
+          "steps": ["= 3304 ÷ 56", "= 59"],
+          "isQiaosuan": false,
+          "answer": "59"
+      },
+      {
+          "id": 95,
+          "grade": "三年级下",
+          "title": "54 × 9 - 274",
+          "expression": "54 × 9 - 274",
+          "steps": ["= 486 - 274", "= 212"],
+          "isQiaosuan": false,
+          "answer": "212"
+      },
+      {
+          "id": 96,
+          "grade": "三年级下",
+          "title": "256 × 8 ÷ 4",
+          "expression": "256 × 8 ÷ 4",
+          "steps": ["= 256 × (8 ÷ 4)", "= 256 × 2", "= 512"],
+          "isQiaosuan": true,
+          "answer": "512"
+      },
+      {
+          "id": 97,
+          "grade": "三年级下",
+          "title": "617 - 152 - 248",
+          "expression": "617 - 152 - 248",
+          "steps": ["= 617 - (152 + 248)", "= 617 - 400", "= 217"],
+          "isQiaosuan": true,
+          "answer": "217"
+      },
+      {
+          "id": 98,
+          "grade": "三年级下",
+          "title": "425 + 175 × 6",
+          "expression": "425 + 175 × 6",
+          "steps": ["= 425 + 1050", "= 1475"],
+          "isQiaosuan": false,
+          "answer": "1475"
+      },
+      {
+          "id": 99,
+          "grade": "三年级下",
+          "title": "38 × 4 + 38 × 6",
+          "expression": "38 × 4 + 38 × 6",
+          "steps": ["= 38 × (4 + 6)", "= 38 × 10", "= 380"],
+          "isQiaosuan": true,
+          "answer": "380"
+      },
+      {
+          "id": 100,
+          "grade": "三年级下",
+          "title": "981 ÷ 3 - 57",
+          "expression": "981 ÷ 3 - 57",
+          "steps": ["= 327 - 57", "= 270"],
+          "isQiaosuan": false,
+          "answer": "270"
+      },
+      {
+          "id": 101,
+          "grade": "三年级下",
+          "title": "862 - 62 × 8",
+          "expression": "862 - 62 × 8",
+          "steps": ["= 862 - 496", "= 366"],
+          "isQiaosuan": false,
+          "answer": "366"
+      },
+      {
+          "id": 102,
+          "grade": "三年级下",
+          "title": "1684 - (256 + 388)",
+          "expression": "1684 - (256 + 388)",
+          "steps": ["= 1684 - 644", "= 1040"],
+          "isQiaosuan": false,
+          "answer": "1040"
+      },
+      {
+          "id": 103,
+          "grade": "三年级下",
+          "title": "(936 - 460) × 7",
+          "expression": "(936 - 460) × 7",
+          "steps": ["= 476 × 7", "= 3332"],
+          "isQiaosuan": false,
+          "answer": "3332"
+      },
+      {
+          "id": 104,
+          "grade": "三年级下",
+          "title": "960 × (50 ÷ 10)",
+          "expression": "960 × (50 ÷ 10)",
+          "steps": ["= 960 × 5", "= 4800"],
+          "isQiaosuan": false,
+          "answer": "4800"
+      },
+      {
+          "id": 105,
+          "grade": "三年级下",
+          "title": "120 ÷ (17 - 11)",
+          "expression": "120 ÷ (17 - 11)",
+          "steps": ["= 120 ÷ 6", "= 20"],
+          "isQiaosuan": false,
+          "answer": "20"
+      },
+      {
+          "id": 106,
+          "grade": "三年级下",
+          "title": "532 ÷ (42 ÷ 6)",
+          "expression": "532 ÷ (42 ÷ 6)",
+          "steps": ["= 532 ÷ 7", "= 76"],
+          "isQiaosuan": false,
+          "answer": "76"
+      },
+      {
+          "id": 107,
+          "grade": "三年级下",
+          "title": "182 + 569 + 318",
+          "expression": "182 + 569 + 318",
+          "steps": ["= 182 + 318 + 569", "= 500 + 569", "= 1069"],
+          "isQiaosuan": true,
+          "answer": "1069"
+      },
+      {
+          "id": 108,
+          "grade": "三年级下",
+          "title": "618 ÷ (30 ÷ 5)",
+          "expression": "618 ÷ (30 ÷ 5)",
+          "steps": ["= 618 ÷ 6", "= 103"],
+          "isQiaosuan": false,
+          "answer": "103"
+      },
+      {
+          "id": 109,
+          "grade": "三年级下",
+          "title": "(350 + 250) × 6",
+          "expression": "(350 + 250) × 6",
+          "steps": ["= 600 × 6", "= 3600"],
+          "isQiaosuan": false,
+          "answer": "3600"
+      },
+      {
+          "id": 110,
+          "grade": "三年级下",
+          "title": "761 - 173 - 27",
+          "expression": "761 - 173 - 27",
+          "steps": ["= 761 - (173 + 27)", "= 761 - 200", "= 561"],
+          "isQiaosuan": true,
+          "answer": "561"
+      },
+      {
+          "id": 111,
+          "grade": "三年级下",
+          "title": "(736 + 265) ÷ 7",
+          "expression": "(736 + 265) ÷ 7",
+          "steps": ["= 1001 ÷ 7", "= 143"],
+          "isQiaosuan": false,
+          "answer": "143"
+      },
+      {
+          "id": 112,
+          "grade": "三年级下",
+          "title": "406 × (37 - 28)",
+          "expression": "406 × (37 - 28)",
+          "steps": ["= 406 × 9", "= 3654"],
+          "isQiaosuan": false,
+          "answer": "3654"
+      },
+      {
+          "id": 113,
+          "grade": "三年级下",
+          "title": "(604 + 357) × 3",
+          "expression": "(604 + 357) × 3",
+          "steps": ["= 961 × 3", "= 2883"],
+          "isQiaosuan": false,
+          "answer": "2883"
+      },
+      {
+          "id": 114,
+          "grade": "三年级下",
+          "title": "810 ÷ 5 ÷ 3",
+          "expression": "810 ÷ 5 ÷ 3",
+          "steps": ["= 810 ÷ (5 × 3)", "= 810 ÷ 15", "= 54"],
+          "isQiaosuan": false,
+          "answer": "54"
+      },
+      {
+          "id": 115,
+          "grade": "三年级下",
+          "title": "890 - (125 - 75 ÷ 5)",
+          "expression": "890 - (125 - 75 ÷ 5)",
+          "steps": ["= 890 - (125 - 15)", "= 890 - 110", "= 780"],
+          "isQiaosuan": false,
+          "answer": "780"
+      },
+      {
+          "id": 116,
+          "grade": "三年级下",
+          "title": "1070 - 270 × 3",
+          "expression": "1070 - 270 × 3",
+          "steps": ["= 1070 - 810", "= 260"],
+          "isQiaosuan": false,
+          "answer": "260"
+      },
+      {
+          "id": 117,
+          "grade": "三年级下",
+          "title": "(436 - 295) × 3",
+          "expression": "(436 - 295) × 3",
+          "steps": ["= 141 × 3", "= 423"],
+          "isQiaosuan": false,
+          "answer": "423"
+      },
+      {
+          "id": 118,
+          "grade": "三年级下",
+          "title": "(369 + 531) ÷ (321 - 317)",
+          "expression": "(369 + 531) ÷ (321 - 317)",
+          "steps": ["= 900 ÷ 4", "= 225"],
+          "isQiaosuan": false,
+          "answer": "225"
+      },
+      {
+          "id": 119,
+          "grade": "三年级下",
+          "title": "1205 - 205 ÷ 5",
+          "expression": "1205 - 205 ÷ 5",
+          "steps": ["= 1205 - 41", "= 1164"],
+          "isQiaosuan": false,
+          "answer": "1164"
+      },
+      {
+          "id": 120,
+          "grade": "三年级下",
+          "title": "624 ÷ 4 × 2",
+          "expression": "624 ÷ 4 × 2",
+          "steps": ["= 156 × 2", "= 312"],
+          "isQiaosuan": false,
+          "answer": "312"
+      },
+      {
+          "id": 121,
+          "grade": "三年级下",
+          "title": "120 × (174 - 43 × 4)",
+          "expression": "120 × (174 - 43 × 4)",
+          "steps": ["= 120 × (174 - 172)", "= 120 × 2", "= 240"],
+          "isQiaosuan": false,
+          "answer": "240"
+      },
+      {
+          "id": 122,
+          "grade": "三年级下",
+          "title": "250 × (5760 ÷ 64)",
+          "expression": "250 × (5760 ÷ 64)",
+          "steps": ["= 250 × 90", "= 22500"],
+          "isQiaosuan": true,
+          "answer": "22500"
+      },
+      {
+          "id": 123,
+          "grade": "三年级下",
+          "title": "46 × 26 + 26 × 54",
+          "expression": "46 × 26 + 26 × 54",
+          "steps": ["= 26 × (46 + 54)", "= 26 × 100", "= 2600"],
+          "isQiaosuan": true,
+          "answer": "2600"
+      },
+      {
+          "id": 124,
+          "grade": "三年级下",
+          "title": "1268 + 227 + 473 + 132",
+          "expression": "1268 + 227 + 473 + 132",
+          "steps": ["= (1268 + 132) + (227 + 473)", "= 1400 + 700", "= 2100"],
+          "isQiaosuan": true,
+          "answer": "2100"
+      },
+      {
+          "id": 125,
+          "grade": "三年级下",
+          "title": "898 - 475 - 125",
+          "expression": "898 - 475 - 125",
+          "steps": ["= 898 - (475 + 125)", "= 898 - 600", "= 298"],
+          "isQiaosuan": true,
+          "answer": "298"
+      },
+      {
+          "id": 126,
+          "grade": "三年级下",
+          "title": "88 × 64 ÷ 22",
+          "expression": "88 × 64 ÷ 22",
+          "steps": ["= 88 ÷ 22 × 64", "= 4 × 64", "= 256"],
+          "isQiaosuan": true,
+          "answer": "256"
+      },
+      {
+          "id": 127,
+          "grade": "三年级下",
+          "title": "108 ÷ (170 - 143)",
+          "expression": "108 ÷ (170 - 143)",
+          "steps": ["= 108 ÷ 27", "= 4"],
+          "isQiaosuan": false,
+          "answer": "4"
+      },
+      {
+          "id": 128,
+          "grade": "三年级下",
+          "title": "380 + 120 ÷ 24",
+          "expression": "380 + 120 ÷ 24",
+          "steps": ["= 380 + 5", "= 385"],
+          "isQiaosuan": false,
+          "answer": "385"
+      },
+      {
+          "id": 129,
+          "grade": "三年级下",
+          "title": "1407 ÷ (91 ÷ 13)",
+          "expression": "1407 ÷ (91 ÷ 13)",
+          "steps": ["= 1407 ÷ 7", "= 201"],
+          "isQiaosuan": false,
+          "answer": "201"
+      },
+      {
+          "id": 130,
+          "grade": "三年级下",
+          "title": "120 ÷ 24 × 11",
+          "expression": "120 ÷ 24 × 11",
+          "steps": ["= 5 × 11", "= 55"],
+          "isQiaosuan": false,
+          "answer": "55"
+      },
+      {
+          "id": 131,
+          "grade": "三年级下",
+          "title": "1530 ÷ 17 × 26",
+          "expression": "1530 ÷ 17 × 26",
+          "steps": ["= 90 × 26", "= 2340"],
+          "isQiaosuan": false,
+          "answer": "2340"
+      },
+      {
+          "id": 132,
+          "grade": "三年级下",
+          "title": "851 ÷ (51 - 14)",
+          "expression": "851 ÷ (51 - 14)",
+          "steps": ["= 851 ÷ 37", "= 23"],
+          "isQiaosuan": false,
+          "answer": "23"
+      },
+      {
+          "id": 133,
+          "grade": "三年级下",
+          "title": "912 ÷ (102 - 78)",
+          "expression": "912 ÷ (102 - 78)",
+          "steps": ["= 912 ÷ 24", "= 38"],
+          "isQiaosuan": false,
+          "answer": "38"
+      },
+      {
+          "id": 134,
+          "grade": "三年级下",
+          "title": "1080 ÷ (31 + 14)",
+          "expression": "1080 ÷ (31 + 14)",
+          "steps": ["= 1080 ÷ 45", "= 24"],
+          "isQiaosuan": false,
+          "answer": "24"
+      },
+      {
+          "id": 135,
+          "grade": "三年级下",
+          "title": "962 ÷ 37 × 302",
+          "expression": "962 ÷ 37 × 302",
+          "steps": ["= 26 × 302", "= 7852"],
+          "isQiaosuan": false,
+          "answer": "7852"
+      },
+      {
+          "id": 136,
+          "grade": "三年级下",
+          "title": "4260 ÷ 60 × 104",
+          "expression": "4260 ÷ 60 × 104",
+          "steps": ["= 71 × 104", "= 7384"],
+          "isQiaosuan": false,
+          "answer": "7384"
+      },
+      {
+          "id": 137,
+          "grade": "三年级下",
+          "title": "147 × 15 ÷ 21",
+          "expression": "147 × 15 ÷ 21",
+          "steps": ["= 2205 ÷ 21", "= 105"],
+          "isQiaosuan": false,
+          "answer": "105"
+      },
+      {
+          "id": 138,
+          "grade": "三年级下",
+          "title": "(1741 + 2489) ÷ 90",
+          "expression": "(1741 + 2489) ÷ 90",
+          "steps": ["= 4230 ÷ 90", "= 47"],
+          "isQiaosuan": false,
+          "answer": "47"
+      },
+      {
+          "id": 139,
+          "grade": "三年级下",
+          "title": "175 + 25 × 310",
+          "expression": "175 + 25 × 310",
+          "steps": ["= 175 + 7750", "= 7925"],
+          "isQiaosuan": false,
+          "answer": "7925"
+      },
+      {
+          "id": 140,
+          "grade": "三年级下",
+          "title": "172 × (28 + 43)",
+          "expression": "172 × (28 + 43)",
+          "steps": ["= 172 × 71", "= 12212"],
+          "isQiaosuan": false,
+          "answer": "12212"
+      },
+      {
+          "id": 141,
+          "grade": "三年级下",
+          "title": "(9000 - 350) ÷ 25",
+          "expression": "(9000 - 350) ÷ 25",
+          "steps": ["= 8650 ÷ 25", "= 346"],
+          "isQiaosuan": false,
+          "answer": "346"
+      },
+      {
+          "id": 142,
+          "grade": "三年级下",
+          "title": "5292 ÷ (32 + 17)",
+          "expression": "5292 ÷ (32 + 17)",
+          "steps": ["= 5292 ÷ 49", "= 108"],
+          "isQiaosuan": false,
+          "answer": "108"
+      },
+      {
+          "id": 143,
+          "grade": "三年级下",
+          "title": "1872 ÷ (144 ÷ 12)",
+          "expression": "1872 ÷ (144 ÷ 12)",
+          "steps": ["= 1872 ÷ 12", "= 156"],
+          "isQiaosuan": false,
+          "answer": "156"
+      },
+      {
+          "id": 144,
+          "grade": "三年级下",
+          "title": "488 + 725 + 212 + 175",
+          "expression": "488 + 725 + 212 + 175",
+          "steps": ["= (488 + 212) + (725 + 175)", "= 700 + 900", "= 1600"],
+          "isQiaosuan": true,
+          "answer": "1600"
+      },
+      {
+          "id": 145,
+          "grade": "三年级下",
+          "title": "(9280 - 1972) ÷ 36",
+          "expression": "(9280 - 1972) ÷ 36",
+          "steps": ["= 7308 ÷ 36", "= 203"],
+          "isQiaosuan": false,
+          "answer": "203"
+      },
+      {
+          "id": 146,
+          "grade": "三年级下",
+          "title": "125 × 9 ÷ 25",
+          "expression": "125 × 9 ÷ 25",
+          "steps": ["= 125 ÷ 25 × 9", "= 5 × 9", "= 45"],
+          "isQiaosuan": true,
+          "answer": "45"
+      },
+      {
+          "id": 147,
+          "grade": "三年级下",
+          "title": "(1276 + 868) ÷ 32",
+          "expression": "(1276 + 868) ÷ 32",
+          "steps": ["= 2144 ÷ 32", "= 67"],
+          "isQiaosuan": false,
+          "answer": "67"
+      },
+      {
+          "id": 148,
+          "grade": "三年级下",
+          "title": "(765 - 440) × 74",
+          "expression": "(765 - 440) × 74",
+          "steps": ["= 325 × 74", "= 24050"],
+          "isQiaosuan": false,
+          "answer": "24050"
+      },
+      {
+          "id": 149,
+          "grade": "三年级下",
+          "title": "435 - 178 + 565",
+          "expression": "435 - 178 + 565",
+          "steps": ["= 435 + 565 - 178", "= 1000 - 178", "= 822"],
+          "isQiaosuan": true,
+          "answer": "822"
+      },
+      {
+          "id": 150,
+          "grade": "三年级下",
+          "title": "(3010 - 2263) ÷ 83",
+          "expression": "(3010 - 2263) ÷ 83",
+          "steps": ["= 747 ÷ 83", "= 9"],
+          "isQiaosuan": false,
+          "answer": "9"
+      },
+      {
+          "id": 151,
+          "grade": "三年级下",
+          "title": "(2000 - 13 × 25) ÷ 25",
+          "expression": "(2000 - 13 × 25) ÷ 25",
+          "steps": ["= (2000 - 325) ÷ 25", "= 1675 ÷ 25", "= 67"],
+          "isQiaosuan": false,
+          "answer": "67"
+      },
+      {
+          "id": 152,
+          "grade": "三年级下",
+          "title": "9090 ÷ 15 × 30",
+          "expression": "9090 ÷ 15 × 30",
+          "steps": ["= 606 × 30", "= 18180"],
+          "isQiaosuan": false,
+          "answer": "18180"
+      },
+      {
+          "id": 153,
+          "grade": "三年级下",
+          "title": "39 × (100 - 25)",
+          "expression": "39 × (100 - 25)",
+          "steps": ["= 39 × 75", "= 2925"],
+          "isQiaosuan": false,
+          "answer": "2925"
+      },
+      {
+          "id": 154,
+          "grade": "三年级下",
+          "title": "25 × (3780 ÷ 35)",
+          "expression": "25 × (3780 ÷ 35)",
+          "steps": ["= 25 × 108", "= 2700"],
+          "isQiaosuan": false,
+          "answer": "2700"
+      },
+      {
+          "id": 155,
+          "grade": "三年级下",
+          "title": "425 ÷ 25 + 15 × 25",
+          "expression": "425 ÷ 25 + 15 × 25",
+          "steps": ["= 17 + 375", "= 392"],
+          "isQiaosuan": false,
+          "answer": "392"
+      },
+      {
+          "id": 156,
+          "grade": "三年级下",
+          "title": "86 + 14 × 103",
+          "expression": "86 + 14 × 103",
+          "steps": ["= 86 + 1442", "= 1528"],
+          "isQiaosuan": false,
+          "answer": "1528"
+      },
+      {
+          "id": 157,
+          "grade": "三年级下",
+          "title": "3030 ÷ 15 × 20",
+          "expression": "3030 ÷ 15 × 20",
+          "steps": ["= 202 × 20", "= 4040"],
+          "isQiaosuan": false,
+          "answer": "4040"
+      },
+      {
+          "id": 158,
+          "grade": "三年级下",
+          "title": "(2000 - 1253) ÷ 83",
+          "expression": "(2000 - 1253) ÷ 83",
+          "steps": ["= 747 ÷ 83", "= 9"],
+          "isQiaosuan": false,
+          "answer": "9"
+      },
+      {
+          "id": 159,
+          "grade": "三年级下",
+          "title": "314 - 3060 ÷ 12",
+          "expression": "314 - 3060 ÷ 12",
+          "steps": ["= 314 - 255", "= 59"],
+          "isQiaosuan": false,
+          "answer": "59"
+      },
+      {
+          "id": 160,
+          "grade": "三年级下",
+          "title": "84 × 38 ÷ 76",
+          "expression": "84 × 38 ÷ 76",
+          "steps": ["= 3192 ÷ 76", "= 42"],
+          "isQiaosuan": false,
+          "answer": "42"
+      },
+      {
+          "id": 161,
+          "grade": "三年级下",
+          "title": "62 × (368 ÷ 16)",
+          "expression": "62 × (368 ÷ 16)",
+          "steps": ["= 62 × 23", "= 1426"],
+          "isQiaosuan": false,
+          "answer": "1426"
+      },
+      {
+          "id": 162,
+          "grade": "三年级下",
+          "title": "28 × 72 + 28 × 28",
+          "expression": "28 × 72 + 28 × 28",
+          "steps": ["= 28 × (72 + 28)", "= 28 × 100", "= 2800"],
+          "isQiaosuan": true,
+          "answer": "2800"
+      },
+      {
+          "id": 163,
+          "grade": "三年级下",
+          "title": "(2525 - 169) ÷ 19",
+          "expression": "(2525 - 169) ÷ 19",
+          "steps": ["= 2356 ÷ 19", "= 124"],
+          "isQiaosuan": false,
+          "answer": "124"
+      },
+      {
+          "id": 164,
+          "grade": "三年级下",
+          "title": "1900 ÷ 25 ÷ 4",
+          "expression": "1900 ÷ 25 ÷ 4",
+          "steps": ["= 1900 ÷ (25 × 4)", "= 1900 ÷ 100", "= 19"],
+          "isQiaosuan": true,
+          "answer": "19"
+      },
+      {
+          "id": 165,
+          "grade": "三年级下",
+          "title": "1225 ÷ (128 - 93)",
+          "expression": "1225 ÷ (128 - 93)",
+          "steps": ["= 1225 ÷ 35", "= 35"],
+          "isQiaosuan": false,
+          "answer": "35"
+      },
+      {
+          "id": 166,
+          "grade": "三年级下",
+          "title": "24 + 76 × 250",
+          "expression": "24 + 76 × 250",
+          "steps": ["= 24 + 19000", "= 19024"],
+          "isQiaosuan": false,
+          "answer": "19024"
+      },
+      {
+          "id": 167,
+          "grade": "三年级下",
+          "title": "548 - 325 - 175",
+          "expression": "548 - 325 - 175",
+          "steps": ["= 548 - (325 + 175)", "= 548 - 500", "= 48"],
+          "isQiaosuan": true,
+          "answer": "48"
+      },
+      {
+          "id": 168,
+          "grade": "三年级下",
+          "title": "42 × (3015 ÷ 15 - 93)",
+          "expression": "42 × (3015 ÷ 15 - 93)",
+          "steps": ["= 42 × (201 - 93)", "= 42 × 108", "= 4536"],
+          "isQiaosuan": false,
+          "answer": "4536"
+      },
+      {
+          "id": 169,
+          "grade": "三年级下",
+          "title": "48 × 53 + 53 × 52",
+          "expression": "48 × 53 + 53 × 52",
+          "steps": ["= 53 × (48 + 52)", "= 53 × 100", "= 5300"],
+          "isQiaosuan": true,
+          "answer": "5300"
+      },
+      {
+          "id": 170,
+          "grade": "三年级下",
+          "title": "104 × 24 ÷ 52",
+          "expression": "104 × 24 ÷ 52",
+          "steps": ["= 104 ÷ 52 × 24", "= 2 × 24", "= 48"],
+          "isQiaosuan": true,
+          "answer": "48"
+      },
+      {
+          "id": 171,
+          "grade": "三年级下",
+          "title": "2242 ÷ (711 - 673)",
+          "expression": "2242 ÷ (711 - 673)",
+          "steps": ["= 2242 ÷ 38", "= 59"],
+          "isQiaosuan": false,
+          "answer": "59"
+      },
+      {
+          "id": 172,
+          "grade": "三年级下",
+          "title": "467 + 533 × 20",
+          "expression": "467 + 533 × 20",
+          "steps": ["= 467 + 10660", "= 11127"],
+          "isQiaosuan": false,
+          "answer": "11127"
+      },
+      {
+          "id": 173,
+          "grade": "三年级下",
+          "title": "2378 + 927 - 378",
+          "expression": "2378 + 927 - 378",
+          "steps": ["= 2378 - 378 + 927", "= 2000 + 927", "= 2927"],
+          "isQiaosuan": true,
+          "answer": "2927"
+      },
+      {
+          "id": 174,
+          "grade": "三年级下",
+          "title": "56 × 305 ÷ 28",
+          "expression": "56 × 305 ÷ 28",
+          "steps": ["= 56 ÷ 28 × 305", "= 2 × 305", "= 610"],
+          "isQiaosuan": true,
+          "answer": "610"
+      },
+      {
+          "id": 175,
+          "grade": "三年级下",
+          "title": "1743 + 246 + 157",
+          "expression": "1743 + 246 + 157",
+          "steps": ["= 1743 + 157 + 246", "= 1900 + 246", "= 2146"],
+          "isQiaosuan": true,
+          "answer": "2146"
+      },
+      {
+          "id": 176,
+          "grade": "三年级下",
+          "title": "85 + 15 × 103",
+          "expression": "85 + 15 × 103",
+          "steps": ["= 85 + 1545", "= 1630"],
+          "isQiaosuan": false,
+          "answer": "1630"
+      },
+      {
+          "id": 177,
+          "grade": "三年级下",
+          "title": "3030 ÷ (315 - 15 × 20)",
+          "expression": "3030 ÷ (315 - 15 × 20)",
+          "steps": ["= 3030 ÷ (315 - 300)", "= 3030 ÷ 15", "= 202"],
+          "isQiaosuan": false,
+          "answer": "202"
+      },
+      {
+          "id": 178,
+          "grade": "三年级下",
+          "title": "347 + 285 + 453",
+          "expression": "347 + 285 + 453",
+          "steps": ["= 347 + 453 + 285", "= 800 + 285", "= 1085"],
+          "isQiaosuan": true,
+          "answer": "1085"
+      },
+      {
+          "id": 179,
+          "grade": "三年级下",
+          "title": "583 + 247 + 317 + 153",
+          "expression": "583 + 247 + 317 + 153",
+          "steps": ["= (583 + 317) + (247 + 153)", "= 900 + 400", "= 1300"],
+          "isQiaosuan": true,
+          "answer": "1300"
+      },
+      {
+          "id": 180,
+          "grade": "三年级下",
+          "title": "836 - 167 - 233",
+          "expression": "836 - 167 - 233",
+          "steps": ["= 836 - (167 + 233)", "= 836 - 400", "= 436"],
+          "isQiaosuan": true,
+          "answer": "436"
+      },
+      {
+          "id": 181,
+          "grade": "三年级下",
+          "title": "37 × 56 + 56 × 63",
+          "expression": "37 × 56 + 56 × 63",
+          "steps": ["= 56 × (37 + 63)", "= 56 × 100", "= 5600"],
+          "isQiaosuan": true,
+          "answer": "5600"
+      },
+      {
+          "id": 182,
+          "grade": "三年级下",
+          "title": "148 × 38 - 48 × 38",
+          "expression": "148 × 38 - 48 × 38",
+          "steps": ["= 38 × (148 - 48)", "= 38 × 100", "= 3800"],
+          "isQiaosuan": true,
+          "answer": "3800"
+      },
+      {
+          "id": 183,
+          "grade": "三年级下",
+          "title": "360 × 7 ÷ 9",
+          "expression": "360 × 7 ÷ 9",
+          "steps": ["= 360 ÷ 9 × 7", "= 40 × 7", "= 280"],
+          "isQiaosuan": true,
+          "answer": "280"
+      },
+      {
+          "id": 184,
+          "grade": "三年级下",
+          "title": "420 × 12 ÷ 7",
+          "expression": "420 × 12 ÷ 7",
+          "steps": ["= 420 ÷ 7 × 12", "= 60 × 12", "= 720"],
+          "isQiaosuan": true,
+          "answer": "720"
+      },
+      {
+          "id": 185,
+          "grade": "三年级下",
+          "title": "56 × 101",
+          "expression": "56 × 101",
+          "steps": ["= 56 × (100 + 1)", "= 5600 + 56", "= 5656"],
+          "isQiaosuan": true,
+          "answer": "5656"
+      },
+      {
+          "id": 186,
+          "grade": "三年级下",
+          "title": "35 × 98",
+          "expression": "35 × 98",
+          "steps": ["= 35 × (100 - 2)", "= 3500 - 70", "= 3430"],
+          "isQiaosuan": true,
+          "answer": "3430"
+      },
+      {
+          "id": 187,
+          "grade": "三年级下",
+          "title": "876 - 198",
+          "expression": "876 - 198",
+          "steps": ["= 876 - 200 + 2", "= 676 + 2", "= 678"],
+          "isQiaosuan": true,
+          "answer": "678"
+      },
+      {
+          "id": 188,
+          "grade": "三年级下",
+          "title": "634 - 397",
+          "expression": "634 - 397",
+          "steps": ["= 634 - 400 + 3", "= 234 + 3", "= 237"],
+          "isQiaosuan": true,
+          "answer": "237"
+      },
+      {
+          "id": 189,
+          "grade": "三年级下",
+          "title": "748 + 298",
+          "expression": "748 + 298",
+          "steps": ["= 748 + 300 - 2", "= 1048 - 2", "= 1046"],
+          "isQiaosuan": true,
+          "answer": "1046"
+      },
+      {
+          "id": 190,
+          "grade": "三年级下",
+          "title": "568 + 199",
+          "expression": "568 + 199",
+          "steps": ["= 568 + 200 - 1", "= 768 - 1", "= 767"],
+          "isQiaosuan": true,
+          "answer": "767"
+      },
+      {
+          "id": 191,
+          "grade": "三年级下",
+          "title": "125 × 56",
+          "expression": "125 × 56",
+          "steps": ["= 125 × 8 × 7", "= 1000 × 7", "= 7000"],
+          "isQiaosuan": true,
+          "answer": "7000"
+      },
+      {
+          "id": 192,
+          "grade": "三年级下",
+          "title": "125 × 24",
+          "expression": "125 × 24",
+          "steps": ["= 125 × 8 × 3", "= 1000 × 3", "= 3000"],
+          "isQiaosuan": true,
+          "answer": "3000"
+      },
+      {
+          "id": 193,
+          "grade": "三年级下",
+          "title": "25 × 36",
+          "expression": "25 × 36",
+          "steps": ["= 25 × 4 × 9", "= 100 × 9", "= 900"],
+          "isQiaosuan": true,
+          "answer": "900"
+      },
+      {
+          "id": 194,
+          "grade": "三年级下",
+          "title": "25 × 84",
+          "expression": "25 × 84",
+          "steps": ["= 25 × 4 × 21", "= 100 × 21", "= 2100"],
+          "isQiaosuan": true,
+          "answer": "2100"
+      },
+      {
+          "id": 195,
+          "grade": "三年级下",
+          "title": "835 - (235 + 467)",
+          "expression": "835 - (235 + 467)",
+          "steps": ["= 835 - 235 - 467", "= 600 - 467", "= 133"],
+          "isQiaosuan": true,
+          "answer": "133"
+      },
+      {
+          "id": 196,
+          "grade": "三年级下",
+          "title": "963 - (363 + 218)",
+          "expression": "963 - (363 + 218)",
+          "steps": ["= 963 - 363 - 218", "= 600 - 218", "= 382"],
+          "isQiaosuan": true,
+          "answer": "382"
+      },
+      {
+          "id": 197,
+          "grade": "三年级下",
+          "title": "67 × 43 + 67 × 56 + 67",
+          "expression": "67 × 43 + 67 × 56 + 67",
+          "steps": ["= 67 × (43 + 56 + 1)", "= 67 × 100", "= 6700"],
+          "isQiaosuan": true,
+          "answer": "6700"
+      },
+      {
+          "id": 198,
+          "grade": "三年级下",
+          "title": "37 × 35 - 37 × 34 + 37 × 9",
+          "expression": "37 × 35 - 37 × 34 + 37 × 9",
+          "steps": ["= 37 × (35 - 34 + 9)", "= 37 × 10", "= 370"],
+          "isQiaosuan": true,
+          "answer": "370"
+      },
+      {
+          "id": 199,
+          "grade": "三年级下",
+          "title": "1634 + 285 - 634",
+          "expression": "1634 + 285 - 634",
+          "steps": ["= 1634 - 634 + 285", "= 1000 + 285", "= 1285"],
+          "isQiaosuan": true,
+          "answer": "1285"
+      },
+      {
+          "id": 200,
+          "grade": "三年级下",
+          "title": "2356 + 478 - 356",
+          "expression": "2356 + 478 - 356",
+          "steps": ["= 2356 - 356 + 478", "= 2000 + 478", "= 2478"],
+          "isQiaosuan": true,
+          "answer": "2478"
+      },
+      {
+          "id": 201,
+          "grade": "三年级下",
+          "title": "3200 ÷ 8 ÷ 25",
+          "expression": "3200 ÷ 8 ÷ 25",
+          "steps": ["= 3200 ÷ (8 × 25)", "= 3200 ÷ 200", "= 16"],
+          "isQiaosuan": true,
+          "answer": "16"
+      },
+      {
+          "id": 202,
+          "grade": "三年级下",
+          "title": "480 × 6 ÷ 12",
+          "expression": "480 × 6 ÷ 12",
+          "steps": ["= 480 ÷ 12 × 6", "= 40 × 6", "= 240"],
+          "isQiaosuan": true,
+          "answer": "240"
+      },
+      {
+          "id": 203,
+          "grade": "三年级下",
+          "title": "630 × 4 ÷ 21",
+          "expression": "630 × 4 ÷ 21",
+          "steps": ["= 630 ÷ 21 × 4", "= 30 × 4", "= 120"],
+          "isQiaosuan": true,
+          "answer": "120"
+      },
+      {
+          "id": 204,
+          "grade": "三年级下",
+          "title": "625 × 16",
+          "expression": "625 × 16",
+          "steps": ["= 625 × 8 × 2", "= 5000 × 2", "= 10000"],
+          "isQiaosuan": true,
+          "answer": "10000"
+      },
+      {
+          "id": 205,
+          "grade": "三年级下",
+          "title": "726 - 128 + 274",
+          "expression": "726 - 128 + 274",
+          "steps": ["= 726 + 274 - 128", "= 1000 - 128", "= 872"],
+          "isQiaosuan": true,
+          "answer": "872"
+      },
+      {
+          "id": 206,
+          "grade": "三年级下",
+          "title": "943 - 279 - 421",
+          "expression": "943 - 279 - 421",
+          "steps": ["= 943 - (279 + 421)", "= 943 - 700", "= 243"],
+          "isQiaosuan": true,
+          "answer": "243"
+      },
+      {
+          "id": 207,
+          "grade": "三年级下",
+          "title": "685 + 346 + 115 + 254",
+          "expression": "685 + 346 + 115 + 254",
+          "steps": ["= (685 + 115) + (346 + 254)", "= 800 + 600", "= 1400"],
+          "isQiaosuan": true,
+          "answer": "1400"
+      },
+      {
+          "id": 208,
+          "grade": "三年级下",
+          "title": "25 × 28 ÷ 7",
+          "expression": "25 × 28 ÷ 7",
+          "steps": ["= 25 × (28 ÷ 7)", "= 25 × 4", "= 100"],
+          "isQiaosuan": true,
+          "answer": "100"
+      },
+      {
+          "id": 209,
+          "grade": "三年级下",
+          "title": "135 × 6 ÷ 15",
+          "expression": "135 × 6 ÷ 15",
+          "steps": ["= 135 ÷ 15 × 6", "= 9 × 6", "= 54"],
+          "isQiaosuan": true,
+          "answer": "54"
+      },
+      {
+          "id": 210,
+          "grade": "三年级下",
+          "title": "79 × 36 + 36 × 21",
+          "expression": "79 × 36 + 36 × 21",
+          "steps": ["= 36 × (79 + 21)", "= 36 × 100", "= 3600"],
+          "isQiaosuan": true,
+          "answer": "3600"
+      },
+      {
+          "id": 211,
+          "grade": "三年级下",
+          "title": "214 × 65 - 65 × 14",
+          "expression": "214 × 65 - 65 × 14",
+          "steps": ["= 65 × (214 - 14)", "= 65 × 200", "= 13000"],
+          "isQiaosuan": true,
+          "answer": "13000"
+      },
+      {
+          "id": 212,
+          "grade": "三年级下",
+          "title": "53 × 45 + 45 × 47",
+          "expression": "53 × 45 + 45 × 47",
+          "steps": ["= 45 × (53 + 47)", "= 45 × 100", "= 4500"],
+          "isQiaosuan": true,
+          "answer": "4500"
+      },
+      {
+          "id": 213,
+          "grade": "三年级下",
+          "title": "258 × 101 - 258",
+          "expression": "258 × 101 - 258",
+          "steps": ["= 258 × (101 - 1)", "= 258 × 100", "= 25800"],
+          "isQiaosuan": true,
+          "answer": "25800"
+      },
+      {
+          "id": 214,
+          "grade": "三年级下",
+          "title": "9600 ÷ 25 ÷ 4",
+          "expression": "9600 ÷ 25 ÷ 4",
+          "steps": ["= 9600 ÷ (25 × 4)", "= 9600 ÷ 100", "= 96"],
+          "isQiaosuan": true,
+          "answer": "96"
+      },
+      {
+          "id": 215,
+          "grade": "三年级下",
+          "title": "125 × 64 × 25",
+          "expression": "125 × 64 × 25",
+          "steps": ["= (125 × 8) × (25 × 8)", "= 1000 × 200", "= 200000"],
+          "isQiaosuan": true,
+          "answer": "200000"
+      },
+      {
+          "id": 216,
+          "grade": "三年级下",
+          "title": "1089 - (589 + 312)",
+          "expression": "1089 - (589 + 312)",
+          "steps": ["= 1089 - 589 - 312", "= 500 - 312", "= 188"],
+          "isQiaosuan": true,
+          "answer": "188"
+      },
+      {
+          "id": 217,
+          "grade": "三年级下",
+          "title": "298 + 367",
+          "expression": "298 + 367",
+          "steps": ["= 300 + 367 - 2", "= 667 - 2", "= 665"],
+          "isQiaosuan": true,
+          "answer": "665"
+      },
+      {
+          "id": 218,
+          "grade": "三年级下",
+          "title": "502 - 399",
+          "expression": "502 - 399",
+          "steps": ["= 502 - 400 + 1", "= 102 + 1", "= 103"],
+          "isQiaosuan": true,
+          "answer": "103"
+      },
+      {
+          "id": 219,
+          "grade": "三年级下",
+          "title": "33 × 67 + 67 × 67",
+          "expression": "33 × 67 + 67 × 67",
+          "steps": ["= 67 × (33 + 67)", "= 67 × 100", "= 6700"],
+          "isQiaosuan": true,
+          "answer": "6700"
+      },
+      {
+          "id": 220,
+          "grade": "三年级下",
+          "title": "41 × 58 + 58 × 59",
+          "expression": "41 × 58 + 58 × 59",
+          "steps": ["= 58 × (41 + 59)", "= 58 × 100", "= 5800"],
+          "isQiaosuan": true,
+          "answer": "5800"
+      },
+      {
+          "id": 221,
+          "grade": "三年级下",
+          "title": "438 + 62 × 15",
+          "expression": "438 + 62 × 15",
+          "steps": ["= 438 + 930", "= 1368"],
+          "isQiaosuan": false,
+          "answer": "1368"
+      },
+      {
+          "id": 222,
+          "grade": "三年级下",
+          "title": "976 - 24 × 31",
+          "expression": "976 - 24 × 31",
+          "steps": ["= 976 - 744", "= 232"],
+          "isQiaosuan": false,
+          "answer": "232"
+      },
+      {
+          "id": 223,
+          "grade": "三年级下",
+          "title": "(526 + 374) ÷ 25",
+          "expression": "(526 + 374) ÷ 25",
+          "steps": ["= 900 ÷ 25", "= 36"],
+          "isQiaosuan": false,
+          "answer": "36"
+      },
+      {
+          "id": 224,
+          "grade": "三年级下",
+          "title": "45 × (160 ÷ 16)",
+          "expression": "45 × (160 ÷ 16)",
+          "steps": ["= 45 × 10", "= 450"],
+          "isQiaosuan": false,
+          "answer": "450"
+      },
+      {
+          "id": 225,
+          "grade": "三年级下",
+          "title": "896 ÷ (312 - 280)",
+          "expression": "896 ÷ (312 - 280)",
+          "steps": ["= 896 ÷ 32", "= 28"],
+          "isQiaosuan": false,
+          "answer": "28"
+      },
+      {
+          "id": 226,
+          "grade": "三年级下",
+          "title": "175 × (38 - 19)",
+          "expression": "175 × (38 - 19)",
+          "steps": ["= 175 × 19", "= 3325"],
+          "isQiaosuan": false,
+          "answer": "3325"
+      },
+      {
+          "id": 227,
+          "grade": "三年级下",
+          "title": "1380 ÷ 12 × 25",
+          "expression": "1380 ÷ 12 × 25",
+          "steps": ["= 115 × 25", "= 2875"],
+          "isQiaosuan": false,
+          "answer": "2875"
+      },
+      {
+          "id": 228,
+          "grade": "三年级下",
+          "title": "365 + 472 + 135",
+          "expression": "365 + 472 + 135",
+          "steps": ["= 365 + 135 + 472", "= 500 + 472", "= 972"],
+          "isQiaosuan": true,
+          "answer": "972"
+      },
+      {
+          "id": 229,
+          "grade": "三年级下",
+          "title": "28 × 37 + 37 × 72",
+          "expression": "28 × 37 + 37 × 72",
+          "steps": ["= 37 × (28 + 72)", "= 37 × 100", "= 3700"],
+          "isQiaosuan": true,
+          "answer": "3700"
+      },
+      {
+          "id": 230,
+          "grade": "三年级下",
+          "title": "955 - 368 - 232",
+          "expression": "955 - 368 - 232",
+          "steps": ["= 955 - (368 + 232)", "= 955 - 600", "= 355"],
+          "isQiaosuan": true,
+          "answer": "355"
+      },
+      {
+          "id": 231,
+          "grade": "三年级下",
+          "title": "193 × 54 - 93 × 54",
+          "expression": "193 × 54 - 93 × 54",
+          "steps": ["= 54 × (193 - 93)", "= 54 × 100", "= 5400"],
+          "isQiaosuan": true,
+          "answer": "5400"
+      },
+      {
+          "id": 232,
+          "grade": "三年级下",
+          "title": "450 × 9 ÷ 15",
+          "expression": "450 × 9 ÷ 15",
+          "steps": ["= 450 ÷ 15 × 9", "= 30 × 9", "= 270"],
+          "isQiaosuan": true,
+          "answer": "270"
+      },
+      {
+          "id": 233,
+          "grade": "三年级下",
+          "title": "4200 ÷ 7 ÷ 6",
+          "expression": "4200 ÷ 7 ÷ 6",
+          "steps": ["= 4200 ÷ (7 × 6)", "= 4200 ÷ 42", "= 100"],
+          "isQiaosuan": true,
+          "answer": "100"
+      },
+      {
+          "id": 234,
+          "grade": "三年级下",
+          "title": "67 × 101",
+          "expression": "67 × 101",
+          "steps": ["= 67 × (100 + 1)", "= 6700 + 67", "= 6767"],
+          "isQiaosuan": true,
+          "answer": "6767"
+      },
+      {
+          "id": 235,
+          "grade": "三年级下",
+          "title": "374 + 126 × 8",
+          "expression": "374 + 126 × 8",
+          "steps": ["= 374 + 1008", "= 1382"],
+          "isQiaosuan": false,
+          "answer": "1382"
+      },
+      {
+          "id": 236,
+          "grade": "三年级下",
+          "title": "96 × 51 ÷ 16",
+          "expression": "96 × 51 ÷ 16",
+          "steps": ["= 96 ÷ 16 × 51", "= 6 × 51", "= 306"],
+          "isQiaosuan": true,
+          "answer": "306"
+      },
+      {
+          "id": 237,
+          "grade": "三年级下",
+          "title": "6789 - 1234 - 2766",
+          "expression": "6789 - 1234 - 2766",
+          "steps": ["= 6789 - (1234 + 2766)", "= 6789 - 4000", "= 2789"],
+          "isQiaosuan": true,
+          "answer": "2789"
+      },
+      {
+          "id": 238,
+          "grade": "三年级下",
+          "title": "25 × 28",
+          "expression": "25 × 28",
+          "steps": ["= 25 × 4 × 7", "= 100 × 7", "= 700"],
+          "isQiaosuan": true,
+          "answer": "700"
+      },
+      {
+          "id": 239,
+          "grade": "三年级下",
+          "title": "125 × 88",
+          "expression": "125 × 88",
+          "steps": ["= 125 × 8 × 11", "= 1000 × 11", "= 11000"],
+          "isQiaosuan": true,
+          "answer": "11000"
+      },
+      {
+          "id": 240,
+          "grade": "三年级下",
+          "title": "714 - 89 + 286",
+          "expression": "714 - 89 + 286",
+          "steps": ["= 714 + 286 - 89", "= 1000 - 89", "= 911"],
+          "isQiaosuan": true,
+          "answer": "911"
+      },
+      {
+          "id": 241,
+          "grade": "三年级下",
+          "title": "47 × 19 + 47 × 81",
+          "expression": "47 × 19 + 47 × 81",
+          "steps": ["= 47 × (19 + 81)", "= 47 × 100", "= 4700"],
+          "isQiaosuan": true,
+          "answer": "4700"
+      },
+      {
+          "id": 242,
+          "grade": "三年级下",
+          "title": "267 × 43 - 167 × 43",
+          "expression": "267 × 43 - 167 × 43",
+          "steps": ["= 43 × (267 - 167)", "= 43 × 100", "= 4300"],
+          "isQiaosuan": true,
+          "answer": "4300"
+      },
+      {
+          "id": 243,
+          "grade": "三年级下",
+          "title": "5000 - 625 - 4375",
+          "expression": "5000 - 625 - 4375",
+          "steps": ["= 5000 - (625 + 4375)", "= 5000 - 5000", "= 0"],
+          "isQiaosuan": true,
+          "answer": "0"
+      },
+      {
+          "id": 244,
+          "grade": "三年级下",
+          "title": "588 × 17 ÷ 21",
+          "expression": "588 × 17 ÷ 21",
+          "steps": ["= 588 ÷ 21 × 17", "= 28 × 17", "= 476"],
+          "isQiaosuan": true,
+          "answer": "476"
+      },
+      {
+          "id": 245,
+          "grade": "三年级下",
+          "title": "932 - (532 + 267)",
+          "expression": "932 - (532 + 267)",
+          "steps": ["= 932 - 532 - 267", "= 400 - 267", "= 133"],
+          "isQiaosuan": true,
+          "answer": "133"
+      },
+      {
+          "id": 246,
+          "grade": "三年级下",
+          "title": "125 × 40",
+          "expression": "125 × 40",
+          "steps": ["= 125 × 8 × 5", "= 1000 × 5", "= 5000"],
+          "isQiaosuan": true,
+          "answer": "5000"
+      },
+      {
+          "id": 247,
+          "grade": "三年级下",
+          "title": "648 - 399",
+          "expression": "648 - 399",
+          "steps": ["= 648 - 400 + 1", "= 248 + 1", "= 249"],
+          "isQiaosuan": true,
+          "answer": "249"
+      },
+      {
+          "id": 248,
+          "grade": "三年级下",
+          "title": "857 + 599",
+          "expression": "857 + 599",
+          "steps": ["= 857 + 600 - 1", "= 1457 - 1", "= 1456"],
+          "isQiaosuan": true,
+          "answer": "1456"
+      },
+      {
+          "id": 249,
+          "grade": "三年级下",
+          "title": "13 × 42 + 42 × 87",
+          "expression": "13 × 42 + 42 × 87",
+          "steps": ["= 42 × (13 + 87)", "= 42 × 100", "= 4200"],
+          "isQiaosuan": true,
+          "answer": "4200"
+      },
+      {
+          "id": 250,
+          "grade": "三年级下",
+          "title": "750 × 8 ÷ 25",
+          "expression": "750 × 8 ÷ 25",
+          "steps": ["= 750 ÷ 25 × 8", "= 30 × 8", "= 240"],
+          "isQiaosuan": true,
+          "answer": "240"
+      },
+      {
+          "id": 251,
+          "grade": "三年级下",
+          "title": "176 - 59 × 2",
+          "expression": "176 - 59 × 2",
+          "steps": ["= 176 - 118", "= 58"],
+          "isQiaosuan": false,
+          "answer": "58"
+      },
+      {
+          "id": 252,
+          "grade": "三年级下",
+          "title": "315 × 22 ÷ 35",
+          "expression": "315 × 22 ÷ 35",
+          "steps": ["= 315 ÷ 35 × 22", "= 9 × 22", "= 198"],
+          "isQiaosuan": true,
+          "answer": "198"
+      },
+      {
+          "id": 253,
+          "grade": "三年级下",
+          "title": "49 × 16 + 49 × 84",
+          "expression": "49 × 16 + 49 × 84",
+          "steps": ["= 49 × (16 + 84)", "= 49 × 100", "= 4900"],
+          "isQiaosuan": true,
+          "answer": "4900"
+      },
+      {
+          "id": 254,
+          "grade": "三年级下",
+          "title": "25 × 56",
+          "expression": "25 × 56",
+          "steps": ["= 25 × 4 × 14", "= 100 × 14", "= 1400"],
+          "isQiaosuan": true,
+          "answer": "1400"
+      },
+      {
+          "id": 255,
+          "grade": "三年级下",
+          "title": "833 ÷ 17 + 187 ÷ 17",
+          "expression": "833 ÷ 17 + 187 ÷ 17",
+          "steps": ["= (833 + 187) ÷ 17", "= 1020 ÷ 17", "= 60"],
+          "isQiaosuan": true,
+          "answer": "60"
+      },
+      {
+          "id": 256,
+          "grade": "三年级下",
+          "title": "56 × 125",
+          "expression": "56 × 125",
+          "steps": ["= 7 × (8 × 125)", "= 7 × 1000", "= 7000"],
+          "isQiaosuan": true,
+          "answer": "7000"
+      },
+      {
+          "id": 257,
+          "grade": "三年级下",
+          "title": "348 + 276 + 424 + 152",
+          "expression": "348 + 276 + 424 + 152",
+          "steps": ["= (348 + 152) + (276 + 424)", "= 500 + 700", "= 1200"],
+          "isQiaosuan": true,
+          "answer": "1200"
+      },
+      {
+          "id": 258,
+          "grade": "三年级下",
+          "title": "6840 ÷ 8 ÷ 5",
+          "expression": "6840 ÷ 8 ÷ 5",
+          "steps": ["= 6840 ÷ (8 × 5)", "= 6840 ÷ 40", "= 171"],
+          "isQiaosuan": true,
+          "answer": "171"
+      },
+      {
+          "id": 259,
+          "grade": "三年级下",
+          "title": "97 + 52 × 103",
+          "expression": "97 + 52 × 103",
+          "steps": ["= 97 + 5356", "= 5453"],
+          "isQiaosuan": false,
+          "answer": "5453"
+      },
+      {
+          "id": 260,
+          "grade": "三年级下",
+          "title": "426 × 15 ÷ 71",
+          "expression": "426 × 15 ÷ 71",
+          "steps": ["= 426 ÷ 71 × 15", "= 6 × 15", "= 90"],
+          "isQiaosuan": true,
+          "answer": "90"
+      },
+      {
+          "id": 261,
+          "grade": "三年级下",
+          "title": "735 - 235 - 318",
+          "expression": "735 - 235 - 318",
+          "steps": ["= (735 - 235) - 318", "= 500 - 318", "= 182"],
+          "isQiaosuan": true,
+          "answer": "182"
+      },
+      {
+          "id": 262,
+          "grade": "三年级下",
+          "title": "88 × 64 + 88 × 36",
+          "expression": "88 × 64 + 88 × 36",
+          "steps": ["= 88 × (64 + 36)", "= 88 × 100", "= 8800"],
+          "isQiaosuan": true,
+          "answer": "8800"
+      },
+      {
+          "id": 263,
+          "grade": "三年级下",
+          "title": "(456 + 144) × 7",
+          "expression": "(456 + 144) × 7",
+          "steps": ["= 600 × 7", "= 4200"],
+          "isQiaosuan": false,
+          "answer": "4200"
+      },
+      {
+          "id": 264,
+          "grade": "三年级下",
+          "title": "25 × 48",
+          "expression": "25 × 48",
+          "steps": ["= 25 × 4 × 12", "= 100 × 12", "= 1200"],
+          "isQiaosuan": true,
+          "answer": "1200"
+      },
+      {
+          "id": 265,
+          "grade": "三年级下",
+          "title": "948 - 89 - 811",
+          "expression": "948 - 89 - 811",
+          "steps": ["= 948 - (89 + 811)", "= 948 - 900", "= 48"],
+          "isQiaosuan": true,
+          "answer": "48"
+      },
+      {
+          "id": 266,
+          "grade": "三年级下",
+          "title": "522 × 9 ÷ 18",
+          "expression": "522 × 9 ÷ 18",
+          "steps": ["= 522 ÷ 18 × 9", "= 29 × 9", "= 261"],
+          "isQiaosuan": true,
+          "answer": "261"
+      },
+      {
+          "id": 267,
+          "grade": "三年级下",
+          "title": "93 × 36 + 36 × 7",
+          "expression": "93 × 36 + 36 × 7",
+          "steps": ["= 36 × (93 + 7)", "= 36 × 100", "= 3600"],
+          "isQiaosuan": true,
+          "answer": "3600"
+      },
+      {
+          "id": 268,
+          "grade": "三年级下",
+          "title": "384 ÷ 16 + 616 ÷ 8",
+          "expression": "384 ÷ 16 + 616 ÷ 8",
+          "steps": ["= 24 + 77", "= 101"],
+          "isQiaosuan": false,
+          "answer": "101"
+      },
+      {
+          "id": 269,
+          "grade": "三年级下",
+          "title": "289 × 99 + 289",
+          "expression": "289 × 99 + 289",
+          "steps": ["= 289 × (99 + 1)", "= 289 × 100", "= 28900"],
+          "isQiaosuan": true,
+          "answer": "28900"
+      },
+      {
+          "id": 270,
+          "grade": "三年级下",
+          "title": "125 × 96",
+          "expression": "125 × 96",
+          "steps": ["= 125 × 8 × 12", "= 1000 × 12", "= 12000"],
+          "isQiaosuan": true,
+          "answer": "12000"
+      },
+      {
+          "id": 271,
+          "grade": "三年级下",
+          "title": "463 + 178 - 263",
+          "expression": "463 + 178 - 263",
+          "steps": ["= 463 - 263 + 178", "= 200 + 178", "= 378"],
+          "isQiaosuan": true,
+          "answer": "378"
+      },
+      {
+          "id": 272,
+          "grade": "三年级下",
+          "title": "36 × 97 + 36 × 3",
+          "expression": "36 × 97 + 36 × 3",
+          "steps": ["= 36 × (97 + 3)", "= 36 × 100", "= 3600"],
+          "isQiaosuan": true,
+          "answer": "3600"
+      },
+      {
+          "id": 273,
+          "grade": "三年级下",
+          "title": "249 + 76 × 15",
+          "expression": "249 + 76 × 15",
+          "steps": ["= 249 + 1140", "= 1389"],
+          "isQiaosuan": false,
+          "answer": "1389"
+      },
+      {
+          "id": 274,
+          "grade": "三年级下",
+          "title": "9600 ÷ 30 × 5",
+          "expression": "9600 ÷ 30 × 5",
+          "steps": ["= 320 × 5", "= 1600"],
+          "isQiaosuan": false,
+          "answer": "1600"
+      },
+      {
+          "id": 275,
+          "grade": "三年级下",
+          "title": "(720 + 280) ÷ 50",
+          "expression": "(720 + 280) ÷ 50",
+          "steps": ["= 1000 ÷ 50", "= 20"],
+          "isQiaosuan": false,
+          "answer": "20"
+      },
+      {
+          "id": 276,
+          "grade": "三年级下",
+          "title": "456 + 544 × 3",
+          "expression": "456 + 544 × 3",
+          "steps": ["= 456 + 1632", "= 2088"],
+          "isQiaosuan": false,
+          "answer": "2088"
+      },
+      {
+          "id": 277,
+          "grade": "三年级下",
+          "title": "125 × 80",
+          "expression": "125 × 80",
+          "steps": ["= 125 × 8 × 10", "= 1000 × 10", "= 10000"],
+          "isQiaosuan": true,
+          "answer": "10000"
+      },
+      {
+          "id": 278,
+          "grade": "三年级下",
+          "title": "257 + 386 + 343",
+          "expression": "257 + 386 + 343",
+          "steps": ["= 257 + 343 + 386", "= 600 + 386", "= 986"],
+          "isQiaosuan": true,
+          "answer": "986"
+      },
+      {
+          "id": 279,
+          "grade": "三年级下",
+          "title": "69 × 23 + 23 × 31",
+          "expression": "69 × 23 + 23 × 31",
+          "steps": ["= 23 × (69 + 31)", "= 23 × 100", "= 2300"],
+          "isQiaosuan": true,
+          "answer": "2300"
+      },
+      {
+          "id": 280,
+          "grade": "三年级下",
+          "title": "876 - 348 - 252",
+          "expression": "876 - 348 - 252",
+          "steps": ["= 876 - (348 + 252)", "= 876 - 600", "= 276"],
+          "isQiaosuan": true,
+          "answer": "276"
+      },
+      {
+          "id": 281,
+          "grade": "三年级下",
+          "title": "157 × 62 - 57 × 62",
+          "expression": "157 × 62 - 57 × 62",
+          "steps": ["= 62 × (157 - 57)", "= 62 × 100", "= 6200"],
+          "isQiaosuan": true,
+          "answer": "6200"
+      },
+      {
+          "id": 282,
+          "grade": "三年级下",
+          "title": "990 × 7 ÷ 33",
+          "expression": "990 × 7 ÷ 33",
+          "steps": ["= 990 ÷ 33 × 7", "= 30 × 7", "= 210"],
+          "isQiaosuan": true,
+          "answer": "210"
+      },
+      {
+          "id": 283,
+          "grade": "三年级下",
+          "title": "1500 ÷ 12 ÷ 5",
+          "expression": "1500 ÷ 12 ÷ 5",
+          "steps": ["= 1500 ÷ (12 × 5)", "= 1500 ÷ 60", "= 25"],
+          "isQiaosuan": true,
+          "answer": "25"
+      },
+      {
+          "id": 284,
+          "grade": "三年级下",
+          "title": "78 × 102",
+          "expression": "78 × 102",
+          "steps": ["= 78 × (100 + 2)", "= 7800 + 156", "= 7956"],
+          "isQiaosuan": true,
+          "answer": "7956"
+      },
+      {
+          "id": 285,
+          "grade": "三年级下",
+          "title": "45 × 98",
+          "expression": "45 × 98",
+          "steps": ["= 45 × (100 - 2)", "= 4500 - 90", "= 4410"],
+          "isQiaosuan": true,
+          "answer": "4410"
+      },
+      {
+          "id": 286,
+          "grade": "三年级下",
+          "title": "125 × 25 × 32",
+          "expression": "125 × 25 × 32",
+          "steps": ["= (125 × 8) × (25 × 4)", "= 1000 × 100", "= 100000"],
+          "isQiaosuan": true,
+          "answer": "100000"
+      },
+      {
+          "id": 287,
+          "grade": "三年级下",
+          "title": "541 - 299",
+          "expression": "541 - 299",
+          "steps": ["= 541 - 300 + 1", "= 241 + 1", "= 242"],
+          "isQiaosuan": true,
+          "answer": "242"
+      },
+      {
+          "id": 288,
+          "grade": "三年级下",
+          "title": "328 + 499",
+          "expression": "328 + 499",
+          "steps": ["= 328 + 500 - 1", "= 828 - 1", "= 827"],
+          "isQiaosuan": true,
+          "answer": "827"
+      },
+      {
+          "id": 289,
+          "grade": "三年级下",
+          "title": "72 × 15 + 72 × 85",
+          "expression": "72 × 15 + 72 × 85",
+          "steps": ["= 72 × (15 + 85)", "= 72 × 100", "= 7200"],
+          "isQiaosuan": true,
+          "answer": "7200"
+      },
+      {
+          "id": 290,
+          "grade": "三年级下",
+          "title": "280 × 13 ÷ 14",
+          "expression": "280 × 13 ÷ 14",
+          "steps": ["= 280 ÷ 14 × 13", "= 20 × 13", "= 260"],
+          "isQiaosuan": true,
+          "answer": "260"
+      },
+      {
+          "id": 291,
+          "grade": "三年级下",
+          "title": "1145 - (145 + 638)",
+          "expression": "1145 - (145 + 638)",
+          "steps": ["= 1145 - 145 - 638", "= 1000 - 638", "= 362"],
+          "isQiaosuan": true,
+          "answer": "362"
+      },
+      {
+          "id": 292,
+          "grade": "三年级下",
+          "title": "35 × 54 + 54 × 65",
+          "expression": "35 × 54 + 54 × 65",
+          "steps": ["= 54 × (35 + 65)", "= 54 × 100", "= 5400"],
+          "isQiaosuan": true,
+          "answer": "5400"
+      },
+      {
+          "id": 293,
+          "grade": "三年级下",
+          "title": "25 × 72",
+          "expression": "25 × 72",
+          "steps": ["= 25 × 4 × 18", "= 100 × 18", "= 1800"],
+          "isQiaosuan": true,
+          "answer": "1800"
+      },
+      {
+          "id": 294,
+          "grade": "三年级下",
+          "title": "168 × 5 ÷ 12",
+          "expression": "168 × 5 ÷ 12",
+          "steps": ["= 168 ÷ 12 × 5", "= 14 × 5", "= 70"],
+          "isQiaosuan": true,
+          "answer": "70"
+      },
+      {
+          "id": 295,
+          "grade": "三年级下",
+          "title": "729 - 256 - 444",
+          "expression": "729 - 256 - 444",
+          "steps": ["= 729 - (256 + 444)", "= 729 - 700", "= 29"],
+          "isQiaosuan": true,
+          "answer": "29"
+      },
+      {
+          "id": 296,
+          "grade": "三年级下",
+          "title": "563 + 128 - 263",
+          "expression": "563 + 128 - 263",
+          "steps": ["= 563 - 263 + 128", "= 300 + 128", "= 428"],
+          "isQiaosuan": true,
+          "answer": "428"
+      },
+      {
+          "id": 297,
+          "grade": "三年级下",
+          "title": "82 × 39 + 82 × 61",
+          "expression": "82 × 39 + 82 × 61",
+          "steps": ["= 82 × (39 + 61)", "= 82 × 100", "= 8200"],
+          "isQiaosuan": true,
+          "answer": "8200"
+      },
+      {
+          "id": 298,
+          "grade": "三年级下",
+          "title": "5500 ÷ 25 ÷ 4",
+          "expression": "5500 ÷ 25 ÷ 4",
+          "steps": ["= 5500 ÷ (25 × 4)", "= 5500 ÷ 100", "= 55"],
+          "isQiaosuan": true,
+          "answer": "55"
+      },
+      {
+          "id": 299,
+          "grade": "三年级下",
+          "title": "43 × 101 - 43",
+          "expression": "43 × 101 - 43",
+          "steps": ["= 43 × (101 - 1)", "= 43 × 100", "= 4300"],
+          "isQiaosuan": true,
+          "answer": "4300"
+      },
+      {
+          "id": 300,
+          "grade": "三年级下",
+          "title": "346 + 97 × 12",
+          "expression": "346 + 97 × 12",
+          "steps": ["= 346 + 1164", "= 1510"],
+          "isQiaosuan": false,
+          "answer": "1510"
+      },
+      {
+          "id": 301,
+          "grade": "三年级下",
+          "title": "125 × 16 × 25",
+          "expression": "125 × 16 × 25",
+          "steps": ["= 125 × (8 × 2) × 25", "= (125 × 8) × (2 × 25)", "= 1000 × 50", "= 50000"],
+          "isQiaosuan": true,
+          "answer": "50000"
+      },
+      {
+          "id": 302,
+          "grade": "三年级下",
+          "title": "840 - 75 ÷ 5",
+          "expression": "840 - 75 ÷ 5",
+          "steps": ["= 840 - 15", "= 825"],
+          "isQiaosuan": false,
+          "answer": "825"
+      },
+      {
+          "id": 303,
+          "grade": "三年级下",
+          "title": "378 + 522 ÷ 18",
+          "expression": "378 + 522 ÷ 18",
+          "steps": ["= 378 + 29", "= 407"],
+          "isQiaosuan": false,
+          "answer": "407"
+      },
+      {
+          "id": 304,
+          "grade": "三年级下",
+          "title": "(830 - 245) × 3",
+          "expression": "(830 - 245) × 3",
+          "steps": ["= 585 × 3", "= 1755"],
+          "isQiaosuan": false,
+          "answer": "1755"
+      },
+      {
+          "id": 305,
+          "grade": "三年级下",
+          "title": "56 × 14 ÷ 28",
+          "expression": "56 × 14 ÷ 28",
+          "steps": ["= 56 ÷ 28 × 14", "= 2 × 14", "= 28"],
+          "isQiaosuan": true,
+          "answer": "28"
+      },
+      {
+          "id": 306,
+          "grade": "三年级下",
+          "title": "1078 - 365 - 335",
+          "expression": "1078 - 365 - 335",
+          "steps": ["= 1078 - (365 + 335)", "= 1078 - 700", "= 378"],
+          "isQiaosuan": true,
+          "answer": "378"
+      },
+      {
+          "id": 307,
+          "grade": "三年级下",
+          "title": "124 × 8 ÷ 31",
+          "expression": "124 × 8 ÷ 31",
+          "steps": ["= 124 ÷ 31 × 8", "= 4 × 8", "= 32"],
+          "isQiaosuan": true,
+          "answer": "32"
+      },
+      {
+          "id": 308,
+          "grade": "三年级下",
+          "title": "19 × 46 + 46 × 81",
+          "expression": "19 × 46 + 46 × 81",
+          "steps": ["= 46 × (19 + 81)", "= 46 × 100", "= 4600"],
+          "isQiaosuan": true,
+          "answer": "4600"
+      },
+      {
+          "id": 309,
+          "grade": "三年级下",
+          "title": "25 × 68",
+          "expression": "25 × 68",
+          "steps": ["= 25 × 4 × 17", "= 100 × 17", "= 1700"],
+          "isQiaosuan": true,
+          "answer": "1700"
+      },
+      {
+          "id": 310,
+          "grade": "三年级下",
+          "title": "887 - 498",
+          "expression": "887 - 498",
+          "steps": ["= 887 - 500 + 2", "= 387 + 2", "= 389"],
+          "isQiaosuan": true,
+          "answer": "389"
+      },
+      {
+          "id": 311,
+          "grade": "三年级下",
+          "title": "425 + 375 × 4",
+          "expression": "425 + 375 × 4",
+          "steps": ["= 425 + 1500", "= 1925"],
+          "isQiaosuan": false,
+          "answer": "1925"
+      },
+      {
+          "id": 312,
+          "grade": "三年级下",
+          "title": "(1024 - 256) ÷ 16",
+          "expression": "(1024 - 256) ÷ 16",
+          "steps": ["= 768 ÷ 16", "= 48"],
+          "isQiaosuan": false,
+          "answer": "48"
+      },
+      {
+          "id": 313,
+          "grade": "三年级下",
+          "title": "178 + 325 + 522 + 275",
+          "expression": "178 + 325 + 522 + 275",
+          "steps": ["= (178 + 522) + (325 + 275)", "= 700 + 600", "= 1300"],
+          "isQiaosuan": true,
+          "answer": "1300"
+      },
+      {
+          "id": 314,
+          "grade": "三年级下",
+          "title": "54 × 33 + 33 × 46",
+          "expression": "54 × 33 + 33 × 46",
+          "steps": ["= 33 × (54 + 46)", "= 33 × 100", "= 3300"],
+          "isQiaosuan": true,
+          "answer": "3300"
+      },
+      {
+          "id": 315,
+          "grade": "三年级下",
+          "title": "625 × 8 ÷ 25",
+          "expression": "625 × 8 ÷ 25",
+          "steps": ["= 625 ÷ 25 × 8", "= 25 × 8", "= 200"],
+          "isQiaosuan": true,
+          "answer": "200"
+      },
+      {
+          "id": 316,
+          "grade": "三年级下",
+          "title": "888 - 239 - 561",
+          "expression": "888 - 239 - 561",
+          "steps": ["= 888 - (239 + 561)", "= 888 - 800", "= 88"],
+          "isQiaosuan": true,
+          "answer": "88"
+      },
+      {
+          "id": 317,
+          "grade": "三年级下",
+          "title": "395 + 199",
+          "expression": "395 + 199",
+          "steps": ["= 395 + 200 - 1", "= 595 - 1", "= 594"],
+          "isQiaosuan": true,
+          "answer": "594"
+      },
+      {
+          "id": 318,
+          "grade": "三年级下",
+          "title": "621 - 302",
+          "expression": "621 - 302",
+          "steps": ["= 621 - 300 - 2", "= 321 - 2", "= 319"],
+          "isQiaosuan": true,
+          "answer": "319"
+      },
+      {
+          "id": 319,
+          "grade": "三年级下",
+          "title": "46 × 27 + 46 × 73",
+          "expression": "46 × 27 + 46 × 73",
+          "steps": ["= 46 × (27 + 73)", "= 46 × 100", "= 4600"],
+          "isQiaosuan": true,
+          "answer": "4600"
+      },
+      {
+          "id": 320,
+          "grade": "三年级下",
+          "title": "8100 ÷ 9 ÷ 10",
+          "expression": "8100 ÷ 9 ÷ 10",
+          "steps": ["= 8100 ÷ (9 × 10)", "= 8100 ÷ 90", "= 90"],
+          "isQiaosuan": true,
+          "answer": "90"
+      },
+      {
+          "id": 321,
+          "grade": "三年级下",
+          "title": "158 + 67 × 34",
+          "expression": "158 + 67 × 34",
+          "steps": ["= 158 + 2278", "= 2436"],
+          "isQiaosuan": false,
+          "answer": "2436"
+      },
+      {
+          "id": 322,
+          "grade": "三年级下",
+          "title": "216 ÷ 27 + 84 ÷ 7",
+          "expression": "216 ÷ 27 + 84 ÷ 7",
+          "steps": ["= 8 + 12", "= 20"],
+          "isQiaosuan": false,
+          "answer": "20"
+      },
+      {
+          "id": 323,
+          "grade": "三年级下",
+          "title": "125 × 36",
+          "expression": "125 × 36",
+          "steps": ["= 125 × 4 × 9", "= 500 × 9", "= 4500"],
+          "isQiaosuan": true,
+          "answer": "4500"
+      },
+      {
+          "id": 324,
+          "grade": "三年级下",
+          "title": "83 × 102 - 83 × 2",
+          "expression": "83 × 102 - 83 × 2",
+          "steps": ["= 83 × (102 - 2)", "= 83 × 100", "= 8300"],
+          "isQiaosuan": true,
+          "answer": "8300"
+      },
+      {
+          "id": 325,
+          "grade": "三年级下",
+          "title": "745 - 346 - 254",
+          "expression": "745 - 346 - 254",
+          "steps": ["= 745 - (346 + 254)", "= 745 - 600", "= 145"],
+          "isQiaosuan": true,
+          "answer": "145"
+      },
+      {
+          "id": 326,
+          "grade": "三年级下",
+          "title": "336 × 3 ÷ 7",
+          "expression": "336 × 3 ÷ 7",
+          "steps": ["= 336 ÷ 7 × 3", "= 48 × 3", "= 144"],
+          "isQiaosuan": true,
+          "answer": "144"
+      },
+      {
+          "id": 327,
+          "grade": "三年级下",
+          "title": "94 × 25 + 25 × 6",
+          "expression": "94 × 25 + 25 × 6",
+          "steps": ["= 25 × (94 + 6)", "= 25 × 100", "= 2500"],
+          "isQiaosuan": true,
+          "answer": "2500"
+      }
+  ]
 }
