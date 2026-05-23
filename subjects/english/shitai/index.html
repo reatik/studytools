@@ -412,7 +412,14 @@ body {
 
 .fill-input:focus {
     border-bottom-color: #4a8fc2;
-
+}
+.fill-input.correct {
+    border-bottom-color: #3f9414;
+    color: #3f9414;
+}
+.fill-input.wrong {
+    border-bottom-color: var(--wrong);
+    color: var(--wrong);
 }
 
 .fill-footer {
@@ -985,8 +992,14 @@ if (wasAnswered && !answers[index].correct) {
         
         if (wasAnswered) {
             inputList.forEach(el => el.disabled = true);
-            const isCorrect = answers[index].correct;
-            inputList.forEach(el => el.classList.add(isCorrect ? 'correct' : 'wrong'));
+            // 逐空着色：每个空单独判断对错
+            let userParts = answers[index].value.split(';');
+            let correctParts = q.answer.split(';').map(s => s.trim());
+            inputList.forEach((el, i) => {
+                let correct = i < correctParts.length && i < userParts.length
+                    && userParts[i].trim() === correctParts[i];
+                el.classList.add(correct ? 'correct' : 'wrong');
+            });
 
             submitBtn.disabled = true;
             if (isCorrect) {
@@ -1097,6 +1110,12 @@ function submitFillAnswer() {
     }
 
     inputList.forEach(inp => inp.disabled = true);
+    // 逐空着色：每个空单独判断对错
+    inputList.forEach((el, i) => {
+        let correct = i < rightAnswers.length && i < userAnswers.length
+            && userAnswers[i] === rightAnswers[i];
+        el.classList.add(correct ? 'correct' : 'wrong');
+    });
     submitBtn.disabled = true;
 
     answers[currentIndex] = { value: userAnswers.join(";"), correct: allRight };
