@@ -30,7 +30,8 @@ provider:
         "= <最终答案>"
     ],
     "isQiaosuan": <true|false>,
-    "answer": "<最终计算结果>"
+    "answer": "<最终计算结果>",
+    "type": "<可选，小数题填 \"decimal\"，整数题可省略>"
 }
 ```
 
@@ -45,6 +46,7 @@ provider:
 | `steps` | 递等式巧算步骤数组，每步以 `"= "` 开头 |
 | `isQiaosuan` | 是否为巧算题，巧算题设为 `true`，纯计算题设为 `false` |
 | `answer` | 最终数值答案 |
+| `type` | 可选字段。**当题目包含小数运算时**，必须添加 `"type": "decimal"`；整数题可省略此字段 |
 
 ---
 

@@ -56,16 +56,20 @@
         }
         .btn-gen { background: var(--primary); color: #fff; }
         .btn-gen:hover { background: var(--primary-light); }
-        .qiaosuan-toggle {
+        .qiaosuan-toggle, .decimal-toggle {
             height: 34px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 8px;
             font-size: 13px; cursor: pointer; font-family: inherit; background: #fff;
             transition: all 0.2s; white-space: nowrap; font-weight: 500;
             display: inline-flex; align-items: center; justify-content: center;
         }
-        .qiaosuan-toggle:hover { border-color: var(--primary); }
+        .qiaosuan-toggle:hover, .decimal-toggle:hover { border-color: var(--primary); }
         .qiaosuan-toggle.active {
             background: var(--primary); color: #fff; border-color: var(--primary);
         }
+        .decimal-toggle.active {
+            background: #E67E22; color: #fff; border-color: #E67E22;
+        }
+        .decimal-toggle { display: none; }
         .setting-toggle {
             height: 34px; width: 34px; cursor: pointer; border: 1.5px solid var(--border);
             border-radius: 8px; background: #fff; font-size: 15px; padding: 0;
@@ -158,9 +162,9 @@
         }
         .h-inner-paper .h-title { font-weight: 700; text-align: center; font-size: 13px; margin-bottom: 6px; }
         .h-inner-paper .h-q { margin-bottom: 4px; padding: 2px 0; border-bottom: 1px dashed #f5f5f5; }
-        .h-inner-paper .h-q-expr { font-weight: 600; font-family: 'Consolas','KaiTi',monospace; }
+        .h-inner-paper .h-q-expr { font-weight: 600; font-family: 'KaiTi','SimSun','Times New Roman',serif; }
         .h-inner-paper .h-q-steps {
-            font-family: 'Consolas','KaiTi',monospace; color: var(--answer-green);
+            font-family: 'KaiTi','SimSun','Times New Roman',serif; color: var(--answer-green);
             font-size: 11px; margin-left: 12px; margin-top: 1px;
         }
         .h-inner-paper .h-q-steps .step { padding: 1px 0; }
@@ -220,7 +224,7 @@
         }
         .q-item-header .q-expr {
             font-size: 17px; font-weight: 600;
-            font-family: 'Consolas', 'Courier New', 'KaiTi', 'SimSun', monospace;
+            font-family: 'KaiTi', 'SimSun', 'Times New Roman', serif;
             letter-spacing: 1px;
         }
         .q-item-header .q-expr-wrap { flex: 1; min-width: 0; }
@@ -233,7 +237,7 @@
         .q-item .q-answer {
             display: none;
             margin-top: 4px; margin-left: 0;
-            font-family: 'Consolas', 'Courier New', 'KaiTi', 'SimSun', monospace;
+            font-family: 'KaiTi', 'SimSun', 'Times New Roman', serif;
             font-size: 14px; line-height: 1.7;
             color: var(--answer-green);
             min-height: 180px;
@@ -260,7 +264,7 @@
         .q-btn-ans { display: none; }
 
         /* ===== 分页标记 ===== */
-        .page-break { margin-top: 20px; }
+        .page-break { margin-top: 20px; padding-top: 100px; }
 
         /* ===== 空状态 ===== */
         .empty-state {
@@ -321,7 +325,7 @@
             .paper-meta { color: #000; }
             .paper-meta .blank { border-bottom-color: #000; }
             .paper-actions { display: none !important; }
-            .page-break { page-break-before: always; }
+            .page-break { page-break-before: always; padding-top: 10px; }
             .q-grid {
                 flex: 1;
                 gap: 0 20px;
@@ -378,7 +382,7 @@
         <div class="header-actions">
             <button class="btn btn-gen" id="gen-btn" onclick="onGenerate()">生成试卷</button>
             <span class="page-input-wrap">页数：<input type="number" id="page-count" value="1" min="1" max="20" class="page-input" onchange="saveSettings()"></span>
-            <select class="select-box" id="grade-select" onchange="saveSettings()">
+            <select class="select-box" id="grade-select" onchange="onGradeChange()">
                 <option value="">-- 选择年级 --</option>
                 <option value="三年级上">三年级上</option>
                 <option value="三年级下">三年级下</option>
@@ -388,6 +392,7 @@
                 <option value="五年级下">五年级下</option>
             </select>
             <button class="qiaosuan-toggle" id="qiaosuan-toggle" onclick="toggleQiaosuan()" title="仅出巧算题">巧算</button>
+            <button class="decimal-toggle" id="decimal-toggle" onclick="toggleDecimal()" title="仅出小数题">小数</button>
             <button class="icon-btn" id="preview-btn" style="display:none;" onclick="openPreview()" title="预览试卷"><img src="../../images/预览.png" alt="预览"></button>
             <button class="icon-btn" id="print-btn" style="display:none;" onclick="printPaper()" title="打印试卷"><img src="../../images/打印.png" alt="打印"></button>
             <span class="history-btn-wrap">
@@ -433,6 +438,7 @@
             if (!currentPaperData) return;
             const toSave = { ...currentPaperData };
             toSave.qiaosuanOnly = qiaosuanOnly;
+            toSave.decimalOnly = decimalOnly;
             toSave.showQiaosuanLabel = showQiaosuanLabel;
             try { localStorage.setItem('didengshi_last_paper', JSON.stringify(toSave)); } catch(e) {}
         }
@@ -463,6 +469,13 @@
                 pool = pool.filter(q => q.isQiaosuan === true);
                 if (pool.length === 0) {
                     alert(`「${grade}」暂无巧算题，请先关闭巧算筛选再生成`);
+                    return null;
+                }
+            }
+            if (decimalOnly) {
+                pool = pool.filter(q => q.type === 'decimal');
+                if (pool.length === 0) {
+                    alert(`「${grade}」暂无小数题，请先关闭小数筛选再生成`);
                     return null;
                 }
             }
@@ -513,6 +526,7 @@
         let answersVisible = false;
         let qiaosuanOnly = false;
         let showQiaosuanLabel = false;
+        let decimalOnly = false;
 
         function renderPaper(paperData, showAnswers) {
             answersVisible = showAnswers;
@@ -590,6 +604,39 @@
             saveSettings();
         };
 
+        // ===== 小数筛选开关 =====
+        window.toggleDecimal = function() {
+            decimalOnly = !decimalOnly;
+            const btn = document.getElementById('decimal-toggle');
+            if (decimalOnly) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+            saveSettings();
+        };
+
+        // ===== 年级变更（含小数按钮显隐） =====
+        window.onGradeChange = function() {
+            updateDecimalBtn();
+            saveSettings();
+        };
+        function updateDecimalBtn() {
+            const grade = document.getElementById('grade-select').value;
+            const decimalGrades = ['四年级下', '五年级上', '五年级下'];
+            const btn = document.getElementById('decimal-toggle');
+            if (decimalGrades.includes(grade)) {
+                btn.style.display = 'inline-flex';
+            } else {
+                btn.style.display = 'none';
+                // 切换到无小数的年级时自动关闭小数筛选
+                if (decimalOnly) {
+                    decimalOnly = false;
+                    btn.classList.remove('active');
+                }
+            }
+        }
+
         // ===== 巧算标注开关 =====
         window.toggleSetting = function() {
             showQiaosuanLabel = !showQiaosuanLabel;
@@ -604,6 +651,7 @@
             const settings = {
                 grade: document.getElementById('grade-select').value,
                 qiaosuanOnly: qiaosuanOnly,
+                decimalOnly: decimalOnly,
                 showQiaosuanLabel: showQiaosuanLabel,
                 pageCount: getPageCount()
             };
@@ -773,7 +821,7 @@
         async function init() {
             await loadQuestions();
             renderHistory();
-            // 恢复设置（年级、巧算、标注、页数）
+            // 恢复设置（年级、巧算、小数、标注、页数）
             try {
                 const settings = JSON.parse(localStorage.getItem('didengshi_settings'));
                 if (settings) {
@@ -781,6 +829,7 @@
                         document.getElementById('grade-select').value = settings.grade;
                     }
                     qiaosuanOnly = settings.qiaosuanOnly || false;
+                    decimalOnly = settings.decimalOnly || false;
                     showQiaosuanLabel = settings.showQiaosuanLabel || false;
                     if (settings.pageCount) {
                         document.getElementById('page-count').value = settings.pageCount;
@@ -788,6 +837,7 @@
                 }
             } catch(e) {}
             applySettingsUI();
+            updateDecimalBtn();
             // 恢复上一次生成的试卷
             try {
                 const lastPaper = JSON.parse(localStorage.getItem('didengshi_last_paper'));
@@ -813,6 +863,12 @@
                 qbtn.classList.add('active');
             } else {
                 qbtn.classList.remove('active');
+            }
+            const dbtn = document.getElementById('decimal-toggle');
+            if (decimalOnly) {
+                dbtn.classList.add('active');
+            } else {
+                dbtn.classList.remove('active');
             }
         }
         init();
