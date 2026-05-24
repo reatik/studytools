@@ -396,9 +396,9 @@
             </select>
             <button class="qiaosuan-toggle" id="qiaosuan-toggle" onclick="toggleQiaosuan()" title="仅出巧算题">巧算</button>
             <button class="decimal-toggle" id="decimal-toggle" onclick="toggleDecimal()" title="仅出小数题">小数</button>
-            <button class="icon-btn" id="print-btn" style="display:none;" onclick="printPaper()" title="打印试卷"><img src="../../images/打印.png" alt="打印"></button>
+            <button class="icon-btn" id="print-btn" style="display:none;" onclick="printPaper()" title="打印试卷"><img src="../../../images/打印.png" alt="打印"></button>
             <span class="history-btn-wrap">
-                <button class="icon-btn" id="history-toggle-btn" onclick="toggleHistoryDropdown()" title="打印记录"><img src="../../images/记录.png" alt="记录"></button>
+                <button class="icon-btn" id="history-toggle-btn" onclick="toggleHistoryDropdown()" title="打印记录"><img src="../../../images/记录.png" alt="记录"></button>
                 <span class="badge" id="history-badge" style="display:none;">0</span>
             </span>
             <div class="history-dropdown" id="history-dropdown"></div>
@@ -574,7 +574,7 @@
                                 return `
                                 <div class="q-item${showAnswers ? ' show-ans' : ''}">
                                     <div class="q-item-header">
-                                        <span class="q-expr-wrap"><span class="q-expr">${q.expression}</span>${showQiaosuanLabel && q.isQiaosuan ? '<span class="qiaosuan-badge">巧算</span>' : ''}</span>
+                                        <span class="q-expr-wrap"><span class="q-expr">${q.title}</span>${showQiaosuanLabel && q.isQiaosuan ? '<span class="qiaosuan-badge">巧算</span>' : ''}</span>
                                     </div>
                                     <div class="q-spacer"></div>
                                     <div class="q-answer">

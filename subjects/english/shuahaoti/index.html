@@ -131,6 +131,12 @@ body {
     background: #f1f1f1;
     color: #666;
 }
+.unit-placeholder {
+    display: inline-block;
+    font-size: 12px;
+    color: #aaa;
+    line-height: 28px;
+}
 
 /* ===== 右侧浮动操作栏 ===== */
 
@@ -211,6 +217,13 @@ body {
     background-color: #7E57C2;
     box-shadow: 0 0 0 2px rgba(126,87,194,0.4);
 }
+.question-number.wrong-number {
+    background-color: #C75B5B;
+}
+.question-number.wrong-number:focus {
+    background-color: #D96C6C;
+    box-shadow: 0 0 0 2px rgba(199,91,91,0.4);
+}
 
 .badge-row {
     margin-bottom: 10px;
@@ -249,7 +262,8 @@ body {
     margin-left: 2px;
     opacity: 0.6;
 }
-/* 统计栏（题目卡片右上角外侧） */
+/* 统计栏（题目卡片右上角外侧）—— 暂时禁用 */
+/*
 .stats-bar {
     position: absolute;
     top: -28px;
@@ -286,6 +300,7 @@ body {
     text-align: center;
     line-height: 24px;
 }
+*/
 
 .question-text {
     font-size: 15px;
@@ -596,12 +611,14 @@ body.night-mode .wrong-tag.removable:hover {
     background: rgba(198,40,40,0.3);
 }
 
+/* 暂时禁用统计栏夜间样式
 body.night-mode .stat-item {
     color: #aaa;
 }
 body.night-mode .stat-item.clickable:hover {
     opacity: 0.7;
 }
+*/
 body.night-mode .empty-message {
     background-color: #1e2533;
     color: #a8b5c9;
@@ -609,6 +626,13 @@ body.night-mode .empty-message {
 
 body.night-mode .question-number {
     background-color: #7E57C2;
+}
+body.night-mode .question-number.wrong-number {
+    background-color: #D96C6C;
+}
+body.night-mode .question-number.wrong-number:focus {
+    background-color: #E47A7A;
+    box-shadow: 0 0 0 2px rgba(217,108,108,0.4);
 }
 
 body.night-mode .grade-badge,
@@ -637,6 +661,39 @@ body.night-mode .filter-tag.active {
 body.night-mode .filter-tag.all {
     background: #2d3342;
     color: #aaa;
+}
+body.night-mode .unit-placeholder {
+    color: #666;
+}
+
+/* ===== Toast 提示 ===== */
+.mode-toast {
+    position: fixed;
+    top: 44%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.92);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    color: #5A4B75;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    z-index: 2000;
+    pointer-events: none;
+    opacity: 0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: opacity 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.mode-toast.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+body.night-mode .mode-toast {
+    color: #D1C4E9;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.2);
 }
 
 /* ===== 响应式 ===== */
@@ -713,8 +770,8 @@ body.night-mode .filter-tag.all {
         let questionCorrectStatus = {};
         let userAnswers = {};
         let lastQuestionId = localStorage.getItem('lastQuestionId') || null;
-        let questionFavs = new Set();
-        let questionLikes = new Set();
+        // let questionFavs = new Set();
+        // let questionLikes = new Set();
 
         // 多选筛选集合
         let selectedTypes = new Set();
@@ -740,15 +797,40 @@ body.night-mode .filter-tag.all {
             return Array.from(set).sort();
         }
 
+        function getFilteredUnits() {
+            let set = new Set();
+            let base = selectedGrades.size > 0 ? allQuestions.filter(q => selectedGrades.has(q.grade)) : [];
+            base.forEach(q => { if (q.unit) set.add(q.unit); });
+            return Array.from(set).sort();
+        }
+
         function renderFilterTags() {
             // 题型
             renderTagGroup('type-tags', getUniqueList('type'), selectedTypes);
             // 年级
             renderTagGroup('grade-tags', getUniqueList('grade'), selectedGrades);
-            // 单元
-            renderTagGroup('unit-tags', getUniqueList('unit'), selectedUnits);
+            // 单元（根据已选年级动态显示）
+            let filteredUnits = getFilteredUnits();
+            if (selectedGrades.size === 0) {
+                // 未选年级：显示占位提示
+                renderUnitPlaceholder();
+            } else if (selectedGrades.size === getUniqueList('grade').length) {
+                // 全选年级：显示全部单元
+                renderTagGroup('unit-tags', getUniqueList('unit'), selectedUnits);
+            } else {
+                // 已选特定年级：只显示对应单元
+                for (let u of selectedUnits) {
+                    if (!filteredUnits.includes(u)) selectedUnits.delete(u);
+                }
+                renderTagGroup('unit-tags', filteredUnits, selectedUnits);
+            }
             // 考点
             renderTagGroup('knowledge-tags', getUniqueList('knowledge_point'), selectedKnowledges);
+        }
+
+        function renderUnitPlaceholder() {
+            const container = document.getElementById('unit-tags');
+            container.innerHTML = '<span class="unit-placeholder">请先选择年级</span>';
         }
 
         function renderTagGroup(containerId, list, selectedSet) {
@@ -763,6 +845,7 @@ body.night-mode .filter-tag.all {
                 list.forEach(item => selectedSet.add(item));
                 renderFilterTags();
                 doFilter();
+                if (!isOnlyWrongMode) saveAllData();
             };
             container.appendChild(allTag);
 
@@ -776,6 +859,7 @@ body.night-mode .filter-tag.all {
                     else selectedSet.add(item);
                     renderFilterTags();
                     doFilter();
+                    if (!isOnlyWrongMode) saveAllData();
                 };
                 container.appendChild(tag);
             });
@@ -825,8 +909,15 @@ body.night-mode .filter-tag.all {
                 res = res.filter(q => selectedKnowledges.has(q.knowledge_point));
             }
             if (isOnlyWrongMode) {
+                // 错题模式：只显示做错的题目
                 let wrongIds = new Set(Object.keys(questionCorrectStatus).filter(id => questionCorrectStatus[id] === true));
                 res = res.filter(q => wrongIds.has(q.id));
+            } else {
+                // 正常模式：优先显示未做过的题；全部做过才显示所有题
+                let unattempted = res.filter(q => !questionAttempts[q.id]);
+                if (unattempted.length > 0) {
+                    res = unattempted;
+                }
             }
             return res;
         }
@@ -880,7 +971,8 @@ body.night-mode .filter-tag.all {
             let wrapper = document.createElement('div');
             wrapper.className = 'card-wrapper';
 
-            // 右上外侧统计栏（demo，数字写死，以后改）
+            // 右上外侧统计栏 —— 暂时禁用
+            /*
             let isFaved = questionFavs.has(q.id);
             let isLiked = questionLikes.has(q.id);
             let stats = document.createElement('div');
@@ -915,6 +1007,7 @@ body.night-mode .filter-tag.all {
                 renderCurrent();
             };
             wrapper.appendChild(stats);
+            */
 
             let card = document.createElement('div');
             card.className = 'question-card';
@@ -927,17 +1020,24 @@ body.night-mode .filter-tag.all {
             let num = document.createElement('input');
             num.type = 'text';
             num.className = 'question-number';
-            num.value = currentIndex + 1;
+            if (isOnlyWrongMode) {
+                num.value = (currentIndex + 1) + '/' + filteredQuestions.length;
+                num.style.width = '44px';
+                num.classList.add('wrong-number');
+            } else {
+                num.value = currentIndex + 1;
+            }
             num.title = '输入序号跳转题目';
             num.setAttribute('data-idx', currentIndex);
             num.addEventListener('focus', () => num.select());
             num.addEventListener('blur', () => {
-                let n = parseInt(num.value);
+                let raw = num.value.split('/')[0].trim();
+                let n = parseInt(raw);
                 if (!isNaN(n) && n >= 1 && n <= filteredQuestions.length && (n - 1) !== currentIndex) {
                     currentIndex = n - 1;
                     renderCurrent();
                 } else {
-                    num.value = currentIndex + 1;
+                    num.value = isOnlyWrongMode ? ((currentIndex + 1) + '/' + filteredQuestions.length) : (currentIndex + 1);
                 }
             });
             num.addEventListener('keydown', (e) => {
@@ -1030,7 +1130,7 @@ body.night-mode .filter-tag.all {
                         userAnswers[q.id] = opt;
                         let cor = checkAnswer(opt, q.answer);
                         recordAttempt(q.id, cor);
-                        card.replaceWith(createQuestionCard(q));
+                        card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
 
                     let span = document.createElement('span');
@@ -1081,7 +1181,7 @@ body.night-mode .filter-tag.all {
                         userAnswers[q.id] = vals.join(';');
                         let cor = checkAnswerBlank(vals, q.answer);
                         recordAttempt(q.id, cor);
-                        card.replaceWith(createQuestionCard(q));
+                        card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
                 } else {
@@ -1134,14 +1234,16 @@ body.night-mode .filter-tag.all {
                         let vals = Array.from(inputs).map(inp => inp.value.trim());
                         if (vals.every(v => !v)) return alert('请输入答案');
                         userAnswers[q.id] = vals.join(';');
-                        let cor = vals.join(' ').toLowerCase().trim() === q.answer.toLowerCase().trim();
+                        let normAnswer = q.answer.replace(/;/g, ' ').replace(/\s+/g, ' ').trim();
+                        let cor = vals.join(' ').trim() === normAnswer;
                         recordAttempt(q.id, cor);
-                        card.replaceWith(createQuestionCard(q));
+                        card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
                 } else {
+                    let normAnswer = q.answer.replace(/;/g, ' ').replace(/\s+/g, ' ').toLowerCase().trim();
                     let cor = userAnswers[q.id] !== '[查看]'
-                        && userAnswers[q.id].split(';').join(' ').toLowerCase().trim() === q.answer.toLowerCase().trim();
+                        && userAnswers[q.id].split(';').join(' ').toLowerCase().trim() === normAnswer;
                     let rt = document.createElement('span');
                     rt.className = 'fill-result-text';
                     rt.textContent = '正确答案：' + q.answer;
@@ -1170,7 +1272,7 @@ body.night-mode .filter-tag.all {
         }
 
         function checkAnswer(userAns, correctAns) {
-            return userAns.trim().toLowerCase() === correctAns.trim().toLowerCase();
+            return userAns.trim() === correctAns.trim();
         }
 
         function checkAnswerEach(blankIdx, userAnswerStr, correctAnswer) {
@@ -1179,13 +1281,13 @@ body.night-mode .filter-tag.all {
                 ? correctAnswer.split(';').map(s => s.trim())
                 : correctAnswer.split(/\s+/).map(s => s.trim());
             if (blankIdx >= userParts.length || blankIdx >= correctParts.length) return false;
-            return userParts[blankIdx].toLowerCase() === correctParts[blankIdx].toLowerCase();
+            return userParts[blankIdx] === correctParts[blankIdx];
         }
 
         function checkAnswerBlank(userVals, correctAnswer) {
             let correctParts = correctAnswer.split(';').map(s => s.trim());
             if (userVals.length !== correctParts.length) return false;
-            return userVals.every((v, i) => v.trim().toLowerCase() === correctParts[i].toLowerCase());
+            return userVals.every((v, i) => v.trim() === correctParts[i]);
         }
 
         function isAnsweredCorrectly(q) {
@@ -1207,25 +1309,82 @@ body.night-mode .filter-tag.all {
         function saveAllData() {
             localStorage.setItem('questionAttempts', JSON.stringify(questionAttempts));
             localStorage.setItem('questionCorrectStatus', JSON.stringify(questionCorrectStatus));
-            localStorage.setItem('questionFavs', JSON.stringify([...questionFavs]));
-            localStorage.setItem('questionLikes', JSON.stringify([...questionLikes]));
+            localStorage.setItem('filterTypes', JSON.stringify([...selectedTypes]));
+            localStorage.setItem('filterGrades', JSON.stringify([...selectedGrades]));
+            localStorage.setItem('filterUnits', JSON.stringify([...selectedUnits]));
+            localStorage.setItem('filterKnowledges', JSON.stringify([...selectedKnowledges]));
+            // localStorage.setItem('questionFavs', JSON.stringify([...questionFavs]));
+            // localStorage.setItem('questionLikes', JSON.stringify([...questionLikes]));
         }
 
         function loadAllData() {
             try {
                 questionAttempts = JSON.parse(localStorage.getItem('questionAttempts')) || {};
                 questionCorrectStatus = JSON.parse(localStorage.getItem('questionCorrectStatus')) || {};
-                questionFavs = new Set(JSON.parse(localStorage.getItem('questionFavs')) || []);
-                questionLikes = new Set(JSON.parse(localStorage.getItem('questionLikes')) || []);
+                selectedTypes = new Set(JSON.parse(localStorage.getItem('filterTypes')) || []);
+                selectedGrades = new Set(JSON.parse(localStorage.getItem('filterGrades')) || []);
+                selectedUnits = new Set(JSON.parse(localStorage.getItem('filterUnits')) || []);
+                selectedKnowledges = new Set(JSON.parse(localStorage.getItem('filterKnowledges')) || []);
+                // questionFavs = new Set(JSON.parse(localStorage.getItem('questionFavs')) || []);
+                // questionLikes = new Set(JSON.parse(localStorage.getItem('questionLikes')) || []);
             } catch (e) {}
             userAnswers = {};
+        }
+
+        function showToast(msg) {
+            let toast = document.createElement('div');
+            toast.className = 'mode-toast';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 1500);
+        }
+
+        // 备份正常模式下的筛选状态
+        let savedFilterState = null;
+
+        function selectAllFilters() {
+            getUniqueList('type').forEach(v => selectedTypes.add(v));
+            getUniqueList('grade').forEach(v => selectedGrades.add(v));
+            getUniqueList('unit').forEach(v => selectedUnits.add(v));
+            getUniqueList('knowledge_point').forEach(v => selectedKnowledges.add(v));
         }
 
         function toggleOnlyWrongMode() {
             isOnlyWrongMode = !isOnlyWrongMode;
             onlyWrongBtn.classList.toggle('active', isOnlyWrongMode);
             currentIndex = 0;
+            if (isOnlyWrongMode) {
+                // 进入错题本：备份当前筛选，全选所有筛选项
+                savedFilterState = {
+                    types: new Set([...selectedTypes]),
+                    grades: new Set([...selectedGrades]),
+                    units: new Set([...selectedUnits]),
+                    knowledges: new Set([...selectedKnowledges]),
+                };
+                selectedTypes.clear();
+                selectedGrades.clear();
+                selectedUnits.clear();
+                selectedKnowledges.clear();
+                selectAllFilters();
+            } else {
+                // 退出错题本：恢复之前备份的筛选状态
+                if (savedFilterState) {
+                    selectedTypes = savedFilterState.types;
+                    selectedGrades = savedFilterState.grades;
+                    selectedUnits = savedFilterState.units;
+                    selectedKnowledges = savedFilterState.knowledges;
+                    savedFilterState = null;
+                }
+            }
+            renderFilterTags();
             doFilter();
+            if (isOnlyWrongMode) {
+                showToast('错题本 · 共 ' + filteredQuestions.length + ' 题');
+            }
         }
 
         // 滑动切换
