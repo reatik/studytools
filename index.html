@@ -454,6 +454,9 @@
             <a href="#" class="feature-card tools-card" id="homeworkTrackerBtn">
                 <i class="fas fa-clipboard-list custom-icon"></i>
             </a>
+            <a href="#" class="feature-card tools-card" id="diancaiBtn">
+                <img src="images/点菜.png" class="custom-icon">
+            </a>
         </div>
     </section>
 </div>
@@ -540,6 +543,9 @@ if (performance.navigation.type === 1) {
     });
     document.getElementById('calligraphyGeneratorBtn')?.addEventListener('click',e=>{
         e.preventDefault();showCustomPrompt('字帖生成工具 · 输入密码',p=>p==='769'?location.href='zitie/index.html':alert('密码错误'));
+    });
+    document.getElementById('diancaiBtn')?.addEventListener('click',e=>{
+        e.preventDefault();showCustomPrompt('今日点菜 · 输入访问密码',p=>p==='1007'?location.href='game/diancai/index.html':alert('密码错误'));
     });
 
     document.querySelectorAll('.feature-card').forEach(card=>{

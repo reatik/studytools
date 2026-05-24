@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>今日点菜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #f5f0e8;
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 40px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 16px 20px 8px;
+            position: relative;
+        }
+        .header .title-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 2px;
+        }
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #3d2b1f;
+            letter-spacing: 2px;
+        }
+
+        .category-container {
+            display: flex;
+            gap: 12px;
+            padding: 0 20px;
+            max-width: 560px;
+            margin: 0 auto;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .category-card {
+            flex: 1;
+            min-width: 110px;
+            max-width: 140px;
+            aspect-ratio: 1 / 1;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .category-card:active { transform: scale(0.95); }
+        .category-card.meat { background: linear-gradient(135deg, #d4383d, #e8615c); color: white; }
+        .category-card.veggie { background: linear-gradient(135deg, #389e0d, #52c41a); color: white; }
+        .category-card.soup { background: linear-gradient(135deg, #1677ff, #40a9ff); color: white; }
+        .category-card .card-emoji { font-size: 2.2rem; margin-bottom: 2px; }
+        .category-card .card-label { font-size: 1rem; font-weight: 600; letter-spacing: 2px; }
+
+        .back-btn {
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: #3d2b1f;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        /* 已选区域 */
+        .selected-section {
+            max-width: 560px;
+            margin: 16px auto 0;
+            padding: 0 20px;
+        }
+        .selected-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .selected-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #3d2b1f;
+            letter-spacing: 1px;
+        }
+        .selected-count {
+            font-size: 0.85rem;
+            color: #8b7355;
+            font-weight: 500;
+        }
+        .selected-count .mcount { color: #d4383d; font-weight: 700; }
+        .selected-count .vcount { color: #389e0d; font-weight: 700; }
+        .selected-count .scount { color: #1677ff; font-weight: 700; }
+        .selected-empty {
+            text-align: center;
+            padding: 20px;
+            color: #b5a692;
+            font-size: 0.9rem;
+        }
+        .selected-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .selected-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 12px 7px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            animation: popIn 0.25s ease;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .selected-tag.meat { background: #fff0f0; color: #c0392b; }
+        .selected-tag.veggie { background: #f0faf0; color: #27ae60; }
+        .selected-tag.soup { background: #f0f7ff; color: #1677ff; }
+        .selected-tag .tag-del {
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.1);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: all 0.2s;
+        }
+        .selected-tag .tag-del:active { background: rgba(220,38,38,0.3); color: #e74c3c; }
+
+        /* 清空按钮 */
+        .clear-all-btn {
+            display: block;
+            margin: 12px auto 0;
+            padding: 6px 20px;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            background: #fff;
+            color: #999;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .clear-all-btn:active { border-color: #e74c3c; color: #e74c3c; }
+
+        /* 清除历史记录按钮 */
+        .clear-history-btn {
+            display: block;
+            margin: 8px auto 0;
+            padding: 6px 20px;
+            border: 1px solid #ff9800;
+            border-radius: 16px;
+            background: #fff8e1;
+            color: #f57c00;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .clear-history-btn:active { border-color: #e65100; color: #e65100; }
+
+        /* Modal */
+        .dish-modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0; visibility: hidden;
+            transition: all 0.25s ease;
+        }
+        .dish-modal.active { opacity: 1; visibility: visible; }
+        .dish-modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 420px;
+            max-height: 72vh;
+            overflow-y: auto;
+            padding: 20px 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+        }
+        .dish-modal.active .dish-modal-content { transform: scale(1) translateY(0); }
+        .dish-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .dish-modal-header h3 { font-size: 1.3rem; font-weight: 700; }
+        .dish-modal-header.meat h3 { color: #d4383d; }
+        .dish-modal-header.veggie h3 { color: #389e0d; }
+        .dish-modal-header.soup h3 { color: #1677ff; }
+        .dish-modal-close {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            font-size: 0.95rem; color: #666;
+        }
+        .dish-modal-close:active { background: #ddd; }
+        .dish-modal-tip {
+            text-align: center;
+            font-size: 0.78rem;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+        .dish-list { list-style: none; }
+        .dish-item {
+            display: flex;
+            align-items: center;
+            padding: 11px 14px;
+            border-radius: 12px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .dish-item:active { transform: scale(0.98); }
+        .dish-item .pick-add {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; color: transparent;
+            margin-left: 8px;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .dish-item.picked .pick-add {
+            background: #52c41a; border-color: #52c41a;
+            color: white; font-weight: bold;
+        }
+        .dish-item .dish-name { font-size: 1rem; font-weight: 600; flex: 1; }
+        .dish-item .dish-badges { display: flex; gap: 3px; font-size: 0.7rem; }
+        .dish-item .badge-eaten {
+            background: #ffe0b0; color: #b65c00;
+            padding: 2px 6px; border-radius: 8px;
+            font-weight: 600; white-space: nowrap;
+        }
+        .dish-item .badge-hot {
+            background: #ffe0e0; color: #d4383d;
+            padding: 2px 6px; border-radius: 8px;
+            font-weight: 600; white-space: nowrap;
+        }
+        /* 荤菜底色 */
+        .dish-item.meat:nth-child(8n+1) { background: #fff0f0; color: #c0392b; }
+        .dish-item.meat:nth-child(8n+2) { background: #fff5ee; color: #d35400; }
+        .dish-item.meat:nth-child(8n+3) { background: #fff8f0; color: #e67e22; }
+        .dish-item.meat:nth-child(8n+4) { background: #fef0f0; color: #c0392b; }
+        .dish-item.meat:nth-child(8n+5) { background: #fff3e6; color: #a0522d; }
+        .dish-item.meat:nth-child(8n+6) { background: #fde8e8; color: #e74c3c; }
+        .dish-item.meat:nth-child(8n+7) { background: #fef5f0; color: #c44536; }
+        .dish-item.meat:nth-child(8n+8) { background: #fff0e8; color: #b64925; }
+        /* 素菜底色 */
+        .dish-item.veggie:nth-child(8n+1) { background: #f0faf0; color: #27ae60; }
+        .dish-item.veggie:nth-child(8n+2) { background: #f4fdf4; color: #2d8b4e; }
+        .dish-item.veggie:nth-child(8n+3) { background: #eef9ee; color: #389e0d; }
+        .dish-item.veggie:nth-child(8n+4) { background: #f2fbf2; color: #1e7a3c; }
+        .dish-item.veggie:nth-child(8n+5) { background: #edf8ed; color: #3cb043; }
+        .dish-item.veggie:nth-child(8n+6) { background: #f0f7f0; color: #228b22; }
+        .dish-item.veggie:nth-child(8n+7) { background: #f5fcf5; color: #2e7d32; }
+        .dish-item.veggie:nth-child(8n+8) { background: #ebf7eb; color: #4caf50; }
+        /* 汤品底色 */
+        .dish-item.soup:nth-child(8n+1) { background: #f0f7ff; color: #1677ff; }
+        .dish-item.soup:nth-child(8n+2) { background: #f5f9ff; color: #2962ff; }
+        .dish-item.soup:nth-child(8n+3) { background: #edf4ff; color: #0052cc; }
+        .dish-item.soup:nth-child(8n+4) { background: #f2f8ff; color: #194b9d; }
+        .dish-item.soup:nth-child(8n+5) { background: #eaf2ff; color: #2659b8; }
+        .dish-item.soup:nth-child(8n+6) { background: #f0f5ff; color: #0e42b2; }
+        .dish-item.soup:nth-child(8n+7) { background: #f6faff; color: #3066be; }
+        .dish-item.soup:nth-child(8n+8) { background: #e8f0ff; color: #1554d1; }
+
+        /* 确认按钮 */
+        .confirm-btn {
+            display: block;
+            margin: 16px auto 0;
+            padding: 10px 40px;
+            border: none;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #1890ff, #096dd9);
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(24,144,255,0.35);
+            transition: all 0.2s;
+            letter-spacing: 2px;
+        }
+        .confirm-btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(24,144,255,0.25); }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <img src="../../images/点菜.png" class="title-icon" alt="点菜">
+    <h1>今日点菜</h1>
+</div>
+
+<div class="category-container">
+    <div class="category-card meat" onclick="pickFrom('meat')">
+        <div class="card-emoji">🥩</div>
+        <div class="card-label">荤 菜</div>
+    </div>
+    <div class="category-card veggie" onclick="pickFrom('veggie')">
+        <div class="card-emoji">🥬</div>
+        <div class="card-label">素 菜</div>
+    </div>
+    <div class="category-card soup" onclick="pickFrom('soup')">
+        <div class="card-emoji">🍲</div>
+        <div class="card-label">汤 品</div>
+    </div>
+</div>
+
+<!-- 已选菜品 -->
+<div class="selected-section" id="selectedSection">
+    <div class="selected-header">
+        <h2>📋 已选菜品</h2>
+        <span class="selected-count" id="selectedCount"><span class="mcount">0</span>荤 <span class="vcount">0</span>素 <span class="scount">0</span>汤</span>
+    </div>
+    <div class="selected-empty" id="selectedEmpty">点击上方开始选菜吧～</div>
+    <ul class="selected-list" id="selectedList"></ul>
+    <button class="clear-all-btn" id="clearAllBtn" style="display:none" onclick="clearAll()">清空已选</button>
+    <button class="clear-history-btn" onclick="clearHistory()">清空所有点菜记录</button>
+    <button class="confirm-btn" id="confirmBtn" style="display:none" onclick="confirmSelection()">✓ 确认今日菜单</button>
+</div>
+
+<!-- 选菜弹窗 -->
+<div class="dish-modal" id="dishModal">
+    <div class="dish-modal-content">
+        <div class="dish-modal-header" id="dishModalHeader">
+            <h3 id="dishModalTitle"></h3>
+            <div class="dish-modal-close" onclick="closeDishModal()">✕</div>
+        </div>
+        <p class="dish-modal-tip">点击菜品加入已选列表</p>
+        <ul class="dish-list" id="dishList"></ul>
+    </div>
+</div>
+
+<a href="../../index.html" class="back-btn" title="返回首页">←</a>
+
+<script>
+// 默认菜品 新增汤品列表
+const defaultDishes = {
+    meat: [
+        '糖醋小排', '红烧肉', '葱烤大排', '肉饼炖蛋', '腌笃鲜',
+        '清蒸鲈鱼', '油焖大虾', '手撕鸡', '红烧鸡翅膀', '本帮香肠',
+        '夫妻肺片', '鸭脖子', '豆干炒肉丝', '八宝辣酱', '毛蟹年糕',
+        '白斩鸡', '酱鸭', '红烧狮子头', '糟溜鱼片', '椒盐排条',
+        '草头圈子', '水晶虾仁', '走油蹄髈', '红烧划水', '蟹粉豆腐',
+        '油爆虾', '干煎带鱼', '糟鸡', '红烧鳝筒', '葱油鸡',
+        '盐水鸭', '扣三丝', '葱油海蜇', '鳗鲞', '糖醋带鱼',
+        '百叶包', '红烧肉圆', '鳝丝', '三黄鸡', '蚂蚁上树',
+        '白菜肉丝', '牛蛙', '蟹黄蛋',
+    ],
+    veggie: [
+        '四喜烤麸', '酒香草头', '马兰头拌香干', '清炒芹菜', '炒青菜',
+        '绿豆芽炒韭菜', '冬瓜', '炒酱', '油焖笋', '葱油芋艿',
+        '雪菜毛豆', '糖醋藕片', '荠菜豆腐', '香菇菜心', '上海素火腿',
+        '丝瓜毛豆', '百叶结', '葱油拌面', '油面筋塞肉', '白灼芥蓝',
+        '生煸豆苗', '清炒豆苗', '炒双菇', '素鸡', '香拌木耳',
+        '凉拌黄瓜', '蒜泥空心菜', '土豆丝', '炒卷心菜', '番茄炒蛋',
+        '茄子', '凉拌茄子', '炝炒土豆片', '蚝油生菜', '上汤娃娃菜',
+    ],
+    soup: [
+        '冬瓜排骨汤', '番茄蛋汤', '紫菜蛋花汤', '老鸭汤', '鸡汤',
+        '菌菇汤', '豆腐汤', '萝卜排骨汤', '鱼头汤', '酸辣汤',
+        '丝瓜汤', '青菜豆腐汤', '莲藕排骨汤', '海参羹', '雪菜黄鱼汤'
+    ]
+};
+
+function loadDishes() {
+    const saved = localStorage.getItem('diancai_dishes');
+    if (saved) { try { return JSON.parse(saved); } catch(e) {} }
+    return JSON.parse(JSON.stringify(defaultDishes));
+}
+function saveDishes(obj) { localStorage.setItem('diancai_dishes', JSON.stringify(obj)); }
+
+let dishes = loadDishes();
+
+// 已选新增汤品类
+let selected = { meat: [], veggie: [], soup: [] };
+
+function saveSelected() { localStorage.setItem('diancai_selected', JSON.stringify(selected)); }
+function loadSelected() {
+    const s = localStorage.getItem('diancai_selected');
+    if (s) { try { selected = JSON.parse(s); } catch(e) { selected = {meat:[],veggie:[],soup:[]}; } }
+}
+loadSelected();
+
+// 点菜历史记录
+let history = {};
+function loadHistory() {
+    const h = localStorage.getItem('diancai_history');
+    if (h) { try { history = JSON.parse(h); } catch(e) { history = {}; } }
+}
+function saveHistory() { localStorage.setItem('diancai_history', JSON.stringify(history)); }
+loadHistory();
+
+let currentType = 'meat';
+
+// ======== 已选列表渲染 ========
+function renderSelected() {
+    const all = [
+        ...selected.meat.map(n=>({name:n,type:'meat'})),
+        ...selected.veggie.map(n=>({name:n,type:'veggie'})),
+        ...selected.soup.map(n=>({name:n,type:'soup'}))
+    ];
+    const listEl = document.getElementById('selectedList');
+    const emptyEl = document.getElementById('selectedEmpty');
+    const clearBtn = document.getElementById('clearAllBtn');
+    const countEl = document.getElementById('selectedCount');
+
+    countEl.innerHTML = `<span class="mcount">${selected.meat.length}</span>荤 <span class="vcount">${selected.veggie.length}</span>素 <span class="scount">${selected.soup.length}</span>汤`;
+
+    if (all.length === 0) {
+        emptyEl.style.display = 'block';
+        listEl.innerHTML = '';
+        clearBtn.style.display = 'none';
+        document.getElementById('confirmBtn').style.display = 'none';
+        return;
+    }
+    emptyEl.style.display = 'none';
+    clearBtn.style.display = 'block';
+    document.getElementById('confirmBtn').style.display = 'block';
+
+    listEl.innerHTML = all.map((item, i) => `
+        <li class="selected-tag ${item.type}">
+            ${item.name}
+            <span class="tag-del" onclick="removeSelected('${item.type}','${item.name.replace(/'/g, "\\'")}')">×</span>
+        </li>
+    `).join('');
+}
+
+function removeSelected(type, name) {
+    const idx = selected[type].indexOf(name);
+    if (idx >= 0) selected[type].splice(idx, 1);
+    saveSelected();
+    renderSelected();
+}
+
+function clearAll() {
+    selected = { meat: [], veggie: [], soup: [] };
+    saveSelected();
+    renderSelected();
+}
+
+// 清空所有点菜历史记录
+function clearHistory() {
+    if(!confirm('⚠️ 确定要清空所有点菜历史吗？\n吃过/常点标签会全部消失！')) return;
+    history = {};
+    saveHistory();
+    renderModalList();
+}
+
+// ======== 弹窗渲染 ========
+function renderModalList() {
+    const data = dishes[currentType];
+    const titles = { meat: '荤菜', veggie: '素菜', soup: '汤品' };
+    const header = document.getElementById('dishModalHeader');
+    header.className = `dish-modal-header ${currentType}`;
+    document.getElementById('dishModalTitle').textContent = titles[currentType];
+
+    const pickedSet = new Set(selected[currentType]);
+    const listEl = document.getElementById('dishList');
+
+    const sorted = [...data].sort((a, b) => {
+        const ca = getOrderCount(a);
+        const cb = getOrderCount(b);
+        if (ca !== cb) return cb - ca;
+        return a.localeCompare(b, 'zh');
+    });
+
+    listEl.innerHTML = sorted.map((name, i) => {
+        const freq = isFrequent(name);
+        const eatenDate = getEatenDate(name);
+        let badges = '';
+        if (freq) badges += '<span class="badge-hot">🔥常点</span>';
+        if (eatenDate) badges += `<span class="badge-eaten">📌${eatenDate}吃过</span>`;
+        return `
+        <li class="dish-item ${currentType} ${pickedSet.has(name) ? 'picked' : ''}" onclick="togglePick('${name.replace(/'/g, "\\'")}')">
+            <span class="dish-name">${name}</span>
+            <span class="dish-badges">${badges}</span>
+            <span class="pick-add">✓</span>
+        </li>
+        `;
+    }).join('');
+
+    document.getElementById('dishModal').classList.add('active');
+}
+
+function getEatenDate(name) {
+    if (!history[name]) return null;
+    const now = new Date();
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const recentDates = history[name].dates.filter(d => new Date(d) >= weekAgo);
+    if (recentDates.length === 0) return null;
+    const latest = recentDates[recentDates.length - 1];
+    const today = new Date().toISOString().slice(0,10);
+    if (latest === today) return '今天';
+    const yesterday = new Date(now.getTime() - 86400000).toISOString().slice(0,10);
+    if (latest === yesterday) return '昨天';
+    const d = new Date(latest);
+    return `${d.getMonth()+1}/${d.getDate()}`;
+}
+
+function isFrequent(name) {
+    return history[name] && history[name].count >= 3;
+}
+
+function getOrderCount(name) {
+    return history[name] ? history[name].count : 0;
+}
+
+function pickFrom(type) {
+    currentType = type;
+    renderModalList();
+}
+
+function togglePick(name) {
+    const arr = selected[currentType];
+    const idx = arr.indexOf(name);
+    if (idx >= 0) {
+        arr.splice(idx, 1);
+    } else {
+        arr.push(name);
+    }
+    saveSelected();
+    renderSelected();
+    renderModalList();
+}
+
+function closeDishModal() {
+    document.getElementById('dishModal').classList.remove('active');
+}
+
+document.getElementById('dishModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDishModal();
+});
+
+// ======== 确认菜单 去掉弹窗，按钮文字切换 ========
+function confirmSelection() {
+    const allDishes = [...selected.meat, ...selected.veggie, ...selected.soup];
+    if (allDishes.length === 0) return;
+    
+    const today = new Date().toISOString().slice(0, 10);
+    allDishes.forEach(name => {
+        if (!history[name]) {
+            history[name] = { count: 0, dates: [] };
+        }
+        history[name].count++;
+        if (!history[name].dates.includes(today)) {
+            history[name].dates.push(today);
+        }
+    });
+    
+    saveHistory();
+    renderModalList();
+    closeDishModal();
+
+    // 按钮文字切换，无弹窗提示
+    const btn = document.getElementById('confirmBtn');
+    const originText = btn.textContent;
+    btn.textContent = '点菜成功';
+    setTimeout(()=>{
+        btn.textContent = originText;
+    },1200);
+
+    clearAll();
+}
+
+// 初始渲染
+renderSelected();
+</script>
+</body>
+</html>

@@ -430,6 +430,24 @@
             }
         }
 
+        function getDailySerial() {
+            const today = new Date().toDateString();
+            const key = 'didengshi_daily_serial';
+            try {
+                const data = JSON.parse(localStorage.getItem(key)) || {};
+                if (data.date !== today) {
+                    data.date = today;
+                    data.serial = 1;
+                }
+                const sn = data.serial;
+                data.serial = sn + 1;
+                localStorage.setItem(key, JSON.stringify(data));
+                return sn;
+            } catch(e) {
+                return 1;
+            }
+        }
+
         function saveLastPaper() {
             if (!currentPaperData) return;
             const toSave = { ...currentPaperData };
@@ -497,6 +515,7 @@
             return {
                 id: Date.now(),
                 grade: grade,
+                serial: getDailySerial(),
                 date: dateStr,
                 time: timeStr,
                 count: selected.length,
@@ -536,7 +555,7 @@
                     <div class="paper${isPageBreak ? ' page-break' : ''}" data-page="${pageIdx}">
                         ${pageIdx === 0 ? `
                         <div class="paper-top">
-                            <div class="paper-title">${paperData.grade}递等式计算练习</div>
+                            <div class="paper-title">${paperData.grade}递等式计算练习${paperData.serial ? '（' + paperData.serial + '）' : ''}</div>
                             <div class="paper-meta">
                                 <span>班级：<span class="blank"></span></span>
                                 <span>姓名：<span class="blank"></span></span>
@@ -732,7 +751,7 @@
                             <div class="h-item" id="hitem-${h.id}">
                                 <div class="h-item-header" onclick="event.stopPropagation();loadToMain(${h.id})" style="cursor:pointer;">
                                     <div>
-                                        <strong>📄 ${h.date} ${h.time}</strong>
+                                        <strong>📄 ${h.date} ${h.time}${h.serial ? '（' + h.serial + '）' : ''}</strong>
                                         <span style="color:#888;margin-left:6px;">${h.grade} · ${h.count} 题</span>
                                     </div>
                                     <button class="btn btn-outline btn-sm" onclick="deleteHistoryItem(event, ${h.id})" style="color:#e53e3e;" title="删除">×</button>
