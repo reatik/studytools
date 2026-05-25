@@ -64,31 +64,163 @@ body {
     gap: 10px;
 }
 
-.back-btn {
+/* 右上角错题按钮 */
+.top-right-option {
     position: fixed;
-    top: 10px;
-    left: 20px; /* 和题目板左侧对齐，和body的padding:20px一致 */
-    width: 32px;       /* 按钮整体缩小：从40px改成32px */
-    height: 32px;      /* 按钮整体缩小：从40px改成32px */
-    border-radius: 6px; /* 圆角也跟着缩小，更协调 */
-    background: #fff;
-    border: 2px solid var(--border);
-    cursor: pointer;
+    top: 12px;
+    right: 12px;
     z-index: 999;
-    padding: 0;
+    display: flex;
+    gap: 8px;
+}
+.top-wrong-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(90,159,212,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+}
+.top-wrong-btn img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+.top-wrong-btn.active {
+    background: var(--primary);
+    border-color: #4a8fc2;
+}
+.top-wrong-btn.active img {
+    filter: brightness(0) invert(1);
+}
+.top-wrong-btn:hover {
+    border-color: var(--primary);
 }
 
-.back-btn img {
-    width: 18px;       /* 图标缩小：从24px改成18px */
-    height: 18px;
+/* 选项菜单按钮 */
+.option-menu-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(90,159,212,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+}
+.option-menu-btn.active {
+    background: var(--primary);
+    border-color: #4a8fc2;
+}
+.option-menu-btn.active img {
+    filter: brightness(0) invert(1);
+}
+.option-menu-btn img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+/* 筛选面板 */
+.filter-panel {
+    position: fixed;
+    top: 60px;
+    right: 12px;
+    width: 220px;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(16px);
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(90,150,200,0.25);
+    border: 1px solid rgba(90,159,212,0.15);
+    padding: 12px 14px;
+    z-index: 998;
+    display: none;
+}
+.filter-panel.show {
     display: block;
 }
-
-.back-btn:hover {
+.filter-group {
+    margin-bottom: 12px;
+}
+.filter-group:last-child {
+    margin-bottom: 0;
+}
+.filter-title {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.filter-tag {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
     background: #f0f6fa;
+    color: #3a6ea5;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+.filter-tag.active {
+    background: var(--primary);
+    color: #fff;
+}
+.filter-tag.all {
+    background: #f1f1f1;
+    color: #666;
+}
+
+/* 卡片内错题按钮 */
+.card-wrong-btn {
+    width: 25px;
+    height: 25px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid #e0e0e0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+.card-wrong-btn img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+.card-wrong-btn.active {
+    background: var(--primary);
+    border-color: #4a8fc2;
+}
+.card-wrong-btn.active img {
+    filter: brightness(0) invert(1);
+}
+.card-wrong-btn:hover {
+    border-color: var(--primary);
+}
+
+/* 未答计数 */
+#unansweredProgress {
+    color: #ac7c39;
+}
+.unanswered-count {
+    color: #ac7c39;
 }
 
 .control-group {
@@ -228,7 +360,7 @@ body {
     height: 30px;
     line-height: 30px;
     color: var(--primary);
-    background: linear-gradient(135deg, #f8fafc 0%, #e8f0f8 100%);
+    background: transparent; /* 去掉背景色 */
     padding: 0 0 0 8px;
     border-radius: 8px 0 0 8px;
     border: none;
@@ -237,14 +369,13 @@ body {
     display: inline-flex;
     align-items: center;
 }
-
 .question-id-input {
     font-size: 14px;
     font-weight: bold;
     height: 30px;
     line-height: 30px;
     color: var(--primary);
-    background: linear-gradient(135deg, #f8fafc 0%, #e8f0f8 100%);
+    background: transparent; /* 去掉背景色 */
     padding: 0 4px;
     border-radius: 0 8px 8px 0;
     border: none;
@@ -273,26 +404,7 @@ body {
     display: none; /* 隐藏旧标签 */
 }
 
-.tag {
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
 
-.tag-wrong {
-    background: #fff0f0;
-    color: var(--wrong);
-    border: 1px solid var(--wrong);
-}
-
-.tag-count {
-    background: #f0f0f8;
-    color: #666;
-    border: 1px solid #ddd;
-}
 
 .question-area {
 
@@ -454,8 +566,8 @@ body {
     color: #fff;
 }
 .fill-submit-btn.wrong {
-    background: #e58989;
-    border-color: #e58989;
+    background: #ac7c39;
+    border-color: #ac7c39;
     color: #fff;
 }
 .fill-submit-btn:disabled {
@@ -698,61 +810,39 @@ body {
 <h1 class="home-title">时态练习</h1>
 
 <div class="container" id="practicePanel">
-    <div class="top-bar">
-        <button onclick="goHome()" class="back-btn">
-            <img src="../../../images/fanhuiblack.png" alt="返回">
-        </button>
-        <div class="control-group">
-            <div class="type-selector">
-                <div class="type-dropdown" id="typeDropdown">
-                    <button type="button" class="dropdown-btn" onclick="toggleTypeDropdown()">
-                        <span class="selected-text" id="selectedTypeName">题型</span>
-                        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M6 9l6 6 6-6"/>
-                        </svg>
-                    </button>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-item selected" data-value="fill" onclick="toggleType('fill')">
-                            <span class="item-text">适当形式填空</span>
-                        </div>
-                        <div class="dropdown-item selected" data-value="choice" onclick="toggleType('choice')">
-                            <span class="item-text">选择题</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- 右上角按钮 -->
+    <div class="top-right-option">
+        <div class="top-wrong-btn" id="topWrongBtn" title="只练错题">
+            <img src="../../../images/错题1.png" alt="错题">
+        </div>
+        <div class="option-menu-btn" id="optionMenuBtn" title="筛选选项">
+            <img src="../../../images/选项.png" alt="选项">
+        </div>
+        <div class="filter-panel" id="filter-panel">
+            <div class="filter-group">
+                <div class="filter-title">题型</div>
+                <div class="filter-tags" id="type-tags"></div>
             </div>
-            <div class="tense-selector">
-                <div class="tense-dropdown" id="tenseDropdown">
-                    <button type="button" class="dropdown-btn" onclick="toggleTenseDropdown()">
-                        <span class="selected-text" id="selectedTenseName">时态</span>
-                        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M6 9l6 6 6-6"/>
-                        </svg>
-                    </button>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-item selected" data-value="一般现在时" onclick="toggleTense('一般现在时')">
-                            <span class="item-text">一般现在时</span>
-                        </div>
-                        <div class="dropdown-item selected" data-value="现在进行时" onclick="toggleTense('现在进行时')">
-                            <span class="item-text">现在进行时</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="filter-group">
+                <div class="filter-title">时态</div>
+                <div class="filter-tags" id="tense-tags"></div>
             </div>
-            <button id="orderSwitchBtn" style="padding:0 10px;border:2px solid var(--border);border-radius:10px;background:linear-gradient(135deg, #f8fafc 0%, #e8f0f8 100%);color:var(--text);font-size:12px;cursor:pointer;height:40px;flex-shrink:0;white-space:nowrap;" onclick="toggleOrderMode()">随机</button>
         </div>
     </div>
 
     <div class="card">
         <div class="card-header">
-            <div style="display: flex; align-items: center; gap: 0;">
+            <div style="display: flex; align-items: center; gap: 4px;">
                 <span class="question-index" id="questionLabel">第1题 · ID</span>
-                <input type="number" id="questionId" class="question-id-input" onblur="jumpToId()" onkeypress="if(event.key==='Enter')this.blur()">
-                <span class="tag tag-wrong" id="wrongTag" style="display: none; margin-left: 6px;">错题</span>
+                <input type="number" id="questionId" class="question-id-input">
             </div>
-            <div style="display: flex; gap: 4px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
                 <span class="card-progress" id="cardProgress">正确 0</span>
                 <span class="card-progress" id="errorProgress" style="color: #e58989;">错误 0</span>
+                <span class="card-progress" id="unansweredProgress">未答 0</span>
+                <div class="card-wrong-btn" id="cardWrongBtn" title="加入错题本">
+                    <img src="../../../images/错题2.png" alt="错">
+                </div>
             </div>
         </div>
         <div class="question-area">
@@ -794,10 +884,13 @@ let questionPool = [];
 let answers = [];
 let correctCount = 0;
 let errorCount = 0;
+let unansweredCount = 0;
 let currentIndex = 0;
 let currentAnswer = null;
 let currentMeaning = '';
-let isRandomMode = true;
+let wrongQids = new Set();      // 错题 ID 集合
+let isOnlyWrongMode = false;    // 只看错题模式
+let hasUnansweredInRound = {};  // 记录本轮每题是否跳过未答
 
 // 从localStorage恢复选择
 function loadSelections() {
@@ -808,103 +901,106 @@ function loadSelections() {
     if (savedTenses) selectedTenses = JSON.parse(savedTenses);
 }
 
-// 初始化时更新下拉菜单UI
-function initDropdownUI() {
-    document.querySelectorAll('#typeDropdown .dropdown-item').forEach(item => {
-        item.classList.toggle('selected', selectedTypes.includes(item.dataset.value));
-    });
-    document.querySelectorAll('#tenseDropdown .dropdown-item').forEach(item => {
-        item.classList.toggle('selected', selectedTenses.includes(item.dataset.value));
-    });
-    updateTypeName();
-    updateTenseName();
+// 错题数据持久化
+function loadWrongData() {
+    try {
+        const saved = localStorage.getItem('shitai_wrong_qids');
+        if (saved) wrongQids = new Set(JSON.parse(saved));
+        const savedMode = localStorage.getItem('shitai_only_wrong');
+        if (savedMode) isOnlyWrongMode = JSON.parse(savedMode);
+    } catch(e) {}
+}
+
+function saveWrongData() {
+    localStorage.setItem('shitai_wrong_qids', JSON.stringify([...wrongQids]));
+    localStorage.setItem('shitai_only_wrong', JSON.stringify(isOnlyWrongMode));
+}
+
+function addWrongQid(qid) {
+    wrongQids.add(qid);
+    saveWrongData();
+}
+
+function removeWrongQid(qid) {
+    wrongQids.delete(qid);
+    saveWrongData();
 }
 
 loadSelections();
 
-function toggleTypeDropdown() {
-    const dropdown = document.getElementById('typeDropdown');
-    dropdown.classList.toggle('open');
-    document.getElementById('tenseDropdown').classList.remove('open');
+// 筛选面板
+let selectedTypeSet = new Set(selectedTypes);
+let selectedTenseSet = new Set(selectedTenses);
+
+const typeList = ['fill', 'choice'];
+const typeNames = { 'fill': '填空', 'choice': '选择' };
+const tenseList = ['一般现在时', '现在进行时'];
+const tenseNames = { '一般现在时': '一般现在时', '现在进行时': '进行时' };
+
+function renderFilterTags() {
+    renderTagGroup('type-tags', typeList, typeNames, selectedTypeSet);
+    renderTagGroup('tense-tags', tenseList, tenseNames, selectedTenseSet);
 }
 
-function toggleTenseDropdown() {
-    const dropdown = document.getElementById('tenseDropdown');
-    dropdown.classList.toggle('open');
-    document.getElementById('typeDropdown').classList.remove('open');
-}
+function renderTagGroup(containerId, list, nameMap, selectedSet) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
 
-function toggleType(type) {
-    const idx = selectedTypes.indexOf(type);
-    if (idx > -1) {
-        selectedTypes.splice(idx, 1);
-    } else {
-        selectedTypes.push(type);
-    }
-    
-    document.querySelectorAll('#typeDropdown .dropdown-item').forEach(item => {
-        item.classList.toggle('selected', selectedTypes.includes(item.dataset.value));
+    const allTag = document.createElement('div');
+    allTag.className = 'filter-tag all';
+    allTag.textContent = '全部';
+    allTag.onclick = () => {
+        if (selectedSet.size >= list.length) {
+            selectedSet.clear();
+        } else {
+            list.forEach(item => selectedSet.add(item));
+        }
+        syncSelections();
+        renderFilterTags();
+        if (selectedSet.size > 0) resetQuestions();
+    };
+    container.appendChild(allTag);
+
+    list.forEach(item => {
+        const tag = document.createElement('div');
+        tag.className = 'filter-tag';
+        if (selectedSet.has(item)) tag.classList.add('active');
+        tag.textContent = nameMap[item] || item;
+        tag.onclick = () => {
+            if (selectedSet.has(item)) selectedSet.delete(item);
+            else selectedSet.add(item);
+            syncSelections();
+            renderFilterTags();
+            if (selectedSet.size > 0) resetQuestions();
+        };
+        container.appendChild(tag);
     });
-    
-    updateTypeName();
+}
+
+function syncSelections() {
+    selectedTypes = [...selectedTypeSet];
+    selectedTenses = [...selectedTenseSet];
     localStorage.setItem('shitai_types', JSON.stringify(selectedTypes));
-    
-    if (selectedTypes.length > 0) {
-        resetQuestions();
-    }
-}
-
-function updateTypeName() {
-    const names = { 'fill': '填空', 'choice': '选择' };
-    let text = selectedTypes.map(t => names[t]).join('+');
-    if (selectedTypes.length === 0) {
-        text = '请选择题型';
-    } else if (selectedTypes.length === 2) {
-        text = '全部题型';
-    }
-    document.getElementById('selectedTypeName').innerText = text;
-}
-
-function toggleTense(tense) {
-    const idx = selectedTenses.indexOf(tense);
-    if (idx > -1) {
-        selectedTenses.splice(idx, 1);
-    } else {
-        selectedTenses.push(tense);
-    }
-    
-    document.querySelectorAll('#tenseDropdown .dropdown-item').forEach(item => {
-        item.classList.toggle('selected', selectedTenses.includes(item.dataset.value));
-    });
-    
-    updateTenseName();
     localStorage.setItem('shitai_tenses', JSON.stringify(selectedTenses));
-    
-    if (selectedTenses.length > 0) {
-        resetQuestions();
-    }
 }
 
-function updateTenseName() {
-    const names = { '一般现在时': '一般现在时', '现在进行时': '进行时' };
-    let text = selectedTenses.map(t => names[t]).join('+');
-    if (selectedTenses.length === 0) {
-        text = '请选择时态';
-    } else if (selectedTenses.length === 2) {
-        text = '全部时态';
-    }
-    document.getElementById('selectedTenseName').innerText = text;
-}
+// 筛选面板开关
+const optionMenuBtn = document.getElementById('optionMenuBtn');
+const filterPanel = document.getElementById('filter-panel');
 
-// 点击外部关闭下拉菜单
-document.addEventListener('click', function(e) {
-    if (!document.getElementById('typeDropdown').contains(e.target)) {
-        document.getElementById('typeDropdown').classList.remove('open');
-    }
-    if (!document.getElementById('tenseDropdown').contains(e.target)) {
-        document.getElementById('tenseDropdown').classList.remove('open');
+optionMenuBtn.onclick = (e) => {
+    e.stopPropagation();
+    let shown = filterPanel.classList.toggle('show');
+    optionMenuBtn.classList.toggle('active', shown);
+};
+
+document.addEventListener('click', () => {
+    if (filterPanel.classList.contains('show')) {
+        filterPanel.classList.remove('show');
+        optionMenuBtn.classList.remove('active');
     }
 });
+filterPanel.onclick = (e) => e.stopPropagation();
 
 function toggleMeaning() {
     const content = document.getElementById('meaningContent');
@@ -925,10 +1021,16 @@ function resetQuestions() {
     let filterList = [...sentenceBank].filter(q => 
     selectedTypes.includes(q.type) && selectedTenses.includes(q.difficulty)
 );
-questionPool = isRandomMode ? shuffle(filterList) : filterList;
+    // 错题模式过滤
+    if (isOnlyWrongMode) {
+        filterList = filterList.filter(q => wrongQids.has(q.id));
+    }
+questionPool = filterList;
     answers = [];
     correctCount = 0;
     errorCount = 0;
+    unansweredCount = 0;
+    hasUnansweredInRound = {};
     currentIndex = 0;
     updateProgress();
     showQuestion(0);
@@ -948,18 +1050,6 @@ function showQuestion(index) {
     // 显示序号
     document.getElementById("questionLabel").innerText = `第${index + 1}题 · ID`;
     document.getElementById("questionId").value = q.id;
-    
-// 显示标签（清空旧标签）
-const tagsEl = document.getElementById("questionTags");
-tagsEl.innerHTML = '';
-
-// 显示红色【错题】标签（仅答错显示）
-const wrongTag = document.getElementById("wrongTag");
-if (wasAnswered && !answers[index].correct) {
-    wrongTag.style.display = "inline-flex";
-} else {
-    wrongTag.style.display = "none";
-}
 
     const questionText = document.getElementById("questionText");
     const submitBtn = document.getElementById("fillSubmitBtn");
@@ -1002,7 +1092,7 @@ if (wasAnswered && !answers[index].correct) {
             });
 
             submitBtn.disabled = true;
-            if (isCorrect) {
+            if (answers[index].correct) {
                 submitBtn.innerText = "✓ 正确";
                 submitBtn.classList.add("correct");
                 if(resultText) resultText.innerText = "";
@@ -1080,6 +1170,7 @@ if (wasAnswered && !answers[index].correct) {
     }
     hideMeaning();
 
+    updateCardWrongBtn(q.id);
     updateNavButtons();
 }
 
@@ -1094,6 +1185,13 @@ function submitFillAnswer() {
     inputList.forEach(inp => {
         userAnswers.push(inp.value.trim());
     });
+
+    // 检测是否全部未填（直接点提交）
+    let allEmpty = userAnswers.every(v => !v);
+    if (allEmpty && !hasUnansweredInRound[q.id]) {
+        unansweredCount++;
+        hasUnansweredInRound[q.id] = true;
+    }
 
     let rightAnswers = q.answer.split(';').map(item => item.trim());
 
@@ -1126,14 +1224,21 @@ function submitFillAnswer() {
         correctCount++;
         resultText.innerText = q.answer;
         resultText.style.color = "var(--correct)";
+    } else if (allEmpty) {
+        submitBtn.innerText = "未作答";
+        submitBtn.classList.add("wrong");
+        resultText.innerText = q.answer;
+        resultText.style.color = "#888";
     } else {
         submitBtn.innerText = "✗ 错误";
         submitBtn.classList.add("wrong");
         errorCount++;
+        addWrongQid(q.id); // 答错自动加入错题
         resultText.innerText = q.answer;
         resultText.style.color = "var(--wrong)";
     }
     updateProgress(true);
+    updateCardWrongBtn(q.id);
 
     if (q.explanation) {
         hintEl.innerHTML = `<div class="explanation">${q.explanation}</div>`;
@@ -1175,8 +1280,10 @@ function selectOption(el, q) {
         correctCount++;
     } else {
         errorCount++;
+        addWrongQid(q.id); // 答错自动加入错题
     }
     updateProgress(true);
+    updateCardWrongBtn(q.id);
     updateNavButtons();
     document.getElementById("fillSubmitBtn").classList.add('hide');
 }
@@ -1188,13 +1295,55 @@ function updateNavButtons() {
 }
 
 function updateProgress(animate) {
-    const el = document.getElementById("cardProgress");
-    el.innerText = `正确 ${correctCount}`;
-    document.getElementById("errorProgress").innerText = `错误 ${errorCount}`;
+    const correctEl = document.getElementById("cardProgress");
+    const errorEl = document.getElementById("errorProgress");
+    const unansweredEl = document.getElementById("unansweredProgress");
+
+    correctEl.innerText = `正确 ${correctCount}`;
+    errorEl.innerText = `错误 ${errorCount}`;
+    unansweredEl.innerText = `未答 ${unansweredCount}`;
+
     if (animate) {
-        el.classList.remove("pop");
-        void el.offsetWidth;
-        el.classList.add("pop");
+        // 先清空所有动画
+        correctEl.classList.remove("pop");
+        errorEl.classList.remove("pop");
+        unansweredEl.classList.remove("pop");
+        void correctEl.offsetWidth;
+
+        // 👇 关键修改：只有未答时，才播放动画
+        if (unansweredCount > 0) {
+            unansweredEl.classList.add("pop");
+        }
+        // 正确和错误都不做动画
+    }
+}
+// 更新卡片内错题按钮状态
+function updateCardWrongBtn(qid) {
+    const btn = document.getElementById("cardWrongBtn");
+    const img = btn.querySelector("img");
+    if (wrongQids.has(qid)) {
+        btn.classList.add("active");
+        img.src = "../../../images/错题1.png";
+        btn.title = "从错题本移除";
+    } else {
+        btn.classList.remove("active");
+        img.src = "../../../images/错题2.png";
+        btn.title = "加入错题本";
+    }
+}
+
+// 切换错题模式
+function toggleOnlyWrongMode() {
+    const topBtn = document.getElementById("topWrongBtn");
+    isOnlyWrongMode = !isOnlyWrongMode;
+    topBtn.classList.toggle("active", isOnlyWrongMode);
+    saveWrongData();
+    resetQuestions();
+    // 错题模式且没有错题时的提示
+    if (isOnlyWrongMode && questionPool.length === 0) {
+        document.getElementById("questionText").innerText = "错题本暂无题目";
+        document.getElementById("options").innerHTML = "";
+        document.getElementById("fillArea").classList.add("hidden");
     }
 }
 
@@ -1240,7 +1389,15 @@ fetch('sentences.json')
             console.error('题库数据为空');
             return;
         }
-        initDropdownUI();
+        loadWrongData();
+        selectedTypeSet = new Set(selectedTypes);
+        selectedTenseSet = new Set(selectedTenses);
+        renderFilterTags();
+        // 恢复错题模式按钮状态
+        document.getElementById('topWrongBtn').classList.toggle('active', isOnlyWrongMode);
+        setupSwipe();
+        setupQuestionIdJump();
+        setupKeyboard();
         resetQuestions();
     })
     .catch(err => {
@@ -1248,57 +1405,125 @@ fetch('sentences.json')
         document.getElementById('questionText').innerText = '题库加载失败，请刷新重试';
     });
 
-   // ======================
+// ======================
 // 滑动题目卡片切换上下题
 // ======================
-let card = document.querySelector('.card');
-let startX = 0;
+function setupSwipe() {
+    const panel = document.getElementById('practicePanel');
+    let touchStartX = 0;
+    let touchStartY = 0;
 
-card.addEventListener('touchstart', function(e) {
-  startX = e.changedTouches[0].clientX;
-});
+    panel.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
 
-card.addEventListener('touchend', function(e) {
-  let endX = e.changedTouches[0].clientX;
-  let diff = endX - startX;
-
-  if (Math.abs(diff) < 50) return;
-
-  if (diff > 0) {
-    if (!document.getElementById('prevBtn').disabled) prev();
-  } else {
-    if (!document.getElementById('nextBtn').disabled) next();
-  }
-});
-
-function jumpToId() {
-    const el = document.getElementById('questionId');
-    const val = el.value.trim();
-    
-    if (!val) {
-        el.value = questionPool[currentIndex] ? questionPool[currentIndex].id : '';
-        return;
-    }
-    
-    const targetId = parseInt(val);
-    const idx = questionPool.findIndex(q => q.id === targetId);
-
-    if (idx === -1) {
-        alert('未找到 ID：' + targetId);
-        el.value = questionPool[currentIndex] ? questionPool[currentIndex].id : '';
-        return;
-    }
-
-    currentIndex = idx;
-    showQuestion(currentIndex);
-    updateNavButtons();
+    panel.addEventListener('touchend', function(e) {
+        let dx = e.changedTouches[0].screenX - touchStartX;
+        let dy = e.changedTouches[0].screenY - touchStartY;
+        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+            if (dx < 0) {
+                if (!document.getElementById('nextBtn').disabled) next();
+            } else {
+                if (!document.getElementById('prevBtn').disabled) prev();
+            }
+        }
+    });
 }
 
-function toggleOrderMode(){
-    isRandomMode = !isRandomMode;
-    const btn = document.getElementById('orderSwitchBtn');
-    btn.innerText = isRandomMode ? "随机" : "顺序";
-    resetQuestions();
+function setupQuestionIdJump() {
+    const el = document.getElementById('questionId');
+    el.addEventListener('focus', () => el.select());
+    el.addEventListener('blur', () => {
+        const val = el.value.trim();
+        if (!val) {
+            el.value = questionPool[currentIndex] ? questionPool[currentIndex].id : '';
+            return;
+        }
+        const targetId = parseInt(val);
+        const idx = questionPool.findIndex(q => q.id === targetId);
+        if (idx === -1) {
+            alert('未找到 ID：' + targetId);
+            el.value = questionPool[currentIndex] ? questionPool[currentIndex].id : '';
+            return;
+        }
+        currentIndex = idx;
+        showQuestion(currentIndex);
+        updateNavButtons();
+    });
+    el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') el.blur();
+    });
+}
+
+// 键盘左右键切换题目（桌面端）
+function setupKeyboard() {
+    document.addEventListener('keydown', function(e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            if (e.key === 'ArrowRight') {
+                if (!document.getElementById('nextBtn').disabled) next();
+            } else {
+                if (!document.getElementById('prevBtn').disabled) prev();
+            }
+        }
+    });
+}
+
+
+
+// 按钮事件绑定
+function bindEvents() {
+    // 右上角错题模式按钮
+    document.getElementById('topWrongBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleOnlyWrongMode();
+    });
+
+    // 卡片内错题按钮（事件委托）
+    document.getElementById('practicePanel').addEventListener('click', (e) => {
+        const wrongBtn = e.target.closest('#cardWrongBtn');
+        if (!wrongBtn) return;
+        e.stopPropagation();
+        const q = questionPool[currentIndex];
+        if (!q) return;
+        if (wrongQids.has(q.id)) {
+            removeWrongQid(q.id);
+        } else {
+            addWrongQid(q.id);
+        }
+        updateCardWrongBtn(q.id);
+        // 如果在错题模式下移除了最后一题，需要刷新
+        if (isOnlyWrongMode && !wrongQids.has(q.id)) {
+            doFilterAfterWrongChange();
+        }
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindEvents);
+} else {
+    bindEvents();
+}
+
+// 错题模式下移除后刷新
+function doFilterAfterWrongChange() {
+    let filterList = [...sentenceBank].filter(q => 
+        selectedTypes.includes(q.type) && selectedTenses.includes(q.difficulty)
+    );
+    filterList = filterList.filter(q => wrongQids.has(q.id));
+    questionPool = filterList;
+    if (questionPool.length === 0) {
+        document.getElementById("questionText").innerText = "错题本暂无题目";
+        document.getElementById("options").innerHTML = "";
+        document.getElementById("fillArea").classList.add("hidden");
+        correctCount = 0; errorCount = 0; unansweredCount = 0;
+        updateProgress();
+        return;
+    }
+    if (currentIndex >= questionPool.length) currentIndex = questionPool.length - 1;
+    showQuestion(currentIndex);
 }
 </script>
 

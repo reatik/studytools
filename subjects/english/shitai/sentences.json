@@ -2699,7 +2699,7 @@
   "id": 254,
   "text": "Jimmy runs fast. (改为现在进行时)<br>Jimmy ______ ______ fast.",
   "meaning": "吉米跑得很快。",
-  "answer": "is running",
+  "answer": "is;running",
   "explanation": "现在进行时结构：be + 现在分词；主语Jimmy三单，be动词用is，run双写n加ing。",
   "type": "fill",
   "difficulty": "现在进行时",
@@ -2892,7 +2892,7 @@
   },
   {
     "id": 271,
-    "text": "( ) 5. The Lis ______ go to Century Park this week.\nA. aren't\nB. doesn't\nC. don't",
+    "text": "( ) 5. The Lis ______ go to Century Park this week.",
     "meaning": "李家一家人这周不去世纪公园。",
     "answer": "C",
     "explanation": "\"The Lis\" 指李家一家人，是复数主语，否定句用 don't（do not）；doesn't 用于第三人称单数，aren't 是 be 动词否定形式，此处需要助动词 don't。",
