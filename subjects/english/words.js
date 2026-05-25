@@ -1777,7 +1777,7 @@ const wordData = {
 {"english": "tired", "chinese": "累的；疲倦的", "pos": "adj.", "unit": "M1U3", "grade": "四年级上", "type": "word"},
 {"english": "toast", "chinese": "烤面包片", "pos": "n.", "unit": "M1U3", "grade": "四年级上", "type": "word"},
 {"english": "too", "chinese": "太", "pos": "adv.", "unit": "M3U3", "grade": "四年级上", "type": "word"},
-{"english": "tooth (pl. teeth)", "chinese": "牙齿", "pos": "n.", "unit": "M2U3", "grade": "四年级上", "type": "word"},
+{"english": "tooth", "chinese": "牙齿", "pos": "n.", "unit": "M2U3", "grade": "四年级上", "type": "word"},
 {"english": "try", "chinese": "尝试", "pos": "n.", "unit": "M3U1", "grade": "四年级上", "type": "word"},
 {"english": "T-shirt", "chinese": "T恤衫", "pos": "n.", "unit": "M2U3", "grade": "四年级上", "type": "word"},
 {"english": "twelve", "chinese": "十二", "pos": "num.", "unit": "M1U1", "grade": "四年级上", "type": "word"},
