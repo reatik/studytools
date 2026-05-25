@@ -13,8 +13,7 @@
             --tang-cream: #fff;
             --tang-brown: #5a3921;
             --tang-light-brown: #d1c0a8;
-            --teacher-green: #1a8b1a;
-            --teacher-dark-green: #0f5a0f;
+
         }
         
         * {
@@ -193,7 +192,7 @@
         }
         
         .poem-name {
-            margin-top: 13px; 
+            margin-top: 0;  
             font-weight: bold;
             margin-bottom: 2px;
             font-size: 1rem;
@@ -203,6 +202,7 @@
         .poem-author {
             font-size: 0.8rem;
             transition: all 0.3s;
+            text-align: center;
         }
         
         .poem-btn:hover .poem-name,
@@ -219,29 +219,189 @@
             font-size: 1.5rem;
             color: var(--tang-red);
             text-align: center;
-            margin: 15px 0 8px;
+            margin: 0;
             text-shadow: 0.5px 0.5px 1px rgba(139, 26, 26, 0.2);
         }
         
-        .poem-author {
+        .author-wrapper {
             text-align: center;
-            color: var(--tang-brown);
-            margin-bottom: 15px;
+            margin-bottom: 5px;
+        }
+        #detail-author {
+            display: inline-block;
+            color: var(--tang-red);
             font-size: 0.9rem;
             text-shadow: 0.5px 0.5px 1px rgba(139, 26, 26, 0.1);
+            cursor: pointer;
+            border-bottom: 1px dotted var(--tang-red);
+            transition: color 0.2s;
+        }
+        #detail-author:hover {
+            color: #c44;
         }
         
         .poem-content {
             font-size: 1.1rem;
-            line-height: 1.1;
+            line-height: 2.4;
             text-align: center;
             margin: 20px 0;
             padding: 15px 0;
             border-top: 1px dashed var(--tang-light-brown);
             border-bottom: 1px dashed var(--tang-light-brown);
-            white-space: pre-line;
             text-shadow: 0.5px 0.5px 1px rgba(139, 26, 26, 0.1);
+            position: relative;
         }
+        .annotation-term {
+            color: var(--tang-red);
+            cursor: pointer;
+            border-bottom: 1px dotted var(--tang-red);
+            position: relative;
+            transition: color 0.2s;
+        }
+        .annotation-term:hover {
+            color: #c44;
+        }
+/* pinyin标注样式 —— 修复不占高度 */
+.py-char {
+    display: inline-block;
+    text-align: center;
+    vertical-align: baseline;
+    position: relative; /* 关键 */
+}
+.py-char::before {
+    content: attr(data-py);
+    position: absolute; /* 关键：悬浮不占高度 */
+    top: -0.25em;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    font-size: 0.55em;
+    line-height: 1;
+    color: #5f5f5f;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    white-space: nowrap;
+}
+        .annotation-popup {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fffef8;
+            color: #5a3921;
+            border: 1px solid var(--tang-red);
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            white-space: normal;
+            word-break: break-word;
+            max-width: min(280px, 80vw);
+            min-width: 60px;
+            text-align: left;
+            line-height: 1.5;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(139,26,26,0.15);
+            pointer-events: none;
+        }
+        .annotation-popup::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: var(--tang-red);
+        }
+        .annotation-term.active .annotation-popup {
+            display: block;
+        }
+        .title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px 0 5px;
+    position: relative;    /* 新增 */
+}
+.grade-badge {
+    position: absolute;    /* 关键：悬浮不占位 */
+    right: calc(50% - 80px); /* 固定在名字右侧 */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #fff;
+    letter-spacing: 0;
+}
+.grade-A { background: #e53935; }   /* 优秀 → 红色 */
+.grade-B { background: #8bc34a; }   /* 良好 → 绿色 */
+.grade-C { background: #ff9800; }   /* 加油 → 橙色 */
+.grade-D { background: #78909c; }   /* 须努力 → 灰色 */
+        .grade-none { background: #ccc; }
+        
+        /* 诗人介绍弹窗 */
+        .poet-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1002;
+            justify-content: center;
+            align-items: center;
+        }
+        .poet-box {
+            background: #fffef5;
+            padding: 25px 30px;
+            border-radius: 8px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            border: 1px solid var(--tang-light-brown);
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .poet-box h3 {
+            font-size: 1.3rem;
+            color: var(--tang-dark-red);
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+        .poet-box .poet-dynasty {
+            font-size: 0.85rem;
+            color: var(--tang-light-brown);
+            margin-bottom: 12px;
+        }
+        .poet-box .poet-intro {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--tang-brown);
+            text-align: left;
+            text-indent: 2em;
+        }
+        .poet-close {
+            position: absolute;
+            top: 8px;
+            right: 14px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--tang-brown);
+            background: none;
+            border: none;
+            font-family: serif;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .poet-close:hover { opacity: 1; }
         
         .section-title {
             font-size: 1.1rem;
@@ -284,33 +444,9 @@
             font-size: 0.95rem;
         }
 
-        .unlock-btn {
-            display: inline-block;
-            padding: 2px 8px;
-            margin-left: 10px;
-            background: var(--tang-light-gold);
-            color: var(--tang-dark-red);
-            border: 1px solid var(--tang-light-brown);
-            border-radius: 4px;
-            font-size: 0.8rem;
-            cursor: default;
-            vertical-align: middle;
-            transition: all 0.2s;
-        }
-
-        .unlock-btn:hover {
-            background: var(--tang-gold);
-        }
-
-        .translation-header {
-            display: flex;
-            align-items: center;
-            margin: 20px 0 10px;
-        }
-
         .section-title {
             display: inline-block;
-            margin-right: 10px;
+            margin: 15px 0 8px;
             position: relative;
             padding-bottom: 5px;
         }
@@ -474,176 +610,6 @@
             font-size: 1rem;
         }
 
-        /* 家长模式相关样式 */
-        .teacher-btn-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        .teacher-btn {
-            background: var(--tang-light-gold);
-            color: var(--tang-dark-red);
-            border: 1px solid var(--tang-light-brown);
-            border-radius: 4px;
-            padding: 8px 15px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'KaiTi', 'SimSun', serif;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            letter-spacing: 1px;
-        }
-        
-        .teacher-btn:hover {
-            background: var(--tang-gold);
-            color: var(--tang-dark-red);
-        }
-        
-        .teacher-btn.active {
-            background: var(--tang-red);
-            color: var(--tang-cream);
-            border-color: var(--tang-dark-red);
-        }
-        
-        
-        .password-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1001;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .password-box {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            width: 300px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-        
-        .password-input {
-    width: 100%;
-    padding: 10px;
-    margin: 0; /* 移除默认外边距 */
-    border: 1px solid #d1c0a8;
-    border-radius: 4px;
-    font-family: 'KaiTi', 'SimSun', serif;
-}
-        
-        .password-submit {
-            background: var(--tang-red);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: 'KaiTi', 'SimSun', serif;
-            margin-right: 10px;
-            transition: all 0.3s;
-        }
-        
-        .password-submit:hover {
-            background: var(--tang-dark-red);
-        }
-        
-        .password-cancel {
-            background: var(--tang-light-gold);
-            color: var(--tang-dark-red);
-            border: 1px solid var(--tang-light-brown);
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: 'KaiTi', 'SimSun', serif;
-            transition: all 0.3s;
-        }
-        
-        .password-cancel:hover {
-            background: var(--tang-gold);
-        }
-        
-        .password-error {
-            color: var(--tang-red);
-            font-size: 0.8rem;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        .password-success {
-            color: var(--teacher-green);
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-        }
-
-        /* 密码状态容器 */
-        .password-state {
-    height: 24px; /* 高度减小 */
-    margin: 4px 0; /* 上下边距从8px减到4px */
-    position: relative;
-}
-
-/* 错误/成功提示样式 */
-.password-error, 
-.password-success {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    font-size: 0.85rem; 
-    padding: 3px 0;
-    border-radius: 4px;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.3s;
-}
-
-.password-error {
-    background: rgba(255, 0, 0, 0.08);
-    color: #d32f2f;
-}
-
-.password-success {
-    background: rgba(0, 200, 0, 0.08);
-    color: #388e3c;
-}
-
-/* 图标样式 */
-.password-error i,
-.password-success i {
-    margin-right: 6px;
-    font-size: 1.1rem;
-}
-
-/* 成功动画 */
-@keyframes checkmark {
-    0% { transform: scale(0.8); opacity: 0; }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-.password-success i {
-    animation: checkmark 0.5s;
-    color: #4caf50;
-}
-
-/* 错误动画 */
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-4px); }
-    40%, 80% { transform: translateX(4px); }
-}
-
-.password-error {
-    animation: shake 0.4s;
-}
-
         @media (max-width: 768px) {
             .main-container {
                 padding: 15px;
@@ -670,9 +636,15 @@
             
             .poem-content {
                 font-size: 1rem;
-                line-height: 1.1;
+                line-height: 2.4;
                 margin: 15px 0;
                 padding: 10px 0;
+            }
+            
+            .annotation-popup {
+                font-size: 0.78rem;
+                padding: 5px 8px;
+                max-width: 70vw;
             }
             
             .nav-btn {
@@ -680,35 +652,17 @@
                 padding: 6px 0;
             }
             
-            .teacher-btn {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- 密码模态框 -->
-<div class="password-modal" id="password-modal">
-    <div class="password-box">
-        <h3>请输入密码</h3>
-        <input type="password" class="password-input" id="password-input" placeholder="输入密码">
-        <div style="font-size: 0.9rem; color: #666; margin: 5px 0 10px;">家长模式可查看所有译文和答案</div>
-        
-        <!-- 新增成功状态容器 -->
-        <div class="password-state" id="password-state">
-            <div class="password-error" id="password-error">
-                <i class="fas fa-times-circle"></i> 密码错误
-            </div>
-            <div class="password-success" id="password-success">
-                <i class="fas fa-check-circle"></i> 验证成功
-            </div>
-        </div>
-        
-        <div style="margin-top: 15px;">
-            <button class="password-submit" id="password-submit">确认</button>
-            <button class="password-cancel" id="password-cancel">取消</button>
-        </div>
+    <!-- 诗人介绍弹窗 -->
+<div class="poet-modal" id="poet-modal">
+    <div class="poet-box" id="poet-box">
+        <button class="poet-close" id="poet-close">×</button>
+        <h3 id="poet-name"></h3>
+        <div class="poet-dynasty" id="poet-dynasty"></div>
+        <div class="poet-intro" id="poet-intro"></div>
     </div>
 </div>
 
@@ -719,33 +673,25 @@
         <div id="content-list">
             <div class="loading">正在载入诗卷...</div>
         </div>
-        
-        <!-- 家长模式按钮放在列表底部 -->
-        <div class="teacher-btn-container">
-            <button class="teacher-btn" id="teacher-btn">家长模式</button>
-            
-        </div>
+
     </div>
     
     <!-- 详细页 -->
     <div class="main-container" id="detail-page">
-        <h2 class="poem-title" id="detail-title"></h2>
-        <div class="poem-author" id="detail-author"></div>
+        <div class="title-row">
+            <h2 class="poem-title" id="detail-title"></h2>
+            <span class="grade-badge grade-none" id="grade-badge" style="display:none;">-</span>
+        </div>
+        <div class="author-wrapper"><span id="detail-author"></span></div>
         
         <div class="poem-content" id="detail-content"></div>
         
         <div>
-            <div class="section-title">注释</div>
-            <div id="detail-notes"></div>
+            <div class="section-title">译文</div>
+            <div class="translation-content" id="detail-translation"></div>
         </div>
         
-        <div>
-            <div class="translation-header">
-                <div class="section-title">译文</div>
-            </div>
-            <div id="quiz-btn-container"></div>
-            <div class="translation-content" id="detail-translation" style="display: none;"></div>
-        </div>
+        <div id="quiz-btn-container" style="text-align:center;margin-top:16px;"></div>
         
         <div class="nav-buttons">
             <button class="nav-btn" id="prev-btn">〈 上一首</button>
@@ -778,7 +724,7 @@ let userAnswers = [];
 let currentQuestionIndex = 0;
 let correctCount = 0;
 let autoNextTimer = null;
-let isTeacherMode = false;
+let poetsMap = {};
 
 // 页面加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
@@ -789,10 +735,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevQuestionBtn = document.getElementById('prev-question-btn');
     const nextQuestionBtn = document.getElementById('next-question-btn');
     const backToPoemBtn = document.getElementById('back-to-poem-btn');
-    const teacherBtn = document.getElementById('teacher-btn');
-    const passwordSubmit = document.getElementById('password-submit');
-    const passwordCancel = document.getElementById('password-cancel');
-    const passwordInput = document.getElementById('password-input');
     
     // 绑定事件
     backBtn.addEventListener('click', backToList);
@@ -801,74 +743,25 @@ document.addEventListener('DOMContentLoaded', function() {
     prevQuestionBtn.addEventListener('click', goToPrevQuestion);
     nextQuestionBtn.addEventListener('click', goToNextQuestion);
     backToPoemBtn.addEventListener('click', backToPoemDetail);
-    teacherBtn.addEventListener('click', toggleTeacherMode);
-    passwordSubmit.addEventListener('click', checkPassword);
-    passwordCancel.addEventListener('click', cancelPasswordInput);
-    passwordInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') checkPassword();
+    
+    // 全局点击关闭注释弹窗
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.annotation-term')) {
+            document.querySelectorAll('.annotation-term.active').forEach(t => t.classList.remove('active'));
+        }
+    });
+    
+    // 诗人弹窗事件
+    document.getElementById('poet-close').addEventListener('click', closePoetModal);
+    document.getElementById('poet-modal').addEventListener('click', function(e) {
+        if (e.target === this) closePoetModal();
     });
     
     // 加载数据
+    loadPoets();
     loadPoems();
 });
 
-// 切换家长模式
-function toggleTeacherMode() {
-    if (isTeacherMode) {
-        isTeacherMode = false;
-        document.getElementById('teacher-btn').classList.remove('active');
-        document.getElementById('teacher-btn').textContent = '家长模式';
-        
-        if (document.getElementById('detail-page').style.display === 'block' && currentPoemId !== null) {
-            showPoemDetail(poems[currentPoemId]);
-        }
-    } else {
-        document.getElementById('password-modal').style.display = 'flex';
-        document.getElementById('password-input').focus();
-    }
-}
-
-// 检查密码
-function checkPassword() {
-    const password = document.getElementById('password-input').value;
-    const errorElement = document.getElementById('password-error');
-    const successElement = document.getElementById('password-success');
-    
-    errorElement.style.display = 'none';
-    successElement.style.display = 'none';
-    
-    if (password === '769') {
-        successElement.style.display = 'flex';
-        
-        setTimeout(() => {
-            isTeacherMode = true;
-            document.getElementById('password-modal').style.display = 'none';
-            document.getElementById('password-input').value = '';
-            
-            document.getElementById('teacher-btn').classList.add('active');
-            document.getElementById('teacher-btn').textContent = '退出家长模式';
-            
-            if (document.getElementById('detail-page').style.display === 'block' && currentPoemId !== null) {
-                showPoemDetail(poems[currentPoemId]);
-            }
-        }, 800);
-    } else {
-        errorElement.style.display = 'flex';
-        setTimeout(() => {
-            errorElement.style.display = 'none';
-            document.getElementById('password-input').value = '';
-            document.getElementById('password-input').focus();
-        }, 1000);
-    }
-}
-
-// 取消密码输入
-function cancelPasswordInput() {
-    document.getElementById('password-modal').style.display = 'none';
-    document.getElementById('password-input').value = '';
-    document.getElementById('password-error').style.display = 'none';
-    document.getElementById('password-success').style.display = 'none';
-}
 
 // 加载数据
 function loadPoems() {
@@ -886,6 +779,35 @@ function loadPoems() {
             document.getElementById('content-list').innerHTML = 
                 '<div class="error">载入诗卷失败，请稍后再试</div>';
         });
+}
+
+// 加载诗人数据
+function loadPoets() {
+    fetch('poets.json')
+        .then(response => {
+            if (!response.ok) throw new Error('诗人数据加载失败');
+            return response.json();
+        })
+        .then(data => {
+            data.forEach(p => { poetsMap[p.name] = p.intro; });
+        })
+        .catch(error => {
+            console.error('诗人数据加载失败:', error);
+        });
+}
+
+// 打开诗人介绍弹窗
+function openPoetModal(name, dynasty) {
+    const intro = poetsMap[name];
+    document.getElementById('poet-name').textContent = name || '未知';
+    document.getElementById('poet-dynasty').textContent = dynasty || '';
+    document.getElementById('poet-intro').textContent = intro || '暂无该诗人的介绍。';
+    document.getElementById('poet-modal').style.display = 'flex';
+}
+
+// 关闭诗人介绍弹窗
+function closePoetModal() {
+    document.getElementById('poet-modal').style.display = 'none';
 }
 
 // 渲染古诗列表
@@ -971,74 +893,147 @@ function showPoemDetail(poem) {
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
-    // 设置标题和作者
+    // 设置标题和评分
     document.getElementById('detail-title').textContent = poem.title || '无题';
-    document.getElementById('detail-author').textContent = 
-        poem.dynasty ? `${poem.dynasty}·${poem.author}` : poem.author;
+    const authorEl = document.getElementById('detail-author');
+    authorEl.textContent = poem.dynasty ? `${poem.dynasty}·${poem.author}` : poem.author;
+    authorEl.onclick = () => openPoetModal(poem.author, poem.dynasty || '');
     
-    // 设置古诗内容
-    let poemContent = poem.content.replace(/\n/g, '\n\n');
-    document.getElementById('detail-content').textContent = poemContent;
-    
-    // 设置注释
-    const notesContainer = document.getElementById('detail-notes');
-    notesContainer.innerHTML = '';
-    
-    if (poem.notes && poem.notes.length > 0) {
-        poem.notes.forEach(note => {
-            if (typeof note === 'string') {
-                const separatorIndex = note.indexOf('：');
-                if (separatorIndex > 0) {
-                    const term = note.substring(0, separatorIndex);
-                    const explanation = note.substring(separatorIndex + 1);
-                    notesContainer.innerHTML += `
-                        <div class="note-item">
-                            <span class="note-term">${term}：</span>${explanation}
-                        </div>
-                    `;
-                } else {
-                    notesContainer.innerHTML += `<div class="note-item">${note}</div>`;
-                }
-            } else if (note.term && note.explanation) {
-                notesContainer.innerHTML += `
-                    <div class="note-item">
-                        <span class="note-term">${note.term}：</span>${note.explanation}
-                    </div>
-                `;
-            }
-        });
+    // 评分显示
+    const gradeBadge = document.getElementById('grade-badge');
+    const savedGrade = localStorage.getItem(`poem_${poem.id}_grade`);
+    if (savedGrade) {
+        gradeBadge.textContent = savedGrade;
+        gradeBadge.className = 'grade-badge grade-' + savedGrade;
+        gradeBadge.style.display = 'inline-block';
     } else {
-        notesContainer.innerHTML = '<div class="note-item">暂无注释</div>';
+        gradeBadge.style.display = 'none';
     }
     
-    // 设置译文部分
-    const translationContainer = document.getElementById('detail-translation');
+    // 构建带内嵌注释的古诗内容
+    const { notesMap, pinyinMap } = buildNotesMap(poem.notes || []);
+    let poemContent = poem.content || '';
+    let annotatedHtml = buildAnnotatedPoem(poemContent, notesMap, pinyinMap);
+    document.getElementById('detail-content').innerHTML = annotatedHtml;
+    
+    // 绑定注释点击事件
+    document.querySelectorAll('.annotation-term').forEach(term => {
+        term.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // 关闭其他弹窗
+            document.querySelectorAll('.annotation-term.active').forEach(t => {
+                if (t !== this) t.classList.remove('active');
+            });
+            this.classList.toggle('active');
+        });
+    });
+    
+    // 点击其他地方关闭弹窗
+    document.getElementById('detail-content').addEventListener('click', function(e) {
+        if (!e.target.classList.contains('annotation-term')) {
+            document.querySelectorAll('.annotation-term.active').forEach(t => t.classList.remove('active'));
+        }
+    });
+    
+    // 译文始终显示
+    showTranslation(poem);
+    
+    // 答题按钮
     const quizBtnContainer = document.getElementById('quiz-btn-container');
-    const translationHeader = document.querySelector('.translation-header');
-    
     quizBtnContainer.innerHTML = '';
-    translationContainer.style.display = 'none';
     
-    const existingUnlockBtn = document.querySelector('.unlock-btn');
-    if (existingUnlockBtn) existingUnlockBtn.remove();
-    
-    if (isTeacherMode || (poem.quiz && poem.quiz.length > 0 && localStorage.getItem(`poem_${poem.id}_unlocked`) === 'true')) {
-        const unlockBtn = document.createElement('button');
-        unlockBtn.className = 'unlock-btn';
-        unlockBtn.textContent = isTeacherMode ? '家长模式' : '已解锁';
-        translationHeader.appendChild(unlockBtn);
-        showTranslation(poem);
-    } else if (poem.quiz && poem.quiz.length > 0) {
-        const quizUnlockBtn = document.createElement('button');
-        quizUnlockBtn.className = 'unlock-btn';
-        quizUnlockBtn.textContent = '答题解锁';
-        quizUnlockBtn.addEventListener('click', () => startQuiz(poem));
-        translationHeader.appendChild(quizUnlockBtn);
-    } else {
-        showTranslation(poem);
+    if (poem.quiz && poem.quiz.length > 0) {
+        const quizBtn = document.createElement('button');
+        quizBtn.className = 'quiz-nav-btn';
+        quizBtn.textContent = savedGrade ? '重新答题' : '答题评分';
+        quizBtn.style.fontSize = '1rem';
+        quizBtn.style.padding = '10px 30px';
+        quizBtn.addEventListener('click', () => startQuiz(poem));
+        quizBtnContainer.appendChild(quizBtn);
     }
     
     currentPoemId = poems.indexOf(poem);
+}
+
+// 解析注释为 term -> explanation 映射，同时提取拼音
+function buildNotesMap(notes) {
+    const notesMap = {};
+    const pinyinMap = {};
+    notes.forEach(note => {
+        if (typeof note === 'string') {
+            const idx = note.indexOf('：');
+            if (idx > 0) {
+                let term = note.substring(0, idx);
+                const exp = note.substring(idx + 1);
+                // 提取拼音: "蒌蒿(lóu hāo)" → term="蒌蒿", pinyin="lóu hāo"
+                const pinyinMatch = term.match(/[（(]([a-zà-üèéêíìòóùúǘǚǜāáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜü\s]+)[）)]/i);
+                if (pinyinMatch) {
+                    pinyinMap[term.replace(/[（(][^）)]*[）)]/, '').trim()] = pinyinMatch[1].trim();
+                    term = term.replace(/[（(][^）)]*[）)]/, '').trim();
+                }
+                notesMap[term] = exp;
+            }
+        } else if (note.term && note.explanation) {
+            notesMap[note.term] = note.explanation;
+        }
+    });
+    return { notesMap, pinyinMap };
+}
+
+// 构建带内嵌注释和拼音的古诗HTML
+function buildAnnotatedPoem(content, notesMap, pinyinMap) {
+    // 按term长度降序排列，先匹配长词
+    const terms = Object.keys(notesMap).sort((a, b) => b.length - a.length);
+    
+    // 标记已替换的位置避免重复替换
+    let replaced = new Array(content.length).fill(false);
+    let result = [];
+    let i = 0;
+    
+    while (i < content.length) {
+        let matched = false;
+        // 跳过已替换的字符
+        if (replaced[i]) {
+            i++;
+            continue;
+        }
+        for (const term of terms) {
+            if (content.substring(i, i + term.length) === term && !replaced.slice(i, i + term.length).some(r => r)) {
+                // 标记为已替换
+                for (let j = i; j < i + term.length; j++) replaced[j] = true;
+                const escapedExp = notesMap[term].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                
+                // 构建带拼音的innerHTML
+                let innerHtml = '';
+                if (pinyinMap && pinyinMap[term]) {
+                    const syllables = pinyinMap[term].split(/\s+/);
+                    // 音节数少于字数时右对齐，拼音标在最后几个字上
+                    const offset = term.length - syllables.length;
+                    for (let k = 0; k < term.length; k++) {
+                        const si = k - offset;
+                        if (si >= 0 && si < syllables.length && syllables[si]) {
+                            innerHtml += `<span class="py-char" data-py="${syllables[si]}">${term[k]}</span>`;
+                        } else {
+                            innerHtml += term[k];
+                        }
+                    }
+                } else {
+                    innerHtml = term;
+                }
+                
+                result.push(`<span class="annotation-term" data-explanation="${escapedExp}">${innerHtml}<span class="annotation-popup">${escapedExp}</span></span>`);
+                i += term.length;
+                matched = true;
+                break;
+            }
+        }
+        if (!matched) {
+            const ch = content[i];
+            result.push(ch === '\n' ? '<br>' : ch === '&' ? '&amp;' : ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch);
+            i++;
+        }
+    }
+    return result.join('');
 }
 
 // 开始答题
@@ -1068,7 +1063,6 @@ function updateProgress() {
     document.getElementById('quiz-progress').innerHTML = `
         题目 ${currentQuestionIndex + 1}/${currentQuiz.length} 
         | 已答对: <span class="correct-count">${correctCount}</span> 题
-        | 需答对 <strong>全部 ${currentQuiz.length} 题</strong> 才能解锁译文
     `;
 }
 
@@ -1147,17 +1141,32 @@ function showQuestion(index) {
 
 // 完成答题
 function finishQuiz() {
-    const passed = correctCount === currentQuiz.length; // 必须全部答对
+    const total = currentQuiz.length;
+    const correct = correctCount;
+    const wrong = total - correct;
+    
+    let grade;
+    if (wrong === 0) grade = 'A';
+    else if (wrong === 1) grade = 'B';
+    else if (wrong === 2) grade = 'C';
+    else grade = 'D';
+    
+    // 保存评分
+    localStorage.setItem(`poem_${poems[currentPoemId].id}_grade`, grade);
+    
+    const gradeColorMap = { A: '#4caf50', B: '#8bc34a', C: '#ff9800', D: '#f44336' };
+    const gradeLabelMap = { A: '优秀', B: '良好', C: '加油', D: '须努力' };
     
     document.querySelector('.quiz-nav').style.display = 'none';
     
     const questionsContainer = document.getElementById('quiz-questions-container');
     questionsContainer.innerHTML = `
-        <div class="quiz-result ${passed ? 'quiz-success' : 'quiz-failure'}">
-            ${passed ? '恭喜！您已掌握全部知识点！' : '解锁未成功'}
+        <div class="quiz-result" style="background:${gradeColorMap[grade]}15;color:${gradeColorMap[grade]};text-align:center;">
+            <div style="font-size:3rem;font-weight:bold;">${grade}</div>
+            <div style="font-size:1.2rem;">${gradeLabelMap[grade]}</div>
         </div>
         <div class="quiz-message">
-            ${passed ? '您已掌握这首诗的所有知识点' : `答对 ${correctCount}/${currentQuiz.length} 题（需全部答对）`}
+            答对 ${correct}/${total} 题，答错 ${wrong} 题
         </div>
         <button class="nav-btn" 
                 style="width:100%;margin-top:20px" 
@@ -1165,10 +1174,6 @@ function finishQuiz() {
             返回诗文
         </button>
     `;
-
-    if (passed) {
-        localStorage.setItem(`poem_${poems[currentPoemId].id}_unlocked`, 'true');
-    }
 }
 
 // 更新导航按钮状态
