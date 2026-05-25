@@ -287,51 +287,60 @@
     white-space: nowrap;
 }
 .annotation-popup {
-    display: none;
+    /* 始终保持在布局中（可测量），用 opacity/visibility 控制显隐 */
+    display: block;
     position: absolute;
-    bottom: calc(100% + 6px);
-
-    /* 👇 核心修复：
-       1. 宽度随文字自动变化
-       2. 最大不超出父容器，左右各留10px边距
-       3. 文字正常换行，不拆成单字
-    */
-    width: fit-content;
-    max-width: calc(100% - 20px);
+    bottom: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-
     background: #fffef8;
     color: #5a3921;
     border: 1px solid var(--tang-red);
-    border-radius: 4px;
-    padding: 6px 10px;
+    border-radius: 8px;
+    padding: 10px 14px;
     font-size: 0.85rem;
-
     white-space: normal;
-    overflow-wrap: break-word; /* 只在必要时才换行，不强制拆单字 */
+    word-break: break-word;
     text-align: left;
-    line-height: 1.5;
+    line-height: 1.7;
     z-index: 100;
-    box-shadow: 0 2px 6px rgba(139,26,26,0.12);
+    box-shadow: 0 4px 18px rgba(139,26,26,0.18);
     pointer-events: none;
-}
-.annotation-term:hover {
-    color: #c44;
+    /* 宽度：自适应内容，最大不超出屏幕左右各留 16px */
+    width: max-content;
+    max-width: min(420px, calc(100vw - 32px));
+    min-width: 120px;
+    /* 高度：过长内容滚动展示，不超出屏幕 */
+
+
+    /* 默认隐藏，靠 active 类显示 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.18s ease;
 }
 
+.annotation-term.active .annotation-popup {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ===== 小三角箭头（默认在弹窗底部，指向下方文字） ===== */
 .annotation-popup::after {
     content: "";
     position: absolute;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    border: 5px solid transparent;
+    border: 6px solid transparent;
     border-top-color: var(--tang-red);
 }
 
-.annotation-term.active .annotation-popup {
-    display: block;
+/* 弹窗翻到文字下方时，箭头指向上方 */
+.annotation-popup.below::after {
+    top: auto;
+    bottom: 100%;
+    border-top-color: transparent;
+    border-bottom-color: var(--tang-red);
 }
         .title-row {
     display: flex;
@@ -933,15 +942,67 @@ function showPoemDetail(poem) {
     let annotatedHtml = buildAnnotatedPoem(poemContent, notesMap, pinyinMap);
     document.getElementById('detail-content').innerHTML = annotatedHtml;
     
+    // 弹窗位置自适应（防超出屏幕）
+    function positionPopup(term) {
+        const popup = term.querySelector('.annotation-popup');
+        if (!popup) return;
+
+        // 重置所有内联样式，让 CSS 默认值生效
+        popup.style.cssText = '';
+
+        // 临时显示以获取真实尺寸
+        const prevOpacity = popup.style.opacity;
+        const prevVisibility = popup.style.visibility;
+        popup.style.opacity = '0';
+        popup.style.visibility = 'visible';
+
+        const popupRect = popup.getBoundingClientRect();
+        const termRect = term.getBoundingClientRect();
+        const vw = window.innerWidth;
+
+        // --- 水平方向：防止左右超出屏幕 ---
+        const overflowRight = popupRect.right - vw + 12;
+        const overflowLeft = 12 - popupRect.left;
+        if (overflowRight > 0) {
+            // 右边超出 → 向左偏移
+            popup.style.transform = `translateX(calc(-50% - ${overflowRight + 4}px))`;
+        } else if (overflowLeft > 0) {
+            // 左边超出 → 向右偏移
+            popup.style.transform = `translateX(calc(-50% + ${overflowLeft + 4}px))`;
+        }
+
+        // --- 垂直方向：上方不够就翻到下面 ---
+        popup.classList.remove('below');
+        if (popupRect.top < 12) {
+            popup.style.bottom = 'auto';
+            popup.style.top = 'calc(100% + 8px)';
+            popup.classList.add('below');
+        }
+
+        // 恢复
+        popup.style.opacity = prevOpacity;
+        popup.style.visibility = prevVisibility;
+    }
+
     // 绑定注释点击事件
     document.querySelectorAll('.annotation-term').forEach(term => {
         term.addEventListener('click', function(e) {
             e.stopPropagation();
+            const wasActive = this.classList.contains('active');
+
             // 关闭其他弹窗
             document.querySelectorAll('.annotation-term.active').forEach(t => {
                 if (t !== this) t.classList.remove('active');
             });
-            this.classList.toggle('active');
+
+            if (wasActive) {
+                // 关闭
+                this.classList.remove('active');
+            } else {
+                // 打开前先定位
+                positionPopup(this);
+                this.classList.add('active');
+            }
         });
     });
     
