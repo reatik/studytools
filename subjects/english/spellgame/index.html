@@ -24,7 +24,7 @@
         
 h1 {
     text-align: center;
-    color: #26c28e;
+    color: #6226c2;
     font-size: 2.2rem;
     margin-bottom: 20px;
     font-weight: 600;
@@ -1476,10 +1476,13 @@ function sortUnits(a, b) {
             input.maxLength = 1;
             input.dataset.correct = char;
             
-            // 添加这些属性来禁用iOS自动大写
-            input.autocapitalize = 'off';
-            input.autocorrect = 'off';
-            input.spellcheck = 'false';
+            // 禁用所有自动修正和联想，引导键盘进入"逐字输入"模式
+            input.setAttribute('autocapitalize', 'off');
+            input.setAttribute('autocorrect', 'off');
+            input.setAttribute('spellcheck', 'false');
+            input.setAttribute('autocomplete', 'off');
+            input.setAttribute('enterkeyhint', 'next');
+            input.setAttribute('inputmode', 'text');
             
             return input;
         }
@@ -1497,22 +1500,26 @@ function sortUnits(a, b) {
             setTimeout(() => this.setSelectionRange(0, 1), 10);
         });
         
-        // iOS组合输入事件处理（防止输入一个字母变两个的bug）// iOS组合输入事件处理（防止输入一个字母变两个的bug）
+        // 组合输入状态（用于区分单品输入和组合输入）
+let composeTimeout = null;
 input.addEventListener('compositionstart', function() {
     isComposing = true;
+    // 安全兜底：500ms后强制重置composing状态，防止平板输入法不触发compositionend
+    clearTimeout(composeTimeout);
+    composeTimeout = setTimeout(() => {
+        isComposing = false;
+        handleInputEvent(input, inputs, index);
+    }, 500);
 });
 input.addEventListener('compositionend', function(e) {
     isComposing = false;
+    clearTimeout(composeTimeout);
     // 组合输入结束后手动触发处理
     handleInputEvent(this, inputs, index);
 });
 
-// 输入处理
+// 输入处理 - 不再拦截composition期间的input，统一走handleInputEvent
 input.addEventListener('input', function(e) {
-    // iOS输入法组合中，不处理
-    if (isComposing) return;
-    // 防止iOS Safari重复触发input事件
-    if (e.isComposing) return;
     handleInputEvent(this, inputs, index);
 });
         
@@ -2119,7 +2126,10 @@ function showAnswer() {
 
         // 统一处理输入事件（iOS兼容）
 function handleInputEvent(inputEl, allInputs, currentIndex) {
-    // 只保留最后一个字符，防止iOS重复触发导致多字符
+    // 如果输入法正在组合输入（如中文拼音），暂不处理，等compositionend再处理
+    if (isComposing) return;
+    
+    // 只保留最后一个字符，防止自动联想/重复触发导致多字符堆积
     inputEl.value = inputEl.value.slice(-1);
     inputEl.classList.remove('incorrect');
     
@@ -2129,7 +2139,7 @@ function handleInputEvent(inputEl, allInputs, currentIndex) {
         resultEl.className = 'result';
     }
     
-    // 自动跳转到下一个可输入格子 —— 修复平板不跳转
+    // 自动跳转到下一个可输入格子
     if (inputEl.value) {
         setTimeout(() => {
             const nextInput = findNextInput(allInputs, currentIndex);
@@ -2137,7 +2147,7 @@ function handleInputEvent(inputEl, allInputs, currentIndex) {
                 nextInput.focus();
                 nextInput.setSelectionRange(0, 1);
             }
-        }, 15); // 👈 关键：延时15ms，适配平板输入法
+        }, 20);
     }
     
     // 检查是否全部填满
