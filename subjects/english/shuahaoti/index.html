@@ -106,7 +106,7 @@ body {
     font-size: 12px;
     color: #666;
     margin-bottom: 6px;
-    font-weight: 500;
+    font-weight: 50;
 }
 .filter-tags {
     display: flex;
@@ -200,7 +200,7 @@ body {
     height: 24px;
     border-radius: 12px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 60;
     flex-shrink: 0;
     background-color: var(--primary-color);
     transition: background-color 0.3s ease;
@@ -233,35 +233,91 @@ body {
     gap: 4px;
 }
 
-/* 错过标签 */
-.wrong-tag {
+/* 卡片内收藏图标 */
+.fav-icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    object-fit: contain;
+    flex-shrink: 0;
+    transition: transform 0.15s;
+}
+.fav-icon:hover {
+    transform: scale(1.15);
+}
+
+/* 做过标签 */
+.attempt-tag {
     display: inline-flex;
     align-items: center;
-    gap: 3px;
     font-size: 11px;
-    background: #FFEBEE;
-    color: #C62828;
+    background: #E8F5E9;
+    color: #2E7D32;
     padding: 2px 8px;
     border-radius: 10px;
-    border: 1px solid rgba(198,40,40,0.25);
-    transition: all 0.2s;
-    margin-left: auto;
+    border: 1px solid rgba(46,125,50,0.25);
     flex-shrink: 0;
     user-select: none;
-}
-.wrong-tag.removable {
-    cursor: pointer;
-}
-.wrong-tag:not(.removable) {
     cursor: default;
-    opacity: 0.7;
+    position: relative;
 }
-.wrong-tag.removable::after {
-    content: '✕';
-    font-size: 10px;
-    margin-left: 2px;
-    opacity: 0.6;
+.attempt-tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 4px;
+    background: #ffffff;        /* 背景白色 */
+    color: #333;               /* 文字默认黑色 */
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+    border: 1px solid #eee;
 }
+.attempt-tooltip .correct {
+    color: #2E7D32;  /* 正确绿色 */
+}
+.attempt-tooltip .wrong {
+    color: #F44336;  /* 错误红色 */
+}
+.attempt-tag:hover .attempt-tooltip {
+    display: block;
+}
+
+/* 卡片内错题按钮 */
+.card-wrong-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(126,87,194,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+}
+.card-wrong-btn img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+.card-wrong-btn.active {
+    background: #7E57C2;
+    border-color: #673AB7;
+}
+.card-wrong-btn.active img {
+    filter: brightness(0) invert(1);
+}
+
+/* 旧版错过标签保留兼容 */
 /* 统计栏（题目卡片右上角外侧）—— 暂时禁用 */
 /*
 .stats-bar {
@@ -295,7 +351,7 @@ body {
     vertical-align: middle;
 }
 .stat-num {
-    font-weight: 500;
+    font-weight: 50;
     min-width: 12px;
     text-align: center;
     line-height: 24px;
@@ -306,7 +362,7 @@ body {
     font-size: 15px;
     margin: 12px 0;
     line-height: 1.5;
-    font-weight: 500;
+    font-weight: 50;
     transition: color 0.3s ease;
     flex: 1;
     min-width: 0;
@@ -439,7 +495,7 @@ body {
     font-size: 13px;
     cursor: pointer;
     transition: 0.2s;
-    font-weight: 500;
+    font-weight: 50;
 }
 
 .submit-btn:hover {
@@ -457,7 +513,7 @@ body {
     font-size: 13px;
     cursor: pointer;
     transition: 0.2s;
-    font-weight: 500;
+    font-weight: 50;
 }
 
 .show-answer-btn:hover {
@@ -478,7 +534,7 @@ body {
 }
 
 .explanation-title {
-    font-weight: 800;
+    font-weight: 80;
     margin-bottom: 8px;
     color: var(--primary-color);
     transition: color 0.3s ease;
@@ -492,7 +548,7 @@ body {
     border-radius: 6px;
     margin-right: 8px;
     color: #5A4B75;
-    font-weight: 500;
+    font-weight: 50;
 }
 
 .empty-message {
@@ -598,17 +654,25 @@ body.night-mode .explanation-title {
     color: #D1C4E9;
 }
 
-body.night-mode .wrong-tag {
-    background: rgba(198,40,40,0.18);
-    color: #ff6b6b;
-    border-color: rgba(255,107,107,0.3);
+body.night-mode .attempt-tag {
+    background: rgba(46,125,50,0.18);
+    color: #66bb6a;
+    border-color: rgba(102,187,106,0.3);
 }
-body.night-mode .wrong-tag:not(.removable) {
-    opacity: 0.6;
-    cursor: default;
+body.night-mode .attempt-tooltip {
+    background: #ddd;
+    color: #222;
 }
-body.night-mode .wrong-tag.removable:hover {
-    background: rgba(198,40,40,0.3);
+body.night-mode .card-wrong-btn {
+    background: rgba(30,37,51,0.95);
+    border-color: rgba(126,87,194,0.3);
+}
+body.night-mode .card-wrong-btn.active {
+    background: #7E57C2;
+    border-color: #9575cd;
+}
+body.night-mode .card-wrong-btn.active img {
+    filter: brightness(0) invert(1);
 }
 
 /* 暂时禁用统计栏夜间样式
@@ -679,7 +743,7 @@ body.night-mode .unit-placeholder {
     padding: 10px 22px;
     border-radius: 8px;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 60;
     letter-spacing: 4px;
     z-index: 2000;
     pointer-events: none;
@@ -722,8 +786,11 @@ body.night-mode .mode-toast {
 </head>
 <body>
     <div class="container">
-        <!-- 右上角：错题 + 选项按钮 -->
+        <!-- 右上角：收藏 + 错题 + 选项按钮 -->
         <div class="top-right-option">
+            <div class="option-menu-btn" id="only-fav-btn" title="收藏模式">
+                <img src="../../../images/收藏3.png" alt="收藏">
+            </div>
             <div class="option-menu-btn" id="only-wrong-btn" title="错题模式">
                 <img src="../../../images/错题1.png" alt="错题">
             </div>
@@ -765,13 +832,14 @@ body.night-mode .mode-toast {
         let filteredQuestions = [];
         let currentIndex = 0;
         let isOnlyWrongMode = false;
+        let isOnlyFavMode = false;
 
         let questionAttempts = {};
         let questionCorrectStatus = {};
+        let questionStats = {}; // { qid: { correct: n, wrong: n } }
         let userAnswers = {};
         let lastQuestionId = localStorage.getItem('lastQuestionId') || null;
-        // let questionFavs = new Set();
-        // let questionLikes = new Set();
+        let questionFavs = new Set();
 
         // 多选筛选集合
         let selectedTypes = new Set();
@@ -782,6 +850,7 @@ body.night-mode .mode-toast {
         // DOM
         const questionArea = document.getElementById('question-area');
         const onlyWrongBtn = document.getElementById('only-wrong-btn');
+        const onlyFavBtn = document.getElementById('only-fav-btn');
         const optionMenuBtn = document.getElementById('option-menu-btn');
         const filterPanel = document.getElementById('filter-panel');
 
@@ -841,8 +910,12 @@ body.night-mode .mode-toast {
             allTag.className = 'filter-tag all';
             allTag.textContent = '全部';
             allTag.onclick = () => {
-                selectedSet.clear();
-                list.forEach(item => selectedSet.add(item));
+                // 切换：全选 ⟷ 全不选
+                if (selectedSet.size >= list.length) {
+                    selectedSet.clear();
+                } else {
+                    list.forEach(item => selectedSet.add(item));
+                }
                 renderFilterTags();
                 doFilter();
                 if (!isOnlyWrongMode) saveAllData();
@@ -897,27 +970,25 @@ body.night-mode .mode-toast {
         function filterQuestions() {
             let res = [...allQuestions];
             if (selectedTypes.size > 0 && selectedTypes.size !== getUniqueList('type').length) {
-                res = res.filter(q => selectedTypes.has(q.type));
+                res = res.filter(q => !q.type || selectedTypes.has(q.type));
             }
             if (selectedGrades.size > 0 && selectedGrades.size !== getUniqueList('grade').length) {
-                res = res.filter(q => selectedGrades.has(q.grade));
+                res = res.filter(q => !q.grade || selectedGrades.has(q.grade));
             }
             if (selectedUnits.size > 0 && selectedUnits.size !== getUniqueList('unit').length) {
-                res = res.filter(q => selectedUnits.has(q.unit));
+                res = res.filter(q => !q.unit || selectedUnits.has(q.unit));
             }
             if (selectedKnowledges.size > 0 && selectedKnowledges.size !== getUniqueList('knowledge_point').length) {
-                res = res.filter(q => selectedKnowledges.has(q.knowledge_point));
+                res = res.filter(q => !q.knowledge_point || selectedKnowledges.has(q.knowledge_point));
             }
             if (isOnlyWrongMode) {
                 // 错题模式：只显示做错的题目
                 let wrongIds = new Set(Object.keys(questionCorrectStatus).filter(id => questionCorrectStatus[id] === true));
                 res = res.filter(q => wrongIds.has(q.id));
-            } else {
-                // 正常模式：优先显示未做过的题；全部做过才显示所有题
-                let unattempted = res.filter(q => !questionAttempts[q.id]);
-                if (unattempted.length > 0) {
-                    res = unattempted;
-                }
+            }
+            if (isOnlyFavMode) {
+                // 收藏模式：只显示收藏的题目
+                res = res.filter(q => questionFavs.has(q.id));
             }
             return res;
         }
@@ -952,15 +1023,6 @@ body.night-mode .mode-toast {
         function goToNext() {
             if (currentIndex < filteredQuestions.length - 1) {
                 currentIndex++;
-                renderCurrent();
-            }
-        }
-
-        // 去除错过标签
-        function removeWrongTag(qid) {
-            if (questionCorrectStatus[qid]) {
-                questionCorrectStatus[qid] = false;
-                saveAllData();
                 renderCurrent();
             }
         }
@@ -1068,24 +1130,71 @@ body.night-mode .mode-toast {
                 badgeDiv.appendChild(b);
             }
 
-            let isCurrentWrong = questionCorrectStatus[q.id] === true;
-            if (isCurrentWrong) {
-                let isCorrectNow = isAnsweredCorrectly(q);
-                let wt = document.createElement('span');
-                if (isCorrectNow) {
-                    wt.className = 'wrong-tag removable';
-                    wt.title = '点击去除错过标记';
-                    wt.onclick = (e) => {
-                        e.stopPropagation();
-                        removeWrongTag(q.id);
-                    };
-                } else {
-                    wt.className = 'wrong-tag';
-                    wt.title = '答对后点击可去除错过标记';
-                }
-                wt.textContent = '错过';
-                badgeDiv.appendChild(wt);
+            // 右侧区域：做过标签 + 错题按钮 + 收藏图标
+            let rightGroup = document.createElement('span');
+            rightGroup.style.cssText = 'margin-left:auto;display:flex;align-items:center;gap:6px;';
+
+            // 做过标签（带hover统计）
+            if (questionAttempts[q.id]) {
+                let stats = questionStats[q.id] || { correct: 0, wrong: 0 };
+                let at = document.createElement('span');
+                at.className = 'attempt-tag';
+                at.textContent = '做过';
+                let tip = document.createElement('span');
+                tip.className = 'attempt-tooltip';
+                tip.innerHTML = '<span class="correct">✓正确' + stats.correct + '</span>  <span class="wrong">✗错误' + stats.wrong + '</span>';
+                at.appendChild(tip);
+                rightGroup.appendChild(at);
             }
+
+            // 错题按钮
+            let isWrong = questionCorrectStatus[q.id] === true;
+            let wrongBtn = document.createElement('div');
+            wrongBtn.className = 'card-wrong-btn';
+            if (isWrong) wrongBtn.classList.add('active');
+            let wrongImg = document.createElement('img');
+            wrongImg.src = isWrong ? '../../../images/错题1.png' : '../../../images/错题2.png';
+            wrongBtn.appendChild(wrongImg);
+            wrongBtn.title = isWrong ? '从错题本移除' : '加入错题本';
+            wrongBtn.onclick = (e) => {
+                e.stopPropagation();
+                if (questionCorrectStatus[q.id]) {
+                    delete questionCorrectStatus[q.id];
+                } else {
+                    questionCorrectStatus[q.id] = true;
+                }
+                saveAllData();
+                if (isOnlyWrongMode) {
+                    doFilter();
+                } else {
+                    renderCurrent();
+                }
+            };
+            rightGroup.appendChild(wrongBtn);
+
+            // 收藏图标
+            let isFaved = questionFavs.has(q.id);
+            let favIcon = document.createElement('img');
+            favIcon.className = 'fav-icon';
+            favIcon.src = isFaved ? '../../../images/收藏2.png' : '../../../images/收藏1.png';
+            favIcon.title = isFaved ? '取消收藏' : '收藏';
+            favIcon.onclick = (e) => {
+                e.stopPropagation();
+                if (questionFavs.has(q.id)) {
+                    questionFavs.delete(q.id);
+                } else {
+                    questionFavs.add(q.id);
+                }
+                saveAllData();
+                // 如果在收藏模式下且取消收藏，需要刷新列表
+                if (isOnlyFavMode && !questionFavs.has(q.id)) {
+                    doFilter();
+                } else {
+                    renderCurrent();
+                }
+            };
+            rightGroup.appendChild(favIcon);
+            badgeDiv.appendChild(rightGroup);
 
             card.appendChild(badgeDiv);
             let body = document.createElement('div');
@@ -1301,7 +1410,12 @@ body.night-mode .mode-toast {
 
         function recordAttempt(qid, isCorrect) {
             questionAttempts[qid] = true;
-            if (!isCorrect) questionCorrectStatus[qid] = true;
+            if (!questionStats[qid]) questionStats[qid] = { correct: 0, wrong: 0 };
+            if (isCorrect) questionStats[qid].correct++;
+            else {
+                questionStats[qid].wrong++;
+                questionCorrectStatus[qid] = true; // 答错自动进入错题本
+            }
             localStorage.setItem('lastQuestionId', qid);
             saveAllData();
         }
@@ -1309,24 +1423,26 @@ body.night-mode .mode-toast {
         function saveAllData() {
             localStorage.setItem('questionAttempts', JSON.stringify(questionAttempts));
             localStorage.setItem('questionCorrectStatus', JSON.stringify(questionCorrectStatus));
+            localStorage.setItem('questionStats', JSON.stringify(questionStats));
             localStorage.setItem('filterTypes', JSON.stringify([...selectedTypes]));
             localStorage.setItem('filterGrades', JSON.stringify([...selectedGrades]));
             localStorage.setItem('filterUnits', JSON.stringify([...selectedUnits]));
             localStorage.setItem('filterKnowledges', JSON.stringify([...selectedKnowledges]));
-            // localStorage.setItem('questionFavs', JSON.stringify([...questionFavs]));
-            // localStorage.setItem('questionLikes', JSON.stringify([...questionLikes]));
+            localStorage.setItem('questionFavs', JSON.stringify([...questionFavs]));
+            localStorage.setItem('isOnlyFavMode', JSON.stringify(isOnlyFavMode));
         }
 
         function loadAllData() {
             try {
                 questionAttempts = JSON.parse(localStorage.getItem('questionAttempts')) || {};
                 questionCorrectStatus = JSON.parse(localStorage.getItem('questionCorrectStatus')) || {};
+                questionStats = JSON.parse(localStorage.getItem('questionStats')) || {};
                 selectedTypes = new Set(JSON.parse(localStorage.getItem('filterTypes')) || []);
                 selectedGrades = new Set(JSON.parse(localStorage.getItem('filterGrades')) || []);
                 selectedUnits = new Set(JSON.parse(localStorage.getItem('filterUnits')) || []);
                 selectedKnowledges = new Set(JSON.parse(localStorage.getItem('filterKnowledges')) || []);
-                // questionFavs = new Set(JSON.parse(localStorage.getItem('questionFavs')) || []);
-                // questionLikes = new Set(JSON.parse(localStorage.getItem('questionLikes')) || []);
+                questionFavs = new Set(JSON.parse(localStorage.getItem('questionFavs')) || []);
+                isOnlyFavMode = JSON.parse(localStorage.getItem('isOnlyFavMode')) || false;
             } catch (e) {}
             userAnswers = {};
         }
@@ -1356,9 +1472,12 @@ body.night-mode .mode-toast {
         function toggleOnlyWrongMode() {
             isOnlyWrongMode = !isOnlyWrongMode;
             onlyWrongBtn.classList.toggle('active', isOnlyWrongMode);
-            currentIndex = 0;
             if (isOnlyWrongMode) {
-                // 进入错题本：备份当前筛选，全选所有筛选项
+                // 进入错题本：关闭收藏模式，备份筛选，全选
+                if (isOnlyFavMode) {
+                    isOnlyFavMode = false;
+                    onlyFavBtn.classList.remove('active');
+                }
                 savedFilterState = {
                     types: new Set([...selectedTypes]),
                     grades: new Set([...selectedGrades]),
@@ -1380,11 +1499,34 @@ body.night-mode .mode-toast {
                     savedFilterState = null;
                 }
             }
+            currentIndex = 0;
             renderFilterTags();
             doFilter();
-            if (isOnlyWrongMode) {
-                showToast('错题本 · 共 ' + filteredQuestions.length + ' 题');
+            saveAllData();
+        }
+
+        function toggleOnlyFavMode() {
+            isOnlyFavMode = !isOnlyFavMode;
+            onlyFavBtn.classList.toggle('active', isOnlyFavMode);
+            if (isOnlyFavMode) {
+                // 进入收藏本：关闭错题模式
+                if (isOnlyWrongMode) {
+                    isOnlyWrongMode = false;
+                    onlyWrongBtn.classList.remove('active');
+                    // 恢复筛选
+                    if (savedFilterState) {
+                        selectedTypes = savedFilterState.types;
+                        selectedGrades = savedFilterState.grades;
+                        selectedUnits = savedFilterState.units;
+                        selectedKnowledges = savedFilterState.knowledges;
+                        savedFilterState = null;
+                    }
+                    renderFilterTags();
+                }
             }
+            currentIndex = 0;
+            doFilter();
+            saveAllData();
         }
 
         // 滑动切换
@@ -1424,6 +1566,9 @@ body.night-mode .mode-toast {
 
             // 右上角按钮
             onlyWrongBtn.onclick = toggleOnlyWrongMode;
+            onlyFavBtn.onclick = toggleOnlyFavMode;
+            // 恢复收藏模式按钮状态
+            onlyFavBtn.classList.toggle('active', isOnlyFavMode);
 
             // 键盘
             document.addEventListener('keydown', e => {
