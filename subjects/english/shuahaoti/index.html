@@ -27,7 +27,7 @@
 body {
     font-family: 'Roboto', 'PingFang SC', 'Microsoft YaHei', sans-serif;
     background-color: var(--light-bg);
-    color: var(--text-color);
+    color: #111111;        /* 强制文字白色，解决移动端灰色问题 */
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
@@ -294,13 +294,13 @@ body {
     height: 28px;
     border-radius: 8px;
     background: rgba(255,255,255,0.95);
-    border: 1px solid rgba(126,87,194,0.2);
+
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
     backdrop-filter: blur(8px);
     transition: all 0.2s;
 }
@@ -547,7 +547,7 @@ body {
     padding: 3px 10px;
     border-radius: 6px;
     margin-right: 8px;
-    color: #5A4B75;
+    color: #000000;
     font-weight: 50;
 }
 
@@ -663,10 +663,7 @@ body.night-mode .attempt-tooltip {
     background: #ddd;
     color: #222;
 }
-body.night-mode .card-wrong-btn {
-    background: rgba(30,37,51,0.95);
-    border-color: rgba(126,87,194,0.3);
-}
+
 body.night-mode .card-wrong-btn.active {
     background: #7E57C2;
     border-color: #9575cd;

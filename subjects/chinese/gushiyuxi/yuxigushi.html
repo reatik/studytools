@@ -252,21 +252,25 @@
             position: relative;
         }
         .annotation-term {
-            color: var(--tang-red);
-            cursor: pointer;
-            border-bottom: 1px dotted var(--tang-red);
-            position: relative;
-            transition: color 0.2s;
-        }
-        .annotation-term:hover {
-            color: #c44;
-        }
+    color: var(--tang-red);
+    cursor: pointer;
+    border-bottom: 1px dotted var(--tang-red); /* 虚线紧挨着文字 */
+    position: relative;
+    transition: color 0.2s;
+    display: inline;     /* 保持 inline，不额外占宽 */
+}
+
+.annotation-term:hover {
+    color: #c44;
+}
 /* pinyin标注样式 —— 修复不占高度 */
 .py-char {
     display: inline-block;
     text-align: center;
     vertical-align: baseline;
-    position: relative; /* 关键 */
+    position: relative;
+    /* 👇 加这行 */
+    max-width: none !important;
 }
 .py-char::before {
     content: attr(data-py);
@@ -282,40 +286,53 @@
     font-weight: normal;
     white-space: nowrap;
 }
-        .annotation-popup {
-            display: none;
-            position: absolute;
-            bottom: calc(100% + 8px);
-            left: 50%;
-            transform: translateX(-50%);
-            background: #fffef8;
-            color: #5a3921;
-            border: 1px solid var(--tang-red);
-            border-radius: 4px;
-            padding: 6px 10px;
-            font-size: 0.85rem;
-            white-space: normal;
-            word-break: break-word;
-            max-width: min(280px, 80vw);
-            min-width: 60px;
-            text-align: left;
-            line-height: 1.5;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(139,26,26,0.15);
-            pointer-events: none;
-        }
-        .annotation-popup::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 5px solid transparent;
-            border-top-color: var(--tang-red);
-        }
-        .annotation-term.active .annotation-popup {
-            display: block;
-        }
+.annotation-popup {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+
+    /* 👇 核心修复：
+       1. 宽度随文字自动变化
+       2. 最大不超出父容器，左右各留10px边距
+       3. 文字正常换行，不拆成单字
+    */
+    width: fit-content;
+    max-width: calc(100% - 20px);
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: #fffef8;
+    color: #5a3921;
+    border: 1px solid var(--tang-red);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+
+    white-space: normal;
+    overflow-wrap: break-word; /* 只在必要时才换行，不强制拆单字 */
+    text-align: left;
+    line-height: 1.5;
+    z-index: 100;
+    box-shadow: 0 2px 6px rgba(139,26,26,0.12);
+    pointer-events: none;
+}
+.annotation-term:hover {
+    color: #c44;
+}
+
+.annotation-popup::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--tang-red);
+}
+
+.annotation-term.active .annotation-popup {
+    display: block;
+}
         .title-row {
     display: flex;
     align-items: center;
@@ -611,48 +628,48 @@
         }
 
         @media (max-width: 768px) {
-            .main-container {
-                padding: 15px;
-            }
-            
-            .page-title {
-                font-size: 1.5rem;
-                padding: 0 25px;
-            }
-            
-            .grade-header {
-                padding: 10px 15px;
-                font-size: 1rem;
-            }
-            
-            .grade-content.active {
-                grid-template-columns: 1fr;
-            }
-            
-            .poem-btn {
-                padding: 10px;
-                height: 65px;
-            }
-            
-            .poem-content {
-                font-size: 1rem;
-                line-height: 2.4;
-                margin: 15px 0;
-                padding: 10px 0;
-            }
-            
-            .annotation-popup {
-                font-size: 0.78rem;
-                padding: 5px 8px;
-                max-width: 70vw;
-            }
-            
-            .nav-btn {
-                font-size: 0.85rem;
-                padding: 6px 0;
-            }
-            
-        }
+    .main-container {
+        padding: 15px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+        padding: 0 25px;
+    }
+    
+    .grade-header {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+    
+    .grade-content.active {
+        grid-template-columns: 1fr;
+    }
+    
+    .poem-btn {
+        padding: 10px;
+        height: 65px;
+    }
+    
+    .poem-content {
+        font-size: 1rem;
+        line-height: 2.4;
+        margin: 15px 0;
+        padding: 10px 0;
+    }
+    
+    .annotation-popup {
+        font-size: 0.78rem;
+        padding: 5px 9px;
+        max-width: calc(100% - 16px); /* 移动端左右各留8px边距，避免顶边 */
+    }
+    
+    .nav-btn {
+        font-size: 0.85rem;
+        padding: 6px 0;
+    }
+
+}
     </style>
 </head>
 <body>
