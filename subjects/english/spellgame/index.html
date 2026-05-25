@@ -24,7 +24,7 @@
         
 h1 {
     text-align: center;
-    color: #6226c2;
+    color: #26c233;
     font-size: 2.2rem;
     margin-bottom: 20px;
     font-weight: 600;
@@ -1509,7 +1509,7 @@ input.addEventListener('compositionstart', function() {
     composeTimeout = setTimeout(() => {
         isComposing = false;
         handleInputEvent(input, inputs, index);
-    }, 500);
+    }, 100);
 });
 input.addEventListener('compositionend', function(e) {
     isComposing = false;
