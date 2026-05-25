@@ -965,6 +965,7 @@ h1 {
         let selectedGrade = '';
         let selectedUnit = '';
         let isFirstAttempt = true;
+        let isComposing = false; // iOS输入法组合输入标记
 
         // DOM元素
         const chineseWordEl = document.getElementById('chinese-word');
@@ -1496,32 +1497,24 @@ function sortUnits(a, b) {
             setTimeout(() => this.setSelectionRange(0, 1), 10);
         });
         
+        // iOS组合输入事件处理（防止输入一个字母变两个的bug）
+        input.addEventListener('compositionstart', function() {
+            isComposing = true;
+        });
+        input.addEventListener('compositionend', function(e) {
+            isComposing = false;
+            // 组合输入结束后手动触发处理
+            handleInputEvent(this, inputs, index);
+        });
+
         // 输入处理
-        input.addEventListener('input', function() {
-    // 直接保留用户输入的原样，不再转为小写
-    this.value = this.value.slice(-1);  // 只保留最后一个字符
-    this.classList.remove('incorrect');
-    
-    // 清除错误提示
-    if (resultEl.textContent.includes('错误')) {
-        resultEl.textContent = '';
-        resultEl.className = 'result';
-    }
-    
-    // 自动跳转到下一个可输入格子
-    if (this.value) {
-        const nextInput = findNextInput(inputs, index);
-        if (nextInput) {
-            nextInput.focus();
-            setTimeout(() => nextInput.setSelectionRange(0, 1));
-        }
-    }
-    
-    // 检查是否全部填满
-    if (checkAllFilled()) {
-        checkAllAnswers();
-    }
-});
+        input.addEventListener('input', function(e) {
+            // iOS输入法组合中，不处理
+            if (isComposing) return;
+            // 防止iOS Safari重复触发input事件
+            if (e.isComposing) return;
+            handleInputEvent(this, inputs, index);
+        });
         
         // 键盘事件处理
         input.addEventListener('keydown', function(e) {
@@ -2123,6 +2116,33 @@ function showAnswer() {
         }, 100);
     }
 }
+
+        // 统一处理输入事件（iOS兼容）
+        function handleInputEvent(inputEl, allInputs, currentIndex) {
+            // 只保留最后一个字符，防止iOS重复触发导致多字符
+            inputEl.value = inputEl.value.slice(-1);
+            inputEl.classList.remove('incorrect');
+            
+            // 清除错误提示
+            if (resultEl.textContent.includes('错误')) {
+                resultEl.textContent = '';
+                resultEl.className = 'result';
+            }
+            
+            // 自动跳转到下一个可输入格子
+            if (inputEl.value) {
+                const nextInput = findNextInput(allInputs, currentIndex);
+                if (nextInput) {
+                    nextInput.focus();
+                    setTimeout(function() { nextInput.setSelectionRange(0, 1); });
+                }
+            }
+            
+            // 检查是否全部填满
+            if (checkAllFilled()) {
+                checkAllAnswers();
+            }
+        }
 
         // 数组随机排序
         function shuffleArray(array) {
