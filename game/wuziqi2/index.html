@@ -379,7 +379,7 @@
     const TOTAL_CELLS = BOARD_SIZE * BOARD_SIZE;
     const ROOM_COUNT = 10;
     const COLLECTION = 'wuziqi_rooms'; // 数据库集合名
-    const INACTIVITY_TIMEOUT = 20 * 60 * 1000; // 无操作20分钟自动踢出
+    const INACTIVITY_TIMEOUT = 10 * 60 * 1000; // 无操作10分钟自动踢出
     const READY_TIMEOUT = 5 * 60 * 1000; // 准备超时5分钟自动踢出
     const USE_LOCAL_STORAGE = false; // 使用云端 CloudBase 数据库
     const AUTO_RESTART_DELAY = 3000; // 每局结束后自动重启延迟（毫秒）
@@ -807,7 +807,6 @@
             drawBoard(room.board || new Array(TOTAL_CELLS).fill(0));
             resetInactivityTimer();
             resetReadyTimer();
-            cacheAccessToken();
             startWatchRoom();
         } catch (e) {
             setStatus('加入失败：' + e.message, 'error');
@@ -822,7 +821,7 @@
     function resetInactivityTimer() {
         stopInactivityTimer();
         inactivityTimer = setTimeout(() => {
-            setStatus('超过20分钟无操作，已被移出房间', 'error');
+            setStatus('超过10分钟无操作，已被移出房间', 'error');
             leaveRoom();
         }, INACTIVITY_TIMEOUT);
     }
@@ -939,7 +938,7 @@
     }
 
 
-    // ============ 退出房间（修复函数缺失） ============
+    // ============ 退出房间 ============
 async function leaveRoom() {
     stopInactivityTimer();
     stopReadyTimer();
@@ -951,7 +950,31 @@ async function leaveRoom() {
 
     if (leavingRoomDocId && leavingRole) {
         try {
-            await doExitReset(leavingRoomDocId, leavingRole);
+            const res = await db.collection(COLLECTION).doc(leavingRoomDocId).get();
+            if (res.data && res.data.length > 0) {
+                const room = res.data[0];
+                const resetData = {
+                    started: false, gameOver: false, winner: 0,
+                    lastMove: { x: -1, y: -1 },
+                    player1Ready: false, player2Ready: false,
+                    board: new Array(TOTAL_CELLS).fill(0),
+                    currentPlayer: 1
+                };
+                if (leavingRole === 1) {
+                    resetData.player1Id = null;
+                } else {
+                    resetData.player2Id = null;
+                }
+                // 对手也不在就彻底清空房间数据
+                const opponentHere = (leavingRole === 1 && room.player2Id) || (leavingRole === 2 && room.player1Id);
+                if (!opponentHere) {
+                    resetData.player1Id = null;
+                    resetData.player2Id = null;
+                    resetData.blackScore = 0;
+                    resetData.whiteScore = 0;
+                }
+                await db.collection(COLLECTION).doc(leavingRoomDocId).update(resetData);
+            }
         } catch (e) {
             console.warn('退出房间失败:', e);
         }
@@ -1451,193 +1474,24 @@ async function placeStone(x, y) {
         resizeTimer = setTimeout(() => { resizeCanvas(); drawBoard(boardData); }, 200);
     });
 
-// ============ 页面关闭 / 刷新 自动退出房间（修复残留问题） ============
-let cachedAccessToken = '';
-
-async function cacheAccessToken() {
-    if (USE_LOCAL_STORAGE) return;
-    try {
-        const app = await getCloudBaseApp();
-        if (app) {
-            const result = await app.auth().getAccessToken();
-            if (result && result.accessToken) {
-                cachedAccessToken = result.accessToken;
-            }
-        }
-    } catch (e) {}
-}
-
-window.addEventListener('beforeunload', () => {
-    stopInactivityTimer();
-    stopReadyTimer();
-    if (autoRestartTimer) clearInterval(autoRestartTimer);
-    if (watcher) watcher.close();
-
-    if (currentRoomDocId && myRole) {
-        doExitReset(currentRoomDocId, myRole);
-    }
-});
-
-// 页面隐藏（手机切后台/锁屏）兜底
-window.addEventListener('pagehide', () => {
-    stopInactivityTimer();
-    stopReadyTimer();
-    if (autoRestartTimer) clearInterval(autoRestartTimer);
-    if (watcher) watcher.close();
-
-    if (currentRoomDocId && myRole) {
-        doExitReset(currentRoomDocId, myRole);
-    }
-});
-
-// 统一退出重置逻辑
-async function doExitReset(roomDocId, role) {
-    if (!roomDocId || !role) return;
-
-    const resetData = {
-        started: false,
-        gameOver: false,
-        winner: 0,
-        lastMove: { x: -1, y: -1 },
-        player1Ready: false,
-        player2Ready: false,
-        board: new Array(TOTAL_CELLS).fill(0),
-        currentPlayer: 1
-    };
-
-    if (role === 1) {
-        resetData.player1Id = null;
-    } else {
-        resetData.player2Id = null;
-    }
-
-    try {
-        // 本地模式
-        if (USE_LOCAL_STORAGE || (db && db.collections)) {
-            const collection = db.collections[COLLECTION];
-            if (collection) {
-                const index = collection.findIndex(doc => doc._id === roomDocId);
-                if (index !== -1) {
-                    collection[index] = { ...collection[index], ...resetData };
-                    db._saveToStorage();
-                }
-            }
-        }
-        // 云端模式（keepalive 保证关闭页面也能发送）
-        else if (cachedAccessToken) {
-            const envId = "zxxlts-d5gzvmtbvb30b1545";
-            fetch(`https://${envId}.service.tcloudbase.com/database/v1/collections/${COLLECTION}/documents/${roomDocId}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${cachedAccessToken}`
-                },
-                body: JSON.stringify(resetData),
-                keepalive: true
-            }).catch(() => {});
-        }
-    } catch (e) {}
-}
-
-    // ============ 页面关闭 / 刷新 自动退出房间（修复残留问题） ============
-window.addEventListener('beforeunload', (e) => {
-  stopInactivityTimer();
-  stopReadyTimer();
-  if (autoRestartTimer) clearInterval(autoRestartTimer);
-  if (watcher) watcher.close();
-
-  if (currentRoomDocId && myRole) {
-    // 同步执行退出，不使用 async/await
-    doExitReset(currentRoomDocId, myRole);
-  }
-});
-
-window.addEventListener('pagehide', () => {
-  stopInactivityTimer();
-  stopReadyTimer();
-  if (autoRestartTimer) clearInterval(autoRestartTimer);
-  if (watcher) watcher.close();
-
-  if (currentRoomDocId && myRole) {
-    doExitReset(currentRoomDocId, myRole);
-  }
-});
-
-async function doExitReset(roomDocId, role) {
-  if (!roomDocId || !role) return;
-
-  const resetData = {
-    started: false,
-    gameOver: false,
-    winner: 0,
-    lastMove: { x: -1, y: -1 },
-    player1Ready: false,
-    player2Ready: false,
-    board: new Array(TOTAL_CELLS).fill(0),
-    currentPlayer: 1
-  };
-
-  if (role === 1) {
-    resetData.player1Id = null;
-  } else {
-    resetData.player2Id = null;
-  }
-
-  try {
-    // 本地模式
-    if (USE_LOCAL_STORAGE || (db && db.collections)) {
-      const collection = db.collections[COLLECTION];
-      if (collection) {
-        const index = collection.findIndex(doc => doc._id === roomDocId);
-        if (index !== -1) {
-          collection[index] = { ...collection[index], ...resetData };
-          db._saveToStorage();
-        }
-      }
-    }
-    // 云端模式（使用 keepalive 保证关闭页面也能发送成功）
-    else if (cachedAccessToken) {
-      const envId = "zxxlts-d5gzvmtbvb30b1545"; // 你的环境ID
-      fetch(`https://${envId}.service.tcloudbase.com/database/v1/collections/${COLLECTION}/documents/${roomDocId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${cachedAccessToken}`
-        },
-        body: JSON.stringify(resetData),
-        keepalive: true
-      }).catch(() => {});
-    }
-  } catch (e) {}
-}
-
+// ============ 页面加载后自动重连 ============
 init().then(async () => {
     resizeCanvas();
     drawBoard(boardData);
-    await cacheAccessToken();
 
-    const savedDocId = localStorage.getItem('wzq_roomDocId');
-    const savedRole = parseInt(localStorage.getItem('wzq_role')) || 0;
-
-    if (savedDocId && savedRole) {
-        await doExitReset(savedDocId, savedRole);
-    }
-
-    try {
-        const res = await db.collection(COLLECTION).limit(ROOM_COUNT + 5).get();
-        const rooms = res.data || [];
-        for (const room of rooms) {
-            const occupiedRole = room.player1Id === myUserId ? 1 : (room.player2Id === myUserId ? 2 : 0);
-            if (!occupiedRole) continue;
-            await doExitReset(room._id, occupiedRole);
+    // 刷新/关闭页面不算退出房间，自动重连到上次的房间
+    const savedRoomId = localStorage.getItem('wzq_roomId');
+    if (savedRoomId) {
+        console.log('检测到上次在房间中，自动重连:', savedRoomId);
+        try {
+            await joinRoom(savedRoomId);
+        } catch (e) {
+            console.warn('自动重连失败:', e);
+            localStorage.removeItem('wzq_roomId');
+            localStorage.removeItem('wzq_roomDocId');
+            localStorage.removeItem('wzq_role');
         }
-    } catch (e) {}
-
-    localStorage.removeItem('wzq_roomId');
-    localStorage.removeItem('wzq_roomDocId');
-    localStorage.removeItem('wzq_role');
-
-    setTimeout(() => refreshRooms(), 200);
+    }
 });
     </script>
 </body>
