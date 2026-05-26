@@ -319,7 +319,7 @@
     </style>
 </head>
 <body>
-    <h2>五子棋2</h2>
+    <h2>五子棋3</h2>
     <div id="status"></div>
 
     <!-- 房间选择区 -->
@@ -646,7 +646,7 @@
                         winner: 0,
                         blackScore: 0,
                         whiteScore: 0,
-                        lastMove: null,
+                        lastMove: {},
                         started: false,
                         player1Ready: false,
                         player2Ready: false
@@ -727,7 +727,7 @@
 
                 console.log('[自我清理] 发现旧占用:', room.roomId, '角色:', occupiedRole);
                 const resetData = {
-                    started: false, gameOver: false, winner: 0, lastMove: null,
+                    started: false, gameOver: false, winner: 0, lastMove: {},
                     player1Ready: false, player2Ready: false,
                     board: new Array(TOTAL_CELLS).fill(0),
                     currentPlayer: 1
@@ -878,7 +878,7 @@
                         player2Ready: false,
                         board: new Array(TOTAL_CELLS).fill(0),
                         currentPlayer: 1,
-                        lastMove: null
+                        lastMove: {}
                     };
                     
                     if (leavingRole === 1) {
@@ -956,7 +956,7 @@
                 currentPlayer: 1,
                 gameOver: false,
                 winner: 0,
-                lastMove: null,
+                lastMove: {},
                 started: true,           // 直接开局，跳过准备阶段
                 player1Ready: false,
                 player2Ready: false,
@@ -987,7 +987,7 @@
             // 只能悔自己刚下的那步棋（当前轮到对方时，说明自己刚下完）
             const isOpponentTurn = room.currentPlayer !== myRole;
             if (!isOpponentTurn) { setStatus('还没轮到你，无法悔棋', 'error'); return; }
-            if (!room.lastMove) { setStatus('没有棋子可以悔', 'error'); return; }
+            if (!room.lastMove || room.lastMove.x == null) { setStatus('没有棋子可以悔', 'error'); return; }
 
             const { x, y } = room.lastMove;
             const idx = y * BOARD_SIZE + x;
@@ -997,7 +997,7 @@
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 board: newBoard,
                 currentPlayer: myRole,
-                lastMove: null
+                lastMove: {}
             });
 
             setStatus('已悔棋', 'success');
@@ -1256,70 +1256,75 @@
     let isPlacing = false; // 防止重复落子
 
     async function placeStone(x, y) {
-        // 必须游戏已开始、未结束、已在房间、有角色
-        if (!currentRoomDocId || !myRole) {
-            setStatus('未加入房间', 'error'); return;
-        }
-        if (!roomStarted) {
-            setStatus('游戏未开始，请先准备', 'error'); return;
-        }
-        if (gameOver) {
-            setStatus('游戏已结束', 'error'); return;
-        }
-        if (isPlacing) return; // 防止重复落子
-
-        resetInactivityTimer();
-
-        const idx = y * BOARD_SIZE + x;
-        if (boardData[idx] !== 0) {
-            setStatus('此处已有棋子', 'error'); return;
-        }
-
-        // 使用数据库同步的 currentPlayer 判断该谁落子
-        if (roomCurrentPlayer !== myRole) {
-            setStatus('还没轮到你', 'error'); return;
-        }
-
-        isPlacing = true;
-
-        // 更新本地 board 用于判断
-        const newBoard = [...boardData];
-        newBoard[idx] = myRole;
-
-        // 先乐观更新本地，立即渲染棋子
-        boardData = newBoard;
-        drawBoard(boardData);
-
-        try {
-            await db.collection(COLLECTION).doc(currentRoomDocId).update({
-                board: newBoard,
-                currentPlayer: myRole === 1 ? 2 : 1,
-                lastMove: { x, y }
-            });
-
-            // 检查是否胜利
-            if (checkLocalWin(y, x, myRole)) {
-                const winnerScoreField = myRole === 1 ? 'blackScore' : 'whiteScore';
-                const currentScore = myRole === 1 ?
-                    parseInt(document.getElementById('p1-score').innerText) || 0 :
-                    parseInt(document.getElementById('p2-score').innerText) || 0;
-
-                await db.collection(COLLECTION).doc(currentRoomDocId).update({
-                    gameOver: true,
-                    winner: myRole,
-                    [winnerScoreField]: currentScore + 1
-                });
-            }
-        } catch (e) {
-            // 更新失败，回滚 board 并重绘
-            boardData = boardData.map((v, i) => i === idx ? 0 : v);
-            drawBoard(boardData);
-            setStatus('落子失败，请重试', 'error');
-            console.error('落子失败:', e);
-        } finally {
-            isPlacing = false;
-        }
+    // 必须游戏已开始、未结束、已在房间、有角色
+    if (!currentRoomDocId || !myRole) {
+        setStatus('未加入房间', 'error'); return;
     }
+    if (!roomStarted) {
+        setStatus('游戏未开始，请先准备', 'error'); return;
+    }
+    if (gameOver) {
+        setStatus('游戏已结束', 'error'); return;
+    }
+    if (isPlacing) return; // 防止重复落子
+
+    resetInactivityTimer();
+
+    const idx = y * BOARD_SIZE + x;
+    
+    // 先从数据库获取最新房间数据
+    const roomRes = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+    if (!roomRes.data || roomRes.data.length === 0) {
+        setStatus('房间数据异常', 'error'); return;
+    }
+    const latestRoom = roomRes.data[0];
+    const latestBoard = [...latestRoom.board];
+    
+    // 判断位置是否已有棋子
+    if (latestBoard[idx] !== 0) {
+        setStatus('此处已有棋子', 'error'); return;
+    }
+
+    // 使用数据库同步的 currentPlayer 判断该谁落子
+    if (latestRoom.currentPlayer !== myRole) {
+        setStatus('还没轮到你', 'error'); return;
+    }
+
+    isPlacing = true;
+
+    // 生成新棋盘
+    const newBoard = [...latestBoard];
+    newBoard[idx] = myRole;
+
+    try {
+        // 【关键修复】完整更新 lastMove 字段，不直接修改属性
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({
+            board: newBoard,
+            currentPlayer: myRole === 1 ? 2 : 1,
+            lastMove: {x:x, y:y}
+        });
+
+        // 检查胜利
+        const win = checkLocalWin(y, x, myRole);
+        if (win) {
+            const winnerScoreField = myRole === 1 ? 'blackScore' : 'whiteScore';
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                gameOver: true,
+                winner: myRole,
+                [winnerScoreField]: latestRoom[winnerScoreField] + 1
+            });
+        }
+
+        // 本地同步棋盘数据，用于后续绘制
+        boardData = newBoard;
+
+    } catch (e) {
+        setStatus('落子失败，请重试', 'error');
+        console.error('落子失败:', e);
+    } finally {
+        isPlacing = false;
+    }
+}
 
     // ============ 计算画布坐标 ============
     function getBoardPosition(clientX, clientY) {
@@ -1521,7 +1526,7 @@
             started: false,
             gameOver: false,
             winner: 0,
-            lastMove: null,
+            lastMove: {},
             player1Ready: false,
             player2Ready: false,
             board: new Array(TOTAL_CELLS).fill(0),
@@ -1588,7 +1593,7 @@
         if (savedDocId && savedRole) {
             // 方案A：精准清理 savedDocId 对应的房间（最可靠）
             const resetData = {
-                started: false, gameOver: false, winner: 0, lastMove: null,
+                started: false, gameOver: false, winner: 0, lastMove: {},
                 player1Ready: false, player2Ready: false,
                 board: new Array(TOTAL_CELLS).fill(0),
                 currentPlayer: 1
@@ -1648,7 +1653,7 @@
 
                 console.log('[启动清理B] 发现残留占用:', room.roomId, '角色:', occupiedRole);
                 const rData = {
-                    started: false, gameOver: false, winner: 0, lastMove: null,
+                    started: false, gameOver: false, winner: 0, lastMove: {},
                     player1Ready: false, player2Ready: false,
                     board: new Array(TOTAL_CELLS).fill(0),
                     currentPlayer: 1
