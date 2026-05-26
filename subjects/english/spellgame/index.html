@@ -26,7 +26,7 @@ body {
 }
 h1 {
     text-align: center;
-    color: #3aa551;
+    color: #a53a3a;
     font-size: 2rem;
     margin-bottom: 20px;
     font-weight: 600;
@@ -629,17 +629,39 @@ h1 {
                 input.setAttribute('autocorrect','off');
                 input.setAttribute('autocomplete','off');
                 input.setAttribute('spellcheck','false');
+                input.setAttribute('autosave','off');
+                input.setAttribute('data-gramm','false');
+                input.setAttribute('style','-webkit-user-select: text;');
                 dashesContainerEl.appendChild(input);
             }
         });
         const inputs = Array.from(dashesContainerEl.querySelectorAll('input'));
         inputs.forEach((inp, idx) => {
             inp.dataset.index = idx;
-            inp.addEventListener('focus', () => setTimeout(() => inp.setSelectionRange(0,1), 10));
+            inp.addEventListener('focus', () => setTimeout(() => {
+                inp.setSelectionRange(0, 1);
+            }, 10));
+            
             let composing = false;
-            inp.addEventListener('compositionstart', () => composing = true);
-            inp.addEventListener('compositionend', () => { composing = false; handleInput(inp, inputs, idx); });
-            inp.addEventListener('input', () => { if (!composing) handleInput(inp, inputs, idx); });
+            let lastInputTime = 0;
+            
+            inp.addEventListener('compositionstart', () => { composing = true; });
+            
+            inp.addEventListener('compositionend', () => {
+                composing = false;
+                const now = Date.now();
+                if (now - lastInputTime > 10) {
+                    handleInputAndJump(inp, inputs, idx);
+                }
+            });
+            
+            inp.addEventListener('input', () => {
+                lastInputTime = Date.now();
+                if (!composing) {
+                    handleInputAndJump(inp, inputs, idx);
+                }
+            });
+            
             inp.addEventListener('keydown', e => {
                 if (e.key === 'ArrowLeft') { e.preventDefault(); findPrevInput(inputs, idx)?.focus(); }
                 else if (e.key === 'ArrowRight') { e.preventDefault(); findNextInput(inputs, idx)?.focus(); }
@@ -662,7 +684,34 @@ h1 {
         input.value = input.value.slice(-1);
         input.classList.remove('wrong');
         if (input.value) {
-            setTimeout(() => { const n = findNextInput(inputs, idx); if (n) n.focus(); }, 20);
+            setTimeout(() => {
+                const n = findNextInput(inputs, idx);
+                if (n) {
+                    n.focus();
+                    setTimeout(() => {
+                        if (n.setSelectionRange) {
+                            n.setSelectionRange(0, 1);
+                        }
+                    }, 10);
+                }
+            }, 50);
+        }
+        if (checkAllFilled()) autoCheck();
+    }
+
+    function handleInputAndJump(input, inputs, idx) {
+        input.value = input.value.slice(-1);
+        input.classList.remove('wrong');
+        if (input.value) {
+            const nextInput = findNextInput(inputs, idx);
+            if (nextInput) {
+                nextInput.focus();
+                setTimeout(() => {
+                    if (nextInput.setSelectionRange) {
+                        nextInput.setSelectionRange(0, 1);
+                    }
+                }, 5);
+            }
         }
         if (checkAllFilled()) autoCheck();
     }
