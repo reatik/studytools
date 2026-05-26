@@ -248,6 +248,8 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.15);
             text-align: center;
         }
+        .btn-ready { background: linear-gradient(135deg, #4CAF50, #388E3C); }
+        .btn-ready-cancel { background: linear-gradient(135deg, #ef5350, #c62828); }
     </style>
 </head>
 <body>
@@ -278,6 +280,10 @@
         <div id="game-container">
             <div id="board-wrapper">
                 <canvas id="board" class="blocked"></canvas>
+            </div>
+            <div id="wait-overlay">
+                <div class="wait-text" id="wait-text">⏳ 等待对手加入...</div>
+                <button class="btn btn-ready" id="btn-ready" onclick="toggleReady()" style="display:none;">准备</button>
             </div>
             <div id="victory-overlay">
                 <div class="victory-box">
@@ -370,6 +376,8 @@
                         roomName: '房间' + i,
                         player1Id: null,
                         player2Id: null,
+                        player1Ready: false,
+                        player2Ready: false,
                         board: new Array(TOTAL_CELLS).fill(0),
                         currentPlayer: 1,
                         gameOver: false,
@@ -517,10 +525,12 @@
                         });
                         // 不清除 ready/started，让剩余玩家能看到结果
                     } else {
-                        // 正常退出，清除位置
+                        // 正常退出，清除位置和准备状态
                         const field = myRole === 1 ? 'player1Id' : 'player2Id';
+                        const readyField = myRole === 1 ? 'player1Ready' : 'player2Ready';
                         await db.collection(COLLECTION).doc(currentRoomDocId).update({
                             [field]: null,
+                            [readyField]: false,
                             started: false
                         });
                     }
@@ -559,9 +569,11 @@
                 gameOver: false,
                 winner: 0,
                 lastMove: null,
-                started: true
+                started: false,
+                player1Ready: false,
+                player2Ready: false
             });
-            setStatus('新一局开始！', 'success');
+            setStatus('已请求再来一局，请准备！', 'success');
         } catch (e) {
             setStatus('操作失败', 'error');
         }
@@ -600,6 +612,29 @@
         }
     }
 
+
+
+    // ============ 准备/取消准备 ============
+    async function toggleReady() {
+        if (!currentRoomDocId || !myRole || gameOver) return;
+        resetInactivityTimer();
+
+        try {
+            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+            if (!res.data || res.data.length === 0) return;
+            const room = res.data[0];
+
+            const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
+            const newReady = !(room[field]);
+
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                [field]: newReady
+            });
+            setStatus(newReady ? '已准备' : '已取消准备', 'success');
+        } catch (e) {
+            setStatus('操作失败：' + e.message, 'error');
+        }
+    }
 
 
     // ============ 刷新玩家名 ============
@@ -674,21 +709,46 @@
             waitOverlay.classList.add('show');
             canvas.classList.add('blocked');
             document.getElementById('wait-text').innerText = '⏳ 等待对手加入...';
+            document.getElementById('btn-ready').style.display = 'none';
             setStatus('等待对手加入...', 'info');
             drawBoard(room.board);
             return;
         }
 
-        // ===== 双方到齐但未开始 → 自动开始游戏 =====
+        // ===== 双方到齐但未开始 → 显示准备界面 =====
         if (!room.started) {
             gameOver = false;
-            setStatus('游戏开始！', 'success');
-            // 自动开始（由触发此更新的玩家执行，另一个玩家通过watcher看到）
-            db.collection(COLLECTION).doc(currentRoomDocId).update({
-                started: true,
-                gameOver: false,
-                winner: 0
-            }).catch(e => { /* 如果已有其他玩家设置了，忽略冲突 */ });
+            victoryOverlay.classList.remove('show');
+            waitOverlay.classList.add('show');
+            canvas.classList.add('blocked');
+            drawBoard(room.board);
+
+            const amIReady = myRole === 1 ? room.player1Ready : room.player2Ready;
+            const opponentReady = myRole === 1 ? room.player2Ready : room.player1Ready;
+            const waitTextEl = document.getElementById('wait-text');
+            const btnReady = document.getElementById('btn-ready');
+
+            btnReady.style.display = '';
+            if (amIReady) {
+                waitTextEl.innerText = opponentReady ? '双方都已准备，即将开始...' : '已准备，等待对手...';
+                btnReady.innerText = '取消准备';
+                btnReady.className = 'btn btn-ready-cancel';
+                setStatus('已准备，等待对手...', 'info');
+            } else {
+                waitTextEl.innerText = opponentReady ? '对手已准备，请准备！' : '双方已到齐，请准备！';
+                btnReady.innerText = '准备';
+                btnReady.className = 'btn btn-ready';
+                setStatus(opponentReady ? '对手已准备，请准备！' : '双方已到齐，请准备！', 'info');
+            }
+
+            // 双方都准备好了 → 开始游戏
+            if (room.player1Ready && room.player2Ready) {
+                db.collection(COLLECTION).doc(currentRoomDocId).update({
+                    started: true,
+                    gameOver: false,
+                    winner: 0
+                }).catch(e => { /* 忽略冲突 */ });
+            }
             return;
         }
 
