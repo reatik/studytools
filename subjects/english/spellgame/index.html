@@ -86,6 +86,21 @@ h1 {
 .filter-group:last-child { margin-bottom: 0; }
 .filter-title {
     font-size: 12px; color: #666; margin-bottom: 6px; font-weight: 500;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.filter-title:hover {
+    background: #e8e8e8;
+    border-color: #ccc;
+}
+.filter-title.selected {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
 }
 .filter-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .filter-tag {
@@ -326,11 +341,11 @@ h1 {
     <!-- 筛选面板 -->
     <div class="filter-panel" id="filter-panel">
         <div class="filter-group">
-            <div class="filter-title">年级</div>
+            <button class="filter-title" id="gradeTitleBtn">年级</button>
             <div class="filter-tags" id="grade-tags"></div>
         </div>
         <div class="filter-group">
-            <div class="filter-title">单元</div>
+            <button class="filter-title" id="unitTitleBtn">单元</button>
             <div class="filter-tags" id="unit-tags"></div>
         </div>
     </div>
@@ -374,7 +389,6 @@ h1 {
 <div class="wrong-panel" id="wrongPanel">
     <div class="wrong-panel-header">
         <span class="wrong-panel-title">错题本</span>
-        <button class="back-btn" id="backFromWrongBtn">返回练习</button>
     </div>
     <div class="wrong-day-group" id="wrongWordList"></div>
     <div class="wrong-actions">
@@ -434,10 +448,11 @@ h1 {
     const topWrongBtn = document.getElementById('topWrongBtn');
     const optionMenuBtn = document.getElementById('optionMenuBtn');
     const filterPanel = document.getElementById('filter-panel');
+    const gradeTitleBtn = document.getElementById('gradeTitleBtn');
+    const unitTitleBtn = document.getElementById('unitTitleBtn');
     const gradeTagsEl = document.getElementById('grade-tags');
     const unitTagsEl = document.getElementById('unit-tags');
     const wrongWordList = document.getElementById('wrongWordList');
-    const backFromWrongBtn = document.getElementById('backFromWrongBtn');
     const selectAllBtn = document.getElementById('selectAllBtn');
     const clearSelectBtn = document.getElementById('clearSelectBtn');
     const practiceWrongBtn = document.getElementById('practiceWrongBtn');
@@ -520,6 +535,29 @@ h1 {
         return n(a) - n(b);
     }
 
+    function updateTitleButton(type) {
+        const btn = type === '年级' ? gradeTitleBtn : unitTitleBtn;
+        const list = type === '年级' ? allGrades : currentAvailableUnits;
+        const selectedSet = type === '年级' ? selectedGrades : selectedUnits;
+        
+        if (btn) {
+            btn.classList.toggle('selected', selectedSet.size >= list.length && list.length > 0);
+        }
+    }
+    
+    function toggleAllSelection(type) {
+        const list = type === '年级' ? allGrades : currentAvailableUnits;
+        const selectedSet = type === '年级' ? selectedGrades : selectedUnits;
+        
+        if (selectedSet.size >= list.length) {
+            selectedSet.clear();
+        } else {
+            list.forEach(item => selectedSet.add(item));
+        }
+        renderFilterTags();
+        doFilter();
+    }
+    
     function renderFilterTags() {
         renderTagGroup(gradeTagsEl, allGrades, selectedGrades, '年级');
         if (selectedGrades.size === 0) {
@@ -538,16 +576,7 @@ h1 {
 
     function renderTagGroup(container, list, selectedSet, type) {
         container.innerHTML = '';
-        const allTag = document.createElement('div');
-        allTag.className = 'filter-tag all';
-        allTag.textContent = '全部';
-        allTag.onclick = () => {
-            if (selectedSet.size >= list.length) selectedSet.clear();
-            else list.forEach(item => selectedSet.add(item));
-            renderFilterTags();
-            doFilter();
-        };
-        container.appendChild(allTag);
+        updateTitleButton(type);
         
         if (type === '年级') {
             let rowDiv = document.createElement('div');
@@ -1126,6 +1155,16 @@ h1 {
             optionMenuBtn.classList.remove('active');
         });
         filterPanel.onclick = (e) => e.stopPropagation();
+        
+        // 年级和单元标题按钮点击事件
+        gradeTitleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleAllSelection('年级');
+        });
+        unitTitleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleAllSelection('单元');
+        });
 
         // 错题模式切换
         topWrongBtn.addEventListener('click', (e) => {
@@ -1150,12 +1189,6 @@ h1 {
         });
 
         // 错题本面板
-        backFromWrongBtn.addEventListener('click', () => {
-            isWrongMode = false;
-            topWrongBtn.classList.remove('active');
-            hideWrongPanel();
-            doFilter();
-        });
         selectAllBtn.addEventListener('click', selectAllWrong);
         clearSelectBtn.addEventListener('click', clearWrongSelection);
         practiceWrongBtn.addEventListener('click', practiceSelectedWrong);
