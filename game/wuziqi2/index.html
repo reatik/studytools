@@ -329,6 +329,7 @@
     const TOTAL_CELLS = BOARD_SIZE * BOARD_SIZE;
     const ROOM_COUNT = 10;
     const COLLECTION = 'wuziqi_rooms'; // 数据库集合名
+    const READY_TIMEOUT = 30;          // 准备超时30秒
 
     // ============ 全局变量 ============
     let db = null;
@@ -338,6 +339,9 @@
     let currentRoomDocId = '';   // 数据库 _id
     let myRole = 0;              // 1=黑方(player1), 2=白方(player2)
     let gameOver = false;
+    let readyDeadline = 0;        // 准备超时截止时间戳
+    let readyTimerInterval = null;
+    let readyTimerTimeout = null;
 
     // Canvas 相关
     const canvas = document.getElementById('board');
@@ -540,8 +544,103 @@
         }
     }
 
+    // ============ 准备倒计时 ============
+    function stopReadyTimer() {
+        if (readyTimerInterval) { clearInterval(readyTimerInterval); readyTimerInterval = null; }
+        if (readyTimerTimeout) { clearTimeout(readyTimerTimeout); readyTimerTimeout = null; }
+        readyDeadline = 0;
+    }
+
+    function startReadyTimer(room) {
+        // 如果还没设截止时间，或者双方准备状态都没变，保持原截止时间
+        // 否则重置截止时间
+        const now = Date.now();
+        if (readyDeadline === 0 || readyDeadline - now < 0) {
+            readyDeadline = now + READY_TIMEOUT * 1000;
+        }
+
+        stopReadyTimer(); // 清理旧定时器再重建
+
+        const waitText = document.getElementById('wait-text');
+
+        // 每秒更新倒计时
+        readyTimerInterval = setInterval(() => {
+            const remaining = Math.max(0, Math.ceil((readyDeadline - Date.now()) / 1000));
+            const baseText = '双方均已到齐，请准备';
+            waitText.innerText = baseText + ' (' + remaining + 's)';
+
+            // 当倒计时剩5秒时变红
+            if (remaining <= 5) {
+                waitText.style.color = '#e53935';
+            }
+        }, 500);
+
+        // 超时后踢人
+        const delay = readyDeadline - now;
+        readyTimerTimeout = setTimeout(() => kickUnreadyPlayer(), delay);
+    }
+
+    async function kickUnreadyPlayer() {
+        stopReadyTimer();
+        if (!currentRoomDocId || !myRole) return;
+
+        try {
+            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+            if (!res.data || res.data.length === 0) return;
+            const room = res.data[0];
+
+            // 如果游戏已经开始了，不管了
+            if (room.started || room.gameOver) return;
+
+            const iAmReady = (myRole === 1 && room.player1Ready) || (myRole === 2 && room.player2Ready);
+            const otherIsReady = (myRole === 1 && room.player2Ready) || (myRole === 2 && room.player1Ready);
+
+            if (iAmReady && !otherIsReady) {
+                // 我准备好了，对方没准备 → 踢掉对方
+                const otherField = myRole === 1 ? 'player2Id' : 'player1Id';
+                await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                    [otherField]: null,
+                    player1Ready: false,
+                    player2Ready: false,
+                    started: false
+                });
+                setStatus('对方超时未准备，已自动离开', 'info');
+            } else if (!iAmReady) {
+                // 我没准备 → 自己退出
+                const myField = myRole === 1 ? 'player1Id' : 'player2Id';
+                await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                    [myField]: null,
+                    player1Ready: false,
+                    player2Ready: false,
+                    started: false
+                });
+                // 本地也退出
+                if (watcher) { watcher.close(); watcher = null; }
+                currentRoomId = '';
+                currentRoomDocId = '';
+                myRole = 0;
+                gameOver = false;
+                localStorage.removeItem('wzq_roomId');
+                localStorage.removeItem('wzq_roomDocId');
+                localStorage.removeItem('wzq_role');
+                roomSection.style.display = 'block';
+                gameSection.classList.remove('show');
+                victoryOverlay.classList.remove('show');
+                waitOverlay.classList.remove('show');
+                canvas.classList.add('blocked');
+                setStatus('你超时未准备，已被移出房间', 'error');
+                refreshRooms();
+            } else {
+                // 双方都准备好了，不理（理论上此时游戏应该已经开始了）
+            }
+        } catch (e) {
+            console.error('踢人失败:', e);
+        }
+    }
+
     // ============ 退出房间 ============
     async function leaveRoom() {
+        stopReadyTimer();
         if (watcher) { watcher.close(); watcher = null; }
 
         if (currentRoomDocId && myRole) {
@@ -596,6 +695,7 @@
 
     // ============ 再来一局 ============
     async function playAgain() {
+        stopReadyTimer();
         if (!currentRoomDocId) return;
         victoryOverlay.classList.remove('show');
         gameOver = false;
@@ -653,6 +753,7 @@
 
     // ============ 重新积分 ============
     async function resetScore() {
+        stopReadyTimer();
         if (!currentRoomDocId) return;
 
         try {
@@ -717,6 +818,7 @@
 
         // ===== 游戏结束判定 =====
         if (room.gameOver) {
+            stopReadyTimer();
             gameOver = true;
             canvas.classList.add('blocked');
             waitOverlay.classList.remove('show');
@@ -741,11 +843,13 @@
 
         // ===== 对手未到齐 =====
         if (!bothHere) {
+            stopReadyTimer();
             waitOverlay.classList.add('show');
             canvas.classList.add('blocked');
             readyBtn.style.display = 'none';
             readyStatus.style.display = 'none';
             waitText.innerText = '⏳ 等待对手加入...';
+            waitText.style.color = '#333';
             setStatus('等待对手加入...', 'info');
             drawBoard(room.board);
             return;
@@ -753,9 +857,11 @@
 
         // ===== 双方到齐但未准备 → 显示准备界面 =====
         if (!room.started) {
+            startReadyTimer(room);
             waitOverlay.classList.add('show');
             canvas.classList.add('blocked');
-            waitText.innerText = '双方均已到齐，请准备';
+            const remaining = Math.max(0, Math.ceil((readyDeadline - Date.now()) / 1000));
+            waitText.innerText = '双方均已到齐，请准备 (' + remaining + 's)';
 
             // 显示准备状态
             readyStatus.style.display = 'flex';
@@ -771,15 +877,17 @@
             readyBtn.style.display = 'inline-block';
             readyBtn.textContent = iAmReady ? '✅ 已准备' : '✅ 准备';
             readyBtn.className = 'btn btn-ready' + (iAmReady ? ' ready-done' : '');
-            setStatus('请点击准备开始游戏', 'info');
+            setStatus('请点击准备开始游戏 (' + remaining + 's超时)', 'info');
             drawBoard(room.board);
             return;
         }
 
         // ===== 游戏进行中 =====
+        stopReadyTimer();
         waitOverlay.classList.remove('show');
         readyBtn.style.display = 'none';
         readyStatus.style.display = 'none';
+        waitText.style.color = '#333';
 
         const isMyTurn = (room.currentPlayer === 1 && myRole === 1) || (room.currentPlayer === 2 && myRole === 2);
 
