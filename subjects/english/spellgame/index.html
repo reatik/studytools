@@ -94,7 +94,7 @@ h1 {
     transition: all 0.2s; border: 1px solid transparent;
 }
 .filter-tag.active { background: var(--primary); color: #fff; }
-.filter-tag.all { background: #f1f1f1; color: #666; }
+.filter-tag.all { background: #f1f1f1; color: #666; flex-basis: 100%; margin-bottom: 4px; }
 
 /* ===== 练习卡片 ===== */
 .word-container {
@@ -548,18 +548,51 @@ h1 {
             doFilter();
         };
         container.appendChild(allTag);
-        list.forEach(item => {
-            const tag = document.createElement('div');
-            tag.className = 'filter-tag';
-            if (selectedSet.has(item)) tag.classList.add('active');
-            tag.textContent = item;
-            tag.onclick = () => {
-                selectedSet.has(item) ? selectedSet.delete(item) : selectedSet.add(item);
-                renderFilterTags();
-                doFilter();
-            };
-            container.appendChild(tag);
-        });
+        
+        if (type === '年级') {
+            let rowDiv = document.createElement('div');
+            rowDiv.style.display = 'flex';
+            rowDiv.style.flexWrap = 'wrap';
+            rowDiv.style.gap = '6px';
+            
+            list.forEach((item, index) => {
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                if (selectedSet.has(item)) tag.classList.add('active');
+                tag.textContent = item;
+                tag.onclick = () => {
+                    selectedSet.has(item) ? selectedSet.delete(item) : selectedSet.add(item);
+                    renderFilterTags();
+                    doFilter();
+                };
+                rowDiv.appendChild(tag);
+                
+                if ((index + 1) % 2 === 0) {
+                    container.appendChild(rowDiv);
+                    rowDiv = document.createElement('div');
+                    rowDiv.style.display = 'flex';
+                    rowDiv.style.flexWrap = 'wrap';
+                    rowDiv.style.gap = '6px';
+                }
+            });
+            
+            if (rowDiv.children.length > 0) {
+                container.appendChild(rowDiv);
+            }
+        } else {
+            list.forEach(item => {
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                if (selectedSet.has(item)) tag.classList.add('active');
+                tag.textContent = item;
+                tag.onclick = () => {
+                    selectedSet.has(item) ? selectedSet.delete(item) : selectedSet.add(item);
+                    renderFilterTags();
+                    doFilter();
+                };
+                container.appendChild(tag);
+            });
+        }
     }
 
     // ========== 过滤 & 出题池 ==========
