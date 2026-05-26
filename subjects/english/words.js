@@ -2672,7 +2672,7 @@ const wordData = {
 {"english": "support", "phonetic": "/səˈpɔːt/", "chinese": "技术支持；支持；帮助", "pos": "n.", "unit": "Unit 2", "grade": "八年级上", "type": "word"},
 {"english": "laptop", "phonetic": "/ˈlæptɒp/", "chinese": "便携式电脑；笔记本电脑", "pos": "n.", "unit": "Unit 2", "grade": "八年级上", "type": "word"},
 {"english": "keyboard", "phonetic": "/ˈkiːbɔːd/", "chinese": "（计算机或打字机的）键盘", "pos": "n.", "unit": "Unit 2", "grade": "八年级上", "type": "word"},
-{"english": "bluetooth", "phonetic": "/ˈbluːtuːθ/", "chinese": "蓝牙（用于手机、计算机等电子设备的短距离无线连接技术）", "pos": "n.", "unit": "Unit 2", "grade": "八年级上", "type": "word"},
+{"english": "bluetooth", "phonetic": "/ˈbluːtuːθ/", "chinese": "蓝牙", "pos": "n.", "unit": "Unit 2", "grade": "八年级上", "type": "word"},
 {"english": "smartphone", "phonetic": "/ˈsmɑːtfəʊn/", "chinese": "智能手机", "pos": "n.", "unit": "Unit 2", "grade": "八年级上", "type": "word"},
 {"english": "headset", "phonetic": "/ˈhedset/", "chinese": "（尤指带麦克风的）头戴式受话器，耳机", "pos": "n.", "unit": "Unit 2", "grade": "八年级上", "type": "word"},
 {"english": "large", "phonetic": "/lɑːdʒ/", "chinese": "大的；大规模的；大量的", "pos": "adj.", "unit": "Unit 2", "grade": "八年级上", "type": "word"},
