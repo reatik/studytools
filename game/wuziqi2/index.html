@@ -1332,6 +1332,9 @@
         if (currentRoomDocId && myRole) {
             doExitReset();
         }
+        localStorage.removeItem('wzq_roomId');
+        localStorage.removeItem('wzq_roomDocId');
+        localStorage.removeItem('wzq_role');
     });
 
     window.addEventListener('pagehide', () => {
@@ -1341,6 +1344,9 @@
         if (currentRoomDocId && myRole) {
             doExitReset();
         }
+        localStorage.removeItem('wzq_roomId');
+        localStorage.removeItem('wzq_roomDocId');
+        localStorage.removeItem('wzq_role');
     });
 
     function doExitReset() {
@@ -1399,12 +1405,10 @@
         
         await cacheAccessToken();
         
-        const savedRoomId = localStorage.getItem('wzq_roomId');
-        const savedRoomDocId = localStorage.getItem('wzq_roomDocId');
-        const savedRole = localStorage.getItem('wzq_role');
-        if (savedRoomId && savedRoomDocId && savedRole) {
-            setTimeout(() => joinRoom(savedRoomId), 500);
-        }
+        // 刷新页面不重连，清除旧的房间信息
+        localStorage.removeItem('wzq_roomId');
+        localStorage.removeItem('wzq_roomDocId');
+        localStorage.removeItem('wzq_role');
     });
     </script>
 </body>
