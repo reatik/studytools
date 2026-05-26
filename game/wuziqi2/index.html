@@ -2,194 +2,585 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>同WiFi五子棋</title>
-  <!-- 云开发CDN -->
   <script src="https://static.cloudbase.net/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: "Microsoft Yahei"; text-align: center; padding: 20px; background: #f5f5f5; }
-    .container { max-width: 420px; margin: 0 auto; }
-    .operate { margin: 20px 0; }
-    input { padding: 8px; width: 120px; font-size: 16px; }
-    button { padding: 8px 16px; font-size: 16px; cursor: pointer; margin: 0 5px; }
-    #tip { font-size: 18px; color: #333; margin: 10px 0; min-height: 24px; }
-    #board {
-      display: grid;
-      grid-template-columns: repeat(15, 1fr);
-      gap: 1px;
-      background: #c4936b;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      margin: 0 auto;
+    * { margin:0; padding:0; box-sizing:border-box; touch-action: manipulation; }
+    body {
+      font-family: 'Microsoft YaHei', -apple-system, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #e0e0e0;
+      -webkit-tap-highlight-color: transparent;
     }
-    .cell {
-      background: #e8c9a0;
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      width: 100%;
+      max-width: 500px;
+    }
+    h1 {
+      color: #f0d9b5;
+      margin: 0;
+      font-size: 1.4rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      letter-spacing: 6px;
+    }
+
+    /* 比分栏 */
+    #score-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 10px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      backdrop-filter: blur(4px);
+    }
+    #score-bar.hidden { display: none; }
+    .player-score { text-align: center; min-width: 60px; }
+    .player-score .name { font-size: 12px; color: #aaa; }
+    .player-score .num { font-size: 22px; font-weight: bold; color: #ddd; }
+    .score-vs { font-size: 15px; color: #777; }
+    .player-score.current .name { color: #f0d9b5; }
+    .player-score.current .num { color: #f0d9b5; }
+
+    /* 房间操作 */
+    #roomSection {
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center;
+    }
+    #roomSection input {
+      padding: 9px 12px; width: 110px; text-align: center;
+      border: 2px solid #c4936b; border-radius: 8px;
+      background: rgba(255,255,255,0.1); color: #fff;
+      font-size: 15px; outline: none;
+    }
+    #roomSection input:focus { border-color: #f0d9b5; }
+    #roomSection button {
+      padding: 9px 18px; border: none; border-radius: 8px;
+      font-size: 14px; cursor: pointer; font-weight: bold;
+      transition: all 0.2s;
+    }
+    #roomSection button:active { transform: scale(0.96); }
+    #createBtn { background: linear-gradient(135deg, #4CAF50, #45a049); color: #fff; }
+    #joinBtn { background: linear-gradient(135deg, #2196F3, #1976D2); color: #fff; }
+    #leaveBtn { background: linear-gradient(135deg, #e57373, #e53935); color: #fff; display:none; }
+
+    /* 状态提示 */
+    #status {
+      font-size: 14px; font-weight: bold; text-align: center;
+      color: #bbb; min-height: 20px;
+      padding: 4px 16px;
+      transition: color 0.3s;
+    }
+    #status.success { color: #81c784; }
+    #status.error { color: #e57373; }
+
+    /* 棋盘容器 */
+    #game-container {
       position: relative;
+      width: min(88vw, 440px);
+      height: min(88vw, 440px);
+    }
+    #board-wrapper {
+      padding: 18px;
+      background: linear-gradient(145deg, #4e342e, #6d4c41);
+      border-radius: 16px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+      position: relative;
+    }
+    #board-wrapper::before {
+      content: '';
+      position: absolute; inset: 5px;
+      border: 2px solid rgba(240,217,181,0.25);
+      border-radius: 12px; pointer-events: none;
+    }
+    #board {
+      display: block;
+      width: 100%; height: 100%;
+      border-radius: 4px;
+      touch-action: none;
       cursor: pointer;
     }
-    .black, .white {
-      position: absolute;
-      width: 80%;
-      height: 80%;
-      border-radius: 50%;
-      top: 10%;
-      left: 10%;
+    #board.waiting { cursor: default; }
+
+    /* 开始遮罩 */
+    #start-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      align-items: center; justify-content: center;
+      border-radius: 14px; z-index: 10;
     }
-    .black { background: #000; }
-    .white { background: #fff; border: 1px solid #333; }
+    #start-overlay.show { display: flex; }
+    #start-btn {
+      padding: 14px 36px;
+      background: linear-gradient(135deg, #66bb6a, #43a047);
+      color: #fff; border: none;
+      border-radius: 10px; font-size: 17px;
+      cursor: pointer; font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      letter-spacing: 2px;
+      transition: all 0.2s;
+    }
+    #start-btn:active { transform: scale(0.96); }
+    #start-btn.waiting { background: #777; cursor: default; }
+
+    /* 胜利弹窗 */
+    #victory-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: none;
+      align-items: center; justify-content: center;
+      border-radius: 14px; z-index: 20;
+    }
+    #victory-overlay.show { display: flex; }
+    .victory-box {
+      background: #fff; border-radius: 14px;
+      padding: 28px 36px; text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      animation: popIn 0.3s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .victory-box .winner-text { font-size: 22px; font-weight: bold; margin-bottom: 10px; }
+    .victory-box .winner-text.black { color: #222; }
+    .victory-box .winner-text.white { color: #e6a817; }
+    .victory-box button {
+      margin: 8px 4px 0; padding: 10px 24px;
+      border: none; border-radius: 8px; font-size: 14px;
+      cursor: pointer; font-weight: bold; color: #fff;
+      transition: all 0.2s;
+    }
+    .victory-box button:first-of-type { background: #66bb6a; }
+    .victory-box button:last-of-type { background: #ef5350; }
+    .victory-box button:active { transform: scale(0.95); }
+
+    /* 底部按钮 */
+    #bottom-actions { display: none; }
+    #bottom-actions.show { display: block; }
+    #bottom-actions button {
+      padding: 8px 18px; border-radius: 8px;
+      border: none; font-size: 14px; cursor: pointer;
+      background: #ef5350; color: #fff; font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>同WiFi五子棋对战1</h2>
-    <div class="operate">
-      <input type="text" id="roomId" placeholder="输入房间号" value="8888">
-      <button onclick="createRoom()">创建房间</button>
-      <button onclick="joinRoom()">加入房间</button>
+    <h1>☯ 五子棋对弈 ☯</h1>
+
+    <!-- 比分栏 -->
+    <div id="score-bar" class="hidden">
+      <div class="player-score" id="score-p1">
+        <div class="name">玩家1 ⚫</div>
+        <div class="num">0</div>
+      </div>
+      <span class="score-vs">VS</span>
+      <div class="player-score" id="score-p2">
+        <div class="name">玩家2 ⚪</div>
+        <div class="num">0</div>
+      </div>
     </div>
-    <div id="tip">请创建/加入房间开始游戏</div>
-    <div id="board"></div>
+
+    <!-- 房间操作 -->
+    <div id="roomSection">
+      <input type="text" id="roomIdInput" value="8888" placeholder="房间号">
+      <button id="createBtn" onclick="createRoom()">创建</button>
+      <button id="joinBtn" onclick="joinRoom()">加入</button>
+      <button id="leaveBtn" onclick="leaveRoom()">退出</button>
+    </div>
+
+    <div id="status">请创建或加入房间</div>
+
+    <!-- 棋盘 -->
+    <div id="game-container">
+      <div id="board-wrapper">
+        <canvas id="board" class="waiting"></canvas>
+      </div>
+      <div id="start-overlay">
+        <button id="start-btn" onclick="clickStart()">开始游戏</button>
+      </div>
+      <div id="victory-overlay">
+        <div class="victory-box">
+          <div class="winner-text" id="winner-text"></div>
+          <button onclick="playAgain()">再来一局</button>
+          <button onclick="leaveRoom()">退出房间</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="bottom-actions">
+      <button onclick="leaveRoom()">退出房间</button>
+    </div>
   </div>
 
   <script>
-    // ========== 1. 云开发初始化 替换为你自己的环境ID ==========
-    const app = tcb.init({
-      env: "zxxlts-d5gzvmtvb30b1545" 
-    });
+    // ============ CloudBase 初始化 ============
+    const app = cloudbase.init({ env: "zxxlts-d5gzvmtvb30b1545" });
     const db = app.database();
-    const _ = db.command;
 
-    // ========== 2. 生成本地临时玩家ID（无登录） ==========
-    let playerId = localStorage.getItem('chess_player_id');
+    // ============ 玩家ID ============
+    let playerId = localStorage.getItem('chess_pid');
     if (!playerId) {
       playerId = 'p_' + Math.random().toString(36).slice(2) + Date.now();
-      localStorage.setItem('chess_player_id', playerId);
+      localStorage.setItem('chess_pid', playerId);
     }
 
-    // 全局变量
+    // ============ 全局状态 ============
     let currentRoom = "";
-    let chessBoard = new Array(225).fill(0); // 15*15棋盘 0空 1黑 2白
-    let myTurn = false;
+    let roomDocId = null;
+    let myColor = 0;           // 1黑 2白
+    let players = [];
+    let watcher = null;
+    let gameStarted = false;
+    let iAmReady = false;
+    let player1Score = 0;
+    let player2Score = 0;
 
-    // 渲染棋盘
-    const boardDom = document.getElementById('board');
-    for (let i = 0; i < 225; i++) {
-      const cell = document.createElement('div');
-      cell.className = 'cell';
-      cell.dataset.idx = i;
-      cell.addEventListener('click', () => playChess(i));
-      boardDom.appendChild(cell);
+    const BOARD_SIZE = 15;
+    const TOTAL = BOARD_SIZE * BOARD_SIZE;
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    let CELL_SIZE, STONE_RADIUS;
+
+    // ============ DOM ============
+    const statusEl = document.getElementById('status');
+    const scoreBar = document.getElementById('score-bar');
+    const startOverlay = document.getElementById('start-overlay');
+    const startBtn = document.getElementById('start-btn');
+    const victoryOverlay = document.getElementById('victory-overlay');
+    const winnerText = document.getElementById('winner-text');
+    const bottomActions = document.getElementById('bottom-actions');
+    const leaveBtn = document.getElementById('leaveBtn');
+
+    // ============ 提示 ============
+    function setStatus(msg, type) {
+      statusEl.innerText = msg;
+      statusEl.className = type || '';
     }
 
-    // 更新棋盘视图
-    function renderBoard(data) {
-      chessBoard = data;
-      const cells = boardDom.querySelectorAll('.cell');
-      cells.forEach((cell, idx) => {
-        cell.innerHTML = '';
-        if (data[idx] === 1) {
-          cell.innerHTML = '<div class="black"></div>';
-        } else if (data[idx] === 2) {
-          cell.innerHTML = '<div class="white"></div>';
+    // ============ Canvas 尺寸 ============
+    function resizeCanvas() {
+      const wrapper = document.getElementById('board-wrapper');
+      const size = wrapper.offsetWidth;
+      canvas.style.width = size + 'px';
+      canvas.style.height = size + 'px';
+      canvas.width = size * dpr;
+      canvas.height = size * dpr;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+      CELL_SIZE = size / (BOARD_SIZE + 1);
+      STONE_RADIUS = CELL_SIZE * 0.42;
+      // 重绘（如果已有房间）
+      if (currentRoom && watcher) {
+        // watch 会自动触发重绘
+      }
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    // ============ 绘制棋盘（Canvas 真实棋盘）============
+    function drawBoard(data) {
+      const size = canvas.offsetWidth;
+      if (!size) return;
+      ctx.clearRect(0, 0, size, size);
+
+      // 棋盘底色
+      ctx.fillStyle = '#e6c884';
+      ctx.fillRect(0, 0, size, size);
+
+      // 网格线
+      ctx.strokeStyle = '#6b4e2b';
+      ctx.lineWidth = Math.max(1, CELL_SIZE * 0.045);
+      for (let i = 0; i < BOARD_SIZE; i++) {
+        const p = CELL_SIZE * (i + 1) + 0.5;
+        ctx.beginPath(); ctx.moveTo(CELL_SIZE + 0.5, p); ctx.lineTo(CELL_SIZE * BOARD_SIZE + 0.5, p); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(p, CELL_SIZE + 0.5); ctx.lineTo(p, CELL_SIZE * BOARD_SIZE + 0.5); ctx.stroke();
+      }
+
+      // 星位（天元 + 四星）
+      const starPoints = [3, 7, 11];
+      ctx.fillStyle = '#6b4e2b';
+      const starR = Math.max(2.5, CELL_SIZE * 0.1);
+      for (let r of starPoints) {
+        for (let c of starPoints) {
+          ctx.beginPath();
+          ctx.arc(CELL_SIZE * (c + 1) + 0.5, CELL_SIZE * (r + 1) + 0.5, starR, 0, Math.PI * 2);
+          ctx.fill();
         }
-      });
+      }
+
+      // 棋子
+      if (!data) return;
+      for (let y = 0; y < BOARD_SIZE; y++) {
+        for (let x = 0; x < BOARD_SIZE; x++) {
+          const c = data[y * BOARD_SIZE + x];
+          if (c === 1) drawStone(x, y, 'black');
+          else if (c === 2) drawStone(x, y, 'white');
+        }
+      }
     }
 
-    // 提示文字
-    function setTip(text) {
-      document.getElementById('tip').innerText = text;
+    function drawStone(x, y, color) {
+      const cx = CELL_SIZE * (x + 1) + 0.5;
+      const cy = CELL_SIZE * (y + 1) + 0.5;
+      ctx.beginPath();
+      ctx.arc(cx, cy, STONE_RADIUS, 0, Math.PI * 2);
+
+      if (color === 'black') {
+        const grad = ctx.createRadialGradient(cx - STONE_RADIUS*0.3, cy - STONE_RADIUS*0.3, STONE_RADIUS*0.1, cx, cy, STONE_RADIUS);
+        grad.addColorStop(0, '#555');
+        grad.addColorStop(1, '#000');
+        ctx.fillStyle = grad;
+      } else {
+        const grad = ctx.createRadialGradient(cx - STONE_RADIUS*0.3, cy - STONE_RADIUS*0.3, STONE_RADIUS*0.1, cx, cy, STONE_RADIUS);
+        grad.addColorStop(0, '#fff');
+        grad.addColorStop(1, '#d8d8d8');
+        ctx.fillStyle = grad;
+      }
+      ctx.fill();
+      if (color === 'white') { ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1; ctx.stroke(); }
     }
 
-    // ========== 3. 创建房间 调用云函数 ==========
+    // ============ 创建房间 ============
     async function createRoom() {
-      const roomId = document.getElementById('roomId').value.trim();
-      if (!roomId) return setTip('请输入房间号');
+      const roomId = document.getElementById('roomIdInput').value.trim();
+      if (!roomId) return setStatus('请输入房间号', 'error');
       currentRoom = roomId;
-      setTip('正在创建房间...');
+      setStatus('正在创建房间...');
 
       try {
         const res = await app.callFunction({
           name: 'createRoom',
           data: { roomId, playerId }
         });
-        const result = res.result;
-        if (result.code === 0) {
-          setTip('房间创建成功，等待队友加入（仅同WiFi可进）');
-          // 监听房间数据变化，实时同步
-          watchRoom(roomId);
+        const r = res.result;
+        if (r.code === 0) {
+          myColor = 1;
+          setStatus('房间创建成功，等待对手加入', 'success');
+          updateUIForRoom();
+          watchRoom();
         } else {
-          setTip(result.msg);
+          setStatus(r.msg, 'error');
         }
       } catch (e) {
-        setTip('创建房间失败');
+        setStatus('创建失败：' + (e.message || '网络错误'), 'error');
       }
     }
 
-    // ========== 4. 加入房间 调用云函数（IP校验同WiFi） ==========
+    // ============ 加入房间 ============
     async function joinRoom() {
-      const roomId = document.getElementById('roomId').value.trim();
-      if (!roomId) return setTip('请输入房间号');
+      const roomId = document.getElementById('roomIdInput').value.trim();
+      if (!roomId) return setStatus('请输入房间号', 'error');
       currentRoom = roomId;
-      setTip('正在加入房间...');
+      setStatus('正在加入房间...');
 
       try {
         const res = await app.callFunction({
           name: 'joinRoom',
           data: { roomId, playerId }
         });
-        const result = res.result;
-        if (result.code === 0) {
-          setTip('加入房间成功，游戏开始！');
-          watchRoom(roomId);
+        const r = res.result;
+        if (r.code === 0) {
+          myColor = 2;
+          setStatus('加入成功！点击开始游戏', 'success');
+          updateUIForRoom();
+          watchRoom();
         } else {
-          setTip(result.msg);
+          setStatus(r.msg, 'error');
         }
       } catch (e) {
-        setTip('加入房间失败');
+        setStatus('加入失败：' + (e.message || '网络错误'), 'error');
       }
     }
 
-    // ========== 5. 落子操作 ==========
-    async function playChess(idx) {
-      if (!currentRoom || !myTurn) return;
-      if (chessBoard[idx] !== 0) return;
+    // ============ 退出房间 ============
+    function leaveRoom() {
+      if (watcher) { watcher.close(); watcher = null; }
+      currentRoom = ""; roomDocId = null;
+      myColor = 0; players = [];
+      gameStarted = false; iAmReady = false;
+
+      document.getElementById('roomIdInput').disabled = false;
+      document.getElementById('createBtn').style.display = '';
+      document.getElementById('joinBtn').style.display = '';
+      leaveBtn.style.display = 'none';
+      scoreBar.classList.add('hidden');
+      startOverlay.classList.remove('show');
+      victoryOverlay.classList.remove('show');
+      bottomActions.classList.remove('show');
+      canvas.className = 'waiting';
+      drawBoard(new Array(TOTAL).fill(0));
+      setStatus('请创建或加入房间');
+    }
+
+    // ============ 点击开始 ============
+    async function clickStart() {
+      if (iAmReady || gameStarted || !roomDocId) return;
+      iAmReady = true;
+      startBtn.innerText = '等待对手...';
+      startBtn.className = 'waiting';
+      startBtn.disabled = true;
+      try {
+        const updateData = myColor === 1 ? { player1Ready: true } : { player2Ready: true };
+        await db.collection('rooms').doc(roomDocId).update({ data: updateData });
+      } catch (e) {
+        setStatus('设置准备状态失败', 'error');
+        iAmReady = false;
+        startBtn.innerText = '开始游戏';
+        startBtn.className = '';
+        startBtn.disabled = false;
+      }
+    }
+
+    // ============ 再来一局 ============
+    async function playAgain() {
+      if (!roomDocId) return;
+      victoryOverlay.classList.remove('show');
+      setStatus('等待对手确认...');
+      try {
+        await db.collection('rooms').doc(roomDocId).update({
+          data: {
+            player1Ready: false, player2Ready: false,
+            gameStarted: false, gameOver: false, winner: 0,
+            board: new Array(TOTAL).fill(0),
+            nowPlayer: players[0] || ''
+          }
+        });
+      } catch (e) {
+        setStatus('重置失败，请退出重进', 'error');
+      }
+    }
+
+    // ============ 比分显示 ============
+    function updateScoreDisplay() {
+      document.getElementById('score-p1').querySelector('.num').innerText = player1Score;
+      document.getElementById('score-p2').querySelector('.num').innerText = player2Score;
+    }
+
+    // ============ 高亮当前方 ============
+    function updateCurrentTurnHighlight(nowPlayer) {
+      const p1El = document.getElementById('score-p1');
+      const p2El = document.getElementById('score-p2');
+      p1El.classList.remove('current');
+      p2El.classList.remove('current');
+      if (players.length === 2) {
+        if (nowPlayer === players[0]) p1El.classList.add('current');
+        else p2El.classList.add('current');
+      }
+    }
+
+    // ============ 实时监听 ============
+    function watchRoom() {
+      if (watcher) watcher.close();
+      watcher = db.collection('rooms').where({ roomId: currentRoom }).watch({
+        onChange: snapshot => {
+          if (snapshot.docs.length === 0) { setStatus('房间已解散', 'error'); leaveRoom(); return; }
+          const room = snapshot.docs[0];
+          roomDocId = room._id;
+          players = room.players || [];
+          player1Score = room.player1Score || 0;
+          player2Score = room.player2Score || 0;
+          updateScoreDisplay();
+          drawBoard(room.board);
+
+          // 游戏结束
+          if (room.gameOver) {
+            const winColor = room.winner === 1 ? '黑方（玩家1）' : '白方（玩家2）';
+            winnerText.innerText = winColor + ' 获胜！';
+            winnerText.className = 'winner-text ' + (room.winner === 1 ? 'black' : 'white');
+            victoryOverlay.classList.add('show');
+            gameStarted = false;
+            startOverlay.classList.remove('show');
+            canvas.className = 'waiting';
+            setStatus('游戏结束，' + winColor + '获胜');
+            return;
+          }
+
+          // 两人到齐，未开始 → 显示开始按钮
+          if (!room.gameStarted && players.length === 2) {
+            gameStarted = false;
+            const oppReady = myColor === 1 ? room.player2Ready : room.player1Ready;
+            const myReady = myColor === 1 ? room.player1Ready : room.player2Ready;
+
+            if (myReady && oppReady) {
+              // 双方准备，由房主触发开始
+              if (myColor === 1) {
+                db.collection('rooms').doc(roomDocId).update({ data: { gameStarted: true } });
+              }
+              return;
+            }
+
+            startOverlay.classList.add('show');
+            if (!myReady) {
+              startBtn.innerText = oppReady ? '对手已准备，点击开始' : '开始游戏';
+              startBtn.className = '';
+              startBtn.disabled = false;
+            } else {
+              startBtn.innerText = '已准备，等待对手';
+              startBtn.className = 'waiting';
+              startBtn.disabled = true;
+            }
+            canvas.className = 'waiting';
+            return;
+          }
+
+          // 游戏进行中
+          if (room.gameStarted) {
+            gameStarted = true;
+            startOverlay.classList.remove('show');
+            iAmReady = false;
+            canvas.className = '';
+            const isMyTurn = room.nowPlayer === playerId;
+            setStatus(isMyTurn ? '🎯 轮到你落子' : '⏳ 等待对方落子...');
+            updateCurrentTurnHighlight(room.nowPlayer);
+          }
+        },
+        onError: err => console.error('监听出错:', err)
+      });
+    }
+
+    // ============ 落子（Canvas 坐标转棋盘坐标）============
+    canvas.addEventListener('click', async e => {
+      if (!currentRoom || !gameStarted) return;
+      if (!roomDocId) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = Math.round((e.clientX - rect.left) / CELL_SIZE - 1);
+      const y = Math.round((e.clientY - rect.top) / CELL_SIZE - 1);
+      if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) return;
 
       try {
         await app.callFunction({
           name: 'playChess',
-          data: { roomId: currentRoom, idx, playerId }
+          data: { roomId: currentRoom, idx: y * BOARD_SIZE + x, playerId }
         });
       } catch (e) {
-        setTip('落子失败');
+        setStatus('落子失败', 'error');
       }
-    }
+    });
 
-    // ========== 6. 实时监听房间数据（双人同步） ==========
-    let watcher = null;
-    function watchRoom(roomId) {
-      // 关闭旧监听
-      if (watcher) watcher.close();
-      // 监听房间文档
-      watcher = db.collection('rooms').where({ roomId }).watch({
-        onChange: (snapshot) => {
-          if (snapshot.docs.length === 0) return;
-          const room = snapshot.docs[0];
-          renderBoard(room.board);
+    // ============ 启动 ============
+    resizeCanvas();
+    drawBoard(new Array(TOTAL).fill(0));
 
-          // 判断自己是否轮到下棋
-          myTurn = room.nowPlayer === playerId;
-          if (room.gameOver) {
-            setTip(`游戏结束，${room.winner === 1 ? '黑棋' : '白棋'}获胜！`);
-          } else {
-            setTip(myTurn ? '轮到你下棋' : '等待对方落子...');
-          }
-        },
-        onError: (err) => {
-          console.error('监听错误', err);
-        }
-      });
-    }
+    // 暴露全局
+    window.createRoom = createRoom;
+    window.joinRoom = joinRoom;
+    window.leaveRoom = leaveRoom;
+    window.clickStart = clickStart;
+    window.playAgain = playAgain;
   </script>
 </body>
 </html>
