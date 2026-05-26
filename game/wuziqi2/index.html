@@ -760,6 +760,7 @@
             drawBoard(room.board || new Array(TOTAL_CELLS).fill(0));
             resetInactivityTimer();
             resetReadyTimer();
+            cacheAccessToken();
             startWatchRoom();
         } catch (e) {
             setStatus('加入失败：' + e.message, 'error');
@@ -812,12 +813,6 @@
 
         const leavingRoomDocId = currentRoomDocId;
         const leavingRole = myRole;
-        
-        localStorage.setItem('wzq_leave_room', JSON.stringify({
-            roomDocId: currentRoomDocId,
-            role: myRole,
-            timestamp: Date.now()
-        }));
 
         if (leavingRoomDocId && leavingRole) {
             try {
@@ -826,40 +821,28 @@
                     const room = res.data[0];
                     const opponentHere = (leavingRole === 1 && room.player2Id) || (leavingRole === 2 && room.player1Id);
                     
-                    if (room.started && opponentHere && !room.gameOver) {
-                        const winnerRole = leavingRole === 1 ? 2 : 1;
-                        const winnerField = winnerRole === 1 ? 'blackScore' : 'whiteScore';
-                        const currentScore = (room[winnerField] || 0) + 1;
-                        await db.collection(COLLECTION).doc(leavingRoomDocId).update({
-                            gameOver: true,
-                            winner: winnerRole,
-                            [winnerField]: currentScore,
-                            [leavingRole === 1 ? 'player1Id' : 'player2Id']: null
-                        });
-                    } else {
-                        const resetData = {
-                            player1Id: null,
-                            player2Id: null,
-                            board: new Array(TOTAL_CELLS).fill(0),
-                            currentPlayer: 1,
-                            gameOver: false,
-                            winner: 0,
-                            lastMove: null,
-                            started: false,
-                            player1Ready: false,
-                            player2Ready: false
-                        };
-                        if (!opponentHere) {
-                            resetData.blackScore = 0;
-                            resetData.whiteScore = 0;
-                        }
-                        await db.collection(COLLECTION).doc(leavingRoomDocId).update(resetData);
+                    // 中途退出 → 重置房间
+                    const resetData = {
+                        player1Id: null,
+                        player2Id: null,
+                        board: new Array(TOTAL_CELLS).fill(0),
+                        currentPlayer: 1,
+                        gameOver: false,
+                        winner: 0,
+                        lastMove: null,
+                        started: false,
+                        player1Ready: false,
+                        player2Ready: false
+                    };
+                    if (!opponentHere) {
+                        resetData.blackScore = 0;
+                        resetData.whiteScore = 0;
                     }
+                    await db.collection(COLLECTION).doc(leavingRoomDocId).update(resetData);
                 }
             } catch (e) { /* ignore */ }
         }
 
-        localStorage.removeItem('wzq_leave_room');
         currentRoomId = '';
         currentRoomDocId = '';
         myRole = 0;
@@ -1322,18 +1305,32 @@
         resizeTimer = setTimeout(() => { resizeCanvas(); drawBoard(boardData); }, 200);
     });
 
-    // ============ 页面关闭时清理 ============
+    // ============ 页面关闭时直接重置房间 ============
+    let cachedAccessToken = ''; // 缓存 CloudBase 的 access token
+
+    // 获取并缓存 access token（在正常操作时调用）
+    async function cacheAccessToken() {
+        if (USE_LOCAL_STORAGE) return;
+        try {
+            const app = await getCloudBaseApp();
+            if (app) {
+                const result = await app.auth().getAccessToken();
+                if (result && result.accessToken) {
+                    cachedAccessToken = result.accessToken;
+                }
+            }
+        } catch (e) {
+            console.warn('缓存 token 失败:', e);
+        }
+    }
+
+    // 页面关闭/刷新时直接重置房间（不存 localStorage）
     window.addEventListener('beforeunload', () => {
         stopInactivityTimer();
         stopReadyTimer();
         if (watcher) watcher.close();
-        
         if (currentRoomDocId && myRole) {
-            localStorage.setItem('wzq_leave_room', JSON.stringify({
-                roomDocId: currentRoomDocId,
-                role: myRole,
-                timestamp: Date.now()
-            }));
+            doExitReset();
         }
     });
 
@@ -1341,68 +1338,57 @@
         stopInactivityTimer();
         stopReadyTimer();
         if (watcher) watcher.close();
-        
         if (currentRoomDocId && myRole) {
-            localStorage.setItem('wzq_leave_room', JSON.stringify({
-                roomDocId: currentRoomDocId,
-                role: myRole,
-                timestamp: Date.now()
-            }));
+            doExitReset();
         }
     });
 
-    async function cleanupLeftRoom() {
-        const leaveData = localStorage.getItem('wzq_leave_room');
-        if (!leaveData) return;
-        
-        try {
-            const data = JSON.parse(leaveData);
-            const { roomDocId, role } = data;
-            
-            if (!roomDocId || !role) {
-                localStorage.removeItem('wzq_leave_room');
-                return;
-            }
-            
-            const res = await db.collection(COLLECTION).doc(roomDocId).get();
-            if (res.data && res.data.length > 0) {
-                const room = res.data[0];
-                const opponentHere = (role === 1 && room.player2Id) || (role === 2 && room.player1Id);
-                
-                if (room.started && opponentHere && !room.gameOver) {
-                    const winnerRole = role === 1 ? 2 : 1;
-                    const winnerField = winnerRole === 1 ? 'blackScore' : 'whiteScore';
-                    const currentScore = (room[winnerField] || 0) + 1;
-                    await db.collection(COLLECTION).doc(roomDocId).update({
-                        gameOver: true,
-                        winner: winnerRole,
-                        [winnerField]: currentScore,
-                        [role === 1 ? 'player1Id' : 'player2Id']: null
-                    });
-                } else {
-                    const resetData = {
-                        player1Id: null,
-                        player2Id: null,
-                        board: new Array(TOTAL_CELLS).fill(0),
-                        currentPlayer: 1,
-                        gameOver: false,
-                        winner: 0,
-                        lastMove: null,
-                        started: false,
-                        player1Ready: false,
-                        player2Ready: false
-                    };
-                    if (!opponentHere) {
-                        resetData.blackScore = 0;
-                        resetData.whiteScore = 0;
+    function doExitReset() {
+        const resetData = {
+            player1Id: null,
+            player2Id: null,
+            board: new Array(TOTAL_CELLS).fill(0),
+            currentPlayer: 1,
+            gameOver: false,
+            winner: 0,
+            lastMove: null,
+            started: false,
+            player1Ready: false,
+            player2Ready: false
+        };
+
+        if (USE_LOCAL_STORAGE && db && db.collections) {
+            // 本地模式：直接同步修改
+            try {
+                const collection = db.collections[COLLECTION];
+                if (collection) {
+                    const index = collection.findIndex(doc => doc._id === currentRoomDocId);
+                    if (index !== -1) {
+                        const room = collection[index];
+                        const opponentHere = (myRole === 1 && room.player2Id) || (myRole === 2 && room.player1Id);
+                        if (!opponentHere) {
+                            resetData.blackScore = 0;
+                            resetData.whiteScore = 0;
+                        }
+                        collection[index] = { ...collection[index], ...resetData };
+                        db._saveToStorage();
                     }
-                    await db.collection(COLLECTION).doc(roomDocId).update(resetData);
                 }
-            }
-        } catch (e) {
-            console.warn('清理遗留房间失败:', e);
-        } finally {
-            localStorage.removeItem('wzq_leave_room');
+            } catch (e) { /* ignore */ }
+        } else if (cachedAccessToken) {
+            // CloudBase 模式：用 fetch + keepalive 直接发 HTTP 请求
+            try {
+                const url = `https://${CLOUDBASE_ENV_ID}.service.tcloudbase.com/database/v1/collections/${COLLECTION}/documents/${currentRoomDocId}`;
+                fetch(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${cachedAccessToken}`
+                    },
+                    body: JSON.stringify(resetData),
+                    keepalive: true
+                }).catch(() => {});
+            } catch (e) { /* ignore */ }
         }
     }
 
@@ -1411,7 +1397,7 @@
         resizeCanvas();
         drawBoard(boardData);
         
-        await cleanupLeftRoom();
+        await cacheAccessToken();
         
         const savedRoomId = localStorage.getItem('wzq_roomId');
         const savedRoomDocId = localStorage.getItem('wzq_roomDocId');
