@@ -26,7 +26,7 @@ body {
 }
 h1 {
     text-align: center;
-    color: #3a6ea5;
+    color: #3aa551;
     font-size: 2rem;
     margin-bottom: 20px;
     font-weight: 600;
@@ -627,6 +627,8 @@ h1 {
                 input.maxLength = 1; input.dataset.correct = c;
                 input.setAttribute('autocapitalize','off');
                 input.setAttribute('autocorrect','off');
+                input.setAttribute('autocomplete','off');
+                input.setAttribute('spellcheck','false');
                 dashesContainerEl.appendChild(input);
             }
         });
