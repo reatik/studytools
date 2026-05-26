@@ -1233,8 +1233,9 @@
         const newBoard = [...boardData];
         newBoard[idx] = myRole;
 
-        // 先乐观更新本地
+        // 先乐观更新本地，立即渲染棋子
         boardData = newBoard;
+        drawBoard(boardData);
 
         try {
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
@@ -1257,9 +1258,9 @@
                 });
             }
         } catch (e) {
-            // 更新失败，回滚
-            boardData = [...boardData];
-            boardData[idx] = 0;
+            // 更新失败，回滚 board 并重绘
+            boardData = boardData.map((v, i) => i === idx ? 0 : v);
+            drawBoard(boardData);
             setStatus('落子失败，请重试', 'error');
             console.error('落子失败:', e);
         } finally {
