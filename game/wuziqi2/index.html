@@ -56,95 +56,28 @@
             margin-bottom: 10px;
         }
         .room-card {
-            background: linear-gradient(145deg, #8B7355, #6B5344);
-            border-radius: 8px;
-            padding: 12px;
+            background: linear-gradient(135deg, #5c6bc0, #3949ab);
+            border-radius: 10px;
+            padding: 16px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
-            position: relative;
-            box-shadow: 
-                0 4px 8px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.1);
+            box-shadow: 0 4px 12px rgba(60, 73, 171, 0.3);
+            color: #fff;
         }
         .room-card:hover {
             transform: translateY(-2px);
-            box-shadow: 
-                0 6px 12px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.1);
+            box-shadow: 0 6px 16px rgba(60, 73, 171, 0.4);
         }
         .room-card:active { transform: scale(0.98); }
         .room-card.full {
-            opacity: 0.7;
+            background: linear-gradient(135deg, #9e9e9e, #757575);
             cursor: not-allowed;
+            opacity: 0.7;
         }
         .room-card.full:hover { transform: none; }
-        
-        .table-number {
-            position: absolute;
-            top: 4px;
-            right: 8px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: rgba(255,255,255,0.7);
-        }
-        
-        .players-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        
-        .seat {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #4a3728;
-            border: 3px solid #3d2e22;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: #fff;
-            transition: all 0.2s;
-        }
-        
-        .seat.occupied {
-            background: linear-gradient(145deg, #ffd700, #ffb700);
-            border-color: #cc8400;
-            box-shadow: 0 0 8px rgba(255,215,0,0.5);
-        }
-        
-        .seat.empty {
-            background: #5c4a38;
-            border-color: #4a3728;
-        }
-        
-        .seat.can-join {
-            background: linear-gradient(145deg, #4CAF50, #388E3C);
-            border-color: #2E7D32;
-            box-shadow: 0 0 8px rgba(76,175,80,0.5);
-        }
-        
-        .seat.can-join:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 12px rgba(76,175,80,0.7);
-        }
-        
-        .table-center {
-            background: #D4A574;
-            border-radius: 4px;
-            padding: 6px;
-            font-size: 0.75rem;
-            color: #5D4037;
-            font-weight: bold;
-        }
-        
-        .table-center.playing {
-            background: linear-gradient(145deg, #FF9800, #F57C00);
-            color: #fff;
-        }
+        .room-name { font-size: 1.1rem; font-weight: bold; margin-bottom: 6px; }
+        .room-status { font-size: 0.8rem; opacity: 0.85; }
 
         /* ===== 游戏区 ===== */
         #game-section {
@@ -655,21 +588,20 @@
             const p2 = room.player2Id ? 1 : 0;
             const filled = p1 + p2;
             const isFull = filled >= 2;
-            const isPlaying = room.gameOver === false && p1 && p2;
             
-            const seat1Class = p1 ? 'seat occupied' : (isFull ? 'seat empty' : 'seat can-join');
-            const seat2Class = p2 ? 'seat occupied' : (isFull ? 'seat empty' : 'seat can-join');
-            const tableClass = isPlaying ? 'table-center playing' : 'table-center';
-            const tableText = isPlaying ? '对战中' : '空闲';
+            let statusText = '';
+            if (isFull) {
+                statusText = '已满';
+            } else if (filled === 1) {
+                statusText = '等待对手';
+            } else {
+                statusText = '空闲';
+            }
 
             html += `
             <div class="room-card ${isFull ? 'full' : ''}" onclick="${isFull ? '' : "joinRoom('" + room.roomId + "')"}">
-                <div class="table-number">${room.roomId.replace('room', '')}</div>
-                <div class="players-row">
-                    <div class="${seat1Class}">黑</div>
-                    <div class="${tableClass}">${tableText}</div>
-                    <div class="${seat2Class}">白</div>
-                </div>
+                <div class="room-name">${room.roomName}</div>
+                <div class="room-status">${statusText} (${filled}/2)</div>
             </div>`;
         });
         roomGrid.innerHTML = html;
@@ -1016,28 +948,14 @@
             return;
         }
 
-        // ===== 对手未到齐 → 等待遮罩 =====
-        if (!bothHere) {
-            waitOverlay.classList.add('show');
-            canvas.classList.add('blocked');
-            const readyPanel = document.getElementById('ready-panel');
-            const readyBtns = document.getElementById('ready-btns');
-            const readyStatus = document.getElementById('ready-status');
-            readyPanel.style.display = 'block';
-            readyBtns.style.display = 'none';
-            readyStatus.innerText = '等待其他玩家加入...';
-            setStatus('等待其他玩家加入...', 'info');
-            drawBoard(room.board);
-            return;
-        }
-
-        // ===== 双方到齐但未开始 → 准备阶段 =====
+        // ===== 游戏未开始 → 准备阶段（玩家一进入就可以准备） =====
         if (!room.started) {
             gameOver = false;
             victoryOverlay.classList.remove('show');
             canvas.classList.add('blocked');
             drawBoard(room.board);
 
+            waitOverlay.classList.add('show');
             const readyPanel = document.getElementById('ready-panel');
             const readyBtns = document.getElementById('ready-btns');
             const readyStatus = document.getElementById('ready-status');
@@ -1048,18 +966,39 @@
             readyBtns.style.alignItems = 'center';
             readyBtns.style.gap = '8px';
 
-            document.getElementById('btn-ready').style.display = 'inline-block';
-            document.getElementById('btn-ready-cancel').style.display = 'none';
-
-            if (myReady && opponentReady) {
-                db.collection(COLLECTION).doc(currentRoomDocId).update({
-                    started: true,
-                    gameOver: false,
-                    winner: 0
-                }).catch(e => { /* 忽略冲突 */ });
+            if (myReady) {
+                document.getElementById('btn-ready').style.display = 'none';
+                document.getElementById('btn-ready-cancel').style.display = 'inline-block';
             } else {
-                readyStatus.innerText = '';
+                document.getElementById('btn-ready').style.display = 'inline-block';
+                document.getElementById('btn-ready-cancel').style.display = 'none';
             }
+
+            // 更新准备状态显示
+            let readyText = '';
+            if (!bothHere) {
+                readyText = '等待其他玩家加入...';
+                setStatus('等待其他玩家加入...', 'info');
+            } else {
+                if (myReady && opponentReady) {
+                    readyText = '双方已准备，即将开始...';
+                    db.collection(COLLECTION).doc(currentRoomDocId).update({
+                        started: true,
+                        gameOver: false,
+                        winner: 0
+                    }).catch(e => { /* 忽略冲突 */ });
+                } else if (myReady) {
+                    readyText = '你已准备，等待对手准备...';
+                    setStatus('你已准备，等待对手准备...', 'success');
+                } else if (opponentReady) {
+                    readyText = '对手已准备，请点击准备';
+                    setStatus('对手已准备，请点击准备', 'info');
+                } else {
+                    readyText = '';
+                    setStatus('请点击准备', 'info');
+                }
+            }
+            readyStatus.innerText = readyText;
             return;
         }
 
