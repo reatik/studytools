@@ -352,7 +352,163 @@
     const COLLECTION = 'wuziqi_rooms'; // 数据库集合名
     const INACTIVITY_TIMEOUT = 20 * 60 * 1000; // 无操作20分钟自动踢出
     const READY_TIMEOUT = 5 * 60 * 1000; // 准备超时5分钟自动踢出
+    const USE_LOCAL_STORAGE = true; // 使用本地存储模拟数据库（调试用）
 
+    // ============ 本地数据库模拟类（用于调试） ============
+    class LocalDB {
+        constructor() {
+            this.collections = {};
+            this._loadFromStorage();
+        }
+        
+        _loadFromStorage() {
+            try {
+                const data = localStorage.getItem('local_db_' + COLLECTION);
+                if (data) {
+                    this.collections[COLLECTION] = JSON.parse(data);
+                }
+            } catch (e) {
+                console.warn('加载本地数据失败:', e);
+            }
+        }
+        
+        _saveToStorage() {
+            try {
+                localStorage.setItem('local_db_' + COLLECTION, JSON.stringify(this.collections[COLLECTION] || []));
+            } catch (e) {
+                console.warn('保存本地数据失败:', e);
+            }
+        }
+        
+        collection(name) {
+            if (!this.collections[name]) {
+                this.collections[name] = [];
+            }
+            return new LocalCollection(this, name);
+        }
+    }
+    
+    class LocalCollection {
+        constructor(db, name) {
+            this.db = db;
+            this.name = name;
+        }
+        
+        add(data) {
+            const doc = {
+                _id: 'doc_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+                ...data
+            };
+            this.db.collections[this.name].push(doc);
+            this.db._saveToStorage();
+            return Promise.resolve({ _id: doc._id });
+        }
+        
+        doc(id) {
+            return new LocalDocument(this.db, this.name, id);
+        }
+        
+        where(conditions) {
+            return new LocalQuery(this.db, this.name, conditions);
+        }
+        
+        orderBy(field, order) {
+            return new LocalQuery(this.db, this.name, {}, field, order);
+        }
+        
+        limit(num) {
+            return new LocalQuery(this.db, this.name, {}, null, null, num);
+        }
+        
+        get() {
+            const data = this.db.collections[this.name] || [];
+            return Promise.resolve({ data });
+        }
+    }
+    
+    class LocalDocument {
+        constructor(db, collectionName, id) {
+            this.db = db;
+            this.collectionName = collectionName;
+            this.id = id;
+        }
+        
+        update(data) {
+            const collection = this.db.collections[this.collectionName];
+            const index = collection.findIndex(doc => doc._id === this.id);
+            if (index !== -1) {
+                collection[index] = { ...collection[index], ...data };
+                this.db._saveToStorage();
+            }
+            return Promise.resolve({ updated: true });
+        }
+        
+        get() {
+            const collection = this.db.collections[this.collectionName];
+            const doc = collection.find(d => d._id === this.id);
+            return Promise.resolve({ data: doc ? [doc] : [] });
+        }
+    }
+    
+    class LocalQuery {
+        constructor(db, collectionName, conditions = {}, orderByField = null, orderByDirection = 'asc', limitNum = null) {
+            this.db = db;
+            this.collectionName = collectionName;
+            this.conditions = conditions;
+            this.orderByField = orderByField;
+            this.orderByDirection = orderByDirection;
+            this.limitNum = limitNum;
+        }
+        
+        where(conditions) {
+            this.conditions = { ...this.conditions, ...conditions };
+            return this;
+        }
+        
+        orderBy(field, direction) {
+            this.orderByField = field;
+            this.orderByDirection = direction;
+            return this;
+        }
+        
+        limit(num) {
+            this.limitNum = num;
+            return this;
+        }
+        
+        get() {
+            let data = this.db.collections[this.collectionName] || [];
+            
+            // 过滤
+            if (Object.keys(this.conditions).length > 0) {
+                data = data.filter(doc => {
+                    for (const [key, value] of Object.entries(this.conditions)) {
+                        if (doc[key] !== value) return false;
+                    }
+                    return true;
+                });
+            }
+            
+            // 排序
+            if (this.orderByField) {
+                data = [...data].sort((a, b) => {
+                    const aVal = a[this.orderByField];
+                    const bVal = b[this.orderByField];
+                    if (aVal < bVal) return this.orderByDirection === 'asc' ? -1 : 1;
+                    if (aVal > bVal) return this.orderByDirection === 'asc' ? 1 : -1;
+                    return 0;
+                });
+            }
+            
+            // 限制数量
+            if (this.limitNum !== null) {
+                data = data.slice(0, this.limitNum);
+            }
+            
+            return Promise.resolve({ data });
+        }
+    }
+    
     // ============ 全局变量 ============
     let db = null;
     let watcher = null;
@@ -383,15 +539,40 @@
     // ============ 初始化 ============
     async function init() {
         myUserId = getUserId();
+        console.log('用户ID:', myUserId);
+        
         try {
-            const app = await getCloudBaseApp();
-            if (!app) { setStatus('连接失败，请刷新重试', 'error'); return; }
-            db = app.database();
+            if (USE_LOCAL_STORAGE) {
+                console.log('使用本地存储模式');
+                db = new LocalDB();
+            } else {
+                console.log('尝试连接云端数据库...');
+                const app = await getCloudBaseApp();
+                if (!app) {
+                    console.warn('云端连接失败，切换到本地模式');
+                    db = new LocalDB();
+                } else {
+                    db = app.database();
+                    console.log('云端连接成功');
+                }
+            }
+            
             setStatus('', '');
             await ensureRooms();
             await refreshRooms();
         } catch (e) {
+            console.error('初始化失败:', e);
             setStatus('初始化失败：' + e.message, 'error');
+            
+            // 尝试使用本地存储作为备用
+            try {
+                db = new LocalDB();
+                await ensureRooms();
+                await refreshRooms();
+                setStatus('使用本地模式', 'info');
+            } catch (localErr) {
+                console.error('本地模式也失败:', localErr);
+            }
         }
     }
 
@@ -409,7 +590,12 @@
     // ============ 确保10个预设房间存在 ============
     async function ensureRooms() {
         try {
+            if (!db) {
+                console.error('ensureRooms: db is null');
+                return;
+            }
             const res = await db.collection(COLLECTION).limit(20).get();
+            console.log('ensureRooms result:', res);
             const existing = {};
             (res.data || []).forEach(r => { existing[r.roomId] = r; });
 
@@ -435,7 +621,8 @@
                 }
             }
         } catch (e) {
-            console.warn('初始化房间失败：', e);
+            console.error('初始化房间失败：', e);
+            throw e;
         }
     }
 
@@ -443,10 +630,16 @@
     async function refreshRooms() {
         roomGrid.innerHTML = '<div style="text-align:center;padding:20px;color:#888;grid-column:1/-1;">加载中...</div>';
         try {
+            if (!db) {
+                throw new Error('数据库未初始化');
+            }
             const res = await db.collection(COLLECTION).orderBy('roomId', 'asc').limit(ROOM_COUNT).get();
+            console.log('房间数据:', res);
             renderRoomList(res.data || []);
         } catch (e) {
-            roomGrid.innerHTML = '<div style="text-align:center;padding:20px;color:#e57373;grid-column:1/-1;">加载失败，请刷新</div>';
+            console.error('刷新房间列表失败:', e);
+            const errorMsg = e.message || '未知错误';
+            roomGrid.innerHTML = `<div style="text-align:center;padding:20px;color:#e57373;grid-column:1/-1;">加载失败: ${errorMsg}<br/><button onclick="refreshRooms()" style="margin-top:10px;padding:8px 16px;background:#42a5f5;color:#fff;border:none;border-radius:6px;cursor:pointer;">点击重试</button></div>`;
         }
     }
 
@@ -746,22 +939,42 @@
     async function startWatchRoom() {
         if (watcher) watcher.close();
 
-        watcher = db.collection(COLLECTION).doc(currentRoomDocId).watch({
-            onChange: snapshot => {
-                if (!snapshot.docs || snapshot.docs.length === 0) {
-                    setStatus('房间已解散', 'error');
-                    leaveRoom();
-                    return;
-                }
+        if (USE_LOCAL_STORAGE) {
+            watcher = {
+                close: () => { clearInterval(watcher.pollInterval); },
+                pollInterval: setInterval(async () => {
+                    try {
+                        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+                        if (!res.data || res.data.length === 0) {
+                            setStatus('房间已解散', 'error');
+                            leaveRoom();
+                            return;
+                        }
+                        const room = res.data[0];
+                        handleRoomUpdate(room);
+                    } catch (e) {
+                        console.error('轮询出错:', e);
+                    }
+                }, 500)
+            };
+        } else {
+            watcher = db.collection(COLLECTION).doc(currentRoomDocId).watch({
+                onChange: snapshot => {
+                    if (!snapshot.docs || snapshot.docs.length === 0) {
+                        setStatus('房间已解散', 'error');
+                        leaveRoom();
+                        return;
+                    }
 
-                const room = snapshot.docs[0];
-                handleRoomUpdate(room);
-            },
-            onError: err => {
-                console.error('监听出错:', err);
-                setStatus('连接中断，请刷新', 'error');
-            }
-        });
+                    const room = snapshot.docs[0];
+                    handleRoomUpdate(room);
+                },
+                onError: err => {
+                    console.error('监听出错:', err);
+                    setStatus('连接中断，请刷新', 'error');
+                }
+            });
+        }
     }
 
     function handleRoomUpdate(room) {
