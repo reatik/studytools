@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>同WiFi五子棋</title>
+  <!-- 云开发CDN -->
+  <script src="https://static.cloudbase.net/tcb-js-sdk/1.10.1/tcb.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "Microsoft Yahei"; text-align: center; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 420px; margin: 0 auto; }
+    .operate { margin: 20px 0; }
+    input { padding: 8px; width: 120px; font-size: 16px; }
+    button { padding: 8px 16px; font-size: 16px; cursor: pointer; margin: 0 5px; }
+    #tip { font-size: 18px; color: #333; margin: 10px 0; min-height: 24px; }
+    #board {
+      display: grid;
+      grid-template-columns: repeat(15, 1fr);
+      gap: 1px;
+      background: #c4936b;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto;
+    }
+    .cell {
+      background: #e8c9a0;
+      position: relative;
+      cursor: pointer;
+    }
+    .black, .white {
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      border-radius: 50%;
+      top: 10%;
+      left: 10%;
+    }
+    .black { background: #000; }
+    .white { background: #fff; border: 1px solid #333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>同WiFi五子棋对战</h2>
+    <div class="operate">
+      <input type="text" id="roomId" placeholder="输入房间号" value="8888">
+      <button onclick="createRoom()">创建房间</button>
+      <button onclick="joinRoom()">加入房间</button>
+    </div>
+    <div id="tip">请创建/加入房间开始游戏</div>
+    <div id="board"></div>
+  </div>
+
+  <script>
+    // ========== 1. 云开发初始化 替换为你自己的环境ID ==========
+    const app = tcb.init({
+      env: "zxxlts-d5gzvmtvb30b1545" 
+    });
+    const db = app.database();
+    const _ = db.command;
+
+    // ========== 2. 生成本地临时玩家ID（无登录） ==========
+    let playerId = localStorage.getItem('chess_player_id');
+    if (!playerId) {
+      playerId = 'p_' + Math.random().toString(36).slice(2) + Date.now();
+      localStorage.setItem('chess_player_id', playerId);
+    }
+
+    // 全局变量
+    let currentRoom = "";
+    let chessBoard = new Array(225).fill(0); // 15*15棋盘 0空 1黑 2白
+    let myTurn = false;
+
+    // 渲染棋盘
+    const boardDom = document.getElementById('board');
+    for (let i = 0; i < 225; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.dataset.idx = i;
+      cell.addEventListener('click', () => playChess(i));
+      boardDom.appendChild(cell);
+    }
+
+    // 更新棋盘视图
+    function renderBoard(data) {
+      chessBoard = data;
+      const cells = boardDom.querySelectorAll('.cell');
+      cells.forEach((cell, idx) => {
+        cell.innerHTML = '';
+        if (data[idx] === 1) {
+          cell.innerHTML = '<div class="black"></div>';
+        } else if (data[idx] === 2) {
+          cell.innerHTML = '<div class="white"></div>';
+        }
+      });
+    }
+
+    // 提示文字
+    function setTip(text) {
+      document.getElementById('tip').innerText = text;
+    }
+
+    // ========== 3. 创建房间 调用云函数 ==========
+    async function createRoom() {
+      const roomId = document.getElementById('roomId').value.trim();
+      if (!roomId) return setTip('请输入房间号');
+      currentRoom = roomId;
+      setTip('正在创建房间...');
+
+      try {
+        const res = await app.callFunction({
+          name: 'createRoom',
+          data: { roomId, playerId }
+        });
+        const result = res.result;
+        if (result.code === 0) {
+          setTip('房间创建成功，等待队友加入（仅同WiFi可进）');
+          // 监听房间数据变化，实时同步
+          watchRoom(roomId);
+        } else {
+          setTip(result.msg);
+        }
+      } catch (e) {
+        setTip('创建房间失败');
+      }
+    }
+
+    // ========== 4. 加入房间 调用云函数（IP校验同WiFi） ==========
+    async function joinRoom() {
+      const roomId = document.getElementById('roomId').value.trim();
+      if (!roomId) return setTip('请输入房间号');
+      currentRoom = roomId;
+      setTip('正在加入房间...');
+
+      try {
+        const res = await app.callFunction({
+          name: 'joinRoom',
+          data: { roomId, playerId }
+        });
+        const result = res.result;
+        if (result.code === 0) {
+          setTip('加入房间成功，游戏开始！');
+          watchRoom(roomId);
+        } else {
+          setTip(result.msg);
+        }
+      } catch (e) {
+        setTip('加入房间失败');
+      }
+    }
+
+    // ========== 5. 落子操作 ==========
+    async function playChess(idx) {
+      if (!currentRoom || !myTurn) return;
+      if (chessBoard[idx] !== 0) return;
+
+      try {
+        await app.callFunction({
+          name: 'playChess',
+          data: { roomId: currentRoom, idx, playerId }
+        });
+      } catch (e) {
+        setTip('落子失败');
+      }
+    }
+
+    // ========== 6. 实时监听房间数据（双人同步） ==========
+    let watcher = null;
+    function watchRoom(roomId) {
+      // 关闭旧监听
+      if (watcher) watcher.close();
+      // 监听房间文档
+      watcher = db.collection('rooms').where({ roomId }).watch({
+        onChange: (snapshot) => {
+          if (snapshot.docs.length === 0) return;
+          const room = snapshot.docs[0];
+          renderBoard(room.board);
+
+          // 判断自己是否轮到下棋
+          myTurn = room.nowPlayer === playerId;
+          if (room.gameOver) {
+            setTip(`游戏结束，${room.winner === 1 ? '黑棋' : '白棋'}获胜！`);
+          } else {
+            setTip(myTurn ? '轮到你下棋' : '等待对方落子...');
+          }
+        },
+        onError: (err) => {
+          console.error('监听错误', err);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

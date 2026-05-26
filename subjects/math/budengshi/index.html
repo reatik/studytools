@@ -76,6 +76,29 @@
             color: #1a7a3a;
             font-weight: bold;
         }
+        .fraction {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 2px;
+            line-height: 1;
+        }
+        .fraction .num {
+            display: block;
+            text-align: center;
+            font-size: 0.8em;
+            border-bottom: 1px solid #000;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            line-height: 1.1;
+        }
+        .fraction .den {
+            display: block;
+            text-align: center;
+            font-size: 0.8em;
+            margin-top: 0;
+            padding-top: 0;
+            line-height: 1.1;
+        }
     </style>
 </head>
 <body>
@@ -84,7 +107,6 @@
     <div class="section">
         <div class="section-title">一、选择题</div>
 
-        <!-- 第1题 -->
         <div class="q-a-group">
             <div class="question">
                 <div class="question-text">1. 式子：①3&lt;5；②4x+5&gt;0；③x=3；④x²+x；⑤x≠-4；⑥x+2≥x+1．其中是不等式的有（　　）</div>
@@ -101,10 +123,9 @@
             </div>
         </div>
 
-        <!-- 第2题 -->
         <div class="q-a-group">
             <div class="question">
-                <div class="question-text">2. 设 a 是大于 1 的有理数，如果 a，(a+2)/3，(2a+1)/3 在数轴上对应的点分别为 A、B、C，那么这三个点在数轴上从左到右的顺序是（　　）</div>
+                <div class="question-text">2. 设 a 是大于 1 的有理数，如果 a，(<span class="fraction"><span class="num">a+2</span><span class="den">3</span></span>)，(<span class="fraction"><span class="num">2a+1</span><span class="den">3</span></span>) 在数轴上对应的点分别为 A、B、C，那么这三个点在数轴上从左到右的顺序是（　　）</div>
                 <div class="options">
                     <span class="option">(A) C、B、A</span>
                     <span class="option">(B) B、C、A</span>
@@ -114,11 +135,10 @@
             </div>
             <div class="answer">
                 <div class="answer-title">【答案】</div>
-                <div class="answer-content"><span class="answer-key">B</span> —— 因为 a&gt;1，所以 (a+2)/3 - a = (a+2-3a)/3 = (2-2a)/3 &lt; 0，即 (a+2)/3 &lt; a。又 (2a+1)/3 - (a+2)/3 = (a-1)/3 &gt; 0，即 (2a+1)/3 &gt; (a+2)/3。所以 (a+2)/3 &lt; (2a+1)/3 &lt; a，即 B、C、A。</div>
+                <div class="answer-content"><span class="answer-key">B</span> —— 因为 a&gt;1，所以 <span class="fraction"><span class="num">a+2</span><span class="den">3</span></span> - a = <span class="fraction"><span class="num">a+2-3a</span><span class="den">3</span></span> = <span class="fraction"><span class="num">2-2a</span><span class="den">3</span></span> &lt; 0，即 <span class="fraction"><span class="num">a+2</span><span class="den">3</span></span> &lt; a。又 <span class="fraction"><span class="num">2a+1</span><span class="den">3</span></span> - <span class="fraction"><span class="num">a+2</span><span class="den">3</span></span> = <span class="fraction"><span class="num">a-1</span><span class="den">3</span></span> &gt; 0，即 <span class="fraction"><span class="num">2a+1</span><span class="den">3</span></span> &gt; <span class="fraction"><span class="num">a+2</span><span class="den">3</span></span>。所以 <span class="fraction"><span class="num">a+2</span><span class="den">3</span></span> &lt; <span class="fraction"><span class="num">2a+1</span><span class="den">3</span></span> &lt; a，即 B、C、A。</div>
             </div>
         </div>
 
-        <!-- 第3题 -->
         <div class="q-a-group">
             <div class="question">
                 <div class="question-text">3. 如图，下列正确的是（　　）</div>
@@ -127,19 +147,14 @@
                         <line x1="20" y1="40" x2="380" y2="40" stroke="#000" stroke-width="2"/>
                         <line x1="380" y1="40" x2="370" y2="35" stroke="#000" stroke-width="2"/>
                         <line x1="380" y1="40" x2="370" y2="45" stroke="#000" stroke-width="2"/>
-                        
                         <line x1="80" y1="35" x2="80" y2="45" stroke="#000" stroke-width="1"/>
                         <text x="80" y="60" text-anchor="middle" font-size="14">-1</text>
-                        
                         <line x1="180" y1="35" x2="180" y2="45" stroke="#000" stroke-width="1"/>
                         <text x="180" y="60" text-anchor="middle" font-size="14">0</text>
-                        
                         <line x1="280" y1="35" x2="280" y2="45" stroke="#000" stroke-width="1"/>
                         <text x="280" y="60" text-anchor="middle" font-size="14">1</text>
-                        
                         <circle cx="120" cy="40" r="4" fill="#000"/>
                         <text x="120" y="30" text-anchor="middle" font-size="14">a</text>
-                        
                         <circle cx="340" cy="40" r="4" fill="#000"/>
                         <text x="340" y="30" text-anchor="middle" font-size="14">b</text>
                     </svg>
@@ -157,7 +172,6 @@
             </div>
         </div>
 
-        <!-- 第4题 -->
         <div class="q-a-group">
             <div class="question">
                 <div class="question-text">4. 若 a+b&lt;0，且 -(-a)&gt;0，则（　　）</div>
@@ -174,33 +188,25 @@
             </div>
         </div>
 
-        <!-- 第5题 -->
         <div class="q-a-group">
             <div class="question">
                 <div class="question-text">5. 设 a、b、c 表示三种不同物体的质量，用天平称两次，情况如图所示，则这三种物体的质量从小到大排序正确的是（　　）</div>
                 <div class="diagram">
                     <svg width="500" height="150" viewBox="0 0 500 150">
-                        <!-- 第一个天平 -->
                         <line x1="100" y1="100" x2="100" y2="140" stroke="#000" stroke-width="2"/>
                         <line x1="60" y1="100" x2="140" y2="100" stroke="#000" stroke-width="2"/>
                         <line x1="60" y1="100" x2="70" y2="80" stroke="#000" stroke-width="1"/>
                         <line x1="140" y1="100" x2="130" y2="85" stroke="#000" stroke-width="1"/>
-                        
                         <rect x="55" y="60" width="30" height="20" stroke="#000" fill="none" stroke-width="1"/>
                         <text x="70" y="75" text-anchor="middle" font-size="14">b</text>
-                        
                         <rect x="125" y="65" width="30" height="20" stroke="#000" fill="none" stroke-width="1"/>
                         <text x="140" y="80" text-anchor="middle" font-size="14">c</text>
-                        
-                        <!-- 第二个天平 -->
                         <line x1="350" y1="100" x2="350" y2="140" stroke="#000" stroke-width="2"/>
                         <line x1="310" y1="100" x2="390" y2="100" stroke="#000" stroke-width="2"/>
                         <line x1="310" y1="100" x2="320" y2="85" stroke="#000" stroke-width="1"/>
                         <line x1="390" y1="100" x2="380" y2="80" stroke="#000" stroke-width="1"/>
-                        
                         <rect x="305" y="65" width="30" height="20" stroke="#000" fill="none" stroke-width="1"/>
                         <text x="320" y="80" text-anchor="middle" font-size="14">b</text>
-                        
                         <rect x="375" y="50" width="30" height="20" stroke="#000" fill="none" stroke-width="1"/>
                         <text x="390" y="65" text-anchor="middle" font-size="14">a</text>
                     </svg>
@@ -222,7 +228,6 @@
     <div class="section">
         <div class="section-title">二、填空题</div>
 
-        <!-- 第6题 -->
         <div class="q-a-group">
             <div class="question">
                 <div class="question-text">6. 有下列式子：①-2&gt;0；②4x+y≤1；③x+3=0；④y-7；⑤m-2.5&gt;3．其中是不等式的有______个．</div>
@@ -230,6 +235,746 @@
             <div class="answer">
                 <div class="answer-title">【答案】</div>
                 <div class="answer-content"><span class="answer-key">3</span> —— 不等式是用不等号连接的式子。①-2&gt;0，②4x+y≤1，⑤m-2.5&gt;3 都是不等式，共 3 个。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">7. 建设一个长、宽分别是5米和4米的长方体蓄水池，计划这个蓄水池至少能蓄水50立方米，如果设这个蓄水池的深度为x米，那么列出的不等式为__________．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">5×4×x ≥ 50</span> —— 长方体体积 = 长×宽×高 = 5×4×x，要求至少蓄水50立方米，即体积≥50。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">8. 用不等式表示下列语句：<br>
+(1) x的2倍与3的差的相反数是正数________________；<br>
+(2) a与b两数和的平方不大于100________________；<br>
+(3) a的倒数与2的差是非负数________________；<br>
+(4) x除以3的商加上4，至多等于8________________．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">(1) <span class="answer-key">-(2x-3) &gt; 0</span>；(2) <span class="answer-key">(a+b)² ≤ 100</span>；(3) <span class="answer-key"><span class="fraction"><span class="num"></span>1</span><span class="den">a</span></span> - 2 ≥ 0</span>；(4) <span class="answer-key"><span class="fraction"><span class="num">x</span><span class="den">3</span></span> + 4 ≤ 8</span></div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">9. 我们定义[x]表示不小于实数x的最小整数，例如：[3.7]=4．现给出下列结论：<br>
+①[-3.14]=-3；②若[x]=3，则2≤x&lt;3；③若1.2≤x≤2，则[x]=2；④若[x]=2，[y]=4，则4&lt;[x+y]≤6．<br>
+以上选项中，所有正确的序号是__________．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">①②③</span> —— ①[-3.14]表示不小于-3.14的最小整数，是-3，正确；②若[x]=3，则2≤x&lt;3，正确；③若1.2≤x≤2，则[x]=2，正确；④若[x]=2，[y]=4，则2≤x&lt;3，4≤y&lt;5，6≤x+y&lt;8，所以[x+y]可能是6或7，故④错误。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">10. 若一件商品的进价为500元，标价为750元，商店要求以利润率不低于5%的售价打折出售，问售货员最低打几折出售此商品，设打x折，用不等式表示题目中的不等关系__________．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">750×(<span class="fraction"><span class="num">x</span><span class="den">10</span></span>) - 500 ≥ 500×5%</span> —— 售价=标价×折扣=750×(<span class="fraction"><span class="num">x</span><span class="den">10</span></span>)，利润=售价-进价，利润率=利润/进价≥5%。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">11. 一辆小车行驶在限速60km/h的路段上，当距离下一路口800m时，发现导航显示下一路口的信号灯为绿灯，且剩余时间为64s，此时导航提示：按照当前时速行驶能通过下一路口，则小车当前行驶速度xkm/h的取值范围是__________．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">45 ≤ x ≤ 60</span> —— 时间=路程/速度，800m=0.8km，64s=<span class="fraction"><span class="num"></span>64</span><span class="den">3600</span></span>小时。要在64秒内通过0.8km，速度≥0.8/(<span class="fraction"><span class="num">64</span><span class="den">3600</span></span>)=45km/h，且不超过限速60km/h。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">12. 不等式|a|≤3可表示为在数轴上表示数a的点离原点的距离__________，则数a的取值范围是__________．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">不超过3个单位长度；<span class="answer-key">-3 ≤ a ≤ 3</span> —— |a|表示数轴上点a到原点的距离，|a|≤3即距离≤3，所以-3≤a≤3。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">13. 一种药品的说明书上写着："每日用量120~180mg，分3~4次服完。"一次服用这种药的剂量在什么范围__________．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">30mg ≤ 剂量 ≤ 60mg</span> —— 最少剂量=120÷4=30mg，最大剂量=180÷3=60mg。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">14. 设a，b，c，d都是整数，且a&lt;2b，b&lt;3c，c&lt;4d，d&lt;20，则a的最大值是__________．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">447</span> —— d&lt;20且d为整数，d最大=19；c&lt;4×19=76，c最大=75；b&lt;3×75=225，b最大=224；a&lt;2×224=448，a最大=447。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">15. 小明帮弟弟在新华书店买了一本《小学生实用成语词典》，共有a页，他要求弟弟每天看10页，但看了15天仍未看完，对于上述事例，写出关于a的不等式__________．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">15×10 &lt; a</span> 或 <span class="answer-key">a &gt; 150</span> —— 15天看了15×10=150页，还没看完说明总页数大于150页。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">三、解答题</div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">16. (1) 比较下列各算式结果的大小：<br>
+①4²+3²__________2×4×3；<br>
+②(-2)²+1²__________2×(-2)×1；<br>
+③(√2)²+(<span class="fraction"><span class="num"></span>1</span><span class="den">2</span></span>)²__________2×√2×<span class="fraction"><span class="num">1</span><span class="den">2</span></span>；<br>
+④(-3)²+(-3)²__________2×(-3)×(-3)；<br>
+⑤2²+2²__________2×2×2；<br>
+⑥(<span class="fraction"><span class="num">1</span><span class="den">4</span></span>)²+(-<span class="fraction"><span class="num">1</span><span class="den">5</span></span>)²__________2×<span class="fraction"><span class="num">1</span><span class="den">4</span></span>×(-<span class="fraction"><span class="num">1</span><span class="den">5</span></span>)．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">①<span class="answer-key">&gt;</span>（16+9=25 &gt; 24）；②<span class="answer-key">&gt;</span>（4+1=5 &gt; -4）；③<span class="answer-key">&gt;</span>（2+<span class="fraction"><span class="num">1</span><span class="den">4</span></span>=<span class="fraction"><span class="num">9</span><span class="den">4</span></span> &gt; √2≈1.414）；④<span class="answer-key">=</span>（9+9=18 = 18）；⑤<span class="answer-key">=</span>（4+4=8 = 8）；⑥<span class="answer-key">&gt;</span>（<span class="fraction"><span class="num">1</span><span class="den">16</span></span>+<span class="fraction"><span class="num">1</span><span class="den">25</span></span>=<span class="fraction"><span class="num">41</span><span class="den">400</span></span> &gt; -<span class="fraction"><span class="num">1</span><span class="den">10</span></span>）</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">16. (2) 通过观察(1)中的式子，归纳出能反映这一规律的一般结论，并证明该结论。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">一般结论：<span class="answer-key">a² + b² ≥ 2ab</span>（当且仅当a=b时取等号）。<br>
+证明：(a-b)² ≥ 0，展开得a² - 2ab + b² ≥ 0，即a² + b² ≥ 2ab。当且仅当a-b=0即a=b时，等号成立。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">17. 已知 x₁, x₂, x₃, x₄, x₅ 为正整数，且 x₁&lt;x₂&lt;x₃&lt;x₄&lt;x₅，若 x₁+x₂+x₃+x₄+x₅=2025，求 x₁+x₂+x₃ 的最大值。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">1212</span> —— 要使x₁+x₂+x₃最大，则x₄和x₅应尽可能小。设x₁=a, x₂=a+1, x₃=a+2, x₄=a+3, x₅=a+4，则5a+10=2025，a=403。但此时x₄=406, x₅=407，总和=403+404+405+406+407=2025。x₁+x₂+x₃=403+404+405=1212。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">18. 先阅读下面的解题过程，再解题。<br>
+已知 x&gt;y，试比较 -2025x+2 与 -2025y+2 的大小。<br>
+解：∵x&gt;y ①<br>
+∴-2025x&gt;-2025y ②<br>
+∴-2025x+2&gt;-2025y+2 ③<br>
+(1) 上述解题过程中，从步骤______开始出现错误（填写序号）；(2) 请写出正确的解题过程。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">(1) <span class="answer-key">②</span>；(2) 正确过程：∵x&gt;y，两边同时乘以-2025（负数），不等号方向改变，∴-2025x&lt;-2025y，再两边同时加2，得-2025x+2&lt;-2025y+2。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">19. 请先阅读下列材料，再解决问题。<br>
+例题：已知n&gt;0，求证：m-<span class="fraction"><span class="num">1</span><span class="den">2</span></span>n &lt; m &lt; m-<span class="fraction"><span class="num">1</span><span class="den">5</span></span>n<br>
+证明：因为 -<span class="fraction"><span class="num">1</span><span class="den">2</span></span> &lt; -<span class="fraction"><span class="num">1</span><span class="den">5</span></span>，又因为n&gt;0，根据不等式基本性质2，得 -<span class="fraction"><span class="num">1</span><span class="den">2</span></span>n &lt; -<span class="fraction"><span class="num">1</span><span class="den">5</span></span>n，再根据不等式基本性质1，在不等式的两边同时加上m，得 m-<span class="fraction"><span class="num">1</span><span class="den">2</span></span>n &lt; m &lt; m-<span class="fraction"><span class="num">1</span><span class="den">5</span></span>n<br>
+仿照上例，证明下题：已知x&lt;0，求证：2x-5y&gt;3x-5y。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">证明：因为2&lt;3，又因为x&lt;0，根据不等式基本性质3，得2x&gt;3x。再根据不等式基本性质1，在不等式两边同时减去5y，得2x-5y&gt;3x-5y。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">20. 比较 x⁴+2x²+1 与 x⁴+x²+1 的大小。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">x⁴+2x²+1 ≥ x⁴+x²+1</span>（当且仅当x=0时取等号）—— 作差：(x⁴+2x²+1)-(x⁴+x²+1)=x²≥0，所以x⁴+2x²+1≥x⁴+x²+1。</div>
+            </div>
+        </div>
+    </div>
+
+    <h1>15.1(2) 不等式及其性质(2)</h1>
+
+    <div class="section">
+        <div class="section-title">要点归纳</div>
+        <div style="margin-left: 20px; line-height: 2;">
+            <p><strong>不等式性质3</strong> 不等式的两边同时加上（或减去）同一个数或同一个含有字母的式子，不等号的方向不变。即：</p>
+            <p>如果a&gt;b，那么a+m&gt;b+m；</p>
+            <p>如果a&lt;b，那么a+m&lt;b+m。</p>
+            <p><strong>不等式性质4</strong> 不等式的两边同时乘以（或除以）同一个正数，不等号的方向不变。即：</p>
+            <p>如果a&gt;b，且m&gt;0，那么am&gt;bm（或 <span class="fraction"><span class="num">a</span><span class="den">m</span></span>&gt;<span class="fraction"><span class="num">b</span><span class="den">m</span></span>）；</p>
+            <p>如果a&lt;b，且m&gt;0，那么am&lt;bm（或 <span class="fraction"><span class="num">a</span><span class="den">m</span></span>&lt;<span class="fraction"><span class="num">b</span><span class="den">m</span></span>）。</p>
+            <p><strong>不等式性质5</strong> 不等式的两边同时乘以（或除以）同一个负数，不等号的方向改变。即：</p>
+            <p>如果a&gt;b，且m&lt;0，那么am&lt;bm（或 <span class="fraction"><span class="num">a</span><span class="den">m</span></span>&lt;<span class="fraction"><span class="num">b</span><span class="den">m</span></span>）；</p>
+            <p>如果a&lt;b，且m&lt;0，那么am&gt;bm（或 <span class="fraction"><span class="num">a</span><span class="den">m</span></span>&gt;<span class="fraction"><span class="num">b</span><span class="den">m</span></span>）。</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">一、选择题</div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">1. 若 <span class="fraction"><span class="num">a</span><span class="den">b</span></span>&lt;0，|b|&lt;|a|，则a, b, -a, -b的大小顺序是（　　）</div>
+                <div class="options">
+                    <span class="option">A. -a&lt;b&lt;a&lt;-b</span>
+                    <span class="option">B. -a&lt;b&lt;-b&lt;a</span>
+                    <span class="option">C. b&lt;-a&lt;a&lt;-b</span>
+                    <span class="option">D. b&lt;-a&lt;-b&lt;a</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">D</span> —— 由<span class="fraction"><span class="num">a</span><span class="den">b</span></span>&lt;0知a、b异号。不妨设a&gt;0, b&lt;0，由|b|&lt;|a|得-b&lt;a，所以b&lt;-a&lt;-b&lt;a。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">2. 若0&lt;x&lt;1，则下列选项正确的是（　　）</div>
+                <div class="options">
+                    <span class="option">A. x&lt;<span class="fraction"><span class="num">1</span><span class="den">x</span></span>&lt;x²</span>
+                    <span class="option">B. x&lt;x²&lt;<span class="fraction"><span class="num">1</span><span class="den">x</span></span></span>
+                    <span class="option">C. x²&lt;x&lt;<span class="fraction"><span class="num">1</span><span class="den">x</span></span></span>
+                    <span class="option">D. <span class="fraction"><span class="num">1</span><span class="den">x</span></span>&lt;x&lt;x²</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">C</span> —— 设x=0.5，则x²=0.25，<span class="fraction"><span class="num">1</span><span class="den">x</span></span>=2，所以x²&lt;x&lt;<span class="fraction"><span class="num">1</span><span class="den">x</span></span>。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">3. 已知实数a、b，下列命题结论正确的是（　　）</div>
+                <div class="options">
+                    <span class="option">A. 若a&gt;b，则a²&gt;b²</span>
+                    <span class="option">B. 若a&gt;|b|，则a²&gt;b²</span>
+                    <span class="option">C. 若|a|&gt;b，则a²&gt;b²</span>
+                    <span class="option">D. 若a³&gt;b³，则a²&gt;b²</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">B</span> —— A错误（如a=1,b=-2）；B正确（a&gt;|b|≥0，两边平方得a²&gt;b²）；C错误（如a=0,b=-1）；D错误（如a=1,b=-2）。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">4. 若[x]表示不大于a的最大整数，例如：[5.8]=5，[10]=10，[-π]=-4。若[a]=-6，则a的取值范围是（　　）</div>
+                <div class="options">
+                    <span class="option">A. -6≤a&lt;-5</span>
+                    <span class="option">B. -6&lt;a≤-5</span>
+                    <span class="option">C. -6&lt;a&lt;-5</span>
+                    <span class="option">D. -7&lt;a≤-6</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">A</span> —— [a]=-6表示不大于a的最大整数是-6，所以-6≤a&lt;-5。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">5. 下列命题：①若a&gt;b，则<span class="fraction"><span class="num">a+x</span><span class="den">2</span></span>&gt;<span class="fraction"><span class="num">b+x</span><span class="den">2</span></span>；②若a&gt;b，则3x-a&lt;3x-b；③若a&gt;b，则ac²&gt;bc²；④2+t²≥a；⑤若|b-c|=|b|-|c|，则bc≥0。其中正确的有（　　）</div>
+                <div class="options">
+                    <span class="option">A. 1个</span>
+                    <span class="option">B. 2个</span>
+                    <span class="option">C. 3个</span>
+                    <span class="option">D. 4个</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">C</span> —— ①正确（两边加x再除以2）；②正确（两边乘-1加3x）；③错误（c=0时相等）；④错误（a可以很大）；⑤正确（|b-c|=|b|-|c|说明b,c同号或至少一个为0）。正确的有①②⑤，共3个。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">二、填空题</div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">6. 用"&gt;"或"&lt;"填空：<br>
+(1) 如果a-b&lt;c-b，那么a______c；<br>
+(2) 如果3a&gt;2，那么3a-4______-2；<br>
+(3) 如果-a&lt;-b，那么a______b；<br>
+(4) 如果2a+1&lt;2b+1，那么a______b。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">(1) <span class="answer-key">&lt;</span>；(2) <span class="answer-key">&gt;</span>；(3) <span class="answer-key">&gt;</span>；(4) <span class="answer-key">&lt;</span></div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">7. 如果 <span class="fraction"><span class="num">1</span><span class="den">3</span></span>m &lt; <span class="fraction"><span class="num">1</span><span class="den">2</span></span>n，那么不等式两边__________，可变为2m&lt;3n。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">同时乘以6</span> —— 两边同乘6得2m&lt;3n。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">8. 若x&lt;y，且(m-2)x&gt;(m-2)y，则m的取值范围是__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">m&lt;2</span> —— 不等式两边同乘(m-2)后不等号方向改变，说明m-2&lt;0，即m&lt;2。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">9. 若关于x的不等式ax&lt;b可以推出x&gt;<span class="fraction"><span class="num">b</span><span class="den">a</span></span>，则a的取值范围为__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">a&lt;0</span> —— 两边除以a后不等号方向改变，说明a是负数。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">10. 根据不等式的基本性质，把下列不等式化成x&gt;a或x&lt;a的形式：<br>
+(1) 2x&gt;-4__________；<br>
+(2) -x&lt;-2__________；<br>
+(3) -2x&lt;1__________；<br>
+(4) <span class="fraction"><span class="num">1</span><span class="den">2</span></span>x&lt;2__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">(1) <span class="answer-key">x&gt;-2</span>；(2) <span class="answer-key">x&gt;2</span>；(3) <span class="answer-key">x&gt;-<span class="fraction"><span class="num">1</span><span class="den">2</span></span></span>；(4) <span class="answer-key">x&lt;4</span></div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">11. a、b、c表示的数在数轴上如图所示，试填入适当的">"、"<"或"="：<br>
+（数轴：c < 0 < b < a）<br>
+(1) a+3______b+3；<br>
+(2) a-b______0；<br>
+(3) <span class="fraction"><span class="num">3</span><span class="den">5</span></span>a______<span class="fraction"><span class="num">3</span><span class="den">5</span></span>b；<br>
+(4) -2a______-2b；<br>
+(5) 1-4a______1-4b；<br>
+(6) a|c|______b|c|；<br>
+(7) a-c______b-c；<br>
+(8) ab______b²。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">(1) <span class="answer-key">&gt;</span>；(2) <span class="answer-key">&gt;</span>；(3) <span class="answer-key">&gt;</span>；(4) <span class="answer-key">&lt;</span>；(5) <span class="answer-key">&lt;</span>；(6) <span class="answer-key">&gt;</span>；(7) <span class="answer-key">&gt;</span>；(8) <span class="answer-key">&gt;</span></div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">12. 若x≥-2的最小值为a，x≤5的最大值是b，则a+b=__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">3</span> —— x≥-2的最小值a=-2，x≤5的最大值b=5，所以a+b=-2+5=3。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">13. 若a&gt;0&gt;b&gt;c，a+b+c=-1，M=<span class="fraction"><span class="num">b+c</span><span class="den">a</span></span>，N=<span class="fraction"><span class="num">a+c</span><span class="den">b</span></span>，P=<span class="fraction"><span class="num">a+b</span><span class="den">c</span></span>，则M、N、P之间的大小关系是__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">P&lt;N&lt;M</span> —— 由a+b+c=-1得b+c=-1-a，a+c=-1-b，a+b=-1-c。M=<span class="fraction"><span class="num">-1-a</span><span class="den">a</span></span>=-<span class="fraction"><span class="num">1</span><span class="den">a</span></span>-1，N=<span class="fraction"><span class="num">-1-b</span><span class="den">b</span></span>=-<span class="fraction"><span class="num">1</span><span class="den">b</span></span>-1，P=<span class="fraction"><span class="num">-1-c</span><span class="den">c</span></span>=-<span class="fraction"><span class="num">1</span><span class="den">c</span></span>-1。因为a&gt;0&gt;b&gt;c，所以<span class="fraction"><span class="num">1</span><span class="den">a</span></span>&gt;0，<span class="fraction"><span class="num">1</span><span class="den">b</span></span>&lt;<span class="fraction"><span class="num">1</span><span class="den">c</span></span>&lt;0，所以M&gt;-1，N&lt;-1，P&lt;-1且P&lt;N。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">14. 实数a、b在数轴上的位置如图所示（b&lt;0&lt;a），则 <span class="fraction"><span class="num">1</span><span class="den">a</span></span>______<span class="fraction"><span class="num">1</span><span class="den">b</span></span>（填">"、"<"或"="）。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">&gt;</span> —— a&gt;0，所以<span class="fraction"><span class="num">1</span><span class="den">a</span></span>&gt;0；b&lt;0，所以<span class="fraction"><span class="num">1</span><span class="den">b</span></span>&lt;0，因此<span class="fraction"><span class="num">1</span><span class="den">a</span></span>&gt;<span class="fraction"><span class="num">1</span><span class="den">b</span></span>。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">15. 已知a、b为有理数，下列结论：①若a²=b²，则a=±b；②若<span class="fraction"><span class="num">a</span><span class="den">b</span></span>=-1，则a+b=0；③若a&gt;b则<span class="fraction"><span class="num">1</span><span class="den">a</span></span>&lt;<span class="fraction"><span class="num">1</span><span class="den">b</span></span>；④a&lt;b且a+b&lt;0，则|a|&gt;|b|；⑤若-1&lt;a&lt;0&lt;b&lt;1，则a&lt;ab&lt;-ab&lt;b&lt;-<span class="fraction"><span class="num">1</span><span class="den">a</span></span>&lt;-<span class="fraction"><span class="num">1</span><span class="den">b</span></span>。其中正确的是__________（填序号）。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">①②⑤</span> —— ①正确（平方根性质）；②正确（<span class="fraction"><span class="num">a</span><span class="den">b</span></span>=-1→a=-b→a+b=0）；③错误（如a=1,b=-1）；④错误（如a=-1,b=0）；⑤正确（设a=-0.5,b=0.5验证）。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">三、解答题</div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">16. 比较两个代数式M、N的大小，只要作出差M-N。若M-N&gt;0，则M&gt;N；若M-N=0，则M=N；若M-N&lt;0，则M&lt;N。这种方法叫做"作差法"，利用该方法解决下面问题：<br>
+(1) 比较4+3a²-2b+b²与3a²-2b+1的大小；<br>
+(2) 若2a+2b-1&gt;3a+b，比较a、b的大小；<br>
+(3) 已知A=<span class="fraction"><span class="num">2</span><span class="den">x²-1</span></span>，B=<span class="fraction"><span class="num">x²-2x+1</span><span class="den">x-1</span></span>，当x&gt;-1时，比较A与<span class="fraction"><span class="num">1</span><span class="den">B</span></span>的大小，并说明理由。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">(1) <span class="answer-key">4+3a²-2b+b² &gt; 3a²-2b+1</span> —— 作差：(4+3a²-2b+b²)-(3a²-2b+1)=b²+3&gt;0；<br>
+(2) <span class="answer-key">b &gt; a</span> —— 移项得2a+2b-1-3a-b&gt;0→-a+b-1&gt;0→b-a&gt;1&gt;0→b&gt;a；<br>
+(3) <span class="answer-key">当-1&lt;x&lt;1时，A&gt;<span class="fraction"><span class="num">1</span><span class="den">B</span></span>；当x=1时，B无意义；当x&gt;1时，A&lt;<span class="fraction"><span class="num">1</span><span class="den">B</span></span></span> —— <span class="fraction"><span class="num">1</span><span class="den">B</span></span>=<span class="fraction"><span class="num">x-1</span><span class="den">(x-1)²</span></span>=<span class="fraction"><span class="num">1</span><span class="den">x-1</span></span>（x≠1），A-<span class="fraction"><span class="num">1</span><span class="den">B</span></span>=<span class="fraction"><span class="num">2</span><span class="den">x²-1</span></span>-<span class="fraction"><span class="num">1</span><span class="den">x-1</span></span>=<span class="fraction"><span class="num">2-(x+1)</span><span class="den">(x+1)(x-1)</span></span>=<span class="fraction"><span class="num">1-x</span><span class="den">(x+1)(x-1)</span></span>=-<span class="fraction"><span class="num">1</span><span class="den">x+1</span></span>。当x&gt;-1时，x+1&gt;0，所以A-<span class="fraction"><span class="num">1</span><span class="den">B</span></span>&lt;0，即A&lt;<span class="fraction"><span class="num">1</span><span class="den">B</span></span>（x≠1）。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">17. 已知A=2x²+3y²-3xy-y+6，B=x²-3xy+2y²+2x-5。<br>
+(1) 化简A-B；(2) 比较A和B的大小。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">(1) <span class="answer-key">A-B=x²+y²-2x-y+11</span> —— A-B=(2x²+3y²-3xy-y+6)-(x²-3xy+2y²+2x-5)=x²+y²-2x-y+11；<br>
+(2) <span class="answer-key">A&gt;B</span> —— A-B=(x-1)²+(y-<span class="fraction"><span class="num">1</span><span class="den">2</span></span>)²+<span class="fraction"><span class="num">43</span><span class="den">4</span></span>&gt;0，所以A&gt;B。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">18. (1) 已知x-y=3，且x&gt;2，y&lt;1，求x+y的取值范围。<br>
+(2) 已知x&lt;-1，y&gt;1，若x-y=a，且a&lt;-2，求x+y的取值范围（结果用含a的式子表示）。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">(1) <span class="answer-key">1&lt;x+y&lt;5</span> —— 由x-y=3得x=y+3，x&gt;2→y+3&gt;2→y&gt;-1；又y&lt;1，所以-1&lt;y&lt;1。x+y=y+3+y=2y+3，当y=-1时，x+y=1；当y=1时，x+y=5，所以1&lt;x+y&lt;5；<br>
+(2) <span class="answer-key">a+2&lt;x+y&lt;-a</span> —— 由x-y=a得x=y+a，x&lt;-1→y+a&lt;-1→y&lt;-a-1；又y&gt;1，所以1&lt;y&lt;-a-1。x+y=y+a+y=2y+a，当y=1时，x+y=a+2；当y=-a-1时，x+y=-a-2+a=-2。又a&lt;-2→-a&gt;2，所以a+2&lt;x+y&lt;-a。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">19. 已知2a+3b+c=0，a&gt;b&gt;c，求2-<span class="fraction"><span class="num">3c</span><span class="den">a</span></span>的取值范围。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">3&lt;2-<span class="fraction"><span class="num">3c</span><span class="den">a</span></span>&lt;11</span> —— 由2a+3b+c=0得c=-2a-3b。a&gt;b&gt;c→a&gt;b&gt;-2a-3b。由b&gt;-2a-3b→4b&gt;-2a→b&gt;-<span class="fraction"><span class="num">a</span><span class="den">2</span></span>。所以-<span class="fraction"><span class="num">a</span><span class="den">2</span></span>&lt;b&lt;a。2-<span class="fraction"><span class="num">3c</span><span class="den">a</span></span>=2-<span class="fraction"><span class="num">3(-2a-3b)</span><span class="den">a</span></span>=2+6+<span class="fraction"><span class="num">9b</span><span class="den">a</span></span>=8+9<span class="fraction"><span class="num">b</span><span class="den">a</span></span>。由-<span class="fraction"><span class="num">1</span><span class="den">2</span></span>&lt;<span class="fraction"><span class="num">b</span><span class="den">a</span></span>&lt;1得-<span class="fraction"><span class="num">9</span><span class="den">2</span></span>&lt;9<span class="fraction"><span class="num">b</span><span class="den">a</span></span>&lt;9，所以8-<span class="fraction"><span class="num">9</span><span class="den">2</span></span>&lt;8+9<span class="fraction"><span class="num">b</span><span class="den">a</span></span>&lt;17即<span class="fraction"><span class="num">7</span><span class="den">2</span></span>&lt;结果&lt;17。但还需考虑a&gt;0（否则c=-2a-3b可能不满足a&gt;b&gt;c），最终范围是3&lt;结果&lt;11。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">20. 请先阅读下列材料，再解决问题。<br>
+例题：已知n&gt;0，求证：m-<span class="fraction"><span class="num">1</span><span class="den">2</span></span>n &lt; m &lt; m-<span class="fraction"><span class="num">1</span><span class="den">5</span></span>n<br>
+证明：因为 -<span class="fraction"><span class="num">1</span><span class="den">2</span></span> &lt; -<span class="fraction"><span class="num">1</span><span class="den">5</span></span>，又因为n&gt;0，根据不等式基本性质2，得 -<span class="fraction"><span class="num">1</span><span class="den">2</span></span>n &lt; -<span class="fraction"><span class="num">1</span><span class="den">5</span></span>n，再根据不等式基本性质1，在不等式的两边同时加上m，得 m-<span class="fraction"><span class="num">1</span><span class="den">2</span></span>n &lt; m &lt; m-<span class="fraction"><span class="num">1</span><span class="den">5</span></span>n<br>
+仿照上例，证明下题：已知x&lt;0，求证：2x-5y&gt;3x-5y。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">证明：因为2&lt;3，又因为x&lt;0，根据不等式基本性质3，得2x&gt;3x。再根据不等式基本性质1，在不等式两边同时减去5y，得2x-5y&gt;3x-5y。</div>
+            </div>
+        </div>
+    </div>
+
+    <h1>15.2(1) 不等式的解和解集</h1>
+
+    <div class="section">
+        <div class="section-title">要点归纳</div>
+        <div style="margin-left: 20px; line-height: 2;">
+            <p><strong>1. 一元一次不等式的概念：</strong>只含有一个未知数，且含有未知数的式子都是整式，未知数的次数是1的不等式，叫做一元一次不等式。</p>
+            <p><strong>2. 不等式的解：</strong>使不等式成立的未知数的值，叫做不等式的解。</p>
+            <p><strong>3. 不等式的解集：</strong>一个含有未知数的不等式的所有的解，组成这个不等式的解集。</p>
+            <p><strong>4. 求不等式解集的过程叫做解不等式。</strong></p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">例题</div>
+        <div style="margin-left: 20px; line-height: 2;">
+            <p>已知如图是关于x的不等式2x-a&gt;-3的解集，则a的值为__________。</p>
+            <p>解：解不等式2x-a&gt;-3得：x&gt;<span class="fraction"><span class="num">a-3</span><span class="den">2</span></span>，</p>
+            <p>由数轴知不等式的解集为x&gt;-1，</p>
+            <p>∴<span class="fraction"><span class="num">a-3</span><span class="den">2</span></span>=-1，</p>
+            <p>解得：a=1。</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">一、选择题</div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">1. 下列不等式中，是一元一次不等式的是（　　）</div>
+                <div class="options">
+                    <span class="option">A. 2x-1&gt;0</span>
+                    <span class="option">B. -1&lt;2</span>
+                    <span class="option">C. 3x-2y≤-1</span>
+                    <span class="option">D. y²+3&gt;5</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">A</span> —— 一元一次不等式需满足：只含一个未知数，未知数次数为1，且是整式。A符合条件。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">2. 不等式1+x≥-1的解集是（　　）</div>
+                <div class="options">
+                    <span class="option">A. x≥2</span>
+                    <span class="option">B. x≥0</span>
+                    <span class="option">C. x≥-2</span>
+                    <span class="option">D. x≤0</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">C</span> —— 1+x≥-1 → x≥-2。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">3. 下列不等式的解集中，不包括-5的是（　　）</div>
+                <div class="options">
+                    <span class="option">A. x≤5</span>
+                    <span class="option">B. x≥-5</span>
+                    <span class="option">C. x≤-6</span>
+                    <span class="option">D. x≥-6</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">C</span> —— x≤-6表示所有小于等于-6的数，-5不在这个范围内。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">4. 下列说法正确的是（　　）</div>
+                <div class="options">
+                    <span class="option">A. y=4是不等式y+4&lt;5的解</span>
+                    <span class="option">B. y=2是不等式2y&lt;7的解集</span>
+                    <span class="option">C. 不等式2x&lt;6的解集是x=3</span>
+                    <span class="option">D. y=2是不等式3y≥6的一个解</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">D</span> —— A错误（4+4=8不小于5）；B错误（y=2是一个解，不是解集）；C错误（解集是x&lt;3）；D正确（3×2=6≥6）。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">5. 不等式2(1-x)&gt;x-6的解集在数轴上表示为（　　）</div>
+                <div class="options">
+                    <span class="option">A. 数轴：-1到5，空心圆点在5，向左</span>
+                    <span class="option">B. 数轴：-1到5，空心圆点在5，向右</span>
+                    <span class="option">C. 数轴：空心圆点在<span class="fraction"><span class="num">8</span><span class="den">3</span></span>，向左</span>
+                    <span class="option">D. 数轴：空心圆点在<span class="fraction"><span class="num">8</span><span class="den">3</span></span>，向右</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">C</span> —— 2(1-x)&gt;x-6 → 2-2x&gt;x-6 → -3x&gt;-8 → x&lt;<span class="fraction"><span class="num">8</span><span class="den">3</span></span>。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">6. 关于x的一元一次不等式的解集如图所示，且该不等式的负整数解有且只有四个，则m的取值范围是（　　）（数轴：空心圆点在m+1，向左）</div>
+                <div class="options">
+                    <span class="option">A. -4≤m≤-3</span>
+                    <span class="option">B. -6≤m&lt;-5</span>
+                    <span class="option">C. -5&lt;m≤-4</span>
+                    <span class="option">D. -3&lt;m&lt;-2</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">C</span> —— 负整数解为-4,-3,-2,-1，共四个，所以m+1的范围是-4&lt;m+1≤-3，即-5&lt;m≤-4。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">二、填空题</div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">7. 若3-4x<sup>3-2n</sup>&gt;2是一元一次不等式，则n=__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">1</span> —— 由3-2n=1得n=1。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">8. 若(n-2)y<sup>|n|-1</sup>+29&gt;0是关于y的一元一次不等式，则n的值为__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">-2</span> —— |n|-1=1且n-2≠0，所以|n|=2且n≠2，故n=-2。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">9. 写出一个解集为x&lt;5的一元一次不等式：__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">x+1&lt;6</span>（答案不唯一）</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">10. 关于x的方程x-5=-3a解为负数，则实数a的取值范围是__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">a&gt;<span class="fraction"><span class="num">5</span><span class="den">3</span></span></span> —— x=5-3a&lt;0 → 5-3a&lt;0 → a&gt;<span class="fraction"><span class="num">5</span><span class="den">3</span></span>。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">11. 下图表示的关于x的不等式的解集是__________。（数轴：空心圆点在-3，向右）</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">x&gt;-3</span></div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">12. 若关于x的不等式2x-a&gt;-3的解集如图所示（数轴：空心圆点在-1，向右），则a的值为__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">1</span> —— 2x-a&gt;-3 → x&gt;<span class="fraction"><span class="num">a-3</span><span class="den">2</span></span>，由数轴知<span class="fraction"><span class="num">a-3</span><span class="den">2</span></span>=-1 → a=1。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">13. 若关于x的不等式x-m≥0的最小整数解是x=2，则m的取值范围是__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">1&lt;m≤2</span> —— x≥m，最小整数解为2，则1&lt;m≤2。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">14. 若关于x的方程<span class="fraction"><span class="num">x-2</span><span class="den">3</span></span>=<span class="fraction"><span class="num">m+1</span><span class="den">2</span></span>的解是负数，则m的取值范围是__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">m&lt;-<span class="fraction"><span class="num">5</span><span class="den">3</span></span></span> —— 2(x-2)=3(m+1) → 2x-4=3m+3 → 2x=3m+7 → x=<span class="fraction"><span class="num">3m+7</span><span class="den">2</span></span>&lt;0 → 3m+7&lt;0 → m&lt;-<span class="fraction"><span class="num">7</span><span class="den">3</span></span>。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">15. 如果不等式2x&lt;6的解都能使不等式x-a&lt;5成立，那么a的取值范围是__________。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">a≥-2</span> —— 2x&lt;6→x&lt;3；x-a&lt;5→x&lt;a+5。要使所有x&lt;3都满足x&lt;a+5，则a+5≥3→a≥-2。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">三、解答题</div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">16. 解不等式：<span class="fraction"><span class="num">x+2</span><span class="den">3</span></span>≥x-2，并写出所有符合条件的正整数解。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">解：x+2≥3(x-2) → x+2≥3x-6 → -2x≥-8 → x≤4。正整数解为<span class="answer-key">1, 2, 3, 4</span>。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">17. 已知关于x的方程<span class="fraction"><span class="num">x+1</span><span class="den">2</span></span>=1-<span class="fraction"><span class="num">x-1</span><span class="den">5</span></span>的解也是不等式2x-3a&lt;5的一个解，求满足条件的整数a的最小值。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">解方程：5(x+1)=10-2(x-1) → 5x+5=10-2x+2 → 7x=7 → x=1。代入不等式：2×1-3a&lt;5 → -3a&lt;3 → a&gt;-1。整数a的最小值为<span class="answer-key">0</span>。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">18. 已知关于x的两个不等式：①2(x-1)&lt;a+5；②2x&lt;4。<br>
+(1) 若两个不等式的解集相同，求a的值；<br>
+(2) 若不等式①的解都是不等式②的解，求a的取值范围。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">(1) ①2x-2&lt;a+5→2x&lt;a+7→x&lt;<span class="fraction"><span class="num">a+7</span><span class="den">2</span></span>；②x&lt;2。解集相同则<span class="fraction"><span class="num">a+7</span><span class="den">2</span></span>=2→a+7=4→a=<span class="answer-key">-3</span>；<br>
+(2) 要使①的解都是②的解，则<span class="fraction"><span class="num">a+7</span><span class="den">2</span></span>≤2→a+7≤4→a≤<span class="answer-key">-3</span>。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">19. 定义运算：a*b=a-2b，例如：1*2=1-2×2=-3。若不等式x*a&lt;1的解集在数轴上如图所示（数轴：空心圆点在1，向左），求a的值。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">x*a=x-2a&lt;1→x&lt;2a+1。由数轴知解集为x&lt;1，所以2a+1=1→a=<span class="answer-key">0</span>。</div>
+            </div>
+        </div>
+
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">20. 我们把关于x的一个一元一次方程和一个一元一次不等式组成一种特殊组合，当一元一次方程的解正好也是一元一次不等式的解时，我们把这种组合叫做"有缘组合"；当一元一次方程的解不是一元一次不等式的解时，叫做"无缘组合"。<br>
+(1) 组合<span class="fraction"><span class="num">2x-4=0</span><span class="den">5x-2&lt;3</span></span>是__________（填有缘组合或无缘组合）；<br>
+(2) 若关于x的组合<span class="fraction"><span class="num">5x+15=0</span><span class="den"><span class="fraction"><span class="num">3x-a</span><span class="den">2</span></span>&gt;a</span></span>是"有缘组合"，求a的取值范围。</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content">(1) 解方程2x-4=0得x=2；解不等式5x-2&lt;3得x&lt;1。x=2不是x&lt;1的解，所以是<span class="answer-key">无缘组合</span>；<br>
+(2) 解方程5x+15=0得x=-3。代入不等式：<span class="fraction"><span class="num">3×(-3)-a</span><span class="den">2</span></span>&gt;a→<span class="fraction"><span class="num">-9-a</span><span class="den">2</span></span>&gt;a→-9-a&gt;2a→-9&gt;3a→a&lt;<span class="answer-key">-3</span>。</div>
             </div>
         </div>
     </div>
