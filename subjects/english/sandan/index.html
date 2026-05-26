@@ -39,52 +39,156 @@ body {
     position: relative;
 }
 
-/* 题型栏（顶部一行） */
-.type-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-}
-
-.radio-group {
+/* 右上角按钮组 */
+.top-right-option {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 999;
     display: flex;
     gap: 8px;
-    flex-wrap: wrap;
 }
 
-.level-btn {
-    padding: 8px 12px;
-    border: 2px solid var(--border);
+.top-wrong-btn {
+    width: 40px;
+    height: 40px;
     border-radius: 10px;
-    background: #f0f8f0;
-    color: var(--text);
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(117,168,117,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    font-size: 15px;
-    transition: all 0.2s ease;
-    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
 }
-.level-btn:hover {
-    background: #e0f0e0;
+.top-wrong-btn img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
 }
-.level-btn.active {
+.top-wrong-btn.active {
     background: var(--primary);
     border-color: #5f8f5f;
-    color: #fff;
+}
+.top-wrong-btn.active img {
+    filter: brightness(0) invert(1);
+}
+.top-wrong-btn:hover {
+    border-color: var(--primary);
 }
 
-/* 答对题数 */
-#correctCountBox {
-    font-size: 16px;
+/* 选项菜单按钮 */
+.option-menu-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(117,168,117,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+}
+.option-menu-btn.active {
+    background: var(--primary);
+    border-color: #5f8f5f;
+}
+.option-menu-btn.active img {
+    filter: brightness(0) invert(1);
+}
+.option-menu-btn img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+/* 筛选面板 */
+.filter-panel {
+    position: fixed;
+    top: 60px;
+    right: 12px;
+    width: 220px;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(16px);
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(120,160,120,0.25);
+    border: 1px solid rgba(117,168,117,0.15);
+    padding: 12px 14px;
+    z-index: 998;
+    display: none;
+}
+.filter-panel.show {
+    display: block;
+}
+.filter-group {
+    margin-bottom: 12px;
+}
+.filter-group:last-child {
+    margin-bottom: 0;
+}
+.filter-title {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 6px;
     font-weight: 500;
+}
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.filter-tag {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    background: #f0f8f0;
     color: #406640;
-    background: #e8f2e8;
-    padding: 8px 14px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+.filter-tag.active {
+    background: var(--primary);
+    color: #fff;
+}
+.filter-tag.all {
+    background: #f1f1f1;
+    color: #666;
+}
+
+/* 卡片内错题按钮 */
+.card-wrong-btn {
+    width: 25px;
+    height: 25px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid #e0e0e0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+.card-wrong-btn img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+.card-wrong-btn.active {
+    background: var(--primary);
+    border-color: #5f8f5f;
+}
+.card-wrong-btn.active img {
+    filter: brightness(0) invert(1);
+}
+.card-wrong-btn:hover {
+    border-color: var(--primary);
 }
 
 .card {
@@ -94,6 +198,32 @@ body {
     box-shadow: 0 6px 16px rgba(120,160,120,0.08);
     outline: 2px dashed var(--border);
     outline-offset: -6px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+}
+
+.question-index {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.card-progress {
+    font-size: 14px;
+    color: var(--correct);
+    font-weight: 600;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+#unansweredProgress {
+    color: #ac7c39;
 }
 
 .question {
@@ -191,17 +321,6 @@ body {
     border-color: #a0c8c8;
     color: #2a4a4a;
 }
-.nav button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-#correctCountBox {
-    font-size: 16px;
-    font-weight: 500;
-    color: #2c3e2c;
-    white-space: nowrap;
-}
-
 .hidden { display: none; }
 
 .summary-item {
@@ -250,24 +369,42 @@ body {
 <h1 class="home-title">三单动词练习</h1>
 
 <div class="container" id="practicePanel">
-    <!-- 题型选择 + 答对题数 同行 -->
-    <div class="type-bar">
-        <div class="radio-group" id="levelGroup">
-            <button type="button" class="level-btn" data-value="陈述">陈述句</button>
-            <button type="button" class="level-btn" data-value="否定">否定句</button>
-            <button type="button" class="level-btn" data-value="一般疑问">一般疑问句</button>
-            <button type="button" class="level-btn" data-value="特殊疑问">特殊疑问句</button>
+    <!-- 右上角按钮 -->
+    <div class="top-right-option">
+        <div class="top-wrong-btn" id="topWrongBtn" title="只练错题">
+            <img src="../../../images/错题1.png" alt="错题">
+        </div>
+        <div class="option-menu-btn" id="optionMenuBtn" title="筛选选项">
+            <img src="../../../images/选项.png" alt="选项">
+        </div>
+        <div class="filter-panel" id="filter-panel">
+            <div class="filter-group">
+                <div class="filter-title">句型</div>
+                <div class="filter-tags" id="type-tags"></div>
+            </div>
         </div>
     </div>
 
     <div class="card">
+        <div class="card-header">
+            <span class="question-index" id="questionLabel">第1题</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div id="progressCounters" style="display: flex; align-items: center; gap: 8px;">
+                    <span class="card-progress" id="cardProgress">正确 0</span>
+                    <span class="card-progress" id="errorProgress" style="color: #e58989;">错误 0</span>
+                    <span class="card-progress" id="unansweredProgress">未答 0</span>
+                </div>
+                <div class="card-wrong-btn" id="cardWrongBtn" title="加入错题本">
+                    <img src="../../../images/错题2.png" alt="错">
+                </div>
+            </div>
+        </div>
         <div class="question" id="questionText"></div>
         <div class="options" id="options"></div>
     </div>
 
     <div class="nav">
         <button id="prevBtn" onclick="prev()">上一题</button>
-        <div id="correctCountBox">答对：0 题</div>
         <button id="nextBtn" onclick="next()">下一题</button>
     </div>
 </div>
@@ -277,86 +414,201 @@ body {
         <h2 style="text-align:center;">练习结果</h2>
         <p id="scoreInfo"></p>
         <div class="error-list" id="errorList"></div>
-        <button class="level-btn active" style="width:100%;margin-top:16px;" onclick="restart()">继续练习</button>
+        <div id="wrongModeResult" style="display:none; margin-top:16px; padding:16px; background:#fef9e7; border-radius:10px; border:1px solid #e8d88e; text-align:center;">
+            <p style="margin:0 0 12px 0; color:#8a6d2b; font-size:15px;">错题本已练完，是否清除错题本？</p>
+            <button style="background:#e6a23c; color:#fff; border:none; padding:10px 24px; border-radius:8px; cursor:pointer; font-size:15px; margin-right:10px;" onclick="deleteAllWrong()">删除所有错题</button>
+            <button style="background:#909399; color:#fff; border:none; padding:10px 24px; border-radius:8px; cursor:pointer; font-size:15px;" onclick="keepWrongAndRestart()">保留错题</button>
+        </div>
+        <button class="level-btn active" style="width:100%;margin-top:16px; background: var(--primary); border-color:#5f8f5f; color:#fff; padding:12px; border-radius:10px; cursor:pointer; font-size:16px; border:2px solid #5f8f5f;" onclick="restart()">继续练习</button>
     </div>
 </div>
 
 <script src="sentences.js"></script>
 <script>
 // 本地存储键名
-const STORAGE_KEY = "lastSelectedTypes";
+const STORAGE_KEY = "sandan_types";
+const WRONG_IDS_KEY = "sandan_wrong_ids";
+const ONLY_WRONG_KEY = "sandan_only_wrong";
+
+// 给题库中每个题目分配索引ID
+sentenceBank.forEach((q, i) => { q._id = i; });
 
 // 全局变量
+const allTypes = ['陈述', '否定', '一般疑问', '特殊疑问'];
+const typeNames = { '陈述': '陈述句', '否定': '否定句', '一般疑问': '一般疑问', '特殊疑问': '特殊疑问' };
+
 let questionPool = [];
 let usedQuestions = [];
 let answers = [];
 let wrongQuestions = [];
 let correctCount = 0;
+let errorCount = 0;
+let unansweredCount = 0;
 let currentIndex = 0;
+let wrongQids = new Set();       // 错题ID集合
+let isOnlyWrongMode = false;     // 只看错题模式
+let selectedTypeSet = new Set(allTypes); // 默认全选
 
-// 初始化：加载上次选择的题型
-initSavedTypes();
+// ===================== 错题数据持久化 =====================
+function loadWrongData() {
+    try {
+        const saved = localStorage.getItem(WRONG_IDS_KEY);
+        if (saved) wrongQids = new Set(JSON.parse(saved));
+        const savedMode = localStorage.getItem(ONLY_WRONG_KEY);
+        if (savedMode) isOnlyWrongMode = JSON.parse(savedMode);
+    } catch(e) {}
+}
 
-// 题型按钮点击事件
-document.querySelectorAll(".level-btn").forEach(btn => {
-    btn.onclick = () => {
-        btn.classList.toggle("active");
+function saveWrongData() {
+    localStorage.setItem(WRONG_IDS_KEY, JSON.stringify([...wrongQids]));
+    localStorage.setItem(ONLY_WRONG_KEY, JSON.stringify(isOnlyWrongMode));
+}
+
+function addWrongQid(qid) {
+    wrongQids.add(qid);
+    saveWrongData();
+}
+
+function removeWrongQid(qid) {
+    wrongQids.delete(qid);
+    saveWrongData();
+}
+
+// ===================== 筛选面板 =====================
+function renderFilterTags() {
+    const container = document.getElementById('type-tags');
+    container.innerHTML = '';
+
+    // 全部按钮
+    const allTag = document.createElement('div');
+    allTag.className = 'filter-tag all';
+    allTag.textContent = '全部';
+    allTag.onclick = () => {
+        if (selectedTypeSet.size >= allTypes.length) {
+            selectedTypeSet.clear();
+        } else {
+            allTypes.forEach(t => selectedTypeSet.add(t));
+        }
         saveTypesToLocal();
-        refreshQuestionPool();
+        renderFilterTags();
+        if (selectedTypeSet.size > 0) resetQuestions();
     };
-});
+    container.appendChild(allTag);
 
-// 从本地存储读取上次选择
+    // 各句型标签
+    allTypes.forEach(type => {
+        const tag = document.createElement('div');
+        tag.className = 'filter-tag';
+        if (selectedTypeSet.has(type)) tag.classList.add('active');
+        tag.textContent = typeNames[type] || type;
+        tag.onclick = () => {
+            if (selectedTypeSet.has(type)) selectedTypeSet.delete(type);
+            else selectedTypeSet.add(type);
+            saveTypesToLocal();
+            renderFilterTags();
+            if (selectedTypeSet.size > 0) resetQuestions();
+        };
+        container.appendChild(tag);
+    });
+}
+
+function saveTypesToLocal() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...selectedTypeSet]));
+}
+
 function initSavedTypes() {
     const saved = localStorage.getItem(STORAGE_KEY);
-    const defaultTypes = ["陈述"];
-    const types = saved ? JSON.parse(saved) : defaultTypes;
-
-    document.querySelectorAll(".level-btn").forEach(btn => {
-        btn.classList.remove("active");
-        if (types.includes(btn.dataset.value)) {
-            btn.classList.add("active");
-        }
-    });
-
-    saveTypesToLocal();
-    refreshQuestionPool();
+    const types = saved ? JSON.parse(saved) : allTypes;
+    selectedTypeSet = new Set(types);
 }
 
-// 保存当前选择到本地存储
-function saveTypesToLocal() {
-    const selected = Array.from(document.querySelectorAll(".level-btn.active"))
-        .map(b => b.dataset.value);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(selected));
+// ===================== 筛选面板开关 =====================
+const optionMenuBtn = document.getElementById('optionMenuBtn');
+const filterPanel = document.getElementById('filter-panel');
+
+optionMenuBtn.onclick = (e) => {
+    e.stopPropagation();
+    let shown = filterPanel.classList.toggle('show');
+    optionMenuBtn.classList.toggle('active', shown);
+};
+
+document.addEventListener('click', () => {
+    if (filterPanel.classList.contains('show')) {
+        filterPanel.classList.remove('show');
+        optionMenuBtn.classList.remove('active');
+    }
+});
+filterPanel.onclick = (e) => e.stopPropagation();
+
+// ===================== 错题模式切换 =====================
+function toggleOnlyWrongMode() {
+    const topBtn = document.getElementById('topWrongBtn');
+    isOnlyWrongMode = !isOnlyWrongMode;
+    topBtn.classList.toggle('active', isOnlyWrongMode);
+    saveWrongData();
+    resetQuestions();
+    if (isOnlyWrongMode && questionPool.length === 0) {
+        document.getElementById('questionText').innerText = '错题本暂无题目';
+        document.getElementById('options').innerHTML = '';
+        document.getElementById('questionLabel').innerText = '';
+    }
 }
 
-// 刷新题库
-function refreshQuestionPool() {
-    const selectedTypes = Array.from(document.querySelectorAll(".level-btn.active"))
-        .map(b => b.dataset.value);
+// ===================== 卡片错题按钮状态 =====================
+function updateCardWrongBtn(qid) {
+    const btn = document.getElementById('cardWrongBtn');
+    const img = btn.querySelector('img');
+    if (wrongQids.has(qid)) {
+        btn.classList.add('active');
+        img.src = '../../../images/错题1.png';
+        btn.title = '从错题本移除';
+    } else {
+        btn.classList.remove('active');
+        img.src = '../../../images/错题2.png';
+        btn.title = '加入错题本';
+    }
+}
 
-    if (selectedTypes.length === 0) {
-        alert("请至少选择一种题型");
-        return;
+// ===================== 题目池管理 =====================
+function resetQuestions() {
+    const types = [...selectedTypeSet];
+    if (types.length === 0 || questionPool === undefined) return;
+
+    let filterList = [...sentenceBank].filter(q =>
+        types.includes(q.difficulty)
+    );
+
+    // 错题模式过滤
+    if (isOnlyWrongMode) {
+        filterList = filterList.filter(q => wrongQids.has(q._id));
     }
 
-    // 筛选题目
-    questionPool = shuffle([...sentenceBank].filter(q =>
-        selectedTypes.includes(q.difficulty)
-    ));
-
+    questionPool = filterList;
     if (questionPool.length === 0) {
-        alert("当前题型暂无题目");
+        document.getElementById('questionText').innerText = isOnlyWrongMode ? '错题本暂无题目' : '当前题型暂无题目';
+        document.getElementById('options').innerHTML = '';
+        document.getElementById('questionLabel').innerText = '';
+        document.getElementById('progressCounters').style.display = isOnlyWrongMode ? 'none' : '';
+        answers = [];
+    correctCount = 0;
+    errorCount = 0;
+    unansweredCount = 0;
+    currentIndex = 0;
+    updateProgress();
         return;
     }
 
-    // 重置答题状态
-    usedQuestions = [];
     answers = [];
     correctCount = 0;
+    errorCount = 0;
+    unansweredCount = 0;
     currentIndex = 0;
-    updateCorrectDisplay();
+    updateProgress();
     showQuestion(0);
+}
+
+function refreshQuestionPool() {
+    resetQuestions();
 }
 
 // 显示题目
@@ -369,22 +621,28 @@ function showQuestion(index) {
 
     usedQuestions[index] = q;
 
-    document.getElementById("questionText").innerHTML =
-        `<span class="question-number">${index + 1}.</span>` +
+    document.getElementById('questionLabel').innerText = isOnlyWrongMode
+        ? `${index + 1}/${questionPool.length}`
+        : `第${index + 1}题`;
+    updateCardWrongBtn(q._id);
+
+    // 错题模式隐藏计数
+    document.getElementById('progressCounters').style.display = isOnlyWrongMode ? 'none' : '';
+
+    document.getElementById('questionText').innerHTML =
         q.text.replace(/{(.*?)}/g, '<span class="subject">$1</span>');
 
-    document.getElementById("options").innerHTML = q.options.map((opt, i) => `
+    document.getElementById('options').innerHTML = q.options.map((opt, i) => `
         <div class="option" data-index="${i}">
             ${opt.label}. ${opt.value}
         </div>
-    `).join("");
+    `).join('');
 
-    document.querySelectorAll(".option").forEach(el => {
+    document.querySelectorAll('.option').forEach(el => {
         el.onclick = () => selectOption(el, q, index);
     });
 
     restoreAnswer(q, index);
-    updateNavButtons();
 }
 
 // 选择答案
@@ -396,30 +654,37 @@ function selectOption(el, q, index) {
     answers[index] = selected;
 
     // 显示对错
-    document.querySelectorAll(".option").forEach((optEl, i) => {
+    document.querySelectorAll('.option').forEach((optEl, i) => {
         const opt = q.options[i];
-        optEl.style.pointerEvents = "none";
-        const mark = document.createElement("span");
+        optEl.style.pointerEvents = 'none';
+        const mark = document.createElement('span');
 
         if (opt.correct) {
-            mark.className = "correct";
-            mark.innerText = "✔";
-            optEl.classList.add("correct-text");
+            mark.className = 'correct';
+            mark.innerText = '✔';
+            optEl.classList.add('correct-text');
         } else if (i === selectedIndex) {
-            mark.className = "wrong";
-            mark.innerText = "✗";
-            optEl.classList.add("wrong");
+            mark.className = 'wrong';
+            mark.innerText = '✗';
+            optEl.classList.add('wrong');
         }
         optEl.appendChild(mark);
     });
 
-    // 答对计数
-    if (selected.correct) {
-        correctCount++;
-        updateCorrectDisplay();
+    // 答对计数（错题模式不计数）
+    if (!isOnlyWrongMode) {
+        if (selected.correct) {
+            correctCount++;
+        } else {
+            errorCount++;
+            addWrongQid(q._id); // 答错自动加入错题本
+            updateCardWrongBtn(q._id);
+        }
+        updateProgress(true);
+    } else if (!selected.correct) {
+        addWrongQid(q._id);
+        updateCardWrongBtn(q._id);
     }
-
-    updateNavButtons();
 
     // 自动下一题
     setTimeout(() => {
@@ -437,29 +702,22 @@ function restoreAnswer(q, index) {
     const ans = answers[index];
     if (!ans) return;
 
-    document.querySelectorAll(".option").forEach((optEl, i) => {
+    document.querySelectorAll('.option').forEach((optEl, i) => {
         const opt = q.options[i];
-        optEl.style.pointerEvents = "none";
-        const mark = document.createElement("span");
+        optEl.style.pointerEvents = 'none';
+        const mark = document.createElement('span');
 
         if (opt.correct) {
-            mark.className = "correct";
-            mark.innerText = "✔";
-            optEl.classList.add("correct-text");
+            mark.className = 'correct';
+            mark.innerText = '✔';
+            optEl.classList.add('correct-text');
         } else if (opt === ans) {
-            mark.className = "wrong";
-            mark.innerText = "✗";
-            optEl.classList.add("wrong");
+            mark.className = 'wrong';
+            mark.innerText = '✗';
+            optEl.classList.add('wrong');
         }
         optEl.appendChild(mark);
     });
-}
-
-// 导航按钮
-function updateNavButtons() {
-    document.getElementById("prevBtn").disabled = currentIndex === 0;
-    const isLast = currentIndex === questionPool.length - 1;
-    document.getElementById("nextBtn").disabled = !answers[currentIndex] || isLast;
 }
 
 function prev() {
@@ -470,51 +728,167 @@ function prev() {
 }
 
 function next() {
-    if (currentIndex < questionPool.length - 1 && answers[currentIndex]) {
+    if (currentIndex < questionPool.length - 1) {
         currentIndex++;
         showQuestion(currentIndex);
     }
 }
 
-// 更新答对题数显示
-function updateCorrectDisplay() {
-    document.getElementById("correctCountBox").textContent = `答对：${correctCount} 题`;
+// 更新进度显示
+function updateProgress(animate) {
+    const correctEl = document.getElementById('cardProgress');
+    const errorEl = document.getElementById('errorProgress');
+    const unansweredEl = document.getElementById('unansweredProgress');
+
+    correctEl.innerText = `正确 ${correctCount}`;
+    errorEl.innerText = `错误 ${errorCount}`;
+    unansweredEl.innerText = `未答 ${unansweredCount}`;
+
+    if (animate) {
+        correctEl.classList.remove('pop');
+        errorEl.classList.remove('pop');
+        unansweredEl.classList.remove('pop');
+        void correctEl.offsetWidth;
+
+        if (unansweredCount > 0) {
+            unansweredEl.classList.add('pop');
+        }
+    }
 }
 
 // 结束练习
 function finish() {
+    // 计算未答题数
+    unansweredCount = questionPool.length - correctCount - errorCount;
+
     wrongQuestions = [];
     answers.forEach((ans, i) => {
         if (ans && !ans.correct) wrongQuestions.push(usedQuestions[i]);
     });
 
-    document.getElementById("practicePanel").classList.add("hidden");
-    document.getElementById("resultPanel").classList.remove("hidden");
-    document.getElementById("scoreInfo").innerText =
-        `本次练习：共 ${questionPool.length} 题，答对 ${correctCount} 题，答错 ${wrongQuestions.length} 题。`;
+    document.getElementById('practicePanel').classList.add('hidden');
+    document.getElementById('resultPanel').classList.remove('hidden');
 
-    document.getElementById("errorList").innerHTML = wrongQuestions.length === 0
-        ? "<p>太棒了，全部正确！</p>"
-        : wrongQuestions.map((q, i) => `
-            <div class="summary-item">
-                <div class="summary-title">错题 ${i + 1}</div>
-                <div>${q.text.replace(/{(.*?)}/g, '<b>$1</b>')}</div>
-                <div>正确答案：${q.options.find(o => o.correct).value}</div>
-            </div>
-        `).join("");
+    // 错题模式：简洁提示 + 删除选项
+    if (isOnlyWrongMode) {
+        const answeredCount = answers.filter(a => a).length;
+        const skippedCount = questionPool.length - answeredCount;
+        document.getElementById('scoreInfo').innerText =
+            `错题练习完成！共 ${questionPool.length} 道错题，已练习 ${answeredCount} 道` +
+            (skippedCount > 0 ? `，跳过 ${skippedCount} 道` : '') + '。';
+        document.getElementById('errorList').innerHTML = '';
+        document.getElementById('wrongModeResult').style.display = 'block';
+        // 更新删除提示
+        document.querySelector('#wrongModeResult p').innerText = skippedCount > 0
+            ? `将删除已练习的 ${answeredCount} 道错题，跳过的 ${skippedCount} 道将保留在错题本。`
+            : '错题本已练完，是否清除错题本？';
+    } else {
+        document.getElementById('scoreInfo').innerText =
+            `本次练习：共 ${questionPool.length} 题，答对 ${correctCount} 题，答错 ${errorCount} 题，未答 ${unansweredCount} 题。`;
+        document.getElementById('wrongModeResult').style.display = 'none';
+        document.getElementById('errorList').innerHTML = wrongQuestions.length === 0
+            ? '<p>太棒了，全部正确！</p>'
+            : wrongQuestions.map((q, i) => `
+                <div class="summary-item">
+                    <div class="summary-title">错题 ${i + 1}</div>
+                    <div>${q.text.replace(/{(.*?)}/g, '<b>$1</b>')}</div>
+                    <div>正确答案：${q.options.find(o => o.correct).value}</div>
+                </div>
+            `).join('');
+    }
+}
+
+// 删除已练习的错题（跳过的不删除）
+function deleteAllWrong() {
+    // 只删除已作答的错题
+    questionPool.forEach((q, i) => {
+        if (answers[i]) {
+            wrongQids.delete(q._id);
+        }
+    });
+    // 如果错题本清空则退出错题模式
+    if (wrongQids.size === 0) {
+        isOnlyWrongMode = false;
+        document.getElementById('topWrongBtn').classList.remove('active');
+    }
+    saveWrongData();
+    document.getElementById('wrongModeResult').style.display = 'none';
+    restart();
+}
+
+// 保留错题继续
+function keepWrongAndRestart() {
+    document.getElementById('wrongModeResult').style.display = 'none';
+    restart();
 }
 
 // 重新开始
 function restart() {
-    document.getElementById("resultPanel").classList.add("hidden");
-    document.getElementById("practicePanel").classList.remove("hidden");
+    document.getElementById('resultPanel').classList.add('hidden');
+    document.getElementById('practicePanel').classList.remove('hidden');
     refreshQuestionPool();
+}
+
+// 错题模式移除后刷新
+function doFilterAfterWrongChange() {
+    const types = [...selectedTypeSet];
+    let filterList = [...sentenceBank].filter(q =>
+        types.includes(q.difficulty)
+    );
+    filterList = filterList.filter(q => wrongQids.has(q._id));
+    questionPool = filterList;
+    if (questionPool.length === 0) {
+        document.getElementById('questionText').innerText = '错题本暂无题目';
+        document.getElementById('options').innerHTML = '';
+        document.getElementById('questionLabel').innerText = '';
+        document.getElementById('progressCounters').style.display = 'none';
+        correctCount = 0;
+        errorCount = 0;
+        unansweredCount = 0;
+        updateProgress();
+        return;
+    }
+    if (currentIndex >= questionPool.length) currentIndex = questionPool.length - 1;
+    showQuestion(currentIndex);
 }
 
 // 乱序
 function shuffle(arr) {
     return arr.sort(() => Math.random() - 0.5);
 }
+
+// ===================== 初始化 =====================
+initSavedTypes();
+loadWrongData();
+renderFilterTags();
+document.getElementById('topWrongBtn').classList.toggle('active', isOnlyWrongMode);
+
+// 错题模式按钮点击
+document.getElementById('topWrongBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleOnlyWrongMode();
+});
+
+// 卡片内错题按钮（事件委托）
+document.getElementById('practicePanel').addEventListener('click', (e) => {
+    const wrongBtn = e.target.closest('#cardWrongBtn');
+    if (!wrongBtn) return;
+    e.stopPropagation();
+    const q = questionPool[currentIndex];
+    if (!q) return;
+    if (wrongQids.has(q._id)) {
+        removeWrongQid(q._id);
+    } else {
+        addWrongQid(q._id);
+    }
+    updateCardWrongBtn(q._id);
+    // 如果在错题模式下移除了最后一题，需要刷新
+    if (isOnlyWrongMode && !wrongQids.has(q._id)) {
+        doFilterAfterWrongChange();
+    }
+});
+
+resetQuestions();
 </script>
 </body>
 </html>

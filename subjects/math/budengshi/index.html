@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>不等式练习</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'SimSun', 'Microsoft YaHei', sans-serif;
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .q-a-group {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #ccc;
+        }
+        .question {
+            margin-bottom: 12px;
+        }
+        .question-text {
+            margin-bottom: 8px;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 8px;
+        }
+        .option {
+            display: inline-block;
+            min-width: 120px;
+        }
+        .number-line {
+            margin: 15px 0;
+            text-align: center;
+        }
+        .diagram {
+            margin: 15px 0;
+            text-align: center;
+        }
+        .answer {
+            margin-top: 10px;
+            font-family: 'SimHei', 'Heiti SC', 'Microsoft YaHei', sans-serif;
+        }
+        .answer-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1a7a3a;
+            margin-bottom: 5px;
+        }
+        .answer-content {
+            font-size: 14px;
+            color: #1a7a3a;
+        }
+        .answer-key {
+            color: #1a7a3a;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>练习</h1>
+
+    <div class="section">
+        <div class="section-title">一、选择题</div>
+
+        <!-- 第1题 -->
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">1. 式子：①3&lt;5；②4x+5&gt;0；③x=3；④x²+x；⑤x≠-4；⑥x+2≥x+1．其中是不等式的有（　　）</div>
+                <div class="options">
+                    <span class="option">A. 2 个</span>
+                    <span class="option">B. 3 个</span>
+                    <span class="option">C. 4 个</span>
+                    <span class="option">D. 5 个</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">C</span> —— 不等式是用不等号（&gt;、&lt;、≥、≤、≠）连接的式子。①3&lt;5，②4x+5&gt;0，⑤x≠-4，⑥x+2≥x+1 都是不等式，共 4 个。</div>
+            </div>
+        </div>
+
+        <!-- 第2题 -->
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">2. 设 a 是大于 1 的有理数，如果 a，(a+2)/3，(2a+1)/3 在数轴上对应的点分别为 A、B、C，那么这三个点在数轴上从左到右的顺序是（　　）</div>
+                <div class="options">
+                    <span class="option">(A) C、B、A</span>
+                    <span class="option">(B) B、C、A</span>
+                    <span class="option">(C) A、B、C</span>
+                    <span class="option">(D) C、A、B</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">B</span> —— 因为 a&gt;1，所以 (a+2)/3 - a = (a+2-3a)/3 = (2-2a)/3 &lt; 0，即 (a+2)/3 &lt; a。又 (2a+1)/3 - (a+2)/3 = (a-1)/3 &gt; 0，即 (2a+1)/3 &gt; (a+2)/3。所以 (a+2)/3 &lt; (2a+1)/3 &lt; a，即 B、C、A。</div>
+            </div>
+        </div>
+
+        <!-- 第3题 -->
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">3. 如图，下列正确的是（　　）</div>
+                <div class="number-line">
+                    <svg width="400" height="80" viewBox="0 0 400 80">
+                        <line x1="20" y1="40" x2="380" y2="40" stroke="#000" stroke-width="2"/>
+                        <line x1="380" y1="40" x2="370" y2="35" stroke="#000" stroke-width="2"/>
+                        <line x1="380" y1="40" x2="370" y2="45" stroke="#000" stroke-width="2"/>
+                        
+                        <line x1="80" y1="35" x2="80" y2="45" stroke="#000" stroke-width="1"/>
+                        <text x="80" y="60" text-anchor="middle" font-size="14">-1</text>
+                        
+                        <line x1="180" y1="35" x2="180" y2="45" stroke="#000" stroke-width="1"/>
+                        <text x="180" y="60" text-anchor="middle" font-size="14">0</text>
+                        
+                        <line x1="280" y1="35" x2="280" y2="45" stroke="#000" stroke-width="1"/>
+                        <text x="280" y="60" text-anchor="middle" font-size="14">1</text>
+                        
+                        <circle cx="120" cy="40" r="4" fill="#000"/>
+                        <text x="120" y="30" text-anchor="middle" font-size="14">a</text>
+                        
+                        <circle cx="340" cy="40" r="4" fill="#000"/>
+                        <text x="340" y="30" text-anchor="middle" font-size="14">b</text>
+                    </svg>
+                </div>
+                <div class="options">
+                    <span class="option">A. a/b &gt; 0</span>
+                    <span class="option">B. a-b &gt; 0</span>
+                    <span class="option">C. a(b-1) &lt; 0</span>
+                    <span class="option">D. (a+1)(b-1) &lt; 0</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">C</span> —— 由数轴可知：-1&lt;a&lt;0，b&gt;1。所以 a&lt;0，b-1&gt;0，因此 a(b-1)&lt;0。</div>
+            </div>
+        </div>
+
+        <!-- 第4题 -->
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">4. 若 a+b&lt;0，且 -(-a)&gt;0，则（　　）</div>
+                <div class="options">
+                    <span class="option">A. a&gt;0, b&lt;0</span>
+                    <span class="option">B. a&gt;0, b&gt;0</span>
+                    <span class="option">C. a&lt;0, b&gt;0</span>
+                    <span class="option">D. a&lt;0, b&lt;0</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">A</span> —— 因为 -(-a)=a&gt;0，所以 a&gt;0。又因为 a+b&lt;0 且 a&gt;0，所以 b&lt;-a&lt;0，即 b&lt;0。</div>
+            </div>
+        </div>
+
+        <!-- 第5题 -->
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">5. 设 a、b、c 表示三种不同物体的质量，用天平称两次，情况如图所示，则这三种物体的质量从小到大排序正确的是（　　）</div>
+                <div class="diagram">
+                    <svg width="500" height="150" viewBox="0 0 500 150">
+                        <!-- 第一个天平 -->
+                        <line x1="100" y1="100" x2="100" y2="140" stroke="#000" stroke-width="2"/>
+                        <line x1="60" y1="100" x2="140" y2="100" stroke="#000" stroke-width="2"/>
+                        <line x1="60" y1="100" x2="70" y2="80" stroke="#000" stroke-width="1"/>
+                        <line x1="140" y1="100" x2="130" y2="85" stroke="#000" stroke-width="1"/>
+                        
+                        <rect x="55" y="60" width="30" height="20" stroke="#000" fill="none" stroke-width="1"/>
+                        <text x="70" y="75" text-anchor="middle" font-size="14">b</text>
+                        
+                        <rect x="125" y="65" width="30" height="20" stroke="#000" fill="none" stroke-width="1"/>
+                        <text x="140" y="80" text-anchor="middle" font-size="14">c</text>
+                        
+                        <!-- 第二个天平 -->
+                        <line x1="350" y1="100" x2="350" y2="140" stroke="#000" stroke-width="2"/>
+                        <line x1="310" y1="100" x2="390" y2="100" stroke="#000" stroke-width="2"/>
+                        <line x1="310" y1="100" x2="320" y2="85" stroke="#000" stroke-width="1"/>
+                        <line x1="390" y1="100" x2="380" y2="80" stroke="#000" stroke-width="1"/>
+                        
+                        <rect x="305" y="65" width="30" height="20" stroke="#000" fill="none" stroke-width="1"/>
+                        <text x="320" y="80" text-anchor="middle" font-size="14">b</text>
+                        
+                        <rect x="375" y="50" width="30" height="20" stroke="#000" fill="none" stroke-width="1"/>
+                        <text x="390" y="65" text-anchor="middle" font-size="14">a</text>
+                    </svg>
+                </div>
+                <div class="options">
+                    <span class="option">A. c&lt;b&lt;a</span>
+                    <span class="option">B. b&lt;a&lt;c</span>
+                    <span class="option">C. c&lt;a&lt;b</span>
+                    <span class="option">D. a&lt;b&lt;c</span>
+                </div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">A</span> —— 由第一个天平可知：b&gt;c。由第二个天平可知：b&lt;a。所以 c&lt;b&lt;a。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">二、填空题</div>
+
+        <!-- 第6题 -->
+        <div class="q-a-group">
+            <div class="question">
+                <div class="question-text">6. 有下列式子：①-2&gt;0；②4x+y≤1；③x+3=0；④y-7；⑤m-2.5&gt;3．其中是不等式的有______个．</div>
+            </div>
+            <div class="answer">
+                <div class="answer-title">【答案】</div>
+                <div class="answer-content"><span class="answer-key">3</span> —— 不等式是用不等号连接的式子。①-2&gt;0，②4x+y≤1，⑤m-2.5&gt;3 都是不等式，共 3 个。</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
