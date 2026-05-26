@@ -319,7 +319,7 @@
     </style>
 </head>
 <body>
-    <h2>五子棋3</h2>
+    <h2>五子棋4</h2>
     <div id="status"></div>
 
     <!-- 房间选择区 -->
@@ -646,7 +646,7 @@
                         winner: 0,
                         blackScore: 0,
                         whiteScore: 0,
-                        lastMove: {},
+                        lastMove: { x: -1, y: -1 },
                         started: false,
                         player1Ready: false,
                         player2Ready: false
@@ -727,7 +727,7 @@
 
                 console.log('[自我清理] 发现旧占用:', room.roomId, '角色:', occupiedRole);
                 const resetData = {
-                    started: false, gameOver: false, winner: 0, lastMove: {},
+                    started: false, gameOver: false, winner: 0, lastMove: { x: -1, y: -1 },
                     player1Ready: false, player2Ready: false,
                     board: new Array(TOTAL_CELLS).fill(0),
                     currentPlayer: 1
@@ -878,7 +878,7 @@
                         player2Ready: false,
                         board: new Array(TOTAL_CELLS).fill(0),
                         currentPlayer: 1,
-                        lastMove: {}
+                        lastMove: { x: -1, y: -1 }
                     };
                     
                     if (leavingRole === 1) {
@@ -956,7 +956,7 @@
                 currentPlayer: 1,
                 gameOver: false,
                 winner: 0,
-                lastMove: {},
+                lastMove: { x: -1, y: -1 },
                 started: true,           // 直接开局，跳过准备阶段
                 player1Ready: false,
                 player2Ready: false,
@@ -997,7 +997,7 @@
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 board: newBoard,
                 currentPlayer: myRole,
-                lastMove: {}
+                lastMove: { x: -1, y: -1 }
             });
 
             setStatus('已悔棋', 'success');
@@ -1253,9 +1253,9 @@
     }
 
     // ============ 落子 ============
-    let isPlacing = false; // 防止重复落子
+let isPlacing = false; // 防止重复落子
 
-    async function placeStone(x, y) {
+async function placeStone(x, y) {
     // 必须游戏已开始、未结束、已在房间、有角色
     if (!currentRoomDocId || !myRole) {
         setStatus('未加入房间', 'error'); return;
@@ -1297,11 +1297,12 @@
     newBoard[idx] = myRole;
 
     try {
-        // 【关键修复】完整更新 lastMove 字段，不直接修改属性
+        // ✅ 修复：永远传对象，绝不传 null
         await db.collection(COLLECTION).doc(currentRoomDocId).update({
             board: newBoard,
             currentPlayer: myRole === 1 ? 2 : 1,
-            lastMove: {x:x, y:y}
+            // 强制保证 lastMove 是 {x,y} 对象，不会是 null
+            lastMove: { x: x, y: y }
         });
 
         // 检查胜利
@@ -1315,7 +1316,7 @@
             });
         }
 
-        // 本地同步棋盘数据，用于后续绘制
+        // 本地同步棋盘数据
         boardData = newBoard;
 
     } catch (e) {
@@ -1526,7 +1527,7 @@
             started: false,
             gameOver: false,
             winner: 0,
-            lastMove: {},
+            lastMove: { x: -1, y: -1 },
             player1Ready: false,
             player2Ready: false,
             board: new Array(TOTAL_CELLS).fill(0),
@@ -1593,7 +1594,7 @@
         if (savedDocId && savedRole) {
             // 方案A：精准清理 savedDocId 对应的房间（最可靠）
             const resetData = {
-                started: false, gameOver: false, winner: 0, lastMove: {},
+                started: false, gameOver: false, winner: 0, lastMove: { x: -1, y: -1 },
                 player1Ready: false, player2Ready: false,
                 board: new Array(TOTAL_CELLS).fill(0),
                 currentPlayer: 1
@@ -1653,7 +1654,7 @@
 
                 console.log('[启动清理B] 发现残留占用:', room.roomId, '角色:', occupiedRole);
                 const rData = {
-                    started: false, gameOver: false, winner: 0, lastMove: {},
+                    started: false, gameOver: false, winner: 0, lastMove: { x: -1, y: -1 },
                     player1Ready: false, player2Ready: false,
                     board: new Array(TOTAL_CELLS).fill(0),
                     currentPlayer: 1
