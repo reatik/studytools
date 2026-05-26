@@ -52,50 +52,98 @@
         .room-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 10px;
         }
         .room-card {
-            background: #fff;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 14px;
+            background: linear-gradient(145deg, #8B7355, #6B5344);
+            border-radius: 8px;
+            padding: 12px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             position: relative;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 
+                0 4px 8px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.1);
         }
         .room-card:hover {
-            background: #f8f9ff;
-            border-color: #42a5f5;
             transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(66,165,245,0.15);
+            box-shadow: 
+                0 6px 12px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.1);
         }
-        .room-card:active { transform: scale(0.97); }
+        .room-card:active { transform: scale(0.98); }
         .room-card.full {
-            border-color: #ffcdd2;
+            opacity: 0.7;
             cursor: not-allowed;
-            opacity: 0.6;
         }
-        .room-card.full:hover { transform: none; box-shadow: 0 2px 8px rgba(0,0,0,0.06); background: #fff; }
-        .room-card .room-name { font-size: 1rem; font-weight: bold; color: #333; margin-bottom: 4px; }
-        .room-card .room-players { font-size: 0.8rem; color: #888; }
-        .room-card.full .room-players { color: #e57373; }
-        .room-card .badge {
+        .room-card.full:hover { transform: none; }
+        
+        .table-number {
             position: absolute;
-            top: 8px;
+            top: 4px;
             right: 8px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: bold;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: rgba(76,175,80,0.15);
-            color: #2e7d32;
+            color: rgba(255,255,255,0.7);
         }
-        .room-card.full .badge {
-            background: rgba(229,115,115,0.2);
-            color: #c62828;
+        
+        .players-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .seat {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #4a3728;
+            border: 3px solid #3d2e22;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #fff;
+            transition: all 0.2s;
+        }
+        
+        .seat.occupied {
+            background: linear-gradient(145deg, #ffd700, #ffb700);
+            border-color: #cc8400;
+            box-shadow: 0 0 8px rgba(255,215,0,0.5);
+        }
+        
+        .seat.empty {
+            background: #5c4a38;
+            border-color: #4a3728;
+        }
+        
+        .seat.can-join {
+            background: linear-gradient(145deg, #4CAF50, #388E3C);
+            border-color: #2E7D32;
+            box-shadow: 0 0 8px rgba(76,175,80,0.5);
+        }
+        
+        .seat.can-join:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 12px rgba(76,175,80,0.7);
+        }
+        
+        .table-center {
+            background: #D4A574;
+            border-radius: 4px;
+            padding: 6px;
+            font-size: 0.75rem;
+            color: #5D4037;
+            font-weight: bold;
+        }
+        
+        .table-center.playing {
+            background: linear-gradient(145deg, #FF9800, #F57C00);
+            color: #fff;
         }
 
         /* ===== 游戏区 ===== */
@@ -231,23 +279,13 @@
         /* 等待/准备遮罩 */
         #wait-overlay {
             position: absolute; inset: 0;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
             display: none;
             align-items: center; justify-content: center;
             border-radius: 14px; z-index: 10;
             flex-direction: column;
-            gap: 12px;
         }
         #wait-overlay.show { display: flex; }
-        .wait-text {
-            background: rgba(255,255,255,0.9);
-            color: #333;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-size: 1rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-            text-align: center;
-        }
         .btn-ready { background: linear-gradient(135deg, #4CAF50, #388E3C); }
         .btn-ready-cancel { background: linear-gradient(135deg, #ef5350, #c62828); }
     </style>
@@ -282,8 +320,13 @@
                 <canvas id="board" class="blocked"></canvas>
             </div>
             <div id="wait-overlay">
-                <div class="wait-text" id="wait-text">⏳ 等待对手加入...</div>
-                <button class="btn btn-ready" id="btn-ready" onclick="toggleReady()" style="display:none;">准备</button>
+                <div id="ready-panel" style="display:none; background:rgba(255,255,255,0.95); padding:20px 32px; border-radius:12px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,0.2);">
+                    <div id="ready-status" style="font-size:0.95rem; color:#666; margin-bottom:12px;"></div>
+                    <div id="ready-btns">
+                        <button class="btn btn-ready" id="btn-ready" onclick="toggleReady()">准备</button>
+                        <button class="btn btn-ready-cancel" id="btn-ready-cancel" onclick="cancelReady()" style="display:none;">取消准备</button>
+                    </div>
+                </div>
             </div>
             <div id="victory-overlay">
                 <div class="victory-box">
@@ -308,6 +351,7 @@
     const ROOM_COUNT = 10;
     const COLLECTION = 'wuziqi_rooms'; // 数据库集合名
     const INACTIVITY_TIMEOUT = 20 * 60 * 1000; // 无操作20分钟自动踢出
+    const READY_TIMEOUT = 5 * 60 * 1000; // 准备超时5分钟自动踢出
 
     // ============ 全局变量 ============
     let db = null;
@@ -318,6 +362,7 @@
     let myRole = 0;              // 1=黑方(player1), 2=白方(player2)
     let gameOver = false;
     let inactivityTimer = null;   // 全局无操作超时定时器
+    let readyTimer = null;       // 准备超时定时器
 
     // Canvas 相关
     const canvas = document.getElementById('board');
@@ -376,8 +421,6 @@
                         roomName: '房间' + i,
                         player1Id: null,
                         player2Id: null,
-                        player1Ready: false,
-                        player2Ready: false,
                         board: new Array(TOTAL_CELLS).fill(0),
                         currentPlayer: 1,
                         gameOver: false,
@@ -385,7 +428,9 @@
                         blackScore: 0,
                         whiteScore: 0,
                         lastMove: null,
-                        started: false
+                        started: false,
+                        player1Ready: false,
+                        player2Ready: false
                     });
                 }
             }
@@ -418,16 +463,20 @@
             const filled = p1 + p2;
             const isFull = filled >= 2;
             const isPlaying = room.gameOver === false && p1 && p2;
-            const statusText = isPlaying ? '对战中' : (isFull ? '已满' : filled + '/2人');
+            
+            const seat1Class = p1 ? 'seat occupied' : (isFull ? 'seat empty' : 'seat can-join');
+            const seat2Class = p2 ? 'seat occupied' : (isFull ? 'seat empty' : 'seat can-join');
+            const tableClass = isPlaying ? 'table-center playing' : 'table-center';
+            const tableText = isPlaying ? '对战中' : '空闲';
 
             html += `
             <div class="room-card ${isFull ? 'full' : ''}" onclick="${isFull ? '' : "joinRoom('" + room.roomId + "')"}">
-                <div class="room-name">${room.roomName}</div>
-                <div class="room-players">${statusText}</div>
-                ${isPlaying ? '<div class="badge" style="background:rgba(255,152,0,0.15);color:#bf360c;font-weight:bold;">对战中</div>' : ''}
-                ${isFull && !isPlaying ? '<div class="badge">已满</div>' : ''}
-                ${filled === 1 && !isPlaying ? '<div class="badge">等待中</div>' : ''}
-                ${filled === 0 ? '<div class="badge" style="background:rgba(33,150,243,0.12);color:#1565c0;">空闲</div>' : ''}
+                <div class="table-number">${room.roomId.replace('room', '')}</div>
+                <div class="players-row">
+                    <div class="${seat1Class}">黑</div>
+                    <div class="${tableClass}">${tableText}</div>
+                    <div class="${seat2Class}">白</div>
+                </div>
             </div>`;
         });
         roomGrid.innerHTML = html;
@@ -481,6 +530,7 @@
             resizeCanvas();
             drawBoard(room.board || new Array(TOTAL_CELLS).fill(0));
             resetInactivityTimer();
+            resetReadyTimer();
             startWatchRoom();
         } catch (e) {
             setStatus('加入失败：' + e.message, 'error');
@@ -500,44 +550,87 @@
         }, INACTIVITY_TIMEOUT);
     }
 
+    // 监听用户各类操作，持续重置无操作计时器
+    ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'].forEach(eventName => {
+        document.addEventListener(eventName, () => {
+            if (currentRoomId) resetInactivityTimer();
+        }, { passive: true });
+    });
+
+    // ============ 准备超时计时器 ============
+    let readyRemainingTime = READY_TIMEOUT / 1000;
+
+    function stopReadyTimer() {
+        if (readyTimer) { clearTimeout(readyTimer); readyTimer = null; }
+    }
+
+    function resetReadyTimer() {
+        stopReadyTimer();
+        readyRemainingTime = READY_TIMEOUT / 1000;
+        
+        readyTimer = setTimeout(() => {
+            stopReadyTimer();
+            setStatus('超过5分钟未准备，已被移出房间', 'error');
+            leaveRoom();
+        }, READY_TIMEOUT);
+    }
+
     // ============ 退出房间 ============
     async function leaveRoom() {
         stopInactivityTimer();
+        stopReadyTimer();
         if (watcher) { watcher.close(); watcher = null; }
 
-        if (currentRoomDocId && myRole) {
+        const leavingRoomDocId = currentRoomDocId;
+        const leavingRole = myRole;
+        
+        localStorage.setItem('wzq_leave_room', JSON.stringify({
+            roomDocId: currentRoomDocId,
+            role: myRole,
+            timestamp: Date.now()
+        }));
+
+        if (leavingRoomDocId && leavingRole) {
             try {
-                // 先获取当前房间状态，判断是否需要结束游戏
-                const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+                const res = await db.collection(COLLECTION).doc(leavingRoomDocId).get();
                 if (res.data && res.data.length > 0) {
                     const room = res.data[0];
-                    const opponentHere = (myRole === 1 && room.player2Id) || (myRole === 2 && room.player1Id);
-                    // 如果游戏已开始且对手在，设为对手获胜
+                    const opponentHere = (leavingRole === 1 && room.player2Id) || (leavingRole === 2 && room.player1Id);
+                    
                     if (room.started && opponentHere && !room.gameOver) {
-                        const winnerRole = myRole === 1 ? 2 : 1;
+                        const winnerRole = leavingRole === 1 ? 2 : 1;
                         const winnerField = winnerRole === 1 ? 'blackScore' : 'whiteScore';
                         const currentScore = (room[winnerField] || 0) + 1;
-                        await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                        await db.collection(COLLECTION).doc(leavingRoomDocId).update({
                             gameOver: true,
                             winner: winnerRole,
                             [winnerField]: currentScore,
-                            [myRole === 1 ? 'player1Id' : 'player2Id']: null
+                            [leavingRole === 1 ? 'player1Id' : 'player2Id']: null
                         });
-                        // 不清除 ready/started，让剩余玩家能看到结果
                     } else {
-                        // 正常退出，清除位置和准备状态
-                        const field = myRole === 1 ? 'player1Id' : 'player2Id';
-                        const readyField = myRole === 1 ? 'player1Ready' : 'player2Ready';
-                        await db.collection(COLLECTION).doc(currentRoomDocId).update({
-                            [field]: null,
-                            [readyField]: false,
-                            started: false
-                        });
+                        const resetData = {
+                            player1Id: null,
+                            player2Id: null,
+                            board: new Array(TOTAL_CELLS).fill(0),
+                            currentPlayer: 1,
+                            gameOver: false,
+                            winner: 0,
+                            lastMove: null,
+                            started: false,
+                            player1Ready: false,
+                            player2Ready: false
+                        };
+                        if (!opponentHere) {
+                            resetData.blackScore = 0;
+                            resetData.whiteScore = 0;
+                        }
+                        await db.collection(COLLECTION).doc(leavingRoomDocId).update(resetData);
                     }
                 }
             } catch (e) { /* ignore */ }
         }
 
+        localStorage.removeItem('wzq_leave_room');
         currentRoomId = '';
         currentRoomDocId = '';
         myRole = 0;
@@ -573,7 +666,7 @@
                 player1Ready: false,
                 player2Ready: false
             });
-            setStatus('已请求再来一局，请准备！', 'success');
+            setStatus('已请求再来一局', 'success');
         } catch (e) {
             setStatus('操作失败', 'error');
         }
@@ -614,28 +707,32 @@
 
 
 
-    // ============ 准备/取消准备 ============
+    // ============ 准备 / 取消准备 ============
     async function toggleReady() {
-        if (!currentRoomDocId || !myRole || gameOver) return;
+        if (!currentRoomDocId || !myRole) return;
         resetInactivityTimer();
-
+        const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
         try {
-            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
-            if (!res.data || res.data.length === 0) return;
-            const room = res.data[0];
-
-            const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
-            const newReady = !(room[field]);
-
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
-                [field]: newReady
+                [field]: true
             });
-            setStatus(newReady ? '已准备' : '已取消准备', 'success');
         } catch (e) {
-            setStatus('操作失败：' + e.message, 'error');
+            setStatus('操作失败', 'error');
         }
     }
 
+    async function cancelReady() {
+        if (!currentRoomDocId || !myRole) return;
+        resetInactivityTimer();
+        const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
+        try {
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                [field]: false
+            });
+        } catch (e) {
+            setStatus('操作失败', 'error');
+        }
+    }
 
     // ============ 刷新玩家名 ============
     function updatePlayerNames(room) {
@@ -681,6 +778,8 @@
         p2Info.classList.toggle('active', isGameActive && room.currentPlayer === 2);
 
         const bothHere = room.player1Id && room.player2Id;
+        const myReady = (myRole === 1 && !!room.player1Ready) || (myRole === 2 && !!room.player2Ready);
+        const opponentReady = (myRole === 1 && !!room.player2Ready) || (myRole === 2 && !!room.player1Ready);
 
         // ===== 游戏结束判定 =====
         if (room.gameOver) {
@@ -708,51 +807,51 @@
         if (!bothHere) {
             waitOverlay.classList.add('show');
             canvas.classList.add('blocked');
-            document.getElementById('wait-text').innerText = '⏳ 等待对手加入...';
-            document.getElementById('btn-ready').style.display = 'none';
-            setStatus('等待对手加入...', 'info');
+            const readyPanel = document.getElementById('ready-panel');
+            const readyBtns = document.getElementById('ready-btns');
+            const readyStatus = document.getElementById('ready-status');
+            readyPanel.style.display = 'block';
+            readyBtns.style.display = 'none';
+            readyStatus.innerText = '等待其他玩家加入...';
+            setStatus('等待其他玩家加入...', 'info');
             drawBoard(room.board);
             return;
         }
 
-        // ===== 双方到齐但未开始 → 显示准备界面 =====
+        // ===== 双方到齐但未开始 → 准备阶段 =====
         if (!room.started) {
             gameOver = false;
             victoryOverlay.classList.remove('show');
-            waitOverlay.classList.add('show');
             canvas.classList.add('blocked');
             drawBoard(room.board);
 
-            const amIReady = myRole === 1 ? room.player1Ready : room.player2Ready;
-            const opponentReady = myRole === 1 ? room.player2Ready : room.player1Ready;
-            const waitTextEl = document.getElementById('wait-text');
-            const btnReady = document.getElementById('btn-ready');
+            const readyPanel = document.getElementById('ready-panel');
+            const readyBtns = document.getElementById('ready-btns');
+            const readyStatus = document.getElementById('ready-status');
+            
+            readyPanel.style.display = 'block';
+            readyBtns.style.display = 'flex';
+            readyBtns.style.flexDirection = 'column';
+            readyBtns.style.alignItems = 'center';
+            readyBtns.style.gap = '8px';
 
-            btnReady.style.display = '';
-            if (amIReady) {
-                waitTextEl.innerText = opponentReady ? '双方都已准备，即将开始...' : '已准备，等待对手...';
-                btnReady.innerText = '取消准备';
-                btnReady.className = 'btn btn-ready-cancel';
-                setStatus('已准备，等待对手...', 'info');
-            } else {
-                waitTextEl.innerText = opponentReady ? '对手已准备，请准备！' : '双方已到齐，请准备！';
-                btnReady.innerText = '准备';
-                btnReady.className = 'btn btn-ready';
-                setStatus(opponentReady ? '对手已准备，请准备！' : '双方已到齐，请准备！', 'info');
-            }
+            document.getElementById('btn-ready').style.display = 'inline-block';
+            document.getElementById('btn-ready-cancel').style.display = 'none';
 
-            // 双方都准备好了 → 开始游戏
-            if (room.player1Ready && room.player2Ready) {
+            if (myReady && opponentReady) {
                 db.collection(COLLECTION).doc(currentRoomDocId).update({
                     started: true,
                     gameOver: false,
                     winner: 0
                 }).catch(e => { /* 忽略冲突 */ });
+            } else {
+                readyStatus.innerText = '';
             }
             return;
         }
 
         // ===== 游戏进行中 =====
+        stopReadyTimer();
         waitOverlay.classList.remove('show');
 
         const isMyTurn = (room.currentPlayer === 1 && myRole === 1) || (room.currentPlayer === 2 && myRole === 2);
@@ -965,25 +1064,99 @@
 
     // ============ 页面关闭时清理 ============
     window.addEventListener('beforeunload', () => {
-        if (currentRoomDocId && myRole) {
-            const field = myRole === 1 ? 'player1Id' : 'player2Id';
-            // 用 sendBeacon 或同步方式无法做 async 操作
-            // 在这里尝试用 fetch 发送清理请求（尽力而为）
-        }
+        stopInactivityTimer();
+        stopReadyTimer();
         if (watcher) watcher.close();
+        
+        if (currentRoomDocId && myRole) {
+            localStorage.setItem('wzq_leave_room', JSON.stringify({
+                roomDocId: currentRoomDocId,
+                role: myRole,
+                timestamp: Date.now()
+            }));
+        }
     });
 
+    window.addEventListener('pagehide', () => {
+        stopInactivityTimer();
+        stopReadyTimer();
+        if (watcher) watcher.close();
+        
+        if (currentRoomDocId && myRole) {
+            localStorage.setItem('wzq_leave_room', JSON.stringify({
+                roomDocId: currentRoomDocId,
+                role: myRole,
+                timestamp: Date.now()
+            }));
+        }
+    });
+
+    async function cleanupLeftRoom() {
+        const leaveData = localStorage.getItem('wzq_leave_room');
+        if (!leaveData) return;
+        
+        try {
+            const data = JSON.parse(leaveData);
+            const { roomDocId, role } = data;
+            
+            if (!roomDocId || !role) {
+                localStorage.removeItem('wzq_leave_room');
+                return;
+            }
+            
+            const res = await db.collection(COLLECTION).doc(roomDocId).get();
+            if (res.data && res.data.length > 0) {
+                const room = res.data[0];
+                const opponentHere = (role === 1 && room.player2Id) || (role === 2 && room.player1Id);
+                
+                if (room.started && opponentHere && !room.gameOver) {
+                    const winnerRole = role === 1 ? 2 : 1;
+                    const winnerField = winnerRole === 1 ? 'blackScore' : 'whiteScore';
+                    const currentScore = (room[winnerField] || 0) + 1;
+                    await db.collection(COLLECTION).doc(roomDocId).update({
+                        gameOver: true,
+                        winner: winnerRole,
+                        [winnerField]: currentScore,
+                        [role === 1 ? 'player1Id' : 'player2Id']: null
+                    });
+                } else {
+                    const resetData = {
+                        player1Id: null,
+                        player2Id: null,
+                        board: new Array(TOTAL_CELLS).fill(0),
+                        currentPlayer: 1,
+                        gameOver: false,
+                        winner: 0,
+                        lastMove: null,
+                        started: false,
+                        player1Ready: false,
+                        player2Ready: false
+                    };
+                    if (!opponentHere) {
+                        resetData.blackScore = 0;
+                        resetData.whiteScore = 0;
+                    }
+                    await db.collection(COLLECTION).doc(roomDocId).update(resetData);
+                }
+            }
+        } catch (e) {
+            console.warn('清理遗留房间失败:', e);
+        } finally {
+            localStorage.removeItem('wzq_leave_room');
+        }
+    }
+
     // ============ 启动 ============
-    init().then(() => {
+    init().then(async () => {
         resizeCanvas();
         drawBoard(boardData);
-
-        // 尝试重连之前的房间
+        
+        await cleanupLeftRoom();
+        
         const savedRoomId = localStorage.getItem('wzq_roomId');
         const savedRoomDocId = localStorage.getItem('wzq_roomDocId');
         const savedRole = localStorage.getItem('wzq_role');
         if (savedRoomId && savedRoomDocId && savedRole) {
-            // 延迟重连，确保初始化完成
             setTimeout(() => joinRoom(savedRoomId), 500);
         }
     });

@@ -7,13 +7,13 @@
 
 <style>
 :root {
-    --bg: #f2f7f2;         /* 浅森系背景：淡薄荷绿 */
-    --card: #ffffff;       /* 卡片白 */
-    --text: #2c3e2c;       /* 深墨绿文字，柔和不黑 */
-    --border: #a8c5a8;     /* 浅绿边框 */
-    --correct: #64a573;    /* 清新绿（正确） */
-    --wrong: #e58989;      /* 柔和红（错误） */
-    --primary: #75a875;    /* 主色：浅森林绿 */
+    --bg: #faf5ef;         /* 莫兰迪浅橙背景 */
+    --card: #fff9f3;       /* 暖白卡片 */
+    --text: #5c4a3d;       /* 深棕色文字 */
+    --border: #dbb89a;     /* 莫兰迪橙边框 */
+    --correct: #7a9a6d;    /* 莫兰迪绿（正确） */
+    --wrong: #c79285;      /* 莫兰迪红（错误） */
+    --primary: #d4957a;    /* 主色：莫兰迪橙色 */
 }
 
 body {
@@ -28,7 +28,7 @@ body {
     text-align: center;
     font-size: 30px;
     font-family: "Comic Sans MS", "Chalkboard SE", "Marker Felt", "Microsoft YaHei", sans-serif;
-    color: #406640;
+    color: #b57d5c;
     font-weight: bold;
     margin-bottom: 24px;
 }
@@ -54,7 +54,7 @@ body {
     height: 40px;
     border-radius: 10px;
     background: rgba(255,255,255,0.95);
-    border: 1px solid rgba(117,168,117,0.2);
+    border: 1px solid rgba(212,149,122,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,7 +70,7 @@ body {
 }
 .top-wrong-btn.active {
     background: var(--primary);
-    border-color: #5f8f5f;
+    border-color: #d4957a;
 }
 .top-wrong-btn.active img {
     filter: brightness(0) invert(1);
@@ -79,13 +79,42 @@ body {
     border-color: var(--primary);
 }
 
+/* 清空错题按钮 */
+.clear-wrong-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(211,47,47,0.2);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+    position: relative;
+}
+.clear-wrong-btn.show {
+    display: flex;
+}
+.clear-wrong-btn:hover {
+    border-color: #d32f2f;
+    background: rgba(255,235,238,0.95);
+}
+.clear-wrong-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #d32f2f;
+}
+
 /* 选项菜单按钮 */
 .option-menu-btn {
     width: 40px;
     height: 40px;
     border-radius: 10px;
     background: rgba(255,255,255,0.95);
-    border: 1px solid rgba(117,168,117,0.2);
+    border: 1px solid rgba(212,149,122,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -96,7 +125,7 @@ body {
 }
 .option-menu-btn.active {
     background: var(--primary);
-    border-color: #5f8f5f;
+    border-color: #d4957a;
 }
 .option-menu-btn.active img {
     filter: brightness(0) invert(1);
@@ -116,8 +145,8 @@ body {
     background: rgba(255,255,255,0.98);
     backdrop-filter: blur(16px);
     border-radius: 14px;
-    box-shadow: 0 8px 24px rgba(120,160,120,0.25);
-    border: 1px solid rgba(117,168,117,0.15);
+    box-shadow: 0 8px 24px rgba(212,149,122,0.25);
+    border: 1px solid rgba(212,149,122,0.15);
     padding: 12px 14px;
     z-index: 998;
     display: none;
@@ -146,8 +175,8 @@ body {
     padding: 4px 10px;
     border-radius: 8px;
     font-size: 12px;
-    background: #f0f8f0;
-    color: #406640;
+    background: #f5ebe1;
+    color: #b57d5c;
     cursor: pointer;
     transition: all 0.2s;
     border: 1px solid transparent;
@@ -182,7 +211,7 @@ body {
 }
 .card-wrong-btn.active {
     background: var(--primary);
-    border-color: #5f8f5f;
+    border-color: #d4957a;
 }
 .card-wrong-btn.active img {
     filter: brightness(0) invert(1);
@@ -195,7 +224,7 @@ body {
     background: var(--card);
     border-radius: 14px;
     padding: 20px;
-    box-shadow: 0 6px 16px rgba(120,160,120,0.08);
+    box-shadow: 0 6px 16px rgba(212,149,122,0.08);
     outline: 2px dashed var(--border);
     outline-offset: -6px;
 }
@@ -236,7 +265,7 @@ body {
 
 .subject {
     font-weight: 700;
-    color: #507d50;
+    color: #b57d5c;
 }
 
 .options {
@@ -254,7 +283,7 @@ body {
     cursor: pointer;
     position: relative;
     color: var(--text);
-    background: #fafdfa;
+    background: #fff5ed;
     font-size: 16px;
     transition: all 0.2s;
 }
@@ -268,14 +297,14 @@ body {
     height: 28px;
     line-height: 28px;
     text-align: center;
-    background: #e8f0f8;
+    background: #f2e6dc;
     border-radius: 6px;
     margin-right: 12px;
     font-weight: bold;
     color: var(--text);
 }
 .option.correct {
-    background: #e8f0f8;
+    background: #f2e6dc;
     border-color: var(--correct);
 }
 .option.wrong {
@@ -308,18 +337,18 @@ body {
     border-radius: 10px;
     cursor: pointer;
     color: var(--text);
-    background: #f0f8f0;
+    background: #f5ebe1;
     white-space: nowrap;
 }
 #prevBtn {
-    background: #e8d8e8;
-    border-color: #c8b0c8;
-    color: #5a3a5a;
+    background: #f2e6dc;
+    border-color: #dfb89a;
+    color: #b57d5c;
 }
 #nextBtn {
-    background: #d0e8e8;
-    border-color: #a0c8c8;
-    color: #2a4a4a;
+    background: #ebd9cc;
+    border-color: #d4a58a;
+    color: #b57d5c;
 }
 .hidden { display: none; }
 
@@ -328,7 +357,7 @@ body {
     padding: 12px;
     border: 1px solid var(--border);
     border-radius: 10px;
-    background: #fafdfa;
+    background: #fff5ed;
 }
 .summary-title {
     font-weight: bold;
@@ -373,6 +402,9 @@ body {
     <div class="top-right-option">
         <div class="top-wrong-btn" id="topWrongBtn" title="只练错题">
             <img src="../../../images/错题1.png" alt="错题">
+        </div>
+        <div class="clear-wrong-btn" id="clearWrongBtn" title="清空所有错题">
+            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
         </div>
         <div class="option-menu-btn" id="optionMenuBtn" title="筛选选项">
             <img src="../../../images/选项.png" alt="选项">
@@ -448,6 +480,8 @@ let currentIndex = 0;
 let wrongQids = new Set();       // 错题ID集合
 let isOnlyWrongMode = false;     // 只看错题模式
 let selectedTypeSet = new Set(allTypes); // 默认全选
+let lastNormalIndex = 0;       // 正常模式下最后的位置
+let lastWrongIndex = 0;        // 错题模式下最后的位置
 
 // ===================== 错题数据持久化 =====================
 function loadWrongData() {
@@ -543,15 +577,44 @@ filterPanel.onclick = (e) => e.stopPropagation();
 // ===================== 错题模式切换 =====================
 function toggleOnlyWrongMode() {
     const topBtn = document.getElementById('topWrongBtn');
-    isOnlyWrongMode = !isOnlyWrongMode;
+    const clearBtn = document.getElementById('clearWrongBtn');
+    // 切换前保存当前题库中的位置
+    if (isOnlyWrongMode) {
+        lastWrongIndex = currentIndex;
+        isOnlyWrongMode = false;
+    } else {
+        lastNormalIndex = currentIndex;
+        isOnlyWrongMode = true;
+    }
     topBtn.classList.toggle('active', isOnlyWrongMode);
+    clearBtn.classList.toggle('show', isOnlyWrongMode);
     saveWrongData();
-    resetQuestions();
+    let targetIdx = isOnlyWrongMode ? lastWrongIndex : lastNormalIndex;
+    resetQuestions(targetIdx);
     if (isOnlyWrongMode && questionPool.length === 0) {
         document.getElementById('questionText').innerText = '错题本暂无题目';
         document.getElementById('options').innerHTML = '';
         document.getElementById('questionLabel').innerText = '';
     }
+}
+
+function clearAllWrong() {
+    if (!confirm('确定要清空所有错题吗？此操作不可撤销。')) return;
+    wrongQids.clear();
+    lastWrongIndex = 0;
+    saveWrongData();
+    if (isOnlyWrongMode) {
+        // 在错题模式下，清空后自动退出错题模式
+        isOnlyWrongMode = false;
+        document.getElementById('topWrongBtn').classList.remove('active');
+        document.getElementById('clearWrongBtn').classList.remove('show');
+        saveWrongData();
+        resetQuestions(lastNormalIndex);
+    } else {
+        // 不在错题模式下，刷新当前视图
+        updateCardWrongBtn(questionPool[currentIndex] ? questionPool[currentIndex]._id : null);
+    }
+    alert('已清空所有错题');
 }
 
 // ===================== 卡片错题按钮状态 =====================
@@ -570,7 +633,7 @@ function updateCardWrongBtn(qid) {
 }
 
 // ===================== 题目池管理 =====================
-function resetQuestions() {
+function resetQuestions(targetIndex) {
     const types = [...selectedTypeSet];
     if (types.length === 0 || questionPool === undefined) return;
 
@@ -593,7 +656,9 @@ function resetQuestions() {
     correctCount = 0;
     errorCount = 0;
     unansweredCount = 0;
-    currentIndex = 0;
+    let idx = (targetIndex !== undefined) ? targetIndex : 0;
+    if (idx >= questionPool.length) idx = Math.max(0, questionPool.length - 1);
+    currentIndex = idx;
     updateProgress();
         return;
     }
@@ -602,9 +667,11 @@ function resetQuestions() {
     correctCount = 0;
     errorCount = 0;
     unansweredCount = 0;
-    currentIndex = 0;
+    let idx = (targetIndex !== undefined) ? targetIndex : 0;
+    if (idx >= questionPool.length) idx = Math.max(0, questionPool.length - 1);
+    currentIndex = idx;
     updateProgress();
-    showQuestion(0);
+    showQuestion(currentIndex);
 }
 
 function refreshQuestionPool() {
@@ -867,6 +934,12 @@ document.getElementById('topWrongBtn').classList.toggle('active', isOnlyWrongMod
 document.getElementById('topWrongBtn').addEventListener('click', (e) => {
     e.stopPropagation();
     toggleOnlyWrongMode();
+});
+
+// 清空错题按钮点击
+document.getElementById('clearWrongBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    clearAllWrong();
 });
 
 // 卡片内错题按钮（事件委托）

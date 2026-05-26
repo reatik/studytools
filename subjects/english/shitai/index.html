@@ -103,6 +103,35 @@ body {
     border-color: var(--primary);
 }
 
+/* 清空错题按钮 */
+.clear-wrong-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(211,47,47,0.2);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+    position: relative;
+}
+.clear-wrong-btn.show {
+    display: flex;
+}
+.clear-wrong-btn:hover {
+    border-color: #d32f2f;
+    background: rgba(255,235,238,0.95);
+}
+.clear-wrong-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #d32f2f;
+}
+
 /* 选项菜单按钮 */
 .option-menu-btn {
     width: 40px;
@@ -355,42 +384,36 @@ body {
 }
 
 .question-index {
-    font-size: 14px;
-    font-weight: bold;
-    height: 30px;
-    line-height: 30px;
-    color: var(--primary);
-    background: transparent; /* 去掉背景色 */
-    padding: 0 0 0 8px;
-    border-radius: 8px 0 0 8px;
-    border: none;
-    white-space: nowrap;
-    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
-}
-.question-id-input {
-    font-size: 14px;
-    font-weight: bold;
-    height: 30px;
-    line-height: 30px;
-    color: var(--primary);
-    background: transparent; /* 去掉背景色 */
-    padding: 0 4px;
-    border-radius: 0 8px 8px 0;
+    justify-content: center;
+    color: white;
+    width: 32px;
+    height: 24px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+    background-color: var(--primary);
+    margin-right: 6px;
+    vertical-align: middle;
     border: none;
     outline: none;
-    text-align: left;
-    width: 42px;
-    box-sizing: border-box;
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit;
+    padding: 0;
 }
-.question-id-input:focus {
-    border-color: var(--primary);
+.question-index:focus {
+    background-color: #4a8ac2;
+    box-shadow: 0 0 0 2px rgba(90,159,212,0.4);
 }
-.question-id-input::-webkit-inner-spin-button,
-.question-id-input::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+.question-index.wrong-number {
+    background-color: #C75B5B;
+}
+.question-index.wrong-number:focus {
+    background-color: #D96C6C;
+    box-shadow: 0 0 0 2px rgba(199,91,91,0.4);
 }
 
 .card-progress {
@@ -815,6 +838,9 @@ body {
         <div class="top-wrong-btn" id="topWrongBtn" title="只练错题">
             <img src="../../../images/错题1.png" alt="错题">
         </div>
+        <div class="clear-wrong-btn" id="clearWrongBtn" title="清空所有错题">
+            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        </div>
         <div class="option-menu-btn" id="optionMenuBtn" title="筛选选项">
             <img src="../../../images/选项.png" alt="选项">
         </div>
@@ -832,10 +858,7 @@ body {
 
     <div class="card">
         <div class="card-header">
-            <div style="display: flex; align-items: center; gap: 4px;">
-                <span class="question-index" id="questionLabel">第1题 · ID</span>
-                <input type="number" id="questionId" class="question-id-input">
-            </div>
+            <input type="text" class="question-index" id="questionLabel" value="1" title="输入序号跳转题目">
             <div style="display: flex; align-items: center; gap: 8px;">
                 <span class="card-progress" id="cardProgress">正确 0</span>
                 <span class="card-progress" id="errorProgress" style="color: #e58989;">错误 0</span>
@@ -891,6 +914,8 @@ let currentMeaning = '';
 let wrongQids = new Set();      // 错题 ID 集合
 let isOnlyWrongMode = false;    // 只看错题模式
 let hasUnansweredInRound = {};  // 记录本轮每题是否跳过未答
+let lastNormalIndex = 0;       // 正常模式下最后的位置
+let lastWrongIndex = 0;        // 错题模式下最后的位置
 
 // 从localStorage恢复选择
 function loadSelections() {
@@ -1016,7 +1041,7 @@ function hideMeaning() {
     btn.classList.remove('open');
 }
 
-function resetQuestions() {
+function resetQuestions(targetIndex) {
     if (selectedTypes.length === 0 || selectedTenses.length === 0) return;
     let filterList = [...sentenceBank].filter(q => 
     selectedTypes.includes(q.type) && selectedTenses.includes(q.difficulty)
@@ -1031,9 +1056,11 @@ questionPool = filterList;
     errorCount = 0;
     unansweredCount = 0;
     hasUnansweredInRound = {};
-    currentIndex = 0;
+    let idx = (targetIndex !== undefined) ? targetIndex : 0;
+    if (idx >= questionPool.length) idx = Math.max(0, questionPool.length - 1);
+    currentIndex = idx;
     updateProgress();
-    showQuestion(0);
+    showQuestion(currentIndex);
 }
 
 function showQuestion(index) {
@@ -1047,9 +1074,16 @@ function showQuestion(index) {
         answers[index] = null;
     }
     
-    // 显示序号
-    document.getElementById("questionLabel").innerText = `第${index + 1}题 · ID`;
-    document.getElementById("questionId").value = q.id;
+    const numEl = document.getElementById("questionLabel");
+    if (isOnlyWrongMode) {
+        numEl.value = (index + 1) + '/' + questionPool.length;
+        numEl.style.width = '44px';
+        numEl.classList.add('wrong-number');
+    } else {
+        numEl.value = index + 1;
+        numEl.style.width = '32px';
+        numEl.classList.remove('wrong-number');
+    }
 
     const questionText = document.getElementById("questionText");
     const submitBtn = document.getElementById("fillSubmitBtn");
@@ -1335,16 +1369,71 @@ function updateCardWrongBtn(qid) {
 // 切换错题模式
 function toggleOnlyWrongMode() {
     const topBtn = document.getElementById("topWrongBtn");
-    isOnlyWrongMode = !isOnlyWrongMode;
+    const clearBtn = document.getElementById("clearWrongBtn");
+    // 切换前保存当前题库中的位置
+    if (isOnlyWrongMode) {
+        lastWrongIndex = currentIndex;
+        isOnlyWrongMode = false;
+    } else {
+        lastNormalIndex = currentIndex;
+        isOnlyWrongMode = true;
+    }
     topBtn.classList.toggle("active", isOnlyWrongMode);
+    clearBtn.classList.toggle("show", isOnlyWrongMode);
     saveWrongData();
-    resetQuestions();
+    // 根据目标模式恢复对应位置
+    let targetIdx = isOnlyWrongMode ? lastWrongIndex : lastNormalIndex;
+    resetQuestions(targetIdx);
     // 错题模式且没有错题时的提示
     if (isOnlyWrongMode && questionPool.length === 0) {
         document.getElementById("questionText").innerText = "错题本暂无题目";
         document.getElementById("options").innerHTML = "";
         document.getElementById("fillArea").classList.add("hidden");
     }
+}
+
+function clearAllWrong() {
+    if (!confirm('确定要清空所有错题吗？此操作不可撤销。')) return;
+    wrongQids.clear();
+    lastWrongIndex = 0;
+    saveWrongData();
+    if (isOnlyWrongMode) {
+        // 在错题模式下，清空后自动退出错题模式
+        isOnlyWrongMode = false;
+        document.getElementById("topWrongBtn").classList.remove("active");
+        document.getElementById("clearWrongBtn").classList.remove("show");
+        saveWrongData();
+        doFilterAfterClearWrong();
+    } else {
+        // 不在错题模式下，刷新当前视图
+        updateCardWrongBtn(questionPool[currentIndex] ? questionPool[currentIndex].id : null);
+    }
+    alert('已清空所有错题');
+}
+
+function doFilterAfterClearWrong() {
+    let filterList = [...sentenceBank].filter(q => 
+        selectedTypes.includes(q.type) && selectedTenses.includes(q.difficulty)
+    );
+    questionPool = filterList;
+    answers = [];
+    correctCount = 0;
+    errorCount = 0;
+    unansweredCount = 0;
+    hasUnansweredInRound = {};
+    lastWrongIndex = 0;
+    let idx = Math.min(lastNormalIndex, questionPool.length - 1);
+    if (idx < 0) idx = 0;
+    currentIndex = idx;
+    updateProgress();
+    if (questionPool.length > 0) {
+        showQuestion(currentIndex);
+    } else {
+        document.getElementById("questionText").innerText = "暂无题目";
+        document.getElementById("options").innerHTML = "";
+        document.getElementById("fillArea").classList.add("hidden");
+    }
+    updateNavButtons();
 }
 
 function next() {
@@ -1396,8 +1485,8 @@ fetch('sentences.json')
         // 恢复错题模式按钮状态
         document.getElementById('topWrongBtn').classList.toggle('active', isOnlyWrongMode);
         setupSwipe();
-        setupQuestionIdJump();
         setupKeyboard();
+        setupQuestionNumberJump();
         resetQuestions();
     })
     .catch(err => {
@@ -1431,30 +1520,7 @@ function setupSwipe() {
     });
 }
 
-function setupQuestionIdJump() {
-    const el = document.getElementById('questionId');
-    el.addEventListener('focus', () => el.select());
-    el.addEventListener('blur', () => {
-        const val = el.value.trim();
-        if (!val) {
-            el.value = questionPool[currentIndex] ? questionPool[currentIndex].id : '';
-            return;
-        }
-        const targetId = parseInt(val);
-        const idx = questionPool.findIndex(q => q.id === targetId);
-        if (idx === -1) {
-            alert('未找到 ID：' + targetId);
-            el.value = questionPool[currentIndex] ? questionPool[currentIndex].id : '';
-            return;
-        }
-        currentIndex = idx;
-        showQuestion(currentIndex);
-        updateNavButtons();
-    });
-    el.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') el.blur();
-    });
-}
+
 
 // 键盘左右键切换题目（桌面端）
 function setupKeyboard() {
@@ -1479,6 +1545,12 @@ function bindEvents() {
     document.getElementById('topWrongBtn').addEventListener('click', (e) => {
         e.stopPropagation();
         toggleOnlyWrongMode();
+    });
+
+    // 清空错题按钮
+    document.getElementById('clearWrongBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearAllWrong();
     });
 
     // 卡片内错题按钮（事件委托）
@@ -1524,6 +1596,34 @@ function doFilterAfterWrongChange() {
     }
     if (currentIndex >= questionPool.length) currentIndex = questionPool.length - 1;
     showQuestion(currentIndex);
+}
+
+// 题号输入跳转
+function setupQuestionNumberJump() {
+    const numEl = document.getElementById('questionLabel');
+    numEl.addEventListener('focus', () => numEl.select());
+    numEl.addEventListener('blur', () => {
+        let raw = numEl.value.split('/')[0].trim();
+        let n = parseInt(raw);
+        if (!isNaN(n) && n >= 1 && n <= questionPool.length && (n - 1) !== currentIndex) {
+            currentIndex = n - 1;
+            showQuestion(currentIndex);
+        } else {
+            // 恢复原来的显示
+            if (isOnlyWrongMode) {
+                numEl.value = (currentIndex + 1) + '/' + questionPool.length;
+            } else {
+                numEl.value = currentIndex + 1;
+            }
+        }
+    });
+    numEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            numEl.blur();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.stopPropagation();
+        }
+    });
 }
 </script>
 
