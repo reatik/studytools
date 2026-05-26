@@ -545,6 +545,8 @@
     let currentRoomDocId = '';   // 数据库 _id
     let myRole = 0;              // 1=黑方(player1), 2=白方(player2)
     let gameOver = false;
+    let roomStarted = false;       // 游戏是否已开始（同步自数据库 started 字段）
+    let roomCurrentPlayer = 1;     // 当前轮到谁（同步自数据库 currentPlayer 字段）
     let inactivityTimer = null;   // 全局无操作超时定时器
     let readyTimer = null;       // 准备超时定时器
 
@@ -821,23 +823,36 @@
                     const room = res.data[0];
                     const opponentHere = (leavingRole === 1 && room.player2Id) || (leavingRole === 2 && room.player1Id);
                     
-                    // 中途退出 → 重置房间
+                    // 只清除当前玩家的座位，保留对手
                     const resetData = {
-                        player1Id: null,
-                        player2Id: null,
-                        board: new Array(TOTAL_CELLS).fill(0),
-                        currentPlayer: 1,
+                        started: false,
                         gameOver: false,
                         winner: 0,
-                        lastMove: null,
-                        started: false,
                         player1Ready: false,
-                        player2Ready: false
+                        player2Ready: false,
+                        board: new Array(TOTAL_CELLS).fill(0),
+                        currentPlayer: 1,
+                        lastMove: null
                     };
+                    
+                    if (leavingRole === 1) {
+                        resetData.player1Id = null;
+                    } else {
+                        resetData.player2Id = null;
+                    }
+                    
+                    // 只有双方都离开时才重置比分
                     if (!opponentHere) {
                         resetData.blackScore = 0;
                         resetData.whiteScore = 0;
+                        // 对手不在，把另一个位置也清掉
+                        if (leavingRole === 1) {
+                            resetData.player2Id = null;
+                        } else {
+                            resetData.player1Id = null;
+                        }
                     }
+                    
                     await db.collection(COLLECTION).doc(leavingRoomDocId).update(resetData);
                 }
             } catch (e) { /* ignore */ }
@@ -847,6 +862,7 @@
         currentRoomDocId = '';
         myRole = 0;
         gameOver = false;
+        roomStarted = false;
         localStorage.removeItem('wzq_roomId');
         localStorage.removeItem('wzq_roomDocId');
         localStorage.removeItem('wzq_role');
@@ -997,6 +1013,10 @@
     }
 
     function handleRoomUpdate(room) {
+        // 同步游戏状态
+        roomStarted = !!room.started;
+        roomCurrentPlayer = room.currentPlayer || 1;
+
         // 积分 & 玩家名
         document.getElementById('p1-score').innerText = room.blackScore || 0;
         document.getElementById('p2-score').innerText = room.whiteScore || 0;
@@ -1020,6 +1040,7 @@
         // ===== 游戏结束判定 =====
         if (room.gameOver) {
             gameOver = true;
+            roomStarted = false;
             canvas.classList.add('blocked');
             waitOverlay.classList.remove('show');
 
@@ -1041,6 +1062,7 @@
 
         // ===== 游戏未开始 → 准备阶段（玩家一进入就可以准备） =====
         if (!room.started) {
+            roomStarted = false;
             gameOver = false;
             victoryOverlay.classList.remove('show');
             canvas.classList.add('blocked');
@@ -1076,7 +1098,9 @@
                     db.collection(COLLECTION).doc(currentRoomDocId).update({
                         started: true,
                         gameOver: false,
-                        winner: 0
+                        winner: 0,
+                        currentPlayer: 1,
+                        board: new Array(TOTAL_CELLS).fill(0)
                     }).catch(e => { /* 忽略冲突 */ });
                 } else if (myReady) {
                     readyText = '你已准备，等待对手准备...';
@@ -1114,18 +1138,15 @@
 
     // ============ 落子 ============
     async function placeStone(x, y) {
-        if (gameOver || !currentRoomDocId || !myRole || !boardData) return;
+        // 必须游戏已开始、未结束、已在房间、有角色
+        if (!roomStarted || gameOver || !currentRoomDocId || !myRole || !boardData) return;
         resetInactivityTimer();
 
         const idx = y * BOARD_SIZE + x;
         if (boardData[idx] !== 0) return;
 
-        // 检查是否轮到我
-        // 通过board推断当前轮到谁：初始黑方(1)先走，黑=1=player1, 白=2=player2
-        // 数已有棋子数，odd=黑方轮次, even=白方轮次
-        const stoneCount = boardData.reduce((s, v) => s + (v > 0 ? 1 : 0), 0);
-        const expectedPlayer = stoneCount % 2 === 0 ? 1 : 2;
-        if (expectedPlayer !== myRole) return;
+        // 使用数据库同步的 currentPlayer 判断该谁落子（而非本地计算棋子数）
+        if (roomCurrentPlayer !== myRole) return;
 
         // 更新本地 board 用于判断
         const newBoard = [...boardData];
@@ -1350,18 +1371,23 @@
     });
 
     function doExitReset() {
+        // 只清空当前玩家的位置，保留对手和比分
         const resetData = {
-            player1Id: null,
-            player2Id: null,
-            board: new Array(TOTAL_CELLS).fill(0),
-            currentPlayer: 1,
+            started: false,
             gameOver: false,
             winner: 0,
             lastMove: null,
-            started: false,
             player1Ready: false,
-            player2Ready: false
+            player2Ready: false,
+            board: new Array(TOTAL_CELLS).fill(0),
+            currentPlayer: 1
         };
+        
+        if (myRole === 1) {
+            resetData.player1Id = null;
+        } else {
+            resetData.player2Id = null;
+        }
 
         if (USE_LOCAL_STORAGE && db && db.collections) {
             // 本地模式：直接同步修改
@@ -1373,6 +1399,9 @@
                         const room = collection[index];
                         const opponentHere = (myRole === 1 && room.player2Id) || (myRole === 2 && room.player1Id);
                         if (!opponentHere) {
+                            // 对手不在，完全重置房间
+                            resetData.player1Id = null;
+                            resetData.player2Id = null;
                             resetData.blackScore = 0;
                             resetData.whiteScore = 0;
                         }
