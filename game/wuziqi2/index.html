@@ -52,15 +52,14 @@
         .room-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 14px;
             margin-bottom: 10px;
         }
         .room-card {
             background: linear-gradient(135deg, #5c6bc0, #3949ab);
-            border-radius: 10px;
-            padding: 16px;
+            border-radius: 12px;
+            padding: 18px 12px 14px;
             text-align: center;
-            cursor: pointer;
             transition: all 0.2s;
             box-shadow: 0 4px 12px rgba(60, 73, 171, 0.3);
             color: #fff;
@@ -69,15 +68,76 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(60, 73, 171, 0.4);
         }
-        .room-card:active { transform: scale(0.98); }
         .room-card.full {
             background: linear-gradient(135deg, #9e9e9e, #757575);
-            cursor: not-allowed;
+            cursor: default;
             opacity: 0.7;
         }
         .room-card.full:hover { transform: none; }
-        .room-name { font-size: 1.1rem; font-weight: bold; margin-bottom: 6px; }
-        .room-status { font-size: 0.8rem; opacity: 0.85; }
+        .room-name { font-size: 1.05rem; font-weight: bold; margin-bottom: 10px; }
+
+        /* 桌子 */
+        .room-table {
+            position: relative;
+            width: 72px;
+            height: 54px;
+            margin: 0 auto 10px;
+            background: linear-gradient(145deg, #8d6e63, #6d4c41);
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+        .room-table::before {
+            content: '⚫';
+            opacity: 0.5;
+        }
+
+        /* 座位 */
+        .room-seats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2px;
+        }
+        .seat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .seat-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255,255,255,0.45);
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.55);
+            font-size: 0.7rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .seat-btn:hover:not(.taken) {
+            background: rgba(255,255,255,0.22);
+            border-color: #fff;
+            color: #fff;
+        }
+        .seat-btn.taken {
+            border: 2px solid rgba(255,255,255,0.75);
+            background: rgba(76,175,80,0.5);
+            color: #fff;
+            font-size: 0.65rem;
+            cursor: default;
+        }
+        .seat-label {
+            font-size: 0.7rem;
+            opacity: 0.65;
+        }
 
         /* ===== 游戏区 ===== */
         #game-section {
@@ -107,6 +167,10 @@
             padding: 8px 10px;
             border-radius: 8px;
             transition: all 0.3s;
+            visibility: hidden;
+        }
+        .player-info.show {
+            visibility: visible;
         }
         /* 黑方：深色背景+白色文字 */
         #p1-info {
@@ -285,7 +349,7 @@
     const COLLECTION = 'wuziqi_rooms'; // 数据库集合名
     const INACTIVITY_TIMEOUT = 20 * 60 * 1000; // 无操作20分钟自动踢出
     const READY_TIMEOUT = 5 * 60 * 1000; // 准备超时5分钟自动踢出
-    const USE_LOCAL_STORAGE = true; // 使用本地存储模拟数据库（调试用）
+    const USE_LOCAL_STORAGE = false; // 使用云端 CloudBase 数据库
 
     // ============ 本地数据库模拟类（用于调试） ============
     class LocalDB {
@@ -584,24 +648,32 @@
 
         let html = '';
         rooms.forEach(room => {
-            const p1 = room.player1Id ? 1 : 0;
-            const p2 = room.player2Id ? 1 : 0;
-            const filled = p1 + p2;
-            const isFull = filled >= 2;
-            
-            let statusText = '';
-            if (isFull) {
-                statusText = '已满';
-            } else if (filled === 1) {
-                statusText = '等待对手';
-            } else {
-                statusText = '空闲';
-            }
+            const p1Taken = !!room.player1Id;
+            const p2Taken = !!room.player2Id;
+            const isFull = p1Taken && p2Taken;
 
             html += `
-            <div class="room-card ${isFull ? 'full' : ''}" onclick="${isFull ? '' : "joinRoom('" + room.roomId + "')"}">
+            <div class="room-card ${isFull ? 'full' : ''}">
                 <div class="room-name">${room.roomName}</div>
-                <div class="room-status">${statusText} (${filled}/2)</div>
+                <div class="room-table"></div>
+                <div class="room-seats">
+                    <div class="seat">
+                        <div class="seat-btn ${p1Taken ? 'taken' : ''}" 
+                             onclick="${p1Taken ? '' : `event.stopPropagation();joinRoom('${room.roomId}')`}"
+                             title="${p1Taken ? '黑方已坐' : '点击入座黑方'}">
+                            ${p1Taken ? '已坐' : '入座'}
+                        </div>
+                        <div class="seat-label">⚫ 黑方</div>
+                    </div>
+                    <div class="seat">
+                        <div class="seat-btn ${p2Taken ? 'taken' : ''}"
+                             onclick="${p2Taken ? '' : `event.stopPropagation();joinRoom('${room.roomId}')`}"
+                             title="${p2Taken ? '白方已坐' : '点击入座白方'}">
+                            ${p2Taken ? '已坐' : '入座'}
+                        </div>
+                        <div class="seat-label">⚪ 白方</div>
+                    </div>
+                </div>
             </div>`;
         });
         roomGrid.innerHTML = html;
@@ -650,6 +722,8 @@
             roomSection.style.display = 'none';
             gameSection.classList.add('show');
             updatePlayerNames(room);
+            document.getElementById('p1-info').classList.toggle('show', !!room.player1Id);
+            document.getElementById('p2-info').classList.toggle('show', !!room.player2Id);
 
             setStatus('已进入 ' + (room.roomName || roomId), 'success');
             resizeCanvas();
@@ -914,6 +988,10 @@
         document.getElementById('p1-score').innerText = room.blackScore || 0;
         document.getElementById('p2-score').innerText = room.whiteScore || 0;
         updatePlayerNames(room);
+
+        // 显示/隐藏玩家信息（有人入座才显示）
+        document.getElementById('p1-info').classList.toggle('show', !!room.player1Id);
+        document.getElementById('p2-info').classList.toggle('show', !!room.player2Id);
 
         // 高亮当前回合方
         const p1Info = document.getElementById('p1-info');
