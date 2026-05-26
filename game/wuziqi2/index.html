@@ -319,7 +319,7 @@
     </style>
 </head>
 <body>
-    <h2>五子棋1</h2>
+    <h2>五子棋2</h2>
     <div id="status"></div>
 
     <!-- 房间选择区 -->
@@ -359,7 +359,8 @@
             <div id="victory-overlay">
                 <div class="victory-box">
                     <div class="winner-text" id="winner-text"></div>
-                    <button class="btn btn-again" onclick="playAgain()">再来一局</button>
+                    <div id="restart-msg" style="font-size:0.85rem;color:#888;margin:8px 0;"></div>
+                    <button class="btn btn-again" id="btn-again" onclick="playAgain()">再来一局</button>
                     <button class="btn btn-leave" onclick="leaveRoom()">退出房间</button>
                 </div>
             </div>
@@ -381,6 +382,7 @@
     const INACTIVITY_TIMEOUT = 20 * 60 * 1000; // 无操作20分钟自动踢出
     const READY_TIMEOUT = 5 * 60 * 1000; // 准备超时5分钟自动踢出
     const USE_LOCAL_STORAGE = false; // 使用云端 CloudBase 数据库
+    const AUTO_RESTART_DELAY = 3000; // 每局结束后自动重启延迟（毫秒）
 
     // ============ 本地数据库模拟类（用于调试） ============
     class LocalDB {
@@ -549,6 +551,7 @@
     let roomCurrentPlayer = 1;     // 当前轮到谁（同步自数据库 currentPlayer 字段）
     let inactivityTimer = null;   // 全局无操作超时定时器
     let readyTimer = null;       // 准备超时定时器
+    let autoRestartTimer = null; // 自动重启新一局的定时器
 
     // Canvas 相关
     const canvas = document.getElementById('board');
@@ -853,6 +856,7 @@
     async function leaveRoom() {
         stopInactivityTimer();
         stopReadyTimer();
+        if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
         if (watcher) { watcher.close(); watcher = null; }
 
         const leavingRoomDocId = currentRoomDocId;
@@ -918,29 +922,42 @@
         refreshRooms();
     }
 
-    // ============ 再来一局 ============
+    // ============ 再来一局（自动交换黑白、直接开局） ============
     async function playAgain() {
         resetInactivityTimer();
         if (!currentRoomDocId) return;
-        victoryOverlay.classList.remove('show');
-        gameOver = false;
+        // 清理自动重启定时器
+        if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
 
         try {
-            // 先读取当前房间数据，以便交换角色和比分
+            // 先读取当前房间数据
             const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
             if (!res.data || res.data.length === 0) {
                 return setStatus('房间数据异常', 'error');
             }
             const room = res.data[0];
 
-            // 交换双方：player1 <-> player2, 比分也交换
+            // 防止重复执行：如果游戏已经被另一方重启，直接返回
+            if (!room.gameOver) {
+                setStatus('游戏已在进行中', 'info');
+                victoryOverlay.classList.remove('show');
+                return;
+            }
+
+            // 双方必须都在
+            if (!room.player1Id || !room.player2Id) {
+                setStatus('对手已离开，无法再来一局', 'error');
+                return;
+            }
+
+            // 交换双方：player1 <-> player2, 比分也交换，直接开始
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 board: new Array(TOTAL_CELLS).fill(0),
                 currentPlayer: 1,
                 gameOver: false,
                 winner: 0,
                 lastMove: null,
-                started: false,
+                started: true,           // 直接开局，跳过准备阶段
                 player1Ready: false,
                 player2Ready: false,
                 // 交换双方 ID 和比分
@@ -950,7 +967,7 @@
                 whiteScore: room.blackScore
             });
             // myRole 会在下一次 handleRoomUpdate 中自动更新
-            setStatus('已请求再来一局，双方交换黑白', 'success');
+            setStatus('交换黑白后新一局开始!', 'success');
         } catch (e) {
             setStatus('操作失败', 'error');
         }
@@ -1126,6 +1143,34 @@
             victoryOverlay.classList.add('show');
             setStatus(winStr, 'success');
             drawBoard(room.board);
+
+            // 自动重启：双方都在 + 我是胜者  → 延迟后自动交换黑白开始下一局
+            const btnAgain = document.getElementById('btn-again');
+            const restartMsg = document.getElementById('restart-msg');
+            if (!opponentLeft && room.winner === myRole) {
+                // 只有胜者触发自动重启，避免双人重复请求
+                if (!autoRestartTimer) {
+                    let countdown = Math.round(AUTO_RESTART_DELAY / 1000);
+                    restartMsg.innerText = countdown + ' 秒后自动交换黑白开始下一局...';
+                    btnAgain.style.display = 'none';
+
+                    autoRestartTimer = setInterval(() => {
+                        countdown--;
+                        if (countdown <= 0) {
+                            clearInterval(autoRestartTimer);
+                            autoRestartTimer = null;
+                            playAgain(); // 自动互换角色并直接开局
+                        } else {
+                            restartMsg.innerText = countdown + ' 秒后自动交换黑白开始下一局...';
+                        }
+                    }, 1000);
+                }
+            } else {
+                // 对手离开或我不是胜者：停止自动重启倒计时
+                if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
+                restartMsg.innerText = '';
+                btnAgain.style.display = 'inline-block';
+            }
             return;
         }
 
@@ -1187,6 +1232,8 @@
         }
 
         // ===== 游戏进行中 =====
+        // 清理自动重启定时器（新一局已开始）
+        if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
         stopReadyTimer();
         waitOverlay.classList.remove('show');
 
@@ -1290,6 +1337,8 @@
     // ============ 棋盘绑定事件 ============
     canvas.addEventListener('click', e => {
         if (gameOver) return;
+        // 棋盘被锁定（等待对方落子）时禁止点击
+        if (canvas.classList.contains('blocked')) return;
         if (!myRole || !roomStarted) {
             setStatus(!myRole ? '请先加入房间' : '游戏未开始，请准备', 'error');
             return;
@@ -1303,6 +1352,8 @@
     canvas.addEventListener('touchstart', e => {
         e.preventDefault();
         if (gameOver) return;
+        // 棋盘被锁定（等待对方落子）时禁止点击
+        if (canvas.classList.contains('blocked')) return;
         if (!myRole || !roomStarted) {
             setStatus(!myRole ? '请先加入房间' : '游戏未开始，请准备', 'error');
             return;
@@ -1445,6 +1496,7 @@
     window.addEventListener('beforeunload', () => {
         stopInactivityTimer();
         stopReadyTimer();
+        if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
         if (watcher) watcher.close();
         if (currentRoomDocId && myRole) {
             doExitReset();
@@ -1455,6 +1507,7 @@
     window.addEventListener('pagehide', () => {
         stopInactivityTimer();
         stopReadyTimer();
+        if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
         if (watcher) watcher.close();
         if (currentRoomDocId && myRole) {
             doExitReset();
