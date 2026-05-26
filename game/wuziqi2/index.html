@@ -1061,8 +1061,14 @@
                     handleRoomUpdate(room);
                 },
                 onError: err => {
-                    console.error('监听出错:', err);
-                    setStatus('连接中断，请刷新', 'error');
+                    console.error('监听出错，尝试重连:', err);
+                    setStatus('连接中断，正在重连...', 'error');
+                    // 3秒后自动重连
+                    setTimeout(() => {
+                        if (currentRoomDocId) {
+                            startWatchRoom();
+                        }
+                    }, 3000);
                 }
             });
         }
