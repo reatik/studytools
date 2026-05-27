@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语试卷</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Georgia, 'PingFang SC', 'Microsoft YaHei', simsun, serif;
+            max-width: 720px;
+            margin: 30px auto;
+            padding: 0 24px;
+            color: #333;
+            line-height: 2;
+            font-size: 16px;
+        }
+        .paper-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 6px;
+            margin-bottom: 10px;
+        }
+        .paper-info {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 14px;
+        }
+        .paper-info span {
+            margin: 0 18px;
+        }
+        .q-item {
+            margin-bottom: 16px;
+        }
+        .q-item .blank {
+            display: inline-block;
+            min-width: 100px;
+            border-bottom: 1px solid #999;
+            text-align: center;
+        }
+        .article {
+            border: 1px solid #ccc;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+        .article p {
+            margin-bottom: 8px;
+            text-indent: 2em;
+        }
+        .article .no-indent {
+            text-indent: 0;
+        }
+        .article .center {
+            text-align: center;
+        }
+        .options {
+            margin-left: 24px;
+            line-height: 1.9;
+        }
+        .cloze-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 10px 16px;
+            border: 1px solid #ccc;
+            font-size: 0.95rem;
+        }
+        .cloze-answers {
+            margin-top: 8px;
+            font-size: 0.95rem;
+        }
+        .no-border {
+            border: none !important;
+            padding: 0 !important;
+            margin-bottom: 4px !important;
+        }
+        @media print {
+            body { margin: 0; padding: 20px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="paper-title">英语补课练习</div>
+<div class="paper-info">
+    <span>姓名：__________</span>
+    <span>单元：__________</span>
+    <span id="currentDate"></span>
+</div>
+
+<div class="q-item">1. I still remember my feelings of <span class="blank">&nbsp;</span> when I was all alone in the city. Nobody gave me a hand. (help)</div>
+
+<div class="q-item">2. Basically, we use <span class="blank">&nbsp;</span> lights to brighten our homes. (electricity)</div>
+
+<div class="article">
+    <p class="no-indent"><strong>Where are the jewels of the Queen kept?</strong></p>
+    <p>Many children who read this book like the funny quizzes in it.</p>
+    <p class="center no-indent"><strong>THERE ARE 100 QUESTIONS THAT ARE FUN AND FASCINATING!</strong></p>
+    <p class="no-indent">Can you answer them correctly? Take the challenge and find out how smart you are!</p>
+    <p>Tom Trifonoff is a teacher with over 30 years' experience, especially in the senior primary level. He conducted many quizzes with his students over the years to challenge his students. He is the author of <em>Quiz Book for Kids</em> and <em>Quizzes Ready to Use</em>. This is his third quiz book aimed squarely at young kids.</p>
+    <p class="no-indent">Get a copy of <em>Kids' Smart Quizzes</em> today!</p>
+    <p class="no-indent">Published by Smart Kids Publishers</p>
+    <p class="no-indent">Available in English and Chinese as well as Japanese. Check it out at your nearest bookstore!</p>
+</div>
+
+<div class="q-item">3. The title of "this book" is <span class="blank">&nbsp;</span>.
+    <div class="options">
+        A. Where are the Jewels of the Queen kept.<br>
+        B. Kids' Smart Quizzes.<br>
+        C. Quiz Book for Kids.<br>
+        D. Quizzes Ready to Use.
+    </div>
+</div>
+
+<div class="q-item">4. I was in Shanghai Stadium by chance. (保持句意基本不变)<br>
+    I <span class="blank">&nbsp;</span> <span class="blank">&nbsp;</span> <span class="blank">&nbsp;</span> in Shanghai Stadium.
+</div>
+
+<div class="q-item">
+    <div class="cloze-options">
+        <span>A. saves</span><span>B. less</span><span>C. Reusing</span><span>D. actions</span><span>E. safe</span><span>F. just</span>
+    </div>
+    <div class="article no-border">
+        <p class="no-indent">In our community, we are working together to build a green neighbourhood. It's a place where nature and people live in harmony (和谐). We start with small <span class="blank">&nbsp;</span> like planting more trees. Trees give us fresh air and make our streets beautiful. They also provide homes for birds and insects.</p>
+        <p class="no-indent">We encourage everyone to recycle. By sorting our waste into paper, plastic, and glass, we can reduce the amount of trash that goes to landfills. <span class="blank">&nbsp;</span> items is another great idea. For example, we can turn old clothes into cleaning rags or use plastic bottles to make fun crafts. This not only <span class="blank">&nbsp;</span> resources but also reduces waste.</p>
+        <p class="no-indent">Our neighbourhood garden is a special place. Here, kids and adults grow vegetables and flowers together. It's a great way to learn about nature and enjoy healthy food. We also use solar panels on some buildings to save energy. This helps us use <span class="blank">&nbsp;</span> electricity from the power grid.</p>
+        <p class="no-indent">A green neighbourhood is not <span class="blank">&nbsp;</span> about the environment. It's also about building a community where everyone cares for each other and the planet. Together, we can make a big difference and create a better future for all.</p>
+    </div>
+    <div class="cloze-answers">
+        39. <span class="blank">&nbsp;</span> &nbsp;&nbsp; 40. <span class="blank">&nbsp;</span> &nbsp;&nbsp; 41. <span class="blank">&nbsp;</span> &nbsp;&nbsp; 42. <span class="blank">&nbsp;</span> &nbsp;&nbsp; 43. <span class="blank">&nbsp;</span>
+    </div>
+</div>
+
+<div class="q-item">5. Would you please fasten your <span class="blank">&nbsp;</span> belt, sir? (safe)</div>
+
+<script>
+    const d = new Date();
+    document.getElementById('currentDate').textContent = d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
+</script>
+</body>
+</html>

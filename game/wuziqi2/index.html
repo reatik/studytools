@@ -398,7 +398,7 @@
     </style>
 </head>
 <body>
-    <h2>五子棋1</h2>
+    <h2>五子棋</h2>
     <div id="status"></div>
 
     <!-- 房间选择区 -->
@@ -470,8 +470,8 @@
     const TOTAL_CELLS = BOARD_SIZE * BOARD_SIZE;
     const ROOM_COUNT = 10;
     const COLLECTION = 'wuziqi_rooms'; // 数据库集合名
-    const INACTIVITY_TIMEOUT = 10 * 60 * 1000; // 无操作10分钟自动踢出
-    const READY_TIMEOUT = 5 * 60 * 1000; // 准备超时5分钟自动踢出
+    const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 无操作5分钟自动踢出
+    const READY_TIMEOUT = 1 * 60 * 1000; // 准备超时1分钟自动踢出
     const USE_LOCAL_STORAGE = false; // 使用云端 CloudBase 数据库
     const AUTO_RESTART_DELAY = 3000; // 每局结束后自动重启延迟（毫秒）
 
@@ -643,6 +643,10 @@
     let inactivityTimer = null;   // 全局无操作超时定时器
     let readyTimer = null;       // 准备超时定时器
     let autoRestartTimer = null; // 自动重启新一局的定时器
+    let lastInactivityTimestamp = 0; // 无操作最后时间戳
+    let lastReadyTimestamp = 0; // 准备阶段最后时间戳
+    let inactivityIntervalId = null; // 无操作检查的interval
+    let readyIntervalId = null; // 准备检查的interval
     
     // 本地双人游戏相关
     let isLocalGame = false;         // 是否在本地双人游戏模式
@@ -1080,49 +1084,89 @@
         }
     }
 
-    // ============ 全局无操作计时器（20分钟） ============
+    // ============ 全局无操作计时器（5分钟） ============
     function stopInactivityTimer() {
-        if (inactivityTimer) { clearTimeout(inactivityTimer); inactivityTimer = null; }
+        if (inactivityIntervalId) {
+            clearInterval(inactivityIntervalId);
+            inactivityIntervalId = null;
+        }
     }
 
     function resetInactivityTimer() {
         stopInactivityTimer();
-        inactivityTimer = setTimeout(() => {
-            setStatus('超过10分钟无操作，已被移出房间', 'error');
-            leaveRoom();
-        }, INACTIVITY_TIMEOUT);
+        lastInactivityTimestamp = Date.now();
+        inactivityIntervalId = setInterval(() => {
+            const elapsed = Date.now() - lastInactivityTimestamp;
+            if (elapsed >= INACTIVITY_TIMEOUT) {
+                stopInactivityTimer();
+                setStatus('超过5分钟无操作，已被移出房间', 'error');
+                leaveRoom();
+            }
+        }, 1000); // 每秒检查一次
     }
 
     // 监听用户各类操作，持续重置无操作计时器
     ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'].forEach(eventName => {
         document.addEventListener(eventName, () => {
-            if (currentRoomId) resetInactivityTimer();
+            if (currentRoomId) {
+                lastInactivityTimestamp = Date.now();
+            }
         }, { passive: true });
+    });
+
+    // 页面可见性变化监听
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && currentRoomId) {
+            // 页面变为可见时，检查是否已经超时
+            if (lastInactivityTimestamp > 0) {
+                const elapsed = Date.now() - lastInactivityTimestamp;
+                if (elapsed >= INACTIVITY_TIMEOUT) {
+                    stopInactivityTimer();
+                    setStatus('超过5分钟无操作，已被移出房间', 'error');
+                    leaveRoom();
+                }
+            }
+            if (lastReadyTimestamp > 0 && !roomStarted) {
+                const elapsed = Date.now() - lastReadyTimestamp;
+                if (elapsed >= READY_TIMEOUT) {
+                    stopReadyTimer();
+                    setStatus('超过1分钟未准备，已被移出房间', 'error');
+                    leaveRoom();
+                }
+            }
+        }
     });
 
     // ============ 准备超时计时器 ============
     let readyRemainingTime = READY_TIMEOUT / 1000;
 
     function stopReadyTimer() {
-        if (readyTimer) { clearTimeout(readyTimer); readyTimer = null; }
+        if (readyIntervalId) {
+            clearInterval(readyIntervalId);
+            readyIntervalId = null;
+        }
     }
 
     function resetReadyTimer() {
         stopReadyTimer();
+        lastReadyTimestamp = Date.now();
         readyRemainingTime = READY_TIMEOUT / 1000;
         
-        readyTimer = setTimeout(() => {
-            stopReadyTimer();
-            setStatus('超过5分钟未准备，已被移出房间', 'error');
-            leaveRoom();
-        }, READY_TIMEOUT);
+        readyIntervalId = setInterval(() => {
+            const elapsed = Date.now() - lastReadyTimestamp;
+            if (elapsed >= READY_TIMEOUT) {
+                stopReadyTimer();
+                setStatus('超过1分钟未准备，已被移出房间', 'error');
+                leaveRoom();
+            }
+        }, 1000); // 每秒检查一次
     }
 
     
 
     // ============ 再来一局（自动交换黑白、直接开局） ============
     async function playAgain() {
-        resetInactivityTimer();
+        lastInactivityTimestamp = Date.now();
         if (!currentRoomDocId) return;
         // 清理自动重启定时器
         if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
@@ -1199,7 +1243,7 @@
     // ============ 发起悔棋申请 ============
     async function requestUndo() {
         if (!currentRoomDocId || !myRole) return;
-        resetInactivityTimer();
+        lastInactivityTimestamp = Date.now();
 
         try {
             const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
@@ -1252,7 +1296,7 @@
     // ============ 同意悔棋 ============
     async function approveUndo() {
         if (!currentRoomDocId || !myRole) return;
-        resetInactivityTimer();
+        lastInactivityTimestamp = Date.now();
 
         try {
             const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
@@ -1298,7 +1342,7 @@
     // ============ 拒绝悔棋 ============
     async function rejectUndo() {
         if (!currentRoomDocId || !myRole) return;
-        resetInactivityTimer();
+        lastInactivityTimestamp = Date.now();
 
         try {
             const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
@@ -1559,7 +1603,7 @@ async function leaveRoom() {
     // ============ 准备 / 取消准备 ============
     async function toggleReady() {
         if (!currentRoomDocId || !myRole) return;
-        resetInactivityTimer();
+        lastInactivityTimestamp = Date.now();
         const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
         try {
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
@@ -1573,7 +1617,8 @@ async function leaveRoom() {
 
     async function cancelReady() {
         if (!currentRoomDocId || !myRole) return;
-        resetInactivityTimer();
+        lastInactivityTimestamp = Date.now();
+        lastReadyTimestamp = Date.now(); // 取消准备后重新开始倒计时
         const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
         try {
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
@@ -1855,7 +1900,7 @@ async function placeStone(x, y) {
     }
     if (isPlacing) return; // 防止重复落子
 
-    resetInactivityTimer();
+    lastInactivityTimestamp = Date.now();
 
     const idx = y * BOARD_SIZE + x;
     
