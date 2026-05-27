@@ -88,15 +88,15 @@
 
         /* 桌子 */
         .room-table {
-            width: 70px;
-            height: 52px;
+            width: 60px;
+            height: 60px;
             border-radius: 6px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            background: #acacac;
+            background: #d4c4a8; /* 浅色木头色 */
             transition: all 0.3s;
         }
         .room-table::after {
@@ -107,11 +107,7 @@
             border-radius: 3px;
         }
         .room-table.playing {
-            background: 
-                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
-                linear-gradient(160deg, #e8c97a, #c9a55c);
-            background-size: 11px 11px, 11px 11px, 100% 100%;
+            background: #d4c4a8; /* 浅色木头色 */
             box-shadow: 0 3px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
         }
         .room-table.playing::after {
@@ -128,10 +124,10 @@
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    border: 2px solid #2e7d32; /* 深绿色边框 */
-    background: #2e7d32; /* 纯深绿色背景 */
-    color: #fff;
-    font-size: 0.7rem;
+    border: 2px solid #666; /* 灰色边框 */
+    background: #777; /* 纯灰色背景，无渐变 */
+    color: #fff; /* 白色文字 */
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     display: flex;
@@ -139,19 +135,19 @@
     justify-content: center;
     transition: all 0.2s;
     line-height: 1;
-    box-shadow: 0 2px 6px rgba(46, 125, 50, 0.4); /* 对应颜色阴影 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* 灰色阴影 */
 }
 .seat-btn:hover:not(.taken) {
     transform: scale(1.1);
-    box-shadow: 0 4px 10px rgba(46, 125, 50, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 .seat-btn.taken {
-    border: 2px solid rgba(189,189,189,0.8);
-    background: #ad6a1d; /* 纯灰色，也去掉了渐变 */
-    color: #fff;
+    border: 2px solid #555;
+    background: #555; /* 纯灰色背景，无渐变 */
+    color: #aaa;
     font-size: 0.65rem;
     cursor: default;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
         /* ===== 游戏区 ===== */
@@ -406,15 +402,15 @@
                 <div class="victory-box">
                     <div class="winner-text" id="winner-text"></div>
                     <div id="restart-msg" style="font-size:0.85rem;color:#888;margin:8px 0;"></div>
-                    <button class="btn btn-again" id="btn-again" onclick="playAgain()">再来一局</button>
-                    <button class="btn btn-leave" onclick="leaveRoom()">退出房间</button>
+                    <button class="btn btn-again" id="btn-again" onclick="isLocalGame ? localPlayAgain() : playAgain()">再来一局</button>
+                    <button class="btn btn-leave" onclick="isLocalGame ? exitLocalGame() : leaveRoom()">退出房间</button>
                 </div>
             </div>
         </div>
 
         <div class="btn-row">
             <button class="btn btn-undo" id="btn-undo" onclick="requestUndo()">悔棋</button>
-            <button class="btn btn-leave" onclick="leaveRoom()">退出房间</button>
+            <button class="btn btn-leave" onclick="isLocalGame ? exitLocalGame() : leaveRoom()">退出房间</button>
         </div>
 
     </div>
@@ -610,6 +606,13 @@
     let inactivityTimer = null;   // 全局无操作超时定时器
     let readyTimer = null;       // 准备超时定时器
     let autoRestartTimer = null; // 自动重启新一局的定时器
+    
+    // 本地双人游戏相关
+    let isLocalGame = false;         // 是否在本地双人游戏模式
+    let localCurrentPlayer = 1;      // 本地游戏当前玩家（1=黑方，2=白方）
+    let localBlackScore = 0;         // 本地游戏黑方分数
+    let localWhiteScore = 0;         // 本地游戏白方分数
+    let localLastMove = { x: -1, y: -1 }; // 本地游戏最后落子位置
 
     // Canvas 相关
     const canvas = document.getElementById('board');
@@ -694,8 +697,25 @@
             const res = await db.collection(COLLECTION).limit(20).get();
             console.log('ensureRooms result:', res);
             const existing = {};
-            (res.data || []).forEach(r => { existing[r.roomId] = r; });
+            const toDelete = [];
+            
+            // 分类现有房间
+            (res.data || []).forEach(r => {
+                if (r.roomId && r.roomId.startsWith('room')) {
+                    existing[r.roomId] = r;
+                } else {
+                    // 收集不符合标准格式的房间（如"我的房间"）
+                    toDelete.push(r);
+                }
+            });
 
+            // 删除不符合标准格式的房间
+            for (const room of toDelete) {
+                console.log('删除不符合标准格式的房间:', room.roomName || room._id);
+                await db.collection(COLLECTION).doc(room._id).remove();
+            }
+
+            // 创建或更新标准房间
             for (let i = 1; i <= ROOM_COUNT; i++) {
                 const roomId = 'room' + i;
                 if (!existing[roomId]) {
@@ -717,6 +737,13 @@
                         undoRequested: 0,      // 0=无申请、1=黑方申请、2=白方申请
                         undoApproved: false    // 是否已同意悔棋
                     });
+                } else {
+                    // 如果房间已存在但名称不正确，更新名称
+                    if (existing[roomId].roomName !== '房间' + i) {
+                        await db.collection(COLLECTION).doc(existing[roomId]._id).update({
+                            roomName: '房间' + i
+                        });
+                    }
                 }
             }
         } catch (e) {
@@ -734,7 +761,13 @@
             }
             const res = await db.collection(COLLECTION).orderBy('roomId', 'asc').limit(ROOM_COUNT).get();
             console.log('房间数据:', res);
-            renderRoomList(res.data || []);
+            // 按房间号数字排序（修复 room10 排在 room2 前面的问题）
+            const sortedRooms = (res.data || []).sort((a, b) => {
+                const numA = a && a.roomId ? parseInt(a.roomId.replace('room', '')) || 999 : 999;
+                const numB = b && b.roomId ? parseInt(b.roomId.replace('room', '')) || 999 : 999;
+                return numA - numB;
+            });
+            renderRoomList(sortedRooms);
         } catch (e) {
             console.error('刷新房间列表失败:', e);
             const errorMsg = e.message || '未知错误';
@@ -749,6 +782,23 @@
         }
 
         let html = '';
+        
+        // 添加本地双人房间（在最前面）
+        html += `
+        <div class="room-card" onclick="startLocalGame()">
+            <div class="room-name" style="visibility:hidden;height:24px;"></div>
+            <div class="room-table-area">
+                <div class="seat">
+                    <div class="seat-btn" onclick="event.stopPropagation();startLocalGame()" title="开始单人游戏">+</div>
+                </div>
+                <div class="room-table" style="color:#555;font-size:14px;font-weight:bold;">单人</div>
+                <div class="seat">
+                    <div class="seat-btn" style="visibility:hidden;"></div>
+                </div>
+            </div>
+        </div>`;
+        
+        // 渲染云端房间
         rooms.forEach(room => {
             const p1Taken = !!room.player1Id;
             const p2Taken = !!room.player2Id;
@@ -757,21 +807,21 @@
 
             html += `
             <div class="room-card ${isFull ? 'full' : ''}">
-                <div class="room-name">${room.roomName}</div>
+                <div class="room-name" style="visibility:hidden;height:24px;"></div>
                 <div class="room-table-area">
                     <div class="seat">
                         <div class="seat-btn ${p1Taken ? 'taken' : ''}" 
                              onclick="${p1Taken ? '' : `event.stopPropagation();joinRoom('${room.roomId}')`}"
                              title="${p1Taken ? '已坐' : '入座'}">
-                            ${p1Taken ? '已坐' : '加入'}
+                            ${p1Taken ? '已坐' : '+'}
                         </div>
                     </div>
-                    <div class="room-table ${isPlaying ? 'playing' : ''}"></div>
+                    <div class="room-table ${isPlaying ? 'playing' : ''}" style="color:#555;font-size:16px;font-weight:bold;">${room.roomName.replace('房间', '')}</div>
                     <div class="seat">
                         <div class="seat-btn ${p2Taken ? 'taken' : ''}"
                              onclick="${p2Taken ? '' : `event.stopPropagation();joinRoom('${room.roomId}')`}"
                              title="${p2Taken ? '已坐' : '入座'}">
-                            ${p2Taken ? '已坐' : '加入'}
+                            ${p2Taken ? '已坐' : '+'}
                         </div>
                     </div>
                 </div>
@@ -1198,6 +1248,154 @@ async function leaveRoom() {
     await refreshRooms();
 }
 
+    // ============ 本地双人游戏 ============
+    function startLocalGame() {
+        // 重置所有状态
+        isLocalGame = true;
+        localCurrentPlayer = 1;
+        gameOver = false;
+        boardData = new Array(TOTAL_CELLS).fill(0);
+        localLastMove = { x: -1, y: -1 };
+        
+        // 更新分数显示
+        document.getElementById('p1-score').innerText = localBlackScore;
+        document.getElementById('p2-score').innerText = localWhiteScore;
+        
+        // 显示玩家信息
+        document.getElementById('p1-info').classList.add('show');
+        document.getElementById('p2-info').classList.add('show');
+        
+        // 切换到游戏界面
+        roomSection.style.display = 'none';
+        gameSection.classList.add('show');
+        
+        // 隐藏所有弹窗
+        waitOverlay.classList.remove('show');
+        victoryOverlay.classList.remove('show');
+        undoOverlay.classList.remove('show');
+        
+        // 允许落子
+        canvas.classList.remove('blocked');
+        
+        // 更新状态和高亮
+        updateLocalGameUI();
+        
+        // 绘制棋盘
+        resizeCanvas();
+        drawBoard(boardData);
+        
+        setStatus('', '');
+    }
+    
+    function updateLocalGameUI() {
+        // 更新玩家高亮
+        const p1Info = document.getElementById('p1-info');
+        const p2Info = document.getElementById('p2-info');
+        
+        p1Info.classList.toggle('active', !gameOver && localCurrentPlayer === 1);
+        p2Info.classList.toggle('active', !gameOver && localCurrentPlayer === 2);
+        
+        // 隐藏悔棋按钮（本地双人不需要申请悔棋）
+        const undoBtn = document.getElementById('btn-undo');
+        if (undoBtn) {
+            undoBtn.style.display = 'none';
+        }
+    }
+    
+    function localPlaceStone(x, y) {
+        if (gameOver || isPlacing) return;
+        
+        const idx = y * BOARD_SIZE + x;
+        if (boardData[idx] !== 0) {
+            setStatus('此处已有棋子', 'error');
+            return;
+        }
+        
+        isPlacing = true;
+        
+        // 落子
+        boardData[idx] = localCurrentPlayer;
+        localLastMove = { x, y };
+        
+        // 绘制棋子
+        drawBoard(boardData);
+        
+        // 检查胜利
+        if (checkLocalWin(y, x, localCurrentPlayer)) {
+            gameOver = true;
+            canvas.classList.add('blocked');
+            
+            if (localCurrentPlayer === 1) {
+                localBlackScore++;
+                setStatus('🎉 黑方获胜！', 'success');
+            } else {
+                localWhiteScore++;
+                setStatus('🎉 白方获胜！', 'success');
+            }
+            
+            // 更新分数
+            document.getElementById('p1-score').innerText = localBlackScore;
+            document.getElementById('p2-score').innerText = localWhiteScore;
+            
+            // 显示胜利弹窗
+            winnerText.innerText = localCurrentPlayer === 1 ? '黑方获胜！' : '白方获胜！';
+            winnerText.className = 'winner-text ' + (localCurrentPlayer === 1 ? 'black' : 'white');
+            victoryOverlay.classList.add('show');
+            
+            isPlacing = false;
+            return;
+        }
+        
+        // 切换玩家
+        localCurrentPlayer = localCurrentPlayer === 1 ? 2 : 1;
+        
+        // 更新UI
+        updateLocalGameUI();
+        setStatus(localCurrentPlayer === 1 ? '🎯 黑方落子' : '🎯 白方落子', 'success');
+        
+        isPlacing = false;
+    }
+    
+    // 本地双人游戏重新开始
+    function localPlayAgain() {
+        isLocalGame = true;
+        localCurrentPlayer = 1;
+        gameOver = false;
+        boardData = new Array(TOTAL_CELLS).fill(0);
+        localLastMove = { x: -1, y: -1 };
+        
+        victoryOverlay.classList.remove('show');
+        canvas.classList.remove('blocked');
+        
+        drawBoard(boardData);
+        updateLocalGameUI();
+        
+        setStatus('', '');
+    }
+    
+    // 退出本地双人游戏
+    function exitLocalGame() {
+        isLocalGame = false;
+        localCurrentPlayer = 1;
+        gameOver = false;
+        
+        // 显示悔棋按钮
+        const undoBtn = document.getElementById('btn-undo');
+        if (undoBtn) {
+            undoBtn.style.display = 'inline-block';
+        }
+        
+        // 切换回房间列表
+        roomSection.style.display = 'block';
+        gameSection.classList.remove('show');
+        victoryOverlay.classList.remove('show');
+        waitOverlay.classList.remove('show');
+        canvas.classList.add('blocked');
+        setStatus('', '');
+        
+        refreshRooms();
+    }
+    
     // ============ 准备 / 取消准备 ============
     async function toggleReady() {
         if (!currentRoomDocId || !myRole) return;
@@ -1555,6 +1753,17 @@ async function placeStone(x, y) {
         if (gameOver) return;
         // 棋盘被锁定（等待对方落子）时禁止点击
         if (canvas.classList.contains('blocked')) return;
+        
+        // 本地双人游戏模式
+        if (isLocalGame) {
+            const { x, y } = getBoardPosition(e.clientX, e.clientY);
+            if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
+                localPlaceStone(x, y);
+            }
+            return;
+        }
+        
+        // 联机游戏模式
         if (!myRole || !roomStarted) {
             setStatus(!myRole ? '请先加入房间' : '游戏未开始，请准备', 'error');
             return;
@@ -1570,6 +1779,19 @@ async function placeStone(x, y) {
         if (gameOver) return;
         // 棋盘被锁定（等待对方落子）时禁止点击
         if (canvas.classList.contains('blocked')) return;
+        
+        // 本地双人游戏模式
+        if (isLocalGame) {
+            const touch = e.touches[0];
+            if (!touch) return;
+            const { x, y } = getBoardPosition(touch.clientX, touch.clientY);
+            if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
+                localPlaceStone(x, y);
+            }
+            return;
+        }
+        
+        // 联机游戏模式
         if (!myRole || !roomStarted) {
             setStatus(!myRole ? '请先加入房间' : '游戏未开始，请准备', 'error');
             return;
