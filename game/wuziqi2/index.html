@@ -253,29 +253,29 @@
         .player-info.show {
             visibility: visible;
         }
-        /* 黑方：深色木质 */
+        /* 黑方：纯黑色 */
         #p1-info {
-            background: linear-gradient(135deg, #3d2817, #2a1c0f);
-            border: 2px solid #1a1208;
+            background: linear-gradient(135deg, #222, #000);
+            border: 2px solid #444;
         }
-        #p1-info .pname { color: #d4c4a8; }
+        #p1-info .pname { color: #fff; }
         #p1-info .pscore { color: #fff; }
         #p1-info.active {
             border-color: #ffd700;
             box-shadow: 0 0 12px rgba(255,215,0,0.4);
-            background: linear-gradient(135deg, #4a321a, #322212);
+            background: linear-gradient(135deg, #333, #111);
         }
-        /* 白方：浅色木质 */
+        /* 白方：纯白色 */
         #p2-info {
-            background: linear-gradient(135deg, #a08060, #8a6b4a);
-            border: 2px solid #6b4f36;
+            background: linear-gradient(135deg, #fff, #ddd);
+            border: 2px solid #bbb;
         }
-        #p2-info .pname { color: #f5deb3; }
-        #p2-info .pscore { color: #fff; }
+        #p2-info .pname { color: #333; }
+        #p2-info .pscore { color: #333; }
         #p2-info.active {
             border-color: #ffd700;
             box-shadow: 0 0 12px rgba(255,215,0,0.4);
-            background: linear-gradient(135deg, #b09070, #9a7b5a);
+            background: linear-gradient(135deg, #fff, #eee);
         }
         .player-info .pname { font-size: 0.9rem; font-weight: bold; }
         .player-info .pscore { font-size: 1.3rem; font-weight: bold; margin-top: 2px; }
@@ -801,7 +801,9 @@
                         roomId: roomId,
                         roomName: '房间' + i,
                         player1Id: null,
+                        player1Nickname: null,
                         player2Id: null,
+                        player2Nickname: null,
                         board: new Array(TOTAL_CELLS).fill(0),
                         currentPlayer: 1,
                         gameOver: false,
@@ -928,14 +930,18 @@
                 };
                 if (occupiedRole === 1) {
                     resetData.player1Id = null;
+                    resetData.player1Nickname = null;
                 } else {
                     resetData.player2Id = null;
+                    resetData.player2Nickname = null;
                 }
                 // 对手不在就彻底清空
                 const opponentHere = (occupiedRole === 1 && room.player2Id) || (occupiedRole === 2 && room.player1Id);
                 if (!opponentHere) {
                     resetData.player1Id = null;
+                    resetData.player1Nickname = null;
                     resetData.player2Id = null;
+                    resetData.player2Nickname = null;
                     resetData.blackScore = 0;
                     resetData.whiteScore = 0;
                 }
@@ -951,7 +957,6 @@
     // ============ 加入房间 ============
     async function joinRoom(roomId) {
         if (!db) return setStatus('未连接数据库', 'error');
-        setStatus('正在进入房间...', 'info');
 
         try {
             // ===== 自我清理：先清理自己在其他房间的旧占用 =====
@@ -968,16 +973,35 @@
             if (room.player1Id === myUserId) mySpot = 1;
             if (room.player2Id === myUserId) mySpot = 2;
 
+            const myNickname = getUserNickname();
+            
             if (mySpot === 0) {
                 // 新玩家，找空位
                 if (!room.player1Id) {
                     mySpot = 1;
-                    await db.collection(COLLECTION).doc(room._id).update({ player1Id: myUserId });
+                    await db.collection(COLLECTION).doc(room._id).update({ 
+                        player1Id: myUserId,
+                        player1Nickname: myNickname
+                    });
                 } else if (!room.player2Id) {
                     mySpot = 2;
-                    await db.collection(COLLECTION).doc(room._id).update({ player2Id: myUserId });
+                    await db.collection(COLLECTION).doc(room._id).update({ 
+                        player2Id: myUserId,
+                        player2Nickname: myNickname
+                    });
                 } else {
                     return setStatus('房间已满，请选择其他房间', 'error');
+                }
+            } else {
+                // 重连时也更新昵称（可能用户后来登录了）
+                if (mySpot === 1) {
+                    await db.collection(COLLECTION).doc(room._id).update({ 
+                        player1Nickname: myNickname
+                    });
+                } else {
+                    await db.collection(COLLECTION).doc(room._id).update({ 
+                        player2Nickname: myNickname
+                    });
                 }
             }
 
@@ -1285,14 +1309,18 @@ async function leaveRoom() {
                 };
                 if (leavingRole === 1) {
                     resetData.player1Id = null;
+                    resetData.player1Nickname = null;
                 } else {
                     resetData.player2Id = null;
+                    resetData.player2Nickname = null;
                 }
                 // 对手也不在就彻底清空房间数据
                 const opponentHere = (leavingRole === 1 && room.player2Id) || (leavingRole === 2 && room.player1Id);
                 if (!opponentHere) {
                     resetData.player1Id = null;
+                    resetData.player1Nickname = null;
                     resetData.player2Id = null;
+                    resetData.player2Nickname = null;
                     resetData.blackScore = 0;
                     resetData.whiteScore = 0;
                 }
@@ -1505,8 +1533,20 @@ async function leaveRoom() {
     function updatePlayerNames(room) {
         const p1NameEl = document.getElementById('p1-info').querySelector('.pname');
         const p2NameEl = document.getElementById('p2-info').querySelector('.pname');
-        p1NameEl.textContent = '玩家1';
-        p2NameEl.textContent = '玩家2';
+        
+        if (isLocalGame) {
+            p1NameEl.textContent = '黑方';
+            p2NameEl.textContent = '白方';
+        } else {
+            let p1Name = room.player1Nickname;
+            let p2Name = room.player2Nickname;
+            
+            if (p1Name === '游客') p1Name = '玩家1';
+            if (p2Name === '游客') p2Name = '玩家2';
+            
+            p1NameEl.textContent = p1Name || '玩家1';
+            p2NameEl.textContent = p2Name || '玩家2';
+        }
     }
 
     // ============ 实时监听房间 ============

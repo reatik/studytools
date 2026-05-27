@@ -61,6 +61,13 @@ function isRealLoginUser() {
     return loginState && !!uid && !!nickname;
 }
 
+function getUserNickname() {
+    if (isRealLoginUser()) {
+        return localStorage.getItem("game_nickname") || "玩家";
+    }
+    return "游客";
+}
+
 // ========== 通用云端数据保存 ==========
 async function saveCloudData(tableName, saveData) {
     const userId = getUserId();
