@@ -141,3 +141,6 @@ function clearAllVisitorLocalData() {
 window.addEventListener("load", () => {
     console.log("📦 CloudBase 公共库 common.js 加载完成");
 });
+
+// 暴露全局变量
+window.getUserNickname = getUserNickname;
