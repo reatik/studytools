@@ -61,11 +61,35 @@ function isRealLoginUser() {
     return loginState && !!uid && !!nickname;
 }
 
-function getUserNickname() {
-    if (isRealLoginUser()) {
-        return localStorage.getItem("game_nickname") || "玩家";
+async function getUserNickname() {
+    const userId = getUserId();
+    if (userId.startsWith("visitor_")) {
+        return "游客";
     }
-    return "游客";
+    
+    // 先尝试从本地缓存获取
+    const localNickname = localStorage.getItem("game_nickname");
+    if (localNickname) {
+        return localNickname;
+    }
+    
+    // 从云端users集合获取
+    const app = await getCloudBaseApp();
+    if (app) {
+        try {
+            const db = app.database();
+            const res = await db.collection("users").where({ user_id: userId }).get();
+            if (res.data && res.data.length > 0) {
+                const username = res.data[0].username || res.data[0].nickname || "玩家";
+                localStorage.setItem("game_nickname", username);
+                return username;
+            }
+        } catch (err) {
+            console.error("❌ 从users集合获取昵称失败:", err);
+        }
+    }
+    
+    return "玩家";
 }
 
 // ========== 通用云端数据保存 ==========

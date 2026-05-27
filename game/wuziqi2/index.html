@@ -973,7 +973,7 @@
             if (room.player1Id === myUserId) mySpot = 1;
             if (room.player2Id === myUserId) mySpot = 2;
 
-            const myNickname = getUserNickname();
+            const myNickname = await getUserNickname();
             
             if (mySpot === 0) {
                 // 新玩家，找空位
