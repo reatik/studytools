@@ -768,7 +768,8 @@
                         player1Ready: false,
                         player2Ready: false,
                         undoRequested: 0,      // 0=无申请、1=黑方申请、2=白方申请
-                        undoApproved: false    // 是否已同意悔棋
+                        undoApproved: false,   // 是否已同意悔棋
+                        lastActiveAt: Date.now() // 最后活跃时间戳
                     });
                 } else {
                     // 如果房间已存在但名称不正确，更新名称
@@ -792,6 +793,10 @@
             if (!db) {
                 throw new Error('数据库未初始化');
             }
+            
+            // 清理僵尸房间：超过10分钟无活跃且不在对局中的房间
+            await cleanupZombieRooms();
+            
             const res = await db.collection(COLLECTION).orderBy('roomId', 'asc').limit(ROOM_COUNT).get();
             console.log('房间数据:', res);
             // 按房间号数字排序（修复 room10 排在 room2 前面的问题）
@@ -805,6 +810,57 @@
             console.error('刷新房间列表失败:', e);
             const errorMsg = e.message || '未知错误';
             roomGrid.innerHTML = `<div style="text-align:center;padding:20px;color:#e57373;grid-column:1/-1;">加载失败: ${errorMsg}<br/><button onclick="refreshRooms()" style="margin-top:10px;padding:8px 16px;background:#42a5f5;color:#fff;border:none;border-radius:6px;cursor:pointer;">点击重试</button></div>`;
+        }
+    }
+
+    // ============ 清理僵尸房间 ============
+    const ZOMBIE_TIMEOUT = 10 * 60 * 1000; // 10分钟无活跃且不在对局中的房间视为僵尸房间
+    
+    async function cleanupZombieRooms() {
+        try {
+            const now = Date.now();
+            const res = await db.collection(COLLECTION).limit(ROOM_COUNT + 5).get();
+            const rooms = res.data || [];
+            let cleaned = 0;
+            
+            for (const room of rooms) {
+                if (!room.roomId || !room.roomId.startsWith('room')) continue;
+                
+                const lastActive = room.lastActiveAt || 0;
+                const isInGame = room.started && !room.gameOver;
+                
+                // 超过10分钟无活跃且不在对局中的房间，清空座位、重置为空闲
+                if (!isInGame && (now - lastActive > ZOMBIE_TIMEOUT)) {
+                    console.log('[清理僵尸房间]', room.roomId, '最后活跃:', new Date(lastActive).toLocaleString());
+                    
+                    await db.collection(COLLECTION).doc(room._id).update({
+                        player1Id: null,
+                        player1Nickname: null,
+                        player2Id: null,
+                        player2Nickname: null,
+                        board: new Array(TOTAL_CELLS).fill(0),
+                        currentPlayer: 1,
+                        gameOver: false,
+                        winner: 0,
+                        lastMove: { x: -1, y: -1 },
+                        started: false,
+                        player1Ready: false,
+                        player2Ready: false,
+                        undoRequested: 0,
+                        undoApproved: false,
+                        blackScore: 0,
+                        whiteScore: 0,
+                        lastActiveAt: Date.now()
+                    });
+                    cleaned++;
+                }
+            }
+            
+            if (cleaned > 0) {
+                console.log(`[清理僵尸房间] 共清理 ${cleaned} 个僵尸房间`);
+            }
+        } catch (e) {
+            console.warn('[清理僵尸房间失败]', e);
         }
     }
 
@@ -964,13 +1020,15 @@
                     mySpot = 1;
                     await db.collection(COLLECTION).doc(room._id).update({ 
                         player1Id: myUserId,
-                        player1Nickname: myNickname
+                        player1Nickname: myNickname,
+                        lastActiveAt: Date.now()
                     });
                 } else if (!room.player2Id) {
                     mySpot = 2;
                     await db.collection(COLLECTION).doc(room._id).update({ 
                         player2Id: myUserId,
-                        player2Nickname: myNickname
+                        player2Nickname: myNickname,
+                        lastActiveAt: Date.now()
                     });
                 } else {
                     return setStatus('房间已满，请选择其他房间', 'error');
@@ -979,11 +1037,13 @@
                 // 重连时也更新昵称（可能用户后来登录了）
                 if (mySpot === 1) {
                     await db.collection(COLLECTION).doc(room._id).update({ 
-                        player1Nickname: myNickname
+                        player1Nickname: myNickname,
+                        lastActiveAt: Date.now()
                     });
                 } else {
                     await db.collection(COLLECTION).doc(room._id).update({ 
-                        player2Nickname: myNickname
+                        player2Nickname: myNickname,
+                        lastActiveAt: Date.now()
                     });
                 }
             }
@@ -1097,6 +1157,7 @@
                 player2Ready: false,
                 undoRequested: 0,        // 清空悔棋申请
                 undoApproved: false,
+                lastActiveAt: Date.now(),
                 // 交换双方 ID 和比分
                 player1Id: room.player2Id,
                 player2Id: room.player1Id,
@@ -1172,7 +1233,8 @@
             // 发起悔棋申请
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 undoRequested: myRole,
-                undoApproved: false
+                undoApproved: false,
+                lastActiveAt: Date.now()
             });
 
             setStatus('已发起悔棋申请，等待对方同意', 'success');
@@ -1215,7 +1277,8 @@
                 currentPlayer: room.undoRequested,  // 切换回合回申请人
                 lastMove: { x: -1, y: -1 },
                 undoRequested: 0,                  // 清空悔棋申请
-                undoApproved: false
+                undoApproved: false,
+                lastActiveAt: Date.now()
             });
 
             // 隐藏弹窗
@@ -1251,7 +1314,8 @@
             // 清空悔棋申请
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 undoRequested: 0,
-                undoApproved: false
+                undoApproved: false,
+                lastActiveAt: Date.now()
             });
 
             // 隐藏弹窗
@@ -1288,7 +1352,8 @@ async function leaveRoom() {
                     board: new Array(TOTAL_CELLS).fill(0),
                     currentPlayer: 1,
                     undoRequested: 0,      // 清空悔棋申请
-                    undoApproved: false
+                    undoApproved: false,
+                    lastActiveAt: Date.now()
                 };
                 if (leavingRole === 1) {
                     resetData.player1Id = null;
@@ -1492,7 +1557,8 @@ async function leaveRoom() {
         const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
         try {
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
-                [field]: true
+                [field]: true,
+                lastActiveAt: Date.now()
             });
         } catch (e) {
             setStatus('操作失败', 'error');
@@ -1505,7 +1571,8 @@ async function leaveRoom() {
         const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
         try {
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
-                [field]: false
+                [field]: false,
+                lastActiveAt: Date.now()
             });
         } catch (e) {
             setStatus('操作失败', 'error');
@@ -1811,7 +1878,8 @@ async function placeStone(x, y) {
             board: newBoard,
             currentPlayer: myRole === 1 ? 2 : 1,
             // 强制保证 lastMove 是 {x,y} 对象，不会是 null
-            lastMove: { x: x, y: y }
+            lastMove: { x: x, y: y },
+            lastActiveAt: Date.now()
         });
 
         // 检查胜利

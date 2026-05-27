@@ -780,6 +780,7 @@ async function deleteAccount() {
         if (app) {
             const db = app.database();
             await db.collection("users").where({ user_id: userId }).remove();
+            await db.collection("wordgame_stats").where({ user_id: userId }).remove();
         }
     } catch (err) {
         console.error("删除账号失败:", err);
