@@ -954,6 +954,36 @@
         }
     }
 
+    // ============ 从云端users集合获取昵称 ============
+    async function fetchNicknameFromCloud() {
+        const userId = getUserId();
+        if (userId.startsWith("visitor_")) {
+            return "游客";
+        }
+        
+        const localNickname = localStorage.getItem("game_nickname");
+        if (localNickname && localNickname !== "玩家") {
+            return localNickname;
+        }
+        
+        try {
+            const app = await getCloudBaseApp();
+            if (app) {
+                const cloudDb = app.database();
+                const res = await cloudDb.collection("users").where({ user_id: userId }).get();
+                if (res.data && res.data.length > 0) {
+                    const username = res.data[0].username || res.data[0].nickname || "玩家";
+                    localStorage.setItem("game_nickname", username);
+                    return username;
+                }
+            }
+        } catch (err) {
+            console.log("从users集合获取昵称失败，使用本地缓存:", err);
+        }
+        
+        return localStorage.getItem("game_nickname") || "玩家";
+    }
+
     // ============ 加入房间 ============
     async function joinRoom(roomId) {
         if (!db) return setStatus('未连接数据库', 'error');
@@ -973,7 +1003,7 @@
             if (room.player1Id === myUserId) mySpot = 1;
             if (room.player2Id === myUserId) mySpot = 2;
 
-            const myNickname = await getUserNickname();
+            const myNickname = await fetchNicknameFromCloud();
             
             if (mySpot === 0) {
                 // 新玩家，找空位
