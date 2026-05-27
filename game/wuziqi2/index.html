@@ -316,10 +316,56 @@
             color: #ccc;
             margin-bottom: 14px;
         }
+
+        /* 悔棋按钮禁用状态 */
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            pointer-events: none;
+            filter: grayscale(50%);
+        }
+
+        /* 悔棋确认弹窗 */
+        #undo-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 30;
+        }
+        #undo-overlay.show { display: flex; }
+        .undo-box {
+            background: #fff;
+            border-radius: 14px;
+            padding: 24px 32px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            max-width: 300px;
+            animation: popIn 0.3s ease;
+        }
+        .undo-box .undo-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .undo-box .undo-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .undo-box .btn-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
-    <h2>五子棋6</h2>
+    <h2>五子棋7</h2>
     <div id="status"></div>
 
     <!-- 房间选择区 -->
@@ -367,10 +413,22 @@
         </div>
 
         <div class="btn-row">
-            <button class="btn btn-undo" onclick="undoMove()">悔棋</button>
+            <button class="btn btn-undo" id="btn-undo" onclick="requestUndo()">悔棋</button>
             <button class="btn btn-leave" onclick="leaveRoom()">退出房间</button>
         </div>
 
+    </div>
+
+    <!-- 悔棋确认弹窗 -->
+    <div id="undo-overlay">
+        <div class="undo-box">
+            <div class="undo-title" id="undo-title">悔棋申请</div>
+            <div class="undo-desc" id="undo-desc"></div>
+            <div class="btn-row">
+                <button class="btn btn-again" id="btn-undo-approve" onclick="approveUndo()">同意</button>
+                <button class="btn btn-leave" id="btn-undo-reject" onclick="rejectUndo()">拒绝</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -568,6 +626,12 @@
     const waitOverlay = document.getElementById('wait-overlay');
     const victoryOverlay = document.getElementById('victory-overlay');
     const winnerText = document.getElementById('winner-text');
+    const undoBtn = document.getElementById('btn-undo');
+    const undoOverlay = document.getElementById('undo-overlay');
+    const undoTitle = document.getElementById('undo-title');
+    const undoDesc = document.getElementById('undo-desc');
+    const undoApproveBtn = document.getElementById('btn-undo-approve');
+    const undoRejectBtn = document.getElementById('btn-undo-reject');
 
     // ============ 初始化 ============
     async function init() {
@@ -649,7 +713,9 @@
                         lastMove: { x: -1, y: -1 },
                         started: false,
                         player1Ready: false,
-                        player2Ready: false
+                        player2Ready: false,
+                        undoRequested: 0,      // 0=无申请、1=黑方申请、2=白方申请
+                        undoApproved: false    // 是否已同意悔棋
                     });
                 }
             }
@@ -860,6 +926,9 @@
         // 清理自动重启定时器
         if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
 
+        // 隐藏悔棋弹窗
+        undoOverlay.classList.remove('show');
+
         try {
             // 先读取当前房间数据
             const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
@@ -891,6 +960,8 @@
                 started: true,           // 直接开局，跳过准备阶段
                 player1Ready: false,
                 player2Ready: false,
+                undoRequested: 0,        // 清空悔棋申请
+                undoApproved: false,
                 // 交换双方 ID 和比分
                 player1Id: room.player2Id,
                 player2Id: room.player1Id,
@@ -904,36 +975,155 @@
         }
     }
 
-    // ============ 悔棋 ============
-    async function undoMove() {
+    // ============ 更新悔棋按钮状态 ============
+    function updateUndoButtonStatus(room) {
+        if (!undoBtn) return;
+        
+        // 禁用条件：
+        // 1. 游戏未开始
+        // 2. 游戏已结束
+        // 3. 己方回合（只能在对方回合发起悔棋）
+        // 4. 已有悔棋申请
+        // 5. 没有可悔的棋子（lastMove为空）
+        const canUndo = room.started &&           // 游戏已开始
+                       !room.gameOver &&          // 游戏未结束
+                       room.currentPlayer !== myRole &&  // 对方回合
+                       room.undoRequested === 0 &&       // 无悔棋申请
+                       room.lastMove && room.lastMove.x >= 0;  // 有可悔棋子
+        
+        undoBtn.disabled = !canUndo;
+    }
+
+    // ============ 发起悔棋申请 ============
+    async function requestUndo() {
         if (!currentRoomDocId || !myRole) return;
         resetInactivityTimer();
-        if (gameOver) { setStatus('游戏已结束，无法悔棋', 'error'); return; }
 
         try {
             const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
             if (!res.data || res.data.length === 0) return;
             const room = res.data[0];
 
-            // 只能悔自己刚下的那步棋（当前轮到对方时，说明自己刚下完）
-            const isOpponentTurn = room.currentPlayer !== myRole;
-            if (!isOpponentTurn) { setStatus('还没轮到你，无法悔棋', 'error'); return; }
-            if (!room.lastMove || room.lastMove.x == null) { setStatus('没有棋子可以悔', 'error'); return; }
+            // 校验：游戏未开始
+            if (!room.started) {
+                setStatus('游戏未开始，无法悔棋', 'error');
+                return;
+            }
 
+            // 校验：游戏已结束
+            if (room.gameOver) {
+                setStatus('游戏已结束，无法悔棋', 'error');
+                return;
+            }
+
+            // 校验：己方回合禁止发起
+            if (room.currentPlayer === myRole) {
+                setStatus('己方回合无法发起悔棋', 'error');
+                return;
+            }
+
+            // 校验：已有悔棋申请
+            if (room.undoRequested !== 0) {
+                setStatus('已有悔棋申请，等待对方回应', 'error');
+                return;
+            }
+
+            // 校验：无历史落子
+            if (!room.lastMove || room.lastMove.x < 0) {
+                setStatus('没有棋子可以悔', 'error');
+                return;
+            }
+
+            // 发起悔棋申请
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                undoRequested: myRole,
+                undoApproved: false
+            });
+
+            setStatus('已发起悔棋申请，等待对方同意', 'success');
+        } catch (e) {
+            setStatus('发起悔棋失败：' + e.message, 'error');
+        }
+    }
+
+    // ============ 同意悔棋 ============
+    async function approveUndo() {
+        if (!currentRoomDocId || !myRole) return;
+        resetInactivityTimer();
+
+        try {
+            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+            if (!res.data || res.data.length === 0) return;
+            const room = res.data[0];
+
+            // 校验：必须有悔棋申请
+            if (room.undoRequested === 0) {
+                setStatus('没有待处理的悔棋申请', 'error');
+                return;
+            }
+
+            // 校验：必须是对方发起的申请
+            if (room.undoRequested === myRole) {
+                setStatus('不能同意自己的悔棋申请', 'error');
+                return;
+            }
+
+            // 撤销上一步棋子
             const { x, y } = room.lastMove;
             const idx = y * BOARD_SIZE + x;
             const newBoard = [...room.board];
             newBoard[idx] = 0;
 
+            // 更新数据库
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 board: newBoard,
-                currentPlayer: myRole,
-                lastMove: { x: -1, y: -1 }
+                currentPlayer: room.undoRequested,  // 切换回合回申请人
+                lastMove: { x: -1, y: -1 },
+                undoRequested: 0,                  // 清空悔棋申请
+                undoApproved: false
             });
 
-            setStatus('已悔棋', 'success');
+            // 隐藏弹窗
+            undoOverlay.classList.remove('show');
+            setStatus('已同意悔棋', 'success');
         } catch (e) {
-            setStatus('悔棋失败：' + e.message, 'error');
+            setStatus('同意悔棋失败：' + e.message, 'error');
+        }
+    }
+
+    // ============ 拒绝悔棋 ============
+    async function rejectUndo() {
+        if (!currentRoomDocId || !myRole) return;
+        resetInactivityTimer();
+
+        try {
+            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+            if (!res.data || res.data.length === 0) return;
+            const room = res.data[0];
+
+            // 校验：必须有悔棋申请
+            if (room.undoRequested === 0) {
+                setStatus('没有待处理的悔棋申请', 'error');
+                return;
+            }
+
+            // 校验：必须是对方发起的申请
+            if (room.undoRequested === myRole) {
+                setStatus('不能拒绝自己的悔棋申请', 'error');
+                return;
+            }
+
+            // 清空悔棋申请
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                undoRequested: 0,
+                undoApproved: false
+            });
+
+            // 隐藏弹窗
+            undoOverlay.classList.remove('show');
+            setStatus('已拒绝悔棋申请', 'info');
+        } catch (e) {
+            setStatus('拒绝悔棋失败：' + e.message, 'error');
         }
     }
 
@@ -944,6 +1134,9 @@ async function leaveRoom() {
     stopReadyTimer();
     if (autoRestartTimer) clearInterval(autoRestartTimer);
     if (watcher) watcher.close();
+
+    // 隐藏悔棋弹窗
+    undoOverlay.classList.remove('show');
 
     const leavingRoomDocId = currentRoomDocId;
     const leavingRole = myRole;
@@ -958,7 +1151,9 @@ async function leaveRoom() {
                     lastMove: { x: -1, y: -1 },
                     player1Ready: false, player2Ready: false,
                     board: new Array(TOTAL_CELLS).fill(0),
-                    currentPlayer: 1
+                    currentPlayer: 1,
+                    undoRequested: 0,      // 清空悔棋申请
+                    undoApproved: false
                 };
                 if (leavingRole === 1) {
                     resetData.player1Id = null;
@@ -1124,6 +1319,7 @@ async function leaveRoom() {
             roomStarted = false;
             canvas.classList.add('blocked');
             waitOverlay.classList.remove('show');
+            undoOverlay.classList.remove('show');  // 隐藏悔棋弹窗
 
             // 判断是对手离开还是正常获胜
             const opponentLeft = !room.player1Id || !room.player2Id;
@@ -1232,6 +1428,23 @@ async function leaveRoom() {
         stopReadyTimer();
         waitOverlay.classList.remove('show');
 
+        // 更新悔棋按钮状态
+        updateUndoButtonStatus(room);
+
+        // 处理悔棋申请
+        if (room.undoRequested !== 0) {
+            if (room.undoRequested === myRole) {
+                // 我发起的申请，等待对方回应
+                setStatus('⏳ 等待对方同意悔棋...', 'info');
+            } else {
+                // 对方发起的申请，弹出确认弹窗
+                undoTitle.innerText = '悔棋申请';
+                undoDesc.innerText = '对手请求悔棋，是否同意？';
+                undoOverlay.classList.add('show');
+                setStatus('对手发起了悔棋申请', 'info');
+            }
+        }
+
         const isMyTurn = (room.currentPlayer === 1 && myRole === 1) || (room.currentPlayer === 2 && myRole === 2);
 
         if (isMyTurn) {
@@ -1239,7 +1452,9 @@ async function leaveRoom() {
             setStatus('🎯 轮到你落子', 'success');
         } else {
             canvas.classList.add('blocked');
-            setStatus('⏳ 等待对方落子...', 'info');
+            if (room.undoRequested === 0) {
+                setStatus('⏳ 等待对方落子...', 'info');
+            }
         }
 
         drawBoard(room.board);
