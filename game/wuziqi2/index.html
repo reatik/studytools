@@ -251,6 +251,12 @@
             background: linear-gradient(145deg, #4e342e, #6d4c41);
             border-radius: 16px;
             box-shadow: 0 16px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        #board-wrapper.glow-yellow {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 16px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
         }
         #board {
             display: block;
@@ -1684,6 +1690,7 @@ async function leaveRoom() {
             gameOver = true;
             roomStarted = false;
             canvas.classList.add('blocked');
+            document.getElementById('board-wrapper').classList.remove('glow-yellow');
             waitOverlay.classList.remove('show');
             undoOverlay.classList.remove('show');  // 隐藏悔棋弹窗
 
@@ -1737,6 +1744,7 @@ async function leaveRoom() {
             gameOver = false;
             victoryOverlay.classList.remove('show');
             canvas.classList.add('blocked');
+            document.getElementById('board-wrapper').classList.remove('glow-yellow');
             drawBoard(room.board);
 
             waitOverlay.classList.add('show');
@@ -1812,12 +1820,15 @@ async function leaveRoom() {
         }
 
         const isMyTurn = (room.currentPlayer === 1 && myRole === 1) || (room.currentPlayer === 2 && myRole === 2);
+        const boardWrapper = document.getElementById('board-wrapper');
 
         if (isMyTurn) {
             canvas.classList.remove('blocked');
+            boardWrapper.classList.add('glow-yellow');
             setStatus('🎯 轮到你落子', 'success');
         } else {
             canvas.classList.add('blocked');
+            boardWrapper.classList.remove('glow-yellow');
             if (room.undoRequested === 0) {
                 setStatus('⏳ 等待对方落子...', 'info');
             }
