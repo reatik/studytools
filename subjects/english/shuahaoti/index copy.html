@@ -233,6 +233,13 @@ body.night-mode .clear-fav-btn:hover {
     position: relative;
     width: 100%;
     margin-top: 24px;
+    will-change: transform;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.card-wrapper:active {
+    cursor: grabbing;
 }
 
 .question-card {
@@ -1719,22 +1726,270 @@ body.night-mode .mode-toast {
             showToast('已清空所有收藏');
         }
 
-        // 滑动切换
+        // 滑动切换（跟手双卡 + 惯性滚动 + 平滑吸附，鼠标/触摸通用）
         function setupSwipe() {
-            let touchStartX = 0;
-            let touchStartY = 0;
-            questionArea.addEventListener('touchstart', e => {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-            }, { passive: true });
-            questionArea.addEventListener('touchend', e => {
-                let dx = e.changedTouches[0].screenX - touchStartX;
-                let dy = e.changedTouches[0].screenY - touchStartY;
-                if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-                    if (dx < 0) goToNext();
-                    else goToPrev();
+            let startX = 0, startY = 0, startTime = 0;
+            let isDragging = false;
+            let isAnimating = false;
+            let moved = false;
+            let dragStartIdx = 0;
+            let virtualPos = 0;       // 虚拟滚动位置（可小数，单位=卡）
+            let lastFloorIdx = -1;
+            let viewport = null;
+            let cardLoEl = null, cardHiEl = null;
+            let cardH = 500;
+            let animFrameId = null;
+            const CARD_GAP = 20;      // 卡片之间的间距(px)，也等于卡片到屏幕边缘的距离
+
+            function getXY(e) {
+                if (e.touches && e.touches.length) return { x: e.touches[0].screenX, y: e.touches[0].screenY };
+                if (e.changedTouches && e.changedTouches.length) return { x: e.changedTouches[0].screenX, y: e.changedTouches[0].screenY };
+                return { x: e.screenX, y: e.screenY };
+            }
+
+            // 获取步进距离（卡片宽度 + 间距）
+            function getStep() {
+                return (questionArea.offsetWidth || 300) + CARD_GAP;
+            }
+
+            // 构建双卡视口：当前卡 + 下一卡，通过像素偏移实现从屏幕外滑入
+            function buildViewport() {
+                let lo = Math.floor(virtualPos);
+                lo = Math.max(0, Math.min(lo, filteredQuestions.length - 1));
+                let hi = Math.min(lo + 1, filteredQuestions.length - 1);
+                let fraction = virtualPos - lo; // 0~1，当前卡被推走多少
+
+                let step = getStep();
+
+                viewport = document.createElement('div');
+                viewport.style.cssText = `position:relative;overflow:hidden;width:100%;height:${cardH}px;margin-top:24px;`;
+
+                // 低位卡 — 临时设 currentIndex 让序号正确
+                currentIndex = lo;
+                cardLoEl = createQuestionCard(filteredQuestions[lo]);
+                cardLoEl.style.cssText = 'position:absolute;top:0;left:0;width:100%;margin:0;';
+                cardLoEl.style.transform = `translateX(${-fraction * step}px)`;
+                viewport.appendChild(cardLoEl);
+
+                // 高位卡 — 临时设 currentIndex 让序号正确
+                if (hi !== lo) {
+                    currentIndex = hi;
+                    cardHiEl = createQuestionCard(filteredQuestions[hi]);
+                    cardHiEl.style.cssText = 'position:absolute;top:0;left:0;width:100%;margin:0;';
+                    cardHiEl.style.transform = `translateX(${(1 - fraction) * step}px)`;
+                    viewport.appendChild(cardHiEl);
+                } else {
+                    cardHiEl = null;
                 }
-            });
+
+                questionArea.innerHTML = '';
+                questionArea.appendChild(viewport);
+                lastFloorIdx = lo;
+                currentIndex = Math.round(virtualPos);
+            }
+
+            // 更新双卡位置（不重建 DOM，只改 transform）
+            function updatePositions() {
+                let lo = Math.floor(virtualPos);
+                lo = Math.max(0, Math.min(lo, filteredQuestions.length - 1));
+
+                // 跨越了整数边界 → 需要重建视口
+                if (lo !== lastFloorIdx) {
+                    buildViewport();
+                    return;
+                }
+
+                let fraction = virtualPos - lo;
+                let step = getStep();
+                let hi = Math.min(lo + 1, filteredQuestions.length - 1);
+
+                if (cardLoEl) {
+                    cardLoEl.style.transition = 'none';
+                    cardLoEl.style.transform = `translateX(${-fraction * step}px)`;
+                }
+                if (cardHiEl && hi !== lo) {
+                    cardHiEl.style.transition = 'none';
+                    cardHiEl.style.transform = `translateX(${(1 - fraction) * step}px)`;
+                }
+
+                currentIndex = Math.round(virtualPos);
+            }
+
+            function onStart(e) {
+                // 如果正在惯性动画中，打断并从当前位置开始
+                if (isAnimating) {
+                    isAnimating = false;
+                    if (animFrameId) cancelAnimationFrame(animFrameId);
+                    // 保留当前 virtualPos，不取整
+                }
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON') return;
+                if (filteredQuestions.length <= 1) return;
+
+                let p = getXY(e);
+                startX = p.x; startY = p.y;
+                startTime = Date.now();
+                isDragging = true;
+                moved = false;
+                dragStartIdx = virtualPos;
+                lastFloorIdx = -1;
+
+                // 测量当前卡片高度
+                let existing = questionArea.querySelector('.card-wrapper');
+                if (existing) cardH = existing.offsetHeight;
+            }
+
+            function onMove(e) {
+                if (!isDragging) return;
+                let p = getXY(e);
+                let dx = p.x - startX;
+                let dy = p.y - startY;
+
+                if (!moved) {
+                    if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+                    // 竖滑为主 → 放弃拖拽
+                    if (Math.abs(dy) > Math.abs(dx) * 2) {
+                        isDragging = false;
+                        return;
+                    }
+                    moved = true;
+                    buildViewport();
+                }
+
+                e.preventDefault();
+
+                // 像素位移 → 卡片单位（用 step 而非 cardW，因为卡片从屏幕外滑入）
+                let step = getStep();
+                virtualPos = dragStartIdx - dx / step;
+                virtualPos = Math.max(0, Math.min(virtualPos, filteredQuestions.length - 1));
+                updatePositions();
+            }
+
+            function onEnd(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                if (!moved) return;
+                moved = false;
+
+                let p = getXY(e);
+                let dx = p.x - startX;
+                let dt = Date.now() - startTime || 16;
+                let velocity = dx / dt; // px/ms，正值=向右=上一题
+
+                if (Math.abs(velocity) > 0.15 && filteredQuestions.length > 1) {
+                    applyMomentum(velocity);
+                } else {
+                    snapToCard();
+                }
+            }
+
+            // 惯性滚动：松手后卡片继续翻，逐渐减速
+            function applyMomentum(startVelocity) {
+                isAnimating = true;
+                let step = getStep();
+                let velCards = -startVelocity / step * 1000; // 卡/秒，正值=向下一题
+                let decel = 4; // 减速度 卡/秒²
+                let lastTime = performance.now();
+
+                function animate(now) {
+                    if (!isAnimating) return;
+                    let dt = (now - lastTime) / 1000;
+                    lastTime = now;
+                    if (dt > 0.05) dt = 0.05;
+
+                    // 减速
+                    if (velCards > 0) velCards = Math.max(0, velCards - decel * dt);
+                    else velCards = Math.min(0, velCards + decel * dt);
+
+                    if (Math.abs(velCards) < 0.05) {
+                        isAnimating = false;
+                        snapToCard();
+                        return;
+                    }
+
+                    virtualPos += velCards * dt;
+
+                    // 边界
+                    if (virtualPos <= 0) { virtualPos = 0; isAnimating = false; snapToCard(); return; }
+                    if (virtualPos >= filteredQuestions.length - 1) { virtualPos = filteredQuestions.length - 1; isAnimating = false; snapToCard(); return; }
+
+                    updatePositions();
+                    animFrameId = requestAnimationFrame(animate);
+                }
+
+                animFrameId = requestAnimationFrame(animate);
+            }
+
+            // 平滑吸附到最近的整张卡片（不重建DOM，避免跳帧）
+            function snapToCard() {
+                let targetPos = Math.max(0, Math.min(Math.round(virtualPos), filteredQuestions.length - 1));
+                let diff = targetPos - virtualPos;
+
+                // 已经在整数位置 → 直接定稿
+                if (Math.abs(diff) < 0.003) {
+                    finalizeSnap(targetPos);
+                    return;
+                }
+
+                // 用动画平滑过渡到目标位置
+                isAnimating = true;
+                let startPos = virtualPos;
+                let snapStart = performance.now();
+                let duration = Math.max(120, Math.min(280, Math.abs(diff) * 250));
+
+                function animateSnap(now) {
+                    let elapsed = now - snapStart;
+                    let t = Math.min(1, elapsed / duration);
+                    // ease-out cubic
+                    t = 1 - Math.pow(1 - t, 3);
+
+                    virtualPos = startPos + diff * t;
+                    updatePositions();
+
+                    if (t < 1) {
+                        animFrameId = requestAnimationFrame(animateSnap);
+                    } else {
+                        isAnimating = false;
+                        finalizeSnap(targetPos);
+                    }
+                }
+
+                animFrameId = requestAnimationFrame(animateSnap);
+            }
+
+            // 吸附定稿：从视口中提取可见卡片，恢复为正常布局（不重建DOM）
+            function finalizeSnap(targetPos) {
+                currentIndex = targetPos;
+                virtualPos = targetPos;
+
+                if (viewport && viewport.parentNode === questionArea) {
+                    // 判断哪张卡可见（targetPos == lastFloorIdx 用低位卡，否则用高位卡）
+                    let visibleCard = (targetPos === lastFloorIdx) ? cardLoEl : cardHiEl;
+                    if (visibleCard) {
+                        // 清除拖拽时加的定位样式，恢复为 CSS class 定义的正常布局
+                        visibleCard.style.cssText = '';
+                        questionArea.innerHTML = '';
+                        questionArea.appendChild(visibleCard);
+                    } else {
+                        renderCurrent();
+                    }
+                } else {
+                    renderCurrent();
+                }
+
+                viewport = null;
+                cardLoEl = null;
+                cardHiEl = null;
+            }
+
+            // 触摸事件
+            questionArea.addEventListener('touchstart', e => onStart(e), { passive: true });
+            questionArea.addEventListener('touchmove', e => onMove(e), { passive: false });
+            questionArea.addEventListener('touchend', e => onEnd(e));
+
+            // 鼠标事件
+            questionArea.addEventListener('mousedown', e => onStart(e));
+            document.addEventListener('mousemove', e => onMove(e));
+            document.addEventListener('mouseup', e => onEnd(e));
         }
 
         // ---------- 初始化 ----------
