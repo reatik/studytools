@@ -8654,7 +8654,7 @@
             "type": "填空",
             "grade": "六年级下",
             "unit": "U6",
-            "knowledge_point": "句型转换（同义句）",
+            "knowledge_point": "句型转换",
             "question": "He saved a great many Chinese people and died at the war hospital. （保持句意基本不变）<br><br>He saved a great many Chinese people and ______ his ______ at the war hospital.",
             "options": [],
             "answer": "lost; life",
@@ -8666,7 +8666,7 @@
             "type": "填空",
             "grade": "六年级下",
             "unit": "U6",
-            "knowledge_point": "句型转换（同义句）",
+            "knowledge_point": "句型转换",
             "question": "In the early 1610s, she returned to her hometown and kept writing amazing books. （保持句意基本不变）<br><br>In the early 1610s, she ______ ______ to her hometown and kept writing amazing books.",
             "options": [],
             "answer": "went; back",
@@ -8679,7 +8679,7 @@
             "grade": "六年级下",
             "unit": "U6",
             "knowledge_point": "特殊疑问句",
-            "question": "The adult European elephants weigh between 5,000 to 14,000 pounds. （对画线部分提问）<br><br>______ do the adult European elephants weigh?",
+            "question": "The adult European elephants weigh <u>between 5,000 to 14,000 pounds</u>. （对画线部分提问）<br>______ do the adult European elephants weigh?",
             "options": [],
             "answer": "How much",
             "meaning": "成年欧洲象的重量在5000到14000磅之间。<br>这些成年欧洲象有多重？",
@@ -8696,6 +8696,1096 @@
             "answer": "As we all know, Bencao Gangmu is a very famous book on Traditional Chinese Medicine.",
             "meaning": "众所周知，《本草纲目》是一本关于中医的名著。",
             "explanation": "考查连词成句。As we all know 意为'众所周知'，是一个常用的状语从句结构，引出后面的主句 Bencao Gangmu is...。"
+        },
+        {
+            "id": "585",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "连词",
+            "question": "She is famous for her acting skills. Many people admire her ______ she performed wonderfully.",
+            "options": [
+                "A. as",
+                "B. in",
+                "C. to",
+                "D. of"
+            ],
+            "answer": "A. as",
+            "meaning": "她以出色的演技闻名。很多人钦佩她，因为她表演得非常精彩。",
+            "explanation": "考查连词 as 的用法。as 在这里表示'因为'，引导原因状语从句，说明人们钦佩她的原因。"
+        },
+        {
+            "id": "586",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "冠词",
+            "question": "Mellisa, ______ 11-year-old girl, amazed the world by winning ______ first prize in the singing competition.",
+            "options": [
+                "A. a, a",
+                "B. a, the",
+                "C. an, the",
+                "D. an, a"
+            ],
+            "answer": "C. an, the",
+            "meaning": "梅利莎，一个11岁的女孩，通过在歌唱比赛中获得一等奖而震惊世界。",
+            "explanation": "考查冠词用法。11-year-old 以元音音素开头，用 an；first prize 是序数词前需加 the。"
+        },
+        {
+            "id": "587",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "there be句型",
+            "question": "Is ______ a gas station nearby, please? My second-hand car is running out of petrol.",
+            "options": [
+                "A. it",
+                "B. here",
+                "C. this",
+                "D. there"
+            ],
+            "answer": "D. there",
+            "meaning": "请问附近有加油站吗？我的二手车快没油了。",
+            "explanation": "考查 there be 句型的一般疑问句形式。Is there...? 表示'有...吗？'，用于询问某处是否存在某物。"
+        },
+        {
+            "id": "588",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "介词短语",
+            "question": "Travelling in Shanghai will be more convenient ______.",
+            "options": [
+                "A. in a few years",
+                "B. in a few years time",
+                "C. in a few years'",
+                "D. in a few year's time"
+            ],
+            "answer": "A. in a few years",
+            "meaning": "几年后，在上海旅行会更方便。",
+            "explanation": "考查时间状语的正确表达。in a few years 是正确的表达方式，意为'几年后'。"
+        },
+        {
+            "id": "589",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "形容词",
+            "question": "The cake my mother made tasted so ______ that we ate it up in no time.",
+            "options": [
+                "A. wonderfully",
+                "B. terrible",
+                "C. well",
+                "D. delicious"
+            ],
+            "answer": "D. delicious",
+            "meaning": "我妈妈做的蛋糕味道太好了，我们很快就吃完了。",
+            "explanation": "考查系动词后接形容词。taste 是系动词，后面需要接形容词作表语，delicious 表示'美味的'。"
+        },
+        {
+            "id": "590",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "形容词最高级",
+            "question": "Leonardo da Vinci is considered one of ______ talented artists of all time.",
+            "options": [
+                "A. more",
+                "B. the more",
+                "C. most",
+                "D. the most"
+            ],
+            "answer": "D. the most",
+            "meaning": "列奥纳多·达·芬奇被认为是有史以来最有才华的艺术家之一。",
+            "explanation": "考查形容词最高级。one of + the + 形容词最高级 + 名词复数，表示'最...之一'。"
+        },
+        {
+            "id": "591",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "时态",
+            "question": "Olivia ______ a member of this company since over ten years ago.",
+            "options": [
+                "A. was",
+                "B. has been",
+                "C. will be",
+                "D. had been"
+            ],
+            "answer": "B. has been",
+            "meaning": "奥利维亚从十多年前起就是这家公司的成员了。",
+            "explanation": "考查现在完成时。since + 过去时间点，主句用现在完成时，表示从过去持续到现在的状态。"
+        },
+        {
+            "id": "592",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "时态",
+            "question": "They ______ their plans for the vacation when I walked into the room.",
+            "options": [
+                "A. discuss",
+                "B. discussed",
+                "C. were discussing",
+                "D. have discussed"
+            ],
+            "answer": "C. were discussing",
+            "meaning": "我走进房间时，他们正在讨论度假计划。",
+            "explanation": "考查过去进行时。when 引导的时间状语从句用一般过去时，主句用过去进行时，表示过去某时刻正在进行的动作。"
+        },
+        {
+            "id": "593",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "连词",
+            "question": "The cake won't rise ______ you use the right amount of baking powder.",
+            "options": [
+                "A. as",
+                "B. since",
+                "C. unless",
+                "D. because"
+            ],
+            "answer": "C. unless",
+            "meaning": "除非你使用适量的发酵粉，否则蛋糕不会发起来。",
+            "explanation": "考查连词 unless 的用法。unless 意为'除非'，引导条件状语从句，表示在某个条件不满足的情况下会发生什么。"
+        },
+        {
+            "id": "594",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "there be句型",
+            "question": "There ______ hardly any skimmed milk in the fridge. Let's go to the supermarket to buy some.",
+            "options": [
+                "A. is",
+                "B. are",
+                "C. isn't",
+                "D. aren't"
+            ],
+            "answer": "A. is",
+            "meaning": "冰箱里几乎没有脱脂牛奶了。我们去超市买一些吧。",
+            "explanation": "考查 there be 句型的主谓一致。milk 是不可数名词，所以用 is；hardly 本身含有否定意义，不需要再加 not。"
+        },
+        {
+            "id": "595",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "Hannah hurt her ankle by accident and she felt very ______. (pain)",
+            "options": [],
+            "answer": "painful",
+            "meaning": "汉娜不小心扭伤了脚踝，她感到非常疼痛。",
+            "explanation": "考查词性转换。pain 是名词，这里需要形容词形式 painful 作表语，意为'疼痛的'。"
+        },
+        {
+            "id": "596",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "______ research has shown that plants can grow better with the right amount of sunlight and water. (science)",
+            "options": [],
+            "answer": "Scientific",
+            "meaning": "科学研究表明，在适量的阳光和水分下，植物可以生长得更好。",
+            "explanation": "考查词性转换。science 是名词，这里需要形容词形式 Scientific 作定语修饰 research，意为'科学的'。"
+        },
+        {
+            "id": "597",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "In ______, people feel happier when they spend time with their friends and family. (generally)",
+            "options": [],
+            "answer": "general",
+            "meaning": "一般来说，人们和朋友家人在一起时会感到更快乐。",
+            "explanation": "考查词性转换。generally 是副词，这里需要名词形式 general，in general 是固定短语，意为'一般来说'。"
+        },
+        {
+            "id": "598",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "Qu Yuan was one of the greatest Chinese ______ who loved his country very much. (poem)",
+            "options": [],
+            "answer": "poets",
+            "meaning": "屈原是中国最伟大的诗人之一，他非常热爱自己的国家。",
+            "explanation": "考查词性转换和名词复数。poem 是'诗'，这里需要表示'诗人'的 poet，且用复数形式 poets。"
+        },
+        {
+            "id": "599",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "I can't help expressing my ______ for her bravery and determination. (admire)",
+            "options": [],
+            "answer": "admiration",
+            "meaning": "我忍不住表达我对她勇敢和决心的钦佩。",
+            "explanation": "考查词性转换。admire 是动词，这里需要名词形式 admiration，意为'钦佩、赞赏'。"
+        },
+        {
+            "id": "600",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "______ experts recommend that everyone should get enough sleep to stay healthy. (medicine)",
+            "options": [],
+            "answer": "Medical",
+            "meaning": "医学专家建议每个人都应该保证充足的睡眠以保持健康。",
+            "explanation": "考查词性转换。medicine 是名词，这里需要形容词形式 Medical 作定语修饰 experts，意为'医学的'。"
+        },
+        {
+            "id": "601",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "After a marathon search, they made a great ______ in the wilderness. (discover)",
+            "options": [],
+            "answer": "discovery",
+            "meaning": "经过漫长的搜索，他们在荒野中取得了重大发现。",
+            "explanation": "考查词性转换。marathon 原意是'马拉松赛跑'，在这里比喻'漫长的、艰苦的'；discover 是动词，这里需要名词形式 discovery，意为'发现'。"
+        },
+        {
+            "id": "602",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "The ______ of our pet dog made all of my family members cry. (die)",
+            "options": [],
+            "answer": "death",
+            "meaning": "我们宠物狗的去世让全家人都哭了。",
+            "explanation": "考查词性转换。die 是动词，这里需要名词形式 death，意为'死亡、去世'。"
+        },
+        {
+            "id": "603",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "He created many unique characters and made them lively on the stage. （保持句意基本不变）<br>He created many unique characters and ______ them to ______ on the stage.",
+            "options": [],
+            "answer": "brought; life",
+            "meaning": "他创造了许多独特的角色，并使他们在舞台上栩栩如生。<br>他创造了许多独特的角色，并使他们在舞台上焕发生机。",
+            "explanation": "考查短语转换。make sb./sth. lively 与 bring sb./sth. to life 意思相近，都表示'使...生动、鲜活'。这里 lively 是形容词，转换为名词 life。"
+        },
+        {
+            "id": "604",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "She is working at a new ______(invent).",
+            "options": [],
+            "answer": "invention",
+            "meaning": "她正在一家新发明公司工作。",
+            "explanation": "考查词性转换。invent 是动词，这里需要名词形式 invention，意为'发明'。"
+        },
+        {
+            "id": "605",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "______(tradition) Chinese medicine is popular in China and many other countries.",
+            "options": [],
+            "answer": "Traditional",
+            "meaning": "传统中药在中国和许多其他国家都很受欢迎。",
+            "explanation": "考查词性转换。tradition 是名词，这里需要形容词形式 Traditional，意为'传统的'，注意首字母大写。"
+        },
+        {
+            "id": "606",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "The ______(discover) of liquid water on Mars is exciting to us.",
+            "options": [],
+            "answer": "discovery",
+            "meaning": "在火星上发现液态水让我们很兴奋。",
+            "explanation": "考查词性转换。discover 是动词，这里需要名词形式 discovery，意为'发现'。"
+        },
+        {
+            "id": "607",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "Steve Jobs was a ______(success) businessman and brought great changes to our phones.",
+            "options": [],
+            "answer": "successful",
+            "meaning": "史蒂夫·乔布斯是一位成功的商人，给我们的手机带来了巨大变化。",
+            "explanation": "考查词性转换。success 是名词，这里需要形容词形式 successful，意为'成功的'。"
+        },
+        {
+            "id": "608",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "首字母填空",
+            "question": "I a______ Florence Nightingale because she started the first school for nurses in the UK.",
+            "options": [],
+            "answer": "dmire",
+            "meaning": "我钦佩弗洛伦斯·南丁格尔，因为她在英国创办了第一所护士学校。",
+            "explanation": "admire 意为'钦佩、赞赏'，符合句意。"
+        },
+        {
+            "id": "609",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "首字母填空",
+            "question": "This panda is u______ as it likes apples better than bamboo.",
+            "options": [],
+            "answer": "nusual",
+            "meaning": "这只熊猫很不寻常，因为它更喜欢苹果而不是竹子。",
+            "explanation": "unusual 意为'不寻常的、与众不同的'，符合句意。"
+        },
+        {
+            "id": "610",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "首字母填空",
+            "question": "The car accident was a t______ for the woman. She cried day and night.",
+            "options": [],
+            "answer": "ragedy",
+            "meaning": "那场车祸对这个女人来说是一场悲剧。她日夜哭泣。",
+            "explanation": "tragedy 意为'悲剧'，符合句意。"
+        },
+        {
+            "id": "611",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "动词形式",
+            "question": "Yiming is looking forward to ______(hear) from Lisa soon.",
+            "options": [],
+            "answer": "hearing",
+            "meaning": "一鸣期待尽快收到丽莎的来信。",
+            "explanation": "look forward to 后面接动名词形式，hear 的动名词是 hearing。"
+        },
+        {
+            "id": "612",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "动词形式",
+            "question": "She spent the whole holiday ______(relax) on the beach.",
+            "options": [],
+            "answer": "relaxing",
+            "meaning": "她整个假期都在海滩上放松。",
+            "explanation": "spend time doing sth 是固定搭配，relax 的动名词是 relaxing。"
+        },
+        {
+            "id": "613",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "固定搭配",
+            "question": "Magnolia (白玉兰) ______ the flower of Shanghai city.",
+            "options": [
+                "A. is famous for",
+                "B. is familiar to",
+                "C. is famous as",
+                "D. is similar"
+            ],
+            "answer": "C. is famous as",
+            "meaning": "白玉兰作为上海市花而闻名。",
+            "explanation": "is famous as 表示'作为...而闻名'，后接身份或称号；is famous for 表示'因...而闻名'，后接原因。"
+        },
+        {
+            "id": "614",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "代词",
+            "question": "The monkey saw ______ in the mirror and felt very surprised.",
+            "options": [
+                "A. it",
+                "B. its",
+                "C. it's",
+                "D. itself"
+            ],
+            "answer": "D. itself",
+            "meaning": "猴子在镜子里看到了自己，感到非常惊讶。",
+            "explanation": "这里需要反身代词 itself 表示'它自己'。its 是物主代词，it's 是 it is 的缩写。"
+        },
+        {
+            "id": "615",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "代词",
+            "question": "— My watch keeps good time. What about ______?<br>— Mine? Oh, two minutes slow.",
+            "options": [
+                "A. you",
+                "B. her",
+                "C. hers",
+                "D. yours"
+            ],
+            "answer": "D. yours",
+            "meaning": "— 我的手表走时很准。你的呢？<br>— 我的？哦，慢了两分钟。",
+            "explanation": "yours 是名词性物主代词，相当于 your watch。这里需要用名词性物主代词来指代对方的手表。"
+        },
+        {
+            "id": "616",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "固定搭配",
+            "question": "The doctor advises me to try ______ yoga. It may make me sleep well.",
+            "options": [
+                "A. do",
+                "B. to do",
+                "C. a",
+                "D. /"
+            ],
+            "answer": "D. /",
+            "meaning": "医生建议我尝试瑜伽。这可能会让我睡得更好。",
+            "explanation": "try 后面直接接名词或动名词，不需要加 to do；yoga 是不可数名词，不需要加冠词 a。"
+        },
+        {
+            "id": "617",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "数词",
+            "question": "The company has more than ______ users who rely on its services daily.",
+            "options": [
+                "A. three thousands",
+                "B. thousand of",
+                "C. thousands of",
+                "D. two thousand"
+            ],
+            "answer": "D. two thousand",
+            "meaning": "这家公司每天有超过两千名用户依赖其服务。",
+            "explanation": "具体数字后 thousand 用单数形式；thousands of 表示'成千上万的'，不能与具体数字连用。"
+        },
+        {
+            "id": "618",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "感叹句",
+            "question": "______ great fun Mr. Thomas gave us!",
+            "options": [
+                "A. What",
+                "B. What a",
+                "C. How",
+                "D. How a"
+            ],
+            "answer": "A. What",
+            "meaning": "托马斯先生给了我们多么大的乐趣啊！",
+            "explanation": "fun 是不可数名词，不能用 a 修饰。What + 形容词 + 不可数名词 + 主语 + 谓语！构成感叹句。"
+        },
+        {
+            "id": "619",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "常识",
+            "question": "______ is NOT among the Four Great Inventions of ancient China.",
+            "options": [
+                "A. Papermaking",
+                "B. Printing",
+                "C. Compass",
+                "D. Radium"
+            ],
+            "answer": "D. Radium",
+            "meaning": "______ 不在中国古代四大发明之列。",
+            "explanation": "中国古代四大发明是造纸术(Papermaking)、印刷术(Printing)、指南针(Compass)和火药(Gunpowder)。镭(Radium)是一种化学元素，不是四大发明。"
+        },
+        {
+            "id": "620",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "形容词",
+            "question": "— How does the steak taste?<br>— Quite ______. I like it very much.",
+            "options": [
+                "A. well",
+                "B. good",
+                "C. bad",
+                "D. terrible"
+            ],
+            "answer": "B. good",
+            "meaning": "— 牛排味道怎么样？<br>— 非常好。我非常喜欢。",
+            "explanation": "taste 是系动词，后面接形容词作表语。good 是形容词，well 通常作副词（表示身体好时是形容词）。"
+        },
+        {
+            "id": "621",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "固定搭配",
+            "question": "It sounds great! I'm ______ it.",
+            "options": [
+                "A. waiting to",
+                "B. looking after",
+                "C. hope for",
+                "D. looking forward to"
+            ],
+            "answer": "D. looking forward to",
+            "meaning": "听起来很棒！我很期待。",
+            "explanation": "look forward to 意为'期待'，是固定搭配，后面接名词或动名词。"
+        },
+        {
+            "id": "622",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "介词",
+            "question": "Sam went back to his hometown ______ the late 1980s.",
+            "options": [
+                "A. at",
+                "B. in",
+                "C. on",
+                "D. to"
+            ],
+            "answer": "B. in",
+            "meaning": "山姆在20世纪80年代末回到了他的家乡。",
+            "explanation": "表示在某个年代用介词 in，in the late 1980s 意为'在20世纪80年代末'。"
+        },
+        {
+            "id": "623",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "固定搭配",
+            "question": "Shakespeare wrote many plays ______ Romeo and Juliet.",
+            "options": [
+                "A. as to",
+                "B. like to",
+                "C. such as",
+                "D. for example"
+            ],
+            "answer": "C. such as",
+            "meaning": "莎士比亚写了许多戏剧，例如《罗密欧与朱丽叶》。",
+            "explanation": "such as 用于列举例子，后面直接接名词；for example 通常用逗号隔开，且一般只举一个例子。"
+        },
+        {
+            "id": "624",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "不定式",
+            "question": "My elder sister, Mary went to America ______ further study.",
+            "options": [
+                "A. have",
+                "B. to have",
+                "C. had",
+                "D. has"
+            ],
+            "answer": "B. to have",
+            "meaning": "我的姐姐玛丽去美国深造了。",
+            "explanation": "这里用动词不定式 to have 表示目的，意为'为了深造'。"
+        },
+        {
+            "id": "625",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "It was a great ______for such a young player! (achieve)",
+            "options": [],
+            "answer": "achievement",
+            "meaning": "对于这样年轻的选手来说，这是一项伟大的成就！",
+            "explanation": "achieve 是动词，意为'实现、取得'，这里需要名词形式 achievement，意为'成就'。"
+        },
+        {
+            "id": "626",
+            "type": "音标",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "音标",
+            "question": "Shakespeare wrote some ______/'trædʒɪdɪz/ like Hamlet.",
+            "options": [],
+            "answer": "tragedies",
+            "meaning": "莎士比亚写了一些像《哈姆雷特》这样的悲剧。",
+            "explanation": "/'trædʒɪdɪz/ 是 tragedies 的音标，意为'悲剧（复数）'。"
+        },
+        {
+            "id": "627",
+            "type": "音标",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "音标",
+            "question": "My son ______/'pʌblɪʃt/ many papers in foreign important magazines.",
+            "options": [],
+            "answer": "published",
+            "meaning": "我儿子在国外重要杂志上发表了许多论文。",
+            "explanation": "/'pʌblɪʃt/ 是 published 的音标，意为'发表、出版'（过去式）。"
+        },
+        {
+            "id": "628",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "动名词",
+            "question": "After ______ how poor people lived, he wrote many story-books.",
+            "options": [
+                "A. to see",
+                "B. seeing",
+                "C. see",
+                "D. saw"
+            ],
+            "answer": "B. seeing",
+            "meaning": "在看到穷人的生活状况后，他写了许多故事书。",
+            "explanation": "after 是介词，后面需要接动名词形式，see 的动名词是 seeing。"
+        },
+        {
+            "id": "629",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "代词",
+            "question": "During the Art Day, hundreds of people from ______ cities came to celebrate it.",
+            "options": [
+                "A. other",
+                "B. the other",
+                "C. others",
+                "D. another"
+            ],
+            "answer": "A. other",
+            "meaning": "艺术节期间，来自其他城市的数百人前来庆祝。",
+            "explanation": "other 作形容词，修饰复数名词 cities；the other 指两者中的另一个；others 是代词，不修饰名词；another 修饰单数名词。"
+        },
+        {
+            "id": "630",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "there be句型",
+            "question": "Attention, please. There ______ a football match between China and Korea this evening.",
+            "options": [
+                "A. is going to be",
+                "B. has been",
+                "C. has",
+                "D. will have"
+            ],
+            "answer": "A. is going to be",
+            "meaning": "请注意。今晚将有一场中国队对韩国队的足球比赛。",
+            "explanation": "考查 there be 句型的将来时。is going to be 表示'将要发生'，符合句意。"
+        },
+        {
+            "id": "631",
+            "type": "连词成句",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "连词成句",
+            "question": "water, the, the, the, mark, reached （连词成句）",
+            "options": [],
+            "answer": "The water reached the mark.",
+            "meaning": "水达到了标记处。",
+            "explanation": "连词成句。按照主谓宾结构排列：The water（主语） reached（谓语） the mark（宾语）。"
+        },
+        {
+            "id": "632",
+            "type": "连词成句",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "连词成句",
+            "question": "Cao Chong, eight-year-old, idea, an, the, had （连词成句）",
+            "options": [],
+            "answer": "The eight-year-old Cao Chong had an idea.",
+            "meaning": "八岁的曹冲有了一个主意。",
+            "explanation": "连词成句。The eight-year-old Cao Chong（主语） had（谓语） an idea（宾语）。"
+        },
+        {
+            "id": "633",
+            "type": "音标",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "音标",
+            "question": "I can't follow you. Beg your______/'pɑːdn/?",
+            "options": [],
+            "answer": "pardon",
+            "meaning": "我跟不上你的话。请再说一遍好吗？",
+            "explanation": "/'pɑːdn/ 是 pardon 的音标，beg your pardon 意为'请原谅、请再说一遍'。"
+        },
+        {
+            "id": "634",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "数词",
+            "question": "M______of people come here to enjoy the nice scenery.",
+            "options": [],
+            "answer": "illions",
+            "meaning": "数百万人来这里欣赏美丽的风景。",
+            "explanation": "millions of 是固定搭配，意为'数百万的'，million 用复数形式。"
+        },
+        {
+            "id": "635",
+            "type": "音标",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "音标",
+            "question": "My dad didn't come back______/ən'tɪl/ I fell asleep.",
+            "options": [],
+            "answer": "until",
+            "meaning": "我爸爸直到我睡着才回来。",
+            "explanation": "/ən'tɪl/ 是 until 的音标，意为'直到...才'。"
+        },
+        {
+            "id": "636",
+            "type": "音标",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "音标",
+            "question": "The______seems to have no basis in fact. /'θiəri/",
+            "options": [],
+            "answer": "theory",
+            "meaning": "这个理论似乎没有事实依据。",
+            "explanation": "/'θiəri/ 是 theory 的音标，意为'理论'。"
+        },
+        {
+            "id": "637",
+            "type": "音标",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "音标",
+            "question": "He was very different from the______run of movie stars. /'dʒen(ə)rəl/",
+            "options": [],
+            "answer": "general",
+            "meaning": "他与一般的电影明星非常不同。",
+            "explanation": "/'dʒen(ə)rəl/ 是 general 的音标，意为'一般的、普通的'。"
+        },
+        {
+            "id": "638",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "数词",
+            "question": "He was born in 1907. How to read the number 1907?",
+            "options": [
+                "A. one thousand seven",
+                "B. nineteen o seven",
+                "C. one nine o seven",
+                "D. ninety o seven"
+            ],
+            "answer": "B. nineteen o seven",
+            "meaning": "他出生于1907年。数字1907怎么读？",
+            "explanation": "年份1907的正确读法是 nineteen o seven。"
+        },
+        {
+            "id": "639",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "The______of many modern technologies has greatly changed our lives. (invent)",
+            "options": [],
+            "answer": "invention",
+            "meaning": "许多现代技术的发明极大地改变了我们的生活。",
+            "explanation": "invent 是动词，意为'发明'，这里需要名词形式 invention，意为'发明'。"
+        },
+        {
+            "id": "640",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "Something that is______does not cost very much. (expensive)",
+            "options": [],
+            "answer": "inexpensive",
+            "meaning": "不贵的东西不需要花太多钱。",
+            "explanation": "expensive 意为'昂贵的'，加前缀 in- 构成反义词 inexpensive，意为'不贵的、便宜的'。"
+        },
+        {
+            "id": "641",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "感叹句",
+            "question": "______ hot weather it was this summer! There were over ten days above 40℃.",
+            "options": [
+                "A. What",
+                "B. What a",
+                "C. What an",
+                "D. How"
+            ],
+            "answer": "A. What",
+            "meaning": "今年夏天天气真热啊！有十多天温度超过40摄氏度。",
+            "explanation": "weather 是不可数名词，不能用 a/an 修饰。What + 形容词 + 不可数名词 + 主语 + 谓语！构成感叹句。"
+        },
+        {
+            "id": "642",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "代词",
+            "question": "When people get older and older, ______ short memory becomes weaker and weaker.",
+            "options": [
+                "A. their",
+                "B. they",
+                "C. them",
+                "D. themselves"
+            ],
+            "answer": "A. their",
+            "meaning": "当人们变老时，他们的记忆力会变得越来越差。",
+            "explanation": "这里需要物主代词 their 来修饰名词 short memory，意为'他们的'。"
+        },
+        {
+            "id": "643",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "there be句型",
+            "question": "There ______ two football matches at school next month.",
+            "options": [
+                "A. are going to have",
+                "B. is going to have",
+                "C. will be",
+                "D. will have"
+            ],
+            "answer": "C. will be",
+            "meaning": "下个月学校将有两场足球比赛。",
+            "explanation": "考查 there be 句型的将来时。there be 句型不能与 have 连用，will be 是正确的将来时形式。"
+        },
+        {
+            "id": "644",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "形容词比较级",
+            "question": "To keep healthy, you should eat ______ fresh vegetables and take enough exercise.",
+            "options": [
+                "A. fewer",
+                "B. more",
+                "C. much",
+                "D. less"
+            ],
+            "answer": "B. more",
+            "meaning": "为了保持健康，你应该多吃新鲜蔬菜并进行足够的锻炼。",
+            "explanation": "vegetables 是可数名词复数，需要用 more 表示'更多的'。fewer 修饰可数名词但表示'更少'，less 修饰不可数名词。"
+        },
+        {
+            "id": "645",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "Mr.Li asked his students to read the story at______three times. (little)",
+            "options": [],
+            "answer": "least",
+            "meaning": "李老师要求他的学生至少读三遍这个故事。",
+            "explanation": "little 的最高级是 least，at least 是固定短语，意为'至少'。"
+        },
+        {
+            "id": "646",
+            "type": "音标",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "音标",
+            "question": "She is the main______in the movie. /'kærəktər/",
+            "options": [],
+            "answer": "character",
+            "meaning": "她是这部电影的主要角色。",
+            "explanation": "/'kærəktər/ 是 character 的音标，意为'角色'。"
+        },
+        {
+            "id": "647",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "there be句型",
+            "question": "There ______ a speech on great inventors in China next Friday.",
+            "options": [
+                "A. is going to have",
+                "B. will going to be",
+                "C. is going to be",
+                "D. will have"
+            ],
+            "answer": "C. is going to be",
+            "meaning": "下周五将有一场关于中国伟大发明家的演讲。",
+            "explanation": "考查 there be 句型的将来时。is going to be 表示'将要发生'，there be 句型不能与 have 连用。"
+        },
+        {
+            "id": "648",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "常识",
+            "question": "______ is one of the Four Great Inventions of ancient China.",
+            "options": [
+                "A. Papercutting",
+                "B. Printing",
+                "C. Radium",
+                "D. Silkmaking"
+            ],
+            "answer": "B. Printing",
+            "meaning": "______ 是中国古代四大发明之一。",
+            "explanation": "中国古代四大发明是造纸术(Papermaking)、印刷术(Printing)、指南针(Compass)和火药(Gunpowder)。"
+        },
+        {
+            "id": "649",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "代词",
+            "question": "The cat saw______in the mirror and felt very frightened.",
+            "options": [
+                "A. itself",
+                "B. them",
+                "C. it",
+                "D. themselves"
+            ],
+            "answer": "A. itself",
+            "meaning": "猫在镜子里看到了自己，感到非常害怕。",
+            "explanation": "这里需要反身代词 itself 表示'它自己'。cat 是单数，所以用 itself。"
+        },
+        {
+            "id": "650",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "情景交际",
+            "question": "— Would you mind turning down the radio?<br>— ______.",
+            "options": [
+                "A. Yes, please",
+                "B. Not at all",
+                "C. Never mind",
+                "D. That's all right"
+            ],
+            "answer": "B. Not at all",
+            "meaning": "— 你介意把收音机声音调小一点吗？<br>— 一点也不介意。",
+            "explanation": "Not at all 意为'一点也不'，用于回答 Would you mind...? 表示不介意。"
+        },
+        {
+            "id": "651",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "动词形式",
+            "question": "Lisa spent the whole afternoon______on the beach and enjoyed the sunshine. (lie)",
+            "options": [],
+            "answer": "lying",
+            "meaning": "丽莎整个下午都躺在海滩上享受阳光。",
+            "explanation": "spend time doing sth 是固定搭配，lie 的动名词是 lying。"
+        },
+        {
+            "id": "652",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "同义句转换",
+            "question": "Lots of people died in the air crash. （同义句转换）<br>Lots of people______their______in the air crash.",
+            "options": [],
+            "answer": "lost; lives",
+            "meaning": "许多人在空难中丧生。",
+            "explanation": "die 意为'死亡'，可以转换为 lose one's life，这里用复数形式 lost their lives。"
+        },
+        {
+            "id": "653",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "非谓语动词",
+            "question": "There are a lot of people ______ for the bus to come.",
+            "options": [
+                "A. waiting",
+                "B. to wait",
+                "C. waited",
+                "D. is waiting"
+            ],
+            "answer": "A. waiting",
+            "meaning": "有很多人在等公交车来。",
+            "explanation": "people 与 wait 之间是主动关系，用现在分词 waiting 作后置定语。"
+        },
+        {
+            "id": "654",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "there be句型",
+            "question": "— Did you hear about the fire down the street?<br>— There ______ a lot of news about it on TV last night.",
+            "options": [
+                "A. was",
+                "B. had",
+                "C. is",
+                "D. were"
+            ],
+            "answer": "A. was",
+            "meaning": "— 你听说街上发生的火灾了吗？<br>— 昨晚电视上有很多关于它的新闻。",
+            "explanation": "news 是不可数名词，所以用 was；last night 表示过去时。"
+        },
+        {
+            "id": "655",
+            "type": "音标",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "音标",
+            "question": "I waited______it got dark. /ən'tɪl/",
+            "options": [],
+            "answer": "until",
+            "meaning": "我一直等到天黑。",
+            "explanation": "/ən'tɪl/ 是 until 的音标，意为'直到'。"
+        },
+        {
+            "id": "656",
+            "type": "音标",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "音标",
+            "question": "When water______rise, flooding results. /levlz/",
+            "options": [],
+            "answer": "levels",
+            "meaning": "当水位上升时，就会发生洪水。",
+            "explanation": "/levlz/ 是 levels 的音标，意为'水位'。"
+        },
+        {
+            "id": "657",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "介词",
+            "question": "The accident happened ______ a snowy night in winter.",
+            "options": [
+                "A. to",
+                "B. on",
+                "C. in",
+                "D. at"
+            ],
+            "answer": "B. on",
+            "meaning": "事故发生在冬天的一个雪夜。",
+            "explanation": "具体某一天的晚上用介词 on，on a snowy night 意为'在一个雪夜'。"
+        },
+        {
+            "id": "658",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "连词",
+            "question": "Jason didn't go to bed ______ he finished his homework.",
+            "options": [
+                "A. so",
+                "B. until",
+                "C. but",
+                "D. after"
+            ],
+            "answer": "B. until",
+            "meaning": "杰森直到完成作业才上床睡觉。",
+            "explanation": "not...until... 是固定搭配，意为'直到...才...'。"
+        },
+        {
+            "id": "659",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "特殊疑问句",
+            "question": "There are <u>five glasses of</u> milk on the table. （对画线部分提问）<br>______ ______ milk is there on the table?",
+            "options": [],
+            "answer": "How much",
+            "meaning": "桌子上有五杯牛奶。<br>桌子上有多少牛奶？",
+            "explanation": "对数量提问，milk 是不可数名词，用 How much。"
         }
     ]
 }
