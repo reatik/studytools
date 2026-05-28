@@ -8651,11 +8651,11 @@
         },
         {
             "id": "581",
-            "type": "填空",
+            "type": "句型转换",
             "grade": "六年级下",
             "unit": "U6",
             "knowledge_point": "句型转换",
-            "question": "He saved a great many Chinese people and died at the war hospital. （保持句意基本不变）<br><br>He saved a great many Chinese people and ______ his ______ at the war hospital.",
+            "question": "He saved a great many Chinese people and died at the war hospital. （保持句意基本不变）<br>He saved a great many Chinese people and ______ his ______ at the war hospital.",
             "options": [],
             "answer": "lost; life",
             "meaning": "他救了许多中国人，并在战地医院牺牲了。",
@@ -8663,11 +8663,11 @@
         },
         {
             "id": "582",
-            "type": "填空",
+            "type": "句型转换",
             "grade": "六年级下",
             "unit": "U6",
             "knowledge_point": "句型转换",
-            "question": "In the early 1610s, she returned to her hometown and kept writing amazing books. （保持句意基本不变）<br><br>In the early 1610s, she ______ ______ to her hometown and kept writing amazing books.",
+            "question": "In the early 1610s, she returned to her hometown and kept writing amazing books. （保持句意基本不变）<br>In the early 1610s, she ______ ______ to her hometown and kept writing amazing books.",
             "options": [],
             "answer": "went; back",
             "meaning": "在17世纪10年代初，她回到了家乡，并继续写精彩的书籍。",
@@ -8675,7 +8675,7 @@
         },
         {
             "id": "583",
-            "type": "填空",
+            "type": "句型转换",
             "grade": "六年级下",
             "unit": "U6",
             "knowledge_point": "特殊疑问句",
@@ -8965,7 +8965,7 @@
         },
         {
             "id": "603",
-            "type": "填空",
+            "type": "句型转换",
             "grade": "六年级下",
             "unit": "U6",
             "knowledge_point": "词性转换",
@@ -9673,7 +9673,7 @@
         },
         {
             "id": "652",
-            "type": "填空",
+            "type": "句型转换",
             "grade": "六年级下",
             "unit": "U6",
             "knowledge_point": "同义句转换",
@@ -9777,7 +9777,7 @@
         },
         {
             "id": "659",
-            "type": "填空",
+            "type": "句型转换",
             "grade": "六年级下",
             "unit": "U6",
             "knowledge_point": "特殊疑问句",

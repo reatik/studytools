@@ -55,21 +55,6 @@ body {
 
 .toolbar .sep { width: 1px; height: 24px; background: #ddd; }
 
-.color-panel {
-  display: none;
-  position: absolute;
-  top: 38px;
-  left: 0;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 8px 10px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-  z-index: 100;
-  white-space: nowrap;
-}
-.color-panel.show { display: block; }
-
 .main {
   display: flex;
   height: calc(100vh - 52px);
@@ -246,10 +231,11 @@ body {
 }
 .panel-header .paper-count { font-weight: normal; font-size: 13px; color: #888; }
 
+/* 核心修复：去掉顶部 padding，第一页不再多空白 */
 .paper-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
+  padding: 0 24px;
   display: flex;
   justify-content: center;
 }
@@ -257,27 +243,21 @@ body {
 @media print {
   @page {
     size: A4;
-    margin: 15mm;
+    margin: 0;
   }
   body { background: #fff; overflow: visible; height: auto; }
   .toolbar, .sidebar, .panel-header { display: none !important; }
   .main { display: block; height: auto; }
   .panel { display: block; overflow: visible; background: #fff; }
-  .paper-scroll { overflow: visible; padding: 0; }
-  .paper {
-    box-shadow: none;
-    max-width: 100%;
-    padding: 0;
-    margin: 0;
-    min-height: auto;
-  }
+  .paper-scroll { overflow: visible; padding: 0 !important; margin:0 !important; }
+  .paper { box-shadow: none; max-width: 100%; padding:0; margin:0; min-height: auto; }
   .paper-page {
     box-shadow: none !important;
     width: 100% !important;
     min-height: auto !important;
     max-width: none !important;
     background: #fff !important;
-    padding: 10mm 20mm 10mm 25mm !important;
+    padding: 0 20mm 10mm 25mm !important;
     margin: 0 !important;
     font-size: 15px !important;
     line-height: 2.2 !important;
@@ -285,9 +265,7 @@ body {
     display: block !important;
     position: relative !important;
   }
-  .paper-page .page-num {
-    display: none;
-  }
+  .paper-page .page-num { display: none; }
   .paper-info-row span, .paper-info-row b { color: #000; }
   .plain-q { page-break-inside: avoid; }
   .plain-section { page-break-after: avoid; }
@@ -312,12 +290,13 @@ body {
 .sidebar.selecting { user-select: none; }
 .sidebar.selecting .q-card { cursor: default; }
 
+/* 核心：顶部 padding=0，所有页完全统一 */
 .paper-page {
   width: 210mm;
   min-height: 297mm;
   max-width: none;
   background: #fff;
-  padding: 10mm 20mm 10mm 25mm;
+  padding: 0 20mm 10mm 25mm;
   box-shadow: 0 2px 12px rgba(0,0,0,0.12);
   margin: 0 auto 20px;
   font-size: 15px;
@@ -331,7 +310,7 @@ body {
   .paper-page {
     width: 100%;
     min-height: auto;
-    padding: 30px 24px 40px;
+    padding: 0 24px 40px;
   }
 }
 .paper-page:last-child { margin-bottom: 0; }
@@ -358,6 +337,12 @@ body {
 .plain-bracket {
   display: inline;
   margin-right: 4px;
+}
+.plain-sentence-line {
+  border-bottom: 1px solid #999;
+  min-height: 1.5em;
+  width: 94%;
+  margin-top: 2em;
 }
 .plain-q { overflow-wrap: break-word; }
 .plain-options {
@@ -402,19 +387,6 @@ body {
 }
 
 .papers-wrap { display: block !important; }
-
-.plain-sentence-line {
-  border-bottom: 1px solid #999;
-  margin-top: 8px;
-  margin-left: 0.4em;
-  min-height: 2em;
-  width: 90%;
-}
-
-.paper-page span[style*="background-color"] {
-  padding: 0 2px;
-  border-radius: 2px;
-}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -441,15 +413,6 @@ body {
   <span class="sep"></span>
   <button class="primary" id="btnGenPdf" onclick="generatePDF()">📄 生成PDF</button>
   <button id="btnAnswerPdf" onclick="generateAnswerPDF()">📋 答案解析</button>
-  <span class="sep"></span>
-  <div style="position:relative;display:inline-block;">
-    <button id="btnHighlight" onclick="toggleColorPanel()" style="padding:7px 14px;border:none;border-radius:5px;background:#ffff00;color:#333;cursor:pointer;font-size:13px;">🖊 高光</button>
-    <button onclick="clearHighlights()" title="清除所有高光" style="padding:7px 10px;border:1px solid #ccc;border-radius:5px;background:#fff;color:#f44336;cursor:pointer;font-size:12px;">✕</button>
-    <div class="color-panel" id="colorPanel">
-      <input type="color" id="hlColor" value="#ffff00" style="width:28px;height:28px;border:none;cursor:pointer;padding:0;">
-      <input type="range" id="hlOpacity" min="20" max="100" value="70" style="width:80px;">
-    </div>
-  </div>
   <span class="info" id="toolbarInfo"></span>
 </div>
 
@@ -843,8 +806,13 @@ function renderPaper() {
         qHtml += '<span class="plain-bracket">( &nbsp;&nbsp;&nbsp;&nbsp; )</span>';
       }
 
+      // 填空题和句型转换：横线加长两格
+      let questionText = q.question || '';
+      if (q.type === '填空' || q.type === '句型转换' || q.type === '音标') {
+        questionText = questionText.replace(/_+/g, m => m + '__');
+      }
       qHtml += '<span class="plain-num">' + qNum + '.</span> ';
-      qHtml += '<span class="plain-text">' + escapeHtml(q.question) + '</span>';
+      qHtml += '<span class="plain-text">' + questionText + '</span>';
 
       // 选项自适应排列
       if (q.type === '选择' && q.options && q.options.length > 0) {
@@ -857,7 +825,7 @@ function renderPaper() {
 
       // 连词成句：加横线
       if (q.type === '连词成句') {
-        qHtml += '<div class="plain-sentence-line"></div>';
+        qHtml += '<br><div class="plain-sentence-line"></div>';
       }
 
       qHtml += '</div>';
@@ -898,7 +866,7 @@ async function generatePDF() {
 
   try {
     await html2pdf().set({
-      margin: [0,0,0,0],
+      margin: [20,0,0,0],
       filename: '英语试卷.pdf',
       image: {type:'jpeg',quality:0.98},
       html2canvas: {scale:2,useCORS:true,logging:false},
@@ -916,34 +884,34 @@ async function generatePDF() {
 async function generateAnswerPDF() {
   const selected = getSelectedQuestions();
   if (!selected.length) return alert('请先勾选题目！');
-  
+
   const btn = document.getElementById('btnAnswerPdf');
   const old = btn?.textContent;
   if (btn) { btn.textContent = '生成中...'; btn.disabled = true; }
 
-  // 生成答案HTML
+  // 保存原试卷内容
+  const papersWrap = document.getElementById('papersWrap');
+  const oldHTML = papersWrap.innerHTML;
+
+  // 生成答案HTML（只显示答案和解析，不显示题目）
   let qNum = 0;
   let html = '';
-  
   const groups = groupByType(selected);
   groups.forEach(group => {
     html += `<div style="font-size:17px;font-weight:bold;margin:20px 0 10px;color:#333;border-bottom:1px solid #ddd;padding-bottom:6px;">【${getTypeLabel(group.type)}】</div>`;
     group.questions.forEach(q => {
       qNum++;
-      html += `<div style="margin:8px 0 14px 0;line-height:2.2;font-size:15px;">`;
-      html += `<span style="font-weight:bold;">${qNum}.</span> ${escapeHtml(q.question)}<br>`;
+      html += `<div style="margin:8px 0 16px 0;line-height:2.2;font-size:15px;">`;
+      html += `<span style="font-weight:bold;">${qNum}.</span> `;
       html += `<span style="color:#2e7d32;font-weight:bold;">答案：${escapeHtml(String(q.answer || ''))}</span>`;
       if (q.explanation) {
-        html += `<br><span style="color:#555;">解析：${escapeHtml(q.explanation)}</span>`;
+        html += `<br><span style="color:#555;">解析：${q.explanation}</span>`;
       }
       html += `</div>`;
     });
   });
 
-  // 保存原试卷内容，临时替换为答案解析
-  const papersWrap = document.getElementById('papersWrap');
-  const oldHTML = papersWrap.innerHTML;
-
+  // 临时替换试卷内容
   const container = document.createElement('div');
   container.className = 'paper-page';
   container.innerHTML = html;
@@ -1117,80 +1085,6 @@ document.addEventListener('keydown', e => {
 // ========== 页面加载时自动导入题库 ==========
 document.addEventListener('DOMContentLoaded', () => {
   loadFromShuahaoti();
-});
-
-// ========== 高光功能 ==========
-function toggleColorPanel() {
-  const sel = window.getSelection();
-  const page = document.querySelector('.paper-page[contenteditable]');
-  const panel = document.getElementById('colorPanel');
-
-  // 选中了文字 → 直接标记
-  if (sel && !sel.isCollapsed && page && page.contains(sel.anchorNode)) {
-    applyHighlight();
-    return;
-  }
-
-  // 没选中文字 → 开关颜色面板
-  panel.classList.toggle('show');
-}
-
-// 点击其他地方关闭面板
-document.addEventListener('click', function(e) {
-  const panel = document.getElementById('colorPanel');
-  const btn = document.getElementById('btnHighlight');
-  if (panel && btn && !btn.contains(e.target) && !panel.contains(e.target)) {
-    panel.classList.remove('show');
-  }
-});
-
-function applyHighlight() {
-  const page = document.querySelector('.paper-page[contenteditable]');
-  if (!page) { alert('请先生成试卷'); return; }
-  const sel = window.getSelection();
-  if (!sel.rangeCount || sel.isCollapsed) return;
-
-  const range = sel.getRangeAt(0);
-  const color = document.getElementById('hlColor').value;
-  const opacity = parseInt(document.getElementById('hlOpacity').value) / 100;
-  const r = parseInt(color.slice(1,3), 16);
-  const g = parseInt(color.slice(3,5), 16);
-  const b = parseInt(color.slice(5,7), 16);
-
-  const span = document.createElement('span');
-  span.style.backgroundColor = `rgba(${r},${g},${b},${opacity})`;
-  span.style.padding = '0 2px';
-  span.style.borderRadius = '2px';
-
-  try { range.surroundContents(span); }
-  catch (e) { const f = range.extractContents(); span.appendChild(f); range.insertNode(span); }
-
-  sel.removeAllRanges();
-  // 同步按钮颜色
-  document.getElementById('btnHighlight').style.background = `rgba(${r},${g},${b},${opacity})`;
-}
-
-function clearHighlights() {
-  if (!confirm('确定清除所有高光标记吗？')) return;
-  const page = document.querySelector('.paper-page[contenteditable]');
-  if (!page) return;
-  page.querySelectorAll('span[style*="background-color"]').forEach(span => {
-    const p = span.parentNode;
-    while (span.firstChild) p.insertBefore(span.firstChild, span);
-    p.removeChild(span);
-  });
-}
-
-// 点击高光区域 → 单个清除
-document.addEventListener('click', function(e) {
-  const span = e.target.closest('span[style*="background-color"]');
-  if (!span) return;
-  const page = span.closest('.paper-page');
-  if (!page || !page.isContentEditable) return;
-  // 取消默认事件避免选中
-  const p = span.parentNode;
-  while (span.firstChild) p.insertBefore(span.firstChild, span);
-  p.removeChild(span);
 });
 </script>
 </body>
