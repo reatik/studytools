@@ -626,6 +626,28 @@ body.night-mode .clear-fav-btn:hover {
 
 }
 
+/* 连词成句单词标签 */
+.word-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+.word-tag {
+    display: inline-block;
+    background: #EDE7F6;
+    color: #5A4B75;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    border: 1px solid #D1C4E9;
+}
+.word-hint {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 8px 0;
+}
+
 .empty-message {
     text-align: center;
     padding: 40px 20px;
@@ -777,6 +799,14 @@ body.night-mode .knowledge-badge {
     background: #5A4B75;
     color: #ffffff;
 }
+body.night-mode .word-tag {
+    background: #2a3040;
+    color: #d0d8e8;
+    border-color: #4a4560;
+}
+body.night-mode .word-hint {
+    color: #999;
+}
 
 /* 夜间模式 - 筛选面板 */
 body.night-mode .filter-panel {
@@ -858,7 +888,7 @@ body.night-mode .mode-toast {
 </head>
 <body>
     <div class="container">
-        <!-- 右上角：收藏 + 错题 + 选项按钮 -->
+        <!-- 右上角按钮 -->
         <div class="top-right-option">
             <div class="option-menu-btn" id="only-fav-btn" title="收藏模式">
                 <img src="../../../images/收藏3.png" alt="收藏">
@@ -894,8 +924,6 @@ body.night-mode .mode-toast {
                 </div>
             </div>
         </div>
-
-
 
         <!-- 主答题区域 -->
         <div class="question-area" id="question-area">
@@ -936,8 +964,6 @@ body.night-mode .mode-toast {
         const clearFavBtn = document.getElementById('clear-fav-btn');
         const optionMenuBtn = document.getElementById('option-menu-btn');
         const filterPanel = document.getElementById('filter-panel');
-
-
 
         // ---------- 右上角筛选面板 ----------
         function getUniqueList(key) {
@@ -1117,44 +1143,6 @@ body.night-mode .mode-toast {
             // wrapper 包裹后支持统计栏溢出到卡片外
             let wrapper = document.createElement('div');
             wrapper.className = 'card-wrapper';
-
-            // 右上外侧统计栏 —— 暂时禁用
-            /*
-            let isFaved = questionFavs.has(q.id);
-            let isLiked = questionLikes.has(q.id);
-            let stats = document.createElement('div');
-            stats.className = 'stats-bar';
-            stats.innerHTML = `
-                <span class="stat-item"><img src="../../../images/icon_学生错题.png" alt="错"><span class="stat-num">10</span></span>
-                <span class="stat-item clickable" title="收藏"><img src="${isFaved ? '../../../images/收藏2.png' : '../../../images/收藏1.png'}" alt="收藏"><span class="stat-num">10</span></span>
-                <span class="stat-item clickable" title="点赞"><img src="${isLiked ? '../../../images/点赞2.png' : '../../../images/点赞1.png'}" alt="点赞"><span class="stat-num">10</span></span>
-            `;
-            // 收藏点击事件
-            let favItem = stats.querySelectorAll('.stat-item.clickable')[0];
-            favItem.onclick = (e) => {
-                e.stopPropagation();
-                if (questionFavs.has(q.id)) {
-                    questionFavs.delete(q.id);
-                } else {
-                    questionFavs.add(q.id);
-                }
-                saveAllData();
-                renderCurrent();
-            };
-            // 点赞点击事件
-            let likeItem = stats.querySelectorAll('.stat-item.clickable')[1];
-            likeItem.onclick = (e) => {
-                e.stopPropagation();
-                if (questionLikes.has(q.id)) {
-                    questionLikes.delete(q.id);
-                } else {
-                    questionLikes.add(q.id);
-                }
-                saveAllData();
-                renderCurrent();
-            };
-            wrapper.appendChild(stats);
-            */
 
             let card = document.createElement('div');
             card.className = 'question-card';
@@ -1459,6 +1447,65 @@ body.night-mode .mode-toast {
                         body.appendChild(exp);
                     }
                 }
+            } else if (q.type === '连词成句') {
+                // 提取单词（去除最后的"（连词成句）"提示）
+                let wordsStr = q.question.replace(/[（(]连词成句[）)]/g, '').trim();
+                let wordsList = wordsStr.split(/[,，]/).map(w => w.trim()).filter(w => w);
+
+                // 显示单词/短语（逗号隔开）
+                let wordText = document.createElement('p');
+                wordText.style.cssText = 'font-size:16px; color:#333; margin-bottom:10px;';
+                wordText.textContent = wordsList.join(', ');
+                body.appendChild(wordText);
+
+                // 输入框
+                let input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'fill-input';
+                input.placeholder = '请在此输入完整的句子...';
+                input.autocomplete = 'off';
+
+                if (userAnswers[q.id]) {
+                    input.value = userAnswers[q.id];
+                    input.disabled = true;
+                    let cor = normalizeAnswer(userAnswers[q.id]) === normalizeAnswer(q.answer);
+                    input.classList.add(cor ? 'correct' : 'incorrect');
+                }
+                body.appendChild(input);
+
+                if (!userAnswers[q.id]) {
+                    let btn = document.createElement('button');
+                    btn.className = 'submit-btn';
+                    btn.textContent = '提交答案';
+                    btn.onclick = () => {
+                        let val = input.value.trim();
+                        if (!val) return alert('请输入答案');
+                        userAnswers[q.id] = val;
+                        let cor = normalizeAnswer(val) === normalizeAnswer(q.answer);
+                        recordAttempt(q.id, cor);
+                        card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
+                    };
+                    body.appendChild(btn);
+                } else {
+                    let cor = normalizeAnswer(userAnswers[q.id]) === normalizeAnswer(q.answer);
+                    if (!cor) {
+                        let rt = document.createElement('span');
+                        rt.className = 'fill-result-text';
+                        rt.style.color = 'var(--error-color)';
+                        rt.textContent = '✗ 正确答案：' + q.answer;
+                        body.appendChild(rt);
+                    }
+                    if (q.meaning || q.explanation) {
+                        let exp = document.createElement('div');
+                        exp.className = 'explanation';
+                        exp.style.display = 'block';
+                        let html = '';
+                        if (q.meaning) html += `<div class="explanation-title">翻译</div>${q.meaning}`;
+                        if (q.explanation) html += `<div class="explanation-title">解析</div>${q.explanation}`;
+                        exp.innerHTML = html;
+                        body.appendChild(exp);
+                    }
+                }
             }
             card.appendChild(body);
             wrapper.appendChild(card);
@@ -1488,6 +1535,9 @@ body.night-mode .mode-toast {
             if (!userAnswers[q.id]) return false;
             if (q.type === '选择') {
                 return checkAnswer(userAnswers[q.id], q.answer);
+            }
+            if (q.type === '连词成句') {
+                return normalizeAnswer(userAnswers[q.id]) === normalizeAnswer(q.answer);
             }
             let vals = userAnswers[q.id].split(';').map(s => s.trim());
             return checkAnswerBlank(vals, q.answer);
@@ -1716,6 +1766,7 @@ body.night-mode .mode-toast {
             onlyFavBtn.onclick = toggleOnlyFavMode;
             clearWrongBtn.onclick = clearAllWrong;
             clearFavBtn.onclick = clearAllFavs;
+            
             // 恢复收藏模式按钮状态
             onlyFavBtn.classList.toggle('active', isOnlyFavMode);
 
@@ -1726,6 +1777,15 @@ body.night-mode .mode-toast {
                 if (e.key === 'ArrowRight') goToNext();
             });
 
+        }
+
+        // 规范化答案：压缩多余空格，补齐标点后空格（保留大小写）
+        function normalizeAnswer(str) {
+            return str
+                .replace(/\s+/g, ' ')                          // 多个空格 → 一个空格
+                .replace(/\s*([,.!?;:])\s*/g, '$1 ')          // 标点后补一个空格（去掉标点前后多余空格）
+                .replace(/\s+/g, ' ')                          // 再次压缩可能产生的多余空格
+                .trim();
         }
 
         init();

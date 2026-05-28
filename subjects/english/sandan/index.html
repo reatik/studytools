@@ -79,6 +79,36 @@ body {
     border-color: var(--primary);
 }
 
+.top-hint-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(212,149,122,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+}
+.top-hint-btn svg {
+    width: 22px;
+    height: 22px;
+    fill: #b57d5c;
+}
+.top-hint-btn.active {
+    background: var(--primary);
+    border-color: #d4957a;
+}
+.top-hint-btn.active svg {
+    fill: #fff;
+}
+.top-hint-btn:hover {
+    border-color: var(--primary);
+}
+
 /* 清空错题按钮 */
 .clear-wrong-btn {
     width: 40px;
@@ -400,11 +430,14 @@ body {
 <div class="container" id="practicePanel">
     <!-- 右上角按钮 -->
     <div class="top-right-option">
+        <div class="clear-wrong-btn" id="clearWrongBtn" title="清空所有错题">
+            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        </div>
         <div class="top-wrong-btn" id="topWrongBtn" title="只练错题">
             <img src="../../../images/错题1.png" alt="错题">
         </div>
-        <div class="clear-wrong-btn" id="clearWrongBtn" title="清空所有错题">
-            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        <div class="top-hint-btn active" id="topHintBtn" title="主语提示开关">
+            <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>
         </div>
         <div class="option-menu-btn" id="optionMenuBtn" title="筛选选项">
             <img src="../../../images/选项.png" alt="选项">
@@ -461,6 +494,7 @@ body {
 const STORAGE_KEY = "sandan_types";
 const WRONG_IDS_KEY = "sandan_wrong_ids";
 const ONLY_WRONG_KEY = "sandan_only_wrong";
+const HINT_KEY = "sandan_show_hint";
 
 // 给题库中每个题目分配索引ID
 sentenceBank.forEach((q, i) => { q._id = i; });
@@ -479,6 +513,7 @@ let unansweredCount = 0;
 let currentIndex = 0;
 let wrongQids = new Set();       // 错题ID集合
 let isOnlyWrongMode = false;     // 只看错题模式
+let showSubjectHint = true;      // 主语提示开关
 let selectedTypeSet = new Set(allTypes); // 默认全选
 let lastNormalIndex = 0;       // 正常模式下最后的位置
 let lastWrongIndex = 0;        // 错题模式下最后的位置
@@ -653,20 +688,16 @@ function resetQuestions(targetIndex) {
         document.getElementById('questionLabel').innerText = '';
         document.getElementById('progressCounters').style.display = isOnlyWrongMode ? 'none' : '';
         answers = [];
-    correctCount = 0;
-    errorCount = 0;
-    unansweredCount = 0;
-    let idx = (targetIndex !== undefined) ? targetIndex : 0;
-    if (idx >= questionPool.length) idx = Math.max(0, questionPool.length - 1);
-    currentIndex = idx;
-    updateProgress();
+        // 保留计数器，不重置
+        let idx = (targetIndex !== undefined) ? targetIndex : 0;
+        if (idx >= questionPool.length) idx = Math.max(0, questionPool.length - 1);
+        currentIndex = idx;
+        updateProgress();
         return;
     }
 
     answers = [];
-    correctCount = 0;
-    errorCount = 0;
-    unansweredCount = 0;
+    // 保留计数器，不重置
     let idx = (targetIndex !== undefined) ? targetIndex : 0;
     if (idx >= questionPool.length) idx = Math.max(0, questionPool.length - 1);
     currentIndex = idx;
@@ -696,8 +727,9 @@ function showQuestion(index) {
     // 错题模式隐藏计数
     document.getElementById('progressCounters').style.display = isOnlyWrongMode ? 'none' : '';
 
-    document.getElementById('questionText').innerHTML =
-        q.text.replace(/{(.*?)}/g, '<span class="subject">$1</span>');
+    document.getElementById('questionText').innerHTML = showSubjectHint
+        ? q.text.replace(/{(.*?)}/g, '<span class="subject">$1</span>')
+        : q.text.replace(/[{}]/g, '');
 
     document.getElementById('options').innerHTML = q.options.map((opt, i) => `
         <div class="option" data-index="${i}">
@@ -753,15 +785,17 @@ function selectOption(el, q, index) {
         updateCardWrongBtn(q._id);
     }
 
-    // 自动下一题
-    setTimeout(() => {
-        if (currentIndex < questionPool.length - 1) {
-            currentIndex++;
-            showQuestion(currentIndex);
-        } else {
-            finish();
-        }
-    }, 1000);
+    // 只有答对时才自动跳转下一题
+    if (selected.correct) {
+        setTimeout(() => {
+            if (currentIndex < questionPool.length - 1) {
+                currentIndex++;
+                showQuestion(currentIndex);
+            } else {
+                finish();
+            }
+        }, 1000);
+    }
 }
 
 // 恢复已答状态
@@ -909,9 +943,7 @@ function doFilterAfterWrongChange() {
         document.getElementById('options').innerHTML = '';
         document.getElementById('questionLabel').innerText = '';
         document.getElementById('progressCounters').style.display = 'none';
-        correctCount = 0;
-        errorCount = 0;
-        unansweredCount = 0;
+        // 保留计数器，不重置
         updateProgress();
         return;
     }
@@ -929,6 +961,24 @@ initSavedTypes();
 loadWrongData();
 renderFilterTags();
 document.getElementById('topWrongBtn').classList.toggle('active', isOnlyWrongMode);
+
+// 主语提示开关
+function toggleHint() {
+    showSubjectHint = !showSubjectHint;
+    document.getElementById('topHintBtn').classList.toggle('active', showSubjectHint);
+    document.getElementById('topHintBtn').title = showSubjectHint ? '主语提示开（点击关闭）' : '主语提示关（点击开启）';
+    localStorage.setItem(HINT_KEY, JSON.stringify(showSubjectHint));
+    if (questionPool.length > 0) showQuestion(currentIndex);
+}
+
+// 加载提示开关状态
+try {
+    const savedHint = localStorage.getItem(HINT_KEY);
+    if (savedHint !== null) showSubjectHint = JSON.parse(savedHint);
+} catch(e) {}
+document.getElementById('topHintBtn').classList.toggle('active', showSubjectHint);
+document.getElementById('topHintBtn').title = showSubjectHint ? '主语提示开（点击关闭）' : '主语提示关（点击开启）';
+document.getElementById('topHintBtn').onclick = toggleHint;
 
 // 错题模式按钮点击
 document.getElementById('topWrongBtn').addEventListener('click', (e) => {

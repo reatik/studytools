@@ -1,0 +1,106 @@
+{
+    "questions": [
+      {
+        "id": 1,
+        "type": "阅读",
+        "grade": "七年级",
+        "unit": "Unit 3",
+        "knowledge_point": "阅读理解",
+        "title": "SPEND THE HOLIDAY OF A LIFETIME—IN A CAVE!",
+        "image": "images/id1.png",
+        "article": "If you like a different kind of holiday, then you'll find these historic caves are just what you are looking for.",
+        "sections": [
+          {
+            "heading": "HOW TO GET THERE",
+            "text": "Fly to the city of Granada in Spain, drive to Guadix, and step into a different world."
+          },
+          {
+            "heading": "WHAT YOU'LL FIND",
+            "text": "You probably think caves are primitive(原始的). Well, you haven't seen these caves. A cave house in Andalusia can be anything from a small country cottage to a luxurious cave hotel. Come and enjoy the peaceful environment. You'll be surprised to find everything you need—electricity, phone, hot water... Some caves even have a broadband connection and others have a Jacuzzi or a swimming pool."
+          },
+          {
+            "heading": "YOU WON'T WANT TO LEAVE!",
+            "text": "Here are a few more reasons to visit Guadix!"
+          }
+        ],
+        "list": [
+          "You'll enjoy the temperature in the cave. It's around 18 – 20 ℃, even on a hot summer day! Cool!",
+          "You'll see that every cave is unique. They all have their own charm and individual character.",
+          "You'll sleep better in the cave than in a normal hotel. You won't believe how relaxed you feel."
+        ],
+        "options": [
+          {
+            "q": "( ) 61. What kind of text is it?",
+            "opts": ["A. An introduction.", "B. A poster.", "C. An advertisement.", "D. A report."]
+          },
+          {
+            "q": "( ) 62. Which of the following about the caves is NOT TRUE?",
+            "opts": ["A. The writer thinks the caves are historic.", "B. Caves have got very good living equipment.", "C. Living in caves makes people feel comfortable.", "D. People enjoy there because there's no summer."]
+          },
+          {
+            "q": "( ) 63. The underlined word “unique” probably means “________”.",
+            "opts": ["A. special", "B. excellent", "C. natural", "D. scenic"]
+          },
+          {
+            "q": "( ) 64. The purpose of the material is to ________.",
+            "opts": ["A. look for caves", "B. provide services", "C. introduce the caves", "D. attract more tourists"]
+          },
+          {
+            "q": "( ) 65. Which of the following will probably be talked about in the next part?",
+            "opts": ["A. Living conditions.", "B. Holiday expenses.", "C. Neighbourhood relations.", "D. Travel diaries."]
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "type": "阅读",
+        "grade": "七年级",
+        "unit": "Unit 3",
+        "knowledge_point": "阅读理解",
+        "title": "SPEND THE HOLIDAY OF A LIFETIME—IN A CAVE!",
+        "image": "images/id1.png",
+        "article": "If you like a different kind of holiday, then you'll find these historic caves are just what you are looking for.",
+        "sections": [
+          {
+            "heading": "HOW TO GET THERE",
+            "text": "Fly to the city of Granada in Spain, drive to Guadix, and step into a different world."
+          },
+          {
+            "heading": "WHAT YOU'LL FIND",
+            "text": "You probably think caves are primitive(原始的). Well, you haven't seen these caves. A cave house in Andalusia can be anything from a small country cottage to a luxurious cave hotel. Come and enjoy the peaceful environment. You'll be surprised to find everything you need—electricity, phone, hot water... Some caves even have a broadband connection and others have a Jacuzzi or a swimming pool."
+          },
+          {
+            "heading": "YOU WON'T WANT TO LEAVE!",
+            "text": "Here are a few more reasons to visit Guadix!"
+          }
+        ],
+        "list": [
+          "You'll enjoy the temperature in the cave. It's around 18 – 20 ℃, even on a hot summer day! Cool!",
+          "You'll see that every cave is unique. They all have their own charm and individual character.",
+          "You'll sleep better in the cave than in a normal hotel. You won't believe how relaxed you feel."
+        ],
+        "options": [
+          {
+            "q": "( ) 61. What kind of text is it?",
+            "opts": ["A. An introduction.", "B. A poster.", "C. An advertisement.", "D. A report."]
+          },
+          {
+            "q": "( ) 62. Which of the following about the caves is NOT TRUE?",
+            "opts": ["A. The writer thinks the caves are historic.", "B. Caves have got very good living equipment.", "C. Living in caves makes people feel comfortable.", "D. People enjoy there because there's no summer."]
+          },
+          {
+            "q": "( ) 63. The underlined word “unique” probably means “________”.",
+            "opts": ["A. special", "B. excellent", "C. natural", "D. scenic"]
+          },
+          {
+            "q": "( ) 64. The purpose of the material is to ________.",
+            "opts": ["A. look for caves", "B. provide services", "C. introduce the caves", "D. attract more tourists"]
+          },
+          {
+            "q": "( ) 65. Which of the following will probably be talked about in the next part?",
+            "opts": ["A. Living conditions.", "B. Holiday expenses.", "C. Neighbourhood relations.", "D. Travel diaries."]
+          }
+        ]
+      }
+    ]
+  }

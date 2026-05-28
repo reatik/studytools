@@ -672,6 +672,11 @@ h1 {
         updateCardWrongBtn();
         updateNavButtons();
         updateStats();
+        
+        // 新单词出现时自动播放读音
+        setTimeout(() => {
+            speakWord();
+        }, 300);
     }
 
     function createInputs() {

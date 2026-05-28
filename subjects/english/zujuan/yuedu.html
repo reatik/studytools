@@ -276,6 +276,13 @@ body {
   .paper-info-row span, .paper-info-row b { color: #000; }
   .plain-q { page-break-inside: avoid; }
   .plain-section { page-break-after: avoid; }
+  img {
+    max-width: 80% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 12px auto !important;
+    page-break-inside: avoid !important;
+  }
 }
 
 .resizer {
@@ -347,15 +354,51 @@ body {
 .plain-q { overflow-wrap: break-word; }
 .plain-options {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 4px 20px;
+  gap: 4px 15px;
   padding-left: 2.7em;
   margin-top: 4px;
+}
+.plain-options.col-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.plain-options.col-4 {
+  grid-template-columns: repeat(4, 1fr);
 }
 .plain-opt {
   padding: 2px 0;
   line-height: 1.9;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-all;
+  max-width: 100%;
+}
+
+.read-article {
+  margin: 10px 0;
+  line-height: 2.1;
+  text-indent: 2em;
+}
+.read-title {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  margin: 10px 0;
+}
+.read-subtitle {
+  font-weight: bold;
+  margin: 10px 0 4px;
+}
+.read-list {
+  margin: 8px 0 8px 1.2em;
+}
+.read-list-item {
+  position: relative;
+  padding-left: 16px;
+  margin: 4px 0;
+}
+.read-list-item::before {
+  content: "◇";
+  position: absolute;
+  left: 0;
 }
 
 .paper-page[contenteditable] > div {
@@ -464,16 +507,14 @@ body {
 </div>
 
 <script>
-// ========== 全局状态 ==========
 let allQuestions = [];
 let filteredQuestions = [];
 let selectedIds = new Set();
 let dragSelectedIds = new Set();
-let typeOrder = ['音标', '选择', '填空', '句型转换', '翻译'];
+let typeOrder = ['阅读', '音标', '选择', '填空', '句型转换', '翻译'];
 let sortList = [];
 let sortableObj = null;
 
-// ========== 面板切换 ==========
 function switchSidePanel(type) {
   document.querySelectorAll('.side-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('#toolbar button').forEach(b => b.classList.remove('active'));
@@ -488,13 +529,11 @@ function switchSidePanel(type) {
   }
 }
 
-// 刷新整理列表
 function refreshSortList() {
   sortList = JSON.parse(JSON.stringify(getSelectedQuestions()));
   renderSortPage();
 }
 
-// 渲染整理页面
 function renderSortPage() {
   const container = document.getElementById('sortContainer');
   container.innerHTML = '';
@@ -508,14 +547,15 @@ function renderSortPage() {
     const div = document.createElement('div');
     div.className = 'sort-item';
     div.dataset.id = q.id;
+    let title = q.type === '阅读' ? '【阅读理解】' + (q.title || '') : q.question;
+    if (title.length > 70) title = title.slice(0,70)+'…';
     div.innerHTML = `
-      <div class="text">${i+1}. ${escapeHtml(q.question)}</div>
+      <div class="text">${i+1}. ${escapeHtml(title)}</div>
       <button class="del" onclick="deleteSortItem('${q.id}')">删除</button>
     `;
     container.appendChild(div);
   });
 
-  // 初始化拖拽排序
   if(sortableObj) sortableObj.destroy();
   sortableObj = new Sortable(container, {
     animation: 150,
@@ -523,26 +563,24 @@ function renderSortPage() {
       const arr = [];
       container.querySelectorAll('.sort-item').forEach(item => {
         const id = item.dataset.id;
-        arr.push(sortList.find(x => x.id == id));
+        arr.push(sortList.find(x => String(x.id) === id));
       });
       sortList = arr;
-      renderSortPage();
       syncSelected();
     }
   });
 }
 
-// 删除单题
 function deleteSortItem(id) {
-  sortList = sortList.filter(x => x.id != id);
-  selectedIds.delete(id);
+  const qid = String(id);
+  sortList = sortList.filter(x => String(x.id) !== qid);
+  selectedIds.delete(qid);
   renderSortPage();
   renderSidebar();
   renderPaper();
   updateToolbarInfo();
 }
 
-// 清空整理列表
 function clearSortList() {
   if (!confirm('确定清空所有题目吗？')) return;
   sortList = [];
@@ -553,18 +591,16 @@ function clearSortList() {
   updateToolbarInfo();
 }
 
-// 同步选中状态到主程序
 function syncSelected() {
   selectedIds.clear();
-  sortList.forEach(x => selectedIds.add(x.id));
+  sortList.forEach(x => selectedIds.add(String(x.id)));
   renderPaper();
   updateToolbarInfo();
 }
 
-// ========== 加载题库 ==========
 async function loadFromShuahaoti() {
   try {
-    const res = await fetch('../shuahaoti/tiku.json');
+    const res = await fetch('yuedu.json');
     if (!res.ok) throw new Error('加载失败');
     const data = await res.json();
     allQuestions = (data.questions || []).map((q, idx) => ({
@@ -590,7 +626,6 @@ async function loadFromShuahaoti() {
   }
 }
 
-// ========== 构建筛选器 ==========
 function buildFilters() {
   const types = [...new Set(allQuestions.map(q => q.type).filter(Boolean))];
   const grades = [...new Set(allQuestions.map(q => q.grade).filter(Boolean))];
@@ -603,7 +638,6 @@ function buildFilters() {
   document.getElementById('knowledgeFilter').innerHTML = '<option value="">全部知识点</option>' + knowledges.map(k => `<option value="${k}">${k}</option>`).join('');
 }
 
-// ========== 筛选 ==========
 function applyFilter() {
   const type = document.getElementById('typeFilter').value;
   const grade = document.getElementById('gradeFilter').value;
@@ -688,16 +722,17 @@ function renderSidebar() {
   }
 
   container.innerHTML = filteredQuestions.map(q => {
-    const isSel = selectedIds.has(q.id);
-    const isDrag = dragSelectedIds.has(q.id);
+    const qid = String(q.id);
+    const isSel = selectedIds.has(qid);
+    const isDrag = dragSelectedIds.has(qid);
     const cls = (isSel ? ' selected' : '') + (isDrag && !isSel ? ' drag-selected' : '');
-    const checked = isSel ? ' checked' : '';
-    const shortText = q.question.length > 60 ? q.question.slice(0, 60) + '…' : q.question;
+    const qText = q.question || q.title || '';
+    const shortText = qText.length > 60 ? qText.slice(0, 60) + '…' : qText;
     return `
-      <div class="q-card${cls}" data-id="${q.id}">
-        <input type="checkbox" ${checked} onclick="event.stopPropagation(); toggleQuestion('${q.id}')" style="pointer-events:auto;">
+      <div class="q-card${cls}" data-id="${qid}">
+        <input type="checkbox" ${isSel ? 'checked' : ''} onclick="event.stopPropagation(); toggleQuestion('${qid}')" style="pointer-events:auto;">
         <div class="q-info">
-          <div class="q-text">【${escapeHtml(String(q.id))}】${escapeHtml(shortText)}</div>
+          <div class="q-text">【${escapeHtml(qid)}】${escapeHtml(shortText)}</div>
           <div class="q-meta">
             <span class="q-tag">${escapeHtml(q.type || '')}</span>
             <span class="q-tag grade">${escapeHtml(q.grade || '')}</span>
@@ -708,20 +743,18 @@ function renderSidebar() {
       </div>`;
   }).join('') + '<div class="selection-box" id="selectionBox"></div>';
 }
-
 function countSelectedInFiltered() {
   let count = 0;
-  filteredQuestions.forEach(q => { if (selectedIds.has(q.id)) count++; });
+  filteredQuestions.forEach(q => { if (selectedIds.has(String(q.id))) count++; });
   return count;
 }
 
 function countDragInFiltered() {
   let count = 0;
-  filteredQuestions.forEach(q => { if (dragSelectedIds.has(q.id)) count++; });
+  filteredQuestions.forEach(q => { if (dragSelectedIds.has(String(q.id))) count++; });
   return count;
 }
 
-// ========== 框选操作 ==========
 function checkDragged() {
   if (dragSelectedIds.size === 0) return;
   dragSelectedIds.forEach(id => selectedIds.add(id));
@@ -754,14 +787,9 @@ function deselectAll() {
   updateToolbarInfo();
 }
 
-// ========== 获取已选题目（排序） ==========
 function getSelectedQuestions() {
-  // 如果有sortList，使用sortList的顺序
-  if (sortList.length > 0) {
-    return sortList.filter(q => selectedIds.has(q.id));
-  }
   return allQuestions
-    .filter(q => selectedIds.has(q.id))
+    .filter(q => selectedIds.has(String(q.id)))
     .sort((a, b) => {
       const ia = typeOrder.indexOf(a.type);
       const ib = typeOrder.indexOf(b.type);
@@ -769,11 +797,9 @@ function getSelectedQuestions() {
     });
 }
 
-// ========== 渲染试卷（单页，由浏览器自动分页） ==========
 function renderPaper() {
   const papersWrap = document.getElementById('papersWrap');
   const countEl = document.getElementById('paperCount');
-
   const selected = getSelectedQuestions();
 
   if (selected.length === 0) {
@@ -783,48 +809,87 @@ function renderPaper() {
   }
 
   countEl.textContent = `（已选 ${selected.length} 题）`;
-
-  // 按题型分组
   const groups = groupByType(selected);
-
-  // 生成试卷HTML（单页，由浏览器自动处理分页）
   let html = '<div class="paper-page" contenteditable="true">';
   let qNum = 0;
+  let readIndex = 1;
 
-  groups.forEach((group, gi) => {
-    html += `<div class="plain-section">【${getTypeLabel(group.type)}】</div>`;
-    
-    group.questions.forEach(q => {
-      qNum++;
-      
-      // 渲染题目
-      let qHtml = '<div class="plain-q">';
+  function getChineseNum(n) {
+    const arr = ['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五'];
+    return arr[n-1] || n;
+  }
 
-      // 选择题：答案括号放前面
-      if (q.type === '选择') {
-        qHtml += '<span class="plain-bracket">( &nbsp;&nbsp;&nbsp;&nbsp; )</span>';
-      }
+  groups.forEach(g => {
+    html += `<div class="plain-section">【${getTypeLabel(g.type)}】</div>`;
 
-      qHtml += '<span class="plain-num">' + qNum + '.</span> ';
-      qHtml += '<span class="plain-text">' + escapeHtml(q.question) + '</span>';
+    g.questions.forEach(q => {
+      if (q.type === '阅读') {
+        html += `<div style="font-size:16px;font-weight:bold;margin:15px 0 8px;">${getChineseNum(readIndex)}、</div>`;
+        readIndex++;
 
-      // 选项自适应排列
-      if (q.type === '选择' && q.options && q.options.length > 0) {
-        qHtml += '<div class="plain-options">';
-        q.options.forEach(opt => {
-          qHtml += '<span class="plain-opt">' + escapeHtml(opt) + '</span>';
-        });
+        if (q.image) {
+          html += `<img src="${escapeHtml(q.image)}" style="max-width:80%;height:auto;display:block;margin:10px auto;">`;
+        }
+        if (q.title) {
+          html += `<div class="read-title">${escapeHtml(q.title)}</div>`;
+        }
+        if (q.article) {
+          html += `<div class="read-article">${escapeHtml(q.article)}</div>`;
+        }
+        if (q.sections && q.sections.length) {
+          q.sections.forEach(s => {
+            if (s.heading) {
+              html += `<div class="read-subtitle">${escapeHtml(s.heading)}</div>`;
+            }
+            if (s.text) {
+              html += `<div class="read-article">${escapeHtml(s.text)}</div>`;
+            }
+          });
+        }
+        if (q.list && q.list.length) {
+          html += '<div class="read-list">';
+          q.list.forEach(item => {
+            html += `<div class="read-list-item">${escapeHtml(item)}</div>`;
+          });
+          html += '</div>';
+        }
+        if (q.options && q.options.length) {
+          q.options.forEach(opt => {
+            qNum++;
+            html += `
+            <div class="plain-q">
+              <span class="plain-bracket">( &nbsp;&nbsp;&nbsp;&nbsp; )</span>
+              <span class="plain-num">${qNum}.</span>
+              <span class="plain-text">${escapeHtml(opt.q)}</span>
+              <div class="plain-options col-${getOptionColumns(opt.opts)}">
+                ${opt.opts.map(o => `<span class="plain-opt">${escapeHtml(o)}</span>`).join('')}
+              </div>
+            </div>`;
+          });
+        }
+      } else {
+        qNum++;
+        let qHtml = '<div class="plain-q">';
+        if (q.type === '选择') {
+          qHtml += '<span class="plain-bracket">( &nbsp;&nbsp;&nbsp;&nbsp; )</span>';
+        }
+        qHtml += `<span class="plain-num">${qNum}.</span> `;
+        qHtml += `<span class="plain-text">${escapeHtml(q.question)}</span>`;
+        if (q.type === '选择' && q.options && q.options.length) {
+          const cols = getOptionColumns(q.options);
+          qHtml += `<div class="plain-options col-${cols}">`;
+          q.options.forEach(opt => {
+            qHtml += `<span class="plain-opt">${escapeHtml(opt)}</span>`;
+          });
+          qHtml += '</div>';
+        }
         qHtml += '</div>';
+        html += qHtml;
       }
-
-      qHtml += '</div>';
-      html += qHtml;
     });
   });
 
-  // 这里已经删掉了页码！
   html += '</div>';
-
   papersWrap.innerHTML = html;
 }
 
@@ -844,7 +909,6 @@ function groupByType(qs) {
     .map(([t, qs]) => ({ type: t, questions: qs }));
 }
 
-// ========== PDF ==========
 async function generatePDF() {
   const s = getSelectedQuestions();
   if (!s.length) return alert('请先勾选题目！');
@@ -858,7 +922,7 @@ async function generatePDF() {
       margin: [0,0,0,0],
       filename: '英语试卷.pdf',
       image: {type:'jpeg',quality:0.98},
-      html2canvas: {scale:2,useCORS:true,logging:false},
+      html2canvas: {scale:2,useCORS:true,logging:false,allowTaint:true},
       jsPDF: {unit:'mm',format:'a4',orientation:'portrait'},
       pagebreak: {mode:['avoid-all','css']}
     }).from(el).save();
@@ -869,7 +933,6 @@ async function generatePDF() {
   }
 }
 
-// ========== 工具 ==========
 function escapeHtml(s) {
   if (!s) return '';
   const d = document.createElement('div');
@@ -879,6 +942,7 @@ function escapeHtml(s) {
 
 function getTypeLabel(t) {
   const m = {
+    '阅读':'阅读理解',
     '选择':'选择题',
     '填空':'填空题',
     '音标':'音标题',
@@ -886,6 +950,13 @@ function getTypeLabel(t) {
     '翻译':'翻译题'
   };
   return m[t] || t;
+}
+
+function getOptionColumns(options) {
+  if (!options || options.length === 0) return 4;
+  const totalLength = options.reduce((sum, opt) => sum + (opt?.length || 0), 0);
+  if (totalLength > 60) return 1;
+  return 4;
 }
 
 function updateToolbarInfo() {
@@ -896,7 +967,6 @@ function updateToolbarInfo() {
     `题库：${total} 题 | 已勾选：${sel} 题` + (drag ? ` | 框选：${drag} 题` : '');
 }
 
-// ========== 框选 ==========
 (function() {
   const list = document.getElementById('sidebarList');
   const bar = document.getElementById('sidebar');
@@ -977,7 +1047,6 @@ function updateToolbarInfo() {
   });
 })();
 
-// ========== 拖拽调整宽度 ==========
 (function() {
   const r = document.getElementById('resizer');
   const s = document.getElementById('sidebar');
@@ -1001,7 +1070,6 @@ function updateToolbarInfo() {
   });
 })();
 
-// ========== 全选 ==========
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
     e.preventDefault();
@@ -1016,7 +1084,6 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// ========== 页面加载时自动导入题库 ==========
 document.addEventListener('DOMContentLoaded', () => {
   loadFromShuahaoti();
 });

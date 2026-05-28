@@ -1601,7 +1601,7 @@
             "type": "句型转换",
             "grade": "六年级下",
             "unit": "U5",
-            "knowledge_point": "句型转换",
+            "knowledge_point": "",
             "question": "The shopping bags <u>on the desk</u> are my cousin's. (对画线部分提问)<br>_______ _______ _______ are your cousin's?",
             "options": [],
             "answer": "Which shopping bags",
@@ -8137,7 +8137,7 @@
             "grade": "六年级下",
             "unit": "U5",
             "knowledge_point": "副词",
-            "question": "We are supposed to use public transport because they are more <u>environmentally</u> friendly than driving cars. (environment)",
+            "question": "We are supposed to use public transport because they are more ______ (environment) friendly than driving cars. ",
             "options": [],
             "answer": "environmentally",
             "explanation": "考查词性转换。environment（名词）→ environmentally（副词），修饰形容词 friendly。",
@@ -8326,6 +8326,376 @@
             "answer": "happened;to;be",
             "explanation": "考查同义句转换。by chance 意为「偶然、碰巧」，可用 happen to be 替换。",
             "meaning": "我偶然在上海体育场。"
+        },
+        {
+            "id": "560",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "冠词",
+            "question": "Newton published ______ theory of gravity in 1687.",
+            "options": [
+                "A. /",
+                "B. an",
+                "C. the",
+                "D. a"
+            ],
+            "answer": "C. the",
+            "explanation": "考查定冠词的用法。'theory of gravity'（万有引力理论）是特指的概念，前面需用定冠词 'the'。",
+            "meaning": "牛顿于1687年发表了万有引力理论。"
+        },
+        {
+            "id": "561",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "代词",
+            "question": "George teaches ______ drama this term.",
+            "options": [
+                "A. they",
+                "B. them",
+                "C. their",
+                "D. theirs"
+            ],
+            "answer": "B. them",
+            "explanation": "考查代词宾格。teaches 是及物动词，后面接宾语，需要用宾格形式。them 是 they 的宾格，作 teaches 的宾语。",
+            "meaning": "乔治这个学期教他们戏剧。"
+        },
+        {
+            "id": "562",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "副词",
+            "question": "Kitty went to school late yesterday. She ______ went late for school today.",
+            "options": [
+                "A. often",
+                "B. still",
+                "C. even",
+                "D. usually"
+            ],
+            "answer": "B. still",
+            "explanation": "考查副词辨析。根据前句'昨天迟到了'和后句'今天也迟到'的语境，still（仍然）最符合句意，表示情况持续不变。",
+            "meaning": "基蒂昨天上学迟到了。她今天上学仍然迟到了。"
+        },
+        {
+            "id": "563",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "代词",
+            "question": "Terry always helps ______ people. We should learn from him.",
+            "options": [
+                "A. other",
+                "B. the other",
+                "C. others",
+                "D. another"
+            ],
+            "answer": "A. other",
+            "explanation": "考查代词辨析。other 作形容词修饰名词 people，表示'其他的、别的'人，泛指。the other 表示特指剩下的；others 是代词，单独使用；another 表示三者以上的另一个。",
+            "meaning": "特里总是帮助别人。我们应该向他学习。"
+        },
+        {
+            "id": "564",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "副词",
+            "question": "It's ten o'clock in the evening. I haven't finished my homework ______.",
+            "options": [
+                "A. already",
+                "B. just",
+                "C. ever",
+                "D. yet"
+            ],
+            "answer": "D. yet",
+            "explanation": "考查副词用法。yet 用于否定句或疑问句末尾，意为'还'，常与现在完成时连用。already 用于肯定句；just 表示'刚刚'；ever 表示'曾经'，均不符合语境。",
+            "meaning": "晚上十点了。我还没有完成作业。"
+        },
+        {
+            "id": "565",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "时态",
+            "question": "There ______ some drama classes tomorrow. Let's go.",
+            "options": [
+                "A. will have",
+                "B. will be",
+                "C. are",
+                "D. were"
+            ],
+            "answer": "B. will be",
+            "explanation": "考查 there be 句型的一般将来时。tomorrow 表明是将来时间，there be 句型的将来式为 'there will be' 或 'there is/are going to be'。will have 不能用于 there be 句型。",
+            "meaning": "明天有一些戏剧课。我们去吧。"
+        },
+        {
+            "id": "566",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "连词",
+            "question": "He didn't go to sleep ______ his father came back.",
+            "options": [
+                "A. when",
+                "B. after",
+                "C. until",
+                "D. since"
+            ],
+            "answer": "C. until",
+            "explanation": "考查固定句型。'not ... until ...' 是固定结构，意为'直到……才……'。句意：直到他父亲回来他才去睡觉。",
+            "meaning": "直到他父亲回来他才去睡觉。"
+        },
+        {
+            "id": "567",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "What's the ______ of these tomatoes? (weigh)",
+            "options": [],
+            "answer": "weight",
+            "explanation": "考查词性转换。weigh（动词）→ weight（名词），此处需要名词作表语。",
+            "meaning": "这些西红柿的重量是多少？"
+        },
+        {
+            "id": "568",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "This new ______ changed the traditional ideas. (discover)",
+            "options": [],
+            "answer": "discovery",
+            "explanation": "考查词性转换。discover（动词）→ discovery（名词），此处需要名词作主语，this new 后接单数名词。",
+            "meaning": "这一新发现改变了传统观念。"
+        },
+        {
+            "id": "569",
+            "type": "音标",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "形容词",
+            "question": "The middle-aged woman loves to buy ______ /ɪnk'spensɪv/ but cute accessories.",
+            "options": [],
+            "answer": "inexpensive",
+            "explanation": "考查音标拼写。/ɪnk'spensɪv/ 对应单词 inexpensive，意为'便宜的、不贵的'，与 cute 并列修饰 accessories。",
+            "meaning": "这位中年女士喜欢买便宜但可爱的配饰。"
+        },
+        {
+            "id": "570",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "冠词",
+            "question": "Shakespeare enjoys popularity because he brought characters to ______ life on the stage.",
+            "options": [
+                "A. a",
+                "B. /",
+                "C. the",
+                "D. an"
+            ],
+            "answer": "C. the",
+            "explanation": "考查固定搭配。'bring sth. to life' 是固定短语，意为'使……栩栩如生'；当特指'赋予生命/活力'时常用定冠词 'the life'。",
+            "meaning": "莎士比亚很受欢迎，因为他让舞台上的角色变得栩栩如生。"
+        },
+        {
+            "id": "571",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "固定搭配",
+            "question": "Hua Tuo was ______ his surgical operations and the great use of mafeisan.",
+            "options": [
+                "A. famous for",
+                "B. crazy about",
+                "C. famous as",
+                "D. popular among"
+            ],
+            "answer": "A. famous for",
+            "explanation": "考查固定搭配。be famous for 意为'因……而著名'，后接原因（手术和麻沸散）；be famous as 意为'作为……而著名'，后接身份。",
+            "meaning": "华佗因他的外科手术以及麻沸散的伟大用途而闻名。"
+        },
+        {
+            "id": "572",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "形容词比较级",
+            "question": "My classmate is ______ at solving Maths problems than I.",
+            "options": [
+                "A. good",
+                "B. better",
+                "C. skillful",
+                "D. poor"
+            ],
+            "answer": "B. better",
+            "explanation": "考查形容词比较级。句中有 'than'，需用比较级形式。good 的比较级是 better。",
+            "meaning": "我的同学比我更擅长解数学题。"
+        },
+        {
+            "id": "573",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "非谓语动词",
+            "question": "The government is taking measures to encourage people ______ energy.",
+            "options": [
+                "A. to save",
+                "B. save",
+                "C. saving",
+                "D. to be saved"
+            ],
+            "answer": "C. saving",
+            "explanation": "考查固定搭配。encourage sb. doing sth. 或 encourage sb. to do sth. 均可使用，此处选 saving。",
+            "meaning": "政府正在采取措施鼓励人们节约能源。"
+        },
+        {
+            "id": "574",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "主谓一致",
+            "question": "Not only the students but also the teacher ______ looking forward to the field trip.",
+            "options": [
+                "A. am",
+                "B. is",
+                "C. are",
+                "D. being"
+            ],
+            "answer": "B. is",
+            "explanation": "考查主谓一致。'not only...but also...' 连接并列主语时，谓语动词遵循'就近原则'，与最近的主语 'the teacher'（单数）一致，故用 is。",
+            "meaning": "不仅学生们，老师也都在期待这次实地考察。"
+        },
+        {
+            "id": "575",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "时态",
+            "question": "Although Tom ______ in America for 20 years, he gets used to the life in Shanghai now.",
+            "options": [
+                "A. has lived",
+                "B. lives",
+                "C. is living",
+                "D. lived"
+            ],
+            "answer": "D. lived",
+            "explanation": "时间状语for 20 years如果和过去的时间段绑定，且不持续到现在时，要用一般过去时。",
+            "meaning": "虽然汤姆在美国生活了20年，但他现在已经习惯了上海的生活。"
+        },
+        {
+            "id": "576",
+            "type": "选择",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "情景交际",
+            "question": "—Would you like to play rugby with me after school?\n—______ I have to work on an important project on geography.",
+            "options": [
+                "A. That's great.",
+                "B. I'm afraid I can't.",
+                "C. Sure. Please go ahead.",
+                "D. No, I wouldn't."
+            ],
+            "answer": "B. I'm afraid I can't.",
+            "explanation": "考查情景交际。根据后句'我有一个重要地理项目要做'可知应委婉拒绝邀请，'I'm afraid I can't.' 是礼貌拒绝的常用表达。",
+            "meaning": "——放学后你想和我一起打橄榄球吗？——恐怕不行。我得做一个重要的地理项目。"
+        },
+        {
+            "id": "577",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "He goes to the supermarket to buy different foods for his family ______ a week. (second)",
+            "options": [],
+            "answer": "twice",
+            "meaning": "他每周去超市为家人买各种不同的食物两次。",
+            "explanation": "考查词性转换。second（第二）与two（二）相关，twice 表示'两次'，twice a week 是固定表达，意为'每周两次'。"
+        },
+        {
+            "id": "578",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "It is said that scientists ______ a new planet in our galaxy last year. (discovery)",
+            "options": [],
+            "answer": "discovered",
+            "meaning": "据说科学家们去年在我们星系中发现了一颗新行星。",
+            "explanation": "考查动词形式。discovery（发现）是名词，根据句中last year可知时态为一般过去时，需将其变为动词discover的过去式 discovered。"
+        },
+        {
+            "id": "579",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "Truth to be told, the ______ of the backpack is too heavy for me to carry. (weigh)",
+            "options": [],
+            "answer": "weight",
+            "meaning": "说实话，这个背包太重了，我搬不动。",
+            "explanation": "考查名词转换。weigh（称重）是动词，定冠词the后需接其名词形式 weight（重量）。句首 Truth to be told 意为'说实话/老实说'，是一个固定表达，常用于引出实话或坦白的内容。"
+        },
+        {
+            "id": "580",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "词性转换",
+            "question": "The team worked hard and was ______ in winning the championship. (success)",
+            "options": [],
+            "answer": "successful",
+            "meaning": "这个团队努力工作，成功赢得了冠军。",
+            "explanation": "考查形容词形式。success（成功）是名词，be动词was后需接形容词形式 successful（成功的），be successful in doing sth. 意为'在做某事方面取得成功'。"
+        },
+        {
+            "id": "581",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "句型转换（同义句）",
+            "question": "He saved a great many Chinese people and died at the war hospital. （保持句意基本不变）<br><br>He saved a great many Chinese people and ______ his ______ at the war hospital.",
+            "options": [],
+            "answer": "lost; life",
+            "meaning": "他救了许多中国人，并在战地医院牺牲了。",
+            "explanation": "考查同义句转换。die at the war hospital（在战地医院去世）可转换为 lost his life at the war hospital（在战地医院失去了生命），lose one's life 意为'丧生/牺牲'。"
+        },
+        {
+            "id": "582",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "句型转换（同义句）",
+            "question": "In the early 1610s, she returned to her hometown and kept writing amazing books. （保持句意基本不变）<br><br>In the early 1610s, she ______ ______ to her hometown and kept writing amazing books.",
+            "options": [],
+            "answer": "went; back",
+            "meaning": "在17世纪10年代初，她回到了家乡，并继续写精彩的书籍。",
+            "explanation": "考查同义短语替换。returned to = went back to，意为'回到……'，两个空分别填写过去式 went 和 back。"
+        },
+        {
+            "id": "583",
+            "type": "填空",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "特殊疑问句",
+            "question": "The adult European elephants weigh between 5,000 to 14,000 pounds. （对画线部分提问）<br><br>______ do the adult European elephants weigh?",
+            "options": [],
+            "answer": "How much",
+            "meaning": "成年欧洲象的重量在5000到14000磅之间。<br>这些成年欧洲象有多重？",
+            "explanation": "考查对画线部分提问。划线部分 between 5,000 to 14,000 pounds 表示重量，对重量提问用 How much。"
+        },
+        {
+            "id": "584",
+            "type": "连词成句",
+            "grade": "六年级下",
+            "unit": "U6",
+            "knowledge_point": "连词成句",
+            "question": "all know, a very famous book, Traditional Chinese Medicine, as, is, we, Bencao Gangmu, on （连词成句）",
+            "options": [],
+            "answer": "As we all know, Bencao Gangmu is a very famous book on Traditional Chinese Medicine.",
+            "meaning": "众所周知，《本草纲目》是一本关于中医的名著。",
+            "explanation": "考查连词成句。As we all know 意为'众所周知'，是一个常用的状语从句结构，引出后面的主句 Bencao Gangmu is...。"
         }
     ]
 }

@@ -835,15 +835,16 @@ body {
 <div class="container" id="practicePanel">
     <!-- 右上角按钮 -->
     <div class="top-right-option">
-        <div class="top-wrong-btn" id="topWrongBtn" title="只练错题">
-            <img src="../../../images/错题1.png" alt="错题">
-        </div>
         <div class="clear-wrong-btn" id="clearWrongBtn" title="清空所有错题">
             <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        </div>
+        <div class="top-wrong-btn" id="topWrongBtn" title="只练错题">
+            <img src="../../../images/错题1.png" alt="错题">
         </div>
         <div class="option-menu-btn" id="optionMenuBtn" title="筛选选项">
             <img src="../../../images/选项.png" alt="选项">
         </div>
+    </div>
         <div class="filter-panel" id="filter-panel">
             <div class="filter-group">
                 <div class="filter-title">题型</div>
@@ -933,12 +934,20 @@ function loadWrongData() {
         if (saved) wrongQids = new Set(JSON.parse(saved));
         const savedMode = localStorage.getItem('shitai_only_wrong');
         if (savedMode) isOnlyWrongMode = JSON.parse(savedMode);
+        // 读取上次做题位置
+        const savedNormalIndex = localStorage.getItem('shitai_normal_index');
+        if (savedNormalIndex !== null) lastNormalIndex = parseInt(savedNormalIndex);
+        const savedWrongIndex = localStorage.getItem('shitai_wrong_index');
+        if (savedWrongIndex !== null) lastWrongIndex = parseInt(savedWrongIndex);
     } catch(e) {}
 }
 
 function saveWrongData() {
     localStorage.setItem('shitai_wrong_qids', JSON.stringify([...wrongQids]));
     localStorage.setItem('shitai_only_wrong', JSON.stringify(isOnlyWrongMode));
+    // 保存当前做题位置
+    localStorage.setItem('shitai_normal_index', lastNormalIndex.toString());
+    localStorage.setItem('shitai_wrong_index', lastWrongIndex.toString());
 }
 
 function addWrongQid(qid) {
@@ -1052,9 +1061,7 @@ function resetQuestions(targetIndex) {
     }
 questionPool = filterList;
     answers = [];
-    correctCount = 0;
-    errorCount = 0;
-    unansweredCount = 0;
+    // 保留计数器，不重置
     hasUnansweredInRound = {};
     let idx = (targetIndex !== undefined) ? targetIndex : 0;
     if (idx >= questionPool.length) idx = Math.max(0, questionPool.length - 1);
@@ -1222,7 +1229,7 @@ function submitFillAnswer() {
 
     // 检测是否全部未填（直接点提交）
     let allEmpty = userAnswers.every(v => !v);
-    if (allEmpty && !hasUnansweredInRound[q.id]) {
+    if (allEmpty && !hasUnansweredInRound[q.id] && !isOnlyWrongMode) {
         unansweredCount++;
         hasUnansweredInRound[q.id] = true;
     }
@@ -1255,7 +1262,9 @@ function submitFillAnswer() {
     if (allRight) {
         submitBtn.innerText = "✓ 正确";
         submitBtn.classList.add("correct");
-        correctCount++;
+        if (!isOnlyWrongMode) {
+            correctCount++;
+        }
         resultText.innerText = q.answer;
         resultText.style.color = "var(--correct)";
     } else if (allEmpty) {
@@ -1266,13 +1275,23 @@ function submitFillAnswer() {
     } else {
         submitBtn.innerText = "✗ 错误";
         submitBtn.classList.add("wrong");
-        errorCount++;
+        if (!isOnlyWrongMode) {
+            errorCount++;
+        }
         addWrongQid(q.id); // 答错自动加入错题
         resultText.innerText = q.answer;
         resultText.style.color = "var(--wrong)";
     }
     updateProgress(true);
     updateCardWrongBtn(q.id);
+    
+    // 保存提交答案的位置
+    if (isOnlyWrongMode) {
+        lastWrongIndex = currentIndex;
+    } else {
+        lastNormalIndex = currentIndex;
+    }
+    saveWrongData();
 
     if (q.explanation) {
         hintEl.innerHTML = `<div class="explanation">${q.explanation}</div>`;
@@ -1311,15 +1330,27 @@ function selectOption(el, q) {
     }
 
     if (selected.correct) {
-        correctCount++;
+        if (!isOnlyWrongMode) {
+            correctCount++;
+        }
     } else {
-        errorCount++;
+        if (!isOnlyWrongMode) {
+            errorCount++;
+        }
         addWrongQid(q.id); // 答错自动加入错题
     }
     updateProgress(true);
     updateCardWrongBtn(q.id);
     updateNavButtons();
     document.getElementById("fillSubmitBtn").classList.add('hide');
+    
+    // 保存提交答案的位置
+    if (isOnlyWrongMode) {
+        lastWrongIndex = currentIndex;
+    } else {
+        lastNormalIndex = currentIndex;
+    }
+    saveWrongData();
 }
 
 function updateNavButtons() {
@@ -1417,9 +1448,7 @@ function doFilterAfterClearWrong() {
     );
     questionPool = filterList;
     answers = [];
-    correctCount = 0;
-    errorCount = 0;
-    unansweredCount = 0;
+    // 保留计数器，不重置
     hasUnansweredInRound = {};
     lastWrongIndex = 0;
     let idx = Math.min(lastNormalIndex, questionPool.length - 1);
@@ -1484,10 +1513,13 @@ fetch('sentences.json')
         renderFilterTags();
         // 恢复错题模式按钮状态
         document.getElementById('topWrongBtn').classList.toggle('active', isOnlyWrongMode);
+        document.getElementById('clearWrongBtn').classList.toggle('show', isOnlyWrongMode);
         setupSwipe();
         setupKeyboard();
         setupQuestionNumberJump();
-        resetQuestions();
+        // 从上次的位置开始
+        const startIndex = isOnlyWrongMode ? lastWrongIndex : lastNormalIndex;
+        resetQuestions(startIndex);
     })
     .catch(err => {
         console.error('加载题库出错:', err);
@@ -1590,7 +1622,7 @@ function doFilterAfterWrongChange() {
         document.getElementById("questionText").innerText = "错题本暂无题目";
         document.getElementById("options").innerHTML = "";
         document.getElementById("fillArea").classList.add("hidden");
-        correctCount = 0; errorCount = 0; unansweredCount = 0;
+        // 保留计数器，不重置
         updateProgress();
         return;
     }
