@@ -345,6 +345,7 @@ body {
   <select id="knowledgeFilter" onchange="applyFilter()"><option value="">全部知识点</option></select>
   <span class="sep"></span>
   <button id="btnGenPdf" onclick="generatePDF()">📄 生成PDF</button>
+  <button id="btnFullPdf" onclick="generateFullPDF()">📝 题目+答案</button>
   <button id="btnAnswerPdf" onclick="generateAnswerPDF()">📋 答案解析</button>
   <span class="info" id="toolbarInfo"></span>
 </div>
@@ -635,6 +636,77 @@ async function generatePDF(){
     await html2pdf().set({
       margin:[15,15,15,20],
       filename:'英语试卷.pdf',
+      image:{quality:0.98},
+      html2canvas:{scale:2,useCORS:true},
+      jsPDF:{format:'a4'},
+      pagebreak:{mode:['avoid-all','css','legacy']}
+    }).from(c).save();
+    document.body.removeChild(c);
+  }catch(e){alert('失败：'+e.message);}
+  finally{btn.textContent=old;btn.disabled=false;}
+}
+
+async function generateFullPDF(){
+  const s=getSelectedQuestions();if(!s.length){alert('请先选题');return;}
+  const titleEl=document.querySelector('.paper-title');
+  if(titleEl)paperTitle=titleEl.innerText||paperTitle;
+  const btn=document.getElementById('btnFullPdf');const old=btn.textContent;btn.textContent='生成中...';btn.disabled=true;
+  try{
+    const c=document.createElement('div');
+    c.style.cssText='font-family:"Microsoft YaHei","SimSun",sans-serif;font-size:14px;line-height:2;color:#222;padding:0;margin:0;';
+    const titleDiv=document.createElement('div');
+    titleDiv.style.cssText='text-align:center;font-size:22px;font-weight:bold;margin-bottom:20px;padding-bottom:12px;';
+    titleDiv.textContent=paperTitle;
+    c.appendChild(titleDiv);
+    let num=0;
+    groupByType(s).forEach(grp=>{
+      const sec=document.createElement('div');
+      sec.style.cssText='font-size:16px;font-weight:bold;margin:22px 0 12px;border-bottom:1px solid #ddd;padding-bottom:5px;color:#333;page-break-after:avoid;break-after:avoid;';
+      sec.textContent='【'+getTypeLabel(grp.type)+'】';
+      c.appendChild(sec);
+      grp.questions.forEach(q=>{
+        num++;
+        const qd=document.createElement('div');
+        qd.style.cssText='margin:4px 0 10px;text-indent:-1.8em;padding-left:1.8em;line-height:2;overflow-wrap:break-word;page-break-inside:avoid;break-inside:avoid;';
+        let h='';
+        if(q.type==='选择')h+='<span style="display:inline;margin-right:4px;">( &nbsp;&nbsp;&nbsp;&nbsp; )</span>';
+        let t=q.question.replace(/_+/g,m=>m+'__');
+        h+='<span style="font-weight:bold;margin-right:2px;">'+num+'.</span> '+formatQuestionHtml(t);
+        if(q.type==='选择'&&q.options){
+          h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;padding-left:2.7em;margin-top:4px;">';
+          q.options.forEach(o=>{h+='<span style="padding:2px 0;line-height:1.9;white-space:nowrap;">'+escapeHtml(o)+'</span>';});
+          h+='</div>';
+        }
+        if(q.type==='连词成句'){h+='<div style="border-bottom:1px solid #999;min-height:1.5em;width:94%;margin-top:2em;"></div>';}
+        qd.innerHTML=h;
+        c.appendChild(qd);
+      });
+    });
+    const answerDiv=document.createElement('div');
+    answerDiv.style.cssText='page-break-before:always;break-before:always;padding-top:10px;';
+    const answerTitle=document.createElement('div');
+    answerTitle.style.cssText='text-align:center;font-size:22px;font-weight:bold;margin-bottom:20px;padding-bottom:12px;';
+    answerTitle.textContent='答案解析';
+    answerDiv.appendChild(answerTitle);
+    let anum=0;
+    groupByType(s).forEach(grp=>{
+      const sec=document.createElement('div');
+      sec.style.cssText='font-weight:bold;margin:20px 0 10px;border-bottom:1px solid #ddd;padding-bottom:6px;page-break-after:avoid;break-after:avoid;';
+      sec.textContent='【'+getTypeLabel(grp.type)+'】';
+      answerDiv.appendChild(sec);
+      grp.questions.forEach(q=>{
+        anum++;
+        const qd=document.createElement('div');
+        qd.style.cssText='margin:8px 0;line-height:2;page-break-inside:avoid;break-inside:avoid;';
+        qd.innerHTML='<b>'+anum+'.</b> 答案：'+formatQuestionHtml(q.answer||'无')+(q.explanation?'<br>解析：'+formatQuestionHtml(q.explanation):'');
+        answerDiv.appendChild(qd);
+      });
+    });
+    c.appendChild(answerDiv);
+    document.body.appendChild(c);
+    await html2pdf().set({
+      margin:[15,15,15,20],
+      filename:'英语试卷（含答案）.pdf',
       image:{quality:0.98},
       html2canvas:{scale:2,useCORS:true},
       jsPDF:{format:'a4'},

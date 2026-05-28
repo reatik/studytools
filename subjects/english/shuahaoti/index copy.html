@@ -232,7 +232,7 @@ body.night-mode .clear-fav-btn:hover {
 .card-wrapper {
     position: relative;
     width: 100%;
-    margin-top: 24px;
+    margin-top: 19px;
     will-change: transform;
     cursor: grab;
     user-select: none;
@@ -1762,7 +1762,7 @@ body.night-mode .mode-toast {
                 let step = getStep();
 
                 viewport = document.createElement('div');
-                viewport.style.cssText = `position:relative;overflow:hidden;width:100%;height:${cardH}px;margin-top:24px;`;
+                viewport.style.cssText = `position:relative;overflow:hidden;width:100%;height:${cardH}px;margin-top:19px;`;
 
                 // 低位卡 — 临时设 currentIndex 让序号正确
                 currentIndex = lo;
@@ -1823,6 +1823,8 @@ body.night-mode .mode-toast {
                     // 保留当前 virtualPos，不取整
                 }
                 if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON') return;
+                // 卡片内容区（可竖向滚动）内不触发水平滑动
+                if (e.target.closest('.question-card-body')) return;
                 if (filteredQuestions.length <= 1) return;
 
                 let p = getXY(e);
