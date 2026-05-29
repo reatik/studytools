@@ -647,6 +647,7 @@
     let lastReadyTimestamp = 0; // 准备阶段最后时间戳
     let inactivityIntervalId = null; // 无操作检查的interval
     let readyIntervalId = null; // 准备检查的interval
+    let heartbeatIntervalId = null; // 心跳interval
     
     // 本地双人游戏相关
     let isLocalGame = false;         // 是否在本地双人游戏模式
@@ -765,8 +766,10 @@
                         roomName: '房间' + i,
                         player1Id: null,
                         player1Nickname: null,
+                        player1LastActive: null,
                         player2Id: null,
                         player2Nickname: null,
+                        player2LastActive: null,
                         board: new Array(TOTAL_CELLS).fill(0),
                         currentPlayer: 1,
                         gameOver: false,
@@ -846,8 +849,10 @@
                     await db.collection(COLLECTION).doc(room._id).update({
                         player1Id: null,
                         player1Nickname: null,
+                        player1LastActive: null,
                         player2Id: null,
                         player2Nickname: null,
+                        player2LastActive: null,
                         board: new Array(TOTAL_CELLS).fill(0),
                         currentPlayer: 1,
                         gameOver: false,
@@ -950,17 +955,21 @@
                 if (occupiedRole === 1) {
                     resetData.player1Id = null;
                     resetData.player1Nickname = null;
+                    resetData.player1LastActive = null;
                 } else {
                     resetData.player2Id = null;
                     resetData.player2Nickname = null;
+                    resetData.player2LastActive = null;
                 }
                 // 对手不在就彻底清空
                 const opponentHere = (occupiedRole === 1 && room.player2Id) || (occupiedRole === 2 && room.player1Id);
                 if (!opponentHere) {
                     resetData.player1Id = null;
                     resetData.player1Nickname = null;
+                    resetData.player1LastActive = null;
                     resetData.player2Id = null;
                     resetData.player2Nickname = null;
+                    resetData.player2LastActive = null;
                     resetData.blackScore = 0;
                     resetData.whiteScore = 0;
                 }
@@ -1031,6 +1040,7 @@
                     await db.collection(COLLECTION).doc(room._id).update({ 
                         player1Id: myUserId,
                         player1Nickname: myNickname,
+                        player1LastActive: Date.now(),
                         lastActiveAt: Date.now()
                     });
                 } else if (!room.player2Id) {
@@ -1038,21 +1048,24 @@
                     await db.collection(COLLECTION).doc(room._id).update({ 
                         player2Id: myUserId,
                         player2Nickname: myNickname,
+                        player2LastActive: Date.now(),
                         lastActiveAt: Date.now()
                     });
                 } else {
                     return setStatus('房间已满，请选择其他房间', 'error');
                 }
             } else {
-                // 重连时也更新昵称（可能用户后来登录了）
+                // 重连时也更新昵称和活跃时间（可能用户后来登录了）
                 if (mySpot === 1) {
                     await db.collection(COLLECTION).doc(room._id).update({ 
                         player1Nickname: myNickname,
+                        player1LastActive: Date.now(),
                         lastActiveAt: Date.now()
                     });
                 } else {
                     await db.collection(COLLECTION).doc(room._id).update({ 
                         player2Nickname: myNickname,
+                        player2LastActive: Date.now(),
                         lastActiveAt: Date.now()
                     });
                 }
@@ -1078,6 +1091,7 @@
             drawBoard(room.board || new Array(TOTAL_CELLS).fill(0));
             resetInactivityTimer();
             resetReadyTimer();
+            startHeartbeat();
             startWatchRoom();
         } catch (e) {
             setStatus('加入失败：' + e.message, 'error');
@@ -1113,6 +1127,31 @@
             }
         }, { passive: true });
     });
+
+    // ============ 心跳：定期更新 lastActiveAt 到数据库 ============
+    const HEARTBEAT_INTERVAL = 30 * 1000; // 每30秒发一次心跳
+
+    function stopHeartbeat() {
+        if (heartbeatIntervalId) {
+            clearInterval(heartbeatIntervalId);
+            heartbeatIntervalId = null;
+        }
+    }
+
+    function startHeartbeat() {
+        stopHeartbeat();
+        heartbeatIntervalId = setInterval(() => {
+            if (currentRoomDocId && myRole) {
+                const field = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
+                db.collection(COLLECTION).doc(currentRoomDocId).update({
+                    [field]: Date.now(),
+                    lastActiveAt: Date.now()
+                }).catch(e => {
+                    console.warn('[心跳] 更新失败:', e);
+                });
+            }
+        }, HEARTBEAT_INTERVAL);
+    }
 
     // 页面可见性变化监听
     document.addEventListener('visibilitychange', () => {
@@ -1281,9 +1320,11 @@
             }
 
             // 发起悔棋申请
+            const activeField1 = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 undoRequested: myRole,
                 undoApproved: false,
+                [activeField1]: Date.now(),
                 lastActiveAt: Date.now()
             });
 
@@ -1322,12 +1363,14 @@
             newBoard[idx] = 0;
 
             // 更新数据库
+            const activeField2 = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 board: newBoard,
                 currentPlayer: room.undoRequested,  // 切换回合回申请人
                 lastMove: { x: -1, y: -1 },
                 undoRequested: 0,                  // 清空悔棋申请
                 undoApproved: false,
+                [activeField2]: Date.now(),
                 lastActiveAt: Date.now()
             });
 
@@ -1362,9 +1405,11 @@
             }
 
             // 清空悔棋申请
+            const activeField3 = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 undoRequested: 0,
                 undoApproved: false,
+                [activeField3]: Date.now(),
                 lastActiveAt: Date.now()
             });
 
@@ -1381,6 +1426,7 @@
 async function leaveRoom() {
     stopInactivityTimer();
     stopReadyTimer();
+    stopHeartbeat();
     if (autoRestartTimer) clearInterval(autoRestartTimer);
     if (watcher) watcher.close();
 
@@ -1408,17 +1454,21 @@ async function leaveRoom() {
                 if (leavingRole === 1) {
                     resetData.player1Id = null;
                     resetData.player1Nickname = null;
+                    resetData.player1LastActive = null;
                 } else {
                     resetData.player2Id = null;
                     resetData.player2Nickname = null;
+                    resetData.player2LastActive = null;
                 }
                 // 对手也不在就彻底清空房间数据
                 const opponentHere = (leavingRole === 1 && room.player2Id) || (leavingRole === 2 && room.player1Id);
                 if (!opponentHere) {
                     resetData.player1Id = null;
                     resetData.player1Nickname = null;
+                    resetData.player1LastActive = null;
                     resetData.player2Id = null;
                     resetData.player2Nickname = null;
+                    resetData.player2LastActive = null;
                     resetData.blackScore = 0;
                     resetData.whiteScore = 0;
                 }
@@ -1605,9 +1655,11 @@ async function leaveRoom() {
         if (!currentRoomDocId || !myRole) return;
         lastInactivityTimestamp = Date.now();
         const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
+        const activeField = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
         try {
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 [field]: true,
+                [activeField]: Date.now(),
                 lastActiveAt: Date.now()
             });
         } catch (e) {
@@ -1620,9 +1672,11 @@ async function leaveRoom() {
         lastInactivityTimestamp = Date.now();
         lastReadyTimestamp = Date.now(); // 取消准备后重新开始倒计时
         const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
+        const activeField = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
         try {
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 [field]: false,
+                [activeField]: Date.now(),
                 lastActiveAt: Date.now()
             });
         } catch (e) {
@@ -1708,6 +1762,44 @@ async function leaveRoom() {
             myRole = 1;
         } else if (room.player2Id === myUserId) {
             myRole = 2;
+        }
+
+        // ===== 检测对方是否长时间无操作，超时则踢出 =====
+        if (myRole && room.started && !room.gameOver) {
+            const opponentId = myRole === 1 ? room.player2Id : room.player1Id;
+            const opponentLastActive = myRole === 1 ? room.player2LastActive : room.player1LastActive;
+            if (opponentId && opponentLastActive) {
+                const elapsed = Date.now() - opponentLastActive;
+                if (elapsed >= INACTIVITY_TIMEOUT) {
+                    console.log('[对方超时] 对方超过5分钟无操作，自动踢出', opponentId);
+                    // 将对方踢出房间
+                    const opponentRole = myRole === 1 ? 2 : 1;
+                    const resetData = {
+                        started: false, gameOver: false, winner: 0,
+                        lastMove: { x: -1, y: -1 },
+                        player1Ready: false, player2Ready: false,
+                        board: new Array(TOTAL_CELLS).fill(0),
+                        currentPlayer: 1,
+                        undoRequested: 0,
+                        undoApproved: false,
+                        lastActiveAt: Date.now()
+                    };
+                    if (opponentRole === 1) {
+                        resetData.player1Id = null;
+                        resetData.player1Nickname = null;
+                        resetData.player1LastActive = null;
+                    } else {
+                        resetData.player2Id = null;
+                        resetData.player2Nickname = null;
+                        resetData.player2LastActive = null;
+                    }
+                    db.collection(COLLECTION).doc(currentRoomDocId).update(resetData).catch(e => {
+                        console.warn('[对方超时] 踢出失败:', e);
+                    });
+                    setStatus('对方超过5分钟无操作，已被移出房间', 'success');
+                    return;
+                }
+            }
         }
 
         // 积分 & 玩家名
@@ -1809,6 +1901,40 @@ async function leaveRoom() {
             } else {
                 document.getElementById('btn-ready').style.display = 'inline-block';
                 document.getElementById('btn-ready-cancel').style.display = 'none';
+            }
+
+            // 检测对方准备超时：对方在房间但超过 READY_TIMEOUT 未准备
+            const opponentLastActive = myRole === 1 ? room.player2LastActive : room.player1LastActive;
+            if (bothHere && myReady && !opponentReady && opponentLastActive) {
+                const elapsed = Date.now() - opponentLastActive;
+                if (elapsed >= READY_TIMEOUT) {
+                    console.log('[对方准备超时] 对方超过1分钟未准备，自动踢出');
+                    const opponentRole = myRole === 1 ? 2 : 1;
+                    const resetData = {
+                        started: false, gameOver: false, winner: 0,
+                        lastMove: { x: -1, y: -1 },
+                        player1Ready: false, player2Ready: false,
+                        board: new Array(TOTAL_CELLS).fill(0),
+                        currentPlayer: 1,
+                        undoRequested: 0,
+                        undoApproved: false,
+                        lastActiveAt: Date.now()
+                    };
+                    if (opponentRole === 1) {
+                        resetData.player1Id = null;
+                        resetData.player1Nickname = null;
+                        resetData.player1LastActive = null;
+                    } else {
+                        resetData.player2Id = null;
+                        resetData.player2Nickname = null;
+                        resetData.player2LastActive = null;
+                    }
+                    db.collection(COLLECTION).doc(currentRoomDocId).update(resetData).catch(e => {
+                        console.warn('[对方准备超时] 踢出失败:', e);
+                    });
+                    setStatus('对方超过1分钟未准备，已被移出房间', 'success');
+                    return;
+                }
             }
 
             // 更新准备状态显示
@@ -1930,11 +2056,13 @@ async function placeStone(x, y) {
 
     try {
         // ✅ 修复：永远传对象，绝不传 null
+        const activeField = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
         await db.collection(COLLECTION).doc(currentRoomDocId).update({
             board: newBoard,
             currentPlayer: myRole === 1 ? 2 : 1,
             // 强制保证 lastMove 是 {x,y} 对象，不会是 null
             lastMove: { x: x, y: y },
+            [activeField]: Date.now(),
             lastActiveAt: Date.now()
         });
 

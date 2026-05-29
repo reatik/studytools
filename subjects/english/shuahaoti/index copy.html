@@ -1776,6 +1776,8 @@ body.fav-mode .attempt-tag {
                 if (e.target.closest('.question-card-body')) return;
                 if (filteredQuestions.length <= 1) return;
 
+                e.preventDefault(); // 阻止MIUI浏览器的双击缩放等默认手势
+
                 let p = getXY(e);
                 startX = p.x; startY = p.y;
                 startTime = Date.now();
@@ -1934,7 +1936,7 @@ body.fav-mode .attempt-tag {
             }
 
             // 触摸事件
-            questionArea.addEventListener('touchstart', e => onStart(e), { passive: true });
+            questionArea.addEventListener('touchstart', e => onStart(e), { passive: false });
             questionArea.addEventListener('touchmove', e => onMove(e), { passive: false });
             questionArea.addEventListener('touchend', e => onEnd(e));
 
