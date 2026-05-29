@@ -9,29 +9,18 @@
     <script src="tiku.js"></script>
     <style>
 :root {
-    --bg-dark: #1a1a2e;
-    --bg-mid: #16213e;
-    --accent: #e94560;
-    --accent2: #0f3460;
-    --gold: #f5c518;
-    --green: #00e676;
-    --red: #ff1744;
-    --blue: #448aff;
-    --text: #eaeaea;
-    --text-dim: #8892a4;
-    --card-bg: rgba(255,255,255,0.06);
-    --card-border: rgba(255,255,255,0.1);
+    --bg-dark: #1a1a2e; --bg-mid: #16213e; --accent: #e94560; --accent2: #0f3460;
+    --gold: #f5c518; --green: #00e676; --red: #ff1744; --blue: #448aff;
+    --text: #eaeaea; --text-dim: #8892a4;
+    --card-bg: rgba(255,255,255,0.06); --card-border: rgba(255,255,255,0.1);
     --glass: rgba(22,33,62,0.85);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
     font-family: 'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
-    background: var(--bg-dark);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+    background: var(--bg-dark); color: var(--text);
+    min-height: 100vh; overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
 .screen { display:none; min-height:100vh; flex-direction:column; align-items:center; justify-content:center; padding:16px; }
 .screen.active { display:flex; animation: fadeIn .4s ease; }
@@ -41,8 +30,6 @@ body {
 @keyframes countIn { from{transform:scale(2);opacity:0} to{transform:scale(1);opacity:1} }
 @keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
 @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-@keyframes glow { 0%,100%{box-shadow:0 0 8px rgba(233,69,96,.3)} 50%{box-shadow:0 0 24px rgba(233,69,96,.6)} }
-@keyframes confetti { 0%{transform:translateY(0) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
 
 #menu-screen {
     background: linear-gradient(160deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
@@ -55,88 +42,171 @@ body {
     animation: float 8s ease-in-out infinite;
 }
 .menu-title {
-    font-size: clamp(2rem, 6vw, 3.5rem);
-    font-weight: 900;
+    font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 900;
     background: linear-gradient(135deg, var(--gold), var(--accent));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     margin-bottom: 8px; letter-spacing: 4px; position: relative; z-index:1;
 }
-.menu-subtitle {
-    color: var(--text-dim); font-size: clamp(.85rem, 2vw, 1.1rem);
-    margin-bottom: 40px; position: relative; z-index:1;
-}
-.menu-btns {
-    display: flex; flex-direction: column; gap: 18px;
-    width: 100%; max-width: 320px; position: relative; z-index:1;
-}
+.menu-subtitle { color: var(--text-dim); font-size: clamp(.85rem, 2vw, 1.1rem); margin-bottom: 40px; position: relative; z-index:1; }
+.menu-btns { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 320px; position: relative; z-index:1; }
 .menu-btn {
     padding: 18px 32px; border-radius: 16px; font-size: 1.2rem;
     font-weight: 800; cursor: pointer; border: 2px solid transparent;
     transition: all .25s; letter-spacing: 3px; text-align: center;
-    position: relative; overflow: hidden;
 }
 .menu-btn:active { transform: scale(.96); }
-.btn-solo {
-    background: linear-gradient(135deg, #0f3460, #1a1a6e);
-    color: var(--gold); border-color: rgba(245,197,24,.3);
-}
+.btn-solo { background: linear-gradient(135deg, #0f3460, #1a1a6e); color: var(--gold); border-color: rgba(245,197,24,.3); }
 .btn-solo:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(245,197,24,.2); }
-.btn-online {
-    background: linear-gradient(135deg, #e94560, #c0392b);
-    color: #fff; border-color: rgba(233,69,96,.3);
-}
+.btn-online { background: linear-gradient(135deg, #e94560, #c0392b); color: #fff; border-color: rgba(233,69,96,.3); }
 .btn-online:hover { border-color: var(--accent); box-shadow: 0 0 20px rgba(233,69,96,.3); }
 
 #room-screen {
     background: linear-gradient(160deg, #1a1a2e 0%, #16213e 100%);
-    padding-top: 20px;
+    padding-top: 20px; justify-content: flex-start;
 }
-.room-header { font-size: 1.5rem; font-weight: 800; color: var(--gold); margin-bottom: 6px; letter-spacing: 3px; }
-.room-sub { color: var(--text-dim); font-size: .85rem; margin-bottom: 20px; }
+.room-top { display:flex; align-items:center; gap:12px; margin-bottom: 16px; width:100%; max-width:500px; }
+.room-header { font-size: 1.5rem; font-weight: 800; color: var(--gold); letter-spacing: 3px; }
+.room-actions { display:flex; gap:10px; margin-bottom: 16px; width:100%; max-width:500px; }
+.btn-create {
+    padding: 12px 24px; border-radius: 12px; font-size: .95rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,230,118,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #1a1a2e;
+    transition: all .2s; letter-spacing: 1px; flex:1;
+}
+.btn-create:active { transform: scale(.96); }
+.btn-refresh {
+    padding: 12px 20px; border-radius: 12px; font-size: .95rem; font-weight: 700;
+    cursor: pointer; border: 2px solid var(--card-border);
+    background: var(--card-bg); color: var(--text-dim); transition: all .2s;
+}
+.btn-back {
+    padding: 10px 28px; border-radius: 10px; font-size: .9rem; font-weight: 700;
+    cursor: pointer; border: 2px solid var(--card-border);
+    background: var(--card-bg); color: var(--text-dim); transition: all .2s; margin-top: 12px;
+}
+.btn-back:hover { border-color: var(--accent); color: var(--accent); }
 #status-bar {
     font-size: .9rem; font-weight: 600; text-align: center;
     color: var(--text-dim); min-height: 24px; margin-bottom: 12px;
     padding: 6px 16px; border-radius: 20px;
     background: var(--card-bg); border: 1px solid var(--card-border);
+    width: 100%; max-width: 500px;
 }
 #status-bar.ok { color: var(--green); border-color: rgba(0,230,118,.2); }
 #status-bar.err { color: var(--red); border-color: rgba(255,23,68,.2); }
-.room-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 12px; width: 100%; max-width: 500px; margin-bottom: 16px;
+.room-list {
+    width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 10px;
+    max-height: 55vh; overflow-y: auto; padding-right: 4px;
 }
+.room-list::-webkit-scrollbar { width: 4px; }
+.room-list::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 2px; }
+.room-list-empty { text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: .95rem; }
 .room-card {
     background: var(--card-bg); border: 1px solid var(--card-border);
-    border-radius: 14px; padding: 14px 10px; text-align: center;
+    border-radius: 14px; padding: 14px 16px;
     transition: all .25s; cursor: pointer;
+    display: flex; align-items: center; gap: 14px;
 }
 .room-card:hover { border-color: rgba(245,197,24,.3); }
 .room-card.full { opacity: .5; cursor: default; }
 .room-card.full:hover { border-color: var(--card-border); }
-.room-name { font-size: .95rem; font-weight: 700; color: var(--gold); margin-bottom: 10px; letter-spacing: 2px; }
-.room-seats { display:flex; align-items:center; justify-content:center; gap:6px; }
-.seat-dot {
-    width: 28px; height: 28px; border-radius: 50%;
-    border: 2px solid var(--accent2); background: transparent;
-    display: flex; align-items:center; justify-content:center;
-    font-size: .7rem; font-weight: 700; color: var(--text-dim); transition: all .2s;
+.room-card.playing { opacity: .5; cursor: default; }
+.room-card.playing:hover { border-color: var(--card-border); }
+.room-card-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent2), #1a1a6e);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 900; color: var(--gold); flex-shrink:0;
 }
-.seat-dot.taken { background: var(--accent); border-color: var(--accent); color: #fff; }
-.seat-dot.me { background: var(--gold); border-color: var(--gold); color: #1a1a2e; }
-.room-vs { font-size: .75rem; color: var(--text-dim); margin: 0 4px; }
-.btn-back {
-    padding: 10px 28px; border-radius: 10px; font-size: .9rem; font-weight: 700;
+.room-card-info { flex:1; min-width:0; }
+.room-card-name {
+    font-size: 1rem; font-weight: 700; color: var(--gold);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;
+}
+.room-card-meta { display:flex; gap:10px; font-size: .75rem; color: var(--text-dim); flex-wrap:wrap; }
+.room-card-meta span { display:flex; align-items:center; gap:3px; }
+.room-card-badge {
+    padding: 4px 10px; border-radius: 8px; font-size: .75rem; font-weight: 700; flex-shrink: 0;
+}
+.room-card-badge.open { background: rgba(0,230,118,.15); color: var(--green); }
+.room-card-badge.full-badge { background: rgba(255,23,68,.15); color: var(--red); }
+.room-card-badge.playing-badge { background: rgba(245,197,24,.15); color: var(--gold); }
+.room-card-lock { font-size: .85rem; margin-right: 2px; }
+
+#create-overlay {
+    position: fixed; inset:0; background: rgba(0,0,0,.65);
+    display:none; align-items:center; justify-content:center; z-index: 80;
+}
+#create-overlay.show { display:flex; }
+.create-box {
+    background: var(--glass); border: 1px solid var(--card-border);
+    border-radius: 20px; padding: 28px 24px; width: 90%; max-width: 400px;
+    animation: slideUp .3s ease;
+}
+.create-title { font-size: 1.3rem; font-weight: 800; color: var(--gold); margin-bottom: 20px; text-align: center; letter-spacing: 2px; }
+.create-field { margin-bottom: 16px; }
+.create-label { font-size: .85rem; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; display: block; }
+.create-input {
+    width: 100%; padding: 12px 14px; border-radius: 10px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    color: var(--text); font-size: .95rem; font-weight: 600;
+    outline: none; transition: border-color .2s;
+}
+.create-input:focus { border-color: var(--gold); }
+.create-input::placeholder { color: var(--text-dim); opacity:.5; }
+.create-row { display:flex; gap:10px; }
+.create-row .create-field { flex:1; }
+.create-select {
+    width: 100%; padding: 12px 14px; border-radius: 10px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    color: var(--text); font-size: .95rem; font-weight: 600;
+    outline: none; cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238892a4' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+}
+.create-select option { background: #1a1a2e; color: var(--text); }
+.create-btns { display:flex; gap:12px; margin-top: 20px; }
+.btn-confirm {
+    flex:1; padding: 12px 20px; border-radius: 12px; font-size: 1rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,230,118,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #1a1a2e;
+    transition: all .2s; letter-spacing: 1px;
+}
+.btn-confirm:active { transform: scale(.96); }
+.btn-cancel {
+    padding: 12px 20px; border-radius: 12px; font-size: .9rem; font-weight: 700;
     cursor: pointer; border: 2px solid var(--card-border);
     background: var(--card-bg); color: var(--text-dim); transition: all .2s;
 }
-.btn-back:hover { border-color: var(--accent); color: var(--accent); }
+
+#password-overlay {
+    position: fixed; inset:0; background: rgba(0,0,0,.65);
+    display:none; align-items:center; justify-content:center; z-index: 80;
+}
+#password-overlay.show { display:flex; }
+.password-box {
+    background: var(--glass); border: 1px solid var(--card-border);
+    border-radius: 20px; padding: 28px 24px; width: 90%; max-width: 340px;
+    animation: slideUp .3s ease; text-align: center;
+}
+.password-title { font-size: 1.1rem; font-weight: 800; color: var(--gold); margin-bottom: 16px; letter-spacing: 1px; }
+.password-input {
+    width: 100%; padding: 12px 14px; border-radius: 10px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    color: var(--text); font-size: 1rem; font-weight: 600;
+    outline: none; text-align: center; letter-spacing: 4px; margin-bottom: 16px;
+}
+.password-input:focus { border-color: var(--gold); }
+.password-btns { display:flex; gap:12px; }
 
 #lobby-screen { background: linear-gradient(160deg, #1a1a2e 0%, #16213e 100%); }
 .lobby-box {
     background: var(--glass); border: 1px solid var(--card-border);
     border-radius: 20px; padding: 28px 24px; width: 100%; max-width: 400px; text-align: center;
 }
-.lobby-title { font-size: 1.3rem; font-weight: 800; color: var(--gold); margin-bottom: 20px; letter-spacing: 2px; }
+.lobby-title { font-size: 1.3rem; font-weight: 800; color: var(--gold); margin-bottom: 6px; letter-spacing: 2px; }
+.lobby-settings { font-size: .8rem; color: var(--text-dim); margin-bottom: 16px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.lobby-settings span { padding: 3px 10px; border-radius: 8px; background: var(--card-bg); border: 1px solid var(--card-border); }
 .lobby-players { display:flex; flex-direction:column; gap:10px; margin-bottom: 20px; }
 .lobby-player {
     display: flex; align-items: center; gap: 12px;
@@ -150,6 +220,7 @@ body {
     font-size: 1rem; font-weight: 800; color: var(--gold); flex-shrink:0;
 }
 .lobby-player .p-name { flex:1; text-align:left; font-weight: 600; font-size: .95rem; }
+.lobby-player .p-host { font-size: .7rem; color: var(--gold); font-weight: 700; }
 .lobby-player .p-status { font-size: .8rem; font-weight: 700; }
 .lobby-player .p-status.ready { color: var(--green); }
 .lobby-player .p-status.waiting { color: var(--text-dim); }
@@ -161,10 +232,7 @@ body {
     transition: all .2s; letter-spacing: 2px;
 }
 .btn-ready:active { transform: scale(.96); }
-.btn-ready.cancel {
-    background: linear-gradient(135deg, #ff1744, #d50000);
-    border-color: rgba(255,23,68,.3); color: #fff;
-}
+.btn-ready.cancel { background: linear-gradient(135deg, #ff1744, #d50000); border-color: rgba(255,23,68,.3); color: #fff; }
 .btn-leave {
     padding: 12px 28px; border-radius: 12px; font-size: .9rem; font-weight: 700;
     cursor: pointer; border: 2px solid var(--card-border);
@@ -196,7 +264,6 @@ body {
 }
 .game-timer-text.warn { color: #ff9100; }
 .game-timer-text.danger { color: var(--red); animation: pulse .5s infinite; }
-
 .question-card {
     width: 100%; max-width: 500px;
     background: var(--glass); border: 1px solid var(--card-border);
@@ -229,7 +296,6 @@ body {
 .option-item.wrong { border-color: var(--red); background: rgba(255,23,68,.1); animation: shake .4s; }
 .option-item.wrong .option-letter { background: var(--red); color: #fff; }
 .option-item.disabled { pointer-events: none; opacity: .7; }
-
 .explanation-box {
     width: 100%; max-width: 500px;
     background: rgba(245,197,24,.06); border: 1px solid rgba(245,197,24,.15);
@@ -239,7 +305,6 @@ body {
 .explanation-box.show { display: block; }
 .explanation-title { font-size: .9rem; font-weight: 800; color: var(--gold); margin-bottom: 6px; }
 .explanation-text { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
-
 .online-scoreboard {
     width: 100%; max-width: 500px;
     display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 12px;
@@ -254,11 +319,7 @@ body {
 .sb-player .sb-name { color: var(--text); }
 .sb-player .sb-pts { color: var(--gold); }
 .sb-player .sb-answered { color: var(--green); font-size: .7rem; }
-
-.game-bottom {
-    width: 100%; max-width: 500px;
-    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-}
+.game-bottom { width: 100%; max-width: 500px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .btn-next {
     padding: 12px 36px; border-radius: 12px; font-size: 1rem; font-weight: 800;
     cursor: pointer; border: 2px solid rgba(0,230,118,.3);
@@ -313,7 +374,6 @@ body {
     font-size: 6rem; font-weight: 900; color: var(--gold);
     animation: countIn .4s ease; text-shadow: 0 0 40px rgba(245,197,24,.4);
 }
-
 #waiting-overlay {
     position: fixed; inset:0; background: rgba(0,0,0,.6);
     display:none; align-items:center; justify-content:center;
@@ -323,7 +383,6 @@ body {
 .waiting-text { font-size: 1.1rem; font-weight: 700; color: var(--text); }
 .waiting-dots::after { content:''; animation: dots 1.5s infinite; }
 @keyframes dots { 0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
-
 .toast {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
     padding: 10px 24px; border-radius: 12px;
@@ -341,6 +400,8 @@ body {
     .question-card { padding: 16px 14px; }
     .option-item { padding: 10px 12px; }
     .lobby-box { padding: 20px 16px; }
+    .room-card { padding: 10px 12px; gap: 10px; }
+    .room-card-icon { width: 36px; height: 36px; font-size: 1rem; }
 }
     </style>
 </head>
@@ -360,16 +421,83 @@ body {
 </div>
 
 <div class="screen" id="room-screen">
-    <div class="room-header">选择房间</div>
-    <div class="room-sub">点击空位加入房间</div>
+    <div class="room-top">
+        <div class="room-header">联机大厅</div>
+    </div>
     <div id="status-bar"></div>
-    <div class="room-grid" id="room-grid"></div>
+    <div class="room-actions">
+        <button class="btn-create" onclick="showCreateRoom()">创建房间</button>
+        <button class="btn-refresh" onclick="refreshRooms()">刷新</button>
+    </div>
+    <div class="room-list" id="room-list"></div>
     <button class="btn-back" onclick="backToMenu()">返回</button>
+</div>
+
+<div id="create-overlay">
+    <div class="create-box">
+        <div class="create-title">创建房间</div>
+        <div class="create-field">
+            <label class="create-label">房间名称</label>
+            <input class="create-input" id="cr-name" type="text" placeholder="输入房间名" maxlength="12">
+        </div>
+        <div class="create-row">
+            <div class="create-field">
+                <label class="create-label">人数上限</label>
+                <select class="create-select" id="cr-maxplayers">
+                    <option value="2">2人</option>
+                    <option value="3">3人</option>
+                    <option value="4" selected>4人</option>
+                    <option value="6">6人</option>
+                </select>
+            </div>
+            <div class="create-field">
+                <label class="create-label">获胜分数</label>
+                <select class="create-select" id="cr-winscore">
+                    <option value="3">3分</option>
+                    <option value="5" selected>5分</option>
+                    <option value="10">10分</option>
+                    <option value="15">15分</option>
+                    <option value="20">20分</option>
+                </select>
+            </div>
+        </div>
+        <div class="create-row">
+            <div class="create-field">
+                <label class="create-label">答题时间(秒)</label>
+                <select class="create-select" id="cr-time">
+                    <option value="5">5秒</option>
+                    <option value="10" selected>10秒</option>
+                    <option value="15">15秒</option>
+                    <option value="20">20秒</option>
+                </select>
+            </div>
+            <div class="create-field">
+                <label class="create-label">房间密码</label>
+                <input class="create-input" id="cr-password" type="text" placeholder="留空无密码" maxlength="6">
+            </div>
+        </div>
+        <div class="create-btns">
+            <button class="btn-confirm" onclick="createRoom()">创建</button>
+            <button class="btn-cancel" onclick="hideCreateRoom()">取消</button>
+        </div>
+    </div>
+</div>
+
+<div id="password-overlay">
+    <div class="password-box">
+        <div class="password-title">输入房间密码</div>
+        <input class="password-input" id="pw-input" type="text" placeholder="密码" maxlength="6">
+        <div class="password-btns">
+            <button class="btn-confirm" style="flex:1" onclick="submitPassword()">确认</button>
+            <button class="btn-cancel" onclick="hidePassword()">取消</button>
+        </div>
+    </div>
 </div>
 
 <div class="screen" id="lobby-screen">
     <div class="lobby-box">
-        <div class="lobby-title" id="lobby-title">房间 1</div>
+        <div class="lobby-title" id="lobby-title">房间</div>
+        <div class="lobby-settings" id="lobby-settings"></div>
         <div class="lobby-players" id="lobby-players"></div>
         <div class="lobby-btns">
             <button class="btn-ready" id="btn-ready" onclick="toggleReady()">准备</button>
@@ -415,46 +543,32 @@ body {
 </div>
 
 <script>
-const ROOM_COUNT = 8;
-const COLLECTION = 'quiz_rooms';
-const MAX_PLAYERS = 4;
-const ANSWER_TIME = 10;
-const TOTAL_QUESTIONS = 10;
+const COLLECTION = 'quiz1_rooms';
+const DEFAULT_ANSWER_TIME = 10;
+const DEFAULT_WIN_SCORE = 5;
+const DEFAULT_MAX_PLAYERS = 4;
 const REVEAL_DELAY = 3000;
+const ROOM_EXPIRE = 30 * 60 * 1000;
 
 let db = null;
 let watcher = null;
 let myUserId = '';
 let myNickname = '';
 let currentRoomDocId = '';
-let currentRoomId = '';
 let myPlayerIndex = -1;
 let isOnlineMode = false;
 let isReady = false;
+let pendingJoinDocId = '';
+let currentRoomListCache = [];
 
 let soloState = {
-    questions: [],
-    currentIdx: 0,
-    score: 0,
-    selected: null,
-    answered: false,
-    timer: null,
-    timeLeft: 0
+    questions: [], currentIdx: 0, score: 0, selected: null, answered: false, timer: null, timeLeft: 0
 };
 
 let onlineState = {
-    questions: [],
-    currentIdx: -1,
-    score: 0,
-    selected: null,
-    answered: false,
-    timer: null,
-    timeLeft: 0,
-    roomData: null,
-    revealed: false,
-    advanceTimer: null,
-    gameStarting: false,
-    safetyTimer: null
+    questions: [], currentIdx: -1, score: 0, selected: null, answered: false,
+    timer: null, timeLeft: 0, roomData: null, revealed: false,
+    advanceTimer: null, gameStarting: false, safetyTimer: null
 };
 
 const questionBank = window.questionBank || [];
@@ -467,15 +581,13 @@ function showScreen(id) {
 
 function showToast(msg, type) {
     const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast show ' + (type || '');
+    t.textContent = msg; t.className = 'toast show ' + (type || '');
     setTimeout(() => t.className = 'toast', 2200);
 }
 
 function setStatus(msg, type) {
     const s = document.getElementById('status-bar');
-    s.textContent = msg;
-    s.className = type || '';
+    s.textContent = msg; s.className = type || '';
 }
 
 function shuffle(arr) {
@@ -499,132 +611,78 @@ function showCountdown(callback) {
     const overlay = document.getElementById('countdown-overlay');
     const numEl = document.getElementById('countdown-num');
     overlay.classList.add('show');
-    let count = 3;
-    numEl.textContent = count;
+    let count = 3; numEl.textContent = count;
     const iv = setInterval(() => {
         count--;
-        if (count <= 0) {
-            clearInterval(iv);
-            overlay.classList.remove('show');
-            callback();
-        } else {
-            numEl.textContent = count;
-            numEl.style.animation = 'none';
-            numEl.offsetHeight;
-            numEl.style.animation = 'countIn .4s ease';
-        }
+        if (count <= 0) { clearInterval(iv); overlay.classList.remove('show'); callback(); }
+        else { numEl.textContent = count; numEl.style.animation = 'none'; numEl.offsetHeight; numEl.style.animation = 'countIn .4s ease'; }
     }, 800);
 }
 
 function startSolo() {
     isOnlineMode = false;
-    soloState = {
-        questions: pickQuestions(TOTAL_QUESTIONS),
-        currentIdx: 0,
-        score: 0,
-        selected: null,
-        answered: false,
-        timer: null,
-        timeLeft: 0
-    };
-    if (soloState.questions.length === 0) {
-        showToast('题库为空，无法开始', 'error');
-        return;
-    }
-    showCountdown(() => {
-        showScreen('game-screen');
-        renderSoloQuestion();
-    });
+    soloState = { questions: pickQuestions(10), currentIdx: 0, score: 0, selected: null, answered: false, timer: null, timeLeft: 0 };
+    if (soloState.questions.length === 0) { showToast('题库为空', 'error'); return; }
+    showCountdown(() => { showScreen('game-screen'); renderSoloQuestion(); });
 }
 
 function renderSoloQuestion() {
     const s = soloState;
     if (s.currentIdx >= s.questions.length) { endSolo(); return; }
     const q = s.questions[s.currentIdx];
-    s.selected = null;
-    s.answered = false;
-    s.timeLeft = ANSWER_TIME;
-
+    s.selected = null; s.answered = false; s.timeLeft = DEFAULT_ANSWER_TIME;
     document.getElementById('game-round').textContent = '第 ' + (s.currentIdx + 1) + '/' + s.questions.length + ' 题';
     document.getElementById('game-score').textContent = '得分: ' + s.score;
     document.getElementById('online-scoreboard').innerHTML = '';
     document.getElementById('question-text').textContent = q.question;
     document.getElementById('explanation-box').classList.remove('show');
     document.getElementById('btn-next').classList.remove('show');
-
-    const ol = document.getElementById('options-list');
-    ol.innerHTML = '';
+    const ol = document.getElementById('options-list'); ol.innerHTML = '';
     q.options.forEach((opt, i) => {
-        const div = document.createElement('div');
-        div.className = 'option-item';
+        const div = document.createElement('div'); div.className = 'option-item';
         div.innerHTML = '<span class="option-letter">' + letters[i] + '</span><span>' + opt + '</span>';
-        div.onclick = () => soloSelect(i);
-        ol.appendChild(div);
+        div.onclick = () => soloSelect(i); ol.appendChild(div);
     });
-
     startSoloTimer();
 }
 
 function soloSelect(idx) {
-    const s = soloState;
-    if (s.answered) return;
-    s.answered = true;
-    s.selected = idx;
-    clearInterval(s.timer);
-
+    const s = soloState; if (s.answered) return;
+    s.answered = true; s.selected = idx; clearInterval(s.timer);
     const q = s.questions[s.currentIdx];
-    const items = document.querySelectorAll('#options-list .option-item');
-    items.forEach((it, i) => {
+    document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
         it.classList.add('disabled');
         if (i === q.answer) it.classList.add('correct');
         if (i === idx && idx !== q.answer) it.classList.add('wrong');
     });
-
-    if (idx === q.answer) {
-        s.score++;
-        document.getElementById('game-score').textContent = '得分: ' + s.score;
-    }
-
+    if (idx === q.answer) { s.score++; document.getElementById('game-score').textContent = '得分: ' + s.score; }
     document.getElementById('explanation-text').textContent = q.explanation || '暂无解析';
     document.getElementById('explanation-box').classList.add('show');
     document.getElementById('btn-next').classList.add('show');
 }
 
 function startSoloTimer() {
-    const s = soloState;
-    clearInterval(s.timer);
-    const fill = document.getElementById('timer-fill');
-    const text = document.getElementById('timer-text');
-    const start = Date.now();
-    const total = ANSWER_TIME * 1000;
-
+    const s = soloState; clearInterval(s.timer);
+    const fill = document.getElementById('timer-fill'), text = document.getElementById('timer-text');
+    const start = Date.now(), total = DEFAULT_ANSWER_TIME * 1000;
     function tick() {
-        const elapsed = Date.now() - start;
-        const remain = Math.max(0, total - elapsed);
+        const remain = Math.max(0, total - (Date.now() - start));
         s.timeLeft = remain / 1000;
         const pct = (remain / total) * 100;
         fill.style.width = pct + '%';
         fill.className = 'game-timer-fill' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
         text.className = 'game-timer-text' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
         text.textContent = Math.ceil(s.timeLeft);
-        if (remain <= 0) {
-            clearInterval(s.timer);
-            soloTimeUp();
-        }
+        if (remain <= 0) { clearInterval(s.timer); soloTimeUp(); }
     }
-    s.timer = setInterval(tick, 100);
-    tick();
+    s.timer = setInterval(tick, 100); tick();
 }
 
 function soloTimeUp() {
-    const s = soloState;
-    if (s.answered) return;
-    s.answered = true;
+    const s = soloState; if (s.answered) return; s.answered = true;
     const q = s.questions[s.currentIdx];
-    const items = document.querySelectorAll('#options-list .option-item');
-    items.forEach((it, i) => {
-        it.classList.add('disabled');
-        if (i === q.answer) it.classList.add('correct');
+    document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
+        it.classList.add('disabled'); if (i === q.answer) it.classList.add('correct');
     });
     document.getElementById('explanation-text').textContent = q.explanation || '暂无解析';
     document.getElementById('explanation-box').classList.add('show');
@@ -632,47 +690,29 @@ function soloTimeUp() {
     showToast('时间到！', 'error');
 }
 
-function nextQuestion() {
-    if (isOnlineMode) { onlineNext(); return; }
-    soloState.currentIdx++;
-    renderSoloQuestion();
-}
+function nextQuestion() { if (isOnlineMode) { onlineNext(); return; } soloState.currentIdx++; renderSoloQuestion(); }
 
 function endSolo() {
-    clearInterval(soloState.timer);
-    const s = soloState;
+    clearInterval(soloState.timer); const s = soloState;
     document.getElementById('result-title').textContent = '闯关结束';
     document.getElementById('result-subtitle').textContent = '共 ' + s.questions.length + ' 题，答对 ' + s.score + ' 题';
-    const rank = document.getElementById('result-rank');
-    rank.innerHTML = '<div class="rank-item top"><div class="rank-num">1</div><div class="rank-name">你</div><div class="rank-score">' + s.score + ' 分</div></div>';
+    document.getElementById('result-rank').innerHTML = '<div class="rank-item top"><div class="rank-num">1</div><div class="rank-name">你</div><div class="rank-score">' + s.score + ' 分</div></div>';
     document.getElementById('btn-replay').textContent = '再来一局';
     showScreen('result-screen');
 }
 
-function exitGame() {
-    if (isOnlineMode) { leaveRoom(); return; }
-    clearInterval(soloState.timer);
-    showScreen('menu-screen');
-}
+function exitGame() { if (isOnlineMode) { leaveRoom(); return; } clearInterval(soloState.timer); showScreen('menu-screen'); }
 
-function replay() {
-    if (isOnlineMode) { onlineReplay(); return; }
-    startSolo();
-}
+function replay() { if (isOnlineMode) { onlineReplay(); return; } startSolo(); }
 
 async function initCloudBase() {
     if (db) return true;
     try {
         const app = await getCloudBaseApp();
         if (!app) throw new Error('CloudBase 不可用');
-        db = app.database();
-        myUserId = getUserId();
-        myNickname = await fetchNickname();
+        db = app.database(); myUserId = getUserId(); myNickname = await fetchNickname();
         return true;
-    } catch (e) {
-        console.error('CloudBase 初始化失败:', e);
-        return false;
-    }
+    } catch (e) { console.error('CloudBase 初始化失败:', e); return false; }
 }
 
 async function fetchNickname() {
@@ -687,8 +727,7 @@ async function fetchNickname() {
             const res = await cdb.collection('users').where({ user_id: userId }).get();
             if (res.data && res.data.length > 0) {
                 const name = res.data[0].username || res.data[0].nickname || '玩家';
-                localStorage.setItem('game_nickname', name);
-                return name;
+                localStorage.setItem('game_nickname', name); return name;
             }
         }
     } catch (e) { console.warn('获取昵称失败:', e); }
@@ -696,120 +735,183 @@ async function fetchNickname() {
 }
 
 async function showRooms() {
-    showScreen('room-screen');
-    setStatus('连接中...', '');
+    showScreen('room-screen'); setStatus('连接中...', '');
     const ok = await initCloudBase();
     if (!ok) { setStatus('连接失败，请重试', 'err'); return; }
-    await ensureRooms();
     await refreshRooms();
 }
 
-async function ensureRooms() {
-    try {
-        const res = await db.collection(COLLECTION).limit(ROOM_COUNT + 5).get();
-        const existing = {};
-        (res.data || []).forEach(r => { if (r.roomId) existing[r.roomId] = r; });
-        for (let i = 1; i <= ROOM_COUNT; i++) {
-            const rid = 'room' + i;
-            if (!existing[rid]) {
-                const players = [];
-                for (let p = 0; p < MAX_PLAYERS; p++) {
-                    players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 });
-                }
-                await db.collection(COLLECTION).add({
-                    roomId: rid,
-                    roomName: '房间' + i,
-                    players: players,
-                    started: false,
-                    currentQuestion: -1,
-                    questions: [],
-                    questionStartTime: 0,
-                    lastActiveAt: Date.now()
-                });
-            }
-        }
-    } catch (e) { console.error('ensureRooms 失败:', e); throw e; }
-}
-
 async function refreshRooms() {
-    const grid = document.getElementById('room-grid');
-    grid.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-dim);grid-column:1/-1;">加载中...</div>';
+    const list = document.getElementById('room-list');
+    list.innerHTML = '<div class="room-list-empty">加载中...</div>';
     try {
-        await cleanupZombieRooms();
-        const res = await db.collection(COLLECTION).orderBy('roomId', 'asc').limit(ROOM_COUNT).get();
-        const rooms = (res.data || []).sort((a, b) => {
-            const na = parseInt(a.roomId.replace('room', '')) || 999;
-            const nb = parseInt(b.roomId.replace('room', '')) || 999;
-            return na - nb;
+        await cleanupExpiredRooms();
+        const res = await db.collection(COLLECTION).orderBy('createdAt', 'desc').limit(50).get();
+        const rooms = (res.data || []).filter(r => {
+            if (r.started && Date.now() - (r.createdAt || 0) > ROOM_EXPIRE) return false;
+            return true;
         });
+        currentRoomListCache = rooms;
         renderRoomList(rooms);
     } catch (e) {
-        grid.innerHTML = '<div style="text-align:center;padding:20px;color:var(--red);grid-column:1/-1;">加载失败</div>';
+        list.innerHTML = '<div class="room-list-empty">加载失败，点击刷新重试</div>';
     }
 }
 
-const ZOMBIE_TIMEOUT = 10 * 60 * 1000;
-async function cleanupZombieRooms() {
+async function cleanupExpiredRooms() {
     try {
         const now = Date.now();
-        const res = await db.collection(COLLECTION).limit(ROOM_COUNT + 5).get();
+        const res = await db.collection(COLLECTION).limit(100).get();
         for (const room of (res.data || [])) {
-            if (!room.roomId || !room.roomId.startsWith('room')) continue;
-            if (!room.started && (now - (room.lastActiveAt || 0) > ZOMBIE_TIMEOUT)) {
-                const players = [];
-                for (let p = 0; p < MAX_PLAYERS; p++) {
-                    players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 });
-                }
-                await db.collection(COLLECTION).doc(room._id).update({
-                    players: players, started: false, currentQuestion: -1, questions: [], questionStartTime: 0, lastActiveAt: Date.now()
-                });
+            if (now - (room.createdAt || 0) > ROOM_EXPIRE) {
+                await db.collection(COLLECTION).doc(room._id).remove();
             }
         }
-    } catch (e) { console.warn('清理僵尸房间失败:', e); }
+    } catch (e) { console.warn('清理过期房间失败:', e); }
 }
 
 function renderRoomList(rooms) {
-    const grid = document.getElementById('room-grid');
+    const list = document.getElementById('room-list');
+    if (!rooms.length) {
+        list.innerHTML = '<div class="room-list-empty">暂无房间，点击「创建房间」开始</div>';
+        return;
+    }
     let html = '';
     rooms.forEach(room => {
-        const taken = (room.players || []).filter(p => p.id).length;
-        const isFull = taken >= MAX_PLAYERS;
+        const players = room.players || [];
+        const taken = players.filter(p => p.id).length;
+        const maxP = room.maxPlayers || DEFAULT_MAX_PLAYERS;
+        const isFull = taken >= maxP;
         const isPlaying = !!room.started;
-        html += '<div class="room-card ' + (isFull ? 'full' : '') + '" onclick="' + (isFull || isPlaying ? '' : "joinRoom('" + room.roomId + "')") + '">';
-        html += '<div class="room-name">' + room.roomName + '</div>';
-        html += '<div class="room-seats">';
-        for (let i = 0; i < MAX_PLAYERS; i++) {
-            const p = (room.players || [])[i];
-            const cls = p && p.id ? (p.id === myUserId ? 'seat-dot me' : 'seat-dot taken') : 'seat-dot';
-            const txt = p && p.id ? (p.id === myUserId ? '我' : '✓') : '+';
-            html += '<div class="' + cls + '">' + txt + '</div>';
-            if (i === 1) html += '<div class="room-vs">|</div>';
-        }
-        html += '</div><div style="font-size:.75rem;color:var(--text-dim);margin-top:6px;">' + (isPlaying ? '游戏中' : taken + '/' + MAX_PLAYERS) + '</div></div>';
+        const hasPassword = !!room.password;
+        const cls = 'room-card' + (isFull ? ' full' : '') + (isPlaying ? ' playing' : '');
+        const onclick = (isFull || isPlaying) ? '' : "onclick=\"tryJoinRoom('" + room._id + "')\"";
+        const badgeCls = isPlaying ? 'room-card-badge playing-badge' : (isFull ? 'room-card-badge full-badge' : 'room-card-badge open');
+        const badgeText = isPlaying ? '游戏中' : (isFull ? '已满' : '可加入');
+        html += '<div class="' + cls + '" ' + onclick + '>';
+        html += '<div class="room-card-icon">' + (room.roomName || '房').charAt(0) + '</div>';
+        html += '<div class="room-card-info">';
+        html += '<div class="room-card-name">' + (hasPassword ? '<span class="room-card-lock">🔒</span> ' : '') + (room.roomName || '未命名') + '</div>';
+        html += '<div class="room-card-meta">';
+        html += '<span>👥 ' + taken + '/' + maxP + '</span>';
+        html += '<span>🏆 ' + (room.winScore || DEFAULT_WIN_SCORE) + '分胜</span>';
+        html += '<span>⏱ ' + (room.answerTime || DEFAULT_ANSWER_TIME) + '秒</span>';
+        html += '</div></div>';
+        html += '<div class="' + badgeCls + '">' + badgeText + '</div>';
+        html += '</div>';
     });
-    grid.innerHTML = html;
+    list.innerHTML = html;
 }
 
-async function joinRoom(roomId) {
-    if (!db) return setStatus('未连接数据库', 'err');
+function showCreateRoom() {
+    document.getElementById('cr-name').value = myNickname + '的房间';
+    document.getElementById('cr-maxplayers').value = '4';
+    document.getElementById('cr-winscore').value = '5';
+    document.getElementById('cr-time').value = '10';
+    document.getElementById('cr-password').value = '';
+    document.getElementById('create-overlay').classList.add('show');
+}
+
+function hideCreateRoom() { document.getElementById('create-overlay').classList.remove('show'); }
+
+async function createRoom() {
+    const name = document.getElementById('cr-name').value.trim() || '未命名房间';
+    const maxPlayers = parseInt(document.getElementById('cr-maxplayers').value) || DEFAULT_MAX_PLAYERS;
+    const winScore = parseInt(document.getElementById('cr-winscore').value) || DEFAULT_WIN_SCORE;
+    const answerTime = parseInt(document.getElementById('cr-time').value) || DEFAULT_ANSWER_TIME;
+    const password = document.getElementById('cr-password').value.trim();
+
+    if (!db) { showToast('未连接数据库', 'error'); return; }
+
     try {
-        await cleanupMyOldRooms(roomId);
-        const res = await db.collection(COLLECTION).where({ roomId }).limit(1).get();
-        if (!res.data || !res.data.length) return setStatus('房间不存在', 'err');
+        await cleanupMyOldRooms(null);
+        const players = [];
+        for (let p = 0; p < maxPlayers; p++) {
+            players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 });
+        }
+        players[0] = { id: myUserId, nickname: myNickname, ready: false, score: 0, answered: false, answerChoice: -1 };
+
+        const res = await db.collection(COLLECTION).add({
+            roomName: name, hostId: myUserId, maxPlayers: maxPlayers,
+            winScore: winScore, answerTime: answerTime, password: password || '',
+            players: players, started: false, currentQuestion: -1,
+            questions: [], questionStartTime: 0,
+            createdAt: Date.now(), lastActiveAt: Date.now()
+        });
+
+        hideCreateRoom();
+        currentRoomDocId = res._id;
+        myPlayerIndex = 0;
+        isReady = false;
+        isOnlineMode = true;
+
+        const room = {
+            _id: res._id, roomName: name, hostId: myUserId, maxPlayers,
+            winScore, answerTime, password, players, started: false
+        };
+        showScreen('lobby-screen');
+        renderLobby(room);
+        startWatchRoom();
+        showToast('房间创建成功', 'success');
+    } catch (e) {
+        showToast('创建失败: ' + e.message, 'error');
+    }
+}
+
+function tryJoinRoom(docId) {
+    pendingJoinDocId = docId;
+    const room = currentRoomListCache.find(r => r._id === docId);
+    if (room && room.password) {
+        document.getElementById('pw-input').value = '';
+        document.getElementById('password-overlay').classList.add('show');
+    } else {
+        joinRoom(docId);
+    }
+}
+
+function hidePassword() {
+    document.getElementById('password-overlay').classList.remove('show');
+    pendingJoinDocId = '';
+}
+
+async function submitPassword() {
+    const pw = document.getElementById('pw-input').value.trim();
+    const docId = pendingJoinDocId;
+    hidePassword();
+    if (!docId) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(docId).get();
+        if (!res.data || !res.data.length) { showToast('房间不存在', 'error'); return; }
         const room = res.data[0];
-        if (room.started) return setStatus('游戏进行中', 'err');
+        if (room.password && room.password !== pw) { showToast('密码错误', 'error'); return; }
+        joinRoom(docId);
+    } catch (e) { showToast('验证失败', 'error'); }
+}
+
+async function joinRoom(docId) {
+    if (!db) { showToast('未连接数据库', 'error'); return; }
+    try {
+        await cleanupMyOldRooms(docId);
+        const res = await db.collection(COLLECTION).doc(docId).get();
+        if (!res.data || !res.data.length) { showToast('房间不存在', 'error'); return; }
+        const room = res.data[0];
+        if (room.started) { showToast('游戏已开始', 'error'); refreshRooms(); return; }
 
         const players = room.players || [];
+        const maxP = room.maxPlayers || DEFAULT_MAX_PLAYERS;
         let mySpot = players.findIndex(p => p.id === myUserId);
+
         if (mySpot === -1) {
             mySpot = players.findIndex(p => !p.id);
-            if (mySpot === -1) return setStatus('房间已满', 'err');
+            if (mySpot === -1) { showToast('房间已满', 'error'); return; }
+            while (players.length < mySpot + 1) {
+                players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 });
+            }
             players[mySpot] = { id: myUserId, nickname: myNickname, ready: false, score: 0, answered: false, answerChoice: -1 };
-            await db.collection(COLLECTION).doc(room._id).update({ players, lastActiveAt: Date.now() });
+            await db.collection(COLLECTION).doc(docId).update({ players, lastActiveAt: Date.now() });
         }
 
-        currentRoomDocId = room._id;
-        currentRoomId = roomId;
+        currentRoomDocId = docId;
         myPlayerIndex = mySpot;
         isReady = false;
         isOnlineMode = true;
@@ -817,28 +919,27 @@ async function joinRoom(roomId) {
         showScreen('lobby-screen');
         renderLobby(room);
         startWatchRoom();
-        setStatus('', '');
-    } catch (e) {
-        setStatus('加入失败: ' + e.message, 'err');
-    }
+    } catch (e) { showToast('加入失败: ' + e.message, 'error'); }
 }
 
-async function cleanupMyOldRooms(excludeRoomId) {
+async function cleanupMyOldRooms(excludeDocId) {
     try {
-        const res = await db.collection(COLLECTION).limit(ROOM_COUNT + 5).get();
+        const res = await db.collection(COLLECTION).limit(100).get();
         for (const room of (res.data || [])) {
-            if (room.roomId === excludeRoomId) continue;
+            if (room._id === excludeDocId) continue;
             const players = room.players || [];
             const idx = players.findIndex(p => p.id === myUserId);
             if (idx === -1) continue;
             players[idx] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 };
             const anyoneLeft = players.some(p => p.id);
-            const updateData = { players };
             if (!anyoneLeft) {
-                updateData.started = false;
-                updateData.currentQuestion = -1;
-                updateData.questions = [];
-                updateData.questionStartTime = 0;
+                await db.collection(COLLECTION).doc(room._id).remove();
+                continue;
+            }
+            const updateData = { players };
+            if (room.hostId === myUserId) {
+                const nextHost = players.find(p => p.id && p.id !== myUserId);
+                if (nextHost) updateData.hostId = nextHost.id;
             }
             await db.collection(COLLECTION).doc(room._id).update(updateData);
         }
@@ -847,29 +948,33 @@ async function cleanupMyOldRooms(excludeRoomId) {
 
 function renderLobby(room) {
     const players = room.players || [];
-    document.getElementById('lobby-title').textContent = room.roomName || ('房间 ' + currentRoomId);
+    const maxP = room.maxPlayers || DEFAULT_MAX_PLAYERS;
+    document.getElementById('lobby-title').textContent = room.roomName || '房间';
+
+    const settings = document.getElementById('lobby-settings');
+    settings.innerHTML = '<span>👥 ' + players.filter(p => p.id).length + '/' + maxP + '</span>'
+        + '<span>🏆 ' + (room.winScore || DEFAULT_WIN_SCORE) + '分胜</span>'
+        + '<span>⏱ ' + (room.answerTime || DEFAULT_ANSWER_TIME) + '秒</span>'
+        + (room.password ? '<span>🔒 有密码</span>' : '');
+
     const container = document.getElementById('lobby-players');
     container.innerHTML = '';
     players.forEach((p, i) => {
         if (!p.id) return;
         const isMe = p.id === myUserId;
+        const isHost = p.id === room.hostId;
         const div = document.createElement('div');
         div.className = 'lobby-player' + (p.ready ? ' ready' : '');
         div.innerHTML = '<div class="p-avatar">' + (isMe ? '我' : (i + 1)) + '</div>'
-            + '<div class="p-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + '</div>'
+            + '<div class="p-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + (isHost ? ' <span class="p-host">房主</span>' : '') + '</div>'
             + '<div class="p-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? '已准备' : '等待中') + '</div>';
         container.appendChild(div);
     });
 
     const btnReady = document.getElementById('btn-ready');
     const myP = players[myPlayerIndex];
-    if (myP && myP.ready) {
-        btnReady.textContent = '取消准备';
-        btnReady.classList.add('cancel');
-    } else {
-        btnReady.textContent = '准备';
-        btnReady.classList.remove('cancel');
-    }
+    if (myP && myP.ready) { btnReady.textContent = '取消准备'; btnReady.classList.add('cancel'); }
+    else { btnReady.textContent = '准备'; btnReady.classList.remove('cancel'); }
 }
 
 async function toggleReady() {
@@ -877,13 +982,11 @@ async function toggleReady() {
     try {
         const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
         if (!res.data || !res.data.length) return;
-        const room = res.data[0];
-        const players = room.players || [];
+        const room = res.data[0]; const players = room.players || [];
         if (!players[myPlayerIndex]) return;
-        const newReady = !players[myPlayerIndex].ready;
-        players[myPlayerIndex].ready = newReady;
+        players[myPlayerIndex].ready = !players[myPlayerIndex].ready;
         await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
-        isReady = newReady;
+        isReady = players[myPlayerIndex].ready;
     } catch (e) { console.error('准备失败:', e); }
 }
 
@@ -893,9 +996,7 @@ async function startWatchRoom() {
         watcher = db.collection(COLLECTION).doc(currentRoomDocId).watch({
             onChange: snapshot => {
                 if (!snapshot.docs || !snapshot.docs.length) {
-                    showToast('房间已解散', 'error');
-                    leaveRoom();
-                    return;
+                    showToast('房间已解散', 'error'); leaveRoom(); return;
                 }
                 handleRoomUpdate(snapshot.docs[0]);
             },
@@ -904,9 +1005,7 @@ async function startWatchRoom() {
                 setTimeout(() => { if (currentRoomDocId) startWatchRoom(); }, 3000);
             }
         });
-    } catch (e) {
-        console.error('启动监听失败:', e);
-    }
+    } catch (e) { console.error('启动监听失败:', e); }
 }
 
 function handleRoomUpdate(room) {
@@ -919,55 +1018,34 @@ function handleRoomUpdate(room) {
         if (!document.getElementById('game-screen').classList.contains('active') &&
             !document.getElementById('result-screen').classList.contains('active')) {
             onlineState.gameStarting = true;
-            onlineState.currentIdx = -1;
-            onlineState.revealed = false;
-            onlineState.answered = false;
-            onlineState.selected = null;
-            clearInterval(onlineState.timer);
-            clearTimeout(onlineState.advanceTimer);
+            onlineState.currentIdx = -1; onlineState.revealed = false;
+            onlineState.answered = false; onlineState.selected = null;
+            clearInterval(onlineState.timer); clearTimeout(onlineState.advanceTimer);
             clearTimeout(onlineState.safetyTimer);
             showCountdown(() => {
                 onlineState.gameStarting = false;
-                showScreen('game-screen');
-                renderOnlineQuestion(room);
+                showScreen('game-screen'); renderOnlineQuestion(room);
             });
         } else if (document.getElementById('game-screen').classList.contains('active')) {
             renderOnlineQuestion(room);
-        } else if (document.getElementById('result-screen').classList.contains('active')) {
-            return;
         }
     } else {
-        if (document.getElementById('lobby-screen').classList.contains('active')) {
-            renderLobby(room);
-        }
+        if (document.getElementById('lobby-screen').classList.contains('active')) { renderLobby(room); }
         const allReady = activePlayers.length >= 2 && activePlayers.every(p => p.ready);
-        if (allReady && players[myPlayerIndex] && players[myPlayerIndex].id === myUserId) {
-            startOnlineGame(room);
-        }
+        if (allReady && room.hostId === myUserId) { startOnlineGame(room); }
     }
 }
 
 async function startOnlineGame(room) {
     try {
-        const questions = pickQuestions(TOTAL_QUESTIONS);
-        if (questions.length === 0) {
-            showToast('题库为空，无法开始', 'error');
-            return;
-        }
-        const players = room.players.map(p => ({
-            ...p,
-            score: 0,
-            ready: false,
-            answered: false,
-            answerChoice: -1
-        }));
+        const winScore = room.winScore || DEFAULT_WIN_SCORE;
+        const estimatedQuestions = winScore * (room.maxPlayers || DEFAULT_MAX_PLAYERS) * 2;
+        const questions = pickQuestions(Math.max(20, estimatedQuestions));
+        if (questions.length === 0) { showToast('题库为空', 'error'); return; }
+        const players = room.players.map(p => ({ ...p, score: 0, ready: false, answered: false, answerChoice: -1 }));
         await db.collection(COLLECTION).doc(currentRoomDocId).update({
-            started: true,
-            questions: questions.map(q => q.id),
-            currentQuestion: 0,
-            players: players,
-            questionStartTime: Date.now(),
-            lastActiveAt: Date.now()
+            started: true, questions: questions.map(q => q.id), currentQuestion: 0,
+            players: players, questionStartTime: Date.now(), lastActiveAt: Date.now()
         });
     } catch (e) { console.error('开始游戏失败:', e); }
 }
@@ -977,135 +1055,96 @@ function renderOnlineQuestion(room) {
     const activePlayers = players.filter(p => p.id);
     const qIds = room.questions || [];
     const currentQ = room.currentQuestion != null ? room.currentQuestion : -1;
+    const winScore = room.winScore || DEFAULT_WIN_SCORE;
+    const answerTime = room.answerTime || DEFAULT_ANSWER_TIME;
 
     if (currentQ < 0 || currentQ >= qIds.length) {
         if (qIds.length > 0 && currentQ >= qIds.length) {
-            if (!document.getElementById('result-screen').classList.contains('active')) {
-                endOnlineGame(room);
-            }
+            if (!document.getElementById('result-screen').classList.contains('active')) endOnlineGame(room);
         }
+        return;
+    }
+
+    const winner = activePlayers.find(p => (p.score || 0) >= winScore);
+    if (winner) {
+        if (!document.getElementById('result-screen').classList.contains('active')) endOnlineGame(room);
         return;
     }
 
     const qId = qIds[currentQ];
     const q = questionBank.find(qq => qq.id === qId);
     if (!q) return;
-
     const myP = players[myPlayerIndex];
     if (!myP) return;
 
     const isNewQuestion = onlineState.currentIdx !== currentQ;
     if (isNewQuestion) {
-        onlineState.currentIdx = currentQ;
-        onlineState.selected = null;
-        onlineState.answered = false;
-        onlineState.revealed = false;
-        onlineState.score = myP.score || 0;
-        clearInterval(onlineState.timer);
-        clearTimeout(onlineState.advanceTimer);
-        clearTimeout(onlineState.safetyTimer);
-        onlineState.safetyTimer = null;
+        onlineState.currentIdx = currentQ; onlineState.selected = null; onlineState.answered = false;
+        onlineState.revealed = false; onlineState.score = myP.score || 0;
+        clearInterval(onlineState.timer); clearTimeout(onlineState.advanceTimer);
+        clearTimeout(onlineState.safetyTimer); onlineState.safetyTimer = null;
         document.getElementById('waiting-overlay').classList.remove('show');
         document.getElementById('explanation-box').classList.remove('show');
         document.getElementById('btn-next').classList.remove('show');
-
         document.getElementById('question-text').textContent = q.question;
-        const ol = document.getElementById('options-list');
-        ol.innerHTML = '';
+        const ol = document.getElementById('options-list'); ol.innerHTML = '';
         q.options.forEach((opt, i) => {
-            const div = document.createElement('div');
-            div.className = 'option-item';
+            const div = document.createElement('div'); div.className = 'option-item';
             div.innerHTML = '<span class="option-letter">' + letters[i] + '</span><span>' + opt + '</span>';
-            div.onclick = () => onlineSelect(i);
-            ol.appendChild(div);
+            div.onclick = () => onlineSelect(i); ol.appendChild(div);
         });
-
-        startOnlineTimer(room.questionStartTime || Date.now());
+        startOnlineTimer(room.questionStartTime || Date.now(), answerTime);
     }
 
     onlineState.score = myP.score || 0;
-    document.getElementById('game-round').textContent = '第 ' + (currentQ + 1) + '/' + qIds.length + ' 题';
+    document.getElementById('game-round').textContent = '第 ' + (currentQ + 1) + ' 题 | 先到 ' + winScore + ' 分';
     document.getElementById('game-score').textContent = '我的得分: ' + onlineState.score;
 
-    const sb = document.getElementById('online-scoreboard');
-    sb.innerHTML = '';
+    const sb = document.getElementById('online-scoreboard'); sb.innerHTML = '';
     activePlayers.forEach(p => {
         const div = document.createElement('div');
         div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
-        const answeredMark = p.answered ? ' ✓' : '';
-        div.innerHTML = '<span class="sb-name">' + (p.nickname || '玩家') + '</span><span class="sb-pts">' + (p.score || 0) + '分</span><span class="sb-answered">' + answeredMark + '</span>';
+        div.innerHTML = '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
+            + '<span class="sb-pts">' + (p.score || 0) + '/' + winScore + '</span>'
+            + '<span class="sb-answered">' + (p.answered ? ' ✓' : '') + '</span>';
         sb.appendChild(div);
     });
 
     if (myP.answered && !onlineState.answered) {
-        onlineState.answered = true;
-        onlineState.selected = myP.answerChoice;
+        onlineState.answered = true; onlineState.selected = myP.answerChoice;
         clearInterval(onlineState.timer);
-
-        const items = document.querySelectorAll('#options-list .option-item');
-        items.forEach((it, i) => {
+        document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
             it.classList.add('disabled');
             if (i === myP.answerChoice && myP.answerChoice >= 0) it.classList.add('selected');
         });
-
         document.getElementById('waiting-overlay').classList.add('show');
     }
 
     const allAnswered = activePlayers.every(p => p.answered);
-    if (allAnswered && !onlineState.revealed) {
-        revealAnswer(room, q);
-    }
+    if (allAnswered && !onlineState.revealed) { revealAnswer(room, q); }
 
-    if (!onlineState.revealed && !onlineState.safetyTimer && myPlayerIndex === 0) {
+    if (!onlineState.revealed && !onlineState.safetyTimer && room.hostId === myUserId) {
         const elapsed = Date.now() - (room.questionStartTime || Date.now());
-        const safetyDelay = (ANSWER_TIME + 5) * 1000 - elapsed;
+        const safetyDelay = (answerTime + 5) * 1000 - elapsed;
         if (safetyDelay > 0) {
-            onlineState.safetyTimer = setTimeout(() => {
-                forceAdvanceIfStuck(room);
-            }, safetyDelay);
+            onlineState.safetyTimer = setTimeout(() => { forceAdvanceIfStuck(room); }, safetyDelay);
         }
     }
-}
-
-async function forceAdvanceIfStuck(room) {
-    if (!currentRoomDocId || onlineState.revealed) return;
-    try {
-        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
-        if (!res.data || !res.data.length) return;
-        const freshRoom = res.data[0];
-        const players = freshRoom.players || [];
-        const activePlayers = players.filter(p => p.id);
-        const allAnswered = activePlayers.every(p => p.answered);
-        if (allAnswered) return;
-        for (let i = 0; i < players.length; i++) {
-            if (players[i].id && !players[i].answered) {
-                players[i].answered = true;
-                players[i].answerChoice = -1;
-            }
-        }
-        await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
-    } catch (e) { console.error('强制推进失败:', e); }
 }
 
 function revealAnswer(room, q) {
-    onlineState.revealed = true;
-    clearInterval(onlineState.timer);
+    onlineState.revealed = true; clearInterval(onlineState.timer);
     document.getElementById('waiting-overlay').classList.remove('show');
-
-    const items = document.querySelectorAll('#options-list .option-item');
-    items.forEach((it, i) => {
+    document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
         it.classList.add('disabled');
         if (i === q.answer) it.classList.add('correct');
         if (onlineState.selected === i && i !== q.answer) it.classList.add('wrong');
     });
-
     document.getElementById('explanation-text').textContent = q.explanation || '暂无解析';
     document.getElementById('explanation-box').classList.add('show');
 
-    if (myPlayerIndex === 0) {
-        onlineState.advanceTimer = setTimeout(() => {
-            advanceQuestion(room);
-        }, REVEAL_DELAY);
+    if (room.hostId === myUserId) {
+        onlineState.advanceTimer = setTimeout(() => { advanceQuestion(room); }, REVEAL_DELAY);
     }
 }
 
@@ -1115,123 +1154,105 @@ async function advanceQuestion(room) {
         const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
         if (!res.data || !res.data.length) return;
         const freshRoom = res.data[0];
-        const currentQ = freshRoom.currentQuestion != null ? freshRoom.currentQuestion : -1;
-        const nextQ = currentQ + 1;
-        const players = freshRoom.players.map(p => ({
-            ...p,
-            answered: false,
-            answerChoice: -1
-        }));
+        const activePlayers = (freshRoom.players || []).filter(p => p.id);
+        const winner = activePlayers.find(p => (p.score || 0) >= (freshRoom.winScore || DEFAULT_WIN_SCORE));
+        if (winner) { endOnlineGame(freshRoom); return; }
+        const nextQ = (freshRoom.currentQuestion != null ? freshRoom.currentQuestion : -1) + 1;
+        const players = freshRoom.players.map(p => ({ ...p, answered: false, answerChoice: -1 }));
         await db.collection(COLLECTION).doc(currentRoomDocId).update({
-            currentQuestion: nextQ,
-            players: players,
-            questionStartTime: Date.now(),
-            lastActiveAt: Date.now()
+            currentQuestion: nextQ, players: players,
+            questionStartTime: Date.now(), lastActiveAt: Date.now()
         });
     } catch (e) { console.error('推进题目失败:', e); }
 }
 
 async function onlineSelect(idx) {
     if (onlineState.answered || onlineState.revealed) return;
-    onlineState.answered = true;
-    onlineState.selected = idx;
-
+    onlineState.answered = true; onlineState.selected = idx;
     const qIds = onlineState.roomData.questions || [];
     const currentQ = onlineState.roomData.currentQuestion || 0;
-    const qId = qIds[currentQ];
-    const q = questionBank.find(qq => qq.id === qId);
+    const q = questionBank.find(qq => qq.id === qIds[currentQ]);
     if (!q) return;
-
     const isCorrect = idx === q.answer;
-
-    const items = document.querySelectorAll('#options-list .option-item');
-    items.forEach((it, i) => {
-        it.classList.add('disabled');
-        if (i === idx) it.classList.add('selected');
+    document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
+        it.classList.add('disabled'); if (i === idx) it.classList.add('selected');
     });
-
     try {
         const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
         if (!res.data || !res.data.length) return;
-        const room = res.data[0];
-        const players = room.players || [];
+        const room = res.data[0]; const players = room.players || [];
         if (players[myPlayerIndex]) {
             players[myPlayerIndex].answered = true;
             players[myPlayerIndex].answerChoice = idx;
-            if (isCorrect) {
-                players[myPlayerIndex].score = (players[myPlayerIndex].score || 0) + 1;
-            }
+            if (isCorrect) players[myPlayerIndex].score = (players[myPlayerIndex].score || 0) + 1;
             await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
         }
     } catch (e) { console.error('提交答案失败:', e); }
-
     document.getElementById('waiting-overlay').classList.add('show');
 }
 
-function startOnlineTimer(questionStartTime) {
+function startOnlineTimer(questionStartTime, answerTime) {
     clearInterval(onlineState.timer);
-    const fill = document.getElementById('timer-fill');
-    const text = document.getElementById('timer-text');
-    const total = ANSWER_TIME * 1000;
+    const fill = document.getElementById('timer-fill'), text = document.getElementById('timer-text');
+    const total = (answerTime || DEFAULT_ANSWER_TIME) * 1000;
     const deadline = questionStartTime + total;
-
     function tick() {
-        const now = Date.now();
-        const remain = Math.max(0, deadline - now);
+        const remain = Math.max(0, deadline - Date.now());
         onlineState.timeLeft = remain / 1000;
         const pct = (remain / total) * 100;
         fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
         fill.className = 'game-timer-fill' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
         text.className = 'game-timer-text' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
         text.textContent = Math.ceil(onlineState.timeLeft);
-        if (remain <= 0) {
-            clearInterval(onlineState.timer);
-            onlineTimeUp();
-        }
+        if (remain <= 0) { clearInterval(onlineState.timer); onlineTimeUp(); }
     }
-    onlineState.timer = setInterval(tick, 100);
-    tick();
+    onlineState.timer = setInterval(tick, 100); tick();
 }
 
 async function onlineTimeUp() {
-    if (onlineState.answered) return;
-    onlineState.answered = true;
-
+    if (onlineState.answered) return; onlineState.answered = true;
     try {
         const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
         if (!res.data || !res.data.length) return;
-        const room = res.data[0];
-        const players = room.players || [];
+        const room = res.data[0]; const players = room.players || [];
         if (players[myPlayerIndex] && !players[myPlayerIndex].answered) {
             players[myPlayerIndex].answered = true;
             players[myPlayerIndex].answerChoice = -1;
             await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
         }
     } catch (e) { console.error('超时提交失败:', e); }
-
-    const items = document.querySelectorAll('#options-list .option-item');
-    items.forEach((it) => {
-        it.classList.add('disabled');
-    });
+    document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.add('disabled'));
     document.getElementById('waiting-overlay').classList.add('show');
     showToast('时间到！', 'error');
 }
 
-function onlineNext() {
-    document.getElementById('btn-next').classList.remove('show');
+async function forceAdvanceIfStuck(room) {
+    if (!currentRoomDocId || onlineState.revealed) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const freshRoom = res.data[0]; const players = freshRoom.players || [];
+        const activePlayers = players.filter(p => p.id);
+        if (activePlayers.every(p => p.answered)) return;
+        for (let i = 0; i < players.length; i++) {
+            if (players[i].id && !players[i].answered) {
+                players[i].answered = true; players[i].answerChoice = -1;
+            }
+        }
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
+    } catch (e) { console.error('强制推进失败:', e); }
 }
 
+function onlineNext() { document.getElementById('btn-next').classList.remove('show'); }
+
 function endOnlineGame(room) {
-    clearInterval(onlineState.timer);
-    clearTimeout(onlineState.advanceTimer);
-    clearTimeout(onlineState.safetyTimer);
-    onlineState.safetyTimer = null;
+    clearInterval(onlineState.timer); clearTimeout(onlineState.advanceTimer);
+    clearTimeout(onlineState.safetyTimer); onlineState.safetyTimer = null;
     document.getElementById('waiting-overlay').classList.remove('show');
     const players = (room.players || []).filter(p => p.id).sort((a, b) => (b.score || 0) - (a.score || 0));
     document.getElementById('result-title').textContent = '比赛结束';
-    document.getElementById('result-subtitle').textContent = '共 ' + room.questions.length + ' 题';
-    const rank = document.getElementById('result-rank');
-    rank.innerHTML = '';
+    document.getElementById('result-subtitle').textContent = '先到 ' + (room.winScore || DEFAULT_WIN_SCORE) + ' 分获胜';
+    const rank = document.getElementById('result-rank'); rank.innerHTML = '';
     players.forEach((p, i) => {
         const isMe = p.id === myUserId;
         const div = document.createElement('div');
@@ -1244,93 +1265,72 @@ function endOnlineGame(room) {
 }
 
 async function onlineReplay() {
-    if (!currentRoomDocId) { showScreen('menu-screen'); return; }
+    if (!currentRoomDocId) { backToMenu(); return; }
     try {
         const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
-        if (!res.data || !res.data.length) { showScreen('menu-screen'); return; }
+        if (!res.data || !res.data.length) { backToMenu(); return; }
         const room = res.data[0];
-        const players = (room.players || []).map(p => ({
-            ...p,
-            score: 0,
-            ready: false,
-            answered: false,
-            answerChoice: -1
-        }));
-        await db.collection(COLLECTION).doc(currentRoomDocId).update({
-            players, started: false, currentQuestion: -1, questions: [], questionStartTime: 0, lastActiveAt: Date.now()
-        });
-        onlineState.currentIdx = -1;
-        onlineState.revealed = false;
-        onlineState.answered = false;
-        onlineState.selected = null;
-        onlineState.gameStarting = false;
-        clearInterval(onlineState.timer);
-        clearTimeout(onlineState.advanceTimer);
-        clearTimeout(onlineState.safetyTimer);
-        onlineState.safetyTimer = null;
-        showScreen('lobby-screen');
-        renderLobby({ ...room, players, started: false });
-    } catch (e) {
-        showScreen('menu-screen');
-    }
+        if (room.hostId === myUserId) {
+            const players = room.players.map(p => p.id ? { ...p, score: 0, ready: false, answered: false, answerChoice: -1 } : p);
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                started: false, currentQuestion: -1, questions: [],
+                questionStartTime: 0, players, lastActiveAt: Date.now()
+            });
+        }
+        isReady = false; onlineState = {
+            questions: [], currentIdx: -1, score: 0, selected: null, answered: false,
+            timer: null, timeLeft: 0, roomData: null, revealed: false,
+            advanceTimer: null, gameStarting: false, safetyTimer: null
+        };
+        showScreen('lobby-screen'); renderLobby(room);
+    } catch (e) { backToMenu(); }
 }
 
 async function leaveRoom() {
-    if (watcher) { watcher.close(); watcher = null; }
-    clearInterval(onlineState.timer);
-    clearTimeout(onlineState.advanceTimer);
-    clearTimeout(onlineState.safetyTimer);
-    onlineState.safetyTimer = null;
+    clearInterval(onlineState.timer); clearTimeout(onlineState.advanceTimer);
+    clearTimeout(onlineState.safetyTimer); onlineState.safetyTimer = null;
     document.getElementById('waiting-overlay').classList.remove('show');
-
-    if (currentRoomDocId && myPlayerIndex >= 0) {
+    if (watcher) { watcher.close(); watcher = null; }
+    if (currentRoomDocId && db) {
         try {
             const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
             if (res.data && res.data.length) {
-                const room = res.data[0];
-                const players = room.players || [];
-                players[myPlayerIndex] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 };
-                const anyoneLeft = players.some(p => p.id);
-                const updateData = { players, lastActiveAt: Date.now() };
-                if (!anyoneLeft) {
-                    updateData.started = false;
-                    updateData.currentQuestion = -1;
-                    updateData.questions = [];
-                    updateData.questionStartTime = 0;
+                const room = res.data[0]; const players = room.players || [];
+                if (players[myPlayerIndex]) {
+                    players[myPlayerIndex] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 };
                 }
-                await db.collection(COLLECTION).doc(currentRoomDocId).update(updateData);
+                const anyoneLeft = players.some(p => p.id);
+                if (!anyoneLeft) {
+                    await db.collection(COLLECTION).doc(currentRoomDocId).remove();
+                } else {
+                    const updateData = { players, lastActiveAt: Date.now() };
+                    if (room.hostId === myUserId) {
+                        const nextHost = players.find(p => p.id);
+                        if (nextHost) updateData.hostId = nextHost.id;
+                    }
+                    await db.collection(COLLECTION).doc(currentRoomDocId).update(updateData);
+                }
             }
-        } catch (e) { console.warn('离开房间更新失败:', e); }
+        } catch (e) { console.warn('离开房间清理失败:', e); }
     }
-
-    currentRoomDocId = '';
-    currentRoomId = '';
-    myPlayerIndex = -1;
-    isReady = false;
-    isOnlineMode = false;
-    onlineState.currentIdx = -1;
-    onlineState.revealed = false;
-    onlineState.answered = false;
-    onlineState.selected = null;
-    onlineState.gameStarting = false;
+    currentRoomDocId = ''; myPlayerIndex = -1; isReady = false; isOnlineMode = false;
+    onlineState = {
+        questions: [], currentIdx: -1, score: 0, selected: null, answered: false,
+        timer: null, timeLeft: 0, roomData: null, revealed: false,
+        advanceTimer: null, gameStarting: false, safetyTimer: null
+    };
     showScreen('menu-screen');
 }
 
 function backToMenu() {
-    if (isOnlineMode && currentRoomDocId) {
-        leaveRoom();
-        return;
-    }
-    clearInterval(soloState.timer);
-    clearInterval(onlineState.timer);
-    clearTimeout(onlineState.advanceTimer);
-    clearTimeout(onlineState.safetyTimer);
+    clearInterval(soloState.timer); clearInterval(onlineState.timer);
+    clearTimeout(onlineState.advanceTimer); clearTimeout(onlineState.safetyTimer);
+    document.getElementById('waiting-overlay').classList.remove('show');
+    if (isOnlineMode && currentRoomDocId) { leaveRoom(); return; }
+    if (watcher) { watcher.close(); watcher = null; }
+    isOnlineMode = false; currentRoomDocId = ''; myPlayerIndex = -1;
     showScreen('menu-screen');
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    myUserId = getUserId();
-});
 </script>
 </body>
 </html>
