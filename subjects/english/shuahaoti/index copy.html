@@ -172,11 +172,12 @@ body {
 .card-wrapper {
     position: relative;
     width: 100%;
-    margin-top: 19px;
+    margin-top: -20px;
     will-change: transform;
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
+    overflow: visible;
 }
 .card-wrapper:active {
     cursor: grabbing;
@@ -214,37 +215,31 @@ body {
 }
 
 .question-number {
+    position: relative;
+    float: left;
+    margin-left: 18px;
+    margin-right: 8px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     color: white;
-    width: 32px;
-    height: 24px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 60;
-    flex-shrink: 0;
+    height: 35px;
+    width: 100px;
+    border-radius: 8px 8px 0 0;
+    font-size: 16px;
+    font-weight: 500;
     background-color: var(--primary-color);
     transition: background-color 0.3s ease;
-    margin-right: 6px;
-    vertical-align: middle;
     border: none;
     outline: none;
     cursor: pointer;
     text-align: center;
     font-family: inherit;
-    padding: 0;
+    z-index: 5;
 }
 .question-number:focus {
     background-color: #7E57C2;
-    box-shadow: 0 0 0 2px rgba(126,87,194,0.4);
-}
-.question-number.wrong-number {
-    background-color: #C75B5B;
-}
-.question-number.wrong-number:focus {
-    background-color: #D96C6C;
-    box-shadow: 0 0 0 2px rgba(199,91,91,0.4);
+    box-shadow: 0 2px 8px rgba(126,87,194,0.5);
 }
 
 .badge-row {
@@ -332,53 +327,13 @@ body {
     object-fit: contain;
 }
 .card-wrong-btn.active {
-    background: #7E57C2;
-    border-color: #673AB7;
+    background: #577EC2;
+    border-color: #3A67B7;
 }
 .card-wrong-btn.active img {
     filter: brightness(0) invert(1);
 }
 
-/* 旧版错过标签保留兼容 */
-/* 统计栏（题目卡片右上角外侧）—— 暂时禁用 */
-/*
-.stats-bar {
-    position: absolute;
-    top: -28px;
-    right: 2px;
-    display: flex;
-    gap: 8px;
-    z-index: 5;
-}
-.stat-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 14px;
-    color: #999;
-    padding: 2px 4px;
-    user-select: none;
-}
-.stat-item.clickable {
-    cursor: pointer;
-    transition: opacity 0.15s;
-}
-.stat-item.clickable:hover {
-    opacity: 0.7;
-}
-.stat-item img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    vertical-align: middle;
-}
-.stat-num {
-    font-weight: 50;
-    min-width: 12px;
-    text-align: center;
-    line-height: 24px;
-}
-*/
 
 .question-text {
     font-size: 15px;
@@ -556,7 +511,7 @@ body {
 }
 
 .explanation-title {
-    font-weight: 80;
+    font-weight: 700;
     margin-bottom: 8px;
     color: var(--primary-color);
     transition: color 0.3s ease;
@@ -572,6 +527,7 @@ body {
     color: #000000;
 
 }
+
 
 /* 连词成句单词标签 */
 .word-tags {
@@ -611,176 +567,7 @@ body {
     font-size: 14px;
 }
 
-/* ===== 夜间模式 ===== */
-body.night-mode {
-    background-color: #1a1e2a;
-}
 
-body.night-mode .container {
-    background-color: #1a1e2a;
-}
-
-body.night-mode .question-card {
-    background-color: #242a38;
-    border-color: #7E57C2;
-}
-
-body.night-mode .question-text {
-    color: #ffffff;
-}
-
-body.night-mode .option {
-    background-color: #1e2533;
-    border-color: #3d4559;
-    color: #e8edf5;
-}
-
-body.night-mode .option:hover {
-    background-color: #3a4a5a;
-    border-color: #7E57C2;
-}
-
-body.night-mode .option.correct {
-    border-color: #4CAF50;
-    background-color: rgba(76, 175, 80, 0.25);
-    color: #ffffff;
-}
-
-body.night-mode .option.incorrect {
-    border-color: #b57272;
-    background-color: rgba(181, 114, 114, 0.25);
-    color: #e8b8b8;
-}
-
-body.night-mode .fill-input {
-    background-color: #1e2533;
-    border-color: #3d4559;
-    color: #e8edf5;
-}
-
-body.night-mode .fill-input:focus {
-    border-color: #7E57C2;
-    box-shadow: 0 0 0 2px rgba(126, 87, 194, 0.3);
-}
-
-body.night-mode .fill-input.correct {
-    border-color: #4CAF50;
-    background-color: rgba(76, 175, 80, 0.2);
-    color: #ffffff;
-}
-
-body.night-mode .fill-input.incorrect {
-    border-color: #b57272;
-    background-color: rgba(181, 114, 114, 0.2);
-    color: #e8b8b8;
-}
-
-body.night-mode .inline-fill {
-    color: #e8edf5;
-    border-bottom-color: #7E57C2;
-}
-body.night-mode .inline-fill.correct {
-    border-bottom-color: #4CAF50;
-    color: #4CAF50;
-}
-body.night-mode .inline-fill.incorrect {
-    border-bottom-color: #b57272;
-    color: #e8b8b8;
-}
-
-body.night-mode .explanation {
-    background-color: #1e2533;
-    border-color: #3d4559;
-    color: #c8d0e0;
-}
-
-body.night-mode .explanation-title {
-    color: #D1C4E9;
-}
-
-body.night-mode .attempt-tag {
-    background: rgba(46,125,50,0.18);
-    color: #66bb6a;
-    border-color: rgba(102,187,106,0.3);
-}
-body.night-mode .attempt-tooltip {
-    background: #ddd;
-    color: #222;
-}
-
-body.night-mode .card-wrong-btn.active {
-    background: #7E57C2;
-    border-color: #9575cd;
-}
-body.night-mode .card-wrong-btn.active img {
-    filter: brightness(0) invert(1);
-}
-
-/* 暂时禁用统计栏夜间样式
-body.night-mode .stat-item {
-    color: #aaa;
-}
-body.night-mode .stat-item.clickable:hover {
-    opacity: 0.7;
-}
-*/
-body.night-mode .empty-message {
-    background-color: #1e2533;
-    color: #a8b5c9;
-}
-
-body.night-mode .question-number {
-    background-color: #7E57C2;
-}
-body.night-mode .question-number.wrong-number {
-    background-color: #D96C6C;
-}
-body.night-mode .question-number.wrong-number:focus {
-    background-color: #E47A7A;
-    box-shadow: 0 0 0 2px rgba(217,108,108,0.4);
-}
-
-body.night-mode .grade-badge,
-body.night-mode .unit-badge,
-body.night-mode .knowledge-badge {
-    background: #5A4B75;
-    color: #ffffff;
-}
-body.night-mode .word-tag {
-    background: #2a3040;
-    color: #d0d8e8;
-    border-color: #4a4560;
-}
-body.night-mode .word-hint {
-    color: #999;
-}
-
-body.night-mode .filter-panel {
-    background: rgba(36,42,56,0.98);
-    border-color: rgba(126,87,194,0.25);
-}
-body.night-mode .filter-title {
-    color: #ccc;
-}
-body.night-mode .filter-select {
-    background: #2a3040;
-    color: #d0d8e8;
-    border-color: #4a4560;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d0d8e8' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
-}
-body.night-mode .filter-select:focus {
-    border-color: #7E57C2;
-    box-shadow: 0 0 0 2px rgba(126,87,194,0.3);
-}
-body.night-mode .filter-action-btn {
-    background: rgba(211,47,47,0.15);
-    border-color: rgba(211,47,47,0.3);
-    color: #ef9a9a;
-}
-body.night-mode .filter-action-btn:hover {
-    background: rgba(211,47,47,0.25);
-    border-color: #f44336;
-}
 
 /* ===== Toast 提示 ===== */
 .mode-toast {
@@ -834,6 +621,252 @@ body.night-mode .mode-toast {
         padding: 20px 32px 44px;
     }
 }
+
+body.wrong-mode {
+    --primary-color: #4B5A75;
+    --secondary-color: #63728D;
+    --accent-color: #3C4A63;
+    --border-color: #8E9CB5;
+    --light-text: #4B5A75;
+    --success-color: #58896A;
+}
+body.wrong-mode .option-menu-btn {
+    border-color: rgba(87,126,194,0.2);
+}
+body.wrong-mode .option-menu-btn.active {
+    background: #577EC2;
+    border-color: #3A67B7;
+}
+body.wrong-mode .filter-panel {
+    box-shadow: 0 8px 24px rgba(75,90,117,0.25);
+    border-color: rgba(87,126,194,0.15);
+}
+body.wrong-mode .filter-select {
+    border-color: #C4D1E9;
+    background: #F1F4FC;
+    color: #4B5A75;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234B5A75' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+}
+body.wrong-mode .filter-select:focus {
+    border-color: #577EC2;
+    box-shadow: 0 0 0 2px rgba(87,126,194,0.2);
+}
+body.wrong-mode .filter-actions {
+    border-top-color: rgba(87,126,194,0.12);
+}
+body.wrong-mode .question-card {
+    border-color: #4B5A75;
+}
+body.wrong-mode .question-card-body {
+    scrollbar-color: rgba(87,126,194,0.25) transparent;
+}
+body.wrong-mode .question-card-body::-webkit-scrollbar-thumb {
+    background: rgba(87,126,194,0.25);
+}
+body.wrong-mode .question-number {
+    background-color: #4B5A75;
+    font-size: 14px;
+    text-align: center;
+}
+body.wrong-mode .question-number:focus {
+    background-color: #577EC2;
+    box-shadow: 0 2px 8px rgba(87,126,194,0.5);
+}
+body.wrong-mode .grade-badge,
+body.wrong-mode .unit-badge,
+body.wrong-mode .knowledge-badge {
+    background: #E4E8F0;
+    color: #4B5A75;
+}
+body.wrong-mode .option {
+    background-color: #FAFCFF;
+    border-color: #8E9CB5;
+}
+body.wrong-mode .option:hover {
+    border-color: #4B5A75;
+    background-color: #E7EDF6;
+}
+body.wrong-mode .option input[type="radio"] {
+    accent-color: #4B5A75;
+}
+body.wrong-mode .fill-input {
+    background-color: #FAFCFF;
+    border-color: #8E9CB5;
+}
+body.wrong-mode .fill-input:focus {
+    border-color: #4B5A75;
+    box-shadow: 0 0 0 2px #C4D1E9;
+}
+body.wrong-mode .inline-fill {
+    border-bottom-color: #4B5A75;
+}
+body.wrong-mode .inline-fill:focus {
+    border-bottom-color: #63728D;
+}
+body.wrong-mode .submit-btn {
+    background-color: #4B5A75;
+}
+body.wrong-mode .submit-btn:hover {
+    background-color: #63728D;
+}
+body.wrong-mode .show-answer-btn {
+    background-color: #3A5A8F;
+}
+body.wrong-mode .show-answer-btn:hover {
+    background-color: #4A6A9F;
+}
+body.wrong-mode .explanation {
+    background-color: rgba(87,126,194,0.05);
+    border-color: #8E9CB5;
+}
+body.wrong-mode .explanation-title {
+    color: #4B5A75;
+}
+body.wrong-mode .word-tag {
+    background: #E7EDF6;
+    color: #4B5A75;
+    border-color: #C4D1E9;
+}
+body.wrong-mode .empty-message {
+    background: #E7EDF6;
+    color: #4B5A75;
+}
+body.wrong-mode .card-wrong-btn.active {
+    background: #577EC2;
+    border-color: #3A67B7;
+}
+body.wrong-mode .mode-toast {
+    color: #4B5A75;
+}
+body.wrong-mode .attempt-tag {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border-color: rgba(46,125,50,0.25);
+}
+
+body.fav-mode {
+    --primary-color: #7A5C2E;
+    --secondary-color: #9A7B4E;
+    --accent-color: #5A3C0E;
+    --border-color: #C4A875;
+    --light-text: #7A5C2E;
+    --success-color: #6A8948;
+}
+body.fav-mode .option-menu-btn {
+    border-color: rgba(194,136,55,0.2);
+}
+body.fav-mode .option-menu-btn.active {
+    background: #C28837;
+    border-color: #A06B1F;
+}
+body.fav-mode .filter-panel {
+    box-shadow: 0 8px 24px rgba(122,92,46,0.25);
+    border-color: rgba(194,136,55,0.15);
+}
+body.fav-mode .filter-select {
+    border-color: #E0D0B5;
+    background: #FBF6EE;
+    color: #7A5C2E;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237A5C2E' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+}
+body.fav-mode .filter-select:focus {
+    border-color: #C28837;
+    box-shadow: 0 0 0 2px rgba(194,136,55,0.2);
+}
+body.fav-mode .filter-actions {
+    border-top-color: rgba(194,136,55,0.12);
+}
+body.fav-mode .question-card {
+    border-color: #7A5C2E;
+}
+body.fav-mode .question-card-body {
+    scrollbar-color: rgba(194,136,55,0.25) transparent;
+}
+body.fav-mode .question-card-body::-webkit-scrollbar-thumb {
+    background: rgba(194,136,55,0.25);
+}
+body.fav-mode .question-number {
+    background-color: #7A5C2E;
+    font-size: 14px;
+    text-align: center;
+}
+body.fav-mode .question-number:focus {
+    background-color: #C28837;
+    box-shadow: 0 2px 8px rgba(194,136,55,0.5);
+}
+body.fav-mode .grade-badge,
+body.fav-mode .unit-badge,
+body.fav-mode .knowledge-badge {
+    background: #F0E6D5;
+    color: #7A5C2E;
+}
+body.fav-mode .option {
+    background-color: #FFFDF9;
+    border-color: #C4A875;
+}
+body.fav-mode .option:hover {
+    border-color: #7A5C2E;
+    background-color: #F6EDDF;
+}
+body.fav-mode .option input[type="radio"] {
+    accent-color: #7A5C2E;
+}
+body.fav-mode .fill-input {
+    background-color: #FFFDF9;
+    border-color: #C4A875;
+}
+body.fav-mode .fill-input:focus {
+    border-color: #7A5C2E;
+    box-shadow: 0 0 0 2px #E0D0B5;
+}
+body.fav-mode .inline-fill {
+    border-bottom-color: #7A5C2E;
+}
+body.fav-mode .inline-fill:focus {
+    border-bottom-color: #9A7B4E;
+}
+body.fav-mode .submit-btn {
+    background-color: #7A5C2E;
+}
+body.fav-mode .submit-btn:hover {
+    background-color: #9A7B4E;
+}
+body.fav-mode .show-answer-btn {
+    background-color: #8F5A3A;
+}
+body.fav-mode .show-answer-btn:hover {
+    background-color: #9F6A4A;
+}
+body.fav-mode .explanation {
+    background-color: rgba(194,136,55,0.05);
+    border-color: #C4A875;
+}
+body.fav-mode .explanation-title {
+    color: #7A5C2E;
+}
+body.fav-mode .word-tag {
+    background: #F6EDDF;
+    color: #7A5C2E;
+    border-color: #E0D0B5;
+}
+body.fav-mode .empty-message {
+    background: #F6EDDF;
+    color: #7A5C2E;
+}
+body.fav-mode .card-wrong-btn.active {
+    background: #577EC2;
+    border-color: #3A67B7;
+}
+body.fav-mode .mode-toast {
+    color: #7A5C2E;
+}
+body.fav-mode .attempt-tag {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border-color: rgba(46,125,50,0.25);
+}
+
+
     </style>
 </head>
 <body>
@@ -1045,6 +1078,7 @@ body.night-mode .mode-toast {
             if (currentIndex >= filteredQuestions.length) currentIndex = filteredQuestions.length - 1;
 
             let q = filteredQuestions[currentIndex];
+            localStorage.setItem('lastQuestionId', q.id);
             questionArea.appendChild(createQuestionCard(q));
         }
 
@@ -1072,31 +1106,28 @@ body.night-mode .mode-toast {
             card.className = 'question-card';
             card.setAttribute('data-qid', q.id);
 
-            let badgeDiv = document.createElement('div');
-            badgeDiv.className = 'badge-row';
-
-            // 可输入跳转的序号
             let num = document.createElement('input');
             num.type = 'text';
             num.className = 'question-number';
-            if (isOnlyWrongMode) {
-                num.value = (currentIndex + 1) + '/' + filteredQuestions.length;
-                num.style.width = '44px';
-                num.classList.add('wrong-number');
-            } else {
-                num.value = currentIndex + 1;
-            }
+            let prefix = '';
+            if (isOnlyWrongMode) prefix = '错题';
+            else if (isOnlyFavMode) prefix = '收藏';
+            num.value = prefix + (currentIndex + 1) + '/' + filteredQuestions.length;
             num.title = '输入序号跳转题目';
             num.setAttribute('data-idx', currentIndex);
-            num.addEventListener('focus', () => num.select());
+            num.addEventListener('focus', () => {
+                let raw = num.value.replace(/^(错题|收藏)/, '').split('/')[0].trim();
+                num.value = raw;
+                num.select();
+            });
             num.addEventListener('blur', () => {
-                let raw = num.value.split('/')[0].trim();
+                let raw = num.value.replace(/^(错题|收藏)/, '').split('/')[0].trim();
                 let n = parseInt(raw);
                 if (!isNaN(n) && n >= 1 && n <= filteredQuestions.length && (n - 1) !== currentIndex) {
                     currentIndex = n - 1;
                     renderCurrent();
                 } else {
-                    num.value = isOnlyWrongMode ? ((currentIndex + 1) + '/' + filteredQuestions.length) : (currentIndex + 1);
+                    num.value = prefix + (currentIndex + 1) + '/' + filteredQuestions.length;
                 }
             });
             num.addEventListener('keydown', (e) => {
@@ -1106,7 +1137,10 @@ body.night-mode .mode-toast {
                     e.stopPropagation();
                 }
             });
-            badgeDiv.appendChild(num);
+            wrapper.appendChild(num);
+
+            let badgeDiv = document.createElement('div');
+            badgeDiv.className = 'badge-row';
 
             if (q.grade) {
                 let b = document.createElement('span');
@@ -1234,6 +1268,8 @@ body.night-mode .mode-toast {
                     radio.onchange = () => {
                         if (userAnswers[q.id]) return;
                         userAnswers[q.id] = opt;
+                        let cor = checkAnswer(opt, q.answer);
+                        recordAttempt(q.id, cor);
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
 
@@ -1282,6 +1318,8 @@ body.night-mode .mode-toast {
                         let inputs = card.querySelectorAll('.inline-fill');
                         let vals = Array.from(inputs).map(inp => inp.value.trim());
                         userAnswers[q.id] = vals.join(';') || '[查看]';
+                        let cor = checkAnswerBlank(vals.map(s => s.trim()), q.answer);
+                        recordAttempt(q.id, cor);
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
@@ -1335,6 +1373,9 @@ body.night-mode .mode-toast {
                         let inputs = card.querySelectorAll('.inline-fill');
                         let vals = Array.from(inputs).map(inp => inp.value.trim());
                         userAnswers[q.id] = vals.join(';') || '[查看]';
+                        let normAnswer = q.answer.replace(/;/g, ' ').replace(/\s+/g, ' ').toLowerCase().trim();
+                        let cor = vals.join(' ').toLowerCase().trim() === normAnswer;
+                        recordAttempt(q.id, cor);
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
@@ -1400,6 +1441,8 @@ body.night-mode .mode-toast {
                     btn.onclick = () => {
                         let val = input.value.trim();
                         userAnswers[q.id] = val || '[查看]';
+                        let cor = normalizeAnswer(val) === normalizeAnswer(q.answer);
+                        recordAttempt(q.id, cor);
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
@@ -1524,7 +1567,9 @@ body.night-mode .mode-toast {
         function toggleOnlyWrongMode() {
             isOnlyWrongMode = !isOnlyWrongMode;
             onlyWrongBtn.classList.toggle('active', isOnlyWrongMode);
+            document.body.classList.toggle('wrong-mode', isOnlyWrongMode);
             if (isOnlyWrongMode) {
+                document.body.classList.remove('fav-mode');
                 if (isOnlyFavMode) {
                     lastFavIndex = currentIndex;
                     isOnlyFavMode = false;
@@ -1585,6 +1630,8 @@ body.night-mode .mode-toast {
         function toggleOnlyFavMode() {
             isOnlyFavMode = !isOnlyFavMode;
             onlyFavBtn.classList.toggle('active', isOnlyFavMode);
+            document.body.classList.remove('wrong-mode');
+            document.body.classList.toggle('fav-mode', isOnlyFavMode);
             if (isOnlyFavMode) {
                 if (isOnlyWrongMode) {
                     lastWrongIndex = currentIndex;
@@ -1661,7 +1708,7 @@ body.night-mode .mode-toast {
                 let step = getStep();
 
                 viewport = document.createElement('div');
-                viewport.style.cssText = `position:relative;overflow:hidden;width:100%;height:${cardH}px;margin-top:19px;`;
+                viewport.style.cssText = `position:relative;width:100%;height:${cardH}px;margin-top:-20px;`;
 
                 // 低位卡 — 临时设 currentIndex 让序号正确
                 currentIndex = lo;

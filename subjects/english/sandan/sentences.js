@@ -3072,6 +3072,209 @@ const sentenceBank = [
             { label: "B", value: "are", correct: true }
         ],
         difficulty: "特殊疑问"
+    },
+    {
+        text: "How ______ {the lemons} taste? — They're sour.",
+        options: [
+            { label: "A", value: "does", correct: false },
+            { label: "B", value: "are", correct: false },
+            { label: "C", value: "do", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "Touch the pineapple. {It} ______ (be) smooth.",
+        options: [
+            { label: "A", value: "is", correct: false },
+            { label: "B", value: "isn't", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "{These trees} ______ (be) tall and big.",
+        options: [
+            { label: "A", value: "is", correct: false },
+            { label: "B", value: "are", correct: true }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "Touch {the cherries}. How do ______ (it) feel? — Smooth.",
+        options: [
+            { label: "A", value: "it", correct: false },
+            { label: "B", value: "they", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "What ______ {your father} like?",
+        options: [
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "does", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "______ {you} like zebras? — No, I ______.",
+        options: [
+            { label: "A", value: "Are, am not", correct: false },
+            { label: "B", value: "Can, can't", correct: false },
+            { label: "C", value: "Do, don't", correct: true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "{My dolls} ______ lovely.",
+        options: [
+            { label: "A", value: "is", correct: false },
+            { label: "B", value: "are", correct: true },
+            { label: "C", value: "am", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "The bicycles are small. {I} ______ like them.",
+        options: [
+            { label: "A", value: "don't", correct: true },
+            { label: "B", value: "not", correct: false },
+            { label: "C", value: "am not", correct: false }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "Does {Danny} like hens? — Yes, he ______.",
+        options: [
+            { label: "A", value: "do", correct: false },
+            { label: "B", value: "like", correct: false },
+            { label: "C", value: "does", correct: true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "The dress is beautiful. {I} ______ it very much.",
+        options: [
+            { label: "A", value: "like", correct: true },
+            { label: "B", value: "likes", correct: false },
+            { label: "C", value: "doesn't like", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{That pair of shoes} ______ red and new.",
+        options: [
+            { label: "A", value: "are", correct: false },
+            { label: "B", value: "is", correct: true },
+            { label: "C", value: "has", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "This is my brother Eric. {He} ______ a pair of new socks.",
+        options: [
+            { label: "A", value: "has", correct: true },
+            { label: "B", value: "is", correct: false },
+            { label: "C", value: "have", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "______ {your friends} like robots? — Yes.",
+        options: [
+            { label: "A", value: "Are", correct: false },
+            { label: "B", value: "Does", correct: false },
+            { label: "C", value: "Do", correct: true }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "{Can} you ______? — Yes, I like ______.",
+        options: [
+            { label: "A", value: "swim, swimming", correct: true },
+            { label: "B", value: "swimming, swim", correct: false },
+            { label: "C", value: "swim, swim", correct: false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "How ______ {your brother}? — He's fine.",
+        options: [
+            { label: "A", value: "are", correct: false },
+            { label: "B", value: "is", correct: true },
+            { label: "C", value: "old", correct: false }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "What colour ______ {the cloud}? — It's grey.",
+        options: [
+            { label: "A", value: "are", correct: false },
+            { label: "B", value: "is", correct: true },
+            { label: "C", value: "am", correct: false }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "{Clare} ______ a plant on a plate.",
+        options: [
+            { label: "A", value: "have", correct: false },
+            { label: "B", value: "has", correct: true },
+            { label: "C", value: "is having", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{My mouth} ______ big and my nose ______ big too.",
+        options: [
+            { label: "A", value: "is, is", correct: true },
+            { label: "B", value: "are, are", correct: false },
+            { label: "C", value: "is, are", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "He doesn't like ______ and singing.",
+        options: [
+            { label: "A", value: "dance", correct: false },
+            { label: "B", value: "dances", correct: false },
+            { label: "C", value: "dancing", correct: true }
+        ],
+        difficulty: "否定"
+    },
+    {
+        text: "What ______ {you} do on Children's Day?",
+        options: [
+            { label: "A", value: "are", correct: false },
+            { label: "B", value: "does", correct: false },
+            { label: "C", value: "do", correct: true }
+        ],
+        difficulty: "特殊疑问"
+    },
+    {
+        text: "Can {Danny} ______ a class party at school?",
+        options: [
+            { label: "A", value: "has", correct: false },
+            { label: "B", value: "have", correct: true },
+            { label: "C", value: "in", correct: false }
+        ],
+        difficulty: "一般疑问"
+    },
+    {
+        text: "{I} ______ black hair, but she ______ black hair.",
+        options: [
+            { label: "A", value: "have, has", correct: false },
+            { label: "B", value: "don't have, has", correct: true },
+            { label: "C", value: "don't have, doesn't have", correct: false }
+        ],
+        difficulty: "陈述"
+    },
+    {
+        text: "{This pair of gloves} ______ for me. Those hats ______ for my sister.",
+        options: [
+            { label: "A", value: "is, are", correct: true },
+            { label: "B", value: "are, are", correct: false },
+            { label: "C", value: "are, is", correct: false }
+        ],
+        difficulty: "陈述"
     }
 
 ];
