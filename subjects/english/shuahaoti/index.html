@@ -78,19 +78,18 @@ body {
     object-fit: contain;
 }
 
-
-
+/* 统一筛选面板 */
 .filter-panel {
     position: fixed;
     top: 60px;
     right: 12px;
-    width: 200px;
+    width: 220px;
     background: rgba(255,255,255,0.98);
     backdrop-filter: blur(16px);
     border-radius: 14px;
     box-shadow: 0 8px 24px rgba(90,75,117,0.25);
     border: 1px solid rgba(126,87,194,0.15);
-    padding: 14px;
+    padding: 12px 14px;
     z-index: 998;
     display: none;
 }
@@ -98,59 +97,120 @@ body {
     display: block;
 }
 .filter-group {
-    margin-bottom: 10px;
-}
-.filter-group:last-of-type {
     margin-bottom: 12px;
+}
+.filter-group:last-child {
+    margin-bottom: 0;
 }
 .filter-title {
     font-size: 12px;
     color: #666;
-    margin-bottom: 4px;
-    font-weight: 500;
+    margin-bottom: 6px;
+    font-weight: 50;
 }
-.filter-select {
-    width: 100%;
-    padding: 6px 10px;
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.filter-tag {
+    padding: 4px 10px;
     border-radius: 8px;
-    border: 1px solid #d1c4e9;
+    font-size: 12px;
     background: #f5f1fc;
     color: #5A4B75;
-    font-size: 13px;
-    outline: none;
-    cursor: pointer;
-    transition: border-color 0.2s;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235A4B75' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    padding-right: 24px;
-}
-.filter-select:focus {
-    border-color: #7E57C2;
-    box-shadow: 0 0 0 2px rgba(126,87,194,0.2);
-}
-.filter-actions {
-    display: flex;
-    gap: 8px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(126,87,194,0.12);
-}
-.filter-action-btn {
-    flex: 1;
-    padding: 6px 0;
-    border-radius: 8px;
-    border: 1px solid rgba(211,47,47,0.2);
-    background: #fff5f5;
-    color: #c62828;
-    font-size: 11px;
     cursor: pointer;
     transition: all 0.2s;
+    border: 1px solid transparent;
 }
-.filter-action-btn:hover {
-    background: #ffebee;
+.filter-tag.active {
+    background: #7E57C2;
+    color: #fff;
+}
+.filter-tag.all {
+    background: #f1f1f1;
+    color: #666;
+}
+
+/* 清空错题按钮 */
+.clear-wrong-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(211,47,47,0.2);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+    position: relative;
+}
+.clear-wrong-btn.show {
+    display: flex;
+}
+.clear-wrong-btn:hover {
     border-color: #d32f2f;
+    background: rgba(255,235,238,0.95);
+}
+.clear-wrong-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #d32f2f;
+}
+body.night-mode .clear-wrong-btn {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(211,47,47,0.35);
+}
+body.night-mode .clear-wrong-btn:hover {
+    background: rgba(211,47,47,0.2);
+    border-color: #f44336;
+}
+
+/* 清空收藏按钮 */
+.clear-fav-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(211,47,47,0.2);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s;
+    position: relative;
+}
+.clear-fav-btn.show {
+    display: flex;
+}
+.clear-fav-btn:hover {
+    border-color: #d32f2f;
+    background: rgba(255,235,238,0.95);
+}
+.clear-fav-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #d32f2f;
+}
+body.night-mode .clear-fav-btn {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(211,47,47,0.35);
+}
+body.night-mode .clear-fav-btn:hover {
+    background: rgba(211,47,47,0.2);
+    border-color: #f44336;
+}
+
+.unit-placeholder {
+    display: inline-block;
+    font-size: 12px;
+    color: #aaa;
+    line-height: 28px;
 }
 
 /* ===== 右侧浮动操作栏 ===== */
@@ -172,15 +232,7 @@ body {
 .card-wrapper {
     position: relative;
     width: 100%;
-    margin-top: -20px;
-    will-change: transform;
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
-    overflow: visible;
-}
-.card-wrapper:active {
-    cursor: grabbing;
+    margin-top: 24px;
 }
 
 .question-card {
@@ -215,31 +267,37 @@ body {
 }
 
 .question-number {
-    position: relative;
-    float: left;
-    margin-left: 18px;
-    margin-right: 8px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     color: white;
-    height: 35px;
-    width: 100px;
-    border-radius: 8px 8px 0 0;
-    font-size: 16px;
-    font-weight: 500;
+    width: 32px;
+    height: 24px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 60;
+    flex-shrink: 0;
     background-color: var(--primary-color);
     transition: background-color 0.3s ease;
+    margin-right: 6px;
+    vertical-align: middle;
     border: none;
     outline: none;
     cursor: pointer;
     text-align: center;
     font-family: inherit;
-    z-index: 5;
+    padding: 0;
 }
 .question-number:focus {
     background-color: #7E57C2;
-    box-shadow: 0 2px 8px rgba(126,87,194,0.5);
+    box-shadow: 0 0 0 2px rgba(126,87,194,0.4);
+}
+.question-number.wrong-number {
+    background-color: #C75B5B;
+}
+.question-number.wrong-number:focus {
+    background-color: #D96C6C;
+    box-shadow: 0 0 0 2px rgba(199,91,91,0.4);
 }
 
 .badge-row {
@@ -327,13 +385,53 @@ body {
     object-fit: contain;
 }
 .card-wrong-btn.active {
-    background: #577EC2;
-    border-color: #3A67B7;
+    background: #7E57C2;
+    border-color: #673AB7;
 }
 .card-wrong-btn.active img {
     filter: brightness(0) invert(1);
 }
 
+/* 旧版错过标签保留兼容 */
+/* 统计栏（题目卡片右上角外侧）—— 暂时禁用 */
+/*
+.stats-bar {
+    position: absolute;
+    top: -28px;
+    right: 2px;
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+}
+.stat-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    color: #999;
+    padding: 2px 4px;
+    user-select: none;
+}
+.stat-item.clickable {
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+.stat-item.clickable:hover {
+    opacity: 0.7;
+}
+.stat-item img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+.stat-num {
+    font-weight: 50;
+    min-width: 12px;
+    text-align: center;
+    line-height: 24px;
+}
+*/
 
 .question-text {
     font-size: 15px;
@@ -511,7 +609,7 @@ body {
 }
 
 .explanation-title {
-    font-weight: 700;
+    font-weight: 80;
     margin-bottom: 8px;
     color: var(--primary-color);
     transition: color 0.3s ease;
@@ -527,7 +625,6 @@ body {
     color: #000000;
 
 }
-
 
 /* 连词成句单词标签 */
 .word-tags {
@@ -567,7 +664,173 @@ body {
     font-size: 14px;
 }
 
+/* ===== 夜间模式 ===== */
+body.night-mode {
+    background-color: #1a1e2a;
+}
 
+body.night-mode .container {
+    background-color: #1a1e2a;
+}
+
+body.night-mode .question-card {
+    background-color: #242a38;
+    border-color: #7E57C2;
+}
+
+body.night-mode .question-text {
+    color: #ffffff;
+}
+
+body.night-mode .option {
+    background-color: #1e2533;
+    border-color: #3d4559;
+    color: #e8edf5;
+}
+
+body.night-mode .option:hover {
+    background-color: #3a4a5a;
+    border-color: #7E57C2;
+}
+
+body.night-mode .option.correct {
+    border-color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.25);
+    color: #ffffff;
+}
+
+body.night-mode .option.incorrect {
+    border-color: #b57272;
+    background-color: rgba(181, 114, 114, 0.25);
+    color: #e8b8b8;
+}
+
+body.night-mode .fill-input {
+    background-color: #1e2533;
+    border-color: #3d4559;
+    color: #e8edf5;
+}
+
+body.night-mode .fill-input:focus {
+    border-color: #7E57C2;
+    box-shadow: 0 0 0 2px rgba(126, 87, 194, 0.3);
+}
+
+body.night-mode .fill-input.correct {
+    border-color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #ffffff;
+}
+
+body.night-mode .fill-input.incorrect {
+    border-color: #b57272;
+    background-color: rgba(181, 114, 114, 0.2);
+    color: #e8b8b8;
+}
+
+body.night-mode .inline-fill {
+    color: #e8edf5;
+    border-bottom-color: #7E57C2;
+}
+body.night-mode .inline-fill.correct {
+    border-bottom-color: #4CAF50;
+    color: #4CAF50;
+}
+body.night-mode .inline-fill.incorrect {
+    border-bottom-color: #b57272;
+    color: #e8b8b8;
+}
+
+body.night-mode .explanation {
+    background-color: #1e2533;
+    border-color: #3d4559;
+    color: #c8d0e0;
+}
+
+body.night-mode .explanation-title {
+    color: #D1C4E9;
+}
+
+body.night-mode .attempt-tag {
+    background: rgba(46,125,50,0.18);
+    color: #66bb6a;
+    border-color: rgba(102,187,106,0.3);
+}
+body.night-mode .attempt-tooltip {
+    background: #ddd;
+    color: #222;
+}
+
+body.night-mode .card-wrong-btn.active {
+    background: #7E57C2;
+    border-color: #9575cd;
+}
+body.night-mode .card-wrong-btn.active img {
+    filter: brightness(0) invert(1);
+}
+
+/* 暂时禁用统计栏夜间样式
+body.night-mode .stat-item {
+    color: #aaa;
+}
+body.night-mode .stat-item.clickable:hover {
+    opacity: 0.7;
+}
+*/
+body.night-mode .empty-message {
+    background-color: #1e2533;
+    color: #a8b5c9;
+}
+
+body.night-mode .question-number {
+    background-color: #7E57C2;
+}
+body.night-mode .question-number.wrong-number {
+    background-color: #D96C6C;
+}
+body.night-mode .question-number.wrong-number:focus {
+    background-color: #E47A7A;
+    box-shadow: 0 0 0 2px rgba(217,108,108,0.4);
+}
+
+body.night-mode .grade-badge,
+body.night-mode .unit-badge,
+body.night-mode .knowledge-badge {
+    background: #5A4B75;
+    color: #ffffff;
+}
+body.night-mode .word-tag {
+    background: #2a3040;
+    color: #d0d8e8;
+    border-color: #4a4560;
+}
+body.night-mode .word-hint {
+    color: #999;
+}
+
+/* 夜间模式 - 筛选面板 */
+body.night-mode .filter-panel {
+    background: rgba(36,42,56,0.98);
+    border-color: rgba(126,87,194,0.25);
+}
+body.night-mode .filter-title {
+    color: #ccc;
+}
+body.night-mode .filter-tag {
+    background: #2a3040;
+    color: #d0d8e8;
+}
+body.night-mode .filter-tag.active {
+    background: #7E57C2;
+    color: #fff;
+}
+body.night-mode .filter-tag.all {
+    background: #2d3342;
+    color: #aaa;
+}
+body.night-mode .unit-placeholder {
+    color: #666;
+}
 
 /* ===== Toast 提示 ===== */
 .mode-toast {
@@ -621,252 +884,6 @@ body.night-mode .mode-toast {
         padding: 20px 32px 44px;
     }
 }
-
-body.wrong-mode {
-    --primary-color: #4B5A75;
-    --secondary-color: #63728D;
-    --accent-color: #3C4A63;
-    --border-color: #8E9CB5;
-    --light-text: #4B5A75;
-    --success-color: #58896A;
-}
-body.wrong-mode .option-menu-btn {
-    border-color: rgba(87,126,194,0.2);
-}
-body.wrong-mode .option-menu-btn.active {
-    background: #577EC2;
-    border-color: #3A67B7;
-}
-body.wrong-mode .filter-panel {
-    box-shadow: 0 8px 24px rgba(75,90,117,0.25);
-    border-color: rgba(87,126,194,0.15);
-}
-body.wrong-mode .filter-select {
-    border-color: #C4D1E9;
-    background: #F1F4FC;
-    color: #4B5A75;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234B5A75' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
-}
-body.wrong-mode .filter-select:focus {
-    border-color: #577EC2;
-    box-shadow: 0 0 0 2px rgba(87,126,194,0.2);
-}
-body.wrong-mode .filter-actions {
-    border-top-color: rgba(87,126,194,0.12);
-}
-body.wrong-mode .question-card {
-    border-color: #4B5A75;
-}
-body.wrong-mode .question-card-body {
-    scrollbar-color: rgba(87,126,194,0.25) transparent;
-}
-body.wrong-mode .question-card-body::-webkit-scrollbar-thumb {
-    background: rgba(87,126,194,0.25);
-}
-body.wrong-mode .question-number {
-    background-color: #4B5A75;
-    font-size: 14px;
-    text-align: center;
-}
-body.wrong-mode .question-number:focus {
-    background-color: #577EC2;
-    box-shadow: 0 2px 8px rgba(87,126,194,0.5);
-}
-body.wrong-mode .grade-badge,
-body.wrong-mode .unit-badge,
-body.wrong-mode .knowledge-badge {
-    background: #E4E8F0;
-    color: #4B5A75;
-}
-body.wrong-mode .option {
-    background-color: #FAFCFF;
-    border-color: #8E9CB5;
-}
-body.wrong-mode .option:hover {
-    border-color: #4B5A75;
-    background-color: #E7EDF6;
-}
-body.wrong-mode .option input[type="radio"] {
-    accent-color: #4B5A75;
-}
-body.wrong-mode .fill-input {
-    background-color: #FAFCFF;
-    border-color: #8E9CB5;
-}
-body.wrong-mode .fill-input:focus {
-    border-color: #4B5A75;
-    box-shadow: 0 0 0 2px #C4D1E9;
-}
-body.wrong-mode .inline-fill {
-    border-bottom-color: #4B5A75;
-}
-body.wrong-mode .inline-fill:focus {
-    border-bottom-color: #63728D;
-}
-body.wrong-mode .submit-btn {
-    background-color: #4B5A75;
-}
-body.wrong-mode .submit-btn:hover {
-    background-color: #63728D;
-}
-body.wrong-mode .show-answer-btn {
-    background-color: #3A5A8F;
-}
-body.wrong-mode .show-answer-btn:hover {
-    background-color: #4A6A9F;
-}
-body.wrong-mode .explanation {
-    background-color: rgba(87,126,194,0.05);
-    border-color: #8E9CB5;
-}
-body.wrong-mode .explanation-title {
-    color: #4B5A75;
-}
-body.wrong-mode .word-tag {
-    background: #E7EDF6;
-    color: #4B5A75;
-    border-color: #C4D1E9;
-}
-body.wrong-mode .empty-message {
-    background: #E7EDF6;
-    color: #4B5A75;
-}
-body.wrong-mode .card-wrong-btn.active {
-    background: #577EC2;
-    border-color: #3A67B7;
-}
-body.wrong-mode .mode-toast {
-    color: #4B5A75;
-}
-body.wrong-mode .attempt-tag {
-    background: #E8F5E9;
-    color: #2E7D32;
-    border-color: rgba(46,125,50,0.25);
-}
-
-body.fav-mode {
-    --primary-color: #7A5C2E;
-    --secondary-color: #9A7B4E;
-    --accent-color: #5A3C0E;
-    --border-color: #C4A875;
-    --light-text: #7A5C2E;
-    --success-color: #6A8948;
-}
-body.fav-mode .option-menu-btn {
-    border-color: rgba(194,136,55,0.2);
-}
-body.fav-mode .option-menu-btn.active {
-    background: #C28837;
-    border-color: #A06B1F;
-}
-body.fav-mode .filter-panel {
-    box-shadow: 0 8px 24px rgba(122,92,46,0.25);
-    border-color: rgba(194,136,55,0.15);
-}
-body.fav-mode .filter-select {
-    border-color: #E0D0B5;
-    background: #FBF6EE;
-    color: #7A5C2E;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237A5C2E' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
-}
-body.fav-mode .filter-select:focus {
-    border-color: #C28837;
-    box-shadow: 0 0 0 2px rgba(194,136,55,0.2);
-}
-body.fav-mode .filter-actions {
-    border-top-color: rgba(194,136,55,0.12);
-}
-body.fav-mode .question-card {
-    border-color: #7A5C2E;
-}
-body.fav-mode .question-card-body {
-    scrollbar-color: rgba(194,136,55,0.25) transparent;
-}
-body.fav-mode .question-card-body::-webkit-scrollbar-thumb {
-    background: rgba(194,136,55,0.25);
-}
-body.fav-mode .question-number {
-    background-color: #7A5C2E;
-    font-size: 14px;
-    text-align: center;
-}
-body.fav-mode .question-number:focus {
-    background-color: #C28837;
-    box-shadow: 0 2px 8px rgba(194,136,55,0.5);
-}
-body.fav-mode .grade-badge,
-body.fav-mode .unit-badge,
-body.fav-mode .knowledge-badge {
-    background: #F0E6D5;
-    color: #7A5C2E;
-}
-body.fav-mode .option {
-    background-color: #FFFDF9;
-    border-color: #C4A875;
-}
-body.fav-mode .option:hover {
-    border-color: #7A5C2E;
-    background-color: #F6EDDF;
-}
-body.fav-mode .option input[type="radio"] {
-    accent-color: #7A5C2E;
-}
-body.fav-mode .fill-input {
-    background-color: #FFFDF9;
-    border-color: #C4A875;
-}
-body.fav-mode .fill-input:focus {
-    border-color: #7A5C2E;
-    box-shadow: 0 0 0 2px #E0D0B5;
-}
-body.fav-mode .inline-fill {
-    border-bottom-color: #7A5C2E;
-}
-body.fav-mode .inline-fill:focus {
-    border-bottom-color: #9A7B4E;
-}
-body.fav-mode .submit-btn {
-    background-color: #7A5C2E;
-}
-body.fav-mode .submit-btn:hover {
-    background-color: #9A7B4E;
-}
-body.fav-mode .show-answer-btn {
-    background-color: #8F5A3A;
-}
-body.fav-mode .show-answer-btn:hover {
-    background-color: #9F6A4A;
-}
-body.fav-mode .explanation {
-    background-color: rgba(194,136,55,0.05);
-    border-color: #C4A875;
-}
-body.fav-mode .explanation-title {
-    color: #7A5C2E;
-}
-body.fav-mode .word-tag {
-    background: #F6EDDF;
-    color: #7A5C2E;
-    border-color: #E0D0B5;
-}
-body.fav-mode .empty-message {
-    background: #F6EDDF;
-    color: #7A5C2E;
-}
-body.fav-mode .card-wrong-btn.active {
-    background: #577EC2;
-    border-color: #3A67B7;
-}
-body.fav-mode .mode-toast {
-    color: #7A5C2E;
-}
-body.fav-mode .attempt-tag {
-    background: #E8F5E9;
-    color: #2E7D32;
-    border-color: rgba(46,125,50,0.25);
-}
-
-
     </style>
 </head>
 <body>
@@ -876,8 +893,14 @@ body.fav-mode .attempt-tag {
             <div class="option-menu-btn" id="only-fav-btn" title="收藏模式">
                 <img src="../../../images/收藏3.png" alt="收藏">
             </div>
+            <div class="clear-fav-btn" id="clear-fav-btn" title="清空所有收藏">
+                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            </div>
             <div class="option-menu-btn" id="only-wrong-btn" title="错题模式">
                 <img src="../../../images/错题1.png" alt="错题">
+            </div>
+            <div class="clear-wrong-btn" id="clear-wrong-btn" title="清空所有错题">
+                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
             </div>
             <div class="option-menu-btn" id="option-menu-btn" title="筛选选项">
                 <img src="../../../images/选项.png" alt="选项">
@@ -885,23 +908,19 @@ body.fav-mode .attempt-tag {
             <div class="filter-panel" id="filter-panel">
                 <div class="filter-group">
                     <div class="filter-title">题型</div>
-                    <select id="type-select" class="filter-select"><option value="">全部</option></select>
+                    <div class="filter-tags" id="type-tags"></div>
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">年级</div>
-                    <select id="grade-select" class="filter-select"><option value="">全部</option></select>
+                    <div class="filter-tags" id="grade-tags"></div>
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">单元</div>
-                    <select id="unit-select" class="filter-select"><option value="">全部</option></select>
+                    <div class="filter-tags" id="unit-tags"></div>
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">考点</div>
-                    <select id="knowledge-select" class="filter-select"><option value="">全部</option></select>
-                </div>
-                <div class="filter-actions">
-                    <button class="filter-action-btn" id="clear-wrong-btn">清空错题</button>
-                    <button class="filter-action-btn" id="clear-fav-btn">清空收藏</button>
+                    <div class="filter-tags" id="knowledge-tags"></div>
                 </div>
             </div>
         </div>
@@ -931,11 +950,13 @@ body.fav-mode .attempt-tag {
         let lastQuestionId = localStorage.getItem('lastQuestionId') || null;
         let questionFavs = new Set();
 
-        let selectedType = '';
-        let selectedGrade = '';
-        let selectedUnit = '';
-        let selectedKnowledge = '';
+        // 多选筛选集合
+        let selectedTypes = new Set();
+        let selectedGrades = new Set();
+        let selectedUnits = new Set();
+        let selectedKnowledges = new Set();
 
+        // DOM
         const questionArea = document.getElementById('question-area');
         const onlyWrongBtn = document.getElementById('only-wrong-btn');
         const onlyFavBtn = document.getElementById('only-fav-btn');
@@ -943,11 +964,8 @@ body.fav-mode .attempt-tag {
         const clearFavBtn = document.getElementById('clear-fav-btn');
         const optionMenuBtn = document.getElementById('option-menu-btn');
         const filterPanel = document.getElementById('filter-panel');
-        const typeSelect = document.getElementById('type-select');
-        const gradeSelect = document.getElementById('grade-select');
-        const unitSelect = document.getElementById('unit-select');
-        const knowledgeSelect = document.getElementById('knowledge-select');
 
+        // ---------- 右上角筛选面板 ----------
         function getUniqueList(key) {
             let set = new Set();
             allQuestions.forEach(q => {
@@ -959,51 +977,75 @@ body.fav-mode .attempt-tag {
 
         function getFilteredUnits() {
             let set = new Set();
-            let base = selectedGrade ? allQuestions.filter(q => q.grade === selectedGrade) : allQuestions;
+            let base = selectedGrades.size > 0 ? allQuestions.filter(q => selectedGrades.has(q.grade)) : [];
             base.forEach(q => { if (q.unit) set.add(q.unit); });
             return Array.from(set).sort();
         }
 
-        function populateSelect(selectEl, list, selectedVal) {
-            selectEl.innerHTML = '<option value="">全部</option>';
+        function renderFilterTags() {
+            // 题型
+            renderTagGroup('type-tags', getUniqueList('type'), selectedTypes);
+            // 年级
+            renderTagGroup('grade-tags', getUniqueList('grade'), selectedGrades);
+            // 单元（根据已选年级动态显示）
+            let filteredUnits = getFilteredUnits();
+            if (selectedGrades.size === 0) {
+                // 未选年级：显示占位提示
+                renderUnitPlaceholder();
+            } else if (selectedGrades.size === getUniqueList('grade').length) {
+                // 全选年级：显示全部单元
+                renderTagGroup('unit-tags', getUniqueList('unit'), selectedUnits);
+            } else {
+                // 已选特定年级：只显示对应单元
+                for (let u of selectedUnits) {
+                    if (!filteredUnits.includes(u)) selectedUnits.delete(u);
+                }
+                renderTagGroup('unit-tags', filteredUnits, selectedUnits);
+            }
+            // 考点
+            renderTagGroup('knowledge-tags', getUniqueList('knowledge_point'), selectedKnowledges);
+        }
+
+        function renderUnitPlaceholder() {
+            const container = document.getElementById('unit-tags');
+            container.innerHTML = '<span class="unit-placeholder">请先选择年级</span>';
+        }
+
+        function renderTagGroup(containerId, list, selectedSet) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            const allTag = document.createElement('div');
+            allTag.className = 'filter-tag all';
+            allTag.textContent = '全部';
+            allTag.onclick = () => {
+                // 切换：全选 ⟷ 全不选
+                if (selectedSet.size >= list.length) {
+                    selectedSet.clear();
+                } else {
+                    list.forEach(item => selectedSet.add(item));
+                }
+                renderFilterTags();
+                doFilter();
+                if (!isOnlyWrongMode) saveAllData();
+            };
+            container.appendChild(allTag);
+
             list.forEach(item => {
-                let opt = document.createElement('option');
-                opt.value = item;
-                opt.textContent = item;
-                if (item === selectedVal) opt.selected = true;
-                selectEl.appendChild(opt);
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                if (selectedSet.has(item)) tag.classList.add('active');
+                tag.textContent = item;
+                tag.onclick = () => {
+                    if (selectedSet.has(item)) selectedSet.delete(item);
+                    else selectedSet.add(item);
+                    renderFilterTags();
+                    doFilter();
+                    if (!isOnlyWrongMode) saveAllData();
+                };
+                container.appendChild(tag);
             });
         }
-
-        function renderFilterSelects() {
-            populateSelect(typeSelect, getUniqueList('type'), selectedType);
-            populateSelect(gradeSelect, getUniqueList('grade'), selectedGrade);
-            populateSelect(unitSelect, getFilteredUnits(), selectedUnit);
-            populateSelect(knowledgeSelect, getUniqueList('knowledge_point'), selectedKnowledge);
-        }
-
-        typeSelect.onchange = () => {
-            selectedType = typeSelect.value;
-            doFilter();
-            if (!isOnlyWrongMode) saveAllData();
-        };
-        gradeSelect.onchange = () => {
-            selectedGrade = gradeSelect.value;
-            selectedUnit = '';
-            populateSelect(unitSelect, getFilteredUnits(), selectedUnit);
-            doFilter();
-            if (!isOnlyWrongMode) saveAllData();
-        };
-        unitSelect.onchange = () => {
-            selectedUnit = unitSelect.value;
-            doFilter();
-            if (!isOnlyWrongMode) saveAllData();
-        };
-        knowledgeSelect.onchange = () => {
-            selectedKnowledge = knowledgeSelect.value;
-            doFilter();
-            if (!isOnlyWrongMode) saveAllData();
-        };
 
         optionMenuBtn.onclick = (e) => {
             e.stopPropagation();
@@ -1033,19 +1075,20 @@ body.fav-mode .attempt-tag {
             }
         }
 
+        // 综合筛选
         function filterQuestions() {
             let res = [...allQuestions];
-            if (selectedType) {
-                res = res.filter(q => q.type === selectedType);
+            if (selectedTypes.size > 0 && selectedTypes.size !== getUniqueList('type').length) {
+                res = res.filter(q => !q.type || selectedTypes.has(q.type));
             }
-            if (selectedGrade) {
-                res = res.filter(q => q.grade === selectedGrade);
+            if (selectedGrades.size > 0 && selectedGrades.size !== getUniqueList('grade').length) {
+                res = res.filter(q => !q.grade || selectedGrades.has(q.grade));
             }
-            if (selectedUnit) {
-                res = res.filter(q => q.unit === selectedUnit);
+            if (selectedUnits.size > 0 && selectedUnits.size !== getUniqueList('unit').length) {
+                res = res.filter(q => !q.unit || selectedUnits.has(q.unit));
             }
-            if (selectedKnowledge) {
-                res = res.filter(q => q.knowledge_point === selectedKnowledge);
+            if (selectedKnowledges.size > 0 && selectedKnowledges.size !== getUniqueList('knowledge_point').length) {
+                res = res.filter(q => !q.knowledge_point || selectedKnowledges.has(q.knowledge_point));
             }
             if (isOnlyWrongMode) {
                 // 错题模式：只显示做错的题目
@@ -1078,7 +1121,6 @@ body.fav-mode .attempt-tag {
             if (currentIndex >= filteredQuestions.length) currentIndex = filteredQuestions.length - 1;
 
             let q = filteredQuestions[currentIndex];
-            localStorage.setItem('lastQuestionId', q.id);
             questionArea.appendChild(createQuestionCard(q));
         }
 
@@ -1106,28 +1148,31 @@ body.fav-mode .attempt-tag {
             card.className = 'question-card';
             card.setAttribute('data-qid', q.id);
 
+            let badgeDiv = document.createElement('div');
+            badgeDiv.className = 'badge-row';
+
+            // 可输入跳转的序号
             let num = document.createElement('input');
             num.type = 'text';
             num.className = 'question-number';
-            let prefix = '';
-            if (isOnlyWrongMode) prefix = '错题';
-            else if (isOnlyFavMode) prefix = '收藏';
-            num.value = prefix + (currentIndex + 1) + '/' + filteredQuestions.length;
+            if (isOnlyWrongMode) {
+                num.value = (currentIndex + 1) + '/' + filteredQuestions.length;
+                num.style.width = '44px';
+                num.classList.add('wrong-number');
+            } else {
+                num.value = currentIndex + 1;
+            }
             num.title = '输入序号跳转题目';
             num.setAttribute('data-idx', currentIndex);
-            num.addEventListener('focus', () => {
-                let raw = num.value.replace(/^(错题|收藏)/, '').split('/')[0].trim();
-                num.value = raw;
-                num.select();
-            });
+            num.addEventListener('focus', () => num.select());
             num.addEventListener('blur', () => {
-                let raw = num.value.replace(/^(错题|收藏)/, '').split('/')[0].trim();
+                let raw = num.value.split('/')[0].trim();
                 let n = parseInt(raw);
                 if (!isNaN(n) && n >= 1 && n <= filteredQuestions.length && (n - 1) !== currentIndex) {
                     currentIndex = n - 1;
                     renderCurrent();
                 } else {
-                    num.value = prefix + (currentIndex + 1) + '/' + filteredQuestions.length;
+                    num.value = isOnlyWrongMode ? ((currentIndex + 1) + '/' + filteredQuestions.length) : (currentIndex + 1);
                 }
             });
             num.addEventListener('keydown', (e) => {
@@ -1137,10 +1182,7 @@ body.fav-mode .attempt-tag {
                     e.stopPropagation();
                 }
             });
-            wrapper.appendChild(num);
-
-            let badgeDiv = document.createElement('div');
-            badgeDiv.className = 'badge-row';
+            badgeDiv.appendChild(num);
 
             if (q.grade) {
                 let b = document.createElement('span');
@@ -1268,8 +1310,6 @@ body.fav-mode .attempt-tag {
                     radio.onchange = () => {
                         if (userAnswers[q.id]) return;
                         userAnswers[q.id] = opt;
-                        let cor = checkAnswer(opt, q.answer);
-                        recordAttempt(q.id, cor);
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
 
@@ -1318,8 +1358,6 @@ body.fav-mode .attempt-tag {
                         let inputs = card.querySelectorAll('.inline-fill');
                         let vals = Array.from(inputs).map(inp => inp.value.trim());
                         userAnswers[q.id] = vals.join(';') || '[查看]';
-                        let cor = checkAnswerBlank(vals.map(s => s.trim()), q.answer);
-                        recordAttempt(q.id, cor);
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
@@ -1373,9 +1411,6 @@ body.fav-mode .attempt-tag {
                         let inputs = card.querySelectorAll('.inline-fill');
                         let vals = Array.from(inputs).map(inp => inp.value.trim());
                         userAnswers[q.id] = vals.join(';') || '[查看]';
-                        let normAnswer = q.answer.replace(/;/g, ' ').replace(/\s+/g, ' ').toLowerCase().trim();
-                        let cor = vals.join(' ').toLowerCase().trim() === normAnswer;
-                        recordAttempt(q.id, cor);
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
@@ -1441,8 +1476,6 @@ body.fav-mode .attempt-tag {
                     btn.onclick = () => {
                         let val = input.value.trim();
                         userAnswers[q.id] = val || '[查看]';
-                        let cor = normalizeAnswer(val) === normalizeAnswer(q.answer);
-                        recordAttempt(q.id, cor);
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
@@ -1519,10 +1552,10 @@ body.fav-mode .attempt-tag {
             localStorage.setItem('questionAttempts', JSON.stringify(questionAttempts));
             localStorage.setItem('questionCorrectStatus', JSON.stringify(questionCorrectStatus));
             localStorage.setItem('questionStats', JSON.stringify(questionStats));
-            localStorage.setItem('filterType', selectedType);
-            localStorage.setItem('filterGrade', selectedGrade);
-            localStorage.setItem('filterUnit', selectedUnit);
-            localStorage.setItem('filterKnowledge', selectedKnowledge);
+            localStorage.setItem('filterTypes', JSON.stringify([...selectedTypes]));
+            localStorage.setItem('filterGrades', JSON.stringify([...selectedGrades]));
+            localStorage.setItem('filterUnits', JSON.stringify([...selectedUnits]));
+            localStorage.setItem('filterKnowledges', JSON.stringify([...selectedKnowledges]));
             localStorage.setItem('questionFavs', JSON.stringify([...questionFavs]));
             localStorage.setItem('isOnlyFavMode', JSON.stringify(isOnlyFavMode));
         }
@@ -1532,10 +1565,10 @@ body.fav-mode .attempt-tag {
                 questionAttempts = JSON.parse(localStorage.getItem('questionAttempts')) || {};
                 questionCorrectStatus = JSON.parse(localStorage.getItem('questionCorrectStatus')) || {};
                 questionStats = JSON.parse(localStorage.getItem('questionStats')) || {};
-                selectedType = localStorage.getItem('filterType') || '';
-                selectedGrade = localStorage.getItem('filterGrade') || '';
-                selectedUnit = localStorage.getItem('filterUnit') || '';
-                selectedKnowledge = localStorage.getItem('filterKnowledge') || '';
+                selectedTypes = new Set(JSON.parse(localStorage.getItem('filterTypes')) || []);
+                selectedGrades = new Set(JSON.parse(localStorage.getItem('filterGrades')) || []);
+                selectedUnits = new Set(JSON.parse(localStorage.getItem('filterUnits')) || []);
+                selectedKnowledges = new Set(JSON.parse(localStorage.getItem('filterKnowledges')) || []);
                 questionFavs = new Set(JSON.parse(localStorage.getItem('questionFavs')) || []);
                 isOnlyFavMode = JSON.parse(localStorage.getItem('isOnlyFavMode')) || false;
             } catch (e) {}
@@ -1557,19 +1590,19 @@ body.fav-mode .attempt-tag {
         // 备份正常模式下的筛选状态
         let savedFilterState = null;
 
-        function clearAllFilters() {
-            selectedType = '';
-            selectedGrade = '';
-            selectedUnit = '';
-            selectedKnowledge = '';
+        function selectAllFilters() {
+            getUniqueList('type').forEach(v => selectedTypes.add(v));
+            getUniqueList('grade').forEach(v => selectedGrades.add(v));
+            getUniqueList('unit').forEach(v => selectedUnits.add(v));
+            getUniqueList('knowledge_point').forEach(v => selectedKnowledges.add(v));
         }
 
         function toggleOnlyWrongMode() {
             isOnlyWrongMode = !isOnlyWrongMode;
             onlyWrongBtn.classList.toggle('active', isOnlyWrongMode);
-            document.body.classList.toggle('wrong-mode', isOnlyWrongMode);
+            clearWrongBtn.classList.toggle('show', isOnlyWrongMode);
             if (isOnlyWrongMode) {
-                document.body.classList.remove('fav-mode');
+                // 进入错题本：保存当前位置，关闭收藏模式，备份筛选，全选
                 if (isOnlyFavMode) {
                     lastFavIndex = currentIndex;
                     isOnlyFavMode = false;
@@ -1580,25 +1613,30 @@ body.fav-mode .attempt-tag {
                 }
                 if (!savedFilterState) {
                     savedFilterState = {
-                        type: selectedType,
-                        grade: selectedGrade,
-                        unit: selectedUnit,
-                        knowledge: selectedKnowledge,
+                        types: new Set([...selectedTypes]),
+                        grades: new Set([...selectedGrades]),
+                        units: new Set([...selectedUnits]),
+                        knowledges: new Set([...selectedKnowledges]),
                     };
                 }
-                clearAllFilters();
+                selectedTypes.clear();
+                selectedGrades.clear();
+                selectedUnits.clear();
+                selectedKnowledges.clear();
+                selectAllFilters();
             } else {
+                // 退出错题本：保存错题位置，恢复之前备份的筛选状态
                 lastWrongIndex = currentIndex;
                 if (savedFilterState) {
-                    selectedType = savedFilterState.type;
-                    selectedGrade = savedFilterState.grade;
-                    selectedUnit = savedFilterState.unit;
-                    selectedKnowledge = savedFilterState.knowledge;
+                    selectedTypes = savedFilterState.types;
+                    selectedGrades = savedFilterState.grades;
+                    selectedUnits = savedFilterState.units;
+                    selectedKnowledges = savedFilterState.knowledges;
                     savedFilterState = null;
                 }
             }
             let targetIdx = isOnlyWrongMode ? lastWrongIndex : lastNormalIndex;
-            renderFilterSelects();
+            renderFilterTags();
             doFilter(targetIdx);
             saveAllData();
         }
@@ -1609,19 +1647,22 @@ body.fav-mode .attempt-tag {
             lastWrongIndex = 0;
             saveAllData();
             if (isOnlyWrongMode) {
+                // 在错题模式下，清空后自动退出错题模式
                 isOnlyWrongMode = false;
                 onlyWrongBtn.classList.remove('active');
+                clearWrongBtn.classList.remove('show');
                 if (savedFilterState) {
-                    selectedType = savedFilterState.type;
-                    selectedGrade = savedFilterState.grade;
-                    selectedUnit = savedFilterState.unit;
-                    selectedKnowledge = savedFilterState.knowledge;
+                    selectedTypes = savedFilterState.types;
+                    selectedGrades = savedFilterState.grades;
+                    selectedUnits = savedFilterState.units;
+                    selectedKnowledges = savedFilterState.knowledges;
                     savedFilterState = null;
                 }
-                renderFilterSelects();
+                renderFilterTags();
                 doFilter(lastNormalIndex);
                 saveAllData();
             } else {
+                // 不在错题模式下，刷新当前视图
                 doFilter(currentIndex);
             }
             showToast('已清空所有错题');
@@ -1630,25 +1671,28 @@ body.fav-mode .attempt-tag {
         function toggleOnlyFavMode() {
             isOnlyFavMode = !isOnlyFavMode;
             onlyFavBtn.classList.toggle('active', isOnlyFavMode);
-            document.body.classList.remove('wrong-mode');
-            document.body.classList.toggle('fav-mode', isOnlyFavMode);
+            clearFavBtn.classList.toggle('show', isOnlyFavMode);
             if (isOnlyFavMode) {
+                // 进入收藏模式：保存当前位置，关闭错题模式
                 if (isOnlyWrongMode) {
                     lastWrongIndex = currentIndex;
                     isOnlyWrongMode = false;
                     onlyWrongBtn.classList.remove('active');
+                    clearWrongBtn.classList.remove('show');
+                    // 恢复筛选
                     if (savedFilterState) {
-                        selectedType = savedFilterState.type;
-                        selectedGrade = savedFilterState.grade;
-                        selectedUnit = savedFilterState.unit;
-                        selectedKnowledge = savedFilterState.knowledge;
+                        selectedTypes = savedFilterState.types;
+                        selectedGrades = savedFilterState.grades;
+                        selectedUnits = savedFilterState.units;
+                        selectedKnowledges = savedFilterState.knowledges;
                         savedFilterState = null;
                     }
-                    renderFilterSelects();
+                    renderFilterTags();
                 } else {
                     lastNormalIndex = currentIndex;
                 }
             } else {
+                // 退出收藏模式：保存收藏位置
                 lastFavIndex = currentIndex;
             }
             let targetIdx = isOnlyFavMode ? lastFavIndex : lastNormalIndex;
@@ -1662,282 +1706,35 @@ body.fav-mode .attempt-tag {
             lastFavIndex = 0;
             saveAllData();
             if (isOnlyFavMode) {
+                // 在收藏模式下，清空后自动退出收藏模式
                 isOnlyFavMode = false;
                 onlyFavBtn.classList.remove('active');
+                clearFavBtn.classList.remove('show');
                 doFilter(lastNormalIndex);
                 saveAllData();
             } else {
+                // 不在收藏模式下，刷新当前视图
                 doFilter(currentIndex);
             }
             showToast('已清空所有收藏');
         }
 
-        // 滑动切换（跟手双卡 + 惯性滚动 + 平滑吸附，鼠标/触摸通用）
+        // 滑动切换
         function setupSwipe() {
-            let startX = 0, startY = 0, startTime = 0;
-            let isDragging = false;
-            let isAnimating = false;
-            let moved = false;
-            let dragStartIdx = 0;
-            let virtualPos = 0;       // 虚拟滚动位置（可小数，单位=卡）
-            let lastFloorIdx = -1;
-            let viewport = null;
-            let cardLoEl = null, cardHiEl = null;
-            let cardH = 500;
-            let animFrameId = null;
-            const CARD_GAP = 20;      // 卡片之间的间距(px)，也等于卡片到屏幕边缘的距离
-
-            function getXY(e) {
-                if (e.touches && e.touches.length) return { x: e.touches[0].screenX, y: e.touches[0].screenY };
-                if (e.changedTouches && e.changedTouches.length) return { x: e.changedTouches[0].screenX, y: e.changedTouches[0].screenY };
-                return { x: e.screenX, y: e.screenY };
-            }
-
-            // 获取步进距离（卡片宽度 + 间距）
-            function getStep() {
-                return (questionArea.offsetWidth || 300) + CARD_GAP;
-            }
-
-            // 构建双卡视口：当前卡 + 下一卡，通过像素偏移实现从屏幕外滑入
-            function buildViewport() {
-                let lo = Math.floor(virtualPos);
-                lo = Math.max(0, Math.min(lo, filteredQuestions.length - 1));
-                let hi = Math.min(lo + 1, filteredQuestions.length - 1);
-                let fraction = virtualPos - lo; // 0~1，当前卡被推走多少
-
-                let step = getStep();
-
-                viewport = document.createElement('div');
-                viewport.style.cssText = `position:relative;width:100%;height:${cardH}px;margin-top:-20px;`;
-
-                // 低位卡 — 临时设 currentIndex 让序号正确
-                currentIndex = lo;
-                cardLoEl = createQuestionCard(filteredQuestions[lo]);
-                cardLoEl.style.cssText = 'position:absolute;top:0;left:0;width:100%;margin:0;';
-                cardLoEl.style.transform = `translateX(${-fraction * step}px)`;
-                viewport.appendChild(cardLoEl);
-
-                // 高位卡 — 临时设 currentIndex 让序号正确
-                if (hi !== lo) {
-                    currentIndex = hi;
-                    cardHiEl = createQuestionCard(filteredQuestions[hi]);
-                    cardHiEl.style.cssText = 'position:absolute;top:0;left:0;width:100%;margin:0;';
-                    cardHiEl.style.transform = `translateX(${(1 - fraction) * step}px)`;
-                    viewport.appendChild(cardHiEl);
-                } else {
-                    cardHiEl = null;
+            let touchStartX = 0;
+            let touchStartY = 0;
+            questionArea.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+            questionArea.addEventListener('touchend', e => {
+                let dx = e.changedTouches[0].screenX - touchStartX;
+                let dy = e.changedTouches[0].screenY - touchStartY;
+                if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+                    if (dx < 0) goToNext();
+                    else goToPrev();
                 }
-
-                questionArea.innerHTML = '';
-                questionArea.appendChild(viewport);
-                lastFloorIdx = lo;
-                currentIndex = Math.round(virtualPos);
-            }
-
-            // 更新双卡位置（不重建 DOM，只改 transform）
-            function updatePositions() {
-                let lo = Math.floor(virtualPos);
-                lo = Math.max(0, Math.min(lo, filteredQuestions.length - 1));
-
-                // 跨越了整数边界 → 需要重建视口
-                if (lo !== lastFloorIdx) {
-                    buildViewport();
-                    return;
-                }
-
-                let fraction = virtualPos - lo;
-                let step = getStep();
-                let hi = Math.min(lo + 1, filteredQuestions.length - 1);
-
-                if (cardLoEl) {
-                    cardLoEl.style.transition = 'none';
-                    cardLoEl.style.transform = `translateX(${-fraction * step}px)`;
-                }
-                if (cardHiEl && hi !== lo) {
-                    cardHiEl.style.transition = 'none';
-                    cardHiEl.style.transform = `translateX(${(1 - fraction) * step}px)`;
-                }
-
-                currentIndex = Math.round(virtualPos);
-            }
-
-            function onStart(e) {
-                // 如果正在惯性动画中，打断并从当前位置开始
-                if (isAnimating) {
-                    isAnimating = false;
-                    if (animFrameId) cancelAnimationFrame(animFrameId);
-                    // 保留当前 virtualPos，不取整
-                }
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON') return;
-                // 卡片内容区（可竖向滚动）内不触发水平滑动
-                if (e.target.closest('.question-card-body')) return;
-                if (filteredQuestions.length <= 1) return;
-
-                let p = getXY(e);
-                startX = p.x; startY = p.y;
-                startTime = Date.now();
-                isDragging = true;
-                moved = false;
-                dragStartIdx = virtualPos;
-                lastFloorIdx = -1;
-
-                // 测量当前卡片高度
-                let existing = questionArea.querySelector('.card-wrapper');
-                if (existing) cardH = existing.offsetHeight;
-            }
-
-            function onMove(e) {
-                if (!isDragging) return;
-                let p = getXY(e);
-                let dx = p.x - startX;
-                let dy = p.y - startY;
-
-                if (!moved) {
-                    if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-                    // 竖滑为主 → 放弃拖拽
-                    if (Math.abs(dy) > Math.abs(dx) * 2) {
-                        isDragging = false;
-                        return;
-                    }
-                    moved = true;
-                    buildViewport();
-                }
-
-                e.preventDefault();
-
-                // 像素位移 → 卡片单位（用 step 而非 cardW，因为卡片从屏幕外滑入）
-                let step = getStep();
-                virtualPos = dragStartIdx - dx / step;
-                virtualPos = Math.max(0, Math.min(virtualPos, filteredQuestions.length - 1));
-                updatePositions();
-            }
-
-            function onEnd(e) {
-                if (!isDragging) return;
-                isDragging = false;
-                if (!moved) return;
-                moved = false;
-
-                let p = getXY(e);
-                let dx = p.x - startX;
-                let dt = Date.now() - startTime || 16;
-                let velocity = dx / dt; // px/ms，正值=向右=上一题
-
-                if (Math.abs(velocity) > 0.15 && filteredQuestions.length > 1) {
-                    applyMomentum(velocity);
-                } else {
-                    snapToCard();
-                }
-            }
-
-            // 惯性滚动：松手后卡片继续翻，逐渐减速
-            function applyMomentum(startVelocity) {
-                isAnimating = true;
-                let step = getStep();
-                let velCards = -startVelocity / step * 1000; // 卡/秒，正值=向下一题
-                let decel = 4; // 减速度 卡/秒²
-                let lastTime = performance.now();
-
-                function animate(now) {
-                    if (!isAnimating) return;
-                    let dt = (now - lastTime) / 1000;
-                    lastTime = now;
-                    if (dt > 0.05) dt = 0.05;
-
-                    // 减速
-                    if (velCards > 0) velCards = Math.max(0, velCards - decel * dt);
-                    else velCards = Math.min(0, velCards + decel * dt);
-
-                    if (Math.abs(velCards) < 0.05) {
-                        isAnimating = false;
-                        snapToCard();
-                        return;
-                    }
-
-                    virtualPos += velCards * dt;
-
-                    // 边界
-                    if (virtualPos <= 0) { virtualPos = 0; isAnimating = false; snapToCard(); return; }
-                    if (virtualPos >= filteredQuestions.length - 1) { virtualPos = filteredQuestions.length - 1; isAnimating = false; snapToCard(); return; }
-
-                    updatePositions();
-                    animFrameId = requestAnimationFrame(animate);
-                }
-
-                animFrameId = requestAnimationFrame(animate);
-            }
-
-            // 平滑吸附到最近的整张卡片（不重建DOM，避免跳帧）
-            function snapToCard() {
-                let targetPos = Math.max(0, Math.min(Math.round(virtualPos), filteredQuestions.length - 1));
-                let diff = targetPos - virtualPos;
-
-                // 已经在整数位置 → 直接定稿
-                if (Math.abs(diff) < 0.003) {
-                    finalizeSnap(targetPos);
-                    return;
-                }
-
-                // 用动画平滑过渡到目标位置
-                isAnimating = true;
-                let startPos = virtualPos;
-                let snapStart = performance.now();
-                let duration = Math.max(120, Math.min(280, Math.abs(diff) * 250));
-
-                function animateSnap(now) {
-                    let elapsed = now - snapStart;
-                    let t = Math.min(1, elapsed / duration);
-                    // ease-out cubic
-                    t = 1 - Math.pow(1 - t, 3);
-
-                    virtualPos = startPos + diff * t;
-                    updatePositions();
-
-                    if (t < 1) {
-                        animFrameId = requestAnimationFrame(animateSnap);
-                    } else {
-                        isAnimating = false;
-                        finalizeSnap(targetPos);
-                    }
-                }
-
-                animFrameId = requestAnimationFrame(animateSnap);
-            }
-
-            // 吸附定稿：从视口中提取可见卡片，恢复为正常布局（不重建DOM）
-            function finalizeSnap(targetPos) {
-                currentIndex = targetPos;
-                virtualPos = targetPos;
-
-                if (viewport && viewport.parentNode === questionArea) {
-                    // 判断哪张卡可见（targetPos == lastFloorIdx 用低位卡，否则用高位卡）
-                    let visibleCard = (targetPos === lastFloorIdx) ? cardLoEl : cardHiEl;
-                    if (visibleCard) {
-                        // 清除拖拽时加的定位样式，恢复为 CSS class 定义的正常布局
-                        visibleCard.style.cssText = '';
-                        questionArea.innerHTML = '';
-                        questionArea.appendChild(visibleCard);
-                    } else {
-                        renderCurrent();
-                    }
-                } else {
-                    renderCurrent();
-                }
-
-                viewport = null;
-                cardLoEl = null;
-                cardHiEl = null;
-            }
-
-            // 触摸事件
-            questionArea.addEventListener('touchstart', e => onStart(e), { passive: true });
-            questionArea.addEventListener('touchmove', e => onMove(e), { passive: false });
-            questionArea.addEventListener('touchend', e => onEnd(e));
-
-            // 鼠标事件
-            questionArea.addEventListener('mousedown', e => onStart(e));
-            document.addEventListener('mousemove', e => onMove(e));
-            document.addEventListener('mouseup', e => onEnd(e));
+            });
         }
 
         // ---------- 初始化 ----------
@@ -1953,7 +1750,7 @@ body.fav-mode .attempt-tag {
                 let idx = filteredQuestions.findIndex(q => q.id === lastId);
                 if (idx !== -1) currentIndex = idx;
             }
-            renderFilterSelects();
+            renderFilterTags();
             renderCurrent();
             setupSwipe();
 
