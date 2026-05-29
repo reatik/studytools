@@ -681,7 +681,7 @@ function resetQuestions(targetIndex) {
         filterList = filterList.filter(q => wrongQids.has(q._id));
     }
 
-    questionPool = filterList;
+    questionPool = shuffle(filterList);
     if (questionPool.length === 0) {
         document.getElementById('questionText').innerText = isOnlyWrongMode ? '错题本暂无题目' : '当前题型暂无题目';
         document.getElementById('options').innerHTML = '';
@@ -937,7 +937,7 @@ function doFilterAfterWrongChange() {
         types.includes(q.difficulty)
     );
     filterList = filterList.filter(q => wrongQids.has(q._id));
-    questionPool = filterList;
+    questionPool = shuffle(filterList);
     if (questionPool.length === 0) {
         document.getElementById('questionText').innerText = '错题本暂无题目';
         document.getElementById('options').innerHTML = '';
