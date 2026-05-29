@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" style="touch-action: none;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
@@ -872,6 +872,7 @@ body.fav-mode .attempt-tag {
     </style>
 </head>
 <body>
+    <div >题型</div>
     <div class="container">
         <!-- 右上角按钮 -->
         <div class="top-right-option">
@@ -1941,6 +1942,14 @@ body.fav-mode .attempt-tag {
             questionArea.addEventListener('mousedown', e => onStart(e));
             document.addEventListener('mousemove', e => onMove(e));
             document.addEventListener('mouseup', e => onEnd(e));
+
+            // === MIUI/Android 防缩放加固 ===
+            document.addEventListener('gesturestart', e => e.preventDefault(), { passive: false });
+            document.addEventListener('gesturechange', e => e.preventDefault(), { passive: false });
+            document.addEventListener('gestureend', e => e.preventDefault(), { passive: false });
+            document.addEventListener('touchstart', e => {
+                if (e.touches.length > 1) e.preventDefault();
+            }, { passive: false });
         }
 
         // ---------- 初始化 ----------
