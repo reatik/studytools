@@ -552,6 +552,7 @@ const ROOM_EXPIRE = 30 * 60 * 1000;
 
 let db = null;
 let watcher = null;
+let isWatchClosing = false;
 let myUserId = '';
 let myNickname = '';
 let currentRoomDocId = '';
@@ -840,7 +841,12 @@ async function createRoom() {
         });
 
         hideCreateRoom();
-        currentRoomDocId = res._id;
+        const docId = res._id || res.id || (res.data && res.data._id);
+        if (!docId || typeof docId !== 'string') {
+            showToast('创建失败：无法获取房间ID', 'error');
+            return;
+        }
+        currentRoomDocId = docId;
         myPlayerIndex = 0;
         isReady = false;
         isOnlineMode = true;
@@ -991,7 +997,18 @@ async function toggleReady() {
 }
 
 async function startWatchRoom() {
-    if (watcher) watcher.close();
+    if (!currentRoomDocId || typeof currentRoomDocId !== 'string') {
+        console.error('startWatchRoom: invalid docId', currentRoomDocId);
+        return;
+    }
+    
+    if (watcher && !isWatchClosing) {
+        isWatchClosing = true;
+        watcher.close();
+        watcher = null;
+        setTimeout(() => { isWatchClosing = false; }, 100);
+    }
+    
     try {
         watcher = db.collection(COLLECTION).doc(currentRoomDocId).watch({
             onChange: snapshot => {
@@ -1002,7 +1019,11 @@ async function startWatchRoom() {
             },
             onError: err => {
                 console.error('监听出错:', err);
-                setTimeout(() => { if (currentRoomDocId) startWatchRoom(); }, 3000);
+                if (currentRoomDocId) {
+                    setTimeout(() => { 
+                        if (currentRoomDocId && !isWatchClosing) startWatchRoom(); 
+                    }, 3000);
+                }
             }
         });
     } catch (e) { console.error('启动监听失败:', e); }
