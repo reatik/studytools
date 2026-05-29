@@ -78,18 +78,19 @@ body {
     object-fit: contain;
 }
 
-/* 统一筛选面板 */
+
+
 .filter-panel {
     position: fixed;
     top: 60px;
     right: 12px;
-    width: 220px;
+    width: 200px;
     background: rgba(255,255,255,0.98);
     backdrop-filter: blur(16px);
     border-radius: 14px;
     box-shadow: 0 8px 24px rgba(90,75,117,0.25);
     border: 1px solid rgba(126,87,194,0.15);
-    padding: 12px 14px;
+    padding: 14px;
     z-index: 998;
     display: none;
 }
@@ -97,120 +98,59 @@ body {
     display: block;
 }
 .filter-group {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
-.filter-group:last-child {
-    margin-bottom: 0;
+.filter-group:last-of-type {
+    margin-bottom: 12px;
 }
 .filter-title {
     font-size: 12px;
     color: #666;
-    margin-bottom: 6px;
-    font-weight: 50;
+    margin-bottom: 4px;
+    font-weight: 500;
 }
-.filter-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-.filter-tag {
-    padding: 4px 10px;
+.filter-select {
+    width: 100%;
+    padding: 6px 10px;
     border-radius: 8px;
-    font-size: 12px;
+    border: 1px solid #d1c4e9;
     background: #f5f1fc;
     color: #5A4B75;
+    font-size: 13px;
+    outline: none;
     cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid transparent;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235A4B75' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
 }
-.filter-tag.active {
-    background: #7E57C2;
-    color: #fff;
+.filter-select:focus {
+    border-color: #7E57C2;
+    box-shadow: 0 0 0 2px rgba(126,87,194,0.2);
 }
-.filter-tag.all {
-    background: #f1f1f1;
-    color: #666;
-}
-
-/* 清空错题按钮 */
-.clear-wrong-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.95);
-    border: 1px solid rgba(211,47,47,0.2);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    backdrop-filter: blur(8px);
-    transition: all 0.2s;
-    position: relative;
-}
-.clear-wrong-btn.show {
+.filter-actions {
     display: flex;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(126,87,194,0.12);
 }
-.clear-wrong-btn:hover {
-    border-color: #d32f2f;
-    background: rgba(255,235,238,0.95);
-}
-.clear-wrong-btn svg {
-    width: 20px;
-    height: 20px;
-    fill: #d32f2f;
-}
-body.night-mode .clear-wrong-btn {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(211,47,47,0.35);
-}
-body.night-mode .clear-wrong-btn:hover {
-    background: rgba(211,47,47,0.2);
-    border-color: #f44336;
-}
-
-/* 清空收藏按钮 */
-.clear-fav-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.95);
+.filter-action-btn {
+    flex: 1;
+    padding: 6px 0;
+    border-radius: 8px;
     border: 1px solid rgba(211,47,47,0.2);
-    display: none;
-    align-items: center;
-    justify-content: center;
+    background: #fff5f5;
+    color: #c62828;
+    font-size: 11px;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    backdrop-filter: blur(8px);
     transition: all 0.2s;
-    position: relative;
 }
-.clear-fav-btn.show {
-    display: flex;
-}
-.clear-fav-btn:hover {
+.filter-action-btn:hover {
+    background: #ffebee;
     border-color: #d32f2f;
-    background: rgba(255,235,238,0.95);
-}
-.clear-fav-btn svg {
-    width: 20px;
-    height: 20px;
-    fill: #d32f2f;
-}
-body.night-mode .clear-fav-btn {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(211,47,47,0.35);
-}
-body.night-mode .clear-fav-btn:hover {
-    background: rgba(211,47,47,0.2);
-    border-color: #f44336;
-}
-
-.unit-placeholder {
-    display: inline-block;
-    font-size: 12px;
-    color: #aaa;
-    line-height: 28px;
 }
 
 /* ===== 右侧浮动操作栏 ===== */
@@ -815,7 +755,6 @@ body.night-mode .word-hint {
     color: #999;
 }
 
-/* 夜间模式 - 筛选面板 */
 body.night-mode .filter-panel {
     background: rgba(36,42,56,0.98);
     border-color: rgba(126,87,194,0.25);
@@ -823,20 +762,24 @@ body.night-mode .filter-panel {
 body.night-mode .filter-title {
     color: #ccc;
 }
-body.night-mode .filter-tag {
+body.night-mode .filter-select {
     background: #2a3040;
     color: #d0d8e8;
+    border-color: #4a4560;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d0d8e8' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
 }
-body.night-mode .filter-tag.active {
-    background: #7E57C2;
-    color: #fff;
+body.night-mode .filter-select:focus {
+    border-color: #7E57C2;
+    box-shadow: 0 0 0 2px rgba(126,87,194,0.3);
 }
-body.night-mode .filter-tag.all {
-    background: #2d3342;
-    color: #aaa;
+body.night-mode .filter-action-btn {
+    background: rgba(211,47,47,0.15);
+    border-color: rgba(211,47,47,0.3);
+    color: #ef9a9a;
 }
-body.night-mode .unit-placeholder {
-    color: #666;
+body.night-mode .filter-action-btn:hover {
+    background: rgba(211,47,47,0.25);
+    border-color: #f44336;
 }
 
 /* ===== Toast 提示 ===== */
@@ -900,14 +843,8 @@ body.night-mode .mode-toast {
             <div class="option-menu-btn" id="only-fav-btn" title="收藏模式">
                 <img src="../../../images/收藏3.png" alt="收藏">
             </div>
-            <div class="clear-fav-btn" id="clear-fav-btn" title="清空所有收藏">
-                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-            </div>
             <div class="option-menu-btn" id="only-wrong-btn" title="错题模式">
                 <img src="../../../images/错题1.png" alt="错题">
-            </div>
-            <div class="clear-wrong-btn" id="clear-wrong-btn" title="清空所有错题">
-                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
             </div>
             <div class="option-menu-btn" id="option-menu-btn" title="筛选选项">
                 <img src="../../../images/选项.png" alt="选项">
@@ -915,19 +852,23 @@ body.night-mode .mode-toast {
             <div class="filter-panel" id="filter-panel">
                 <div class="filter-group">
                     <div class="filter-title">题型</div>
-                    <div class="filter-tags" id="type-tags"></div>
+                    <select id="type-select" class="filter-select"><option value="">全部</option></select>
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">年级</div>
-                    <div class="filter-tags" id="grade-tags"></div>
+                    <select id="grade-select" class="filter-select"><option value="">全部</option></select>
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">单元</div>
-                    <div class="filter-tags" id="unit-tags"></div>
+                    <select id="unit-select" class="filter-select"><option value="">全部</option></select>
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">考点</div>
-                    <div class="filter-tags" id="knowledge-tags"></div>
+                    <select id="knowledge-select" class="filter-select"><option value="">全部</option></select>
+                </div>
+                <div class="filter-actions">
+                    <button class="filter-action-btn" id="clear-wrong-btn">清空错题</button>
+                    <button class="filter-action-btn" id="clear-fav-btn">清空收藏</button>
                 </div>
             </div>
         </div>
@@ -957,13 +898,11 @@ body.night-mode .mode-toast {
         let lastQuestionId = localStorage.getItem('lastQuestionId') || null;
         let questionFavs = new Set();
 
-        // 多选筛选集合
-        let selectedTypes = new Set();
-        let selectedGrades = new Set();
-        let selectedUnits = new Set();
-        let selectedKnowledges = new Set();
+        let selectedType = '';
+        let selectedGrade = '';
+        let selectedUnit = '';
+        let selectedKnowledge = '';
 
-        // DOM
         const questionArea = document.getElementById('question-area');
         const onlyWrongBtn = document.getElementById('only-wrong-btn');
         const onlyFavBtn = document.getElementById('only-fav-btn');
@@ -971,8 +910,11 @@ body.night-mode .mode-toast {
         const clearFavBtn = document.getElementById('clear-fav-btn');
         const optionMenuBtn = document.getElementById('option-menu-btn');
         const filterPanel = document.getElementById('filter-panel');
+        const typeSelect = document.getElementById('type-select');
+        const gradeSelect = document.getElementById('grade-select');
+        const unitSelect = document.getElementById('unit-select');
+        const knowledgeSelect = document.getElementById('knowledge-select');
 
-        // ---------- 右上角筛选面板 ----------
         function getUniqueList(key) {
             let set = new Set();
             allQuestions.forEach(q => {
@@ -984,75 +926,51 @@ body.night-mode .mode-toast {
 
         function getFilteredUnits() {
             let set = new Set();
-            let base = selectedGrades.size > 0 ? allQuestions.filter(q => selectedGrades.has(q.grade)) : [];
+            let base = selectedGrade ? allQuestions.filter(q => q.grade === selectedGrade) : allQuestions;
             base.forEach(q => { if (q.unit) set.add(q.unit); });
             return Array.from(set).sort();
         }
 
-        function renderFilterTags() {
-            // 题型
-            renderTagGroup('type-tags', getUniqueList('type'), selectedTypes);
-            // 年级
-            renderTagGroup('grade-tags', getUniqueList('grade'), selectedGrades);
-            // 单元（根据已选年级动态显示）
-            let filteredUnits = getFilteredUnits();
-            if (selectedGrades.size === 0) {
-                // 未选年级：显示占位提示
-                renderUnitPlaceholder();
-            } else if (selectedGrades.size === getUniqueList('grade').length) {
-                // 全选年级：显示全部单元
-                renderTagGroup('unit-tags', getUniqueList('unit'), selectedUnits);
-            } else {
-                // 已选特定年级：只显示对应单元
-                for (let u of selectedUnits) {
-                    if (!filteredUnits.includes(u)) selectedUnits.delete(u);
-                }
-                renderTagGroup('unit-tags', filteredUnits, selectedUnits);
-            }
-            // 考点
-            renderTagGroup('knowledge-tags', getUniqueList('knowledge_point'), selectedKnowledges);
-        }
-
-        function renderUnitPlaceholder() {
-            const container = document.getElementById('unit-tags');
-            container.innerHTML = '<span class="unit-placeholder">请先选择年级</span>';
-        }
-
-        function renderTagGroup(containerId, list, selectedSet) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-
-            const allTag = document.createElement('div');
-            allTag.className = 'filter-tag all';
-            allTag.textContent = '全部';
-            allTag.onclick = () => {
-                // 切换：全选 ⟷ 全不选
-                if (selectedSet.size >= list.length) {
-                    selectedSet.clear();
-                } else {
-                    list.forEach(item => selectedSet.add(item));
-                }
-                renderFilterTags();
-                doFilter();
-                if (!isOnlyWrongMode) saveAllData();
-            };
-            container.appendChild(allTag);
-
+        function populateSelect(selectEl, list, selectedVal) {
+            selectEl.innerHTML = '<option value="">全部</option>';
             list.forEach(item => {
-                const tag = document.createElement('div');
-                tag.className = 'filter-tag';
-                if (selectedSet.has(item)) tag.classList.add('active');
-                tag.textContent = item;
-                tag.onclick = () => {
-                    if (selectedSet.has(item)) selectedSet.delete(item);
-                    else selectedSet.add(item);
-                    renderFilterTags();
-                    doFilter();
-                    if (!isOnlyWrongMode) saveAllData();
-                };
-                container.appendChild(tag);
+                let opt = document.createElement('option');
+                opt.value = item;
+                opt.textContent = item;
+                if (item === selectedVal) opt.selected = true;
+                selectEl.appendChild(opt);
             });
         }
+
+        function renderFilterSelects() {
+            populateSelect(typeSelect, getUniqueList('type'), selectedType);
+            populateSelect(gradeSelect, getUniqueList('grade'), selectedGrade);
+            populateSelect(unitSelect, getFilteredUnits(), selectedUnit);
+            populateSelect(knowledgeSelect, getUniqueList('knowledge_point'), selectedKnowledge);
+        }
+
+        typeSelect.onchange = () => {
+            selectedType = typeSelect.value;
+            doFilter();
+            if (!isOnlyWrongMode) saveAllData();
+        };
+        gradeSelect.onchange = () => {
+            selectedGrade = gradeSelect.value;
+            selectedUnit = '';
+            populateSelect(unitSelect, getFilteredUnits(), selectedUnit);
+            doFilter();
+            if (!isOnlyWrongMode) saveAllData();
+        };
+        unitSelect.onchange = () => {
+            selectedUnit = unitSelect.value;
+            doFilter();
+            if (!isOnlyWrongMode) saveAllData();
+        };
+        knowledgeSelect.onchange = () => {
+            selectedKnowledge = knowledgeSelect.value;
+            doFilter();
+            if (!isOnlyWrongMode) saveAllData();
+        };
 
         optionMenuBtn.onclick = (e) => {
             e.stopPropagation();
@@ -1082,20 +1000,19 @@ body.night-mode .mode-toast {
             }
         }
 
-        // 综合筛选
         function filterQuestions() {
             let res = [...allQuestions];
-            if (selectedTypes.size > 0 && selectedTypes.size !== getUniqueList('type').length) {
-                res = res.filter(q => !q.type || selectedTypes.has(q.type));
+            if (selectedType) {
+                res = res.filter(q => q.type === selectedType);
             }
-            if (selectedGrades.size > 0 && selectedGrades.size !== getUniqueList('grade').length) {
-                res = res.filter(q => !q.grade || selectedGrades.has(q.grade));
+            if (selectedGrade) {
+                res = res.filter(q => q.grade === selectedGrade);
             }
-            if (selectedUnits.size > 0 && selectedUnits.size !== getUniqueList('unit').length) {
-                res = res.filter(q => !q.unit || selectedUnits.has(q.unit));
+            if (selectedUnit) {
+                res = res.filter(q => q.unit === selectedUnit);
             }
-            if (selectedKnowledges.size > 0 && selectedKnowledges.size !== getUniqueList('knowledge_point').length) {
-                res = res.filter(q => !q.knowledge_point || selectedKnowledges.has(q.knowledge_point));
+            if (selectedKnowledge) {
+                res = res.filter(q => q.knowledge_point === selectedKnowledge);
             }
             if (isOnlyWrongMode) {
                 // 错题模式：只显示做错的题目
@@ -1559,10 +1476,10 @@ body.night-mode .mode-toast {
             localStorage.setItem('questionAttempts', JSON.stringify(questionAttempts));
             localStorage.setItem('questionCorrectStatus', JSON.stringify(questionCorrectStatus));
             localStorage.setItem('questionStats', JSON.stringify(questionStats));
-            localStorage.setItem('filterTypes', JSON.stringify([...selectedTypes]));
-            localStorage.setItem('filterGrades', JSON.stringify([...selectedGrades]));
-            localStorage.setItem('filterUnits', JSON.stringify([...selectedUnits]));
-            localStorage.setItem('filterKnowledges', JSON.stringify([...selectedKnowledges]));
+            localStorage.setItem('filterType', selectedType);
+            localStorage.setItem('filterGrade', selectedGrade);
+            localStorage.setItem('filterUnit', selectedUnit);
+            localStorage.setItem('filterKnowledge', selectedKnowledge);
             localStorage.setItem('questionFavs', JSON.stringify([...questionFavs]));
             localStorage.setItem('isOnlyFavMode', JSON.stringify(isOnlyFavMode));
         }
@@ -1572,10 +1489,10 @@ body.night-mode .mode-toast {
                 questionAttempts = JSON.parse(localStorage.getItem('questionAttempts')) || {};
                 questionCorrectStatus = JSON.parse(localStorage.getItem('questionCorrectStatus')) || {};
                 questionStats = JSON.parse(localStorage.getItem('questionStats')) || {};
-                selectedTypes = new Set(JSON.parse(localStorage.getItem('filterTypes')) || []);
-                selectedGrades = new Set(JSON.parse(localStorage.getItem('filterGrades')) || []);
-                selectedUnits = new Set(JSON.parse(localStorage.getItem('filterUnits')) || []);
-                selectedKnowledges = new Set(JSON.parse(localStorage.getItem('filterKnowledges')) || []);
+                selectedType = localStorage.getItem('filterType') || '';
+                selectedGrade = localStorage.getItem('filterGrade') || '';
+                selectedUnit = localStorage.getItem('filterUnit') || '';
+                selectedKnowledge = localStorage.getItem('filterKnowledge') || '';
                 questionFavs = new Set(JSON.parse(localStorage.getItem('questionFavs')) || []);
                 isOnlyFavMode = JSON.parse(localStorage.getItem('isOnlyFavMode')) || false;
             } catch (e) {}
@@ -1597,19 +1514,17 @@ body.night-mode .mode-toast {
         // 备份正常模式下的筛选状态
         let savedFilterState = null;
 
-        function selectAllFilters() {
-            getUniqueList('type').forEach(v => selectedTypes.add(v));
-            getUniqueList('grade').forEach(v => selectedGrades.add(v));
-            getUniqueList('unit').forEach(v => selectedUnits.add(v));
-            getUniqueList('knowledge_point').forEach(v => selectedKnowledges.add(v));
+        function clearAllFilters() {
+            selectedType = '';
+            selectedGrade = '';
+            selectedUnit = '';
+            selectedKnowledge = '';
         }
 
         function toggleOnlyWrongMode() {
             isOnlyWrongMode = !isOnlyWrongMode;
             onlyWrongBtn.classList.toggle('active', isOnlyWrongMode);
-            clearWrongBtn.classList.toggle('show', isOnlyWrongMode);
             if (isOnlyWrongMode) {
-                // 进入错题本：保存当前位置，关闭收藏模式，备份筛选，全选
                 if (isOnlyFavMode) {
                     lastFavIndex = currentIndex;
                     isOnlyFavMode = false;
@@ -1620,30 +1535,25 @@ body.night-mode .mode-toast {
                 }
                 if (!savedFilterState) {
                     savedFilterState = {
-                        types: new Set([...selectedTypes]),
-                        grades: new Set([...selectedGrades]),
-                        units: new Set([...selectedUnits]),
-                        knowledges: new Set([...selectedKnowledges]),
+                        type: selectedType,
+                        grade: selectedGrade,
+                        unit: selectedUnit,
+                        knowledge: selectedKnowledge,
                     };
                 }
-                selectedTypes.clear();
-                selectedGrades.clear();
-                selectedUnits.clear();
-                selectedKnowledges.clear();
-                selectAllFilters();
+                clearAllFilters();
             } else {
-                // 退出错题本：保存错题位置，恢复之前备份的筛选状态
                 lastWrongIndex = currentIndex;
                 if (savedFilterState) {
-                    selectedTypes = savedFilterState.types;
-                    selectedGrades = savedFilterState.grades;
-                    selectedUnits = savedFilterState.units;
-                    selectedKnowledges = savedFilterState.knowledges;
+                    selectedType = savedFilterState.type;
+                    selectedGrade = savedFilterState.grade;
+                    selectedUnit = savedFilterState.unit;
+                    selectedKnowledge = savedFilterState.knowledge;
                     savedFilterState = null;
                 }
             }
             let targetIdx = isOnlyWrongMode ? lastWrongIndex : lastNormalIndex;
-            renderFilterTags();
+            renderFilterSelects();
             doFilter(targetIdx);
             saveAllData();
         }
@@ -1654,22 +1564,19 @@ body.night-mode .mode-toast {
             lastWrongIndex = 0;
             saveAllData();
             if (isOnlyWrongMode) {
-                // 在错题模式下，清空后自动退出错题模式
                 isOnlyWrongMode = false;
                 onlyWrongBtn.classList.remove('active');
-                clearWrongBtn.classList.remove('show');
                 if (savedFilterState) {
-                    selectedTypes = savedFilterState.types;
-                    selectedGrades = savedFilterState.grades;
-                    selectedUnits = savedFilterState.units;
-                    selectedKnowledges = savedFilterState.knowledges;
+                    selectedType = savedFilterState.type;
+                    selectedGrade = savedFilterState.grade;
+                    selectedUnit = savedFilterState.unit;
+                    selectedKnowledge = savedFilterState.knowledge;
                     savedFilterState = null;
                 }
-                renderFilterTags();
+                renderFilterSelects();
                 doFilter(lastNormalIndex);
                 saveAllData();
             } else {
-                // 不在错题模式下，刷新当前视图
                 doFilter(currentIndex);
             }
             showToast('已清空所有错题');
@@ -1678,28 +1585,23 @@ body.night-mode .mode-toast {
         function toggleOnlyFavMode() {
             isOnlyFavMode = !isOnlyFavMode;
             onlyFavBtn.classList.toggle('active', isOnlyFavMode);
-            clearFavBtn.classList.toggle('show', isOnlyFavMode);
             if (isOnlyFavMode) {
-                // 进入收藏模式：保存当前位置，关闭错题模式
                 if (isOnlyWrongMode) {
                     lastWrongIndex = currentIndex;
                     isOnlyWrongMode = false;
                     onlyWrongBtn.classList.remove('active');
-                    clearWrongBtn.classList.remove('show');
-                    // 恢复筛选
                     if (savedFilterState) {
-                        selectedTypes = savedFilterState.types;
-                        selectedGrades = savedFilterState.grades;
-                        selectedUnits = savedFilterState.units;
-                        selectedKnowledges = savedFilterState.knowledges;
+                        selectedType = savedFilterState.type;
+                        selectedGrade = savedFilterState.grade;
+                        selectedUnit = savedFilterState.unit;
+                        selectedKnowledge = savedFilterState.knowledge;
                         savedFilterState = null;
                     }
-                    renderFilterTags();
+                    renderFilterSelects();
                 } else {
                     lastNormalIndex = currentIndex;
                 }
             } else {
-                // 退出收藏模式：保存收藏位置
                 lastFavIndex = currentIndex;
             }
             let targetIdx = isOnlyFavMode ? lastFavIndex : lastNormalIndex;
@@ -1713,14 +1615,11 @@ body.night-mode .mode-toast {
             lastFavIndex = 0;
             saveAllData();
             if (isOnlyFavMode) {
-                // 在收藏模式下，清空后自动退出收藏模式
                 isOnlyFavMode = false;
                 onlyFavBtn.classList.remove('active');
-                clearFavBtn.classList.remove('show');
                 doFilter(lastNormalIndex);
                 saveAllData();
             } else {
-                // 不在收藏模式下，刷新当前视图
                 doFilter(currentIndex);
             }
             showToast('已清空所有收藏');
@@ -2007,7 +1906,7 @@ body.night-mode .mode-toast {
                 let idx = filteredQuestions.findIndex(q => q.id === lastId);
                 if (idx !== -1) currentIndex = idx;
             }
-            renderFilterTags();
+            renderFilterSelects();
             renderCurrent();
             setupSwipe();
 
