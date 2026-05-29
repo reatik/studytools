@@ -1,0 +1,2432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>云开发五子棋</title>
+    <script src="https://static.cloudbase.net/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
+    <script src="../../../common.js"></script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; touch-action: manipulation; }
+        body {
+            font-family: 'Microsoft YaHei', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5efe6, #e8e0d0);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+            color: #333;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+        
+        h2 {
+            color: #5d4037;
+            font-size: 2rem;
+            margin: 15px 0 25px;
+            letter-spacing: 8px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2), 0 0 10px rgba(139, 69, 19, 0.3);
+            position: relative;
+            padding: 10px 30px;
+            background: linear-gradient(135deg, #d4c4a8, #c4b498);
+            border-radius: 12px;
+            border: 2px solid #8b5a2b;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+        .subtitle { color: #aaa; font-size: 0.85rem; margin-bottom: 16px; }
+
+        /* ===== 状态提示 ===== */
+        #status {
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            color: #555;
+            min-height: 24px;
+            margin-bottom: 8px;
+            padding: 4px 16px;
+            border-radius: 20px;
+            background: #fff;
+            transition: color 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        #status.success { color: #81c784; }
+        #status.error { color: #e57373; }
+
+        /* ===== 房间选择区 ===== */
+        #room-section {
+            width: 100%;
+            max-width: 500px;
+        }
+        .room-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .room-card {
+            background: transparent;
+            border-radius: 14px;
+            padding: 14px 10px 12px;
+            text-align: center;
+            transition: all 0.25s;
+            box-shadow: none;
+            color: #d4c5b2;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+.room-card:hover {
+    background: transparent;
+    box-shadow: none;
+    border-color: rgba(255,255,255,0.15);
+}
+        .room-card.full {
+            background: transparent;
+            cursor: default;
+            opacity: 0.6;
+        }
+        .room-card.full:hover { background: transparent; border-color: rgba(255,255,255,0.1); }
+        .room-name { font-size: 1rem; font-weight: bold; margin-bottom: 10px; letter-spacing: 3px; color: #000000; }
+
+        /* 桌子区域（座位+桌子+座位 水平排列） */
+        .room-table-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+        }
+
+        /* 桌子 */
+        .room-table {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #e6c884; /* 棋盘颜色 */
+            transition: all 0.3s;
+        }
+        .room-table::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            border: 2px solid rgba(0,0,0,0.3);
+            border-radius: 4px;
+        }
+        .room-table.playing {
+            background: #66bb6a; /* 绿色 */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        .room-table.playing::after {
+            border-color: rgba(0,0,0,0.12);
+        }
+
+        /* 座位 */
+        .seat {
+            display: flex;
+            align-items: center;
+            margin: 0 3px;
+        }
+        .seat-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid #5d3a1a; /* 木头色边框 */
+    background: #7a4d2a; /* 纯木头色 */
+    color: #f5deb3; /* 米色文字 */
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: none;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(93, 58, 26, 0.4); /* 木头色阴影 */
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+.seat-btn:hover:not(.taken) {
+    transform: none;
+    box-shadow: 0 2px 6px rgba(93, 58, 26, 0.4);
+}
+.seat-btn.taken {
+    border: 2px solid #4a2f12;
+    background: #5d4037; /* 纯深色木头色 */
+    color: #c9b896;
+    font-size: 0.65rem;
+    cursor: default;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+        /* ===== 游戏区 ===== */
+        #game-section {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5efe6, #e8e0d0);
+            padding: 16px;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        #game-section.show { display: flex; }
+
+        .score-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: linear-gradient(135deg, #8b5a2b, #6b4423); /* 木质背景 */
+            border-radius: 12px;
+            padding: 10px 20px;
+            margin: 8px 0;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+            border: 2px solid #4a3015;
+        }
+        .player-info {
+            flex: 1;
+            text-align: center;
+            padding: 10px 12px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            visibility: hidden;
+            background: rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .player-info.show {
+            visibility: visible;
+        }
+        /* 黑方：纯黑色 */
+        #p1-info {
+            background: linear-gradient(135deg, #222, #000);
+            border: 2px solid #444;
+        }
+        #p1-info .pname { color: #fff; }
+        #p1-info .pscore { color: #fff; }
+        #p1-info.active {
+            border-color: #ffd700;
+            box-shadow: 0 0 12px rgba(255,215,0,0.4);
+            background: linear-gradient(135deg, #333, #111);
+        }
+        /* 白方：纯白色 */
+        #p2-info {
+            background: linear-gradient(135deg, #fff, #ddd);
+            border: 2px solid #bbb;
+        }
+        #p2-info .pname { color: #333; }
+        #p2-info .pscore { color: #333; }
+        #p2-info.active {
+            border-color: #ffd700;
+            box-shadow: 0 0 12px rgba(255,215,0,0.4);
+            background: linear-gradient(135deg, #fff, #eee);
+        }
+        .player-info .pname { font-size: 0.9rem; font-weight: bold; }
+        .player-info .pscore { font-size: 1.3rem; font-weight: bold; margin-top: 2px; }
+        .player-info .picon {
+            display: none;
+            font-size: 0.75rem;
+            margin-left: 4px;
+        }
+        .vs-text { font-size: 0.9rem; color: #bbb; }
+
+        #game-container {
+            position: relative;
+            width: min(88vw, 440px);
+            height: min(88vw, 440px);
+        }
+        #board-wrapper {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 18px;
+            background: linear-gradient(145deg, #4e342e, #6d4c41);
+            border-radius: 16px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        #board-wrapper.glow-yellow {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 16px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+        #board {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            touch-action: none;
+        }
+        #board.blocked { cursor: default; }
+
+        /* ===== 胜利弹窗 ===== */
+        #victory-overlay {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.55);
+            display: none;
+            align-items: center; justify-content: center;
+            border-radius: 14px; z-index: 20;
+        }
+        #victory-overlay.show { display: flex; }
+        .victory-box {
+            background: #fff; border-radius: 14px;
+            padding: 28px 36px; text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .victory-box .winner-text { font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; }
+        .victory-box .winner-text.black { color: #222; }
+        .victory-box .winner-text.white { color: #e6a817; }
+
+        /* ===== 按钮 ===== */
+        .btn {
+            padding: 10px 22px;
+            border: 2px solid #4a3015; border-radius: 10px;
+            font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; color: #fff;
+            transition: all 0.2s;
+            margin: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+            letter-spacing: 1px;
+        }
+        .btn:active { transform: scale(0.95); }
+        .btn-leave { 
+            background: linear-gradient(135deg, #8b4513, #6b350d); 
+            border-color: #4a2508;
+        }
+        .btn-again { background: linear-gradient(135deg, #27ae60, #1e8449); border-color: #155d32; }
+        .btn-undo { 
+            background: linear-gradient(135deg, #a0522d, #8b4513); 
+            border-color: #5d3a1a;
+        }
+        .btn-surrender {
+            background: linear-gradient(135deg, #c0392b, #96281b);
+            border-color: #7b241c;
+        }
+        .btn-refresh { background: linear-gradient(135deg, #5d6d7e, #3e4d5e); font-size: 0.8rem; padding: 6px 14px; }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        /* 等待/准备遮罩 */
+        #wait-overlay {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center; justify-content: center;
+            border-radius: 14px; z-index: 10;
+            flex-direction: column;
+        }
+        #wait-overlay.show { display: flex; }
+        .btn-ready { background: linear-gradient(135deg, #4CAF50, #388E3C); font-size: 0.95rem; padding: 10px 32px; border-color: #2e7d32; }
+        .btn-ready-cancel { background: linear-gradient(135deg, #e74c3c, #c0392b); font-size: 0.95rem; padding: 10px 32px; border-color: #b71c1c; }
+
+        /* 准备面板 */
+        #ready-panel {
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(6px);
+            padding: 22px 30px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        #ready-status {
+            font-size: 0.95rem;
+            color: #ccc;
+            margin-bottom: 14px;
+        }
+
+        /* 悔棋按钮禁用状态 */
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            pointer-events: none;
+            filter: grayscale(50%);
+        }
+
+        /* 悔棋确认弹窗 */
+        #undo-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 30;
+        }
+        #undo-overlay.show { display: flex; }
+        .undo-box {
+            background: #fff;
+            border-radius: 14px;
+            padding: 24px 32px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            max-width: 300px;
+            animation: popIn 0.3s ease;
+        }
+        .undo-box .undo-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .undo-box .undo-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .undo-box .btn-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        /* 认输确认弹窗 */
+        #surrender-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 30;
+        }
+        #surrender-overlay.show { display: flex; }
+        .surrender-box {
+            background: #fff;
+            border-radius: 14px;
+            padding: 24px 32px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            max-width: 300px;
+            animation: popIn 0.3s ease;
+        }
+        .surrender-box .surrender-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .surrender-box .surrender-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .surrender-box .btn-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>五子棋</h2>
+    <div id="status"></div>
+
+    <!-- 房间选择区 -->
+    <div id="room-section">
+        <div class="room-grid" id="roomGrid">
+            <div style="text-align:center; padding:20px; color:#888; grid-column:1/-1;">加载房间中...</div>
+        </div>
+    </div>
+
+    <!-- 游戏区 -->
+    <div id="game-section">
+        <div class="score-bar">
+            <div class="player-info" id="p1-info">
+                <span class="pname">玩家1</span>
+                <div class="pscore" id="p1-score">0</div>
+            </div>
+            <span class="vs-text">VS</span>
+            <div class="player-info" id="p2-info">
+                <span class="pname">玩家2</span>
+                <div class="pscore" id="p2-score">0</div>
+            </div>
+        </div>
+
+        <div id="game-container">
+            <div id="board-wrapper">
+                <canvas id="board" class="blocked"></canvas>
+            </div>
+            <div id="wait-overlay">
+                <div id="ready-panel" style="display:none;">
+                    <div id="ready-status"></div>
+                    <div id="ready-btns">
+                        <button class="btn btn-ready" id="btn-ready" onclick="toggleReady()">准备</button>
+                        <button class="btn btn-ready-cancel" id="btn-ready-cancel" onclick="cancelReady()" style="display:none;">取消准备</button>
+                    </div>
+                </div>
+            </div>
+            <div id="victory-overlay">
+                <div class="victory-box">
+                    <div class="winner-text" id="winner-text"></div>
+                    <div id="restart-msg" style="font-size:0.85rem;color:#888;margin:8px 0;"></div>
+                    <button class="btn btn-again" id="btn-again" onclick="isLocalGame ? localPlayAgain() : playAgain()">再来一局</button>
+                    <button class="btn btn-leave" onclick="isLocalGame ? exitLocalGame() : leaveRoom()">退出房间</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn btn-undo" id="btn-undo" onclick="requestUndo()">悔棋</button>
+            <button class="btn btn-surrender" id="btn-surrender" onclick="confirmSurrender()">认输</button>
+            <button class="btn btn-leave" onclick="isLocalGame ? exitLocalGame() : leaveRoom()">退出房间</button>
+        </div>
+
+    </div>
+
+    <!-- 悔棋确认弹窗 -->
+    <div id="undo-overlay">
+        <div class="undo-box">
+            <div class="undo-title" id="undo-title">悔棋申请</div>
+            <div class="undo-desc" id="undo-desc"></div>
+            <div class="btn-row">
+                <button class="btn btn-again" id="btn-undo-approve" onclick="approveUndo()">同意</button>
+                <button class="btn btn-leave" id="btn-undo-reject" onclick="rejectUndo()">拒绝</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 认输确认弹窗 -->
+    <div id="surrender-overlay">
+        <div class="surrender-box">
+            <div class="surrender-title">确认认输</div>
+            <div class="surrender-desc">认输后将判对方获胜，确定要认输吗？</div>
+            <div class="btn-row">
+                <button class="btn btn-surrender" onclick="doSurrender()">确认认输</button>
+                <button class="btn btn-again" onclick="cancelSurrender()">再想想</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ============ 常量 ============
+    const BOARD_SIZE = 15;
+    const TOTAL_CELLS = BOARD_SIZE * BOARD_SIZE;
+    const ROOM_COUNT = 10;
+    const COLLECTION = 'wuziqi_rooms'; // 数据库集合名
+    const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 无操作5分钟自动踢出
+    const READY_TIMEOUT = 1 * 60 * 1000; // 准备超时1分钟自动踢出
+    const USE_LOCAL_STORAGE = false; // 使用云端 CloudBase 数据库
+    const AUTO_RESTART_DELAY = 3000; // 每局结束后自动重启延迟（毫秒）
+
+    // ============ 本地数据库模拟类（用于调试） ============
+    class LocalDB {
+        constructor() {
+            this.collections = {};
+            this._loadFromStorage();
+        }
+        
+        _loadFromStorage() {
+            try {
+                const data = localStorage.getItem('local_db_' + COLLECTION);
+                if (data) {
+                    this.collections[COLLECTION] = JSON.parse(data);
+                }
+            } catch (e) {
+                console.warn('加载本地数据失败:', e);
+            }
+        }
+        
+        _saveToStorage() {
+            try {
+                localStorage.setItem('local_db_' + COLLECTION, JSON.stringify(this.collections[COLLECTION] || []));
+            } catch (e) {
+                console.warn('保存本地数据失败:', e);
+            }
+        }
+        
+        collection(name) {
+            if (!this.collections[name]) {
+                this.collections[name] = [];
+            }
+            return new LocalCollection(this, name);
+        }
+    }
+    
+    class LocalCollection {
+        constructor(db, name) {
+            this.db = db;
+            this.name = name;
+        }
+        
+        add(data) {
+            const doc = {
+                _id: 'doc_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+                ...data
+            };
+            this.db.collections[this.name].push(doc);
+            this.db._saveToStorage();
+            return Promise.resolve({ _id: doc._id });
+        }
+        
+        doc(id) {
+            return new LocalDocument(this.db, this.name, id);
+        }
+        
+        where(conditions) {
+            return new LocalQuery(this.db, this.name, conditions);
+        }
+        
+        orderBy(field, order) {
+            return new LocalQuery(this.db, this.name, {}, field, order);
+        }
+        
+        limit(num) {
+            return new LocalQuery(this.db, this.name, {}, null, null, num);
+        }
+        
+        get() {
+            const data = this.db.collections[this.name] || [];
+            return Promise.resolve({ data });
+        }
+    }
+    
+    class LocalDocument {
+        constructor(db, collectionName, id) {
+            this.db = db;
+            this.collectionName = collectionName;
+            this.id = id;
+        }
+        
+        update(data) {
+            const collection = this.db.collections[this.collectionName];
+            const index = collection.findIndex(doc => doc._id === this.id);
+            if (index !== -1) {
+                collection[index] = { ...collection[index], ...data };
+                this.db._saveToStorage();
+            }
+            return Promise.resolve({ updated: true });
+        }
+        
+        get() {
+            const collection = this.db.collections[this.collectionName];
+            const doc = collection.find(d => d._id === this.id);
+            return Promise.resolve({ data: doc ? [doc] : [] });
+        }
+    }
+    
+    class LocalQuery {
+        constructor(db, collectionName, conditions = {}, orderByField = null, orderByDirection = 'asc', limitNum = null) {
+            this.db = db;
+            this.collectionName = collectionName;
+            this.conditions = conditions;
+            this.orderByField = orderByField;
+            this.orderByDirection = orderByDirection;
+            this.limitNum = limitNum;
+        }
+        
+        where(conditions) {
+            this.conditions = { ...this.conditions, ...conditions };
+            return this;
+        }
+        
+        orderBy(field, direction) {
+            this.orderByField = field;
+            this.orderByDirection = direction;
+            return this;
+        }
+        
+        limit(num) {
+            this.limitNum = num;
+            return this;
+        }
+        
+        get() {
+            let data = this.db.collections[this.collectionName] || [];
+            
+            // 过滤
+            if (Object.keys(this.conditions).length > 0) {
+                data = data.filter(doc => {
+                    for (const [key, value] of Object.entries(this.conditions)) {
+                        if (doc[key] !== value) return false;
+                    }
+                    return true;
+                });
+            }
+            
+            // 排序
+            if (this.orderByField) {
+                data = [...data].sort((a, b) => {
+                    const aVal = a[this.orderByField];
+                    const bVal = b[this.orderByField];
+                    if (aVal < bVal) return this.orderByDirection === 'asc' ? -1 : 1;
+                    if (aVal > bVal) return this.orderByDirection === 'asc' ? 1 : -1;
+                    return 0;
+                });
+            }
+            
+            // 限制数量
+            if (this.limitNum !== null) {
+                data = data.slice(0, this.limitNum);
+            }
+            
+            return Promise.resolve({ data });
+        }
+    }
+    
+    // ============ 全局变量 ============
+    let db = null;
+    let watcher = null;
+    let myUserId = '';
+    let currentRoomId = '';      // 房间名，如 "room1"
+    let currentRoomDocId = '';   // 数据库 _id
+    let myRole = 0;              // 1=黑方(player1), 2=白方(player2)
+    let gameOver = false;
+    let roomStarted = false;       // 游戏是否已开始（同步自数据库 started 字段）
+    let roomCurrentPlayer = 1;     // 当前轮到谁（同步自数据库 currentPlayer 字段）
+    let inactivityTimer = null;   // 全局无操作超时定时器
+    let readyTimer = null;       // 准备超时定时器
+    let autoRestartTimer = null; // 自动重启新一局的定时器
+    let lastInactivityTimestamp = 0; // 无操作最后时间戳
+    let lastReadyTimestamp = 0; // 准备阶段最后时间戳
+    let inactivityIntervalId = null; // 无操作检查的interval
+    let readyIntervalId = null; // 准备检查的interval
+    let heartbeatIntervalId = null; // 心跳interval
+    
+    // 本地双人游戏相关
+    let isLocalGame = false;         // 是否在本地双人游戏模式
+    let localCurrentPlayer = 1;      // 本地游戏当前玩家（1=黑方，2=白方）
+    let localBlackScore = 0;         // 本地游戏黑方分数
+    let localWhiteScore = 0;         // 本地游戏白方分数
+    let localLastMove = { x: -1, y: -1 }; // 本地游戏最后落子位置
+
+    // Canvas 相关
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    let CELL_SIZE, STONE_RADIUS;
+    let boardData = new Array(TOTAL_CELLS).fill(0);
+
+    // DOM
+    const statusEl = document.getElementById('status');
+    const roomSection = document.getElementById('room-section');
+    const gameSection = document.getElementById('game-section');
+    const roomGrid = document.getElementById('roomGrid');
+    const waitOverlay = document.getElementById('wait-overlay');
+    const victoryOverlay = document.getElementById('victory-overlay');
+    const winnerText = document.getElementById('winner-text');
+    const undoBtn = document.getElementById('btn-undo');
+    const undoOverlay = document.getElementById('undo-overlay');
+    const undoTitle = document.getElementById('undo-title');
+    const undoDesc = document.getElementById('undo-desc');
+    const undoApproveBtn = document.getElementById('btn-undo-approve');
+    const undoRejectBtn = document.getElementById('btn-undo-reject');
+    const surrenderBtn = document.getElementById('btn-surrender');
+    const surrenderOverlay = document.getElementById('surrender-overlay');
+
+    // ============ 初始化 ============
+    async function init() {
+        myUserId = getUserId();
+        console.log('用户ID:', myUserId);
+        
+        try {
+            if (USE_LOCAL_STORAGE) {
+                console.log('使用本地存储模式');
+                db = new LocalDB();
+            } else {
+                console.log('尝试连接云端数据库...');
+                const app = await getCloudBaseApp();
+                if (!app) {
+                    console.warn('云端连接失败，切换到本地模式');
+                    db = new LocalDB();
+                } else {
+                    db = app.database();
+                    console.log('云端连接成功');
+                }
+            }
+            
+            setStatus('', '');
+            await ensureRooms();
+            await refreshRooms();
+        } catch (e) {
+            console.error('初始化失败:', e);
+            setStatus('初始化失败：' + e.message, 'error');
+            
+            // 尝试使用本地存储作为备用
+            try {
+                db = new LocalDB();
+                await ensureRooms();
+                await refreshRooms();
+                setStatus('使用本地模式', 'info');
+            } catch (localErr) {
+                console.error('本地模式也失败:', localErr);
+            }
+        }
+    }
+
+    function setStatus(msg, type) {
+        if (!statusEl) return;
+        if (!msg) {
+            statusEl.style.display = 'none';
+            return;
+        }
+        statusEl.style.display = '';
+        statusEl.innerText = msg;
+        statusEl.className = type || '';
+    }
+
+    // ============ 确保10个预设房间存在 ============
+    async function ensureRooms() {
+        try {
+            if (!db) {
+                console.error('ensureRooms: db is null');
+                return;
+            }
+            const res = await db.collection(COLLECTION).limit(20).get();
+            console.log('ensureRooms result:', res);
+            const existing = {};
+            const toDelete = [];
+            
+            // 分类现有房间
+            (res.data || []).forEach(r => {
+                if (r.roomId && r.roomId.startsWith('room')) {
+                    existing[r.roomId] = r;
+                } else {
+                    // 收集不符合标准格式的房间（如"我的房间"）
+                    toDelete.push(r);
+                }
+            });
+
+            // 删除不符合标准格式的房间
+            for (const room of toDelete) {
+                console.log('删除不符合标准格式的房间:', room.roomName || room._id);
+                await db.collection(COLLECTION).doc(room._id).remove();
+            }
+
+            // 创建或更新标准房间
+            for (let i = 1; i <= ROOM_COUNT; i++) {
+                const roomId = 'room' + i;
+                if (!existing[roomId]) {
+                    await db.collection(COLLECTION).add({
+                        roomId: roomId,
+                        roomName: '房间' + i,
+                        player1Id: null,
+                        player1Nickname: null,
+                        player1LastActive: null,
+                        player2Id: null,
+                        player2Nickname: null,
+                        player2LastActive: null,
+                        board: new Array(TOTAL_CELLS).fill(0),
+                        currentPlayer: 1,
+                        gameOver: false,
+                        winner: 0,
+                        blackScore: 0,
+                        whiteScore: 0,
+                        lastMove: { x: -1, y: -1 },
+                        started: false,
+                        player1Ready: false,
+                        player2Ready: false,
+                        undoRequested: 0,      // 0=无申请、1=黑方申请、2=白方申请
+                        undoApproved: false,   // 是否已同意悔棋
+                        lastActiveAt: Date.now() // 最后活跃时间戳
+                    });
+                } else {
+                    // 如果房间已存在但名称不正确，更新名称
+                    if (existing[roomId].roomName !== '房间' + i) {
+                        await db.collection(COLLECTION).doc(existing[roomId]._id).update({
+                            roomName: '房间' + i
+                        });
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('初始化房间失败：', e);
+            throw e;
+        }
+    }
+
+    // ============ 刷新房间列表 ============
+    async function refreshRooms() {
+        roomGrid.innerHTML = '<div style="text-align:center;padding:20px;color:#888;grid-column:1/-1;">加载中...</div>';
+        try {
+            if (!db) {
+                throw new Error('数据库未初始化');
+            }
+            
+            // 清理僵尸房间：超过10分钟无活跃且不在对局中的房间
+            await cleanupZombieRooms();
+            
+            const res = await db.collection(COLLECTION).orderBy('roomId', 'asc').limit(ROOM_COUNT).get();
+            console.log('房间数据:', res);
+            // 按房间号数字排序（修复 room10 排在 room2 前面的问题）
+            const sortedRooms = (res.data || []).sort((a, b) => {
+                const numA = a && a.roomId ? parseInt(a.roomId.replace('room', '')) || 999 : 999;
+                const numB = b && b.roomId ? parseInt(b.roomId.replace('room', '')) || 999 : 999;
+                return numA - numB;
+            });
+            renderRoomList(sortedRooms);
+        } catch (e) {
+            console.error('刷新房间列表失败:', e);
+            const errorMsg = e.message || '未知错误';
+            roomGrid.innerHTML = `<div style="text-align:center;padding:20px;color:#e57373;grid-column:1/-1;">加载失败: ${errorMsg}<br/><button onclick="refreshRooms()" style="margin-top:10px;padding:8px 16px;background:#42a5f5;color:#fff;border:none;border-radius:6px;cursor:pointer;">点击重试</button></div>`;
+        }
+    }
+
+    // ============ 清理僵尸房间 ============
+    const ZOMBIE_TIMEOUT = 10 * 60 * 1000; // 10分钟无活跃且不在对局中的房间视为僵尸房间
+    
+    async function cleanupZombieRooms() {
+        try {
+            const now = Date.now();
+            const res = await db.collection(COLLECTION).limit(ROOM_COUNT + 5).get();
+            const rooms = res.data || [];
+            let cleaned = 0;
+            
+            for (const room of rooms) {
+                if (!room.roomId || !room.roomId.startsWith('room')) continue;
+                
+                const lastActive = room.lastActiveAt || 0;
+                const isInGame = room.started && !room.gameOver;
+                
+                // 超过10分钟无活跃且不在对局中的房间，清空座位、重置为空闲
+                if (!isInGame && (now - lastActive > ZOMBIE_TIMEOUT)) {
+                    console.log('[清理僵尸房间]', room.roomId, '最后活跃:', new Date(lastActive).toLocaleString());
+                    
+                    await db.collection(COLLECTION).doc(room._id).update({
+                        player1Id: null,
+                        player1Nickname: null,
+                        player1LastActive: null,
+                        player2Id: null,
+                        player2Nickname: null,
+                        player2LastActive: null,
+                        board: new Array(TOTAL_CELLS).fill(0),
+                        currentPlayer: 1,
+                        gameOver: false,
+                        winner: 0,
+                        lastMove: { x: -1, y: -1 },
+                        started: false,
+                        player1Ready: false,
+                        player2Ready: false,
+                        undoRequested: 0,
+                        undoApproved: false,
+                        blackScore: 0,
+                        whiteScore: 0,
+                        lastActiveAt: Date.now()
+                    });
+                    cleaned++;
+                }
+            }
+            
+            if (cleaned > 0) {
+                console.log(`[清理僵尸房间] 共清理 ${cleaned} 个僵尸房间`);
+            }
+        } catch (e) {
+            console.warn('[清理僵尸房间失败]', e);
+        }
+    }
+
+    function renderRoomList(rooms) {
+        if (!rooms || rooms.length === 0) {
+            roomGrid.innerHTML = '<div style="text-align:center;padding:20px;color:#888;grid-column:1/-1;">暂无房间</div>';
+            return;
+        }
+
+        let html = '';
+        
+        // 添加本地双人房间（在最前面）
+        html += `
+        <div class="room-card" onclick="startLocalGame()">
+            <div class="room-name" style="visibility:hidden;height:24px;"></div>
+            <div class="room-table-area">
+                <div class="seat">
+                    <div class="seat-btn" onclick="event.stopPropagation();startLocalGame()" title="开始单人游戏">+</div>
+                </div>
+                <div class="room-table" style="color:#555;font-size:14px;font-weight:bold;">单人</div>
+                <div class="seat">
+                    <div class="seat-btn" style="visibility:hidden;"></div>
+                </div>
+            </div>
+        </div>`;
+        
+        // 渲染云端房间
+        rooms.forEach(room => {
+            const p1Taken = !!room.player1Id;
+            const p2Taken = !!room.player2Id;
+            const isFull = p1Taken && p2Taken;
+            const isPlaying = !!room.started;
+
+            html += `
+            <div class="room-card ${isFull ? 'full' : ''}">
+                <div class="room-name" style="visibility:hidden;height:24px;"></div>
+                <div class="room-table-area">
+                    <div class="seat">
+                        <div class="seat-btn ${p1Taken ? 'taken' : ''}" 
+                             onclick="${p1Taken ? '' : `event.stopPropagation();joinRoom('${room.roomId}')`}"
+                             title="${p1Taken ? '已坐' : '入座'}">
+                            ${p1Taken ? '已坐' : '+'}
+                        </div>
+                    </div>
+                    <div class="room-table ${isPlaying ? 'playing' : ''}" style="color:#555;font-size:14px;font-weight:bold;">${isPlaying ? '游戏中' : room.roomName.replace('房间', '')}</div>
+                    <div class="seat">
+                        <div class="seat-btn ${p2Taken ? 'taken' : ''}"
+                             onclick="${p2Taken ? '' : `event.stopPropagation();joinRoom('${room.roomId}')`}"
+                             title="${p2Taken ? '已坐' : '入座'}">
+                            ${p2Taken ? '已坐' : '+'}
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        });
+        roomGrid.innerHTML = html;
+    }
+
+    // ============ 清理用户在所有房间中的旧占用 ============
+    async function cleanupMyOldRooms(excludeRoomId) {
+        try {
+            const res = await db.collection(COLLECTION).limit(ROOM_COUNT + 5).get();
+            const rooms = res.data || [];
+            let cleaned = 0;
+            for (const room of rooms) {
+                if (room.roomId === excludeRoomId) continue;
+                const occupiedRole = (room.player1Id === myUserId) ? 1 : ((room.player2Id === myUserId) ? 2 : 0);
+                if (!occupiedRole) continue;
+
+                console.log('[自我清理] 发现旧占用:', room.roomId, '角色:', occupiedRole);
+                const resetData = {
+                    started: false, gameOver: false, winner: 0, lastMove: { x: -1, y: -1 },
+                    player1Ready: false, player2Ready: false,
+                    board: new Array(TOTAL_CELLS).fill(0),
+                    currentPlayer: 1
+                };
+                if (occupiedRole === 1) {
+                    resetData.player1Id = null;
+                    resetData.player1Nickname = null;
+                    resetData.player1LastActive = null;
+                } else {
+                    resetData.player2Id = null;
+                    resetData.player2Nickname = null;
+                    resetData.player2LastActive = null;
+                }
+                // 对手不在就彻底清空
+                const opponentHere = (occupiedRole === 1 && room.player2Id) || (occupiedRole === 2 && room.player1Id);
+                if (!opponentHere) {
+                    resetData.player1Id = null;
+                    resetData.player1Nickname = null;
+                    resetData.player1LastActive = null;
+                    resetData.player2Id = null;
+                    resetData.player2Nickname = null;
+                    resetData.player2LastActive = null;
+                    resetData.blackScore = 0;
+                    resetData.whiteScore = 0;
+                }
+                await db.collection(COLLECTION).doc(room._id).update(resetData);
+                cleaned++;
+            }
+            if (cleaned > 0) console.log(`[自我清理] 共清理 ${cleaned} 个旧房间`);
+        } catch (e) {
+            console.warn('[自我清理失败]', e);
+        }
+    }
+
+    // ============ 从云端users集合获取昵称 ============
+    async function fetchNicknameFromCloud() {
+        const userId = getUserId();
+        if (userId.startsWith("visitor_")) {
+            return "游客";
+        }
+        
+        const localNickname = localStorage.getItem("game_nickname");
+        if (localNickname && localNickname !== "玩家") {
+            return localNickname;
+        }
+        
+        try {
+            const app = await getCloudBaseApp();
+            if (app) {
+                const cloudDb = app.database();
+                const res = await cloudDb.collection("users").where({ user_id: userId }).get();
+                if (res.data && res.data.length > 0) {
+                    const username = res.data[0].username || res.data[0].nickname || "玩家";
+                    localStorage.setItem("game_nickname", username);
+                    return username;
+                }
+            }
+        } catch (err) {
+            console.log("从users集合获取昵称失败，使用本地缓存:", err);
+        }
+        
+        return localStorage.getItem("game_nickname") || "玩家";
+    }
+
+    // ============ 加入房间 ============
+    async function joinRoom(roomId) {
+        if (!db) return setStatus('未连接数据库', 'error');
+
+        try {
+            // ===== 自我清理：先清理自己在其他房间的旧占用 =====
+            await cleanupMyOldRooms(roomId);
+            const res = await db.collection(COLLECTION).where({ roomId }).limit(1).get();
+            if (!res.data || res.data.length === 0) {
+                return setStatus('房间不存在', 'error');
+            }
+
+            const room = res.data[0];
+
+            // 检查是否已在该房间（刷新页面重连）
+            let mySpot = 0;
+            if (room.player1Id === myUserId) mySpot = 1;
+            if (room.player2Id === myUserId) mySpot = 2;
+
+            const myNickname = await fetchNicknameFromCloud();
+            
+            if (mySpot === 0) {
+                // 新玩家，找空位
+                if (!room.player1Id) {
+                    mySpot = 1;
+                    await db.collection(COLLECTION).doc(room._id).update({ 
+                        player1Id: myUserId,
+                        player1Nickname: myNickname,
+                        player1LastActive: Date.now(),
+                        lastActiveAt: Date.now()
+                    });
+                } else if (!room.player2Id) {
+                    mySpot = 2;
+                    await db.collection(COLLECTION).doc(room._id).update({ 
+                        player2Id: myUserId,
+                        player2Nickname: myNickname,
+                        player2LastActive: Date.now(),
+                        lastActiveAt: Date.now()
+                    });
+                } else {
+                    return setStatus('房间已满，请选择其他房间', 'error');
+                }
+            } else {
+                // 重连时也更新昵称和活跃时间（可能用户后来登录了）
+                if (mySpot === 1) {
+                    await db.collection(COLLECTION).doc(room._id).update({ 
+                        player1Nickname: myNickname,
+                        player1LastActive: Date.now(),
+                        lastActiveAt: Date.now()
+                    });
+                } else {
+                    await db.collection(COLLECTION).doc(room._id).update({ 
+                        player2Nickname: myNickname,
+                        player2LastActive: Date.now(),
+                        lastActiveAt: Date.now()
+                    });
+                }
+            }
+
+            // 设置状态
+            currentRoomId = roomId;
+            currentRoomDocId = room._id;
+            myRole = mySpot;
+            localStorage.setItem('wzq_roomId', roomId);
+            localStorage.setItem('wzq_roomDocId', room._id);
+            localStorage.setItem('wzq_role', mySpot);
+
+            // 切换到游戏界面
+            roomSection.style.display = 'none';
+            gameSection.classList.add('show');
+            updatePlayerNames(room);
+            document.getElementById('p1-info').classList.toggle('show', !!room.player1Id);
+            document.getElementById('p2-info').classList.toggle('show', !!room.player2Id);
+
+            setStatus('已进入 ' + (room.roomName || roomId), 'success');
+            resizeCanvas();
+            drawBoard(room.board || new Array(TOTAL_CELLS).fill(0));
+            resetInactivityTimer();
+            resetReadyTimer();
+            startHeartbeat();
+            startWatchRoom();
+        } catch (e) {
+            setStatus('加入失败：' + e.message, 'error');
+        }
+    }
+
+    // ============ 全局无操作计时器（5分钟） ============
+    function stopInactivityTimer() {
+        if (inactivityIntervalId) {
+            clearInterval(inactivityIntervalId);
+            inactivityIntervalId = null;
+        }
+    }
+
+    function resetInactivityTimer() {
+        stopInactivityTimer();
+        lastInactivityTimestamp = Date.now();
+        inactivityIntervalId = setInterval(() => {
+            const elapsed = Date.now() - lastInactivityTimestamp;
+            if (elapsed >= INACTIVITY_TIMEOUT) {
+                stopInactivityTimer();
+                setStatus('超过5分钟无操作，已被移出房间', 'error');
+                leaveRoom();
+            }
+        }, 1000); // 每秒检查一次
+    }
+
+    // 监听用户各类操作，持续重置无操作计时器
+    ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'].forEach(eventName => {
+        document.addEventListener(eventName, () => {
+            if (currentRoomId) {
+                lastInactivityTimestamp = Date.now();
+            }
+        }, { passive: true });
+    });
+
+    // ============ 心跳：定期更新 lastActiveAt 到数据库 ============
+    const HEARTBEAT_INTERVAL = 30 * 1000; // 每30秒发一次心跳
+
+    function stopHeartbeat() {
+        if (heartbeatIntervalId) {
+            clearInterval(heartbeatIntervalId);
+            heartbeatIntervalId = null;
+        }
+    }
+
+    function startHeartbeat() {
+        stopHeartbeat();
+        heartbeatIntervalId = setInterval(() => {
+            if (currentRoomDocId && myRole) {
+                const field = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
+                db.collection(COLLECTION).doc(currentRoomDocId).update({
+                    [field]: Date.now(),
+                    lastActiveAt: Date.now()
+                }).catch(e => {
+                    console.warn('[心跳] 更新失败:', e);
+                });
+            }
+        }, HEARTBEAT_INTERVAL);
+    }
+
+    // 页面可见性变化监听
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && currentRoomId) {
+            // 页面变为可见时，检查是否已经超时
+            if (lastInactivityTimestamp > 0) {
+                const elapsed = Date.now() - lastInactivityTimestamp;
+                if (elapsed >= INACTIVITY_TIMEOUT) {
+                    stopInactivityTimer();
+                    setStatus('超过5分钟无操作，已被移出房间', 'error');
+                    leaveRoom();
+                }
+            }
+            if (lastReadyTimestamp > 0 && !roomStarted) {
+                const elapsed = Date.now() - lastReadyTimestamp;
+                if (elapsed >= READY_TIMEOUT) {
+                    stopReadyTimer();
+                    setStatus('超过1分钟未准备，已被移出房间', 'error');
+                    leaveRoom();
+                }
+            }
+        }
+    });
+
+    // ============ 准备超时计时器 ============
+    let readyRemainingTime = READY_TIMEOUT / 1000;
+
+    function stopReadyTimer() {
+        if (readyIntervalId) {
+            clearInterval(readyIntervalId);
+            readyIntervalId = null;
+        }
+    }
+
+    function resetReadyTimer() {
+        stopReadyTimer();
+        lastReadyTimestamp = Date.now();
+        readyRemainingTime = READY_TIMEOUT / 1000;
+        
+        readyIntervalId = setInterval(() => {
+            const elapsed = Date.now() - lastReadyTimestamp;
+            if (elapsed >= READY_TIMEOUT) {
+                stopReadyTimer();
+                setStatus('超过1分钟未准备，已被移出房间', 'error');
+                leaveRoom();
+            }
+        }, 1000); // 每秒检查一次
+    }
+
+    
+
+    // ============ 再来一局（自动交换黑白、直接开局） ============
+    async function playAgain() {
+        lastInactivityTimestamp = Date.now();
+        if (!currentRoomDocId) return;
+        // 清理自动重启定时器
+        if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
+
+        // 隐藏悔棋弹窗
+        undoOverlay.classList.remove('show');
+        surrenderOverlay.classList.remove('show');
+
+        try {
+            // 先读取当前房间数据
+            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+            if (!res.data || res.data.length === 0) {
+                return setStatus('房间数据异常', 'error');
+            }
+            const room = res.data[0];
+
+            // 防止重复执行：如果游戏已经被另一方重启，直接返回
+            if (!room.gameOver) {
+                setStatus('游戏已在进行中', 'info');
+                victoryOverlay.classList.remove('show');
+                return;
+            }
+
+            // 双方必须都在
+            if (!room.player1Id || !room.player2Id) {
+                setStatus('对手已离开，无法再来一局', 'error');
+                return;
+            }
+
+            // 交换双方：player1 <-> player2, 比分也交换，直接开始
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                board: new Array(TOTAL_CELLS).fill(0),
+                currentPlayer: 1,
+                gameOver: false,
+                winner: 0,
+                lastMove: { x: -1, y: -1 },
+                started: true,           // 直接开局，跳过准备阶段
+                player1Ready: false,
+                player2Ready: false,
+                undoRequested: 0,        // 清空悔棋申请
+                undoApproved: false,
+                lastActiveAt: Date.now(),
+                // 交换双方 ID 和比分
+                player1Id: room.player2Id,
+                player2Id: room.player1Id,
+                blackScore: room.whiteScore,
+                whiteScore: room.blackScore
+            });
+            // myRole 会在下一次 handleRoomUpdate 中自动更新
+            setStatus('交换黑白后新一局开始!', 'success');
+        } catch (e) {
+            setStatus('操作失败', 'error');
+        }
+    }
+
+    // ============ 更新悔棋按钮状态 ============
+    function updateUndoButtonStatus(room) {
+        if (!undoBtn) return;
+        
+        // 禁用条件：
+        // 1. 游戏未开始
+        // 2. 游戏已结束
+        // 3. 己方回合（只能在对方回合发起悔棋）
+        // 4. 已有悔棋申请
+        // 5. 没有可悔的棋子（lastMove为空）
+        const canUndo = room.started &&           // 游戏已开始
+                       !room.gameOver &&          // 游戏未结束
+                       room.currentPlayer !== myRole &&  // 对方回合
+                       room.undoRequested === 0 &&       // 无悔棋申请
+                       room.lastMove && room.lastMove.x >= 0;  // 有可悔棋子
+        
+        undoBtn.disabled = !canUndo;
+    }
+
+    // ============ 发起悔棋申请 ============
+    async function requestUndo() {
+        if (!currentRoomDocId || !myRole) return;
+        lastInactivityTimestamp = Date.now();
+
+        try {
+            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+            if (!res.data || res.data.length === 0) return;
+            const room = res.data[0];
+
+            // 校验：游戏未开始
+            if (!room.started) {
+                setStatus('游戏未开始，无法悔棋', 'error');
+                return;
+            }
+
+            // 校验：游戏已结束
+            if (room.gameOver) {
+                setStatus('游戏已结束，无法悔棋', 'error');
+                return;
+            }
+
+            // 校验：己方回合禁止发起
+            if (room.currentPlayer === myRole) {
+                setStatus('己方回合无法发起悔棋', 'error');
+                return;
+            }
+
+            // 校验：已有悔棋申请
+            if (room.undoRequested !== 0) {
+                setStatus('已有悔棋申请，等待对方回应', 'error');
+                return;
+            }
+
+            // 校验：无历史落子
+            if (!room.lastMove || room.lastMove.x < 0) {
+                setStatus('没有棋子可以悔', 'error');
+                return;
+            }
+
+            // 发起悔棋申请
+            const activeField1 = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                undoRequested: myRole,
+                undoApproved: false,
+                [activeField1]: Date.now(),
+                lastActiveAt: Date.now()
+            });
+
+            setStatus('已发起悔棋申请，等待对方同意', 'success');
+        } catch (e) {
+            setStatus('发起悔棋失败：' + e.message, 'error');
+        }
+    }
+
+    // ============ 同意悔棋 ============
+    async function approveUndo() {
+        if (!currentRoomDocId || !myRole) return;
+        lastInactivityTimestamp = Date.now();
+
+        try {
+            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+            if (!res.data || res.data.length === 0) return;
+            const room = res.data[0];
+
+            // 校验：必须有悔棋申请
+            if (room.undoRequested === 0) {
+                setStatus('没有待处理的悔棋申请', 'error');
+                return;
+            }
+
+            // 校验：必须是对方发起的申请
+            if (room.undoRequested === myRole) {
+                setStatus('不能同意自己的悔棋申请', 'error');
+                return;
+            }
+
+            // 撤销上一步棋子
+            const { x, y } = room.lastMove;
+            const idx = y * BOARD_SIZE + x;
+            const newBoard = [...room.board];
+            newBoard[idx] = 0;
+
+            // 更新数据库
+            const activeField2 = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                board: newBoard,
+                currentPlayer: room.undoRequested,  // 切换回合回申请人
+                lastMove: { x: -1, y: -1 },
+                undoRequested: 0,                  // 清空悔棋申请
+                undoApproved: false,
+                [activeField2]: Date.now(),
+                lastActiveAt: Date.now()
+            });
+
+            // 隐藏弹窗
+            undoOverlay.classList.remove('show');
+            setStatus('已同意悔棋', 'success');
+        } catch (e) {
+            setStatus('同意悔棋失败：' + e.message, 'error');
+        }
+    }
+
+    // ============ 拒绝悔棋 ============
+    async function rejectUndo() {
+        if (!currentRoomDocId || !myRole) return;
+        lastInactivityTimestamp = Date.now();
+
+        try {
+            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+            if (!res.data || res.data.length === 0) return;
+            const room = res.data[0];
+
+            // 校验：必须有悔棋申请
+            if (room.undoRequested === 0) {
+                setStatus('没有待处理的悔棋申请', 'error');
+                return;
+            }
+
+            // 校验：必须是对方发起的申请
+            if (room.undoRequested === myRole) {
+                setStatus('不能拒绝自己的悔棋申请', 'error');
+                return;
+            }
+
+            // 清空悔棋申请
+            const activeField3 = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                undoRequested: 0,
+                undoApproved: false,
+                [activeField3]: Date.now(),
+                lastActiveAt: Date.now()
+            });
+
+            // 隐藏弹窗
+            undoOverlay.classList.remove('show');
+            setStatus('已拒绝悔棋申请', 'info');
+        } catch (e) {
+            setStatus('拒绝悔棋失败：' + e.message, 'error');
+        }
+    }
+
+    // ============ 认输 ============
+    function confirmSurrender() {
+        if (isLocalGame) {
+            if (gameOver) return;
+            surrenderOverlay.classList.add('show');
+            return;
+        }
+        if (!currentRoomDocId || !myRole) return;
+        lastInactivityTimestamp = Date.now();
+        surrenderOverlay.classList.add('show');
+    }
+
+    function cancelSurrender() {
+        surrenderOverlay.classList.remove('show');
+    }
+
+    async function doSurrender() {
+        surrenderOverlay.classList.remove('show');
+
+        if (isLocalGame) {
+            // 本地双人模式：当前玩家认输
+            gameOver = true;
+            canvas.classList.add('blocked');
+            const winner = localCurrentPlayer === 1 ? 2 : 1;
+            if (winner === 1) {
+                localBlackScore++;
+            } else {
+                localWhiteScore++;
+            }
+            document.getElementById('p1-score').innerText = localBlackScore;
+            document.getElementById('p2-score').innerText = localWhiteScore;
+            winnerText.innerText = (localCurrentPlayer === 1 ? '白' : '黑') + '方获胜！（对方认输）';
+            winnerText.className = 'winner-text ' + (winner === 1 ? 'black' : 'white');
+            victoryOverlay.classList.add('show');
+            setStatus((localCurrentPlayer === 1 ? '黑' : '白') + '方认输，' + (winner === 1 ? '黑' : '白') + '方获胜！', 'success');
+            return;
+        }
+
+        if (!currentRoomDocId || !myRole) return;
+        lastInactivityTimestamp = Date.now();
+
+        try {
+            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+            if (!res.data || res.data.length === 0) return;
+            const room = res.data[0];
+
+            if (!room.started || room.gameOver) {
+                setStatus('游戏未进行中，无法认输', 'error');
+                return;
+            }
+
+            // 对方获胜
+            const winner = myRole === 1 ? 2 : 1;
+            const winnerScoreField = winner === 1 ? 'blackScore' : 'whiteScore';
+
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                gameOver: true,
+                winner: winner,
+                [winnerScoreField]: (room[winnerScoreField] || 0) + 1,
+                lastActiveAt: Date.now()
+            });
+
+            setStatus('你已认输', 'info');
+        } catch (e) {
+            setStatus('认输失败：' + e.message, 'error');
+        }
+    }
+
+    // ============ 更新认输按钮状态 ============
+    function updateSurrenderButtonStatus(room) {
+        if (!surrenderBtn) return;
+        const canSurrender = room.started && !room.gameOver;
+        surrenderBtn.disabled = !canSurrender;
+    }
+
+
+    // ============ 退出房间 ============
+async function leaveRoom() {
+    stopInactivityTimer();
+    stopReadyTimer();
+    stopHeartbeat();
+    if (autoRestartTimer) clearInterval(autoRestartTimer);
+    if (watcher) watcher.close();
+
+    // 隐藏悔棋弹窗和认输弹窗
+    undoOverlay.classList.remove('show');
+    surrenderOverlay.classList.remove('show');
+
+    const leavingRoomDocId = currentRoomDocId;
+    const leavingRole = myRole;
+
+    if (leavingRoomDocId && leavingRole) {
+        try {
+            const res = await db.collection(COLLECTION).doc(leavingRoomDocId).get();
+            if (res.data && res.data.length > 0) {
+                const room = res.data[0];
+                const resetData = {
+                    started: false, gameOver: false, winner: 0,
+                    lastMove: { x: -1, y: -1 },
+                    player1Ready: false, player2Ready: false,
+                    board: new Array(TOTAL_CELLS).fill(0),
+                    currentPlayer: 1,
+                    undoRequested: 0,      // 清空悔棋申请
+                    undoApproved: false,
+                    lastActiveAt: Date.now()
+                };
+                if (leavingRole === 1) {
+                    resetData.player1Id = null;
+                    resetData.player1Nickname = null;
+                    resetData.player1LastActive = null;
+                } else {
+                    resetData.player2Id = null;
+                    resetData.player2Nickname = null;
+                    resetData.player2LastActive = null;
+                }
+                // 对手也不在就彻底清空房间数据
+                const opponentHere = (leavingRole === 1 && room.player2Id) || (leavingRole === 2 && room.player1Id);
+                if (!opponentHere) {
+                    resetData.player1Id = null;
+                    resetData.player1Nickname = null;
+                    resetData.player1LastActive = null;
+                    resetData.player2Id = null;
+                    resetData.player2Nickname = null;
+                    resetData.player2LastActive = null;
+                    resetData.blackScore = 0;
+                    resetData.whiteScore = 0;
+                }
+                await db.collection(COLLECTION).doc(leavingRoomDocId).update(resetData);
+            }
+        } catch (e) {
+            console.warn('退出房间失败:', e);
+        }
+    }
+
+    // 清空本地状态
+    currentRoomId = '';
+    currentRoomDocId = '';
+    myRole = 0;
+    gameOver = false;
+    roomStarted = false;
+
+    // 清除缓存
+    localStorage.removeItem('wzq_roomId');
+    localStorage.removeItem('wzq_roomDocId');
+    localStorage.removeItem('wzq_role');
+
+    // 回到房间列表
+    roomSection.style.display = 'block';
+    gameSection.classList.remove('show');
+    victoryOverlay.classList.remove('show');
+    waitOverlay.classList.remove('show');
+    canvas.classList.add('blocked');
+    setStatus('', '');
+
+    await refreshRooms();
+}
+
+    // ============ 本地双人游戏 ============
+    function startLocalGame() {
+        // 重置所有状态
+        isLocalGame = true;
+        localCurrentPlayer = 1;
+        gameOver = false;
+        boardData = new Array(TOTAL_CELLS).fill(0);
+        localLastMove = { x: -1, y: -1 };
+        
+        // 更新分数显示
+        document.getElementById('p1-score').innerText = localBlackScore;
+        document.getElementById('p2-score').innerText = localWhiteScore;
+        
+        // 显示玩家信息
+        document.getElementById('p1-info').classList.add('show');
+        document.getElementById('p2-info').classList.add('show');
+        
+        // 切换到游戏界面
+        roomSection.style.display = 'none';
+        gameSection.classList.add('show');
+        
+        // 隐藏所有弹窗
+        waitOverlay.classList.remove('show');
+        victoryOverlay.classList.remove('show');
+        undoOverlay.classList.remove('show');
+        
+        // 允许落子
+        canvas.classList.remove('blocked');
+        
+        // 更新状态和高亮
+        updateLocalGameUI();
+        
+        // 绘制棋盘
+        resizeCanvas();
+        drawBoard(boardData);
+        
+        setStatus('', '');
+    }
+    
+    function updateLocalGameUI() {
+        // 更新玩家高亮
+        const p1Info = document.getElementById('p1-info');
+        const p2Info = document.getElementById('p2-info');
+        
+        p1Info.classList.toggle('active', !gameOver && localCurrentPlayer === 1);
+        p2Info.classList.toggle('active', !gameOver && localCurrentPlayer === 2);
+        
+        // 隐藏悔棋按钮（本地双人不需要申请悔棋）
+        const undoBtn = document.getElementById('btn-undo');
+        if (undoBtn) {
+            undoBtn.style.display = 'none';
+        }
+        // 显示认输按钮
+        const surrenderBtnLocal = document.getElementById('btn-surrender');
+        if (surrenderBtnLocal) {
+            surrenderBtnLocal.disabled = gameOver;
+        }
+    }
+    
+    function localPlaceStone(x, y) {
+        if (gameOver || isPlacing) return;
+        
+        const idx = y * BOARD_SIZE + x;
+        if (boardData[idx] !== 0) {
+            setStatus('此处已有棋子', 'error');
+            return;
+        }
+        
+        isPlacing = true;
+        
+        // 落子
+        boardData[idx] = localCurrentPlayer;
+        localLastMove = { x, y };
+        
+        // 绘制棋子
+        drawBoard(boardData);
+        
+        // 检查胜利
+        if (checkLocalWin(y, x, localCurrentPlayer)) {
+            gameOver = true;
+            canvas.classList.add('blocked');
+            
+            if (localCurrentPlayer === 1) {
+                localBlackScore++;
+                setStatus('🎉 黑方获胜！', 'success');
+            } else {
+                localWhiteScore++;
+                setStatus('🎉 白方获胜！', 'success');
+            }
+            
+            // 更新分数
+            document.getElementById('p1-score').innerText = localBlackScore;
+            document.getElementById('p2-score').innerText = localWhiteScore;
+            
+            // 显示胜利弹窗
+            winnerText.innerText = localCurrentPlayer === 1 ? '黑方获胜！' : '白方获胜！';
+            winnerText.className = 'winner-text ' + (localCurrentPlayer === 1 ? 'black' : 'white');
+            victoryOverlay.classList.add('show');
+            
+            isPlacing = false;
+            return;
+        }
+        
+        // 切换玩家
+        localCurrentPlayer = localCurrentPlayer === 1 ? 2 : 1;
+        
+        // 更新UI
+        updateLocalGameUI();
+        setStatus(localCurrentPlayer === 1 ? '🎯 黑方落子' : '🎯 白方落子', 'success');
+        
+        isPlacing = false;
+    }
+    
+    // 本地双人游戏重新开始
+    function localPlayAgain() {
+        isLocalGame = true;
+        localCurrentPlayer = 1;
+        gameOver = false;
+        boardData = new Array(TOTAL_CELLS).fill(0);
+        localLastMove = { x: -1, y: -1 };
+        
+        victoryOverlay.classList.remove('show');
+        canvas.classList.remove('blocked');
+        
+        drawBoard(boardData);
+        updateLocalGameUI();
+        
+        setStatus('', '');
+    }
+    
+    // 退出本地双人游戏
+    function exitLocalGame() {
+        isLocalGame = false;
+        localCurrentPlayer = 1;
+        gameOver = false;
+        
+        // 显示悔棋按钮、恢复认输按钮
+        const undoBtn = document.getElementById('btn-undo');
+        if (undoBtn) {
+            undoBtn.style.display = 'inline-block';
+        }
+        const surrenderBtnExit = document.getElementById('btn-surrender');
+        if (surrenderBtnExit) {
+            surrenderBtnExit.disabled = true;
+        }
+        
+        // 切换回房间列表
+        roomSection.style.display = 'block';
+        gameSection.classList.remove('show');
+        victoryOverlay.classList.remove('show');
+        waitOverlay.classList.remove('show');
+        canvas.classList.add('blocked');
+        setStatus('', '');
+        
+        refreshRooms();
+    }
+    
+    // ============ 准备 / 取消准备 ============
+    async function toggleReady() {
+        if (!currentRoomDocId || !myRole) return;
+        lastInactivityTimestamp = Date.now();
+        const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
+        const activeField = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
+        try {
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                [field]: true,
+                [activeField]: Date.now(),
+                lastActiveAt: Date.now()
+            });
+        } catch (e) {
+            setStatus('操作失败', 'error');
+        }
+    }
+
+    async function cancelReady() {
+        if (!currentRoomDocId || !myRole) return;
+        lastInactivityTimestamp = Date.now();
+        lastReadyTimestamp = Date.now(); // 取消准备后重新开始倒计时
+        const field = myRole === 1 ? 'player1Ready' : 'player2Ready';
+        const activeField = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
+        try {
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                [field]: false,
+                [activeField]: Date.now(),
+                lastActiveAt: Date.now()
+            });
+        } catch (e) {
+            setStatus('操作失败', 'error');
+        }
+    }
+
+    // ============ 刷新玩家名 ============
+    function updatePlayerNames(room) {
+        const p1NameEl = document.getElementById('p1-info').querySelector('.pname');
+        const p2NameEl = document.getElementById('p2-info').querySelector('.pname');
+        
+        if (isLocalGame) {
+            p1NameEl.textContent = '黑方';
+            p2NameEl.textContent = '白方';
+        } else {
+            let p1Name = room.player1Nickname;
+            let p2Name = room.player2Nickname;
+            
+            if (p1Name === '游客') p1Name = '玩家1';
+            if (p2Name === '游客') p2Name = '玩家2';
+            
+            p1NameEl.textContent = p1Name || '玩家1';
+            p2NameEl.textContent = p2Name || '玩家2';
+        }
+    }
+
+    // ============ 实时监听房间 ============
+    async function startWatchRoom() {
+        if (watcher) watcher.close();
+
+        if (USE_LOCAL_STORAGE) {
+            watcher = {
+                close: () => { clearInterval(watcher.pollInterval); },
+                pollInterval: setInterval(async () => {
+                    try {
+                        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+                        if (!res.data || res.data.length === 0) {
+                            setStatus('房间已解散', 'error');
+                            leaveRoom();
+                            return;
+                        }
+                        const room = res.data[0];
+                        handleRoomUpdate(room);
+                    } catch (e) {
+                        console.error('轮询出错:', e);
+                    }
+                }, 500)
+            };
+        } else {
+            watcher = db.collection(COLLECTION).doc(currentRoomDocId).watch({
+                onChange: snapshot => {
+                    if (!snapshot.docs || snapshot.docs.length === 0) {
+                        setStatus('房间已解散', 'error');
+                        leaveRoom();
+                        return;
+                    }
+
+                    const room = snapshot.docs[0];
+                    handleRoomUpdate(room);
+                },
+                onError: err => {
+                    console.error('监听出错，尝试重连:', err);
+                    setStatus('连接中断，正在重连...', 'error');
+                    // 3秒后自动重连
+                    setTimeout(() => {
+                        if (currentRoomDocId) {
+                            startWatchRoom();
+                        }
+                    }, 3000);
+                }
+            });
+        }
+    }
+
+    function handleRoomUpdate(room) {
+        // 同步游戏状态
+        roomStarted = !!room.started;
+        roomCurrentPlayer = room.currentPlayer || 1;
+
+        // ===== 每局后可能交换角色：动态检测我的角色 =====
+        if (room.player1Id === myUserId) {
+            myRole = 1;
+        } else if (room.player2Id === myUserId) {
+            myRole = 2;
+        }
+
+        // ===== 检测对方是否长时间无操作，超时则踢出 =====
+        if (myRole && room.started && !room.gameOver) {
+            const opponentId = myRole === 1 ? room.player2Id : room.player1Id;
+            const opponentLastActive = myRole === 1 ? room.player2LastActive : room.player1LastActive;
+            if (opponentId && opponentLastActive) {
+                const elapsed = Date.now() - opponentLastActive;
+                if (elapsed >= INACTIVITY_TIMEOUT) {
+                    console.log('[对方超时] 对方超过5分钟无操作，自动踢出', opponentId);
+                    // 将对方踢出房间
+                    const opponentRole = myRole === 1 ? 2 : 1;
+                    const resetData = {
+                        started: false, gameOver: false, winner: 0,
+                        lastMove: { x: -1, y: -1 },
+                        player1Ready: false, player2Ready: false,
+                        board: new Array(TOTAL_CELLS).fill(0),
+                        currentPlayer: 1,
+                        undoRequested: 0,
+                        undoApproved: false,
+                        lastActiveAt: Date.now()
+                    };
+                    if (opponentRole === 1) {
+                        resetData.player1Id = null;
+                        resetData.player1Nickname = null;
+                        resetData.player1LastActive = null;
+                    } else {
+                        resetData.player2Id = null;
+                        resetData.player2Nickname = null;
+                        resetData.player2LastActive = null;
+                    }
+                    db.collection(COLLECTION).doc(currentRoomDocId).update(resetData).catch(e => {
+                        console.warn('[对方超时] 踢出失败:', e);
+                    });
+                    setStatus('对方超过5分钟无操作，已被移出房间', 'success');
+                    return;
+                }
+            }
+        }
+
+        // 积分 & 玩家名
+        document.getElementById('p1-score').innerText = room.blackScore || 0;
+        document.getElementById('p2-score').innerText = room.whiteScore || 0;
+        updatePlayerNames(room);
+
+        // 显示/隐藏玩家信息（有人入座才显示）
+        document.getElementById('p1-info').classList.toggle('show', !!room.player1Id);
+        document.getElementById('p2-info').classList.toggle('show', !!room.player2Id);
+
+        // 高亮当前回合方
+        const p1Info = document.getElementById('p1-info');
+        const p2Info = document.getElementById('p2-info');
+        const isGameActive = room.started && !room.gameOver;
+        p1Info.classList.toggle('active', isGameActive && room.currentPlayer === 1);
+        p2Info.classList.toggle('active', isGameActive && room.currentPlayer === 2);
+
+        const bothHere = room.player1Id && room.player2Id;
+        const myReady = (myRole === 1 && !!room.player1Ready) || (myRole === 2 && !!room.player2Ready);
+        const opponentReady = (myRole === 1 && !!room.player2Ready) || (myRole === 2 && !!room.player1Ready);
+
+        // ===== 游戏结束判定 =====
+        if (room.gameOver) {
+            gameOver = true;
+            roomStarted = false;
+            canvas.classList.add('blocked');
+            document.getElementById('board-wrapper').classList.remove('glow-yellow');
+            waitOverlay.classList.remove('show');
+            undoOverlay.classList.remove('show');  // 隐藏悔棋弹窗
+            surrenderOverlay.classList.remove('show');  // 隐藏认输弹窗
+
+            // 判断是对手离开还是正常获胜
+            const opponentLeft = !room.player1Id || !room.player2Id;
+            let winStr;
+            if (opponentLeft) {
+                winStr = '对手已离开，' + (room.winner === 1 ? '黑方获胜！' : '白方获胜！');
+            } else {
+                winStr = room.winner === 1 ? '黑方（玩家1）获胜！' : '白方（玩家2）获胜！';
+            }
+            winnerText.innerText = winStr;
+            winnerText.className = 'winner-text ' + (room.winner === 1 ? 'black' : 'white');
+            victoryOverlay.classList.add('show');
+            setStatus(winStr, 'success');
+            drawBoard(room.board);
+
+            // 自动重启：双方都在 + 我是胜者  → 延迟后自动交换黑白开始下一局
+            const btnAgain = document.getElementById('btn-again');
+            const restartMsg = document.getElementById('restart-msg');
+            if (!opponentLeft && room.winner === myRole) {
+                // 只有胜者触发自动重启，避免双人重复请求
+                if (!autoRestartTimer) {
+                    let countdown = Math.round(AUTO_RESTART_DELAY / 1000);
+                    restartMsg.innerText = countdown + ' 秒后自动交换黑白开始下一局...';
+                    btnAgain.style.display = 'none';
+
+                    autoRestartTimer = setInterval(() => {
+                        countdown--;
+                        if (countdown <= 0) {
+                            clearInterval(autoRestartTimer);
+                            autoRestartTimer = null;
+                            playAgain(); // 自动互换角色并直接开局
+                        } else {
+                            restartMsg.innerText = countdown + ' 秒后自动交换黑白开始下一局...';
+                        }
+                    }, 1000);
+                }
+            } else {
+                // 对手离开或我不是胜者：停止自动重启倒计时
+                if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
+                restartMsg.innerText = '';
+                btnAgain.style.display = 'inline-block';
+            }
+            return;
+        }
+
+        // ===== 游戏未开始 → 准备阶段（玩家一进入就可以准备） =====
+        if (!room.started) {
+            roomStarted = false;
+            gameOver = false;
+            victoryOverlay.classList.remove('show');
+            canvas.classList.add('blocked');
+            document.getElementById('board-wrapper').classList.remove('glow-yellow');
+            drawBoard(room.board);
+
+            waitOverlay.classList.add('show');
+            const readyPanel = document.getElementById('ready-panel');
+            const readyBtns = document.getElementById('ready-btns');
+            const readyStatus = document.getElementById('ready-status');
+            
+            readyPanel.style.display = 'block';
+            readyBtns.style.display = 'flex';
+            readyBtns.style.flexDirection = 'column';
+            readyBtns.style.alignItems = 'center';
+            readyBtns.style.gap = '8px';
+
+            if (myReady) {
+                document.getElementById('btn-ready').style.display = 'none';
+                document.getElementById('btn-ready-cancel').style.display = 'inline-block';
+            } else {
+                document.getElementById('btn-ready').style.display = 'inline-block';
+                document.getElementById('btn-ready-cancel').style.display = 'none';
+            }
+
+            // 检测对方准备超时：对方在房间但超过 READY_TIMEOUT 未准备
+            const opponentLastActive = myRole === 1 ? room.player2LastActive : room.player1LastActive;
+            if (bothHere && myReady && !opponentReady && opponentLastActive) {
+                const elapsed = Date.now() - opponentLastActive;
+                if (elapsed >= READY_TIMEOUT) {
+                    console.log('[对方准备超时] 对方超过1分钟未准备，自动踢出');
+                    const opponentRole = myRole === 1 ? 2 : 1;
+                    const resetData = {
+                        started: false, gameOver: false, winner: 0,
+                        lastMove: { x: -1, y: -1 },
+                        player1Ready: false, player2Ready: false,
+                        board: new Array(TOTAL_CELLS).fill(0),
+                        currentPlayer: 1,
+                        undoRequested: 0,
+                        undoApproved: false,
+                        lastActiveAt: Date.now()
+                    };
+                    if (opponentRole === 1) {
+                        resetData.player1Id = null;
+                        resetData.player1Nickname = null;
+                        resetData.player1LastActive = null;
+                    } else {
+                        resetData.player2Id = null;
+                        resetData.player2Nickname = null;
+                        resetData.player2LastActive = null;
+                    }
+                    db.collection(COLLECTION).doc(currentRoomDocId).update(resetData).catch(e => {
+                        console.warn('[对方准备超时] 踢出失败:', e);
+                    });
+                    setStatus('对方超过1分钟未准备，已被移出房间', 'success');
+                    return;
+                }
+            }
+
+            // 更新准备状态显示
+            let readyText = '';
+            if (!bothHere) {
+                readyText = '等待其他玩家加入...';
+                setStatus('等待其他玩家加入...', 'info');
+            } else {
+                if (myReady && opponentReady) {
+                    readyText = '双方已准备，即将开始...';
+                    db.collection(COLLECTION).doc(currentRoomDocId).update({
+                        started: true,
+                        gameOver: false,
+                        winner: 0,
+                        currentPlayer: 1,
+                        board: new Array(TOTAL_CELLS).fill(0)
+                    }).catch(e => { /* 忽略冲突 */ });
+                } else if (myReady) {
+                    readyText = '你已准备，等待对手准备...';
+                    setStatus('你已准备，等待对手准备...', 'success');
+                } else if (opponentReady) {
+                    readyText = '对手已准备，请点击准备';
+                    setStatus('对手已准备，请点击准备', 'info');
+                } else {
+                    readyText = '';
+                    setStatus('请点击准备', 'info');
+                }
+            }
+            readyStatus.innerText = readyText;
+            return;
+        }
+
+        // ===== 游戏进行中 =====
+        // 清理自动重启定时器（新一局已开始）
+        if (autoRestartTimer) { clearInterval(autoRestartTimer); autoRestartTimer = null; }
+        stopReadyTimer();
+        waitOverlay.classList.remove('show');
+
+        // 更新悔棋按钮状态
+        updateUndoButtonStatus(room);
+        updateSurrenderButtonStatus(room);
+
+        // 处理悔棋申请
+        if (room.undoRequested !== 0) {
+            if (room.undoRequested === myRole) {
+                // 我发起的申请，等待对方回应
+                setStatus('⏳ 等待对方同意悔棋...', 'info');
+            } else {
+                // 对方发起的申请，弹出确认弹窗
+                undoTitle.innerText = '悔棋申请';
+                undoDesc.innerText = '对手请求悔棋，是否同意？';
+                undoOverlay.classList.add('show');
+                setStatus('对手发起了悔棋申请', 'info');
+            }
+        }
+
+        const isMyTurn = (room.currentPlayer === 1 && myRole === 1) || (room.currentPlayer === 2 && myRole === 2);
+        const boardWrapper = document.getElementById('board-wrapper');
+
+        if (isMyTurn) {
+            canvas.classList.remove('blocked');
+            boardWrapper.classList.add('glow-yellow');
+            setStatus('🎯 轮到你落子', 'success');
+        } else {
+            canvas.classList.add('blocked');
+            boardWrapper.classList.remove('glow-yellow');
+            if (room.undoRequested === 0) {
+                setStatus('⏳ 等待对方落子...', 'info');
+            }
+        }
+
+        drawBoard(room.board);
+        gameOver = false;
+        victoryOverlay.classList.remove('show');
+    }
+
+    // ============ 落子 ============
+let isPlacing = false; // 防止重复落子
+
+async function placeStone(x, y) {
+    // 必须游戏已开始、未结束、已在房间、有角色
+    if (!currentRoomDocId || !myRole) {
+        setStatus('未加入房间', 'error'); return;
+    }
+    if (!roomStarted) {
+        setStatus('游戏未开始，请先准备', 'error'); return;
+    }
+    if (gameOver) {
+        setStatus('游戏已结束', 'error'); return;
+    }
+    if (isPlacing) return; // 防止重复落子
+
+    lastInactivityTimestamp = Date.now();
+
+    const idx = y * BOARD_SIZE + x;
+    
+    // 先从数据库获取最新房间数据
+    const roomRes = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+    if (!roomRes.data || roomRes.data.length === 0) {
+        setStatus('房间数据异常', 'error'); return;
+    }
+    const latestRoom = roomRes.data[0];
+    const latestBoard = [...latestRoom.board];
+    
+    // 判断位置是否已有棋子
+    if (latestBoard[idx] !== 0) {
+        setStatus('此处已有棋子', 'error'); return;
+    }
+
+    // 使用数据库同步的 currentPlayer 判断该谁落子
+    if (latestRoom.currentPlayer !== myRole) {
+        setStatus('还没轮到你', 'error'); return;
+    }
+
+    isPlacing = true;
+
+    // 生成新棋盘
+    const newBoard = [...latestBoard];
+    newBoard[idx] = myRole;
+
+    try {
+        // ✅ 修复：永远传对象，绝不传 null
+        const activeField = myRole === 1 ? 'player1LastActive' : 'player2LastActive';
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({
+            board: newBoard,
+            currentPlayer: myRole === 1 ? 2 : 1,
+            // 强制保证 lastMove 是 {x,y} 对象，不会是 null
+            lastMove: { x: x, y: y },
+            [activeField]: Date.now(),
+            lastActiveAt: Date.now()
+        });
+
+        // 检查胜利
+        const win = checkLocalWin(y, x, myRole);
+        if (win) {
+            const winnerScoreField = myRole === 1 ? 'blackScore' : 'whiteScore';
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                gameOver: true,
+                winner: myRole,
+                [winnerScoreField]: latestRoom[winnerScoreField] + 1
+            });
+        }
+
+        // 本地同步棋盘数据
+        boardData = newBoard;
+
+    } catch (e) {
+        setStatus('落子失败，请重试', 'error');
+        console.error('落子失败:', e);
+    } finally {
+        isPlacing = false;
+    }
+}
+
+    // ============ 计算画布坐标 ============
+    function getBoardPosition(clientX, clientY) {
+        const rect = canvas.getBoundingClientRect();
+        const size = canvas.offsetWidth;
+        if (!size) return { x: -1, y: -1 };
+        const scale = size / rect.width;
+        const canvasX = (clientX - rect.left) * scale;
+        const canvasY = (clientY - rect.top) * scale;
+        const boardX = Math.round((canvasX - CELL_SIZE) / CELL_SIZE);
+        const boardY = Math.round((canvasY - CELL_SIZE) / CELL_SIZE);
+        return { x: boardX, y: boardY };
+    }
+
+    // ============ 棋盘绑定事件 ============
+    canvas.addEventListener('click', e => {
+        if (gameOver) return;
+        // 棋盘被锁定（等待对方落子）时禁止点击
+        if (canvas.classList.contains('blocked')) return;
+        
+        // 本地双人游戏模式
+        if (isLocalGame) {
+            const { x, y } = getBoardPosition(e.clientX, e.clientY);
+            if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
+                localPlaceStone(x, y);
+            }
+            return;
+        }
+        
+        // 联机游戏模式
+        if (!myRole || !roomStarted) {
+            setStatus(!myRole ? '请先加入房间' : '游戏未开始，请准备', 'error');
+            return;
+        }
+        const { x, y } = getBoardPosition(e.clientX, e.clientY);
+        if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
+            placeStone(x, y);
+        }
+    });
+
+    canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        if (gameOver) return;
+        // 棋盘被锁定（等待对方落子）时禁止点击
+        if (canvas.classList.contains('blocked')) return;
+        
+        // 本地双人游戏模式
+        if (isLocalGame) {
+            const touch = e.touches[0];
+            if (!touch) return;
+            const { x, y } = getBoardPosition(touch.clientX, touch.clientY);
+            if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
+                localPlaceStone(x, y);
+            }
+            return;
+        }
+        
+        // 联机游戏模式
+        if (!myRole || !roomStarted) {
+            setStatus(!myRole ? '请先加入房间' : '游戏未开始，请准备', 'error');
+            return;
+        }
+        const touch = e.touches[0];
+        if (!touch) return;
+        const { x, y } = getBoardPosition(touch.clientX, touch.clientY);
+        if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
+            placeStone(x, y);
+        }
+    }, { passive: false });
+
+    // ============ Canvas 棋盘绘制 ============
+    function resizeCanvas() {
+        const wrapper = document.getElementById('board-wrapper');
+        if (!wrapper) return;
+        const styles = getComputedStyle(wrapper);
+        const padX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
+        const size = wrapper.offsetWidth - padX;
+        canvas.style.width = size + 'px';
+        canvas.style.height = size + 'px';
+        canvas.width = size * dpr;
+        canvas.height = size * dpr;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+        CELL_SIZE = size / (BOARD_SIZE + 1);
+        STONE_RADIUS = CELL_SIZE * 0.42;
+    }
+
+    function drawBoard(data) {
+        if (!data) data = new Array(TOTAL_CELLS).fill(0);
+        boardData = data;
+        const size = canvas.offsetWidth;
+        if (!size) return;
+
+        ctx.clearRect(0, 0, size, size);
+
+        // 棋盘底色
+        ctx.fillStyle = '#e6c884';
+        ctx.fillRect(0, 0, size, size);
+
+        // 网格线
+        ctx.strokeStyle = '#6b4e2b';
+        ctx.lineWidth = Math.max(1, CELL_SIZE * 0.045);
+        for (let i = 0; i < BOARD_SIZE; i++) {
+            const p = CELL_SIZE * (i + 1) + 0.5;
+            ctx.beginPath(); ctx.moveTo(CELL_SIZE + 0.5, p); ctx.lineTo(CELL_SIZE * BOARD_SIZE + 0.5, p); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(p, CELL_SIZE + 0.5); ctx.lineTo(p, CELL_SIZE * BOARD_SIZE + 0.5); ctx.stroke();
+        }
+
+        // 星位
+        const starPoints = [3, 7, 11];
+        const starR = Math.max(2.5, CELL_SIZE * 0.1);
+        ctx.fillStyle = '#6b4e2b';
+        for (let r of starPoints) {
+            for (let c of starPoints) {
+                ctx.beginPath();
+                ctx.arc(CELL_SIZE * (c + 1) + 0.5, CELL_SIZE * (r + 1) + 0.5, starR, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // 棋子
+        for (let y = 0; y < BOARD_SIZE; y++) {
+            for (let x = 0; x < BOARD_SIZE; x++) {
+                const idx = y * BOARD_SIZE + x;
+                if (data[idx] === 1) drawStone(x, y, 'black');
+                else if (data[idx] === 2) drawStone(x, y, 'white');
+            }
+        }
+    }
+
+    function drawStone(x, y, color) {
+        const cx = CELL_SIZE * (x + 1) + 0.5;
+        const cy = CELL_SIZE * (y + 1) + 0.5;
+        ctx.beginPath();
+        ctx.arc(cx, cy, STONE_RADIUS, 0, Math.PI * 2);
+        if (color === 'black') {
+            const grad = ctx.createRadialGradient(cx - STONE_RADIUS * 0.3, cy - STONE_RADIUS * 0.3, STONE_RADIUS * 0.1, cx, cy, STONE_RADIUS);
+            grad.addColorStop(0, '#555');
+            grad.addColorStop(1, '#000');
+            ctx.fillStyle = grad;
+        } else {
+            const grad = ctx.createRadialGradient(cx - STONE_RADIUS * 0.3, cy - STONE_RADIUS * 0.3, STONE_RADIUS * 0.1, cx, cy, STONE_RADIUS);
+            grad.addColorStop(0, '#fff');
+            grad.addColorStop(1, '#d8d8d8');
+            ctx.fillStyle = grad;
+        }
+        ctx.fill();
+        if (color === 'white') { ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1; ctx.stroke(); }
+    }
+
+    // ============ 本地胜利检查 ============
+    function checkLocalWin(y, x, player) {
+        const directions = [[1, 0], [0, 1], [1, 1], [1, -1]];
+        for (let [dx, dy] of directions) {
+            let count = 1;
+            for (let i = 1; i < 5; i++) {
+                const nx = x + dx * i, ny = y + dy * i;
+                if (nx >= 0 && nx < BOARD_SIZE && ny >= 0 && ny < BOARD_SIZE && boardData[ny * BOARD_SIZE + nx] === player) count++;
+                else break;
+            }
+            for (let i = 1; i < 5; i++) {
+                const nx = x - dx * i, ny = y - dy * i;
+                if (nx >= 0 && nx < BOARD_SIZE && ny >= 0 && ny < BOARD_SIZE && boardData[ny * BOARD_SIZE + nx] === player) count++;
+                else break;
+            }
+            if (count >= 5) return true;
+        }
+        return false;
+    }
+
+    // ============ Resize ============
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => { resizeCanvas(); drawBoard(boardData); }, 200);
+    });
+
+// ============ 页面加载后自动重连 ============
+init().then(async () => {
+    resizeCanvas();
+    drawBoard(boardData);
+
+    // 刷新/关闭页面不算退出房间，自动重连到上次的房间
+    const savedRoomId = localStorage.getItem('wzq_roomId');
+    if (savedRoomId) {
+        console.log('检测到上次在房间中，自动重连:', savedRoomId);
+        try {
+            await joinRoom(savedRoomId);
+        } catch (e) {
+            console.warn('自动重连失败:', e);
+            localStorage.removeItem('wzq_roomId');
+            localStorage.removeItem('wzq_roomDocId');
+            localStorage.removeItem('wzq_role');
+        }
+    }
+});
+    </script>
+</body>
+</html>

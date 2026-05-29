@@ -34,6 +34,11 @@ body {
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior: none;
     touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 .container {
@@ -872,7 +877,7 @@ body.fav-mode .attempt-tag {
     </style>
 </head>
 <body>
-    <div >1</div>
+    <div >2</div>
     <div class="container">
         <!-- 右上角按钮 -->
         <div class="top-right-option">
@@ -1946,12 +1951,39 @@ body.fav-mode .attempt-tag {
             document.addEventListener('mouseup', e => onEnd(e));
 
             // === MIUI/Android 防缩放加固 ===
-            document.addEventListener('gesturestart', e => e.preventDefault(), { passive: false });
-            document.addEventListener('gesturechange', e => e.preventDefault(), { passive: false });
-            document.addEventListener('gestureend', e => e.preventDefault(), { passive: false });
+            // 使用 capture 模式在事件传播到目标前就阻止
+            document.addEventListener('gesturestart', e => e.preventDefault(), { passive: false, capture: true });
+            document.addEventListener('gesturechange', e => e.preventDefault(), { passive: false, capture: true });
+            document.addEventListener('gestureend', e => e.preventDefault(), { passive: false, capture: true });
             document.addEventListener('touchstart', e => {
                 if (e.touches.length > 1) e.preventDefault();
-            }, { passive: false });
+            }, { passive: false, capture: true });
+            // 阻止双击缩放
+            let lastTouchTime = 0;
+            document.addEventListener('touchend', e => {
+                const now = Date.now();
+                if (now - lastTouchTime < 300) {
+                    e.preventDefault();
+                }
+                lastTouchTime = now;
+            }, { passive: false, capture: true });
+            // 阻止 touchmove 时的缩放行为
+            document.addEventListener('touchmove', e => {
+                if (e.touches.length > 1) e.preventDefault();
+            }, { passive: false, capture: true });
+            // 单指触摸也阻止，防止MIUI误判为缩放
+            document.addEventListener('touchstart', e => {
+                if (e.target.closest('.question-area')) {
+                    e.preventDefault();
+                }
+            }, { passive: false, capture: true });
+            // 更激进的防缩放：在document级别阻止所有touchstart的默认行为
+            document.addEventListener('touchstart', e => {
+                e.preventDefault();
+            }, { passive: false, capture: true });
+            document.addEventListener('touchmove', e => {
+                e.preventDefault();
+            }, { passive: false, capture: true });
         }
 
         // ---------- 初始化 ----------
