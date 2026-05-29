@@ -33,7 +33,7 @@ body {
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior: none;
-    touch-action: pan-y;
+    touch-action: none;
 }
 
 .container {
@@ -194,7 +194,7 @@ body {
     border: 2px solid var(--primary-color);
     transition: background-color 0.3s ease, border-color 0.3s ease;
     width: 100%;
-    touch-action: pan-y;
+    touch-action: none;
     height: 480px;
     display: flex;
     flex-direction: column;
@@ -1780,6 +1780,7 @@ body.fav-mode .attempt-tag {
                 startTime = Date.now();
                 isDragging = true;
                 moved = false;
+                virtualPos = currentIndex;  // 同步虚拟位置与当前索引，确保跳转后滑动正确
                 dragStartIdx = virtualPos;
                 lastFloorIdx = -1;
 
