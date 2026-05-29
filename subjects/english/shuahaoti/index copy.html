@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" style="touch-action: none;">
+<html lang="zh-CN" style="touch-action: pan-y;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
@@ -33,7 +33,7 @@ body {
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior: none;
-    touch-action: none;
+    touch-action: pan-y;
     -webkit-user-select: none;
     user-select: none;
     -webkit-user-drag: none;
@@ -174,6 +174,8 @@ body {
     max-width: 960px;
     margin: 0 auto;
     width: 100%;
+    touch-action: pan-y;
+    overscroll-behavior: none none;
 }
 
 .card-wrapper {
@@ -185,6 +187,7 @@ body {
     user-select: none;
     -webkit-user-select: none;
     overflow: visible;
+    touch-action: pan-y;
 }
 .card-wrapper:active {
     cursor: grabbing;
@@ -199,7 +202,7 @@ body {
     border: 2px solid var(--primary-color);
     transition: background-color 0.3s ease, border-color 0.3s ease;
     width: 100%;
-    touch-action: none;
+    touch-action: pan-y;
     height: 480px;
     display: flex;
     flex-direction: column;
@@ -212,6 +215,8 @@ body {
     padding-right: 4px;
     scrollbar-width: thin;
     scrollbar-color: rgba(126,87,194,0.25) transparent;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
 }
 .question-card-body::-webkit-scrollbar {
     width: 5px;
@@ -1971,18 +1976,11 @@ body.fav-mode .attempt-tag {
             document.addEventListener('touchmove', e => {
                 if (e.touches.length > 1) e.preventDefault();
             }, { passive: false, capture: true });
-            // 单指触摸也阻止，防止MIUI误判为缩放
+            // 单指触摸在题目区域阻止默认行为（保留水平滑动手势处理）
             document.addEventListener('touchstart', e => {
-                if (e.target.closest('.question-area')) {
+                if (e.target.closest('.question-area') && !e.target.closest('.question-card-body') && !e.target.closest('input') && !e.target.closest('button') && !e.target.closest('select')) {
                     e.preventDefault();
                 }
-            }, { passive: false, capture: true });
-            // 更激进的防缩放：在document级别阻止所有touchstart的默认行为
-            document.addEventListener('touchstart', e => {
-                e.preventDefault();
-            }, { passive: false, capture: true });
-            document.addEventListener('touchmove', e => {
-                e.preventDefault();
             }, { passive: false, capture: true });
         }
 
