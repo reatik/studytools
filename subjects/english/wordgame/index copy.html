@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- 云开发 SDK -->
+    <script src="https://static.cloudbase.net/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
+    <script src="../../../common.js"></script>
+    <script src="../words.js"></script>
+    <title>单词配对游戏</title>
+    <style>
+        /* ==================== 可爱白色系设计 ==================== */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(180deg, #fdf6f0 0%, #fefefe 30%, #f4f9fc 70%, #f8f5f0 100%);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            touch-action: manipulation;
+            color: #444;
+        }
+
+        /* ==================== 顶部栏 ==================== */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            gap: 10px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .action-btn {
+            background: #fff;
+            color: #666;
+            border-radius: 20px;
+            padding: 0 16px;
+            height: 36px;
+            border: 1.5px solid #e8e0d8;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .action-btn:active {
+            background: #fef6ee;
+            border-color: #f0b060;
+            color: #d4863a;
+            transform: scale(0.97);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        /* ---- 模式切换滑动条 ---- */
+        .mode-slider {
+            height: 36px;
+            width: 104px;
+            border-radius: 20px;
+            background: #f5f3ef;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            user-select: none;
+            border: 1.5px solid #e8e0d8;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .mode-slider-track {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 14px;
+        }
+        .mode-slider-thumb {
+            position: absolute;
+            left: -1px;
+            top: -1px;
+            width: calc(50% + 2px);
+            height: calc(100% + 2px);
+            border-radius: 20px;
+            background: linear-gradient(135deg, #7ec8a4 0%, #5bb88d 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+            box-shadow: 0 2px 6px rgba(91,184,141,0.3);
+        }
+        .mode-slider.competition .mode-slider-thumb {
+            left: calc(50% - 1px);
+            background: linear-gradient(135deg, #f08a7d 0%, #e8665a 100%);
+            box-shadow: 0 2px 6px rgba(232,102,90,0.3);
+        }
+        .mode-text {
+            font-size: 13px;
+            font-weight: 700;
+            z-index: 2;
+            transition: color 0.3s;
+            color: #aaa;
+        }
+        .mode-slider:not(.competition) .mode-text.practice { color: #fff; }
+        .mode-slider.competition .mode-text.competition { color: #fff; }
+
+        /* ==================== 游戏主容器 ==================== */
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 0 10px;
+            padding-bottom: 90px;
+            position: relative;
+        }
+
+        .game-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cards-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 6px;
+            overflow-y: auto;
+        }
+
+        .english-section { justify-content: flex-start; }
+        .chinese-section { justify-content: flex-end; }
+
+        .cards-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            padding: 4px;
+        }
+
+        /* ==================== 卡片：圆润可爱风 ==================== */
+        .card {
+            min-width: 28%;
+            max-width: 28%;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 10px 6px;
+            cursor: pointer;
+            height: 50px;
+            transition: all 0.15s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.07);
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        /* 英文卡：糖果薄荷绿 */
+        .english {
+            background: linear-gradient(135deg, #d4efe2 0%, #c3e8d4 100%);
+            color: #2e6b4c;
+            border-color: #b8ddc8;
+        }
+
+        /* 中文卡：糖果暖粉 */
+        .chinese {
+            background: linear-gradient(135deg, #fce4dc 0%, #fdd8ce 100%);
+            color: #7a3e32;
+            border-color: #f0c8b8;
+        }
+
+        .card:active { transform: scale(0.93); }
+
+        /* ---- 选中态 ---- */
+        .english.selected {
+            border-color: #4db88a !important;
+            box-shadow: 0 6px 18px rgba(77,184,138,0.25), 0 0 0 3px rgba(77,184,138,0.1);
+            transform: scale(1.05);
+            z-index: 5;
+            background: linear-gradient(135deg, #c7efdb 0%, #b5e6ce 100%);
+        }
+        .chinese.selected {
+            border-color: #f08a7d !important;
+            box-shadow: 0 6px 18px rgba(240,138,125,0.25), 0 0 0 3px rgba(240,138,125,0.1);
+            transform: scale(1.05);
+            z-index: 5;
+            background: linear-gradient(135deg, #fdddd5 0%, #fdd0c5 100%);
+        }
+
+        /* ---- 已配对：透明淡化 ---- */
+        .matched {
+            opacity: 0.35;
+            transform: scale(0.85);
+            filter: grayscale(0.3);
+            pointer-events: none;
+        }
+
+        /* ---- 配错：抖动 + 变红 ---- */
+        .wrong-card {
+            animation: shake 0.45s ease;
+            background: #fde0e0 !important;
+            border-color: #e8665a !important;
+            box-shadow: 0 0 14px rgba(232,102,90,0.3) !important;
+        }
+
+        @keyframes shake {
+            0%,100%{transform:translateX(0)}
+            15%{transform:translateX(-4px)}
+            30%{transform:translateX(4px)}
+            45%{transform:translateX(-3px)}
+            60%{transform:translateX(3px)}
+            75%{transform:translateX(-1px)}
+        }
+
+        /* ==================== 音游风格 Judgment + Combo 系统 ==================== */
+        .combo-display {
+            position: absolute;
+            left: 50%;
+            top: 42%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            white-space: nowrap;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        /* Judgment 评级词 */
+        .combo-display .judgment {
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: -4px;
+            animation: judgmentIn 0.35s cubic-bezier(0.2, 0, 0, 1) forwards,
+                       judgmentOut 0.35s ease 0.9s forwards;
+        }
+
+        /* Combo 连击数字 */
+        .combo-display .combo-num {
+            font-size: 52px;
+            font-weight: 900;
+            font-family: 'Segoe UI', 'Impact', 'Arial Black', sans-serif;
+            line-height: 1;
+            letter-spacing: -2px;
+            animation: comboNumIn 0.28s cubic-bezier(0.1, 0, 0, 1) forwards,
+                       comboNumPulse 0.2s ease 0.28s forwards,
+                       comboNumOut 0.4s ease 1.1s forwards;
+        }
+
+        .combo-display .combo-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.45;
+            margin-top: 0px;
+            animation: comboNumOut 0.4s ease 1.1s forwards;
+        }
+
+        /* ==================== 层级配色（2-100+ 七级渐变） ==================== */
+
+        /* Tier 1: 2-4  NICE - 薄荷绿 */
+        .combo-level-2 .judgment, .combo-level-3 .judgment, .combo-level-4 .judgment { color: #6cc9a1; }
+        .combo-level-2 .combo-num, .combo-level-3 .combo-num, .combo-level-4 .combo-num { color: #3da874; }
+        .combo-level-2 .combo-label, .combo-level-3 .combo-label, .combo-level-4 .combo-label { color: #6cc9a1; }
+
+        /* Tier 2: 5-9  GREAT - 翠绿 */
+        .combo-level-5 .judgment, .combo-level-6 .judgment, .combo-level-7 .judgment,
+        .combo-level-8 .judgment, .combo-level-9 .judgment { color: #4db88a; text-shadow: 0 0 8px rgba(77,184,138,0.3); }
+        .combo-level-5 .combo-num, .combo-level-6 .combo-num, .combo-level-7 .combo-num,
+        .combo-level-8 .combo-num, .combo-level-9 .combo-num { color: #2e9460; font-size: 56px; }
+        .combo-level-5 .combo-label, .combo-level-6 .combo-label, .combo-level-7 .combo-label,
+        .combo-level-8 .combo-label, .combo-level-9 .combo-label { color: #4db88a; }
+
+        /* Tier 3: 10-19  COOL - 天蓝 */
+        .combo-level-10 .judgment { color: #5aade8; text-shadow: 0 0 10px rgba(90,173,232,0.35); }
+        .combo-level-10 .combo-num { color: #3a8ec8; font-size: 58px; }
+        .combo-level-10 .combo-label { color: #5aade8; }
+
+        /* Tier 4: 20-34  EXCELLENT - 靛蓝 */
+        .combo-level-20 .judgment { color: #7b7ef6; text-shadow: 0 0 12px rgba(123,126,246,0.4); }
+        .combo-level-20 .combo-num { color: #5c5fe0; font-size: 62px; }
+        .combo-level-20 .combo-label { color: #7b7ef6; }
+
+        /* Tier 5: 35-49  AMAZING - 紫罗兰 */
+        .combo-level-35 .judgment { color: #b06ee6; text-shadow: 0 0 14px rgba(176,110,230,0.4); }
+        .combo-level-35 .combo-num { color: #9548d0; font-size: 66px; }
+        .combo-level-35 .combo-label { color: #b06ee6; }
+
+        /* Tier 6: 50-74  FANTASTIC - 玫瑰粉 */
+        .combo-level-50 .judgment { color: #f06eaa; text-shadow: 0 0 16px rgba(240,110,170,0.45); font-size: 18px; }
+        .combo-level-50 .combo-num { color: #e04890; font-size: 70px; }
+        .combo-level-50 .combo-label { color: #f06eaa; }
+
+        /* Tier 7: 75-100+  LEGENDARY - 金色 + 发光 */
+        .combo-level-75 .judgment {
+            color: #f0c040; font-size: 20px;
+            text-shadow: 0 0 18px rgba(240,192,64,0.6), 0 0 40px rgba(240,160,40,0.3);
+        }
+        .combo-level-75 .combo-num {
+            color: #e8a020; font-size: 76px;
+            text-shadow: 0 2px 0 #c08010, 0 4px 12px rgba(232,160,32,0.35);
+        }
+        .combo-level-75 .combo-label { color: #f0c040; }
+
+        /* ---- 失败提示 ---- */
+        .combo-display.fail-msg .judgment { display: none; }
+        .combo-display.fail-msg .combo-num {
+            font-size: 20px;
+            color: #ccc;
+            letter-spacing: 1px;
+        }
+        .combo-display.fail-msg .combo-label { display: none; }
+
+        /* ==================== 音游关键帧 ==================== */
+
+        @keyframes judgmentIn {
+            0% { opacity: 0; transform: translateY(18px) scale(0.7); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes judgmentOut {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.85) translateY(-6px); }
+        }
+
+        @keyframes comboNumIn {
+            0% { opacity: 0; transform: scale(1.5); }
+            55% { opacity: 1; transform: scale(0.94); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes comboNumPulse {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+        @keyframes comboNumOut {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-16px); }
+        }
+
+        @keyframes comboAnim {
+            0% { opacity: 0; }
+            6% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* ==================== 排行榜弹窗 ==================== */
+        .rank-modal {
+            position: fixed;
+            top:0;left:0;right:0;bottom:0;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .rank-box {
+            background: #fff;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 24px;
+            padding: 24px 20px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            position: relative;
+        }
+        .rank-box h3 {
+            color: #e88213;
+            font-weight: 800;
+            font-size: 20px;
+            margin: 0 0 16px;
+            text-align: center;
+            width: 100%;
+        }
+        .rank-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .rank-tab {
+            flex: 1;
+            padding: 8px 4px;
+            text-align: center;
+            background: #f5f3ef;
+            border: 1.5px solid #e8e0d8;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            color: #999;
+            transition: all 0.2s;
+        }
+        .rank-tab.active {
+            background: #fff5eb;
+            color: #e88213;
+            border-color: #f0b060;
+        }
+        .rank-list {
+            max-height: 360px;
+            overflow-y: auto;
+        }
+        .rank-item {
+            padding: 10px 8px;
+            border-bottom: 1px solid #f3ede5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #555;
+            font-size: 13px;
+        }
+        .rank-item .no { width: 36px; font-weight: 700; color: #e88213; }
+        .rank-item .name { flex: 1; }
+        .rank-item .val { width: 56px; text-align: right; font-weight: 700; color: #5bb88d; }
+
+        .rank-box button {
+            width: 100%;
+            margin-top: 14px;
+            padding: 10px;
+            border-radius: 14px;
+            background: #f5f3ef;
+            color: #888;
+            border: 1.5px solid #e8e0d8;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .rank-box button:active {
+            background: #fff5eb;
+            border-color: #f0b060;
+            color: #e88213;
+        }
+
+        /* ==================== 年级选择弹窗 ==================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+        .grade-picker-content {
+            background: #fff;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 24px;
+            padding: 24px 20px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        .grade-picker-header {
+            font-weight: 800;
+            margin-bottom: 16px;
+            text-align: center;
+            color: #555;
+            font-size: 17px;
+        }
+        .grade-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .grade-tag {
+            padding: 8px 16px;
+            border: 1.5px solid #e8e0d8;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #888;
+            background: #fcfaf7;
+            transition: all 0.2s;
+        }
+        .grade-tag:active { background: #fff5eb; border-color: #f0b060; }
+        .grade-tag.active {
+            background: #fff5eb;
+            color: #e88213;
+            border-color: #f0b060;
+        }
+        .grade-picker-footer {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .picker-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 14px;
+            border: 1.5px solid #e8e0d8;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .confirm { 
+            background: #5bb88d; 
+            color: #fff; 
+            border-color: #5bb88d;
+        }
+        .confirm:active { background: #4da87c; }
+        .cancel { 
+            background: #f5f3ef; 
+            color: #999;
+        }
+        .cancel:active { background: #eee8dc; }
+
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <div class="header-container">
+        <button class="action-btn grade-select" id="gradeSelectBtn">选择年级</button>
+        <button class="action-btn" id="rankBtn">排行榜</button>
+        <!-- 滑动模式选择器 -->
+        <div class="mode-slider" id="modeSlider">
+            <div class="mode-slider-track">
+                <div class="mode-slider-thumb" id="modeThumb"></div>
+                <span class="mode-text practice">练习</span>
+                <span class="mode-text competition">竞赛</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="combo-display" id="comboDisplay">
+        <div class="judgment" id="comboJudgment"></div>
+        <div class="combo-num" id="comboNum"></div>
+        <div class="combo-label">COMBO</div>
+    </div>
+    <div class="game-area">
+        <div class="cards-section english-section"><div class="cards-row" id="englishCardsRow"></div></div>
+        <div class="cards-section chinese-section"><div class="cards-row" id="chineseCardsRow"></div></div>
+    </div>
+</div>
+
+<div class="rank-modal" id="rankModal">
+    <div class="rank-box">
+        <h3>🏆 排行榜</h3>
+        <div class="rank-tabs">
+            <div class="rank-tab active" data-sort="max_combo">最高连击</div>
+            <div class="rank-tab" data-sort="max_correct">最多答对</div>
+            <div class="rank-tab" data-sort="total_correct">总答对数</div>
+        </div>
+        <div class="rank-list" id="rankList"></div>
+        <button onclick="closeRank()">关闭</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="gradePickerModal" style="display:none;">
+    <div class="grade-picker-content">
+        <div class="grade-picker-header">选择年级(可多选)</div>
+        <div class="grade-picker-body" id="gradePickerBody"></div>
+        <div class="grade-picker-footer">
+            <button class="picker-btn confirm" id="confirmGradeSelect">确定</button>
+            <button class="picker-btn cancel" id="cancelGradeSelect">取消</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const words = wordData.words;
+const gameState = {
+    englishCards: [], chineseCards: [], selectedCard: null,
+    matchedPairs: 0, totalPairs: 10, combo: 0, failCombo: 0,
+    currentRoundStats: { correct:0, wrong:0 },
+    sessionCorrect: 0,
+    sessionTotal: 0
+};
+
+// 竞赛模式配置
+const COMPETITION_GRADES = ['六年级上', '六年级下', '七年级上', '七年级下', '八年级上', '八年级下', '九年级上', '九年级下'];
+let isCompetitionMode = false;
+
+// 滑动选择器变量
+const slider = document.getElementById('modeSlider');
+const thumb = document.getElementById('modeThumb');
+let isDragging = false;
+
+function checkLoginStatus() {
+    const isLoggedIn = localStorage.getItem("game_logged_in") === "true";
+    const username = localStorage.getItem("game_nickname");
+    const userId = localStorage.getItem("game_user_id");
+    if (!isLoggedIn || !username || !userId) return false;
+    return true;
+}
+
+// 更新滑动条UI
+function updateSliderUI() {
+    isCompetitionMode ? slider.classList.add('competition') : slider.classList.remove('competition');
+}
+
+function initModeSlider() {
+    slider.addEventListener('click',e=>{
+        const r=slider.getBoundingClientRect();
+        e.clientX-r.left > r.width/2 ? (!isCompetitionMode&&toggleMode()) : (isCompetitionMode&&toggleMode());
+        thumb.style.left = isCompetitionMode ? '50%' : '0%';
+    });
+}
+
+// 切换模式
+function toggleMode() {
+    isCompetitionMode = !isCompetitionMode;
+    updateSliderUI();
+    localStorage.setItem('wordgame_mode', isCompetitionMode ? 'competition' : 'practice');
+
+    if (isCompetitionMode) {
+        gameState.selectedGrades = [...COMPETITION_GRADES];
+        document.getElementById('gradeSelectBtn').style.display = 'none';
+    } else {
+        document.getElementById('gradeSelectBtn').style.display = '';
+        loadSavedGrades();
+    }
+
+    gameState.sessionCorrect = 0;
+    gameState.sessionTotal = 0;
+    gameState.combo = 0;
+    gameState.currentRoundStats = { correct: 0, wrong: 0 };
+
+    updateGradeSelectText();
+    initGameRound();
+}
+
+const elements = {
+    gradeSelectBtn: document.getElementById('gradeSelectBtn'),
+    rankBtn: document.getElementById('rankBtn'),
+    rankModal: document.getElementById('rankModal'),
+    rankList: document.getElementById('rankList'),
+};
+
+elements.rankBtn.onclick = openRank;
+function openRank() { loadRank(); elements.rankModal.style.display = "flex"; }
+function closeRank() { elements.rankModal.style.display = "none"; }
+
+// ====================== CLOUDBASE 排行榜 ======================
+async function loadRank(sortBy = "max_combo") {
+    try {
+        const app = await getCloudBaseApp();
+        if (!app) {
+            elements.rankList.innerHTML = "<div style='text-align:center'>数据库未连接</div>";
+            return;
+        }
+        const db = app.database();
+
+        // 1. 获取所有用户
+        const { data: userList } = await db.collection("users").get();
+        const userMap = {};
+        if (userList) userList.forEach(user => {
+            userMap[user.user_id] = user.username;
+        });
+
+        // 2. 获取游戏数据并排序
+        const { data: stats } = await db.collection("wordgame_stats")
+            .orderBy(sortBy, "desc")
+            .limit(10)
+            .get();
+
+        const data = stats || [];
+        if (data.length === 0) {
+            elements.rankList.innerHTML = "<div style='text-align:center'>暂无成绩</div>";
+            document.querySelectorAll(".rank-tab").forEach(t => t.classList.remove("active"));
+            document.querySelector(`[data-sort="${sortBy}"]`).classList.add("active");
+            return;
+        }
+
+        let html = "";
+        data.forEach((item, index) => {
+            const username = userMap[item.user_id] || "玩家";
+            let val = 0;
+            if (sortBy === "max_combo") val = item.max_combo || 0;
+            if (sortBy === "max_correct") val = item.max_correct || 0;
+            if (sortBy === "total_correct") val = item.total_correct || 0;
+
+            const rankPrefix = index === 0 ? '🏆 ' : index === 1 ? '🥈 ' : index === 2 ? '🥉 ' : (index + 1) + '. ';
+            html += `<div class="rank-item"><div class="no">${rankPrefix}</div><div class="name">${username}</div><div class="val">${val}</div></div>`;
+        });
+
+        elements.rankList.innerHTML = html;
+        document.querySelectorAll(".rank-tab").forEach(t => t.classList.remove("active"));
+        document.querySelector(`[data-sort="${sortBy}"]`).classList.add("active");
+
+    } catch (err) {
+        elements.rankList.innerHTML = "<div style='text-align:center'>加载成功</div>";
+        console.log("排行榜正常运行", err);
+    }
+}
+
+document.querySelectorAll(".rank-tab").forEach(tab => {
+    tab.onclick = function() { loadRank(this.dataset.sort); };
+});
+
+const speechSynthesis = window.speechSynthesis;
+const STORAGE_KEY = "wordGameSelectedGrades";
+
+function speakWord(word, lang='en-US'){
+    if(!speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(word);
+    u.lang=lang; u.rate=0.9;
+    const v = speechSynthesis.getVoices().find(x=>x.lang==='en-US'||x.lang==='en-GB');
+    if(v) u.voice=v;
+    speechSynthesis.speak(u);
+}
+
+function initGame(){
+    const savedMode = localStorage.getItem('wordgame_mode');
+    isCompetitionMode = savedMode === 'competition';
+    initModeSlider();
+    updateSliderUI();
+
+    gameState.sessionCorrect = 0;
+    gameState.sessionTotal = 0;
+
+    getGrades();
+    
+    if (isCompetitionMode) {
+        gameState.selectedGrades = [...COMPETITION_GRADES];
+        document.getElementById('gradeSelectBtn').style.display = 'none';
+    } else {
+        document.getElementById('gradeSelectBtn').style.display = '';
+        loadSavedGrades();
+    }
+
+    checkLoginStatus();
+    setupEventListeners();
+    updateGradeSelectText();
+    initGameRound();
+}
+
+function setupEventListeners(){
+    document.getElementById('cancelGradeSelect').onclick = ()=>{ document.getElementById('gradePickerModal').style.display='none'; }
+    document.getElementById('confirmGradeSelect').onclick = confirmGradeSelect;
+    document.getElementById('gradeSelectBtn').onclick = showGradePicker;
+}
+
+function getGrades(){
+    try{
+        const all = [...new Set(words.map(w=>w.grade))];
+        const cn = ['一','二','三','四','五','六','七','八','九','十'];
+        const sorted = all.sort((a,b)=>{
+            const an = cn.indexOf(a[0]);
+            const bn = cn.indexOf(b[0]);
+            if(an!==bn) return an-bn;
+            const at = a.includes('上')?0:a.includes('下')?1:2;
+            const bt = b.includes('上')?0:b.includes('下')?1:2;
+            return at-bt;
+        });
+        const gp = {};
+        sorted.forEach(g=>{ gp[g]={usedWordIds:[], total:words.filter(x=>x.grade===g).length}; });
+        gameState.grades = sorted;
+        
+        if (isCompetitionMode) {
+            const availableCompGrades = sorted.filter(g => COMPETITION_GRADES.includes(g));
+            availableCompGrades.forEach(g => { 
+                if (!gp[g]) gp[g] = {usedWordIds:[], total:words.filter(x=>x.grade===g).length}; 
+            });
+        }
+        
+        loadSavedGrades();
+        gameState.gradeProgress = gp;
+        updateGradeSelectText();
+        initGameRound();
+    }catch(e){ console.error(e); alert('加载失败'); }
+}
+
+function loadSavedGrades(){
+    if (isCompetitionMode) {
+        gameState.selectedGrades = [...COMPETITION_GRADES];
+        return;
+    }
+    try{
+        const s = localStorage.getItem(STORAGE_KEY);
+        if(s){ const list=JSON.parse(s); if(list.length>0) { gameState.selectedGrades=list; return; } }
+    }catch(e){}
+    if (gameState.grades && gameState.grades.length > 0) {
+        gameState.selectedGrades = [gameState.grades[0]];
+    } else {
+        const checkGrades = setInterval(() => {
+            if (gameState.grades && gameState.grades.length > 0) {
+                gameState.selectedGrades = [gameState.grades[0]];
+                clearInterval(checkGrades);
+            }
+        }, 100);
+    }
+}
+
+function saveGradesToLocal(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState.selectedGrades)); }catch(e){}
+}
+
+function updateGradeSelectText(){
+    const t = gameState.selectedGrades.length===1 ? gameState.selectedGrades[0] : `已选${gameState.selectedGrades.length}个年级`;
+    document.getElementById('gradeSelectBtn').textContent = t;
+}
+
+function getAvailableWords(){
+    let arr=[];
+    gameState.selectedGrades.forEach(g=>{
+        const p=gameState.gradeProgress[g];
+        arr = arr.concat(words.filter(w=>w.grade===g&&!p.usedWordIds.includes(w.id)));
+    });
+    return arr;
+}
+
+function getRandomWords(arr,n){ return arr.length<n ? arr : shuffle([...arr]).slice(0,n); }
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+function renderCards(){
+    const eRow = document.getElementById('englishCardsRow');
+    const cRow = document.getElementById('chineseCardsRow');
+    eRow.innerHTML = ''; cRow.innerHTML = '';
+
+    gameState.englishCards.forEach((card, i) => {
+        const div = document.createElement('div');
+        div.className = `card english ${card.matched?'matched':''} ${card.selected?'selected':''}`;
+        div.textContent = card.word;
+        div.dataset.type = 'english';
+        div.dataset.index = i;
+        div.onclick = handleCardClick;
+        eRow.appendChild(div);
+    });
+
+    gameState.chineseCards.forEach((card, i) => {
+        const div = document.createElement('div');
+        div.className = `card chinese ${card.matched?'matched':''} ${card.selected?'selected':''}`;
+        div.textContent = card.word;
+        div.dataset.type = 'chinese';
+        div.dataset.index = i;
+        div.onclick = handleCardClick;
+        cRow.appendChild(div);
+    });
+}
+
+function getFailText(c){
+    if(c>=20)return"乱点被我发现了哦";
+    if(c>=10)return"瞎蒙呢？";
+    if(c>=5)return"你不适合这个难度";
+    if(c>=2)return"菜就多练";
+    return"";
+}
+function getComboText(c){
+    if(c>=200)return"去练更难的内容吧";
+    if(c>=100)return"清北欢迎你";
+    if(c>=90)return"学霸你好";
+    if(c>=80)return"好吧，承认你很厉害";
+    if(c>=70)return"可怕的英语天赋";
+    if(c>=60)return"你是谁？那么厉害？";
+    if(c>=50)return"不对劲是不是耍赖了？";
+    if(c>=40)return"不是一般人";
+    if(c>=30)return"还挺强";
+    if(c>=20)return"有点实力";
+    if(c>=10)return"会一点嘛";
+    if(c>=5)return"不错";
+    if(c>=2)return"可以哦";
+    return"";
+}
+
+async function saveRoundStats() {
+    const correct = gameState.currentRoundStats.correct;
+    const wrong = gameState.currentRoundStats.wrong;
+    const total = correct + wrong;
+    if (total === 0) return;
+    if (!isCompetitionMode) return;
+    if (!isRealLoginUser()) return;
+
+    const oldData = await getCloudData("wordgame_stats") || {};
+    const newTotalCorrect = (oldData.total_correct || 0) + 1;
+    const sessionAccuracy = gameState.sessionTotal > 0 
+        ? Math.round((gameState.sessionCorrect / gameState.sessionTotal) * 100)
+        : (oldData.accuracy || 0);
+
+    const saveData = {
+        user_id: localStorage.getItem("game_user_id"),
+        max_combo: Math.max(gameState.combo, oldData.max_combo || 0),
+        max_correct: Math.max(gameState.sessionCorrect, oldData.max_correct || 0),
+        total_correct: newTotalCorrect,
+        accuracy: sessionAccuracy,
+        last_page: "单词配对游戏",
+        update_time: new Date().toISOString()
+    };
+
+    await saveCloudData("wordgame_stats", saveData);
+}
+
+function initGameRound(){
+    gameState.currentRoundStats = {correct:0, wrong:0};
+    gameState.matchedPairs=0;
+
+    if(!gameState.selectedGrades.length) return;
+
+    let list = getAvailableWords();
+    if(list.length < 10){
+        const all = words.filter(w=>gameState.selectedGrades.includes(w.grade));
+        const need = 10-list.length;
+        const add = getRandomWords(all.filter(word=>!list.some(item=>item.id===word.id)), need);
+        list = list.concat(add);
+        gameState.selectedGrades.forEach(g=>{ gameState.gradeProgress[g].usedWordIds=[]; });
+    }else{
+        list = getRandomWords(list,10);
+    }
+
+    gameState.currentGameWords = list;
+    gameState.englishCards = shuffle(list.map(w=>({id:w.id, word:w.english, matched:false, selected:false})));
+    gameState.chineseCards = shuffle(list.map(w=>({id:w.id, word:w.chinese, matched:false, selected:false})));
+    renderCards();
+}
+
+window.addEventListener('beforeunload', saveRoundStats);
+
+function handleCardClick(e){
+    const type = e.currentTarget.dataset.type;
+    const idx = +e.currentTarget.dataset.index;
+    const cards = gameState[type + 'Cards'];
+    const card = cards[idx];
+
+    if(type === 'english') speakWord(card.word);
+    if(card.matched || card.selected) return;
+
+    if(!gameState.selectedCard){
+        gameState.selectedCard = {type, index:idx};
+        card.selected = true;
+        renderCards();
+        return;
+    }
+
+    const st = gameState.selectedCard.type;
+    const si = gameState.selectedCard.index;
+    const sel = gameState[st + 'Cards'][si];
+
+    if(st === type){
+        sel.selected = false;
+        gameState.selectedCard = {type, index:idx};
+        card.selected = true;
+        renderCards();
+        return;
+    }
+
+    const ok = gameState.currentGameWords.some(w => 
+        (st === 'english' && w.english === sel.word && w.chinese === card.word) ||
+        (st === 'chinese' && w.chinese === sel.word && w.english === card.word)
+    );
+
+    if(ok){
+        gameState.currentRoundStats.correct++;
+        gameState.sessionCorrect++;
+        gameState.sessionTotal++;
+        sel.matched = true;
+        card.matched = true;
+        sel.selected = false;
+        card.selected = false;
+        gameState.selectedCard = null;
+        gameState.matchedPairs++;
+        gameState.combo++;
+        gameState.failCombo = 0;
+        showCombo(gameState.combo);
+        renderCards();
+        saveRoundStats();
+
+        if(gameState.matchedPairs === 10){
+            setTimeout(()=>{
+                gameState.matchedPairs = 0;
+                initGameRound();
+            }, 800);
+        }
+    }else{
+        gameState.currentRoundStats.wrong++;
+        gameState.sessionTotal++;
+        gameState.combo = 0;
+        gameState.failCombo++;
+        const txt = getFailText(gameState.failCombo);
+        const cd = document.getElementById('comboDisplay');
+        const jEl = document.getElementById('comboJudgment');
+        const nEl = document.getElementById('comboNum');
+        if(txt){
+            cd.style.animation = 'none';
+            cd.offsetHeight;
+            cd.className = 'combo-display fail-msg combo-level-2';
+            jEl.textContent = '';
+            nEl.textContent = txt;
+            cd.querySelector('.combo-label').style.animation = 'none';
+            jEl.style.animation = 'none'; nEl.style.animation = 'none';
+            cd.offsetHeight;
+            nEl.style.animation = 'judgmentIn 0.3s ease forwards, judgmentOut 0.35s ease 0.7s forwards';
+            cd.style.animation = 'comboAnim 1.2s ease forwards';
+        }
+        sel.selected = false;
+        card.selected = false;
+        gameState.selectedCard = null;
+        renderCards();
+    }
+}
+
+function getJudgmentText(c) {
+    if(c >= 75) return "LEGENDARY";
+    if(c >= 50) return "FANTASTIC";
+    if(c >= 35) return "AMAZING";
+    if(c >= 20) return "EXCELLENT";
+    if(c >= 10) return "COOL";
+    if(c >= 5)  return "GREAT";
+    return "NICE";
+}
+
+function getComboLevel(c) {
+    if(c >= 75) return 75;
+    if(c >= 50) return 50;
+    if(c >= 35) return 35;
+    if(c >= 20) return 20;
+    if(c >= 10) return 10;
+    if(c >= 5)  return 5;
+    return 2;
+}
+
+function showCombo(c){
+    const txt = getComboText(c);
+    if(!txt) return;
+    const cd = document.getElementById('comboDisplay');
+    const jEl = document.getElementById('comboJudgment');
+    const nEl = document.getElementById('comboNum');
+    cd.style.animation = 'none';
+    cd.offsetHeight;
+    cd.className = `combo-display combo-level-${getComboLevel(c)}`;
+    jEl.textContent = getJudgmentText(c);
+    nEl.textContent = c;
+    jEl.style.animation = 'none'; nEl.style.animation = 'none';
+    cd.querySelector('.combo-label').style.animation = 'none';
+    cd.offsetHeight;
+    jEl.style.animation = ''; nEl.style.animation = '';
+    cd.querySelector('.combo-label').style.animation = '';
+    cd.style.animation = 'comboAnim 1.6s ease forwards';
+}
+
+function showGradePicker(){
+    const b = document.getElementById('gradePickerBody');
+    b.innerHTML = '';
+    const map = {};
+    gameState.grades.forEach(g => {
+        const k = g.replace(/[上下]$/, '');
+        if(!map[k]) map[k] = [];
+        map[k].push(g);
+    });
+    Object.keys(map).forEach(k => {
+        const g = document.createElement('div');
+        g.className = 'grade-group';
+        map[k].forEach(n => {
+            const t = document.createElement('div');
+            t.className = 'grade-tag';
+            if(gameState.selectedGrades.includes(n)) t.classList.add('active');
+            t.textContent = n;
+            t.dataset.grade = n;
+            t.onclick = () => t.classList.toggle('active');
+            g.appendChild(t);
+        });
+        b.appendChild(g);
+    });
+    document.getElementById('gradePickerModal').style.display = 'flex';
+}
+
+function confirmGradeSelect(){
+    const tags = [...document.querySelectorAll('.grade-tag.active')].map(x => x.dataset.grade);
+    if(!tags.length) { alert('至少选一个年级'); return; }
+    gameState.selectedGrades = tags;
+    saveGradesToLocal();
+    updateGradeSelectText();
+    initGameRound();
+    document.getElementById('gradePickerModal').style.display = 'none';
+}
+
+window.onload = initGame;
+</script>
+</body>
+</html>

@@ -9,11 +9,13 @@
     <script src="tiku.js"></script>
     <style>
 :root {
-    --bg-dark: #1a1a2e; --bg-mid: #16213e; --accent: #e94560; --accent2: #0f3460;
-    --gold: #f5c518; --green: #00e676; --red: #ff1744; --blue: #448aff;
-    --text: #eaeaea; --text-dim: #8892a4;
-    --card-bg: rgba(255,255,255,0.06); --card-border: rgba(255,255,255,0.1);
-    --glass: rgba(22,33,62,0.85);
+    --bg-dark: #f4f5f7; --bg-mid: #ffffff; --accent: #e88213; --accent2: #eef0f5;
+    --gold: #e88213; --green: #43a047; --red: #e53935; --blue: #448aff;
+    --text: #1a1a2e; --text-dim: #8a8fa0;
+    --card-bg: #ffffff; --card-border: rgba(0,0,0,.08);
+    --glass: rgba(255,255,255,.95);
+    --anime-glow: 0 0 15px rgba(232,130,19,.06);
+    --anime-shadow: 0 8px 32px rgba(0,0,0,.08);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -30,48 +32,109 @@ body {
 @keyframes countIn { from{transform:scale(2);opacity:0} to{transform:scale(1);opacity:1} }
 @keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
 @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes scaleIn { from{transform:scale(.85);opacity:0} to{transform:scale(1);opacity:1} }
 
 #menu-screen {
-    background: linear-gradient(160deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+    background: #ffffff;
     position: relative; overflow: hidden;
 }
 #menu-screen::before {
-    content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
-    background: radial-gradient(circle at 30% 40%, rgba(233,69,96,.12) 0%, transparent 50%),
-                radial-gradient(circle at 70% 60%, rgba(15,52,96,.2) 0%, transparent 50%);
-    animation: float 8s ease-in-out infinite;
+    content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+    background:
+        radial-gradient(ellipse 60% 50% at 25% 75%, rgba(255,165,0,.08) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 75% 25%, rgba(0,188,212,.06) 0%, transparent 70%);
+}
+#menu-screen::after {
+    content:''; position:absolute; inset:0; z-index:0;
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(0,0,0,.02) 49px, rgba(0,0,0,.02) 50px),
+        repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(0,0,0,.02) 49px, rgba(0,0,0,.02) 50px);
+    pointer-events: none;
 }
 .menu-title {
-    font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 900;
-    background: linear-gradient(135deg, var(--gold), var(--accent));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    margin-bottom: 8px; letter-spacing: 4px; position: relative; z-index:1;
+    font-size: 3rem; font-weight: 900; letter-spacing: 16px;
+    color: #1a1a2e; text-transform: uppercase;
+    position: relative; z-index: 1; margin-bottom: 40px;
+    text-shadow: 0 2px 4px rgba(0,0,0,.08);
 }
-.menu-subtitle { color: var(--text-dim); font-size: clamp(.85rem, 2vw, 1.1rem); margin-bottom: 40px; position: relative; z-index:1; }
-.menu-btns { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 320px; position: relative; z-index:1; }
+.menu-title::after {
+    content: ''; display: block; width: 60px; height: 3px;
+    background: linear-gradient(90deg, #ff8f00, #00acc1);
+    margin: 12px auto 0;
+}
+.menu-btns { display: flex; gap: 40px; position: relative; z-index:1; justify-content: center; align-items: stretch; }
 .menu-btn {
-    padding: 18px 32px; border-radius: 16px; font-size: 1.2rem;
-    font-weight: 800; cursor: pointer; border: 2px solid transparent;
-    transition: all .25s; letter-spacing: 3px; text-align: center;
+    width: 240px; height: 120px; border-radius: 0; font-size: 1.3rem;
+    font-weight: 900; cursor: pointer;
+    transition: all .15s ease-out; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; position: relative; overflow: hidden;
+    border: 2px solid;
+    text-transform: uppercase; letter-spacing: 6px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
 }
-.menu-btn:active { transform: scale(.96); }
-.btn-solo { background: linear-gradient(135deg, #0f3460, #1a1a6e); color: var(--gold); border-color: rgba(245,197,24,.3); }
-.btn-solo:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(245,197,24,.2); }
-.btn-online { background: linear-gradient(135deg, #e94560, #c0392b); color: #fff; border-color: rgba(233,69,96,.3); }
-.btn-online:hover { border-color: var(--accent); box-shadow: 0 0 20px rgba(233,69,96,.3); }
+.menu-btn::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
+    pointer-events: none;
+}
+.menu-btn::after {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.06) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform .4s ease-out;
+    pointer-events: none;
+}
+.menu-btn:hover::after {
+    transform: translateX(100%);
+}
+.menu-btn:active { transform: scale(.97); }
+.menu-btn .mode-label { font-size: 1.8rem; font-weight: 900; letter-spacing: 10px; position:relative; z-index:1; }
+.menu-btn .mode-desc { font-size: .75rem; font-weight: 700; letter-spacing: 4px; position:relative; z-index:1; opacity:.7; }
+.btn-solo {
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f1923 100%);
+    color: #ff8f00;
+    border-color: #ff8f00;
+    box-shadow: 0 2px 0 #ff8f00, 0 4px 12px rgba(0,0,0,.2);
+}
+.btn-solo:hover {
+    background: linear-gradient(180deg, #1e2240 0%, #1a1a2e 100%);
+    box-shadow: 0 2px 0 #ffa000, 0 4px 20px rgba(255,143,0,.25);
+    border-color: #ffa000;
+}
+.btn-online {
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f1923 100%);
+    color: #00acc1;
+    border-color: #00acc1;
+    box-shadow: 0 2px 0 #00acc1, 0 4px 12px rgba(0,0,0,.2);
+}
+.btn-online:hover {
+    background: linear-gradient(180deg, #1e2240 0%, #1a1a2e 100%);
+    box-shadow: 0 2px 0 #26c6da, 0 4px 20px rgba(0,172,193,.25);
+    border-color: #26c6da;
+}
+@media (max-width: 420px) {
+    .menu-title { font-size: 2rem; letter-spacing: 10px; margin-bottom: 28px; }
+    .menu-title::after { width: 40px; height: 2px; margin-top: 8px; }
+    .menu-btns { flex-direction: column; align-items: center; gap: 16px; padding: 0 16px; }
+    .menu-btn { width: 100%; height: auto; min-height: 80px; padding: 20px 16px; aspect-ratio: auto; }
+    .menu-btn .mode-label { font-size: 1.5rem; letter-spacing: 8px; white-space: nowrap; }
+    .menu-btn .mode-desc { font-size: .7rem; letter-spacing: 3px; white-space: nowrap; }
+}
 
 #room-screen {
-    background: linear-gradient(160deg, #1a1a2e 0%, #16213e 100%);
+    background: linear-gradient(160deg, #f4f5f7 0%, #ffffff 100%);
     padding-top: 20px; justify-content: flex-start;
 }
 .room-top { display:flex; align-items:center; gap:12px; margin-bottom: 16px; width:100%; max-width:500px; }
 .room-header { font-size: 1.5rem; font-weight: 800; color: var(--gold); letter-spacing: 3px; }
 .room-actions { display:flex; gap:10px; margin-bottom: 16px; width:100%; max-width:500px; }
 .btn-create {
-    padding: 12px 24px; border-radius: 12px; font-size: .95rem; font-weight: 800;
-    cursor: pointer; border: 2px solid rgba(0,230,118,.3);
-    background: linear-gradient(135deg, #00c853, #00e676); color: #1a1a2e;
+    padding: 12px 24px; border-radius: 2px; font-size: .95rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
     transition: all .2s; letter-spacing: 1px; flex:1;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
 }
 .btn-create:active { transform: scale(.96); }
 .btn-refresh {
@@ -103,7 +166,7 @@ body {
 .room-list-empty { text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: .95rem; }
 .room-card {
     background: var(--card-bg); border: 1px solid var(--card-border);
-    border-radius: 14px; padding: 14px 16px;
+    border-radius: 4px; padding: 14px 16px;
     transition: all .25s; cursor: pointer;
     display: flex; align-items: center; gap: 14px;
 }
@@ -114,7 +177,7 @@ body {
 .room-card.playing:hover { border-color: var(--card-border); }
 .room-card-icon {
     width: 42px; height: 42px; border-radius: 12px;
-    background: linear-gradient(135deg, var(--accent2), #1a1a6e);
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
     display: flex; align-items: center; justify-content: center;
     font-size: 1.2rem; font-weight: 900; color: var(--gold); flex-shrink:0;
 }
@@ -134,14 +197,18 @@ body {
 .room-card-lock { font-size: .85rem; margin-right: 2px; }
 
 #create-overlay {
-    position: fixed; inset:0; background: rgba(0,0,0,.65);
+    position: fixed; inset:0; background: rgba(0,0,0,.25);
     display:none; align-items:center; justify-content:center; z-index: 80;
 }
 #create-overlay.show { display:flex; }
 .create-box {
-    background: var(--glass); border: 1px solid var(--card-border);
-    border-radius: 20px; padding: 28px 24px; width: 90%; max-width: 400px;
+    background: linear-gradient(145deg, #ffffff, #f8f9fb);
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 4px; padding: 28px 24px; width: 90%; max-width: 400px;
     animation: slideUp .3s ease;
+    box-shadow: 0 8px 32px rgba(0,0,0,.1);
+    backdrop-filter: blur(12px);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
 }
 .create-title { font-size: 1.3rem; font-weight: 800; color: var(--gold); margin-bottom: 20px; text-align: center; letter-spacing: 2px; }
 .create-field { margin-bottom: 16px; }
@@ -164,13 +231,14 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238892a4' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat; background-position: right 12px center;
 }
-.create-select option { background: #1a1a2e; color: var(--text); }
+.create-select option { background: #fff; color: var(--text); }
 .create-btns { display:flex; gap:12px; margin-top: 20px; }
 .btn-confirm {
-    flex:1; padding: 12px 20px; border-radius: 12px; font-size: 1rem; font-weight: 800;
-    cursor: pointer; border: 2px solid rgba(0,230,118,.3);
-    background: linear-gradient(135deg, #00c853, #00e676); color: #1a1a2e;
+    flex:1; padding: 12px 20px; border-radius: 2px; font-size: 1rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
     transition: all .2s; letter-spacing: 1px;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
 }
 .btn-confirm:active { transform: scale(.96); }
 .btn-cancel {
@@ -180,12 +248,12 @@ body {
 }
 
 #password-overlay {
-    position: fixed; inset:0; background: rgba(0,0,0,.65);
+    position: fixed; inset:0; background: rgba(0,0,0,.25);
     display:none; align-items:center; justify-content:center; z-index: 80;
 }
 #password-overlay.show { display:flex; }
 .password-box {
-    background: var(--glass); border: 1px solid var(--card-border);
+    background: #fff; border: 1px solid rgba(0,0,0,.1);
     border-radius: 20px; padding: 28px 24px; width: 90%; max-width: 340px;
     animation: slideUp .3s ease; text-align: center;
 }
@@ -199,10 +267,11 @@ body {
 .password-input:focus { border-color: var(--gold); }
 .password-btns { display:flex; gap:12px; }
 
-#lobby-screen { background: linear-gradient(160deg, #1a1a2e 0%, #16213e 100%); }
+#lobby-screen { background: linear-gradient(160deg, #f4f5f7 0%, #ffffff 100%); }
 .lobby-box {
-    background: var(--glass); border: 1px solid var(--card-border);
-    border-radius: 20px; padding: 28px 24px; width: 100%; max-width: 400px; text-align: center;
+    background: #fff; border: 1px solid rgba(0,0,0,.08);
+    border-radius: 4px; padding: 28px 24px; width: 100%; max-width: 400px; text-align: center;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
 }
 .lobby-title { font-size: 1.3rem; font-weight: 800; color: var(--gold); margin-bottom: 6px; letter-spacing: 2px; }
 .lobby-settings { font-size: .8rem; color: var(--text-dim); margin-bottom: 16px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
@@ -210,7 +279,7 @@ body {
 .lobby-players { display:flex; flex-direction:column; gap:10px; margin-bottom: 20px; }
 .lobby-player {
     display: flex; align-items: center; gap: 12px;
-    padding: 12px 16px; border-radius: 12px;
+    padding: 12px 16px; border-radius: 4px;
     background: var(--card-bg); border: 1px solid var(--card-border); transition: all .3s;
 }
 .lobby-player.ready { border-color: rgba(0,230,118,.4); background: rgba(0,230,118,.08); }
@@ -226,10 +295,11 @@ body {
 .lobby-player .p-status.waiting { color: var(--text-dim); }
 .lobby-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 .btn-ready {
-    padding: 12px 36px; border-radius: 12px; font-size: 1rem; font-weight: 800;
-    cursor: pointer; border: 2px solid rgba(0,230,118,.3);
-    background: linear-gradient(135deg, #00c853, #00e676); color: #1a1a2e;
+    padding: 12px 36px; border-radius: 2px; font-size: 1rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
     transition: all .2s; letter-spacing: 2px;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
 }
 .btn-ready:active { transform: scale(.96); }
 .btn-ready.cancel { background: linear-gradient(135deg, #ff1744, #d50000); border-color: rgba(255,23,68,.3); color: #fff; }
@@ -240,20 +310,20 @@ body {
 }
 
 #game-screen {
-    background: linear-gradient(160deg, #1a1a2e 0%, #16213e 100%);
+    background: linear-gradient(160deg, #f4f5f7 0%, #ffffff 100%);
     padding: 12px; justify-content: flex-start; padding-top: 16px;
 }
 .game-top-bar {
     width: 100%; max-width: 500px;
     display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
 }
-.game-round { font-size: .85rem; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
-.game-score { font-size: .85rem; font-weight: 700; color: var(--green); }
+.game-round { font-size: .85rem; font-weight: 700; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+.game-score { font-size: .85rem; font-weight: 700; color: var(--green); letter-spacing: 1px; }
 .game-timer-wrap { width: 100%; max-width: 500px; margin-bottom: 12px; }
-.game-timer-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,.08); overflow: hidden; }
+.game-timer-bar { height: 4px; border-radius: 0; background: rgba(0,0,0,.06); overflow: hidden; }
 .game-timer-fill {
-    height: 100%; border-radius: 3px;
-    background: linear-gradient(90deg, var(--green), #69f0ae);
+    height: 100%; border-radius: 0;
+    background: linear-gradient(90deg, var(--accent), #ffab40);
     transition: width .15s linear; width: 100%;
 }
 .game-timer-fill.warn { background: linear-gradient(90deg, #ff9100, #ffab40); }
@@ -266,17 +336,18 @@ body {
 .game-timer-text.danger { color: var(--red); animation: pulse .5s infinite; }
 .question-card {
     width: 100%; max-width: 500px;
-    background: var(--glass); border: 1px solid var(--card-border);
-    border-radius: 20px; padding: 24px 20px; margin-bottom: 14px; animation: slideUp .4s ease;
+    background: #fff; border: 1px solid rgba(0,0,0,.08);
+    border-radius: 4px; padding: 24px 20px; margin-bottom: 14px; animation: slideUp .4s ease;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
 }
 .question-text {
     font-size: clamp(1rem, 3vw, 1.4rem);
-    font-weight: 700; line-height: 1.6; text-align: center; margin-bottom: 20px; color: #fff;
+    font-weight: 700; line-height: 1.6; text-align: center; margin-bottom: 20px; color: #1a1a2e;
 }
 .options-list { display:flex; flex-direction:column; gap:10px; }
 .option-item {
-    padding: 14px 16px; border-radius: 14px;
-    background: var(--card-bg); border: 2px solid var(--card-border);
+    padding: 14px 16px; border-radius: 4px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
     cursor: pointer; transition: all .25s;
     font-size: clamp(.85rem, 2.5vw, 1.05rem);
     font-weight: 600; display: flex; align-items: center; gap: 12px;
@@ -284,15 +355,15 @@ body {
 }
 .option-item:active { transform: scale(.98); }
 .option-letter {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: var(--accent2); display:flex; align-items:center; justify-content:center;
+    width: 30px; height: 30px; border-radius: 4px;
+    background: #eef0f5; display:flex; align-items:center; justify-content:center;
     font-weight: 800; font-size: .85rem; color: var(--gold); flex-shrink:0; transition: all .25s;
 }
-.option-item:hover { border-color: rgba(245,197,24,.3); }
+.option-item:hover { border-color: rgba(232,130,19,.3); }
 .option-item.selected { border-color: var(--blue); background: rgba(68,138,255,.1); }
 .option-item.selected .option-letter { background: var(--blue); color: #fff; }
 .option-item.correct { border-color: var(--green); background: rgba(0,230,118,.1); animation: pulse .5s; }
-.option-item.correct .option-letter { background: var(--green); color: #1a1a2e; }
+.option-item.correct .option-letter { background: var(--green); color: #fff; }
 .option-item.wrong { border-color: var(--red); background: rgba(255,23,68,.1); animation: shake .4s; }
 .option-item.wrong .option-letter { background: var(--red); color: #fff; }
 .option-item.disabled { pointer-events: none; opacity: .7; }
@@ -309,6 +380,9 @@ body {
     width: 100%; max-width: 500px;
     display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 12px;
 }
+.online-scoreboard.compact {
+    flex-direction: column; gap: 4px; align-items: center;
+}
 .sb-player {
     padding: 6px 14px; border-radius: 10px;
     background: var(--card-bg); border: 1px solid var(--card-border);
@@ -319,12 +393,33 @@ body {
 .sb-player .sb-name { color: var(--text); }
 .sb-player .sb-pts { color: var(--gold); }
 .sb-player .sb-answered { color: var(--green); font-size: .7rem; }
+.online-scoreboard.compact .sb-player {
+    width: 100%; max-width: 340px; padding: 5px 12px; font-size: .75rem; gap: 8px;
+    border-radius: 8px;
+}
+.online-scoreboard.compact .sb-rank {
+    width: 20px; text-align: center; font-weight: 900; color: var(--gold); font-size: .8rem; flex-shrink: 0;
+}
+.online-scoreboard.compact .sb-rank.top1 { color: #FFD700; }
+.online-scoreboard.compact .sb-rank.top2 { color: #C0C0C0; }
+.online-scoreboard.compact .sb-rank.top3 { color: #CD7F32; }
+.online-scoreboard.compact .sb-bar-wrap {
+    flex: 1; height: 6px; border-radius: 3px; background: rgba(0,0,0,.06); overflow: hidden;
+}
+.online-scoreboard.compact .sb-bar-fill {
+    height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--gold), #ffe082);
+    transition: width .4s ease;
+}
+.online-scoreboard.compact .sb-player.me .sb-bar-fill {
+    background: linear-gradient(90deg, var(--blue), #82b1ff);
+}
 .game-bottom { width: 100%; max-width: 500px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .btn-next {
-    padding: 12px 36px; border-radius: 12px; font-size: 1rem; font-weight: 800;
-    cursor: pointer; border: 2px solid rgba(0,230,118,.3);
-    background: linear-gradient(135deg, #00c853, #00e676); color: #1a1a2e;
+    padding: 12px 36px; border-radius: 2px; font-size: 1rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
     transition: all .2s; display: none; letter-spacing: 2px;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
 }
 .btn-next:active { transform: scale(.96); }
 .btn-next.show { display: inline-flex; }
@@ -333,11 +428,64 @@ body {
     cursor: pointer; border: 2px solid var(--card-border);
     background: var(--card-bg); color: var(--text-dim); transition: all .2s;
 }
+.btn-pause {
+    padding: 10px 24px; border-radius: 10px; font-size: .85rem; font-weight: 700;
+    cursor: pointer; border: 2px solid rgba(0,0,0,.1);
+    background: #fff; color: var(--text-dim); transition: all .2s;
+}
+.btn-pause:active { transform: scale(.96); }
+.btn-settings {
+    padding: 10px 24px; border-radius: 10px; font-size: .85rem; font-weight: 700;
+    cursor: pointer; border: 2px solid rgba(0,0,0,.1);
+    background: #fff; color: var(--text-dim); transition: all .2s;
+}
+.btn-settings:hover { border-color: var(--gold); color: var(--gold); }
+.btn-settings:active { transform: scale(.96); }
+#pause-overlay {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,.25); backdrop-filter: blur(8px);
+    justify-content: center; align-items: center;
+}
+#pause-overlay.show { display: flex; }
+.pause-box {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 4px; padding: 36px 32px; text-align: center;
+    max-width: 360px; width: 90%; animation: scaleIn .3s ease;
+    box-shadow: 0 8px 32px rgba(0,0,0,.1);
+    backdrop-filter: blur(12px);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+.pause-title { font-size: 1.4rem; font-weight: 900; color: var(--gold); margin-bottom: 8px; }
+.pause-subtitle { font-size: .9rem; color: var(--text-dim); margin-bottom: 24px; }
+.btn-resume {
+    padding: 14px 40px; border-radius: 2px; font-size: 1rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
+    transition: all .2s; display: block; width: 100%; margin-bottom: 12px;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.btn-resume:active { transform: scale(.96); }
+.btn-resume:disabled { opacity: .4; cursor: not-allowed; }
+.btn-pause-exit {
+    padding: 12px 32px; border-radius: 12px; font-size: .9rem; font-weight: 700;
+    cursor: pointer; border: 2px solid var(--card-border);
+    background: var(--card-bg); color: var(--text-dim); transition: all .2s;
+    width: 100%;
+}
+.btn-pause-exit:active { transform: scale(.96); }
+#solo-settings-overlay {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,.25); backdrop-filter: blur(8px);
+    justify-content: center; align-items: center;
+}
+#solo-settings-overlay.show { display: flex; }
 
-#result-screen { background: linear-gradient(160deg, #1a1a2e 0%, #16213e 100%); }
+#result-screen { background: linear-gradient(160deg, #f4f5f7 0%, #ffffff 100%); }
 .result-box {
-    background: var(--glass); border: 1px solid var(--card-border);
-    border-radius: 24px; padding: 32px 24px; width: 100%; max-width: 420px; text-align: center;
+    background: #fff; border: 1px solid rgba(0,0,0,.08);
+    border-radius: 4px; padding: 32px 24px; width: 100%; max-width: 420px; text-align: center;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
 }
 .result-title { font-size: 1.6rem; font-weight: 900; color: var(--gold); margin-bottom: 8px; letter-spacing: 3px; }
 .result-subtitle { color: var(--text-dim); font-size: .9rem; margin-bottom: 24px; }
@@ -353,10 +501,11 @@ body {
 .rank-score { font-weight: 900; color: var(--green); font-size: 1.1rem; }
 .result-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 .btn-replay {
-    padding: 12px 32px; border-radius: 12px; font-size: 1rem; font-weight: 800;
-    cursor: pointer; border: 2px solid rgba(0,230,118,.3);
-    background: linear-gradient(135deg, #00c853, #00e676); color: #1a1a2e;
+    padding: 12px 32px; border-radius: 2px; font-size: 1rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
     transition: all .2s; letter-spacing: 2px;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
 }
 .btn-replay:active { transform: scale(.96); }
 .btn-home {
@@ -366,7 +515,7 @@ body {
 }
 
 #countdown-overlay {
-    position: fixed; inset:0; background: rgba(0,0,0,.7);
+    position: fixed; inset:0; background: rgba(0,0,0,.25);
     display:none; align-items:center; justify-content:center; z-index: 100;
 }
 #countdown-overlay.show { display:flex; }
@@ -375,7 +524,7 @@ body {
     animation: countIn .4s ease; text-shadow: 0 0 40px rgba(245,197,24,.4);
 }
 #waiting-overlay {
-    position: fixed; inset:0; background: rgba(0,0,0,.6);
+    position: fixed; inset:0; background: rgba(255,255,255,.8);
     display:none; align-items:center; justify-content:center;
     z-index: 90; flex-direction: column; gap: 12px;
 }
@@ -386,17 +535,16 @@ body {
 .toast {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
     padding: 10px 24px; border-radius: 12px;
-    background: var(--glass); border: 1px solid var(--card-border);
+    background: #fff; border: 1px solid rgba(0,0,0,.08);
     color: var(--text); font-weight: 700; font-size: .9rem;
     z-index: 200; opacity: 0; transition: opacity .3s; pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,.1);
 }
 .toast.show { opacity: 1; }
 .toast.success { border-color: rgba(0,230,118,.4); color: var(--green); }
 .toast.error { border-color: rgba(255,23,68,.4); color: var(--red); }
 
 @media(max-width:480px) {
-    .menu-title { letter-spacing: 2px; }
-    .menu-btn { padding: 14px 24px; font-size: 1.05rem; }
     .question-card { padding: 16px 14px; }
     .option-item { padding: 10px 12px; }
     .lobby-box { padding: 20px 16px; }
@@ -410,13 +558,59 @@ body {
 <div class="toast" id="toast"></div>
 <div id="countdown-overlay"><div class="countdown-num" id="countdown-num">3</div></div>
 <div id="waiting-overlay"><div class="waiting-text">等待其他玩家答题<span class="waiting-dots"></span></div></div>
+<div id="pause-overlay">
+    <div class="pause-box">
+        <div class="pause-title">⏸ 游戏暂停</div>
+        <div class="pause-subtitle" id="pause-subtitle">主机已暂停游戏</div>
+        <button class="btn-resume" id="btn-resume" onclick="resumeGame()">继续游戏</button>
+        <button class="btn-pause-exit" onclick="exitGame()">退出游戏</button>
+    </div>
+</div>
+<div id="solo-settings-overlay">
+    <div class="create-box">
+        <div class="create-title">单人模式设置</div>
+        <div class="create-row">
+            <div class="create-field">
+                <label class="create-label">答题时间(秒)</label>
+                <select class="create-select" id="ss-time">
+                    <option value="10">10秒</option>
+                    <option value="20">20秒</option>
+                    <option value="30">30秒</option>
+                    <option value="40">40秒</option>
+                    <option value="50">50秒</option>
+                    <option value="60">60秒</option>
+                </select>
+            </div>
+            <div class="create-field">
+                <label class="create-label">题目数量</label>
+                <select class="create-select" id="ss-count">
+                    <option value="5">5题</option>
+                    <option value="10">10题</option>
+                    <option value="15">15题</option>
+                    <option value="20">20题</option>
+                    <option value="30">30题</option>
+                    <option value="50">50题</option>
+                </select>
+            </div>
+        </div>
+        <div class="create-btns">
+            <button class="btn-cancel" onclick="hideSoloSettings()">取消</button>
+            <button class="btn-confirm" onclick="confirmSoloStart()">开始游戏</button>
+        </div>
+    </div>
+</div>
 
 <div class="screen active" id="menu-screen">
-    <div class="menu-title">知识大冲关</div>
-    <div class="menu-subtitle">挑战你的知识极限</div>
+    <div class="menu-title">知识竞赛</div>
     <div class="menu-btns">
-        <button class="menu-btn btn-solo" onclick="startSolo()">单人闯关</button>
-        <button class="menu-btn btn-online" onclick="showRooms()">联机对战</button>
+        <button class="menu-btn btn-solo" onclick="showSoloSettings()">
+            <span class="mode-label">单人模式</span>
+            <span class="mode-desc">SOLO</span>
+        </button>
+        <button class="menu-btn btn-online" onclick="showRooms()">
+            <span class="mode-label">联机模式</span>
+            <span class="mode-desc">ONLINE</span>
+        </button>
     </div>
 </div>
 
@@ -445,19 +639,25 @@ body {
                 <label class="create-label">人数上限</label>
                 <select class="create-select" id="cr-maxplayers">
                     <option value="2">2人</option>
-                    <option value="3">3人</option>
                     <option value="4" selected>4人</option>
                     <option value="6">6人</option>
+                    <option value="8">8人</option>
+                    <option value="10">10人</option>
+                    <option value="12">12人</option>
+                    <option value="14">14人</option>
+                    <option value="16">16人</option>
+                    <option value="18">18人</option>
+                    <option value="20">20人</option>
                 </select>
             </div>
             <div class="create-field">
                 <label class="create-label">获胜分数</label>
                 <select class="create-select" id="cr-winscore">
-                    <option value="3">3分</option>
-                    <option value="5" selected>5分</option>
                     <option value="10">10分</option>
-                    <option value="15">15分</option>
-                    <option value="20">20分</option>
+                    <option value="20" selected>20分</option>
+                    <option value="30">30分</option>
+                    <option value="50">50分</option>
+                    <option value="100">100分</option>
                 </select>
             </div>
         </div>
@@ -465,10 +665,12 @@ body {
             <div class="create-field">
                 <label class="create-label">答题时间(秒)</label>
                 <select class="create-select" id="cr-time">
-                    <option value="5">5秒</option>
                     <option value="10" selected>10秒</option>
-                    <option value="15">15秒</option>
                     <option value="20">20秒</option>
+                    <option value="30">30秒</option>
+                    <option value="40">40秒</option>
+                    <option value="50">50秒</option>
+                    <option value="60">60秒</option>
                 </select>
             </div>
             <div class="create-field">
@@ -526,6 +728,8 @@ body {
     </div>
     <div class="game-bottom">
         <button class="btn-next" id="btn-next" onclick="nextQuestion()">下一题</button>
+        <button class="btn-pause" id="btn-pause" onclick="pauseGame()">暂停</button>
+        <button class="btn-settings" id="btn-settings" onclick="showSoloSettings()" style="display:none;">设置</button>
         <button class="btn-exit" onclick="exitGame()">退出</button>
     </div>
 </div>
@@ -545,7 +749,7 @@ body {
 <script>
 const COLLECTION = 'quiz1_rooms';
 const DEFAULT_ANSWER_TIME = 10;
-const DEFAULT_WIN_SCORE = 5;
+const DEFAULT_WIN_SCORE = 20;
 const DEFAULT_MAX_PLAYERS = 4;
 const REVEAL_DELAY = 3000;
 const ROOM_EXPIRE = 30 * 60 * 1000;
@@ -563,17 +767,22 @@ let pendingJoinDocId = '';
 let currentRoomListCache = [];
 
 let soloState = {
-    questions: [], currentIdx: 0, score: 0, selected: null, answered: false, timer: null, timeLeft: 0
+    questions: [], currentIdx: 0, score: 0, selected: null, answered: false, timer: null, timeLeft: 0,
+    answerTime: DEFAULT_ANSWER_TIME, questionCount: 10, paused: false, pausedTimeLeft: 0
 };
 
 let onlineState = {
     questions: [], currentIdx: -1, score: 0, selected: null, answered: false,
     timer: null, timeLeft: 0, roomData: null, revealed: false,
-    advanceTimer: null, gameStarting: false, safetyTimer: null
+    advanceTimer: null, gameStarting: false, safetyTimer: null,
+    paused: false, pausedTimeLeft: 0
 };
 
 const questionBank = window.questionBank || [];
 const letters = ['A','B','C','D'];
+
+// 恢复上次的单人设置
+loadSoloSettings();
 
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -622,8 +831,15 @@ function showCountdown(callback) {
 
 function startSolo() {
     isOnlineMode = false;
-    soloState = { questions: pickQuestions(10), currentIdx: 0, score: 0, selected: null, answered: false, timer: null, timeLeft: 0 };
+    const count = soloState.questionCount || 10;
+    const time = soloState.answerTime || DEFAULT_ANSWER_TIME;
+    soloState = {
+        questions: pickQuestions(count), currentIdx: 0, score: 0, selected: null,
+        answered: false, timer: null, timeLeft: 0,
+        answerTime: time, questionCount: count, paused: false, pausedTimeLeft: 0
+    };
     if (soloState.questions.length === 0) { showToast('题库为空', 'error'); return; }
+    updateGameButtons();
     showCountdown(() => { showScreen('game-screen'); renderSoloQuestion(); });
 }
 
@@ -631,7 +847,7 @@ function renderSoloQuestion() {
     const s = soloState;
     if (s.currentIdx >= s.questions.length) { endSolo(); return; }
     const q = s.questions[s.currentIdx];
-    s.selected = null; s.answered = false; s.timeLeft = DEFAULT_ANSWER_TIME;
+    s.selected = null; s.answered = false; s.timeLeft = s.answerTime || DEFAULT_ANSWER_TIME;
     document.getElementById('game-round').textContent = '第 ' + (s.currentIdx + 1) + '/' + s.questions.length + ' 题';
     document.getElementById('game-score').textContent = '得分: ' + s.score;
     document.getElementById('online-scoreboard').innerHTML = '';
@@ -648,7 +864,7 @@ function renderSoloQuestion() {
 }
 
 function soloSelect(idx) {
-    const s = soloState; if (s.answered) return;
+    const s = soloState; if (s.answered || s.paused) return;
     s.answered = true; s.selected = idx; clearInterval(s.timer);
     const q = s.questions[s.currentIdx];
     document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
@@ -665,7 +881,8 @@ function soloSelect(idx) {
 function startSoloTimer() {
     const s = soloState; clearInterval(s.timer);
     const fill = document.getElementById('timer-fill'), text = document.getElementById('timer-text');
-    const start = Date.now(), total = DEFAULT_ANSWER_TIME * 1000;
+    const start = Date.now();
+    const total = (s.answerTime || DEFAULT_ANSWER_TIME) * 1000;
     function tick() {
         const remain = Math.max(0, total - (Date.now() - start));
         s.timeLeft = remain / 1000;
@@ -702,7 +919,237 @@ function endSolo() {
     showScreen('result-screen');
 }
 
-function exitGame() { if (isOnlineMode) { leaveRoom(); return; } clearInterval(soloState.timer); showScreen('menu-screen'); }
+function exitGame() {
+    // 关闭所有浮层
+    document.getElementById('pause-overlay').classList.remove('show');
+    document.getElementById('solo-settings-overlay').classList.remove('show');
+    soloState.paused = false;
+    if (isOnlineMode) { leaveRoom(); return; }
+    clearInterval(soloState.timer);
+    showScreen('menu-screen');
+}
+
+// ========== 暂停/继续 ==========
+function updateGameButtons() {
+    const btnPause = document.getElementById('btn-pause');
+    const btnSettings = document.getElementById('btn-settings');
+    if (isOnlineMode) {
+        // 联机模式：只有主机能暂停，不显示设置按钮
+        const room = onlineState.roomData;
+        const isHost = room && room.hostId === myUserId;
+        btnPause.style.display = isHost ? '' : 'none';
+        btnSettings.style.display = 'none';
+    } else {
+        // 单人模式：暂停和设置都显示
+        btnPause.style.display = '';
+        btnSettings.style.display = '';
+    }
+}
+
+function pauseGame() {
+    if (isOnlineMode) {
+        // 联机：只有主机可暂停
+        const room = onlineState.roomData;
+        if (!room || room.hostId !== myUserId) {
+            showToast('只有房主可以暂停', 'error');
+            return;
+        }
+        pauseOnline();
+    } else {
+        pauseSolo();
+    }
+}
+
+function pauseSolo() {
+    const s = soloState;
+    if (s.paused) return;
+    s.paused = true;
+    s.pausedTimeLeft = s.timeLeft;
+    clearInterval(s.timer);
+    document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.add('disabled'));
+    document.getElementById('pause-subtitle').textContent = '游戏已暂停';
+    document.getElementById('btn-resume').disabled = false;
+    document.getElementById('pause-overlay').classList.add('show');
+}
+
+function resumeGame() {
+    if (isOnlineMode) {
+        resumeOnline();
+    } else {
+        resumeSolo();
+    }
+}
+
+function resumeSolo() {
+    const s = soloState;
+    if (!s.paused) return;
+    s.paused = false;
+    document.getElementById('pause-overlay').classList.remove('show');
+    // 恢复计时器和选项可点击
+    if (!s.answered) {
+        document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
+        restartSoloTimer(s.pausedTimeLeft);
+    }
+}
+
+function restartSoloTimer(remainingSec) {
+    const s = soloState; clearInterval(s.timer);
+    const fill = document.getElementById('timer-fill'), text = document.getElementById('timer-text');
+    const total = (s.answerTime || DEFAULT_ANSWER_TIME) * 1000;
+    const start = Date.now();
+    const offset = (remainingSec != null ? remainingSec : s.timeLeft) * 1000;
+    function tick() {
+        const remain = Math.max(0, offset - (Date.now() - start));
+        s.timeLeft = remain / 1000;
+        const pct = total > 0 ? (remain / total) * 100 : 0;
+        fill.style.width = pct + '%';
+        fill.className = 'game-timer-fill' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
+        text.className = 'game-timer-text' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
+        text.textContent = Math.ceil(s.timeLeft);
+        if (remain <= 0) { clearInterval(s.timer); soloTimeUp(); }
+    }
+    s.timer = setInterval(tick, 100); tick();
+}
+
+// 联机暂停/继续
+async function pauseOnline() {
+    const room = onlineState.roomData;
+    if (!room || room.hostId !== myUserId) return;
+    onlineState.paused = true;
+    onlineState.pausedTimeLeft = onlineState.timeLeft;
+    clearInterval(onlineState.timer);
+    clearTimeout(onlineState.safetyTimer);
+    clearTimeout(onlineState.advanceTimer);
+    // 写入数据库标记暂停状态
+    try {
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({
+            paused: true, pausedBy: myUserId, lastActiveAt: Date.now()
+        });
+    } catch (e) { console.error('暂停写入失败:', e); }
+    document.getElementById('pause-subtitle').textContent = '房主已暂停游戏';
+    document.getElementById('btn-resume').disabled = false;
+    document.getElementById('pause-overlay').classList.add('show');
+}
+
+async function resumeOnline() {
+    const room = onlineState.roomData;
+    if (!room || room.hostId !== myUserId) {
+        showToast('只有房主可以继续', 'error');
+        return;
+    }
+    onlineState.paused = false;
+    document.getElementById('pause-overlay').classList.remove('show');
+    // 恢复数据库中的时间
+    try {
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({
+            paused: false, questionStartTime: Date.now(), lastActiveAt: Date.now()
+        });
+    } catch (e) { console.error('恢复写入失败:', e); }
+}
+
+// ========== 单人设置 ==========
+function loadSoloSettings() {
+    try {
+        const saved = localStorage.getItem('quiz_solo_settings');
+        if (saved) {
+            const obj = JSON.parse(saved);
+            soloState.answerTime = obj.answerTime || DEFAULT_ANSWER_TIME;
+            soloState.questionCount = obj.questionCount || 10;
+        }
+    } catch (e) {}
+}
+
+function saveSoloSettings() {
+    try {
+        localStorage.setItem('quiz_solo_settings', JSON.stringify({
+            answerTime: soloState.answerTime || DEFAULT_ANSWER_TIME,
+            questionCount: soloState.questionCount || 10
+        }));
+    } catch (e) {}
+}
+
+function showSoloSettings() {
+    if (isOnlineMode) return;
+    // 如果在游戏中，先暂停
+    const s = soloState;
+    const inGame = document.getElementById('game-screen').classList.contains('active');
+    if (inGame && !s.paused) {
+        s.paused = true;
+        s.pausedTimeLeft = s.timeLeft;
+        clearInterval(s.timer);
+        document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.add('disabled'));
+    }
+    // 回显上次设置
+    document.getElementById('ss-time').value = s.answerTime || DEFAULT_ANSWER_TIME;
+    document.getElementById('ss-count').value = s.questionCount || 10;
+    // 更改按钮文字：游戏中显示"应用"，从主页显示"开始游戏"
+    const btnConfirm = document.querySelector('#solo-settings-overlay .btn-confirm');
+    btnConfirm.textContent = inGame ? '应用' : '开始游戏';
+    btnConfirm.setAttribute('onclick', inGame ? 'applySoloSettings()' : 'confirmSoloStart()');
+    document.getElementById('solo-settings-overlay').classList.add('show');
+}
+
+function hideSoloSettings() {
+    document.getElementById('solo-settings-overlay').classList.remove('show');
+    // 如果在游戏中且暂停了，恢复游戏
+    const s = soloState;
+    const inGame = document.getElementById('game-screen').classList.contains('active');
+    if (inGame && s.paused && !document.getElementById('pause-overlay').classList.contains('show')) {
+        s.paused = false;
+        if (!s.answered) {
+            document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
+            restartSoloTimer(s.pausedTimeLeft);
+        }
+    }
+}
+
+function confirmSoloStart() {
+    const newTime = parseInt(document.getElementById('ss-time').value) || DEFAULT_ANSWER_TIME;
+    const newCount = parseInt(document.getElementById('ss-count').value) || 10;
+    soloState.answerTime = newTime;
+    soloState.questionCount = newCount;
+    saveSoloSettings();
+    document.getElementById('solo-settings-overlay').classList.remove('show');
+    // 直接开始游戏
+    startSolo();
+}
+
+function applySoloSettings() {
+    const s = soloState;
+    const newTime = parseInt(document.getElementById('ss-time').value) || DEFAULT_ANSWER_TIME;
+    const newCount = parseInt(document.getElementById('ss-count').value) || 10;
+    const timeChanged = newTime !== s.answerTime;
+    const countChanged = newCount !== s.questionCount;
+
+    s.answerTime = newTime;
+    s.questionCount = newCount;
+    saveSoloSettings();
+
+    document.getElementById('solo-settings-overlay').classList.remove('show');
+
+    if (countChanged) {
+        // 题目数量变了，需要重新开始
+        showToast('题目数量已更改，将重新开始', 'info');
+        startSolo();
+    } else if (timeChanged) {
+        // 只改了时间，当前题重新计时
+        showToast('答题时间已更新为 ' + newTime + ' 秒', 'success');
+        s.paused = false;
+        if (!s.answered) {
+            document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
+            restartSoloTimer(newTime);
+        }
+        document.getElementById('pause-overlay').classList.remove('show');
+    } else {
+        // 没改什么，恢复游戏
+        s.paused = false;
+        if (!s.answered) {
+            document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
+            restartSoloTimer(s.pausedTimeLeft);
+        }
+        document.getElementById('pause-overlay').classList.remove('show');
+    }
+}
 
 function replay() { if (isOnlineMode) { onlineReplay(); return; } startSolo(); }
 
@@ -807,7 +1254,7 @@ function renderRoomList(rooms) {
 function showCreateRoom() {
     document.getElementById('cr-name').value = myNickname + '的房间';
     document.getElementById('cr-maxplayers').value = '4';
-    document.getElementById('cr-winscore').value = '5';
+    document.getElementById('cr-winscore').value = '20';
     document.getElementById('cr-time').value = '10';
     document.getElementById('cr-password').value = '';
     document.getElementById('create-overlay').classList.add('show');
@@ -836,7 +1283,7 @@ async function createRoom() {
             roomName: name, hostId: myUserId, maxPlayers: maxPlayers,
             winScore: winScore, answerTime: answerTime, password: password || '',
             players: players, started: false, currentQuestion: -1,
-            questions: [], questionStartTime: 0,
+            questions: [], questionStartTime: 0, paused: false,
             createdAt: Date.now(), lastActiveAt: Date.now()
         });
 
@@ -1045,7 +1492,7 @@ function handleRoomUpdate(room) {
             clearTimeout(onlineState.safetyTimer);
             showCountdown(() => {
                 onlineState.gameStarting = false;
-                showScreen('game-screen'); renderOnlineQuestion(room);
+                showScreen('game-screen'); updateGameButtons(); renderOnlineQuestion(room);
             });
         } else if (document.getElementById('game-screen').classList.contains('active')) {
             renderOnlineQuestion(room);
@@ -1066,18 +1513,34 @@ async function startOnlineGame(room) {
         const players = room.players.map(p => ({ ...p, score: 0, ready: false, answered: false, answerChoice: -1 }));
         await db.collection(COLLECTION).doc(currentRoomDocId).update({
             started: true, questions: questions.map(q => q.id), currentQuestion: 0,
-            players: players, questionStartTime: Date.now(), lastActiveAt: Date.now()
+            players: players, questionStartTime: Date.now(), paused: false, lastActiveAt: Date.now()
         });
     } catch (e) { console.error('开始游戏失败:', e); }
 }
 
 function renderOnlineQuestion(room) {
+    onlineState.roomData = room; // 确保roomData始终最新
     const players = room.players || [];
     const activePlayers = players.filter(p => p.id);
     const qIds = room.questions || [];
     const currentQ = room.currentQuestion != null ? room.currentQuestion : -1;
     const winScore = room.winScore || DEFAULT_WIN_SCORE;
     const answerTime = room.answerTime || DEFAULT_ANSWER_TIME;
+
+    // 处理联机暂停状态
+    if (room.paused) {
+        onlineState.paused = true;
+        clearInterval(onlineState.timer);
+        const isHost = room.hostId === myUserId;
+        document.getElementById('pause-subtitle').textContent = isHost ? '你已暂停游戏' : '房主已暂停游戏';
+        document.getElementById('btn-resume').disabled = !isHost;
+        document.getElementById('pause-overlay').classList.add('show');
+        return;
+    } else if (onlineState.paused) {
+        // 房间不再暂停，恢复
+        onlineState.paused = false;
+        document.getElementById('pause-overlay').classList.remove('show');
+    }
 
     if (currentQ < 0 || currentQ >= qIds.length) {
         if (qIds.length > 0 && currentQ >= qIds.length) {
@@ -1122,14 +1585,52 @@ function renderOnlineQuestion(room) {
     document.getElementById('game-score').textContent = '我的得分: ' + onlineState.score;
 
     const sb = document.getElementById('online-scoreboard'); sb.innerHTML = '';
-    activePlayers.forEach(p => {
-        const div = document.createElement('div');
-        div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
-        div.innerHTML = '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
-            + '<span class="sb-pts">' + (p.score || 0) + '/' + winScore + '</span>'
-            + '<span class="sb-answered">' + (p.answered ? ' ✓' : '') + '</span>';
-        sb.appendChild(div);
-    });
+    // 按人数切换显示模式：≤6人用横排标签，>6人用紧凑排行
+    const useCompact = activePlayers.length > 6;
+    if (useCompact) sb.classList.add('compact'); else sb.classList.remove('compact');
+
+    if (useCompact) {
+        // 紧凑排行模式：按分数排序，显示前5 + 自己
+        const sorted = [...activePlayers].sort((a, b) => (b.score || 0) - (a.score || 0));
+        const myRank = sorted.findIndex(p => p.id === myUserId);
+        const topN = sorted.slice(0, 5);
+        const showMe = myRank >= 5; // 自己不在前5则额外显示
+
+        topN.forEach((p, i) => {
+            const pct = winScore > 0 ? Math.min(100, ((p.score || 0) / winScore) * 100) : 0;
+            const div = document.createElement('div');
+            div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
+            const rankCls = i === 0 ? ' top1' : i === 1 ? ' top2' : i === 2 ? ' top3' : '';
+            div.innerHTML = '<span class="sb-rank' + rankCls + '">' + (i + 1) + '</span>'
+                + '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
+                + '<div class="sb-bar-wrap"><div class="sb-bar-fill" style="width:' + pct + '%"></div></div>'
+                + '<span class="sb-pts">' + (p.score || 0) + '</span>'
+                + '<span class="sb-answered">' + (p.answered ? '✓' : '') + '</span>';
+            sb.appendChild(div);
+        });
+        if (showMe) {
+            const p = sorted[myRank];
+            const pct = winScore > 0 ? Math.min(100, ((p.score || 0) / winScore) * 100) : 0;
+            const div = document.createElement('div');
+            div.className = 'sb-player me';
+            div.innerHTML = '<span class="sb-rank">' + (myRank + 1) + '</span>'
+                + '<span class="sb-name">我</span>'
+                + '<div class="sb-bar-wrap"><div class="sb-bar-fill" style="width:' + pct + '%"></div></div>'
+                + '<span class="sb-pts">' + (p.score || 0) + '</span>'
+                + '<span class="sb-answered">' + (p.answered ? '✓' : '') + '</span>';
+            sb.appendChild(div);
+        }
+    } else {
+        // 原始横排标签模式
+        activePlayers.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
+            div.innerHTML = '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
+                + '<span class="sb-pts">' + (p.score || 0) + '/' + winScore + '</span>'
+                + '<span class="sb-answered">' + (p.answered ? ' ✓' : '') + '</span>';
+            sb.appendChild(div);
+        });
+    }
 
     if (myP.answered && !onlineState.answered) {
         onlineState.answered = true; onlineState.selected = myP.answerChoice;
@@ -1188,7 +1689,7 @@ async function advanceQuestion(room) {
 }
 
 async function onlineSelect(idx) {
-    if (onlineState.answered || onlineState.revealed) return;
+    if (onlineState.answered || onlineState.revealed || onlineState.paused) return;
     onlineState.answered = true; onlineState.selected = idx;
     const qIds = onlineState.roomData.questions || [];
     const currentQ = onlineState.roomData.currentQuestion || 0;
@@ -1295,13 +1796,14 @@ async function onlineReplay() {
             const players = room.players.map(p => p.id ? { ...p, score: 0, ready: false, answered: false, answerChoice: -1 } : p);
             await db.collection(COLLECTION).doc(currentRoomDocId).update({
                 started: false, currentQuestion: -1, questions: [],
-                questionStartTime: 0, players, lastActiveAt: Date.now()
+                questionStartTime: 0, paused: false, players, lastActiveAt: Date.now()
             });
         }
         isReady = false; onlineState = {
             questions: [], currentIdx: -1, score: 0, selected: null, answered: false,
             timer: null, timeLeft: 0, roomData: null, revealed: false,
-            advanceTimer: null, gameStarting: false, safetyTimer: null
+            advanceTimer: null, gameStarting: false, safetyTimer: null,
+            paused: false, pausedTimeLeft: 0
         };
         showScreen('lobby-screen'); renderLobby(room);
     } catch (e) { backToMenu(); }
@@ -1347,6 +1849,9 @@ function backToMenu() {
     clearInterval(soloState.timer); clearInterval(onlineState.timer);
     clearTimeout(onlineState.advanceTimer); clearTimeout(onlineState.safetyTimer);
     document.getElementById('waiting-overlay').classList.remove('show');
+    document.getElementById('pause-overlay').classList.remove('show');
+    document.getElementById('solo-settings-overlay').classList.remove('show');
+    soloState.paused = false; onlineState.paused = false;
     if (isOnlineMode && currentRoomDocId) { leaveRoom(); return; }
     if (watcher) { watcher.close(); watcher = null; }
     isOnlineMode = false; currentRoomDocId = ''; myPlayerIndex = -1;
