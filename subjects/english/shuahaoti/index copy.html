@@ -160,8 +160,8 @@ body {
     position: absolute;
     bottom: calc(100% - 36px);
     margin-bottom: 0;
-    background: linear-gradient(135deg, #edf3fa 0%, #dce6f4 100%);
-    color: #2a4a6e;
+    background: var(--paper-white);
+    color: var(--ink-blue);
     padding: 4px 18px 5px;
     font-family: 'KaiTi', 'STKaiti', cursive;
     font-size: 16px;
@@ -305,7 +305,7 @@ body {
         );
     background-size: 100% var(--line-h);
     background-attachment: local;
-    background-position: 0 calc(var(--line-h) / 2);
+    background-position: 0 calc(var(--line-h) - 6px);
 }
 
 .page::-webkit-scrollbar { width: 3px; }
@@ -1528,6 +1528,10 @@ function positionTab() {
     let nb = document.getElementById('notebook');
     let marginX = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--margin-x'));
     tab.style.left = (nb.offsetLeft + marginX - 1) + 'px';
+    // 垂直定位：标签底部贴合本子上边缘
+    let deskH = tab.parentElement.offsetHeight;
+    let nbTop = nb.offsetTop;
+    tab.style.bottom = (deskH - nbTop) + 'px';
 }
 
 function normalizeAnswer(str) {
