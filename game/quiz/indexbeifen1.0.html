@@ -197,54 +197,53 @@ body {
 .room-card-lock { font-size: .85rem; margin-right: 2px; }
 
 #create-overlay {
-    position: fixed; inset:0; background: rgba(0,0,0,.25);
+    position: fixed; inset:0; background: rgba(0,0,0,.35);
     display:none; align-items:center; justify-content:center; z-index: 80;
 }
 #create-overlay.show { display:flex; }
 .create-box {
-    background: linear-gradient(145deg, #ffffff, #f8f9fb);
-    border: 1px solid rgba(0,0,0,.1);
-    border-radius: 4px; padding: 28px 24px; width: 90%; max-width: 400px;
-    animation: slideUp .3s ease;
-    box-shadow: 0 8px 32px rgba(0,0,0,.1);
-    backdrop-filter: blur(12px);
-    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    background: linear-gradient(180deg, #ffffff 0%, #f4f5f7 100%);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 0; padding: 32px 28px; width: 92%; max-width: 420px; max-height: 90vh; overflow-y: auto;
+    animation: slideUp .25s ease;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 16px 48px rgba(0,0,0,.12);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 8px 100%, 0 calc(100% - 8px));
 }
-.create-title { font-size: 1.3rem; font-weight: 800; color: var(--gold); margin-bottom: 20px; text-align: center; letter-spacing: 2px; }
-.create-field { margin-bottom: 16px; }
-.create-label { font-size: .85rem; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; display: block; }
+.create-title { font-size: 1.2rem; font-weight: 900; color: var(--gold); margin-bottom: 24px; text-align: center; letter-spacing: 4px; text-transform: uppercase; }
+.create-field { margin-bottom: 14px; }
+.create-label { font-size: .75rem; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; display: block; letter-spacing: 1.5px; text-transform: uppercase; }
 .create-input {
-    width: 100%; padding: 12px 14px; border-radius: 10px;
-    background: var(--card-bg); border: 1px solid var(--card-border);
-    color: var(--text); font-size: .95rem; font-weight: 600;
+    width: 100%; padding: 11px 14px; border-radius: 0;
+    background: rgba(0,0,0,.03); border: 1px solid rgba(0,0,0,.08);
+    color: var(--text); font-size: .9rem; font-weight: 600;
     outline: none; transition: border-color .2s;
 }
-.create-input:focus { border-color: var(--gold); }
-.create-input::placeholder { color: var(--text-dim); opacity:.5; }
+.create-input:focus { border-color: var(--gold); box-shadow: 0 0 12px rgba(232,130,19,.15); }
+.create-input::placeholder { color: var(--text-dim); }
 .create-row { display:flex; gap:10px; }
 .create-row .create-field { flex:1; }
 .create-select {
-    width: 100%; padding: 12px 14px; border-radius: 10px;
-    background: var(--card-bg); border: 1px solid var(--card-border);
-    color: var(--text); font-size: .95rem; font-weight: 600;
+    width: 100%; padding: 11px 14px; border-radius: 0;
+    background: rgba(0,0,0,.03); border: 1px solid rgba(0,0,0,.08);
+    color: var(--text); font-size: .9rem; font-weight: 600;
     outline: none; cursor: pointer; appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238892a4' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238a8fa0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat; background-position: right 12px center;
 }
 .create-select option { background: #fff; color: var(--text); }
-.create-btns { display:flex; gap:12px; margin-top: 20px; }
+.create-btns { display:flex; gap:12px; margin-top: 24px; }
 .btn-confirm {
-    flex:1; padding: 12px 20px; border-radius: 2px; font-size: 1rem; font-weight: 800;
+    flex:1; padding: 12px 20px; border-radius: 0; font-size: .95rem; font-weight: 800;
     cursor: pointer; border: 2px solid rgba(0,200,83,.3);
     background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
-    transition: all .2s; letter-spacing: 1px;
+    transition: all .2s; letter-spacing: 2px; text-transform: uppercase;
     clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
 }
 .btn-confirm:active { transform: scale(.96); }
 .btn-cancel {
-    padding: 12px 20px; border-radius: 12px; font-size: .9rem; font-weight: 700;
-    cursor: pointer; border: 2px solid var(--card-border);
-    background: var(--card-bg); color: var(--text-dim); transition: all .2s;
+    padding: 12px 20px; border-radius: 0; font-size: .85rem; font-weight: 700;
+    cursor: pointer; border: 1px solid rgba(0,0,0,.08);
+    background: rgba(0,0,0,.03); color: var(--text-dim); transition: all .2s;
 }
 
 #password-overlay {
@@ -269,45 +268,133 @@ body {
 
 #lobby-screen { background: linear-gradient(160deg, #f4f5f7 0%, #ffffff 100%); }
 .lobby-box {
-    background: #fff; border: 1px solid rgba(0,0,0,.08);
-    border-radius: 4px; padding: 28px 24px; width: 100%; max-width: 400px; text-align: center;
-    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    background: linear-gradient(180deg, #ffffff 0%, #f4f5f7 100%);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 0; padding: 32px 24px; width: 100%; max-width: 440px; text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 12px) 100%, 8px 100%, 0 calc(100% - 10px));
+    box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 8px 32px rgba(0,0,0,.08);
 }
-.lobby-title { font-size: 1.3rem; font-weight: 800; color: var(--gold); margin-bottom: 6px; letter-spacing: 2px; }
-.lobby-settings { font-size: .8rem; color: var(--text-dim); margin-bottom: 16px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-.lobby-settings span { padding: 3px 10px; border-radius: 8px; background: var(--card-bg); border: 1px solid var(--card-border); }
-.lobby-players { display:flex; flex-direction:column; gap:10px; margin-bottom: 20px; }
+.lobby-title { font-size: 1.2rem; font-weight: 900; color: var(--gold); margin-bottom: 4px; letter-spacing: 4px; text-transform: uppercase; }
+.lobby-settings { font-size: .72rem; color: var(--text-dim); margin-bottom: 20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.lobby-settings span { padding: 3px 10px; border-radius: 0; background: rgba(0,0,0,.03); border: 1px solid rgba(0,0,0,.06); }
+.lobby-players { display:flex; flex-direction:column; gap:8px; margin-bottom: 20px; }
 .lobby-player {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 16px; border-radius: 4px;
-    background: var(--card-bg); border: 1px solid var(--card-border); transition: all .3s;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 0;
+    background: rgba(0,0,0,.02); border: 1px solid rgba(0,0,0,.06); transition: all .3s;
 }
-.lobby-player.ready { border-color: rgba(0,230,118,.4); background: rgba(0,230,118,.08); }
+.lobby-player.ready { border-color: rgba(0,230,118,.35); background: rgba(0,230,118,.06); box-shadow: 0 0 8px rgba(0,230,118,.06); }
 .lobby-player .p-avatar {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: var(--accent2); display:flex; align-items:center; justify-content:center;
-    font-size: 1rem; font-weight: 800; color: var(--gold); flex-shrink:0;
+    width: 34px; height: 34px; border-radius: 0;
+    background: rgba(232,130,19,.08); display:flex; align-items:center; justify-content:center;
+    font-size: .9rem; font-weight: 900; color: var(--gold); flex-shrink:0;
+    clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
 }
-.lobby-player .p-name { flex:1; text-align:left; font-weight: 600; font-size: .95rem; }
-.lobby-player .p-host { font-size: .7rem; color: var(--gold); font-weight: 700; }
-.lobby-player .p-status { font-size: .8rem; font-weight: 700; }
-.lobby-player .p-status.ready { color: var(--green); }
+.lobby-player .p-name { flex:1; text-align:left; font-weight: 600; font-size: .88rem; color: var(--text); }
+.lobby-player .p-host { font-size: .65rem; color: var(--gold); font-weight: 700; letter-spacing: 1px; }
+.lobby-player .p-status { font-size: .72rem; font-weight: 700; }
+.lobby-player .p-status.ready { color: var(--green); text-shadow: 0 0 6px rgba(0,230,118,.2); }
 .lobby-player .p-status.waiting { color: var(--text-dim); }
 .lobby-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 .btn-ready {
-    padding: 12px 36px; border-radius: 2px; font-size: 1rem; font-weight: 800;
+    padding: 12px 36px; border-radius: 0; font-size: .95rem; font-weight: 800;
     cursor: pointer; border: 2px solid rgba(0,200,83,.3);
     background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
-    transition: all .2s; letter-spacing: 2px;
+    transition: all .2s; letter-spacing: 2px; text-transform: uppercase;
     clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
 }
 .btn-ready:active { transform: scale(.96); }
 .btn-ready.cancel { background: linear-gradient(135deg, #ff1744, #d50000); border-color: rgba(255,23,68,.3); color: #fff; }
 .btn-leave {
-    padding: 12px 28px; border-radius: 12px; font-size: .9rem; font-weight: 700;
-    cursor: pointer; border: 2px solid var(--card-border);
-    background: var(--card-bg); color: var(--text-dim); transition: all .2s;
+    padding: 12px 24px; border-radius: 0; font-size: .82rem; font-weight: 700;
+    cursor: pointer; border: 1px solid rgba(0,0,0,.08);
+    background: rgba(0,0,0,.03); color: var(--text-dim); transition: all .2s;
+    text-transform: uppercase; letter-spacing: 1px;
 }
+.btn-leave:active { transform: scale(.96); }
+.ow-toggle {
+    position: relative;
+    width: 100%;
+    margin-bottom: 2px;
+}
+.ow-toggle-track {
+    position: relative;
+    display: flex;
+    background: #f0f0f0;
+    border-radius: 6px;
+    padding: 3px;
+    border: 1px solid rgba(0,0,0,.08);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.06);
+}
+.ow-toggle-slider {
+    position: absolute;
+    top: 3px; left: 3px;
+    width: calc(50% - 3px);
+    height: calc(100% - 6px);
+    background: #ff8f00;
+    border-radius: 4px;
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 2px 8px rgba(255,143,0,.3), inset 0 1px 0 rgba(255,255,255,.2);
+    z-index: 1;
+    pointer-events: none;
+}
+.ow-toggle-slider.right {
+    transform: translateX(100%);
+}
+.ow-toggle-option {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    color: rgba(0,0,0,.35);
+    font-size: .82rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: color .3s, text-shadow .3s;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 4px;
+}
+.ow-toggle-option.active {
+    color: #fff;
+    text-shadow: 0 0 6px rgba(255,143,0,.3);
+}
+.ow-toggle-option:active { transform: scale(.97); }
+.lobby-team-col {
+    flex: 1; min-width: 130px;
+    border: 1px solid rgba(0,0,0,.08); border-radius: 0;
+    padding: 12px 10px; background: rgba(0,0,0,.02);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 10px) 100%, 6px 100%, 0 calc(100% - 8px));
+}
+.lobby-team-col.team-a {
+    border-color: rgba(33,150,243,.3);
+    box-shadow: inset 0 0 30px rgba(33,150,243,.04), 0 0 0 1px rgba(33,150,243,.06);
+    background: rgba(33,150,243,.04);
+}
+.lobby-team-col.team-b {
+    border-color: rgba(255,87,34,.3);
+    box-shadow: inset 0 0 30px rgba(255,87,34,.04), 0 0 0 1px rgba(255,87,34,.06);
+    background: rgba(255,87,34,.04);
+}
+.lobby-team-title {
+    text-align: center; font-weight: 900; font-size: .78rem;
+    padding: 2px 0 10px; letter-spacing: 2px; text-transform: uppercase;
+}
+.lobby-team-col.team-a .lobby-team-title { color: #2196f3; text-shadow: 0 0 10px rgba(33,150,243,.2); }
+.lobby-team-col.team-b .lobby-team-title { color: #ff5722; text-shadow: 0 0 10px rgba(255,87,34,.2); }
+.lobby-team-wrap { display: flex; gap: 10px; }
+.lobby-player.team-a { border-left: 3px solid #2196f3; background: rgba(33,150,243,.04); }
+.lobby-player.team-b { border-left: 3px solid #ff5722; background: rgba(255,87,34,.04); }
+.lobby-player.empty-slot {
+    cursor: pointer; opacity: .5; transition: all .2s;
+}
+.lobby-player.empty-slot:hover { opacity: 1; border-color: var(--gold); background: rgba(232,130,19,.08); box-shadow: 0 0 10px rgba(232,130,19,.1); }
+.team-score { font-size: .78rem; font-weight: 700; letter-spacing: .5px; }
+.team-score.team-a { color: #2196f3; text-shadow: 0 0 8px rgba(33,150,243,.2); }
+.team-score.team-b { color: #ff5722; text-shadow: 0 0 8px rgba(255,87,34,.2); }
 
 #game-screen {
     background: linear-gradient(160deg, #f4f5f7 0%, #ffffff 100%);
@@ -631,10 +718,20 @@ body {
     <div class="create-box">
         <div class="create-title">创建房间</div>
         <div class="create-field">
+            <label class="create-label">游戏模式</label>
+            <div class="ow-toggle" id="mode-toggle">
+                <div class="ow-toggle-track">
+                    <div class="ow-toggle-slider" id="mode-slider"></div>
+                    <button class="ow-toggle-option active" id="mode-solo" onclick="switchGameMode('solo')">个人战</button>
+                    <button class="ow-toggle-option" id="mode-team" onclick="switchGameMode('team')">组队战</button>
+                </div>
+            </div>
+        </div>
+        <div class="create-field">
             <label class="create-label">房间名称</label>
             <input class="create-input" id="cr-name" type="text" placeholder="输入房间名" maxlength="12">
         </div>
-        <div class="create-row">
+        <div class="create-row" id="cr-solo-row">
             <div class="create-field">
                 <label class="create-label">人数上限</label>
                 <select class="create-select" id="cr-maxplayers">
@@ -653,6 +750,27 @@ body {
             <div class="create-field">
                 <label class="create-label">获胜分数</label>
                 <select class="create-select" id="cr-winscore">
+                    <option value="10">10分</option>
+                    <option value="20" selected>20分</option>
+                    <option value="30">30分</option>
+                    <option value="50">50分</option>
+                    <option value="100">100分</option>
+                </select>
+            </div>
+        </div>
+        <div class="create-row" id="cr-team-row" style="display:none;">
+            <div class="create-field">
+                <label class="create-label">每队人数</label>
+                <select class="create-select" id="cr-teamsize">
+                    <option value="2">2v2</option>
+                    <option value="3">3v3</option>
+                    <option value="4">4v4</option>
+                    <option value="5" selected>5v5</option>
+                </select>
+            </div>
+            <div class="create-field">
+                <label class="create-label">获胜分数</label>
+                <select class="create-select" id="cr-winscore2">
                     <option value="10">10分</option>
                     <option value="20" selected>20分</option>
                     <option value="30">30分</option>
@@ -765,6 +883,7 @@ let isOnlineMode = false;
 let isReady = false;
 let pendingJoinDocId = '';
 let currentRoomListCache = [];
+let currentGameMode = 'solo';
 
 let soloState = {
     questions: [], currentIdx: 0, score: 0, selected: null, answered: false, timer: null, timeLeft: 0,
@@ -851,7 +970,7 @@ function renderSoloQuestion() {
     document.getElementById('game-round').textContent = '第 ' + (s.currentIdx + 1) + '/' + s.questions.length + ' 题';
     document.getElementById('game-score').textContent = '得分: ' + s.score;
     document.getElementById('online-scoreboard').innerHTML = '';
-    document.getElementById('question-text').textContent = q.question;
+    document.getElementById('question-text').textContent = (s.currentIdx + 1) + '. ' + q.question;
     document.getElementById('explanation-box').classList.remove('show');
     document.getElementById('btn-next').classList.remove('show');
     const ol = document.getElementById('options-list'); ol.innerHTML = '';
@@ -1037,14 +1156,19 @@ async function resumeOnline() {
         showToast('只有房主可以继续', 'error');
         return;
     }
-    onlineState.paused = false;
+
+    // 隐藏暂停面板
     document.getElementById('pause-overlay').classList.remove('show');
-    // 恢复数据库中的时间
-    try {
-        await db.collection(COLLECTION).doc(currentRoomDocId).update({
-            paused: false, questionStartTime: Date.now(), lastActiveAt: Date.now()
-        });
-    } catch (e) { console.error('恢复写入失败:', e); }
+
+    // 3-2-1 倒计时后继续游戏
+    showCountdown(async () => {
+        // 更新数据库，所有玩家通过监听恢复游戏
+        try {
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                paused: false, questionStartTime: Date.now(), lastActiveAt: Date.now()
+            });
+        } catch (e) { console.error('恢复写入失败:', e); }
+    });
 }
 
 // ========== 单人设置 ==========
@@ -1242,6 +1366,7 @@ function renderRoomList(rooms) {
         html += '<div class="room-card-name">' + (hasPassword ? '<span class="room-card-lock">🔒</span> ' : '') + (room.roomName || '未命名') + '</div>';
         html += '<div class="room-card-meta">';
         html += '<span>👥 ' + taken + '/' + maxP + '</span>';
+        html += '<span>' + (room.gameMode === 'team' ? '🤝 组队' : '👤 个人') + '</span>';
         html += '<span>🏆 ' + (room.winScore || DEFAULT_WIN_SCORE) + '分胜</span>';
         html += '<span>⏱ ' + (room.answerTime || DEFAULT_ANSWER_TIME) + '秒</span>';
         html += '</div></div>';
@@ -1251,12 +1376,28 @@ function renderRoomList(rooms) {
     list.innerHTML = html;
 }
 
+function switchGameMode(mode) {
+    const isTeam = mode === 'team';
+    document.getElementById('mode-solo').classList.toggle('active', !isTeam);
+    document.getElementById('mode-team').classList.toggle('active', isTeam);
+    document.getElementById('mode-slider').classList.toggle('right', isTeam);
+    document.getElementById('cr-solo-row').style.display = isTeam ? 'none' : '';
+    document.getElementById('cr-team-row').style.display = isTeam ? '' : 'none';
+    currentGameMode = mode;
+}
+
 function showCreateRoom() {
     document.getElementById('cr-name').value = myNickname + '的房间';
     document.getElementById('cr-maxplayers').value = '4';
     document.getElementById('cr-winscore').value = '20';
     document.getElementById('cr-time').value = '10';
     document.getElementById('cr-password').value = '';
+    currentGameMode = 'solo';
+    document.getElementById('mode-solo').classList.add('active');
+    document.getElementById('mode-team').classList.remove('active');
+    document.getElementById('mode-slider').classList.remove('right');
+    document.getElementById('cr-solo-row').style.display = '';
+    document.getElementById('cr-team-row').style.display = 'none';
     document.getElementById('create-overlay').classList.add('show');
 }
 
@@ -1264,8 +1405,17 @@ function hideCreateRoom() { document.getElementById('create-overlay').classList.
 
 async function createRoom() {
     const name = document.getElementById('cr-name').value.trim() || '未命名房间';
-    const maxPlayers = parseInt(document.getElementById('cr-maxplayers').value) || DEFAULT_MAX_PLAYERS;
-    const winScore = parseInt(document.getElementById('cr-winscore').value) || DEFAULT_WIN_SCORE;
+    const gameMode = currentGameMode || 'solo';
+    let maxPlayers, teamSize = 0, winScore;
+
+    if (gameMode === 'team') {
+        teamSize = parseInt(document.getElementById('cr-teamsize').value) || 5;
+        maxPlayers = teamSize * 2;
+        winScore = parseInt(document.getElementById('cr-winscore2').value) || DEFAULT_WIN_SCORE;
+    } else {
+        maxPlayers = parseInt(document.getElementById('cr-maxplayers').value) || DEFAULT_MAX_PLAYERS;
+        winScore = parseInt(document.getElementById('cr-winscore').value) || DEFAULT_WIN_SCORE;
+    }
     const answerTime = parseInt(document.getElementById('cr-time').value) || DEFAULT_ANSWER_TIME;
     const password = document.getElementById('cr-password').value.trim();
 
@@ -1275,17 +1425,26 @@ async function createRoom() {
         await cleanupMyOldRooms(null);
         const players = [];
         for (let p = 0; p < maxPlayers; p++) {
-            players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 });
+            // Team mode: first half Team A, second half Team B; Solo: no team
+            players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null });
         }
-        players[0] = { id: myUserId, nickname: myNickname, ready: false, score: 0, answered: false, answerChoice: -1 };
+        // Host defaults to Team A in team mode, no team in solo
+        players[0] = { id: myUserId, nickname: myNickname, ready: false, score: 0, answered: false, answerChoice: -1, team: gameMode === 'team' ? 'A' : null };
 
-        const res = await db.collection(COLLECTION).add({
+        const roomData = {
             roomName: name, hostId: myUserId, maxPlayers: maxPlayers,
             winScore: winScore, answerTime: answerTime, password: password || '',
             players: players, started: false, currentQuestion: -1,
             questions: [], questionStartTime: 0, paused: false,
+            gameMode: gameMode,
             createdAt: Date.now(), lastActiveAt: Date.now()
-        });
+        };
+        if (gameMode === 'team') {
+            roomData.teamSize = teamSize;
+            roomData.teamScores = { A: 0, B: 0 };
+        }
+
+        const res = await db.collection(COLLECTION).add(roomData);
 
         hideCreateRoom();
         const docId = res._id || res.id || (res.data && res.data._id);
@@ -1300,7 +1459,8 @@ async function createRoom() {
 
         const room = {
             _id: res._id, roomName: name, hostId: myUserId, maxPlayers,
-            winScore, answerTime, password, players, started: false
+            winScore, answerTime, password, players, started: false,
+            gameMode, teamSize: roomData.teamSize, teamScores: roomData.teamScores
         };
         showScreen('lobby-screen');
         renderLobby(room);
@@ -1358,9 +1518,19 @@ async function joinRoom(docId) {
             mySpot = players.findIndex(p => !p.id);
             if (mySpot === -1) { showToast('房间已满', 'error'); return; }
             while (players.length < mySpot + 1) {
-                players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 });
+                players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null });
             }
-            players[mySpot] = { id: myUserId, nickname: myNickname, ready: false, score: 0, answered: false, answerChoice: -1 };
+            // Team mode: auto-assign team with fewer players
+            let team = null;
+            if (room.gameMode === 'team') {
+                const teamASize = players.filter(p => p.id && p.team === 'A').length;
+                const teamBSize = players.filter(p => p.id && p.team === 'B').length;
+                const maxTeamSize = room.teamSize || 5;
+                if (teamASize < maxTeamSize) team = 'A';
+                else if (teamBSize < maxTeamSize) team = 'B';
+                else { showToast('两队都已满', 'error'); return; }
+            }
+            players[mySpot] = { id: myUserId, nickname: myNickname, ready: false, score: 0, answered: false, answerChoice: -1, team };
             await db.collection(COLLECTION).doc(docId).update({ players, lastActiveAt: Date.now() });
         }
 
@@ -1383,7 +1553,7 @@ async function cleanupMyOldRooms(excludeDocId) {
             const players = room.players || [];
             const idx = players.findIndex(p => p.id === myUserId);
             if (idx === -1) continue;
-            players[idx] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 };
+            players[idx] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null };
             const anyoneLeft = players.some(p => p.id);
             if (!anyoneLeft) {
                 await db.collection(COLLECTION).doc(room._id).remove();
@@ -1402,32 +1572,89 @@ async function cleanupMyOldRooms(excludeDocId) {
 function renderLobby(room) {
     const players = room.players || [];
     const maxP = room.maxPlayers || DEFAULT_MAX_PLAYERS;
+    const isTeam = room.gameMode === 'team';
     document.getElementById('lobby-title').textContent = room.roomName || '房间';
 
     const settings = document.getElementById('lobby-settings');
     settings.innerHTML = '<span>👥 ' + players.filter(p => p.id).length + '/' + maxP + '</span>'
+        + '<span>' + (isTeam ? '🤝 组队' : '👤 个人') + '</span>'
         + '<span>🏆 ' + (room.winScore || DEFAULT_WIN_SCORE) + '分胜</span>'
         + '<span>⏱ ' + (room.answerTime || DEFAULT_ANSWER_TIME) + '秒</span>'
         + (room.password ? '<span>🔒 有密码</span>' : '');
 
     const container = document.getElementById('lobby-players');
     container.innerHTML = '';
-    players.forEach((p, i) => {
-        if (!p.id) return;
-        const isMe = p.id === myUserId;
-        const isHost = p.id === room.hostId;
-        const div = document.createElement('div');
-        div.className = 'lobby-player' + (p.ready ? ' ready' : '');
-        div.innerHTML = '<div class="p-avatar">' + (isMe ? '我' : (i + 1)) + '</div>'
-            + '<div class="p-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + (isHost ? ' <span class="p-host">房主</span>' : '') + '</div>'
-            + '<div class="p-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? '已准备' : '等待中') + '</div>';
-        container.appendChild(div);
-    });
+
+    if (isTeam) {
+        // Team mode: show two columns
+        container.className = 'lobby-team-wrap';
+        const myTeam = players[myPlayerIndex]?.team;
+        ['A', 'B'].forEach(team => {
+            const teamPlayers = players.filter(p => p.id && p.team === team);
+            const col = document.createElement('div');
+            col.className = 'lobby-team-col team-' + team.toLowerCase();
+            col.innerHTML = '<div class="lobby-team-title">' + (team === 'A' ? '🔵' : '🔴') + ' ' + team + '队 (' + teamPlayers.length + '/' + (room.teamSize || 5) + ')</div>';
+            teamPlayers.forEach((p, i) => {
+                const div = document.createElement('div');
+                const isMe = p.id === myUserId;
+                const isHost = p.id === room.hostId;
+                div.className = 'lobby-player team-' + team.toLowerCase() + (p.ready ? ' ready' : '');
+                div.innerHTML = '<div class="p-avatar">' + (isMe ? '我' : (i + 1)) + '</div>'
+                    + '<div class="p-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + (isHost ? ' <span class="p-host">房主</span>' : '') + '</div>'
+                    + '<div class="p-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? '已准备' : '等待中') + '</div>';
+                col.appendChild(div);
+            });
+            // Empty slots — clickable to switch team
+            for (let j = teamPlayers.length; j < (room.teamSize || 5); j++) {
+                const emptyDiv = document.createElement('div');
+                emptyDiv.className = 'lobby-player empty-slot team-' + team.toLowerCase();
+                emptyDiv.innerHTML = '<div class="p-avatar" style="background:#e8e8e8;color:#999">?</div><div class="p-name" style="color:#999">空位</div>';
+                if (myTeam && myTeam !== team) {
+                    emptyDiv.onclick = () => switchMyTeam(team);
+                    emptyDiv.title = '点击加入' + team + '队';
+                }
+                col.appendChild(emptyDiv);
+            }
+            container.appendChild(col);
+        });
+    } else {
+        // Solo mode: original display
+        container.className = '';
+        players.forEach((p, i) => {
+            if (!p.id) return;
+            const isMe = p.id === myUserId;
+            const isHost = p.id === room.hostId;
+            const div = document.createElement('div');
+            div.className = 'lobby-player' + (p.ready ? ' ready' : '');
+            div.innerHTML = '<div class="p-avatar">' + (isMe ? '我' : (i + 1)) + '</div>'
+                + '<div class="p-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + (isHost ? ' <span class="p-host">房主</span>' : '') + '</div>'
+                + '<div class="p-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? '已准备' : '等待中') + '</div>';
+            container.appendChild(div);
+        });
+    }
 
     const btnReady = document.getElementById('btn-ready');
     const myP = players[myPlayerIndex];
     if (myP && myP.ready) { btnReady.textContent = '取消准备'; btnReady.classList.add('cancel'); }
     else { btnReady.textContent = '准备'; btnReady.classList.remove('cancel'); }
+}
+
+async function switchMyTeam(newTeam) {
+    if (!currentRoomDocId || myPlayerIndex < 0) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const room = res.data[0];
+        if (!room.teamSize) return;
+        const players = room.players || [];
+        // Check if target team is full
+        const targetCount = players.filter(p => p.id && p.team === newTeam).length;
+        if (targetCount >= room.teamSize) { showToast(newTeam + '队已满', 'error'); return; }
+        if (players[myPlayerIndex]) {
+            players[myPlayerIndex].team = newTeam;
+        }
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
+    } catch (e) { console.error('换队失败:', e); }
 }
 
 async function toggleReady() {
@@ -1511,10 +1738,14 @@ async function startOnlineGame(room) {
         const questions = pickQuestions(Math.max(20, estimatedQuestions));
         if (questions.length === 0) { showToast('题库为空', 'error'); return; }
         const players = room.players.map(p => ({ ...p, score: 0, ready: false, answered: false, answerChoice: -1 }));
-        await db.collection(COLLECTION).doc(currentRoomDocId).update({
+        const updateData = {
             started: true, questions: questions.map(q => q.id), currentQuestion: 0,
             players: players, questionStartTime: Date.now(), paused: false, lastActiveAt: Date.now()
-        });
+        };
+        if (room.gameMode === 'team') {
+            updateData.teamScores = { A: 0, B: 0 };
+        }
+        await db.collection(COLLECTION).doc(currentRoomDocId).update(updateData);
     } catch (e) { console.error('开始游戏失败:', e); }
 }
 
@@ -1540,6 +1771,10 @@ function renderOnlineQuestion(room) {
         // 房间不再暂停，恢复
         onlineState.paused = false;
         document.getElementById('pause-overlay').classList.remove('show');
+        // 重新启用选项
+        document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
+        // 重启计时器（同一道题，非新题，不会在 isNewQuestion 分支重启）
+        startOnlineTimer(room.questionStartTime || Date.now(), answerTime);
     }
 
     if (currentQ < 0 || currentQ >= qIds.length) {
@@ -1549,8 +1784,10 @@ function renderOnlineQuestion(room) {
         return;
     }
 
-    const winner = activePlayers.find(p => (p.score || 0) >= winScore);
-    if (winner) {
+    const isTeam = room.gameMode === 'team';
+    const teamWin = isTeam && room.teamScores && (room.teamScores.A >= winScore || room.teamScores.B >= winScore);
+    const soloWinner = !isTeam && activePlayers.find(p => (p.score || 0) >= winScore);
+    if (soloWinner || teamWin) {
         if (!document.getElementById('result-screen').classList.contains('active')) endOnlineGame(room);
         return;
     }
@@ -1570,7 +1807,7 @@ function renderOnlineQuestion(room) {
         document.getElementById('waiting-overlay').classList.remove('show');
         document.getElementById('explanation-box').classList.remove('show');
         document.getElementById('btn-next').classList.remove('show');
-        document.getElementById('question-text').textContent = q.question;
+        document.getElementById('question-text').textContent = (currentQ + 1) + '. ' + q.question;
         const ol = document.getElementById('options-list'); ol.innerHTML = '';
         q.options.forEach((opt, i) => {
             const div = document.createElement('div'); div.className = 'option-item';
@@ -1581,10 +1818,19 @@ function renderOnlineQuestion(room) {
     }
 
     onlineState.score = myP.score || 0;
-    document.getElementById('game-round').textContent = '第 ' + (currentQ + 1) + ' 题 | 先到 ' + winScore + ' 分';
-    document.getElementById('game-score').textContent = '我的得分: ' + onlineState.score;
+    document.getElementById('game-round').textContent = '第 ' + (currentQ + 1) + ' 题';
+    document.getElementById('game-score').textContent = isTeam && myP.team ? (myP.team + '队 总分: ' + (room.teamScores?.[myP.team] || 0)) : ('我的得分: ' + onlineState.score);
 
     const sb = document.getElementById('online-scoreboard'); sb.innerHTML = '';
+    // Team mode: show team scores banner
+    if (isTeam && room.teamScores) {
+        const teamBar = document.createElement('div');
+        teamBar.style.cssText = 'display:flex;gap:12px;justify-content:center;margin-bottom:8px;';
+        teamBar.innerHTML = '<span class="team-score team-a">🔵 A队: ' + (room.teamScores.A || 0) + '分</span>'
+            + '<span style="font-weight:700;color:var(--text-dim)">VS</span>'
+            + '<span class="team-score team-b">🔴 B队: ' + (room.teamScores.B || 0) + '分</span>';
+        sb.appendChild(teamBar);
+    }
     // 按人数切换显示模式：≤6人用横排标签，>6人用紧凑排行
     const useCompact = activePlayers.length > 6;
     if (useCompact) sb.classList.add('compact'); else sb.classList.remove('compact');
@@ -1601,7 +1847,9 @@ function renderOnlineQuestion(room) {
             const div = document.createElement('div');
             div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
             const rankCls = i === 0 ? ' top1' : i === 1 ? ' top2' : i === 2 ? ' top3' : '';
+            const teamBadge = (isTeam && p.team) ? '<span class="team-score team-' + p.team.toLowerCase() + '" style="font-size:.7rem">' + p.team + '</span>' : '';
             div.innerHTML = '<span class="sb-rank' + rankCls + '">' + (i + 1) + '</span>'
+                + teamBadge
                 + '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
                 + '<div class="sb-bar-wrap"><div class="sb-bar-fill" style="width:' + pct + '%"></div></div>'
                 + '<span class="sb-pts">' + (p.score || 0) + '</span>'
@@ -1625,7 +1873,9 @@ function renderOnlineQuestion(room) {
         activePlayers.forEach(p => {
             const div = document.createElement('div');
             div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
-            div.innerHTML = '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
+            const teamLabel = (isTeam && p.team) ? '<span class="team-score team-' + p.team.toLowerCase() + '" style="font-size:.7rem;margin-right:2px">' + p.team + '</span>' : '';
+            div.innerHTML = teamLabel
+                + '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
                 + '<span class="sb-pts">' + (p.score || 0) + '/' + winScore + '</span>'
                 + '<span class="sb-answered">' + (p.answered ? ' ✓' : '') + '</span>';
             sb.appendChild(div);
@@ -1666,7 +1916,7 @@ function revealAnswer(room, q) {
     document.getElementById('explanation-box').classList.add('show');
 
     if (room.hostId === myUserId) {
-        onlineState.advanceTimer = setTimeout(() => { advanceQuestion(room); }, REVEAL_DELAY);
+        document.getElementById('btn-next').classList.add('show');
     }
 }
 
@@ -1677,8 +1927,12 @@ async function advanceQuestion(room) {
         if (!res.data || !res.data.length) return;
         const freshRoom = res.data[0];
         const activePlayers = (freshRoom.players || []).filter(p => p.id);
-        const winner = activePlayers.find(p => (p.score || 0) >= (freshRoom.winScore || DEFAULT_WIN_SCORE));
-        if (winner) { endOnlineGame(freshRoom); return; }
+        const isTeam = freshRoom.gameMode === 'team';
+        const teamWin = isTeam && freshRoom.teamScores && 
+            (freshRoom.teamScores.A >= (freshRoom.winScore || DEFAULT_WIN_SCORE) || 
+             freshRoom.teamScores.B >= (freshRoom.winScore || DEFAULT_WIN_SCORE));
+        const soloWinner = !isTeam && activePlayers.find(p => (p.score || 0) >= (freshRoom.winScore || DEFAULT_WIN_SCORE));
+        if (soloWinner || teamWin) { endOnlineGame(freshRoom); return; }
         const nextQ = (freshRoom.currentQuestion != null ? freshRoom.currentQuestion : -1) + 1;
         const players = freshRoom.players.map(p => ({ ...p, answered: false, answerChoice: -1 }));
         await db.collection(COLLECTION).doc(currentRoomDocId).update({
@@ -1707,7 +1961,16 @@ async function onlineSelect(idx) {
             players[myPlayerIndex].answered = true;
             players[myPlayerIndex].answerChoice = idx;
             if (isCorrect) players[myPlayerIndex].score = (players[myPlayerIndex].score || 0) + 1;
-            await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
+            const updateData = { players, lastActiveAt: Date.now() };
+            // Team mode: update team total score
+            if (room.gameMode === 'team' && isCorrect) {
+                const myTeam = players[myPlayerIndex].team;
+                if (myTeam && room.teamScores) {
+                    room.teamScores[myTeam] = (room.teamScores[myTeam] || 0) + 1;
+                    updateData.teamScores = room.teamScores;
+                }
+            }
+            await db.collection(COLLECTION).doc(currentRoomDocId).update(updateData);
         }
     } catch (e) { console.error('提交答案失败:', e); }
     document.getElementById('waiting-overlay').classList.add('show');
@@ -1765,23 +2028,69 @@ async function forceAdvanceIfStuck(room) {
     } catch (e) { console.error('强制推进失败:', e); }
 }
 
-function onlineNext() { document.getElementById('btn-next').classList.remove('show'); }
+function onlineNext() {
+    document.getElementById('btn-next').classList.remove('show');
+    if (myUserId === onlineState.roomData?.hostId) {
+        advanceQuestion(onlineState.roomData);
+    }
+}
 
 function endOnlineGame(room) {
     clearInterval(onlineState.timer); clearTimeout(onlineState.advanceTimer);
     clearTimeout(onlineState.safetyTimer); onlineState.safetyTimer = null;
     document.getElementById('waiting-overlay').classList.remove('show');
-    const players = (room.players || []).filter(p => p.id).sort((a, b) => (b.score || 0) - (a.score || 0));
-    document.getElementById('result-title').textContent = '比赛结束';
-    document.getElementById('result-subtitle').textContent = '先到 ' + (room.winScore || DEFAULT_WIN_SCORE) + ' 分获胜';
+
+    const isTeam = room.gameMode === 'team';
     const rank = document.getElementById('result-rank'); rank.innerHTML = '';
-    players.forEach((p, i) => {
-        const isMe = p.id === myUserId;
-        const div = document.createElement('div');
-        div.className = 'rank-item' + (i === 0 ? ' top' : '');
-        div.innerHTML = '<div class="rank-num">' + (i + 1) + '</div><div class="rank-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + '</div><div class="rank-score">' + (p.score || 0) + ' 分</div>';
-        rank.appendChild(div);
-    });
+
+    if (isTeam && room.teamScores) {
+        // Team mode: show team winner
+        const teamWin = room.teamScores.A >= (room.winScore || DEFAULT_WIN_SCORE) ? 'A' :
+                        room.teamScores.B >= (room.winScore || DEFAULT_WIN_SCORE) ? 'B' : null;
+        const myTeam = (room.players || []).find(p => p.id === myUserId)?.team;
+        const isWin = myTeam && myTeam === teamWin;
+        document.getElementById('result-title').textContent = isWin ? '🎉 你们赢了！' : '比赛结束';
+        document.getElementById('result-subtitle').textContent = (teamWin ? teamWin + '队' : '') + ' 先到 ' + (room.winScore || DEFAULT_WIN_SCORE) + ' 分获胜';
+
+        // Show team final scores
+        const teamScoreDiv = document.createElement('div');
+        teamScoreDiv.style.cssText = 'display:flex;gap:20px;justify-content:center;margin-bottom:16px;font-size:1.1rem;font-weight:900;';
+        teamScoreDiv.innerHTML = '<span style="color:#2196f3">🔵 A队: ' + (room.teamScores.A || 0) + '分</span>'
+            + '<span style="color:var(--text-dim)">VS</span>'
+            + '<span style="color:#ff5722">🔴 B队: ' + (room.teamScores.B || 0) + '分</span>';
+        rank.appendChild(teamScoreDiv);
+
+        // Show player scores grouped by team
+        const allPlayers = (room.players || []).filter(p => p.id);
+        ['A', 'B'].forEach(team => {
+            const teamPlayers = allPlayers.filter(p => p.team === team).sort((a, b) => (b.score || 0) - (a.score || 0));
+            if (teamPlayers.length === 0) return;
+            const header = document.createElement('div');
+            header.style.cssText = 'text-align:center;font-weight:700;color:' + (team === 'A' ? '#2196f3' : '#ff5722') + ';margin:8px 0 4px;font-size:.9rem;';
+            header.textContent = team + '队成员';
+            rank.appendChild(header);
+            teamPlayers.forEach((p, i) => {
+                const isMe = p.id === myUserId;
+                const div = document.createElement('div');
+                div.className = 'rank-item' + (i === 0 ? ' top' : '');
+                div.innerHTML = '<div class="rank-num">' + (i + 1) + '</div><div class="rank-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + '</div><div class="rank-score">' + (p.score || 0) + ' 分</div>';
+                rank.appendChild(div);
+            });
+        });
+    } else {
+        // Solo mode: original display
+        const players = (room.players || []).filter(p => p.id).sort((a, b) => (b.score || 0) - (a.score || 0));
+        document.getElementById('result-title').textContent = '比赛结束';
+        document.getElementById('result-subtitle').textContent = '先到 ' + (room.winScore || DEFAULT_WIN_SCORE) + ' 分获胜';
+        players.forEach((p, i) => {
+            const isMe = p.id === myUserId;
+            const div = document.createElement('div');
+            div.className = 'rank-item' + (i === 0 ? ' top' : '');
+            div.innerHTML = '<div class="rank-num">' + (i + 1) + '</div><div class="rank-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + '</div><div class="rank-score">' + (p.score || 0) + ' 分</div>';
+            rank.appendChild(div);
+        });
+    }
+
     document.getElementById('btn-replay').textContent = '再来一局';
     showScreen('result-screen');
 }
@@ -1794,10 +2103,14 @@ async function onlineReplay() {
         const room = res.data[0];
         if (room.hostId === myUserId) {
             const players = room.players.map(p => p.id ? { ...p, score: 0, ready: false, answered: false, answerChoice: -1 } : p);
-            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+            const updateData = {
                 started: false, currentQuestion: -1, questions: [],
                 questionStartTime: 0, paused: false, players, lastActiveAt: Date.now()
-            });
+            };
+            if (room.gameMode === 'team') {
+                updateData.teamScores = { A: 0, B: 0 };
+            }
+            await db.collection(COLLECTION).doc(currentRoomDocId).update(updateData);
         }
         isReady = false; onlineState = {
             questions: [], currentIdx: -1, score: 0, selected: null, answered: false,
@@ -1820,7 +2133,7 @@ async function leaveRoom() {
             if (res.data && res.data.length) {
                 const room = res.data[0]; const players = room.players || [];
                 if (players[myPlayerIndex]) {
-                    players[myPlayerIndex] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1 };
+                    players[myPlayerIndex] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null };
                 }
                 const anyoneLeft = players.some(p => p.id);
                 if (!anyoneLeft) {
