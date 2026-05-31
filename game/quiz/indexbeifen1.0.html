@@ -410,55 +410,47 @@ body {
 }
 .ow-slot {
     display: flex; align-items: center;
-    padding: 0; position: relative; z-index: 1;
+    padding: 10px 16px; position: relative; z-index: 1;
     font-size: .78rem; font-weight: 700;
     transition: all .25s;
     min-height: 40px;
-    background: rgba(0,0,0,.02);
-    border: 1px solid rgba(0,0,0,.06);
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f1923 100%);
+    border: 2px solid;
+    transform: skewX(-8deg);
+    color: rgba(255,255,255,.7);
 }
+.ow-slot > * { transform: skewX(8deg); }
 .ow-lobby-team.team-a .ow-slot {
-    clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%);
+    border-color: #2196f3;
 }
 .ow-lobby-team.team-b .ow-slot {
-    clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+    border-color: #ff5722;
 }
 .ow-slot.filled {
-    color: var(--text);
+    color: rgba(255,255,255,.85);
 }
 .ow-lobby-team.team-a .ow-slot.filled {
-    border-left: 3px solid #2196f3;
+    border-color: #2196f3;
 }
 .ow-lobby-team.team-b .ow-slot.filled {
-    border-right: 3px solid #ff5722;
+    border-color: #ff5722;
 }
 .ow-slot.filled.ready {
-    background: rgba(0,230,118,.04);
+    background: linear-gradient(180deg, #1b2e1a 0%, #0f2319 100%);
 }
 .ow-lobby-team.team-a .ow-slot.filled.ready {
-    border-left-color: #43a047;
-    box-shadow: inset 3px 0 0 rgba(67,160,71,.15);
+    border-color: #43a047;
 }
 .ow-lobby-team.team-b .ow-slot.filled.ready {
-    border-right-color: #43a047;
-    box-shadow: inset -3px 0 0 rgba(67,160,71,.15);
+    border-color: #43a047;
 }
-.ow-slot-accent {
-    width: 3px; align-self: stretch; flex-shrink: 0;
-}
-.ow-lobby-team.team-a .ow-slot-accent { background: #2196f3; }
-.ow-lobby-team.team-b .ow-slot-accent { background: #ff5722; }
-.ow-slot-body {
-    flex: 1; display: flex; align-items: center;
-    padding: 8px 10px; min-width: 0; gap: 6px;
-}
-.ow-slot-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: .5px; }
-.ow-slot-me { color: var(--gold); font-weight: 900; }
+.ow-slot-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: .5px; color: rgba(255,255,255,.9); }
+.ow-slot-me { color: #ff8f00; font-weight: 900; }
 .ow-slot-host {
-    font-size: .5rem; font-weight: 900; color: var(--gold);
+    font-size: .5rem; font-weight: 900; color: #ff8f00;
     letter-spacing: 1.5px; text-transform: uppercase;
-    padding: 1px 5px; background: rgba(232,130,19,.1);
-    border: 1px solid rgba(232,130,19,.2);
+    padding: 1px 5px; background: rgba(255,143,0,.15);
+    border: 1px solid rgba(255,143,0,.3);
 }
 .ow-slot-status {
     font-size: .58rem; font-weight: 900; letter-spacing: 1.5px;
@@ -468,32 +460,25 @@ body {
 .ow-slot-status::before {
     content: ''; width: 6px; height: 6px; border-radius: 50%;
 }
-.ow-slot-status.ready { color: var(--green); }
-.ow-slot-status.ready::before { background: var(--green); box-shadow: 0 0 4px rgba(67,160,71,.5); }
-.ow-slot-status.waiting { color: var(--text-dim); }
-.ow-slot-status.waiting::before { background: var(--text-dim); opacity: .4; }
+.ow-slot-status.ready { color: #69f0ae; }
+.ow-slot-status.ready::before { background: #69f0ae; box-shadow: 0 0 6px rgba(105,240,174,.6); }
+.ow-slot-status.waiting { color: rgba(255,255,255,.35); }
+.ow-slot-status.waiting::before { background: rgba(255,255,255,.25); }
 .ow-slot.empty {
-    cursor: pointer; opacity: .3;
-    border: 1px solid rgba(0,0,0,.08);
-    color: #aaa; font-size: .72rem; font-weight: 700;
+    cursor: pointer; opacity: .4;
+    border: 2px solid rgba(255,255,255,.12);
+    color: rgba(255,255,255,.3); font-size: .72rem; font-weight: 700;
     letter-spacing: 2px; text-transform: uppercase;
-    background: transparent;
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f1923 100%);
 }
 .ow-slot.empty:hover {
-    opacity: 1; border-color: var(--gold); color: var(--gold);
-    background: rgba(232,130,19,.04);
+    opacity: 1; border-color: #ff8f00; color: #ff8f00;
 }
 .ow-slot-empty-icon {
     width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;
     font-size: .9rem; font-weight: 900; flex-shrink: 0;
     border: 1px solid currentColor; opacity: .6;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
-.ow-lobby-team.team-a .ow-slot.empty {
-    clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%);
-}
-.ow-lobby-team.team-b .ow-slot.empty {
-    clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
 }
 .ow-lobby-vs {
     position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
@@ -1780,15 +1765,12 @@ function renderLobby(room) {
                 const isHost = p.id === room.hostId;
                 const div = document.createElement('div');
                 div.className = 'ow-slot filled' + (p.ready ? ' ready' : '');
-                div.innerHTML = '<div class="ow-slot-accent"></div>'
-                    + '<div class="ow-slot-body">'
-                    + '<span class="ow-slot-name">'
+                div.innerHTML = '<span class="ow-slot-name">'
                     + (isMe ? '<span class="ow-slot-me">我</span> ' : '')
                     + (p.nickname || '玩家')
                     + (isHost ? ' <span class="ow-slot-host">HOST</span>' : '')
                     + '</span>'
-                    + '<span class="ow-slot-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? 'READY' : 'WAIT') + '</span>'
-                    + '</div>';
+                    + '<span class="ow-slot-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? 'READY' : 'WAIT') + '</span>';
                 col.appendChild(div);
             });
             for (let j = teamPlayers.length; j < (room.teamSize || 5); j++) {
