@@ -363,35 +363,211 @@ body {
     text-shadow: 0 0 6px rgba(255,143,0,.3);
 }
 .ow-toggle-option:active { transform: scale(.97); }
-.lobby-team-col {
-    flex: 1; min-width: 130px;
-    border: 1px solid rgba(0,0,0,.08); border-radius: 0;
-    padding: 12px 10px; background: rgba(0,0,0,.02);
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 10px) 100%, 6px 100%, 0 calc(100% - 8px));
+.lobby-team-wrap {
+    display: flex; gap: 0; position: relative;
+    width: 100%; max-width: 440px;
+    margin-bottom: 20px;
 }
-.lobby-team-col.team-a {
-    border-color: rgba(33,150,243,.3);
-    box-shadow: inset 0 0 30px rgba(33,150,243,.04), 0 0 0 1px rgba(33,150,243,.06);
-    background: rgba(33,150,243,.04);
+.ow-lobby-team {
+    flex: 1; min-width: 0;
+    background: rgba(255,255,255,.98);
+    border: 1px solid rgba(0,0,0,.08);
+    display: flex; flex-direction: column; gap: 5px;
+    padding: 10px 8px;
+    position: relative; overflow: hidden;
 }
-.lobby-team-col.team-b {
-    border-color: rgba(255,87,34,.3);
-    box-shadow: inset 0 0 30px rgba(255,87,34,.04), 0 0 0 1px rgba(255,87,34,.06);
-    background: rgba(255,87,34,.04);
+.ow-lobby-team.team-a {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    border-right: none;
 }
-.lobby-team-title {
-    text-align: center; font-weight: 900; font-size: .78rem;
-    padding: 2px 0 10px; letter-spacing: 2px; text-transform: uppercase;
+.ow-lobby-team.team-b {
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
 }
-.lobby-team-col.team-a .lobby-team-title { color: #2196f3; text-shadow: 0 0 10px rgba(33,150,243,.2); }
-.lobby-team-col.team-b .lobby-team-title { color: #ff5722; text-shadow: 0 0 10px rgba(255,87,34,.2); }
-.lobby-team-wrap { display: flex; gap: 10px; }
+.ow-lobby-team::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; z-index: 2;
+}
+.ow-lobby-team.team-a::before {
+    background: linear-gradient(90deg, #2196f3, rgba(33,150,243,.15));
+}
+.ow-lobby-team.team-b::before {
+    background: linear-gradient(90deg, rgba(255,87,34,.15), #ff5722);
+}
+.ow-lobby-team::after {
+    content: ''; position: absolute; top: 3px; left: 0; right: 0; bottom: 0;
+    pointer-events: none; z-index: 0;
+}
+.ow-lobby-team.team-a::after {
+    background: repeating-linear-gradient(
+        -45deg, transparent, transparent 8px,
+        rgba(33,150,243,.03) 8px, rgba(33,150,243,.03) 9px
+    );
+}
+.ow-lobby-team.team-b::after {
+    background: repeating-linear-gradient(
+        45deg, transparent, transparent 8px,
+        rgba(255,87,34,.03) 8px, rgba(255,87,34,.03) 9px
+    );
+}
+.ow-slot {
+    display: flex; align-items: center;
+    padding: 0; position: relative; z-index: 1;
+    font-size: .78rem; font-weight: 700;
+    transition: all .25s;
+    min-height: 40px;
+    background: rgba(0,0,0,.02);
+    border: 1px solid rgba(0,0,0,.06);
+}
+.ow-lobby-team.team-a .ow-slot {
+    clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%);
+}
+.ow-lobby-team.team-b .ow-slot {
+    clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.ow-slot.filled {
+    color: var(--text);
+}
+.ow-lobby-team.team-a .ow-slot.filled {
+    border-left: 3px solid #2196f3;
+}
+.ow-lobby-team.team-b .ow-slot.filled {
+    border-right: 3px solid #ff5722;
+}
+.ow-slot.filled.ready {
+    background: rgba(0,230,118,.04);
+}
+.ow-lobby-team.team-a .ow-slot.filled.ready {
+    border-left-color: #43a047;
+    box-shadow: inset 3px 0 0 rgba(67,160,71,.15);
+}
+.ow-lobby-team.team-b .ow-slot.filled.ready {
+    border-right-color: #43a047;
+    box-shadow: inset -3px 0 0 rgba(67,160,71,.15);
+}
+.ow-slot-accent {
+    width: 3px; align-self: stretch; flex-shrink: 0;
+}
+.ow-lobby-team.team-a .ow-slot-accent { background: #2196f3; }
+.ow-lobby-team.team-b .ow-slot-accent { background: #ff5722; }
+.ow-slot-body {
+    flex: 1; display: flex; align-items: center;
+    padding: 8px 10px; min-width: 0; gap: 6px;
+}
+.ow-slot-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: .5px; }
+.ow-slot-me { color: var(--gold); font-weight: 900; }
+.ow-slot-host {
+    font-size: .5rem; font-weight: 900; color: var(--gold);
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 1px 5px; background: rgba(232,130,19,.1);
+    border: 1px solid rgba(232,130,19,.2);
+}
+.ow-slot-status {
+    font-size: .58rem; font-weight: 900; letter-spacing: 1.5px;
+    margin-left: auto; flex-shrink: 0; text-transform: uppercase;
+    display: flex; align-items: center; gap: 4px;
+}
+.ow-slot-status::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+}
+.ow-slot-status.ready { color: var(--green); }
+.ow-slot-status.ready::before { background: var(--green); box-shadow: 0 0 4px rgba(67,160,71,.5); }
+.ow-slot-status.waiting { color: var(--text-dim); }
+.ow-slot-status.waiting::before { background: var(--text-dim); opacity: .4; }
+.ow-slot.empty {
+    cursor: pointer; opacity: .3;
+    border: 1px solid rgba(0,0,0,.08);
+    color: #aaa; font-size: .72rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    background: transparent;
+}
+.ow-slot.empty:hover {
+    opacity: 1; border-color: var(--gold); color: var(--gold);
+    background: rgba(232,130,19,.04);
+}
+.ow-slot-empty-icon {
+    width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; font-weight: 900; flex-shrink: 0;
+    border: 1px solid currentColor; opacity: .6;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+.ow-lobby-team.team-a .ow-slot.empty {
+    clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%);
+}
+.ow-lobby-team.team-b .ow-slot.empty {
+    clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.ow-lobby-vs {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    z-index: 5;
+}
+.ow-lobby-vs-diamond {
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    font-size: .6rem; font-weight: 900; color: var(--text-dim); letter-spacing: 1px;
+    background: #fff; border: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
 .lobby-player.team-a { border-left: 3px solid #2196f3; background: rgba(33,150,243,.04); }
 .lobby-player.team-b { border-left: 3px solid #ff5722; background: rgba(255,87,34,.04); }
 .lobby-player.empty-slot {
     cursor: pointer; opacity: .5; transition: all .2s;
 }
 .lobby-player.empty-slot:hover { opacity: 1; border-color: var(--gold); background: rgba(232,130,19,.08); box-shadow: 0 0 10px rgba(232,130,19,.1); }
+.ow-team-scoreboard {
+    display: flex; align-items: stretch; gap: 0;
+    width: 100%; max-width: 500px;
+    background: rgba(255,255,255,.95);
+    border: 1px solid rgba(0,0,0,.08);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,.06);
+}
+.ow-team-side {
+    flex: 1; padding: 14px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    position: relative;
+}
+.ow-team-side.ow-team-a {
+    background: linear-gradient(135deg, rgba(33,150,243,.06) 0%, rgba(33,150,243,.02) 100%);
+    border-right: 1px solid rgba(0,0,0,.06);
+}
+.ow-team-side.ow-team-b {
+    background: linear-gradient(135deg, rgba(255,87,34,.02) 0%, rgba(255,87,34,.06) 100%);
+}
+.ow-team-side::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.ow-team-side.ow-team-a::before { background: linear-gradient(90deg, #2196f3, rgba(33,150,243,.2)); }
+.ow-team-side.ow-team-b::before { background: linear-gradient(90deg, rgba(255,87,34,.2), #ff5722); }
+.ow-team-label {
+    font-size: .72rem; font-weight: 900; letter-spacing: 3px; text-transform: uppercase;
+}
+.ow-team-side.ow-team-a .ow-team-label { color: #2196f3; }
+.ow-team-side.ow-team-b .ow-team-label { color: #ff5722; }
+.ow-team-score-val {
+    font-size: 2.2rem; font-weight: 900; line-height: 1;
+}
+.ow-team-side.ow-team-a .ow-team-score-val { color: #1565c0; text-shadow: 0 2px 8px rgba(33,150,243,.15); }
+.ow-team-side.ow-team-b .ow-team-score-val { color: #d84315; text-shadow: 0 2px 8px rgba(255,87,34,.15); }
+.ow-team-progress {
+    width: 100%; height: 4px; border-radius: 2px; background: rgba(0,0,0,.06); overflow: hidden; margin-top: 2px;
+}
+.ow-team-progress-fill {
+    height: 100%; border-radius: 2px; transition: width .4s ease;
+}
+.team-a-fill { background: linear-gradient(90deg, #2196f3, #64b5f6); }
+.team-b-fill { background: linear-gradient(90deg, #ff5722, #ff8a65); }
+.ow-team-vs {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 8px 10px; gap: 2px; flex-shrink: 0;
+}
+.ow-vs-diamond {
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    font-size: .7rem; font-weight: 900; color: var(--text-dim); letter-spacing: 1px;
+    background: rgba(0,0,0,.04); border: 1px solid rgba(0,0,0,.08);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+.ow-vs-target {
+    font-size: .6rem; font-weight: 700; color: var(--text-dim); letter-spacing: 1px; white-space: nowrap;
+}
 .team-score { font-size: .78rem; font-weight: 700; letter-spacing: .5px; }
 .team-score.team-a { color: #2196f3; text-shadow: 0 0 8px rgba(33,150,243,.2); }
 .team-score.team-b { color: #ff5722; text-shadow: 0 0 8px rgba(255,87,34,.2); }
@@ -637,6 +813,13 @@ body {
     .lobby-box { padding: 20px 16px; }
     .room-card { padding: 10px 12px; gap: 10px; }
     .room-card-icon { width: 36px; height: 36px; font-size: 1rem; }
+    .ow-team-score-val { font-size: 1.8rem; }
+    .ow-team-side { padding: 10px 10px; }
+    .ow-lobby-team.team-a { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%); }
+    .ow-lobby-team.team-b { clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%); }
+    .ow-slot { padding: 0; font-size: .72rem; min-height: 34px; }
+    .ow-slot-body { padding: 6px 8px; }
+    .ow-lobby-vs-diamond { width: 26px; height: 26px; font-size: .5rem; }
 }
     </style>
 </head>
@@ -1586,29 +1769,32 @@ function renderLobby(room) {
     container.innerHTML = '';
 
     if (isTeam) {
-        // Team mode: show two columns
         container.className = 'lobby-team-wrap';
         const myTeam = players[myPlayerIndex]?.team;
         ['A', 'B'].forEach(team => {
             const teamPlayers = players.filter(p => p.id && p.team === team);
             const col = document.createElement('div');
-            col.className = 'lobby-team-col team-' + team.toLowerCase();
-            col.innerHTML = '<div class="lobby-team-title">' + (team === 'A' ? '🔵' : '🔴') + ' ' + team + '队 (' + teamPlayers.length + '/' + (room.teamSize || 5) + ')</div>';
-            teamPlayers.forEach((p, i) => {
-                const div = document.createElement('div');
+            col.className = 'ow-lobby-team team-' + team.toLowerCase();
+            teamPlayers.forEach(p => {
                 const isMe = p.id === myUserId;
                 const isHost = p.id === room.hostId;
-                div.className = 'lobby-player team-' + team.toLowerCase() + (p.ready ? ' ready' : '');
-                div.innerHTML = '<div class="p-avatar">' + (isMe ? '我' : (i + 1)) + '</div>'
-                    + '<div class="p-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + (isHost ? ' <span class="p-host">房主</span>' : '') + '</div>'
-                    + '<div class="p-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? '已准备' : '等待中') + '</div>';
+                const div = document.createElement('div');
+                div.className = 'ow-slot filled' + (p.ready ? ' ready' : '');
+                div.innerHTML = '<div class="ow-slot-accent"></div>'
+                    + '<div class="ow-slot-body">'
+                    + '<span class="ow-slot-name">'
+                    + (isMe ? '<span class="ow-slot-me">我</span> ' : '')
+                    + (p.nickname || '玩家')
+                    + (isHost ? ' <span class="ow-slot-host">HOST</span>' : '')
+                    + '</span>'
+                    + '<span class="ow-slot-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? 'READY' : 'WAIT') + '</span>'
+                    + '</div>';
                 col.appendChild(div);
             });
-            // Empty slots — clickable to switch team
             for (let j = teamPlayers.length; j < (room.teamSize || 5); j++) {
                 const emptyDiv = document.createElement('div');
-                emptyDiv.className = 'lobby-player empty-slot team-' + team.toLowerCase();
-                emptyDiv.innerHTML = '<div class="p-avatar" style="background:#e8e8e8;color:#999">?</div><div class="p-name" style="color:#999">空位</div>';
+                emptyDiv.className = 'ow-slot empty';
+                emptyDiv.innerHTML = '<div class="ow-slot-empty-icon">+</div>空位';
                 if (myTeam && myTeam !== team) {
                     emptyDiv.onclick = () => switchMyTeam(team);
                     emptyDiv.title = '点击加入' + team + '队';
@@ -1617,6 +1803,10 @@ function renderLobby(room) {
             }
             container.appendChild(col);
         });
+        const vsDiv = document.createElement('div');
+        vsDiv.className = 'ow-lobby-vs';
+        vsDiv.innerHTML = '<div class="ow-lobby-vs-diamond">VS</div>';
+        container.appendChild(vsDiv);
     } else {
         // Solo mode: original display
         container.className = '';
@@ -1819,67 +2009,72 @@ function renderOnlineQuestion(room) {
 
     onlineState.score = myP.score || 0;
     document.getElementById('game-round').textContent = '第 ' + (currentQ + 1) + ' 题';
-    document.getElementById('game-score').textContent = isTeam && myP.team ? (myP.team + '队 总分: ' + (room.teamScores?.[myP.team] || 0)) : ('我的得分: ' + onlineState.score);
+    document.getElementById('game-score').textContent = '我的得分: ' + onlineState.score;
 
     const sb = document.getElementById('online-scoreboard'); sb.innerHTML = '';
-    // Team mode: show team scores banner
     if (isTeam && room.teamScores) {
         const teamBar = document.createElement('div');
-        teamBar.style.cssText = 'display:flex;gap:12px;justify-content:center;margin-bottom:8px;';
-        teamBar.innerHTML = '<span class="team-score team-a">🔵 A队: ' + (room.teamScores.A || 0) + '分</span>'
-            + '<span style="font-weight:700;color:var(--text-dim)">VS</span>'
-            + '<span class="team-score team-b">🔴 B队: ' + (room.teamScores.B || 0) + '分</span>';
+        teamBar.className = 'ow-team-scoreboard';
+        teamBar.innerHTML = '<div class="ow-team-side ow-team-a">'
+            + '<div class="ow-team-label">A队</div>'
+            + '<div class="ow-team-score-val">' + (room.teamScores.A || 0) + '</div>'
+            + '<div class="ow-team-progress"><div class="ow-team-progress-fill team-a-fill" style="width:' + (winScore > 0 ? Math.min(100, ((room.teamScores.A || 0) / winScore) * 100) : 0) + '%"></div></div>'
+            + '</div>'
+            + '<div class="ow-team-vs">'
+            + '<div class="ow-vs-diamond">VS</div>'
+            + '<div class="ow-vs-target">' + winScore + '分胜</div>'
+            + '</div>'
+            + '<div class="ow-team-side ow-team-b">'
+            + '<div class="ow-team-label">B队</div>'
+            + '<div class="ow-team-score-val">' + (room.teamScores.B || 0) + '</div>'
+            + '<div class="ow-team-progress"><div class="ow-team-progress-fill team-b-fill" style="width:' + (winScore > 0 ? Math.min(100, ((room.teamScores.B || 0) / winScore) * 100) : 0) + '%"></div></div>'
+            + '</div>';
         sb.appendChild(teamBar);
-    }
-    // 按人数切换显示模式：≤6人用横排标签，>6人用紧凑排行
-    const useCompact = activePlayers.length > 6;
-    if (useCompact) sb.classList.add('compact'); else sb.classList.remove('compact');
-
-    if (useCompact) {
-        // 紧凑排行模式：按分数排序，显示前5 + 自己
-        const sorted = [...activePlayers].sort((a, b) => (b.score || 0) - (a.score || 0));
-        const myRank = sorted.findIndex(p => p.id === myUserId);
-        const topN = sorted.slice(0, 5);
-        const showMe = myRank >= 5; // 自己不在前5则额外显示
-
-        topN.forEach((p, i) => {
-            const pct = winScore > 0 ? Math.min(100, ((p.score || 0) / winScore) * 100) : 0;
-            const div = document.createElement('div');
-            div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
-            const rankCls = i === 0 ? ' top1' : i === 1 ? ' top2' : i === 2 ? ' top3' : '';
-            const teamBadge = (isTeam && p.team) ? '<span class="team-score team-' + p.team.toLowerCase() + '" style="font-size:.7rem">' + p.team + '</span>' : '';
-            div.innerHTML = '<span class="sb-rank' + rankCls + '">' + (i + 1) + '</span>'
-                + teamBadge
-                + '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
-                + '<div class="sb-bar-wrap"><div class="sb-bar-fill" style="width:' + pct + '%"></div></div>'
-                + '<span class="sb-pts">' + (p.score || 0) + '</span>'
-                + '<span class="sb-answered">' + (p.answered ? '✓' : '') + '</span>';
-            sb.appendChild(div);
-        });
-        if (showMe) {
-            const p = sorted[myRank];
-            const pct = winScore > 0 ? Math.min(100, ((p.score || 0) / winScore) * 100) : 0;
-            const div = document.createElement('div');
-            div.className = 'sb-player me';
-            div.innerHTML = '<span class="sb-rank">' + (myRank + 1) + '</span>'
-                + '<span class="sb-name">我</span>'
-                + '<div class="sb-bar-wrap"><div class="sb-bar-fill" style="width:' + pct + '%"></div></div>'
-                + '<span class="sb-pts">' + (p.score || 0) + '</span>'
-                + '<span class="sb-answered">' + (p.answered ? '✓' : '') + '</span>';
-            sb.appendChild(div);
-        }
+        sb.classList.remove('compact');
     } else {
-        // 原始横排标签模式
-        activePlayers.forEach(p => {
-            const div = document.createElement('div');
-            div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
-            const teamLabel = (isTeam && p.team) ? '<span class="team-score team-' + p.team.toLowerCase() + '" style="font-size:.7rem;margin-right:2px">' + p.team + '</span>' : '';
-            div.innerHTML = teamLabel
-                + '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
-                + '<span class="sb-pts">' + (p.score || 0) + '/' + winScore + '</span>'
-                + '<span class="sb-answered">' + (p.answered ? ' ✓' : '') + '</span>';
-            sb.appendChild(div);
-        });
+        const useCompact = activePlayers.length > 6;
+        if (useCompact) sb.classList.add('compact'); else sb.classList.remove('compact');
+
+        if (useCompact) {
+            const sorted = [...activePlayers].sort((a, b) => (b.score || 0) - (a.score || 0));
+            const myRank = sorted.findIndex(p => p.id === myUserId);
+            const topN = sorted.slice(0, 5);
+            const showMe = myRank >= 5;
+
+            topN.forEach((p, i) => {
+                const pct = winScore > 0 ? Math.min(100, ((p.score || 0) / winScore) * 100) : 0;
+                const div = document.createElement('div');
+                div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
+                const rankCls = i === 0 ? ' top1' : i === 1 ? ' top2' : i === 2 ? ' top3' : '';
+                div.innerHTML = '<span class="sb-rank' + rankCls + '">' + (i + 1) + '</span>'
+                    + '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
+                    + '<div class="sb-bar-wrap"><div class="sb-bar-fill" style="width:' + pct + '%"></div></div>'
+                    + '<span class="sb-pts">' + (p.score || 0) + '</span>'
+                    + '<span class="sb-answered">' + (p.answered ? '✓' : '') + '</span>';
+                sb.appendChild(div);
+            });
+            if (showMe) {
+                const p = sorted[myRank];
+                const pct = winScore > 0 ? Math.min(100, ((p.score || 0) / winScore) * 100) : 0;
+                const div = document.createElement('div');
+                div.className = 'sb-player me';
+                div.innerHTML = '<span class="sb-rank">' + (myRank + 1) + '</span>'
+                    + '<span class="sb-name">我</span>'
+                    + '<div class="sb-bar-wrap"><div class="sb-bar-fill" style="width:' + pct + '%"></div></div>'
+                    + '<span class="sb-pts">' + (p.score || 0) + '</span>'
+                    + '<span class="sb-answered">' + (p.answered ? '✓' : '') + '</span>';
+                sb.appendChild(div);
+            }
+        } else {
+            activePlayers.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
+                div.innerHTML = '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
+                    + '<span class="sb-pts">' + (p.score || 0) + '/' + winScore + '</span>'
+                    + '<span class="sb-answered">' + (p.answered ? ' ✓' : '') + '</span>';
+                sb.appendChild(div);
+            });
+        }
     }
 
     if (myP.answered && !onlineState.answered) {
@@ -2044,7 +2239,6 @@ function endOnlineGame(room) {
     const rank = document.getElementById('result-rank'); rank.innerHTML = '';
 
     if (isTeam && room.teamScores) {
-        // Team mode: show team winner
         const teamWin = room.teamScores.A >= (room.winScore || DEFAULT_WIN_SCORE) ? 'A' :
                         room.teamScores.B >= (room.winScore || DEFAULT_WIN_SCORE) ? 'B' : null;
         const myTeam = (room.players || []).find(p => p.id === myUserId)?.team;
@@ -2052,31 +2246,23 @@ function endOnlineGame(room) {
         document.getElementById('result-title').textContent = isWin ? '🎉 你们赢了！' : '比赛结束';
         document.getElementById('result-subtitle').textContent = (teamWin ? teamWin + '队' : '') + ' 先到 ' + (room.winScore || DEFAULT_WIN_SCORE) + ' 分获胜';
 
-        // Show team final scores
-        const teamScoreDiv = document.createElement('div');
-        teamScoreDiv.style.cssText = 'display:flex;gap:20px;justify-content:center;margin-bottom:16px;font-size:1.1rem;font-weight:900;';
-        teamScoreDiv.innerHTML = '<span style="color:#2196f3">🔵 A队: ' + (room.teamScores.A || 0) + '分</span>'
-            + '<span style="color:var(--text-dim)">VS</span>'
-            + '<span style="color:#ff5722">🔴 B队: ' + (room.teamScores.B || 0) + '分</span>';
-        rank.appendChild(teamScoreDiv);
-
-        // Show player scores grouped by team
-        const allPlayers = (room.players || []).filter(p => p.id);
-        ['A', 'B'].forEach(team => {
-            const teamPlayers = allPlayers.filter(p => p.team === team).sort((a, b) => (b.score || 0) - (a.score || 0));
-            if (teamPlayers.length === 0) return;
-            const header = document.createElement('div');
-            header.style.cssText = 'text-align:center;font-weight:700;color:' + (team === 'A' ? '#2196f3' : '#ff5722') + ';margin:8px 0 4px;font-size:.9rem;';
-            header.textContent = team + '队成员';
-            rank.appendChild(header);
-            teamPlayers.forEach((p, i) => {
-                const isMe = p.id === myUserId;
-                const div = document.createElement('div');
-                div.className = 'rank-item' + (i === 0 ? ' top' : '');
-                div.innerHTML = '<div class="rank-num">' + (i + 1) + '</div><div class="rank-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + '</div><div class="rank-score">' + (p.score || 0) + ' 分</div>';
-                rank.appendChild(div);
-            });
-        });
+        const teamResultDiv = document.createElement('div');
+        teamResultDiv.className = 'ow-team-scoreboard';
+        teamResultDiv.innerHTML = '<div class="ow-team-side ow-team-a">'
+            + '<div class="ow-team-label">A队</div>'
+            + '<div class="ow-team-score-val">' + (room.teamScores.A || 0) + '</div>'
+            + '<div class="ow-team-progress"><div class="ow-team-progress-fill team-a-fill" style="width:100%"></div></div>'
+            + '</div>'
+            + '<div class="ow-team-vs">'
+            + '<div class="ow-vs-diamond">VS</div>'
+            + '<div class="ow-vs-target">' + (room.winScore || DEFAULT_WIN_SCORE) + '分胜</div>'
+            + '</div>'
+            + '<div class="ow-team-side ow-team-b">'
+            + '<div class="ow-team-label">B队</div>'
+            + '<div class="ow-team-score-val">' + (room.teamScores.B || 0) + '</div>'
+            + '<div class="ow-team-progress"><div class="ow-team-progress-fill team-b-fill" style="width:100%"></div></div>'
+            + '</div>';
+        rank.appendChild(teamResultDiv);
     } else {
         // Solo mode: original display
         const players = (room.players || []).filter(p => p.id).sort((a, b) => (b.score || 0) - (a.score || 0));
