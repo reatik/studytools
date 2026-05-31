@@ -636,9 +636,9 @@ async function generatePDF(){
     await html2pdf().set({
       margin:[15,15,15,20],
       filename:'英语试卷.pdf',
-      image:{quality:0.98},
-      html2canvas:{scale:2,useCORS:true},
-      jsPDF:{format:'a4'},
+      image:{quality:0.75,type:'jpeg'},
+      html2canvas:{scale:1.5,useCORS:true,logging:false},
+      jsPDF:{format:'a4',compress:true},
       pagebreak:{mode:['avoid-all','css','legacy']}
     }).from(c).save();
     document.body.removeChild(c);
@@ -707,9 +707,9 @@ async function generateFullPDF(){
     await html2pdf().set({
       margin:[15,15,15,20],
       filename:'英语试卷（含答案）.pdf',
-      image:{quality:0.98},
-      html2canvas:{scale:2,useCORS:true},
-      jsPDF:{format:'a4'},
+      image:{quality:0.75,type:'jpeg'},
+      html2canvas:{scale:1.5,useCORS:true,logging:false},
+      jsPDF:{format:'a4',compress:true},
       pagebreak:{mode:['avoid-all','css','legacy']}
     }).from(c).save();
     document.body.removeChild(c);
@@ -741,9 +741,9 @@ async function generateAnswerPDF(){
     await html2pdf().set({
       margin:[15,15,15,20],
       filename:'答案解析.pdf',
-      image:{quality:0.98},
-      html2canvas:{scale:2,useCORS:true},
-      jsPDF:{format:'a4'},
+      image:{quality:0.75,type:'jpeg'},
+      html2canvas:{scale:1.5,useCORS:true,logging:false},
+      jsPDF:{format:'a4',compress:true},
       pagebreak:{mode:['avoid-all','css','legacy']}
     }).from(c).save();
     document.body.removeChild(c);
