@@ -1930,7 +1930,7 @@ const wordData = {
 {"english":"fresh","phonetic":"/freʃ/","chinese":"新鲜的","pos":"adj.","unit":"Unit 3","grade":"七年级上","type":"word"},
 {"english":"restaurant","phonetic":"/ˈrestrɒnt/","chinese":"餐厅","pos":"n.","unit":"Unit 3","grade":"七年级上","type":"word"},
 {"english":"pride","phonetic":"/praɪd/","chinese":"骄傲；自豪","pos":"n.","unit":"Unit 3","grade":"七年级上","type":"word"},
-{"english":"dabbawala","phonetic":"/ˈdɑːbəwɑːlə/","chinese":"（印度）这饭盒人","pos":"n.","unit":"Unit 3","grade":"七年级上","type":"word"},
+{"english":"dabbawala","phonetic":"/ˈdɑːbəwɑːlə/","chinese":"（印度）送饭盒人","pos":"n.","unit":"Unit 3","grade":"七年级上","type":"word"},
 {"english":"kilometre","phonetic":"/ˈkɪləmiːtə(r)/","chinese":"公里；千米","pos":"n.","unit":"Unit 3","grade":"七年级上","type":"word"},
 {"english":"exactly","phonetic":"/ɪɡˈzæktli/","chinese":"确切地","pos":"adv.","unit":"Unit 3","grade":"七年级上","type":"word"},
 {"english":"ever","phonetic":"/ˈevə(r)/","chinese":"在任何时候；从某","pos":"adv.","unit":"Unit 3","grade":"七年级上","type":"word"},
