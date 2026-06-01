@@ -9,13 +9,107 @@
     --primary-color: #5A4B75;
     --secondary-color: #72638D;
     --accent-color: #4A3C63;
-    --light-bg: #3a3a3a;
+    --light-bg: #cfcfcf;
     --text-color: #241B33;
     --light-text: #5A4B75;
     --border-color: #9C8EB5;
     --error-color: #C62828;
     --success-color: #6A5889;
     --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+/* 错题模式专用配色 */
+body.wrong-mode {
+    --primary-color: #B71C1C;
+    --secondary-color: #C62828;
+    --accent-color: #8B0000;
+    --text-color: #4A0000;
+    --light-text: #8B0000;
+    --border-color: #E57373;
+}
+body.wrong-mode .option-menu-btn.active {
+    background: #B71C1C;
+    border-color: #8B0000;
+}
+body.wrong-mode .question-card {
+    border-color: #B71C1C;
+}
+body.wrong-mode .question-number {
+    background-color: #B71C1C;
+}
+body.wrong-mode .question-number.wrong-number {
+    background-color: #8B0000;
+}
+body.wrong-mode .question-number.wrong-number:focus {
+    box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.4);
+}
+body.wrong-mode .grade-badge,
+body.wrong-mode .unit-badge,
+body.wrong-mode .knowledge-badge {
+    background: #FFEBEE;
+    color: #B71C1C;
+}
+body.wrong-mode .explanation-title {
+    color: #B71C1C;
+}
+body.wrong-mode .explanation {
+    border-color: #FFCDD2;
+    background-color: rgba(183, 28, 28, 0.05);
+}
+body.wrong-mode .option:hover {
+    border-color: #B71C1C;
+    background-color: #FFEBEE;
+}
+body.wrong-mode .card-wrong-btn.active {
+    background: #B71C1C;
+    border-color: #8B0000;
+}
+
+/* 收藏模式专用配色 */
+body.fav-mode {
+    --primary-color: #FF8F00;
+    --secondary-color: #FFA000;
+    --accent-color: #E65100;
+    --text-color: #5D4037;
+    --light-text: #E65100;
+    --border-color: #FFCC80;
+}
+body.fav-mode .option-menu-btn.active {
+    background: #FF8F00;
+    border-color: #E65100;
+}
+body.fav-mode .question-card {
+    border-color: #FF8F00;
+}
+body.fav-mode .question-number {
+    background-color: #FF8F00;
+}
+body.fav-mode .question-number.wrong-number {
+    background-color: #E65100;
+}
+body.fav-mode .question-number.wrong-number:focus {
+    box-shadow: 0 0 0 2px rgba(230, 81, 0, 0.4);
+}
+body.fav-mode .grade-badge,
+body.fav-mode .unit-badge,
+body.fav-mode .knowledge-badge {
+    background: #FFF3E0;
+    color: #FF8F00;
+}
+body.fav-mode .explanation-title {
+    color: #FF8F00;
+}
+body.fav-mode .explanation {
+    border-color: #FFE0B2;
+    background-color: rgba(255, 143, 0, 0.05);
+}
+body.fav-mode .option:hover {
+    border-color: #FF8F00;
+    background-color: #FFF3E0;
+}
+body.fav-mode .card-wrong-btn.active {
+    background: #FF8F00;
+    border-color: #E65100;
 }
 
 * {
@@ -108,109 +202,130 @@ body {
     margin-bottom: 6px;
     font-weight: 50;
 }
-.filter-tags {
+
+/* 筛选面板底部操作区 */
+.filter-divider {
+    height: 1px;
+    background: rgba(126,87,194,0.15);
+    margin: 8px 0;
+}
+.filter-clear-btn {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 6px;
+    padding: 8px 4px;
+    font-size: 12px;
+    color: #C62828;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.15s;
 }
-.filter-tag {
-    padding: 4px 10px;
+.filter-clear-btn:hover {
+    background: rgba(211,47,47,0.06);
+}
+.filter-clear-btn svg {
+    fill: #d32f2f;
+    flex-shrink: 0;
+}
+
+/* 下拉多选筛选 */
+.filter-dropdown {
+    position: relative;
+}
+.dropdown-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border: 1px solid rgba(126,87,194,0.2);
     border-radius: 8px;
-    font-size: 12px;
     background: #f5f1fc;
-    color: #5A4B75;
     cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid transparent;
-}
-.filter-tag.active {
-    background: #7E57C2;
-    color: #fff;
-}
-.filter-tag.all {
-    background: #f1f1f1;
-    color: #666;
-}
-
-/* 清空错题按钮 */
-.clear-wrong-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.95);
-    border: 1px solid rgba(211,47,47,0.2);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    backdrop-filter: blur(8px);
-    transition: all 0.2s;
-    position: relative;
-}
-.clear-wrong-btn.show {
-    display: flex;
-}
-.clear-wrong-btn:hover {
-    border-color: #d32f2f;
-    background: rgba(255,235,238,0.95);
-}
-.clear-wrong-btn svg {
-    width: 20px;
-    height: 20px;
-    fill: #d32f2f;
-}
-body.night-mode .clear-wrong-btn {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(211,47,47,0.35);
-}
-body.night-mode .clear-wrong-btn:hover {
-    background: rgba(211,47,47,0.2);
-    border-color: #f44336;
-}
-
-/* 清空收藏按钮 */
-.clear-fav-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.95);
-    border: 1px solid rgba(211,47,47,0.2);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    backdrop-filter: blur(8px);
-    transition: all 0.2s;
-    position: relative;
-}
-.clear-fav-btn.show {
-    display: flex;
-}
-.clear-fav-btn:hover {
-    border-color: #d32f2f;
-    background: rgba(255,235,238,0.95);
-}
-.clear-fav-btn svg {
-    width: 20px;
-    height: 20px;
-    fill: #d32f2f;
-}
-body.night-mode .clear-fav-btn {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(211,47,47,0.35);
-}
-body.night-mode .clear-fav-btn:hover {
-    background: rgba(211,47,47,0.2);
-    border-color: #f44336;
-}
-
-.unit-placeholder {
-    display: inline-block;
     font-size: 12px;
-    color: #aaa;
-    line-height: 28px;
+    color: #5A4B75;
+    transition: all 0.2s;
+    user-select: none;
+}
+.dropdown-trigger:hover {
+    border-color: #7E57C2;
+    background: #ede7f6;
+}
+.dropdown-trigger .dropdown-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+}
+.dropdown-trigger .dropdown-arrow {
+    font-size: 10px;
+    color: #999;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    margin-left: 4px;
+}
+.filter-dropdown.open .dropdown-trigger {
+    border-color: #7E57C2;
+    background: #ede7f6;
+}
+.filter-dropdown.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid rgba(126,87,194,0.15);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(90,75,117,0.15);
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
+    padding: 4px 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(126,87,194,0.25) transparent;
+}
+.dropdown-menu::-webkit-scrollbar {
+    width: 5px;
+}
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: rgba(126,87,194,0.25);
+    border-radius: 8px;
+}
+.filter-dropdown.open .dropdown-menu {
+    display: block;
+}
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #333;
+    transition: background 0.15s;
+}
+.dropdown-item:hover {
+    background: #f5f1fc;
+}
+.dropdown-item input[type="checkbox"] {
+    margin-right: 6px;
+    accent-color: #7E57C2;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.dropdown-item span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.dropdown-item.all-item {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 2px;
+    padding-bottom: 8px;
+    font-weight: 500;
+    color: #666;
 }
 
 /* ===== 右侧浮动操作栏 ===== */
@@ -609,10 +724,14 @@ body.night-mode .clear-fav-btn:hover {
 }
 
 .explanation-title {
-    font-weight: 80;
+    font-weight: 800;
     margin-bottom: 8px;
     color: var(--primary-color);
     transition: color 0.3s ease;
+    background: rgba(255, 215, 0, 0.4);
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: block;
 }
 
 .grade-badge, .unit-badge, .knowledge-badge {
@@ -816,20 +935,43 @@ body.night-mode .filter-panel {
 body.night-mode .filter-title {
     color: #ccc;
 }
-body.night-mode .filter-tag {
+body.night-mode .filter-divider {
+    background: rgba(126,87,194,0.2);
+}
+body.night-mode .filter-clear-btn {
+    color: #e57373;
+}
+body.night-mode .filter-clear-btn:hover {
+    background: rgba(211,47,47,0.12);
+}
+body.night-mode .filter-clear-btn svg {
+    fill: #e57373;
+}
+
+/* 夜间模式 - 下拉多选 */
+body.night-mode .dropdown-trigger {
     background: #2a3040;
+    border-color: #4a4560;
     color: #d0d8e8;
 }
-body.night-mode .filter-tag.active {
-    background: #7E57C2;
-    color: #fff;
+body.night-mode .dropdown-trigger:hover,
+body.night-mode .filter-dropdown.open .dropdown-trigger {
+    border-color: #7E57C2;
+    background: #3a4050;
 }
-body.night-mode .filter-tag.all {
-    background: #2d3342;
+body.night-mode .dropdown-menu {
+    background: #242a38;
+    border-color: #4a4560;
+}
+body.night-mode .dropdown-item {
+    color: #d0d8e8;
+}
+body.night-mode .dropdown-item:hover {
+    background: #2a3040;
+}
+body.night-mode .dropdown-item.all-item {
+    border-bottom-color: #3d4559;
     color: #aaa;
-}
-body.night-mode .unit-placeholder {
-    color: #666;
 }
 
 /* ===== Toast 提示 ===== */
@@ -893,14 +1035,8 @@ body.night-mode .mode-toast {
             <div class="option-menu-btn" id="only-fav-btn" title="收藏模式">
                 <img src="../../../images/收藏3.png" alt="收藏">
             </div>
-            <div class="clear-fav-btn" id="clear-fav-btn" title="清空所有收藏">
-                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-            </div>
             <div class="option-menu-btn" id="only-wrong-btn" title="错题模式">
                 <img src="../../../images/错题1.png" alt="错题">
-            </div>
-            <div class="clear-wrong-btn" id="clear-wrong-btn" title="清空所有错题">
-                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
             </div>
             <div class="option-menu-btn" id="option-menu-btn" title="筛选选项">
                 <img src="../../../images/选项.png" alt="选项">
@@ -908,19 +1044,52 @@ body.night-mode .mode-toast {
             <div class="filter-panel" id="filter-panel">
                 <div class="filter-group">
                     <div class="filter-title">题型</div>
-                    <div class="filter-tags" id="type-tags"></div>
+                    <div class="filter-dropdown" id="type-dropdown">
+                        <div class="dropdown-trigger" id="type-trigger">
+                            <span class="dropdown-text">全部</span>
+                            <span class="dropdown-arrow">▾</span>
+                        </div>
+                        <div class="dropdown-menu" id="type-menu"></div>
+                    </div>
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">年级</div>
-                    <div class="filter-tags" id="grade-tags"></div>
+                    <div class="filter-dropdown" id="grade-dropdown">
+                        <div class="dropdown-trigger" id="grade-trigger">
+                            <span class="dropdown-text">全部</span>
+                            <span class="dropdown-arrow">▾</span>
+                        </div>
+                        <div class="dropdown-menu" id="grade-menu"></div>
+                    </div>
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">单元</div>
-                    <div class="filter-tags" id="unit-tags"></div>
+                    <div class="filter-dropdown" id="unit-dropdown">
+                        <div class="dropdown-trigger" id="unit-trigger">
+                            <span class="dropdown-text">全部</span>
+                            <span class="dropdown-arrow">▾</span>
+                        </div>
+                        <div class="dropdown-menu" id="unit-menu"></div>
+                    </div>
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">考点</div>
-                    <div class="filter-tags" id="knowledge-tags"></div>
+                    <div class="filter-dropdown" id="knowledge-dropdown">
+                        <div class="dropdown-trigger" id="knowledge-trigger">
+                            <span class="dropdown-text">全部</span>
+                            <span class="dropdown-arrow">▾</span>
+                        </div>
+                        <div class="dropdown-menu" id="knowledge-menu"></div>
+                    </div>
+                </div>
+                <div class="filter-divider"></div>
+                <div class="filter-clear-btn" id="filter-clear-wrong">
+                    <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    清空错题本
+                </div>
+                <div class="filter-clear-btn" id="filter-clear-fav">
+                    <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    清空收藏
                 </div>
             </div>
         </div>
@@ -960,8 +1129,6 @@ body.night-mode .mode-toast {
         const questionArea = document.getElementById('question-area');
         const onlyWrongBtn = document.getElementById('only-wrong-btn');
         const onlyFavBtn = document.getElementById('only-fav-btn');
-        const clearWrongBtn = document.getElementById('clear-wrong-btn');
-        const clearFavBtn = document.getElementById('clear-fav-btn');
         const optionMenuBtn = document.getElementById('option-menu-btn');
         const filterPanel = document.getElementById('filter-panel');
 
@@ -975,76 +1142,116 @@ body.night-mode .mode-toast {
             return Array.from(set).sort();
         }
 
-        function getFilteredUnits() {
-            let set = new Set();
-            let base = selectedGrades.size > 0 ? allQuestions.filter(q => selectedGrades.has(q.grade)) : [];
-            base.forEach(q => { if (q.unit) set.add(q.unit); });
-            return Array.from(set).sort();
-        }
-
         function renderFilterTags() {
-            // 题型
-            renderTagGroup('type-tags', getUniqueList('type'), selectedTypes);
-            // 年级
-            renderTagGroup('grade-tags', getUniqueList('grade'), selectedGrades);
-            // 单元（根据已选年级动态显示）
-            let filteredUnits = getFilteredUnits();
-            if (selectedGrades.size === 0) {
-                // 未选年级：显示占位提示
-                renderUnitPlaceholder();
-            } else if (selectedGrades.size === getUniqueList('grade').length) {
-                // 全选年级：显示全部单元
-                renderTagGroup('unit-tags', getUniqueList('unit'), selectedUnits);
-            } else {
-                // 已选特定年级：只显示对应单元
-                for (let u of selectedUnits) {
-                    if (!filteredUnits.includes(u)) selectedUnits.delete(u);
-                }
-                renderTagGroup('unit-tags', filteredUnits, selectedUnits);
-            }
-            // 考点
-            renderTagGroup('knowledge-tags', getUniqueList('knowledge_point'), selectedKnowledges);
+            renderDropdownGroup('type-menu', getUniqueList('type'), selectedTypes);
+            renderDropdownGroup('grade-menu', getUniqueList('grade'), selectedGrades);
+            renderDropdownGroup('unit-menu', getUniqueList('unit'), selectedUnits);
+            renderDropdownGroup('knowledge-menu', getUniqueList('knowledge_point'), selectedKnowledges);
         }
 
-        function renderUnitPlaceholder() {
-            const container = document.getElementById('unit-tags');
-            container.innerHTML = '<span class="unit-placeholder">请先选择年级</span>';
-        }
+        // 下拉多选渲染
+        function renderDropdownGroup(menuId, list, selectedSet) {
+            const menu = document.getElementById(menuId);
+            const triggerId = menuId.replace('-menu', '-trigger');
+            const dropdownId = menuId.replace('-menu', '-dropdown');
+            menu.innerHTML = '';
 
-        function renderTagGroup(containerId, list, selectedSet) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-
-            const allTag = document.createElement('div');
-            allTag.className = 'filter-tag all';
-            allTag.textContent = '全部';
-            allTag.onclick = () => {
-                // 切换：全选 ⟷ 全不选
+            // "全部" toggle
+            const allItem = document.createElement('div');
+            allItem.className = 'dropdown-item all-item';
+            const allCb = document.createElement('input');
+            allCb.type = 'checkbox';
+            allCb.checked = selectedSet.size >= list.length && list.length > 0;
+            const allLabel = document.createElement('span');
+            allLabel.textContent = '全部';
+            allItem.appendChild(allCb);
+            allItem.appendChild(allLabel);
+            allItem.onclick = (e) => {
+                e.stopPropagation();
                 if (selectedSet.size >= list.length) {
                     selectedSet.clear();
                 } else {
                     list.forEach(item => selectedSet.add(item));
                 }
-                renderFilterTags();
+                updateDropdownState(menuId, list, selectedSet);
                 doFilter();
                 if (!isOnlyWrongMode) saveAllData();
             };
-            container.appendChild(allTag);
+            menu.appendChild(allItem);
 
+            // Individual items
             list.forEach(item => {
-                const tag = document.createElement('div');
-                tag.className = 'filter-tag';
-                if (selectedSet.has(item)) tag.classList.add('active');
-                tag.textContent = item;
-                tag.onclick = () => {
+                const div = document.createElement('div');
+                div.className = 'dropdown-item';
+                const cb = document.createElement('input');
+                cb.type = 'checkbox';
+                cb.checked = selectedSet.has(item);
+                const label = document.createElement('span');
+                label.textContent = item;
+                div.appendChild(cb);
+                div.appendChild(label);
+                div.onclick = (e) => {
+                    e.stopPropagation();
                     if (selectedSet.has(item)) selectedSet.delete(item);
                     else selectedSet.add(item);
-                    renderFilterTags();
+                    updateDropdownState(menuId, list, selectedSet);
                     doFilter();
                     if (!isOnlyWrongMode) saveAllData();
                 };
-                container.appendChild(tag);
+                menu.appendChild(div);
             });
+
+            updateDropdownTrigger(menuId, list, selectedSet);
+
+            // 绑定 trigger 点击
+            const trigger = document.getElementById(triggerId);
+            const dropdown = document.getElementById(dropdownId);
+            trigger.onclick = (e) => {
+                e.stopPropagation();
+                document.querySelectorAll('.filter-dropdown.open').forEach(d => {
+                    if (d.id !== dropdownId) d.classList.remove('open');
+                });
+                dropdown.classList.toggle('open');
+            };
+        }
+
+        function updateDropdownState(menuId, list, selectedSet) {
+            const menu = document.getElementById(menuId);
+            const items = menu.querySelectorAll('.dropdown-item');
+            const allCb = items[0]?.querySelector('input');
+            if (allCb) allCb.checked = selectedSet.size >= list.length && list.length > 0;
+
+            for (let i = 1; i < items.length; i++) {
+                const cb = items[i].querySelector('input');
+                const text = items[i].querySelector('span').textContent;
+                if (cb) cb.checked = selectedSet.has(text);
+            }
+
+            updateDropdownTrigger(menuId, list, selectedSet);
+        }
+
+        function updateDropdownTrigger(menuId, list, selectedSet) {
+            const triggerId = menuId.replace('-menu', '-trigger');
+            const trigger = document.getElementById(triggerId);
+            const textSpan = trigger.querySelector('.dropdown-text');
+
+            if (selectedSet.size === 0) {
+                textSpan.textContent = '未选择';
+                textSpan.style.color = '#999';
+            } else if (selectedSet.size >= list.length) {
+                textSpan.textContent = '全部';
+                textSpan.style.color = '';
+            } else if (selectedSet.size <= 3) {
+                textSpan.textContent = [...selectedSet].join('、');
+                textSpan.style.color = '';
+            } else {
+                textSpan.textContent = '已选' + selectedSet.size + '项';
+                textSpan.style.color = '';
+            }
+        }
+
+        function closeAllDropdowns() {
+            document.querySelectorAll('.filter-dropdown.open').forEach(d => d.classList.remove('open'));
         }
 
         optionMenuBtn.onclick = (e) => {
@@ -1058,8 +1265,20 @@ body.night-mode .mode-toast {
                 filterPanel.classList.remove('show');
                 optionMenuBtn.classList.remove('active');
             }
+            closeAllDropdowns();
         });
         filterPanel.onclick = (e) => e.stopPropagation();
+
+        document.getElementById('filter-clear-wrong').onclick = () => {
+            clearAllWrong();
+            filterPanel.classList.remove('show');
+            optionMenuBtn.classList.remove('active');
+        };
+        document.getElementById('filter-clear-fav').onclick = () => {
+            clearAllFavs();
+            filterPanel.classList.remove('show');
+            optionMenuBtn.classList.remove('active');
+        };
 
         // ---------- 加载题库 ----------
         async function loadQuestions() {
@@ -1121,6 +1340,7 @@ body.night-mode .mode-toast {
             if (currentIndex >= filteredQuestions.length) currentIndex = filteredQuestions.length - 1;
 
             let q = filteredQuestions[currentIndex];
+            localStorage.setItem('lastQuestionId', q.id);
             questionArea.appendChild(createQuestionCard(q));
         }
 
@@ -1155,12 +1375,10 @@ body.night-mode .mode-toast {
             let num = document.createElement('input');
             num.type = 'text';
             num.className = 'question-number';
+            num.value = (currentIndex + 1) + '/' + filteredQuestions.length;
+            num.style.width = '55px';
             if (isOnlyWrongMode) {
-                num.value = (currentIndex + 1) + '/' + filteredQuestions.length;
-                num.style.width = '44px';
                 num.classList.add('wrong-number');
-            } else {
-                num.value = currentIndex + 1;
             }
             num.title = '输入序号跳转题目';
             num.setAttribute('data-idx', currentIndex);
@@ -1172,7 +1390,7 @@ body.night-mode .mode-toast {
                     currentIndex = n - 1;
                     renderCurrent();
                 } else {
-                    num.value = isOnlyWrongMode ? ((currentIndex + 1) + '/' + filteredQuestions.length) : (currentIndex + 1);
+                    num.value = (currentIndex + 1) + '/' + filteredQuestions.length;
                 }
             });
             num.addEventListener('keydown', (e) => {
@@ -1310,6 +1528,7 @@ body.night-mode .mode-toast {
                     radio.onchange = () => {
                         if (userAnswers[q.id]) return;
                         userAnswers[q.id] = opt;
+                        recordAttempt(q.id, checkAnswer(opt, q.answer));
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
 
@@ -1358,6 +1577,7 @@ body.night-mode .mode-toast {
                         let inputs = card.querySelectorAll('.inline-fill');
                         let vals = Array.from(inputs).map(inp => inp.value.trim());
                         userAnswers[q.id] = vals.join(';') || '[查看]';
+                        recordAttempt(q.id, userAnswers[q.id] !== '[查看]' && checkAnswerBlank(vals.map(s => s.trim()), q.answer));
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
@@ -1411,6 +1631,9 @@ body.night-mode .mode-toast {
                         let inputs = card.querySelectorAll('.inline-fill');
                         let vals = Array.from(inputs).map(inp => inp.value.trim());
                         userAnswers[q.id] = vals.join(';') || '[查看]';
+                        let normAnswer = q.answer.replace(/;/g, ' ').replace(/\s+/g, ' ').toLowerCase().trim();
+                        let isCor = userAnswers[q.id] !== '[查看]' && userAnswers[q.id].split(';').join(' ').toLowerCase().trim() === normAnswer;
+                        recordAttempt(q.id, isCor);
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
@@ -1476,6 +1699,7 @@ body.night-mode .mode-toast {
                     btn.onclick = () => {
                         let val = input.value.trim();
                         userAnswers[q.id] = val || '[查看]';
+                        recordAttempt(q.id, val && normalizeAnswer(val) === normalizeAnswer(q.answer));
                         card.closest('.card-wrapper').replaceWith(createQuestionCard(q));
                     };
                     body.appendChild(btn);
@@ -1558,6 +1782,7 @@ body.night-mode .mode-toast {
             localStorage.setItem('filterKnowledges', JSON.stringify([...selectedKnowledges]));
             localStorage.setItem('questionFavs', JSON.stringify([...questionFavs]));
             localStorage.setItem('isOnlyFavMode', JSON.stringify(isOnlyFavMode));
+            localStorage.setItem('isOnlyWrongMode', JSON.stringify(isOnlyWrongMode));
         }
 
         function loadAllData() {
@@ -1571,6 +1796,15 @@ body.night-mode .mode-toast {
                 selectedKnowledges = new Set(JSON.parse(localStorage.getItem('filterKnowledges')) || []);
                 questionFavs = new Set(JSON.parse(localStorage.getItem('questionFavs')) || []);
                 isOnlyFavMode = JSON.parse(localStorage.getItem('isOnlyFavMode')) || false;
+                isOnlyWrongMode = JSON.parse(localStorage.getItem('isOnlyWrongMode')) || false;
+                if (isOnlyWrongMode) {
+                    document.body.classList.add('wrong-mode');
+                    onlyWrongBtn.classList.add('active');
+                }
+                if (isOnlyFavMode) {
+                    document.body.classList.add('fav-mode');
+                    onlyFavBtn.classList.add('active');
+                }
             } catch (e) {}
             userAnswers = {};
         }
@@ -1600,13 +1834,13 @@ body.night-mode .mode-toast {
         function toggleOnlyWrongMode() {
             isOnlyWrongMode = !isOnlyWrongMode;
             onlyWrongBtn.classList.toggle('active', isOnlyWrongMode);
-            clearWrongBtn.classList.toggle('show', isOnlyWrongMode);
+            document.body.classList.toggle('wrong-mode', isOnlyWrongMode);
             if (isOnlyWrongMode) {
-                // 进入错题本：保存当前位置，关闭收藏模式，备份筛选，全选
                 if (isOnlyFavMode) {
                     lastFavIndex = currentIndex;
                     isOnlyFavMode = false;
                     onlyFavBtn.classList.remove('active');
+                    document.body.classList.remove('fav-mode');
                     savedFilterState = null;
                 } else {
                     lastNormalIndex = currentIndex;
@@ -1625,7 +1859,6 @@ body.night-mode .mode-toast {
                 selectedKnowledges.clear();
                 selectAllFilters();
             } else {
-                // 退出错题本：保存错题位置，恢复之前备份的筛选状态
                 lastWrongIndex = currentIndex;
                 if (savedFilterState) {
                     selectedTypes = savedFilterState.types;
@@ -1647,10 +1880,9 @@ body.night-mode .mode-toast {
             lastWrongIndex = 0;
             saveAllData();
             if (isOnlyWrongMode) {
-                // 在错题模式下，清空后自动退出错题模式
                 isOnlyWrongMode = false;
                 onlyWrongBtn.classList.remove('active');
-                clearWrongBtn.classList.remove('show');
+                document.body.classList.remove('wrong-mode');
                 if (savedFilterState) {
                     selectedTypes = savedFilterState.types;
                     selectedGrades = savedFilterState.grades;
@@ -1662,7 +1894,6 @@ body.night-mode .mode-toast {
                 doFilter(lastNormalIndex);
                 saveAllData();
             } else {
-                // 不在错题模式下，刷新当前视图
                 doFilter(currentIndex);
             }
             showToast('已清空所有错题');
@@ -1671,15 +1902,13 @@ body.night-mode .mode-toast {
         function toggleOnlyFavMode() {
             isOnlyFavMode = !isOnlyFavMode;
             onlyFavBtn.classList.toggle('active', isOnlyFavMode);
-            clearFavBtn.classList.toggle('show', isOnlyFavMode);
+            document.body.classList.toggle('fav-mode', isOnlyFavMode);
             if (isOnlyFavMode) {
-                // 进入收藏模式：保存当前位置，关闭错题模式
                 if (isOnlyWrongMode) {
                     lastWrongIndex = currentIndex;
                     isOnlyWrongMode = false;
                     onlyWrongBtn.classList.remove('active');
-                    clearWrongBtn.classList.remove('show');
-                    // 恢复筛选
+                    document.body.classList.remove('wrong-mode');
                     if (savedFilterState) {
                         selectedTypes = savedFilterState.types;
                         selectedGrades = savedFilterState.grades;
@@ -1692,7 +1921,6 @@ body.night-mode .mode-toast {
                     lastNormalIndex = currentIndex;
                 }
             } else {
-                // 退出收藏模式：保存收藏位置
                 lastFavIndex = currentIndex;
             }
             let targetIdx = isOnlyFavMode ? lastFavIndex : lastNormalIndex;
@@ -1706,14 +1934,12 @@ body.night-mode .mode-toast {
             lastFavIndex = 0;
             saveAllData();
             if (isOnlyFavMode) {
-                // 在收藏模式下，清空后自动退出收藏模式
                 isOnlyFavMode = false;
                 onlyFavBtn.classList.remove('active');
-                clearFavBtn.classList.remove('show');
+                document.body.classList.remove('fav-mode');
                 doFilter(lastNormalIndex);
                 saveAllData();
             } else {
-                // 不在收藏模式下，刷新当前视图
                 doFilter(currentIndex);
             }
             showToast('已清空所有收藏');
@@ -1757,8 +1983,6 @@ body.night-mode .mode-toast {
             // 右上角按钮
             onlyWrongBtn.onclick = toggleOnlyWrongMode;
             onlyFavBtn.onclick = toggleOnlyFavMode;
-            clearWrongBtn.onclick = clearAllWrong;
-            clearFavBtn.onclick = clearAllFavs;
             
             // 恢复收藏模式按钮状态
             onlyFavBtn.classList.toggle('active', isOnlyFavMode);

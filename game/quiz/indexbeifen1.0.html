@@ -364,9 +364,12 @@ body {
 }
 .ow-toggle-option:active { transform: scale(.97); }
 .lobby-team-wrap {
-    display: flex; gap: 0; position: relative;
+    display: flex; flex-direction: column; align-items: center; gap: 0;
     width: 100%; max-width: 440px;
     margin-bottom: 20px;
+}
+.lobby-team-teams {
+    display: flex; gap: 0; position: relative; width: 100%;
 }
 .ow-lobby-team {
     flex: 1; min-width: 0;
@@ -414,10 +417,10 @@ body {
     font-size: .78rem; font-weight: 700;
     transition: all .25s;
     min-height: 40px;
-    background: linear-gradient(180deg, #1a1a2e 0%, #0f1923 100%);
+    background: #fff;
     border: 2px solid;
     transform: skewX(-8deg);
-    color: rgba(255,255,255,.7);
+    color: #555;
 }
 .ow-slot > * { transform: skewX(8deg); }
 .ow-lobby-team.team-a .ow-slot {
@@ -427,7 +430,7 @@ body {
     border-color: #ff5722;
 }
 .ow-slot.filled {
-    color: rgba(255,255,255,.85);
+    color: #333;
 }
 .ow-lobby-team.team-a .ow-slot.filled {
     border-color: #2196f3;
@@ -436,7 +439,7 @@ body {
     border-color: #ff5722;
 }
 .ow-slot.filled.ready {
-    background: linear-gradient(180deg, #1b2e1a 0%, #0f2319 100%);
+    background: #f1f8e9;
 }
 .ow-lobby-team.team-a .ow-slot.filled.ready {
     border-color: #43a047;
@@ -444,13 +447,13 @@ body {
 .ow-lobby-team.team-b .ow-slot.filled.ready {
     border-color: #43a047;
 }
-.ow-slot-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: .5px; color: rgba(255,255,255,.9); }
+.ow-slot-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: .5px; color: #333; }
 .ow-slot-me { color: #ff8f00; font-weight: 900; }
 .ow-slot-host {
     font-size: .5rem; font-weight: 900; color: #ff8f00;
     letter-spacing: 1.5px; text-transform: uppercase;
-    padding: 1px 5px; background: rgba(255,143,0,.15);
-    border: 1px solid rgba(255,143,0,.3);
+    padding: 1px 5px; background: rgba(255,143,0,.1);
+    border: 1px solid rgba(255,143,0,.25);
 }
 .ow-slot-status {
     font-size: .58rem; font-weight: 900; letter-spacing: 1.5px;
@@ -460,16 +463,16 @@ body {
 .ow-slot-status::before {
     content: ''; width: 6px; height: 6px; border-radius: 50%;
 }
-.ow-slot-status.ready { color: #69f0ae; }
-.ow-slot-status.ready::before { background: #69f0ae; box-shadow: 0 0 6px rgba(105,240,174,.6); }
-.ow-slot-status.waiting { color: rgba(255,255,255,.35); }
-.ow-slot-status.waiting::before { background: rgba(255,255,255,.25); }
+.ow-slot-status.ready { color: #43a047; }
+.ow-slot-status.ready::before { background: #43a047; }
+.ow-slot-status.waiting { color: #bbb; }
+.ow-slot-status.waiting::before { background: #ccc; }
 .ow-slot.empty {
     cursor: pointer; opacity: .4;
-    border: 2px solid rgba(255,255,255,.12);
-    color: rgba(255,255,255,.3); font-size: .72rem; font-weight: 700;
+    border: 2px solid rgba(0,0,0,.1);
+    color: #aaa; font-size: .72rem; font-weight: 700;
     letter-spacing: 2px; text-transform: uppercase;
-    background: linear-gradient(180deg, #1a1a2e 0%, #0f1923 100%);
+    background: #fff;
 }
 .ow-slot.empty:hover {
     opacity: 1; border-color: #ff8f00; color: #ff8f00;
@@ -491,6 +494,42 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,.08);
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
+.ow-lobby-host {
+    display: flex; justify-content: center; margin-bottom: 10px;
+}
+.host-slot {
+    display: flex; align-items: center;
+    padding: 10px 20px; min-width: 220px;
+    background: #fff; border: 1px solid rgba(0,0,0,.1);
+    border-radius: 6px; font-size: .78rem; font-weight: 700;
+    color: #333; gap: 8px; justify-content: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.host-slot .host-label {
+    font-size: .58rem; font-weight: 900; color: #ff8f00;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 1px 6px; background: rgba(255,143,0,.1);
+    border: 1px solid rgba(255,143,0,.2); border-radius: 3px;
+}
+.host-slot .host-name { color: #333; }
+.host-slot .host-name .ow-slot-me { color: #ff8f00; font-weight: 900; }
+.host-slot.empty-host {
+    opacity: .4; color: #aaa; border-style: dashed;
+}
+.host-slot.empty-host:hover {
+    opacity: 1; border-color: #ff8f00; color: #ff8f00;
+}
+.host-settings {
+    display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;
+}
+.host-settings label {
+    font-size: .68rem; color: #888; font-weight: 700; display: flex; align-items: center; gap: 4px;
+}
+.host-settings input, .host-settings select {
+    width: 50px; padding: 3px 6px; border: 1px solid #ddd; border-radius: 3px;
+    font-size: .68rem; text-align: center;
+}
+.host-settings select { width: auto; }
 .lobby-player.team-a { border-left: 3px solid #2196f3; background: rgba(33,150,243,.04); }
 .lobby-player.team-b { border-left: 3px solid #ff5722; background: rgba(255,87,34,.04); }
 .lobby-player.empty-slot {
@@ -792,6 +831,36 @@ body {
 .toast.success { border-color: rgba(0,230,118,.4); color: var(--green); }
 .toast.error { border-color: rgba(255,23,68,.4); color: var(--red); }
 
+.category-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+}
+.category-chip {
+    padding: 7px 16px; border-radius: 4px; font-size: .82rem; font-weight: 700;
+    cursor: pointer; border: 2px solid rgba(0,0,0,.08);
+    background: rgba(0,0,0,.03); color: var(--text-dim); transition: all .2s;
+    letter-spacing: 1px; user-select: none;
+}
+.category-chip:hover { border-color: var(--gold); color: var(--gold); }
+.category-chip.active {
+    background: linear-gradient(135deg, #ff8f00, #ffa000);
+    border-color: rgba(255,143,0,.4); color: #fff;
+    box-shadow: 0 2px 8px rgba(255,143,0,.2);
+}
+.category-chip:active { transform: scale(.96); }
+.category-chip-all {
+    padding: 7px 16px; border-radius: 4px; font-size: .78rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,0,0,.12);
+    background: rgba(0,0,0,.05); color: var(--text-dim); transition: all .2s;
+    letter-spacing: 1px; user-select: none;
+}
+.category-chip-all:hover { border-color: var(--gold); color: var(--gold); }
+.category-chip-all.active {
+    background: linear-gradient(135deg, #1a1a2e, #0f1923);
+    border-color: #ff8f00; color: #ff8f00;
+    box-shadow: 0 2px 0 #ff8f00, 0 4px 12px rgba(0,0,0,.2);
+}
+.category-chip-all:active { transform: scale(.96); }
+
 @media(max-width:480px) {
     .question-card { padding: 16px 14px; }
     .option-item { padding: 10px 12px; }
@@ -847,6 +916,10 @@ body {
                     <option value="50">50题</option>
                 </select>
             </div>
+        </div>
+        <div class="create-field">
+            <label class="create-label">题目类别</label>
+            <div class="category-chips" id="ss-categories"></div>
         </div>
         <div class="create-btns">
             <button class="btn-cancel" onclick="hideSoloSettings()">取消</button>
@@ -904,14 +977,23 @@ body {
                 <label class="create-label">人数上限</label>
                 <select class="create-select" id="cr-maxplayers">
                     <option value="2">2人</option>
+                    <option value="3">3人</option>
                     <option value="4" selected>4人</option>
+                    <option value="5">5人</option>
                     <option value="6">6人</option>
+                    <option value="7">7人</option>
                     <option value="8">8人</option>
+                    <option value="9">9人</option>
                     <option value="10">10人</option>
+                    <option value="11">11人</option>
                     <option value="12">12人</option>
+                    <option value="13">13人</option>
                     <option value="14">14人</option>
+                    <option value="15">15人</option>
                     <option value="16">16人</option>
+                    <option value="17">17人</option>
                     <option value="18">18人</option>
+                    <option value="19">19人</option>
                     <option value="20">20人</option>
                 </select>
             </div>
@@ -1055,7 +1137,8 @@ let currentGameMode = 'solo';
 
 let soloState = {
     questions: [], currentIdx: 0, score: 0, selected: null, answered: false, timer: null, timeLeft: 0,
-    answerTime: DEFAULT_ANSWER_TIME, questionCount: 10, paused: false, pausedTimeLeft: 0
+    answerTime: DEFAULT_ANSWER_TIME, questionCount: 10, paused: false, pausedTimeLeft: 0,
+    categories: []
 };
 
 let onlineState = {
@@ -1070,6 +1153,9 @@ const letters = ['A','B','C','D'];
 
 // 恢复上次的单人设置
 loadSoloSettings();
+if (!soloState.categories || soloState.categories.length === 0) {
+    soloState.categories = getCategories();
+}
 
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1096,12 +1182,57 @@ function shuffle(arr) {
     return a;
 }
 
-function pickQuestions(count) {
+function getCategories() {
+    const cats = new Set();
+    questionBank.forEach(q => { if (q.category) cats.add(q.category); });
+    return [...cats];
+}
+
+function renderCategoryChips() {
+    const container = document.getElementById('ss-categories');
+    if (!container) return;
+    container.innerHTML = '';
+    const allCats = getCategories();
+    const selected = soloState.categories || [];
+    const allSelected = selected.length >= allCats.length;
+
+    const allChip = document.createElement('div');
+    allChip.className = 'category-chip-all' + (allSelected ? ' active' : '');
+    allChip.textContent = '全部';
+    allChip.onclick = () => {
+        soloState.categories = [...allCats];
+        renderCategoryChips();
+    };
+    container.appendChild(allChip);
+
+    allCats.forEach(cat => {
+        const chip = document.createElement('div');
+        chip.className = 'category-chip' + (selected.includes(cat) ? ' active' : '');
+        chip.textContent = cat;
+        chip.onclick = () => {
+            if (selected.includes(cat)) {
+                soloState.categories = selected.filter(c => c !== cat);
+            } else {
+                selected.push(cat);
+                soloState.categories = [...selected];
+            }
+            renderCategoryChips();
+        };
+        container.appendChild(chip);
+    });
+}
+
+function pickQuestions(count, categories) {
     if (questionBank.length === 0) return [];
-    const pool = questionBank.length >= count
-        ? shuffle(questionBank)
-        : shuffle(questionBank).concat(shuffle(questionBank));
-    return pool.slice(0, count);
+    let pool = questionBank;
+    if (categories && categories.length > 0 && categories.length < getCategories().length) {
+        pool = questionBank.filter(q => categories.includes(q.category));
+    }
+    if (pool.length === 0) return [];
+    const shuffled = pool.length >= count
+        ? shuffle(pool)
+        : shuffle(pool).concat(shuffle(pool));
+    return shuffled.slice(0, count);
 }
 
 function showCountdown(callback) {
@@ -1120,12 +1251,14 @@ function startSolo() {
     isOnlineMode = false;
     const count = soloState.questionCount || 10;
     const time = soloState.answerTime || DEFAULT_ANSWER_TIME;
+    const categories = soloState.categories || [];
     soloState = {
-        questions: pickQuestions(count), currentIdx: 0, score: 0, selected: null,
+        questions: pickQuestions(count, categories), currentIdx: 0, score: 0, selected: null,
         answered: false, timer: null, timeLeft: 0,
-        answerTime: time, questionCount: count, paused: false, pausedTimeLeft: 0
+        answerTime: time, questionCount: count, paused: false, pausedTimeLeft: 0,
+        categories: categories
     };
-    if (soloState.questions.length === 0) { showToast('题库为空', 'error'); return; }
+    if (soloState.questions.length === 0) { showToast('所选类别题库为空', 'error'); return; }
     updateGameButtons();
     showCountdown(() => { showScreen('game-screen'); renderSoloQuestion(); });
 }
@@ -1347,6 +1480,7 @@ function loadSoloSettings() {
             const obj = JSON.parse(saved);
             soloState.answerTime = obj.answerTime || DEFAULT_ANSWER_TIME;
             soloState.questionCount = obj.questionCount || 10;
+            soloState.categories = obj.categories || [];
         }
     } catch (e) {}
 }
@@ -1355,7 +1489,8 @@ function saveSoloSettings() {
     try {
         localStorage.setItem('quiz_solo_settings', JSON.stringify({
             answerTime: soloState.answerTime || DEFAULT_ANSWER_TIME,
-            questionCount: soloState.questionCount || 10
+            questionCount: soloState.questionCount || 10,
+            categories: soloState.categories || []
         }));
     } catch (e) {}
 }
@@ -1374,7 +1509,7 @@ function showSoloSettings() {
     // 回显上次设置
     document.getElementById('ss-time').value = s.answerTime || DEFAULT_ANSWER_TIME;
     document.getElementById('ss-count').value = s.questionCount || 10;
-    // 更改按钮文字：游戏中显示"应用"，从主页显示"开始游戏"
+    renderCategoryChips();
     const btnConfirm = document.querySelector('#solo-settings-overlay .btn-confirm');
     btnConfirm.textContent = inGame ? '应用' : '开始游戏';
     btnConfirm.setAttribute('onclick', inGame ? 'applySoloSettings()' : 'confirmSoloStart()');
@@ -1402,7 +1537,6 @@ function confirmSoloStart() {
     soloState.questionCount = newCount;
     saveSoloSettings();
     document.getElementById('solo-settings-overlay').classList.remove('show');
-    // 直接开始游戏
     startSolo();
 }
 
@@ -1410,8 +1544,12 @@ function applySoloSettings() {
     const s = soloState;
     const newTime = parseInt(document.getElementById('ss-time').value) || DEFAULT_ANSWER_TIME;
     const newCount = parseInt(document.getElementById('ss-count').value) || 10;
+    const oldCategories = [...(s.categories || [])];
+    const newCategories = s.categories || [];
     const timeChanged = newTime !== s.answerTime;
     const countChanged = newCount !== s.questionCount;
+    const catChanged = oldCategories.length !== newCategories.length ||
+        oldCategories.some((c, i) => c !== newCategories[i]);
 
     s.answerTime = newTime;
     s.questionCount = newCount;
@@ -1419,12 +1557,10 @@ function applySoloSettings() {
 
     document.getElementById('solo-settings-overlay').classList.remove('show');
 
-    if (countChanged) {
-        // 题目数量变了，需要重新开始
-        showToast('题目数量已更改，将重新开始', 'info');
+    if (countChanged || catChanged) {
+        showToast('设置已更改，将重新开始', 'info');
         startSolo();
     } else if (timeChanged) {
-        // 只改了时间，当前题重新计时
         showToast('答题时间已更新为 ' + newTime + ' 秒', 'success');
         s.paused = false;
         if (!s.answered) {
@@ -1433,7 +1569,6 @@ function applySoloSettings() {
         }
         document.getElementById('pause-overlay').classList.remove('show');
     } else {
-        // 没改什么，恢复游戏
         s.paused = false;
         if (!s.answered) {
             document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
@@ -1593,11 +1728,8 @@ async function createRoom() {
         await cleanupMyOldRooms(null);
         const players = [];
         for (let p = 0; p < maxPlayers; p++) {
-            // Team mode: first half Team A, second half Team B; Solo: no team
             players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null });
         }
-        // Host defaults to Team A in team mode, no team in solo
-        players[0] = { id: myUserId, nickname: myNickname, ready: false, score: 0, answered: false, answerChoice: -1, team: gameMode === 'team' ? 'A' : null };
 
         const roomData = {
             roomName: name, hostId: myUserId, maxPlayers: maxPlayers,
@@ -1605,6 +1737,7 @@ async function createRoom() {
             players: players, started: false, currentQuestion: -1,
             questions: [], questionStartTime: 0, paused: false,
             gameMode: gameMode,
+            host: { id: myUserId, nickname: myNickname },
             createdAt: Date.now(), lastActiveAt: Date.now()
         };
         if (gameMode === 'team') {
@@ -1621,14 +1754,15 @@ async function createRoom() {
             return;
         }
         currentRoomDocId = docId;
-        myPlayerIndex = 0;
+        myPlayerIndex = -1;
         isReady = false;
         isOnlineMode = true;
 
         const room = {
             _id: res._id, roomName: name, hostId: myUserId, maxPlayers,
             winScore, answerTime, password, players, started: false,
-            gameMode, teamSize: roomData.teamSize, teamScores: roomData.teamScores
+            gameMode, teamSize: roomData.teamSize, teamScores: roomData.teamScores,
+            host: { id: myUserId, nickname: myNickname }
         };
         showScreen('lobby-screen');
         renderLobby(room);
@@ -1680,6 +1814,19 @@ async function joinRoom(docId) {
 
         const players = room.players || [];
         const maxP = room.maxPlayers || DEFAULT_MAX_PLAYERS;
+        const hostSlot = room.host || {};
+
+        if (hostSlot.id === myUserId) {
+            currentRoomDocId = docId;
+            myPlayerIndex = -1;
+            isReady = false;
+            isOnlineMode = true;
+            showScreen('lobby-screen');
+            renderLobby(room);
+            startWatchRoom();
+            return;
+        }
+
         let mySpot = players.findIndex(p => p.id === myUserId);
 
         if (mySpot === -1) {
@@ -1688,7 +1835,6 @@ async function joinRoom(docId) {
             while (players.length < mySpot + 1) {
                 players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null });
             }
-            // Team mode: auto-assign team with fewer players
             let team = null;
             if (room.gameMode === 'team') {
                 const teamASize = players.filter(p => p.id && p.team === 'A').length;
@@ -1719,17 +1865,27 @@ async function cleanupMyOldRooms(excludeDocId) {
         for (const room of (res.data || [])) {
             if (room._id === excludeDocId) continue;
             const players = room.players || [];
+            const hostSlot = room.host || {};
+            let needUpdate = false;
             const idx = players.findIndex(p => p.id === myUserId);
-            if (idx === -1) continue;
-            players[idx] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null };
-            const anyoneLeft = players.some(p => p.id);
+            if (idx !== -1) {
+                players[idx] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null };
+                needUpdate = true;
+            }
+            if (hostSlot.id === myUserId) {
+                room.host = { id: null, nickname: null };
+                needUpdate = true;
+            }
+            if (!needUpdate) continue;
+            const anyoneLeft = players.some(p => p.id) || (room.host && room.host.id);
             if (!anyoneLeft) {
                 await db.collection(COLLECTION).doc(room._id).remove();
                 continue;
             }
             const updateData = { players };
+            if (room.host) updateData.host = room.host;
             if (room.hostId === myUserId) {
-                const nextHost = players.find(p => p.id && p.id !== myUserId);
+                const nextHost = players.find(p => p.id) || (room.host && room.host.id ? { id: room.host.id } : null);
                 if (nextHost) updateData.hostId = nextHost.id;
             }
             await db.collection(COLLECTION).doc(room._id).update(updateData);
@@ -1741,13 +1897,19 @@ function renderLobby(room) {
     const players = room.players || [];
     const maxP = room.maxPlayers || DEFAULT_MAX_PLAYERS;
     const isTeam = room.gameMode === 'team';
+    const hostSlot = room.host || {};
+    const amIHost = room.hostId === myUserId;
+    const amIInHostSeat = hostSlot.id === myUserId;
+    const amIInPlayerSeat = myPlayerIndex >= 0 && players[myPlayerIndex]?.id === myUserId;
     document.getElementById('lobby-title').textContent = room.roomName || '房间';
 
+    const activePlayerCount = players.filter(p => p.id).length + (hostSlot.id ? 1 : 0);
     const settings = document.getElementById('lobby-settings');
-    settings.innerHTML = '<span>👥 ' + players.filter(p => p.id).length + '/' + maxP + '</span>'
+    settings.innerHTML = '<span>👥 ' + activePlayerCount + '/' + (maxP + 1) + '</span>'
         + '<span>' + (isTeam ? '🤝 组队' : '👤 个人') + '</span>'
         + '<span>🏆 ' + (room.winScore || DEFAULT_WIN_SCORE) + '分胜</span>'
         + '<span>⏱ ' + (room.answerTime || DEFAULT_ANSWER_TIME) + '秒</span>'
+
         + (room.password ? '<span>🔒 有密码</span>' : '');
 
     const container = document.getElementById('lobby-players');
@@ -1755,20 +1917,56 @@ function renderLobby(room) {
 
     if (isTeam) {
         container.className = 'lobby-team-wrap';
-        const myTeam = players[myPlayerIndex]?.team;
+
+        const hostSection = document.createElement('div');
+        hostSection.className = 'ow-lobby-host';
+        if (hostSlot.id) {
+            const isMe = hostSlot.id === myUserId;
+            const div = document.createElement('div');
+            div.className = 'host-slot';
+            div.innerHTML = '<span class="host-name">'
+                + (isMe ? '<span class="ow-slot-me">我</span> ' : '')
+                + (hostSlot.nickname || '主持人')
+                + '</span>'
+                + '<span class="host-label">HOST</span>';
+            hostSection.appendChild(div);
+        } else {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.className = 'host-slot empty-host';
+            if (amIHost && amIInPlayerSeat) {
+                emptyDiv.textContent = '← 回到主持人位';
+                emptyDiv.style.cursor = 'pointer';
+                emptyDiv.onclick = () => switchPlayerToHost();
+            } else {
+                emptyDiv.textContent = '主持人空缺';
+            }
+            hostSection.appendChild(emptyDiv);
+        }
+        container.appendChild(hostSection);
+
+        if (amIHost) {
+            const settingsBar = document.createElement('div');
+            settingsBar.className = 'host-settings';
+            settingsBar.innerHTML = '<label>🏆 <input type="number" id="hs-winscore" value="' + (room.winScore || DEFAULT_WIN_SCORE) + '" min="1" max="999">分胜</label>'
+                + '<label>⏱ <input type="number" id="hs-time" value="' + (room.answerTime || DEFAULT_ANSWER_TIME) + '" min="3" max="60">秒</label>'
+                + '<button style="padding:3px 10px;border:1px solid #ddd;border-radius:3px;font-size:.68rem;cursor:pointer;background:#fff;" onclick="saveHostSettings()">保存</button>';
+            container.appendChild(settingsBar);
+        }
+
+        const myTeam = amIInPlayerSeat ? players[myPlayerIndex]?.team : null;
+        const teamsWrap = document.createElement('div');
+        teamsWrap.className = 'lobby-team-teams';
         ['A', 'B'].forEach(team => {
             const teamPlayers = players.filter(p => p.id && p.team === team);
             const col = document.createElement('div');
             col.className = 'ow-lobby-team team-' + team.toLowerCase();
             teamPlayers.forEach(p => {
                 const isMe = p.id === myUserId;
-                const isHost = p.id === room.hostId;
                 const div = document.createElement('div');
                 div.className = 'ow-slot filled' + (p.ready ? ' ready' : '');
                 div.innerHTML = '<span class="ow-slot-name">'
                     + (isMe ? '<span class="ow-slot-me">我</span> ' : '')
                     + (p.nickname || '玩家')
-                    + (isHost ? ' <span class="ow-slot-host">HOST</span>' : '')
                     + '</span>'
                     + '<span class="ow-slot-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? 'READY' : 'WAIT') + '</span>';
                 col.appendChild(div);
@@ -1777,38 +1975,131 @@ function renderLobby(room) {
                 const emptyDiv = document.createElement('div');
                 emptyDiv.className = 'ow-slot empty';
                 emptyDiv.innerHTML = '<div class="ow-slot-empty-icon">+</div>空位';
-                if (myTeam && myTeam !== team) {
+                if (amIInHostSeat && amIHost) {
+                    emptyDiv.onclick = () => switchHostToTeam(team);
+                    emptyDiv.title = '点击加入' + team + '队';
+                } else if (myTeam && myTeam !== team) {
                     emptyDiv.onclick = () => switchMyTeam(team);
                     emptyDiv.title = '点击加入' + team + '队';
                 }
                 col.appendChild(emptyDiv);
             }
-            container.appendChild(col);
+            teamsWrap.appendChild(col);
         });
         const vsDiv = document.createElement('div');
         vsDiv.className = 'ow-lobby-vs';
         vsDiv.innerHTML = '<div class="ow-lobby-vs-diamond">VS</div>';
-        container.appendChild(vsDiv);
+        teamsWrap.appendChild(vsDiv);
+        container.appendChild(teamsWrap);
     } else {
-        // Solo mode: original display
         container.className = '';
+        const hostSection = document.createElement('div');
+        hostSection.className = 'ow-lobby-host';
+        if (hostSlot.id) {
+            const isMe = hostSlot.id === myUserId;
+            const div = document.createElement('div');
+            div.className = 'host-slot';
+            div.innerHTML = '<span class="host-name">'
+                + (isMe ? '<span class="ow-slot-me">我</span> ' : '')
+                + (hostSlot.nickname || '主持人')
+                + '</span>'
+                + '<span class="host-label">HOST</span>';
+            hostSection.appendChild(div);
+        } else {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.className = 'host-slot empty-host';
+            if (amIHost && amIInPlayerSeat) {
+                emptyDiv.textContent = '← 回到主持人位';
+                emptyDiv.style.cursor = 'pointer';
+                emptyDiv.onclick = () => switchPlayerToHost();
+            } else {
+                emptyDiv.textContent = '主持人空缺';
+            }
+            hostSection.appendChild(emptyDiv);
+        }
+        container.appendChild(hostSection);
+
+        if (amIHost) {
+            const settingsBar = document.createElement('div');
+            settingsBar.className = 'host-settings';
+            settingsBar.innerHTML = '<label>🏆 <input type="number" id="hs-winscore" value="' + (room.winScore || DEFAULT_WIN_SCORE) + '" min="1" max="999">分胜</label>'
+                + '<label>⏱ <input type="number" id="hs-time" value="' + (room.answerTime || DEFAULT_ANSWER_TIME) + '" min="3" max="60">秒</label>'
+                + '<button style="padding:3px 10px;border:1px solid #ddd;border-radius:3px;font-size:.68rem;cursor:pointer;background:#fff;" onclick="saveHostSettings()">保存</button>';
+            container.appendChild(settingsBar);
+        }
+
         players.forEach((p, i) => {
             if (!p.id) return;
             const isMe = p.id === myUserId;
-            const isHost = p.id === room.hostId;
             const div = document.createElement('div');
             div.className = 'lobby-player' + (p.ready ? ' ready' : '');
             div.innerHTML = '<div class="p-avatar">' + (isMe ? '我' : (i + 1)) + '</div>'
-                + '<div class="p-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + (isHost ? ' <span class="p-host">房主</span>' : '') + '</div>'
+                + '<div class="p-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + '</div>'
                 + '<div class="p-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? '已准备' : '等待中') + '</div>';
             container.appendChild(div);
         });
     }
 
     const btnReady = document.getElementById('btn-ready');
-    const myP = players[myPlayerIndex];
-    if (myP && myP.ready) { btnReady.textContent = '取消准备'; btnReady.classList.add('cancel'); }
-    else { btnReady.textContent = '准备'; btnReady.classList.remove('cancel'); }
+    if (amIInHostSeat) {
+        btnReady.textContent = '主持人就绪';
+        btnReady.classList.remove('cancel');
+    } else {
+        const myP = myPlayerIndex >= 0 ? players[myPlayerIndex] : null;
+        if (myP && myP.ready) { btnReady.textContent = '取消准备'; btnReady.classList.add('cancel'); }
+        else { btnReady.textContent = '准备'; btnReady.classList.remove('cancel'); }
+    }
+}
+
+async function saveHostSettings() {
+    if (!currentRoomDocId) return;
+    const room = onlineState.roomData;
+    if (!room || room.hostId !== myUserId) return;
+    const winScore = parseInt(document.getElementById('hs-winscore')?.value) || room.winScore;
+    const answerTime = parseInt(document.getElementById('hs-time')?.value) || room.answerTime;
+    try {
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({
+            winScore: Math.max(1, winScore),
+            answerTime: Math.max(3, Math.min(60, answerTime)),
+            lastActiveAt: Date.now()
+        });
+        showToast('设置已保存', 'success');
+    } catch (e) { console.error('保存设置失败:', e); }
+}
+
+async function switchPlayerToHost() {
+    if (!currentRoomDocId || myPlayerIndex < 0) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const room = res.data[0];
+        const players = room.players || [];
+        if (myPlayerIndex >= 0 && players[myPlayerIndex]) {
+            players[myPlayerIndex] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null };
+        }
+        const host = { id: myUserId, nickname: myNickname };
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, host, lastActiveAt: Date.now() });
+        myPlayerIndex = -1;
+    } catch (e) { console.error('回到主持人位失败:', e); }
+}
+
+async function switchHostToTeam(team) {
+    if (!currentRoomDocId) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const room = res.data[0];
+        if (!room.teamSize) return;
+        const players = room.players || [];
+        const targetCount = players.filter(p => p.id && p.team === team).length;
+        if (targetCount >= room.teamSize) { showToast(team + '队已满', 'error'); return; }
+        const mySpot = players.findIndex(p => !p.id);
+        if (mySpot === -1) { showToast('没有空位', 'error'); return; }
+        players[mySpot] = { id: myUserId, nickname: myNickname, ready: false, score: 0, answered: false, answerChoice: -1, team };
+        const host = { id: null, nickname: null };
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, host, lastActiveAt: Date.now() });
+        myPlayerIndex = mySpot;
+    } catch (e) { console.error('主持人加入队伍失败:', e); }
 }
 
 async function switchMyTeam(newTeam) {
@@ -1819,7 +2110,6 @@ async function switchMyTeam(newTeam) {
         const room = res.data[0];
         if (!room.teamSize) return;
         const players = room.players || [];
-        // Check if target team is full
         const targetCount = players.filter(p => p.id && p.team === newTeam).length;
         if (targetCount >= room.teamSize) { showToast(newTeam + '队已满', 'error'); return; }
         if (players[myPlayerIndex]) {
@@ -1830,12 +2120,15 @@ async function switchMyTeam(newTeam) {
 }
 
 async function toggleReady() {
-    if (!currentRoomDocId || myPlayerIndex < 0) return;
+    if (!currentRoomDocId) return;
     try {
         const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
         if (!res.data || !res.data.length) return;
-        const room = res.data[0]; const players = room.players || [];
-        if (!players[myPlayerIndex]) return;
+        const room = res.data[0];
+        const hostSlot = room.host || {};
+        if (hostSlot.id === myUserId) return;
+        const players = room.players || [];
+        if (myPlayerIndex < 0 || !players[myPlayerIndex]) return;
         players[myPlayerIndex].ready = !players[myPlayerIndex].ready;
         await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
         isReady = players[myPlayerIndex].ready;
@@ -1878,6 +2171,16 @@ async function startWatchRoom() {
 function handleRoomUpdate(room) {
     onlineState.roomData = room;
     const players = room.players || [];
+    const hostSlot = room.host || {};
+
+    const playerIdx = players.findIndex(p => p.id === myUserId);
+    const inHostSeat = hostSlot.id === myUserId;
+    if (inHostSeat) {
+        myPlayerIndex = -1;
+    } else if (playerIdx !== -1) {
+        myPlayerIndex = playerIdx;
+    }
+
     const activePlayers = players.filter(p => p.id);
 
     if (room.started) {
@@ -1967,13 +2270,16 @@ function renderOnlineQuestion(room) {
     const qId = qIds[currentQ];
     const q = questionBank.find(qq => qq.id === qId);
     if (!q) return;
-    const myP = players[myPlayerIndex];
-    if (!myP) return;
+    const hostSlot = room.host || {};
+    const amIHostObserver = hostSlot.id === myUserId;
+    const myP = myPlayerIndex >= 0 ? players[myPlayerIndex] : null;
+    if (!myP && !amIHostObserver) return;
 
     const isNewQuestion = onlineState.currentIdx !== currentQ;
     if (isNewQuestion) {
         onlineState.currentIdx = currentQ; onlineState.selected = null; onlineState.answered = false;
-        onlineState.revealed = false; onlineState.score = myP.score || 0;
+        onlineState.revealed = false;
+        if (myP) onlineState.score = myP.score || 0;
         clearInterval(onlineState.timer); clearTimeout(onlineState.advanceTimer);
         clearTimeout(onlineState.safetyTimer); onlineState.safetyTimer = null;
         document.getElementById('waiting-overlay').classList.remove('show');
@@ -1983,15 +2289,21 @@ function renderOnlineQuestion(room) {
         const ol = document.getElementById('options-list'); ol.innerHTML = '';
         q.options.forEach((opt, i) => {
             const div = document.createElement('div'); div.className = 'option-item';
+            if (amIHostObserver) div.classList.add('disabled');
             div.innerHTML = '<span class="option-letter">' + letters[i] + '</span><span>' + opt + '</span>';
-            div.onclick = () => onlineSelect(i); ol.appendChild(div);
+            if (!amIHostObserver) div.onclick = () => onlineSelect(i);
+            ol.appendChild(div);
         });
-        startOnlineTimer(room.questionStartTime || Date.now(), answerTime);
+        if (amIHostObserver) {
+            onlineState.answered = true;
+        } else {
+            startOnlineTimer(room.questionStartTime || Date.now(), answerTime);
+        }
     }
 
-    onlineState.score = myP.score || 0;
+    if (myP) onlineState.score = myP.score || 0;
     document.getElementById('game-round').textContent = '第 ' + (currentQ + 1) + ' 题';
-    document.getElementById('game-score').textContent = '我的得分: ' + onlineState.score;
+    document.getElementById('game-score').textContent = amIHostObserver ? '主持人观战' : '我的得分: ' + onlineState.score;
 
     const sb = document.getElementById('online-scoreboard'); sb.innerHTML = '';
     if (isTeam && room.teamScores) {
@@ -2059,7 +2371,7 @@ function renderOnlineQuestion(room) {
         }
     }
 
-    if (myP.answered && !onlineState.answered) {
+    if (myP && myP.answered && !onlineState.answered) {
         onlineState.answered = true; onlineState.selected = myP.answerChoice;
         clearInterval(onlineState.timer);
         document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
@@ -2121,6 +2433,7 @@ async function advanceQuestion(room) {
 
 async function onlineSelect(idx) {
     if (onlineState.answered || onlineState.revealed || onlineState.paused) return;
+    if (myPlayerIndex < 0) return;
     onlineState.answered = true; onlineState.selected = idx;
     const qIds = onlineState.roomData.questions || [];
     const currentQ = onlineState.roomData.currentQuestion || 0;
@@ -2173,6 +2486,7 @@ function startOnlineTimer(questionStartTime, answerTime) {
 
 async function onlineTimeUp() {
     if (onlineState.answered) return; onlineState.answered = true;
+    if (myPlayerIndex < 0) return;
     try {
         const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
         if (!res.data || !res.data.length) return;
@@ -2224,8 +2538,10 @@ function endOnlineGame(room) {
         const teamWin = room.teamScores.A >= (room.winScore || DEFAULT_WIN_SCORE) ? 'A' :
                         room.teamScores.B >= (room.winScore || DEFAULT_WIN_SCORE) ? 'B' : null;
         const myTeam = (room.players || []).find(p => p.id === myUserId)?.team;
-        const isWin = myTeam && myTeam === teamWin;
-        document.getElementById('result-title').textContent = isWin ? '🎉 你们赢了！' : '比赛结束';
+        const hostSlot = room.host || {};
+        const amIHostObserver = hostSlot.id === myUserId;
+        const isWin = amIHostObserver ? true : (myTeam && myTeam === teamWin);
+        document.getElementById('result-title').textContent = amIHostObserver ? '比赛结束' : (isWin ? '🎉 你们赢了！' : '比赛结束');
         document.getElementById('result-subtitle').textContent = (teamWin ? teamWin + '队' : '') + ' 先到 ' + (room.winScore || DEFAULT_WIN_SCORE) + ' 分获胜';
 
         const teamResultDiv = document.createElement('div');
@@ -2300,16 +2616,21 @@ async function leaveRoom() {
             const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
             if (res.data && res.data.length) {
                 const room = res.data[0]; const players = room.players || [];
-                if (players[myPlayerIndex]) {
+                const hostSlot = room.host || {};
+                if (myPlayerIndex >= 0 && players[myPlayerIndex]) {
                     players[myPlayerIndex] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null };
                 }
-                const anyoneLeft = players.some(p => p.id);
+                if (hostSlot.id === myUserId) {
+                    room.host = { id: null, nickname: null };
+                }
+                const anyoneLeft = players.some(p => p.id) || (room.host && room.host.id);
                 if (!anyoneLeft) {
                     await db.collection(COLLECTION).doc(currentRoomDocId).remove();
                 } else {
                     const updateData = { players, lastActiveAt: Date.now() };
+                    if (room.host) updateData.host = room.host;
                     if (room.hostId === myUserId) {
-                        const nextHost = players.find(p => p.id);
+                        const nextHost = players.find(p => p.id) || (room.host && room.host.id ? { id: room.host.id } : null);
                         if (nextHost) updateData.hostId = nextHost.id;
                     }
                     await db.collection(COLLECTION).doc(currentRoomDocId).update(updateData);

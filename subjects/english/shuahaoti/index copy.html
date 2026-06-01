@@ -9,13 +9,107 @@
     --primary-color: #5A4B75;
     --secondary-color: #72638D;
     --accent-color: #4A3C63;
-    --light-bg: #3a3a3a;
+    --light-bg: #cfcfcf;
     --text-color: #241B33;
     --light-text: #5A4B75;
     --border-color: #9C8EB5;
     --error-color: #C62828;
     --success-color: #6A5889;
     --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+/* 错题模式专用配色 */
+body.wrong-mode {
+    --primary-color: #B71C1C;
+    --secondary-color: #C62828;
+    --accent-color: #8B0000;
+    --text-color: #4A0000;
+    --light-text: #8B0000;
+    --border-color: #E57373;
+}
+body.wrong-mode .option-menu-btn.active {
+    background: #B71C1C;
+    border-color: #8B0000;
+}
+body.wrong-mode .question-card {
+    border-color: #B71C1C;
+}
+body.wrong-mode .question-number {
+    background-color: #B71C1C;
+}
+body.wrong-mode .question-number.wrong-number {
+    background-color: #8B0000;
+}
+body.wrong-mode .question-number.wrong-number:focus {
+    box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.4);
+}
+body.wrong-mode .grade-badge,
+body.wrong-mode .unit-badge,
+body.wrong-mode .knowledge-badge {
+    background: #FFEBEE;
+    color: #B71C1C;
+}
+body.wrong-mode .explanation-title {
+    color: #B71C1C;
+}
+body.wrong-mode .explanation {
+    border-color: #FFCDD2;
+    background-color: rgba(183, 28, 28, 0.05);
+}
+body.wrong-mode .option:hover {
+    border-color: #B71C1C;
+    background-color: #FFEBEE;
+}
+body.wrong-mode .card-wrong-btn.active {
+    background: #B71C1C;
+    border-color: #8B0000;
+}
+
+/* 收藏模式专用配色 */
+body.fav-mode {
+    --primary-color: #FF8F00;
+    --secondary-color: #FFA000;
+    --accent-color: #E65100;
+    --text-color: #5D4037;
+    --light-text: #E65100;
+    --border-color: #FFCC80;
+}
+body.fav-mode .option-menu-btn.active {
+    background: #FF8F00;
+    border-color: #E65100;
+}
+body.fav-mode .question-card {
+    border-color: #FF8F00;
+}
+body.fav-mode .question-number {
+    background-color: #FF8F00;
+}
+body.fav-mode .question-number.wrong-number {
+    background-color: #E65100;
+}
+body.fav-mode .question-number.wrong-number:focus {
+    box-shadow: 0 0 0 2px rgba(230, 81, 0, 0.4);
+}
+body.fav-mode .grade-badge,
+body.fav-mode .unit-badge,
+body.fav-mode .knowledge-badge {
+    background: #FFF3E0;
+    color: #FF8F00;
+}
+body.fav-mode .explanation-title {
+    color: #FF8F00;
+}
+body.fav-mode .explanation {
+    border-color: #FFE0B2;
+    background-color: rgba(255, 143, 0, 0.05);
+}
+body.fav-mode .option:hover {
+    border-color: #FF8F00;
+    background-color: #FFF3E0;
+}
+body.fav-mode .card-wrong-btn.active {
+    background: #FF8F00;
+    border-color: #E65100;
 }
 
 * {
@@ -108,28 +202,30 @@ body {
     margin-bottom: 6px;
     font-weight: 50;
 }
-.filter-tags {
+
+/* 筛选面板底部操作区 */
+.filter-divider {
+    height: 1px;
+    background: rgba(126,87,194,0.15);
+    margin: 8px 0;
+}
+.filter-clear-btn {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 6px;
-}
-.filter-tag {
-    padding: 4px 10px;
-    border-radius: 8px;
+    padding: 8px 4px;
     font-size: 12px;
-    background: #f5f1fc;
-    color: #5A4B75;
+    color: #C62828;
     cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid transparent;
+    border-radius: 6px;
+    transition: background 0.15s;
 }
-.filter-tag.active {
-    background: #7E57C2;
-    color: #fff;
+.filter-clear-btn:hover {
+    background: rgba(211,47,47,0.06);
 }
-.filter-tag.all {
-    background: #f1f1f1;
-    color: #666;
+.filter-clear-btn svg {
+    fill: #d32f2f;
+    flex-shrink: 0;
 }
 
 /* 下拉多选筛选 */
@@ -230,51 +326,6 @@ body {
     padding-bottom: 8px;
     font-weight: 500;
     color: #666;
-}
-
-/* 设置面板 */
-.settings-panel {
-    position: fixed;
-    top: 60px;
-    right: 12px;
-    width: 160px;
-    background: rgba(255,255,255,0.98);
-    backdrop-filter: blur(16px);
-    border-radius: 14px;
-    box-shadow: 0 8px 24px rgba(90,75,117,0.25);
-    border: 1px solid rgba(126,87,194,0.15);
-    padding: 6px 0;
-    z-index: 998;
-    display: none;
-}
-.settings-panel.show {
-    display: block;
-}
-.settings-item {
-    padding: 10px 16px;
-    font-size: 13px;
-    color: #C62828;
-    cursor: pointer;
-    transition: background 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.settings-item:hover {
-    background: rgba(211,47,47,0.06);
-}
-.settings-item svg {
-    width: 16px;
-    height: 16px;
-    fill: #d32f2f;
-    flex-shrink: 0;
-}
-
-.unit-placeholder {
-    display: inline-block;
-    font-size: 12px;
-    color: #aaa;
-    line-height: 28px;
 }
 
 /* ===== 右侧浮动操作栏 ===== */
@@ -673,10 +724,14 @@ body {
 }
 
 .explanation-title {
-    font-weight: 80;
+    font-weight: 800;
     margin-bottom: 8px;
     color: var(--primary-color);
     transition: color 0.3s ease;
+    background: rgba(255, 215, 0, 0.4);
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: block;
 }
 
 .grade-badge, .unit-badge, .knowledge-badge {
@@ -880,20 +935,17 @@ body.night-mode .filter-panel {
 body.night-mode .filter-title {
     color: #ccc;
 }
-body.night-mode .filter-tag {
-    background: #2a3040;
-    color: #d0d8e8;
+body.night-mode .filter-divider {
+    background: rgba(126,87,194,0.2);
 }
-body.night-mode .filter-tag.active {
-    background: #7E57C2;
-    color: #fff;
+body.night-mode .filter-clear-btn {
+    color: #e57373;
 }
-body.night-mode .filter-tag.all {
-    background: #2d3342;
-    color: #aaa;
+body.night-mode .filter-clear-btn:hover {
+    background: rgba(211,47,47,0.12);
 }
-body.night-mode .unit-placeholder {
-    color: #666;
+body.night-mode .filter-clear-btn svg {
+    fill: #e57373;
 }
 
 /* 夜间模式 - 下拉多选 */
@@ -920,21 +972,6 @@ body.night-mode .dropdown-item:hover {
 body.night-mode .dropdown-item.all-item {
     border-bottom-color: #3d4559;
     color: #aaa;
-}
-
-/* 夜间模式 - 设置面板 */
-body.night-mode .settings-panel {
-    background: rgba(36,42,56,0.98);
-    border-color: rgba(126,87,194,0.25);
-}
-body.night-mode .settings-item {
-    color: #e57373;
-}
-body.night-mode .settings-item:hover {
-    background: rgba(211,47,47,0.12);
-}
-body.night-mode .settings-item svg {
-    fill: #e57373;
 }
 
 /* ===== Toast 提示 ===== */
@@ -1001,19 +1038,6 @@ body.night-mode .mode-toast {
             <div class="option-menu-btn" id="only-wrong-btn" title="错题模式">
                 <img src="../../../images/错题1.png" alt="错题">
             </div>
-            <div class="option-menu-btn" id="settings-btn" title="设置">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="#5A4B75"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
-            </div>
-            <div class="settings-panel" id="settings-panel">
-                <div class="settings-item" id="settings-clear-wrong">
-                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                    清空错题本
-                </div>
-                <div class="settings-item" id="settings-clear-fav">
-                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                    清空收藏
-                </div>
-            </div>
             <div class="option-menu-btn" id="option-menu-btn" title="筛选选项">
                 <img src="../../../images/选项.png" alt="选项">
             </div>
@@ -1040,7 +1064,13 @@ body.night-mode .mode-toast {
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">单元</div>
-                    <div class="filter-tags" id="unit-tags"></div>
+                    <div class="filter-dropdown" id="unit-dropdown">
+                        <div class="dropdown-trigger" id="unit-trigger">
+                            <span class="dropdown-text">全部</span>
+                            <span class="dropdown-arrow">▾</span>
+                        </div>
+                        <div class="dropdown-menu" id="unit-menu"></div>
+                    </div>
                 </div>
                 <div class="filter-group">
                     <div class="filter-title">考点</div>
@@ -1051,6 +1081,15 @@ body.night-mode .mode-toast {
                         </div>
                         <div class="dropdown-menu" id="knowledge-menu"></div>
                     </div>
+                </div>
+                <div class="filter-divider"></div>
+                <div class="filter-clear-btn" id="filter-clear-wrong">
+                    <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    清空错题本
+                </div>
+                <div class="filter-clear-btn" id="filter-clear-fav">
+                    <svg viewBox="0 0 24 24" width="14" height="14"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    清空收藏
                 </div>
             </div>
         </div>
@@ -1090,8 +1129,6 @@ body.night-mode .mode-toast {
         const questionArea = document.getElementById('question-area');
         const onlyWrongBtn = document.getElementById('only-wrong-btn');
         const onlyFavBtn = document.getElementById('only-fav-btn');
-        const settingsBtn = document.getElementById('settings-btn');
-        const settingsPanel = document.getElementById('settings-panel');
         const optionMenuBtn = document.getElementById('option-menu-btn');
         const filterPanel = document.getElementById('filter-panel');
 
@@ -1105,76 +1142,11 @@ body.night-mode .mode-toast {
             return Array.from(set).sort();
         }
 
-        function getFilteredUnits() {
-            let set = new Set();
-            let base = selectedGrades.size > 0 ? allQuestions.filter(q => selectedGrades.has(q.grade)) : [];
-            base.forEach(q => { if (q.unit) set.add(q.unit); });
-            return Array.from(set).sort();
-        }
-
         function renderFilterTags() {
-            // 题型
             renderDropdownGroup('type-menu', getUniqueList('type'), selectedTypes);
-            // 年级
             renderDropdownGroup('grade-menu', getUniqueList('grade'), selectedGrades);
-            // 单元（根据已选年级动态显示）
-            let filteredUnits = getFilteredUnits();
-            if (selectedGrades.size === 0) {
-                // 未选年级：显示占位提示
-                renderUnitPlaceholder();
-            } else if (selectedGrades.size === getUniqueList('grade').length) {
-                // 全选年级：显示全部单元
-                renderTagGroup('unit-tags', getUniqueList('unit'), selectedUnits);
-            } else {
-                // 已选特定年级：只显示对应单元
-                for (let u of selectedUnits) {
-                    if (!filteredUnits.includes(u)) selectedUnits.delete(u);
-                }
-                renderTagGroup('unit-tags', filteredUnits, selectedUnits);
-            }
-            // 考点
+            renderDropdownGroup('unit-menu', getUniqueList('unit'), selectedUnits);
             renderDropdownGroup('knowledge-menu', getUniqueList('knowledge_point'), selectedKnowledges);
-        }
-
-        function renderUnitPlaceholder() {
-            const container = document.getElementById('unit-tags');
-            container.innerHTML = '<span class="unit-placeholder">请先选择年级</span>';
-        }
-
-        function renderTagGroup(containerId, list, selectedSet) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-
-            const allTag = document.createElement('div');
-            allTag.className = 'filter-tag all';
-            allTag.textContent = '全部';
-            allTag.onclick = () => {
-                // 切换：全选 ⟷ 全不选
-                if (selectedSet.size >= list.length) {
-                    selectedSet.clear();
-                } else {
-                    list.forEach(item => selectedSet.add(item));
-                }
-                renderFilterTags();
-                doFilter();
-                if (!isOnlyWrongMode) saveAllData();
-            };
-            container.appendChild(allTag);
-
-            list.forEach(item => {
-                const tag = document.createElement('div');
-                tag.className = 'filter-tag';
-                if (selectedSet.has(item)) tag.classList.add('active');
-                tag.textContent = item;
-                tag.onclick = () => {
-                    if (selectedSet.has(item)) selectedSet.delete(item);
-                    else selectedSet.add(item);
-                    renderFilterTags();
-                    doFilter();
-                    if (!isOnlyWrongMode) saveAllData();
-                };
-                container.appendChild(tag);
-            });
         }
 
         // 下拉多选渲染
@@ -1294,33 +1266,18 @@ body.night-mode .mode-toast {
                 optionMenuBtn.classList.remove('active');
             }
             closeAllDropdowns();
-            if (settingsPanel.classList.contains('show')) {
-                settingsPanel.classList.remove('show');
-                settingsBtn.classList.remove('active');
-            }
         });
         filterPanel.onclick = (e) => e.stopPropagation();
-        settingsPanel.onclick = (e) => e.stopPropagation();
 
-        // 设置面板
-        settingsBtn.onclick = (e) => {
-            e.stopPropagation();
-            let shown = settingsPanel.classList.toggle('show');
-            settingsBtn.classList.toggle('active', shown);
-            if (shown && filterPanel.classList.contains('show')) {
-                filterPanel.classList.remove('show');
-                optionMenuBtn.classList.remove('active');
-            }
-        };
-        document.getElementById('settings-clear-wrong').onclick = () => {
+        document.getElementById('filter-clear-wrong').onclick = () => {
             clearAllWrong();
-            settingsPanel.classList.remove('show');
-            settingsBtn.classList.remove('active');
+            filterPanel.classList.remove('show');
+            optionMenuBtn.classList.remove('active');
         };
-        document.getElementById('settings-clear-fav').onclick = () => {
+        document.getElementById('filter-clear-fav').onclick = () => {
             clearAllFavs();
-            settingsPanel.classList.remove('show');
-            settingsBtn.classList.remove('active');
+            filterPanel.classList.remove('show');
+            optionMenuBtn.classList.remove('active');
         };
 
         // ---------- 加载题库 ----------
@@ -1418,12 +1375,10 @@ body.night-mode .mode-toast {
             let num = document.createElement('input');
             num.type = 'text';
             num.className = 'question-number';
+            num.value = (currentIndex + 1) + '/' + filteredQuestions.length;
+            num.style.width = '55px';
             if (isOnlyWrongMode) {
-                num.value = (currentIndex + 1) + '/' + filteredQuestions.length;
-                num.style.width = '44px';
                 num.classList.add('wrong-number');
-            } else {
-                num.value = currentIndex + 1;
             }
             num.title = '输入序号跳转题目';
             num.setAttribute('data-idx', currentIndex);
@@ -1435,7 +1390,7 @@ body.night-mode .mode-toast {
                     currentIndex = n - 1;
                     renderCurrent();
                 } else {
-                    num.value = isOnlyWrongMode ? ((currentIndex + 1) + '/' + filteredQuestions.length) : (currentIndex + 1);
+                    num.value = (currentIndex + 1) + '/' + filteredQuestions.length;
                 }
             });
             num.addEventListener('keydown', (e) => {
@@ -1827,6 +1782,7 @@ body.night-mode .mode-toast {
             localStorage.setItem('filterKnowledges', JSON.stringify([...selectedKnowledges]));
             localStorage.setItem('questionFavs', JSON.stringify([...questionFavs]));
             localStorage.setItem('isOnlyFavMode', JSON.stringify(isOnlyFavMode));
+            localStorage.setItem('isOnlyWrongMode', JSON.stringify(isOnlyWrongMode));
         }
 
         function loadAllData() {
@@ -1840,6 +1796,15 @@ body.night-mode .mode-toast {
                 selectedKnowledges = new Set(JSON.parse(localStorage.getItem('filterKnowledges')) || []);
                 questionFavs = new Set(JSON.parse(localStorage.getItem('questionFavs')) || []);
                 isOnlyFavMode = JSON.parse(localStorage.getItem('isOnlyFavMode')) || false;
+                isOnlyWrongMode = JSON.parse(localStorage.getItem('isOnlyWrongMode')) || false;
+                if (isOnlyWrongMode) {
+                    document.body.classList.add('wrong-mode');
+                    onlyWrongBtn.classList.add('active');
+                }
+                if (isOnlyFavMode) {
+                    document.body.classList.add('fav-mode');
+                    onlyFavBtn.classList.add('active');
+                }
             } catch (e) {}
             userAnswers = {};
         }
@@ -1869,11 +1834,13 @@ body.night-mode .mode-toast {
         function toggleOnlyWrongMode() {
             isOnlyWrongMode = !isOnlyWrongMode;
             onlyWrongBtn.classList.toggle('active', isOnlyWrongMode);
+            document.body.classList.toggle('wrong-mode', isOnlyWrongMode);
             if (isOnlyWrongMode) {
                 if (isOnlyFavMode) {
                     lastFavIndex = currentIndex;
                     isOnlyFavMode = false;
                     onlyFavBtn.classList.remove('active');
+                    document.body.classList.remove('fav-mode');
                     savedFilterState = null;
                 } else {
                     lastNormalIndex = currentIndex;
@@ -1915,6 +1882,7 @@ body.night-mode .mode-toast {
             if (isOnlyWrongMode) {
                 isOnlyWrongMode = false;
                 onlyWrongBtn.classList.remove('active');
+                document.body.classList.remove('wrong-mode');
                 if (savedFilterState) {
                     selectedTypes = savedFilterState.types;
                     selectedGrades = savedFilterState.grades;
@@ -1934,11 +1902,13 @@ body.night-mode .mode-toast {
         function toggleOnlyFavMode() {
             isOnlyFavMode = !isOnlyFavMode;
             onlyFavBtn.classList.toggle('active', isOnlyFavMode);
+            document.body.classList.toggle('fav-mode', isOnlyFavMode);
             if (isOnlyFavMode) {
                 if (isOnlyWrongMode) {
                     lastWrongIndex = currentIndex;
                     isOnlyWrongMode = false;
                     onlyWrongBtn.classList.remove('active');
+                    document.body.classList.remove('wrong-mode');
                     if (savedFilterState) {
                         selectedTypes = savedFilterState.types;
                         selectedGrades = savedFilterState.grades;
@@ -1966,6 +1936,7 @@ body.night-mode .mode-toast {
             if (isOnlyFavMode) {
                 isOnlyFavMode = false;
                 onlyFavBtn.classList.remove('active');
+                document.body.classList.remove('fav-mode');
                 doFilter(lastNormalIndex);
                 saveAllData();
             } else {
@@ -1985,11 +1956,21 @@ body.night-mode .mode-toast {
             questionArea.addEventListener('touchend', e => {
                 let dx = e.changedTouches[0].screenX - touchStartX;
                 let dy = e.changedTouches[0].screenY - touchStartY;
-                if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-                    if (dx < 0) goToNext();
-                    else goToPrev();
+                if (Math.abs(dy) > 60 && Math.abs(dy) > Math.abs(dx) * 1.5) {
+                    e.preventDefault();
+                    if (dy > 0) goToPrev();
+                    else goToNext();
                 }
             });
+            // 滚轮切换
+            questionArea.addEventListener('wheel', e => {
+                e.preventDefault();
+                if (e.deltaY > 0) {
+                    goToNext();
+                } else {
+                    goToPrev();
+                }
+            }, { passive: false });
         }
 
         // ---------- 初始化 ----------

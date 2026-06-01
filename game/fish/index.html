@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>传说鱼王 - 悠闲垂钓</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{touch-action:manipulation;overflow:hidden;}
+:root{
+  --bg:#F5F0E8;--bg2:#EDE6D8;--bg3:#E5DDCC;--panel:#FAF6EF;
+  --border:#D4C9B0;--border2:#C2B69A;
+  --accent:#6B9E78;--accent2:#5A8A66;--accent3:#4A7A56;
+  --gold:#D4A017;--gold2:#B8860B;
+  --red:#C75C5C;--green:#5A9E6F;--blue:#6B8EB5;--purple:#9B7DB8;
+  --orange:#D4915A;
+  --text:#4A4035;--text2:#7A7060;--text3:#A09888;
+  --rare:#5B8EC9;--epic:#9B6DB8;--legendary:#D4A017;
+  --common:#9A9484;--uncommon:#6BAA6B;
+  --shadow:0 2px 8px rgba(80,60,30,.08);
+}
+body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+#topbar{background:var(--panel);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;box-shadow:var(--shadow);}
+#topbar .title{font-size:15px;font-weight:700;color:var(--gold2);letter-spacing:1px;}
+.stat-chip{display:flex;align-items:center;gap:4px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--text2);}
+.stat-chip .val{color:var(--accent2);font-weight:600;}
+.stat-chip.gold .val{color:var(--gold2);}
+#lv-wrap{flex:0 0 120px;display:flex;flex-direction:column;gap:1px;}
+#lv-label{font-size:10px;color:var(--text3);}
+#lv-bar{height:5px;background:var(--bg);border-radius:3px;overflow:hidden;border:1px solid var(--border);}
+#lv-fill{height:100%;background:linear-gradient(90deg,#8FBC8F,#6B9E78);border-radius:3px;transition:width .4s;}
+.weather-chip{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--text2);}
+.tbtn{padding:5px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text2);font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit;}
+.tbtn:hover{border-color:var(--accent);color:var(--accent2);}
+#main{flex:1;display:flex;overflow:hidden;}
+#side{width:200px;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;}
+#side::-webkit-scrollbar{width:3px;}
+#side::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.sec{border-bottom:1px solid var(--border);padding:8px 10px;}
+.sec h3{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.sc-item{padding:5px 7px;border-radius:8px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:7px;transition:all .15s;border:1px solid transparent;margin-bottom:2px;}
+.sc-item:hover{background:var(--bg2);}
+.sc-item.act{background:rgba(107,158,120,.12);border-color:var(--accent);color:var(--accent2);}
+.sc-item.lock{opacity:.35;cursor:not-allowed;}
+.sc-icon{font-size:16px;}
+.sc-nm{font-weight:600;font-size:11px;}
+.sc-ds{font-size:10px;color:var(--text3);}
+.sp-btn{padding:6px 8px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:11px;font-family:inherit;color:var(--text2);width:100%;text-align:left;margin-bottom:3px;transition:all .15s;display:flex;justify-content:space-between;}
+.sp-btn:hover{border-color:var(--accent);}
+.sp-btn.act{border-color:var(--accent2);color:var(--accent2);background:rgba(107,158,120,.08);}
+.sp-stars{color:var(--gold2);font-size:10px;}
+.gr-row{display:flex;align-items:center;gap:5px;padding:3px 0;font-size:11px;}
+.gr-icon{font-size:14px;width:18px;text-align:center;}
+.gr-nm{flex:1;color:var(--text2);}
+.gr-val{color:var(--accent2);font-size:10px;}
+#center{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+#cv-wrap{width:100%;height:200px;position:relative;overflow:hidden;flex-shrink:0;background:#87CEEB;}
+#cv-wrap canvas{display:block;width:100%;height:100%;}
+#fctrl{padding:6px 12px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;}
+#cast-btn{padding:8px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;box-shadow:0 2px 6px rgba(107,158,120,.3);}
+#cast-btn:hover{background:var(--accent2);transform:translateY(-1px);}
+#cast-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+#cast-btn.reeling{background:var(--orange);animation:pulse .5s infinite alternate;}
+@keyframes pulse{from{opacity:.85}to{opacity:1;transform:scale(1.02)}}
+#fstatus{flex:1;font-size:12px;color:var(--text2);}
+#fstatus .hl{color:var(--accent2);font-weight:600;}
+#mgw{display:none;flex-direction:column;align-items:center;gap:4px;}
+#mgw.on{display:flex;}
+#mg-bar{width:240px;height:22px;background:var(--bg);border:1px solid var(--border);border-radius:5px;position:relative;overflow:hidden;}
+#mg-zone{position:absolute;height:100%;background:rgba(107,158,120,.25);border-left:2px solid var(--green);border-right:2px solid var(--green);}
+#mg-needle{position:absolute;width:4px;height:100%;background:var(--blue);border-radius:2px;}
+#mg-pwrap{width:240px;height:6px;background:var(--bg);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+#mg-prog{height:100%;background:var(--accent);border-radius:3px;transition:width .1s;}
+#mg-twrap{width:240px;height:5px;background:var(--bg);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+#mg-tens{height:100%;background:var(--green);border-radius:3px;transition:width .1s,background .2s;}
+.mg-label{font-size:10px;color:var(--text3);width:240px;display:flex;justify-content:space-between;}
+#log{flex:1;overflow-y:auto;padding:6px 12px;font-size:12px;line-height:1.6;}
+#log::-webkit-scrollbar{width:3px;}
+#log::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.le{padding:1px 0;border-bottom:1px solid rgba(0,0,0,.03);animation:fi .3s ease;}
+.le.catch{color:var(--green)}.le.fail{color:var(--text3)}.le.sys{color:var(--text2)}
+.le.rare{color:var(--rare);font-weight:600}.le.epic{color:var(--epic);font-weight:700}
+.le.legendary{color:var(--legendary);font-weight:700;text-shadow:0 0 6px rgba(212,160,23,.3)}
+@keyframes fi{from{opacity:0;transform:translateX(-5px)}to{opacity:1;transform:none}}
+#rpanel{width:240px;background:var(--panel);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;}
+.ptabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;}
+.ptab{flex:1;padding:7px 3px;text-align:center;font-size:11px;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s;}
+.ptab:hover{color:var(--text2);}
+.ptab.act{color:var(--accent2);border-bottom-color:var(--accent2);}
+.pcont{display:none;flex:1;overflow-y:auto;padding:6px;}
+.pcont.act{display:block;}
+.pcont::-webkit-scrollbar{width:3px;}
+.pcont::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.qi{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 8px;margin-bottom:4px;transition:border-color .2s;}
+.qi.done{border-color:var(--green);opacity:.6;}
+.qi.act-q{border-color:var(--accent2);}
+.qi-t{font-size:12px;font-weight:600;margin-bottom:1px;}
+.qi-d{font-size:10px;color:var(--text3);margin-bottom:3px;}
+.qi-bar{height:3px;background:var(--bg);border-radius:2px;overflow:hidden;margin-bottom:2px;}
+.qi-bar-in{height:100%;background:var(--accent);border-radius:2px;transition:width .4s;}
+.qi-r{font-size:10px;color:var(--gold2);}
+.si{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 8px;margin-bottom:4px;cursor:pointer;transition:all .15s;}
+.si:hover{border-color:var(--gold2);}
+.si.owned{border-color:var(--green);opacity:.6;cursor:default;}
+.si.equipped{border-color:var(--accent2);}
+.si-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1px;}
+.si-nm{font-size:12px;font-weight:600;}
+.si-pr{color:var(--gold2);font-size:11px;font-weight:600;}
+.si-ds{font-size:10px;color:var(--text3);}
+.si-st{font-size:10px;color:var(--accent2);margin-top:1px;}
+.rb{display:inline-block;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:600;}
+.rb-common{background:rgba(154,148,132,.12);color:var(--common);}
+.rb-uncommon{background:rgba(107,170,107,.12);color:var(--uncommon);}
+.rb-rare{background:rgba(91,142,201,.12);color:var(--rare);}
+.rb-epic{background:rgba(155,109,184,.12);color:var(--epic);}
+.rb-legendary{background:rgba(212,160,23,.12);color:var(--legendary);}
+.fg{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:2px;}
+.fc{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:4px;text-align:center;cursor:pointer;transition:all .15s;position:relative;}
+.fc:hover{border-color:var(--accent);}
+.fc.caught{border-color:var(--green);}
+.fc.legendary-fish{border-color:var(--gold2);animation:gg 2s infinite alternate;}
+@keyframes gg{from{box-shadow:0 0 3px rgba(212,160,23,.2)}to{box-shadow:0 0 8px rgba(212,160,23,.4)}}
+.fe{font-size:16px;margin-bottom:1px;filter:grayscale(1);opacity:.35;transition:all .3s;}
+.fc.caught .fe{filter:none;opacity:1;}
+.fn{font-size:8px;color:var(--text3);}
+.fc.caught .fn{color:var(--text2);}
+.fcnt{position:absolute;top:1px;right:2px;font-size:8px;color:var(--text3);}
+.gs{text-align:center;padding:4px;font-size:11px;color:var(--text3);margin-bottom:4px;}
+.gs span{color:var(--accent2);font-weight:700;}
+.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(80,60,30,.4);display:flex;align-items:center;justify-content:center;z-index:1000;animation:fi .2s;}
+.obox{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px;max-width:440px;width:90%;max-height:75vh;overflow-y:auto;position:relative;box-shadow:0 8px 28px rgba(80,60,30,.12);}
+.obox::-webkit-scrollbar{width:3px;}
+.obox::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.otitle{font-size:16px;font-weight:700;color:var(--gold2);margin-bottom:12px;text-align:center;}
+.oclose{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer;}
+.oclose:hover{color:var(--text);}
+.lc{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+.cc{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;}
+.cc:hover{border-color:var(--accent);background:rgba(107,158,120,.06);transform:translateY(-1px);}
+.cc-icon{font-size:22px;}
+.cc-info{flex:1;}
+.cc-nm{font-size:13px;font-weight:600;margin-bottom:1px;}
+.cc-ds{font-size:11px;color:var(--text3);}
+#cpop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:var(--panel);border:2px solid var(--green);border-radius:14px;padding:16px 24px;text-align:center;z-index:2000;transition:transform .3s cubic-bezier(.34,1.56,.64,1);min-width:180px;box-shadow:0 6px 20px rgba(80,60,30,.12);}
+#cpop.show{transform:translate(-50%,-50%) scale(1);}
+#cpop.lc{border-color:var(--gold2);}
+#pe{font-size:42px;margin-bottom:4px;}
+#pn{font-size:16px;font-weight:700;margin-bottom:2px;}
+#pd{font-size:11px;color:var(--text2);}
+#px{font-size:12px;color:var(--green);font-weight:600;margin-top:4px;}
+.fd-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px;}
+.fd-s{background:var(--bg2);border-radius:6px;padding:5px 7px;}
+.fd-l{font-size:10px;color:var(--text3);margin-bottom:1px;}
+.fd-v{font-size:13px;font-weight:600;}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--accent);border-radius:8px;padding:6px 14px;font-size:12px;z-index:3000;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:var(--shadow);}
+#toast.show{opacity:1;}
+#particles{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;}
+.ptcl{position:absolute;border-radius:50%;pointer-events:none;animation:pf var(--dur,1s) ease-out forwards;}
+@keyframes pf{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx,0),var(--ty,-40px)) scale(0)}}
+@media(max-width:900px){#side{width:160px;}#rpanel{width:200px;}}
+@media(max-width:700px){
+  body{flex-direction:column;}
+  #topbar{flex-wrap:wrap;gap:6px;padding:6px 10px;}
+  #topbar .title{font-size:13px;}
+  .stat-chip{font-size:11px;padding:2px 7px;}
+  #lv-wrap{flex:0 0 80px;}
+  #side,#rpanel{display:none;}
+  #side.mob-show,#rpanel.mob-show{display:flex;position:fixed;top:0;left:0;right:0;bottom:60px;z-index:500;background:var(--panel);}
+  #center{flex:1;min-height:0;}
+  #cv-wrap{height:180px;}
+  #fctrl{flex-wrap:wrap;gap:6px;padding:6px 8px;}
+  #cast-btn{padding:10px 24px;font-size:15px;flex:1;max-width:200px;}
+  #fstatus{font-size:11px;width:100%;order:3;}
+  #mgw{width:100%;padding:8px 0;}
+  #mg-bar,#mg-pwrap,#mg-twrap,.mg-label{width:min(280px,85vw);}
+  #touch-zone{display:block;width:100%;min-height:100px;background:var(--bg2);border-radius:10px;
+    text-align:center;font-size:14px;color:var(--text3);padding:12px;
+    cursor:pointer;user-select:none;-webkit-user-select:none;
+    border:2px solid var(--border);transition:all .15s;}
+  #touch-zone:active,#touch-zone.holding{background:rgba(107,158,120,.15);border-color:var(--accent);}
+  #touch-zone .tz-hint{font-size:18px;margin-bottom:4px;}
+  #mob-bar{display:flex;position:fixed;bottom:0;left:0;right:0;height:56px;
+    background:var(--panel);border-top:1px solid var(--border);
+    z-index:600;padding:0 8px;gap:4px;align-items:center;box-shadow:0 -2px 8px rgba(80,60,30,.08);}
+  .mob-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:4px 0;border:none;background:none;color:var(--text2);font-size:10px;cursor:pointer;
+    border-radius:8px;transition:all .15s;font-family:inherit;gap:2px;}
+  .mob-btn:active{background:var(--bg2);}
+  .mob-btn .mb-icon{font-size:18px;}
+  .mob-btn.active{color:var(--accent2);background:rgba(107,158,120,.08);}
+  #center{padding-bottom:56px;}
+}
+#dn-chip{display:inline-flex;align-items:center;gap:3px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:20px;padding:2px 8px;font-size:11px;color:var(--text2);}
+#dn-icon{font-size:13px;}
+#dn-bar{width:50px;height:4px;background:var(--bg);border-radius:2px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:4px;}
+#dn-fill{height:100%;border-radius:2px;transition:width .5s,background .5s;}
+</style>
+</head>
+<body>
+<div id="topbar">
+  <div class="title">🎣 传说鱼王</div>
+  <div class="stat-chip">Lv.<span class="val" id="h-lv">1</span></div>
+  <div id="lv-wrap"><div id="lv-label">经验 <span id="h-xp">0</span>/<span id="h-xpn">100</span></div><div id="lv-bar"><div id="lv-fill" style="width:0%"></div></div></div>
+  <div class="stat-chip gold">💰<span class="val" id="h-gold">200</span></div>
+  <div class="stat-chip">🐟<span class="val" id="h-caught">0</span></div>
+  <div class="weather-chip" id="h-weather">☀️ 晴天</div>
+  <div id="dn-chip"><span id="dn-icon">🌅</span><span id="dn-time">黎明</span><div id="dn-bar"><div id="dn-fill" style="width:15%;background:#FFB347"></div></div></div>
+  <div style="flex:1"></div>
+  <button class="tbtn" onclick="showBag()">🎒 背包</button>
+  <button class="tbtn" onclick="confirmNew()">🔄 新游戏</button>
+</div>
+<div id="main">
+  <div id="side">
+    <div class="sec"><h3>场景</h3><div id="sc-list"></div></div>
+    <div class="sec"><h3>钓点</h3><div id="sp-list"></div></div>
+    <div class="sec" style="flex:1;overflow-y:auto;"><h3>装备</h3><div id="gear-disp"></div></div>
+  </div>
+  <div id="center">
+    <div id="cv-wrap"><canvas id="cv"></canvas></div>
+    <div id="fctrl">
+      <button id="cast-btn" onclick="doCast()">🎣 抛竿</button>
+      <div id="fstatus">选择钓点，然后抛竿开始垂钓~</div>
+      <div id="mgw">
+        <div class="mg-label"><span>进度</span><span id="mg-pct">0%</span></div>
+        <div id="mg-bar"><div id="mg-zone"></div><div id="mg-needle"></div></div>
+        <div class="mg-label"><span>张力</span><span id="mg-tpct">0%</span></div>
+        <div id="mg-twrap"><div id="mg-tens" style="width:0%"></div></div>
+        <div style="font-size:9px;color:var(--text3)">按住空格/点击 保持蓝针在绿区内</div>
+        <div id="touch-zone" style="display:none"><div class="tz-hint">👇</div><div>按住此处收线</div></div>
+      </div>
+    </div>
+    <div id="log"><div class="le sys">⚓ 欢迎来到传说鱼王！选择钓点，抛竿开始你的垂钓之旅吧~</div></div>
+    <div id="particles"></div>
+  </div>
+  <div id="rpanel">
+    <div class="ptabs">
+      <div class="ptab act" onclick="swTab('quests',this)">📋 任务</div>
+      <div class="ptab" onclick="swTab('shop',this)">🏪 鱼店</div>
+      <div class="ptab" onclick="swTab('guide',this)">📖 图鉴</div>
+    </div>
+    <div id="tab-quests" class="pcont act"><div id="q-list"></div></div>
+    <div id="tab-shop" class="pcont"><div id="sh-list"></div></div>
+    <div id="tab-guide" class="pcont"><div id="gd-content"></div></div>
+  </div>
+</div>
+<div id="cpop"><div id="pe">🐟</div><div id="pn"></div><div id="pd"></div><div id="px"></div></div>
+<div id="ol-lv" class="overlay" style="display:none"><div class="obox"><div class="otitle">🎉 等级提升！Lv.<span id="nlv"></span></div><div style="text-align:center;color:var(--text2);font-size:12px;margin-bottom:8px">选择一项强化能力</div><div class="lc" id="lv-opts"></div></div></div>
+<div id="ol-fish" class="overlay" style="display:none"><div class="obox"><button class="oclose" onclick="clOL('ol-fish')">✕</button><div id="fish-det"></div></div></div>
+<div id="ol-bag" class="overlay" style="display:none"><div class="obox"><button class="oclose" onclick="clOL('ol-bag')">✕</button><div class="otitle">🎒 背包</div><div id="bag-c"></div></div></div>
+<div id="ol-ach" class="overlay" style="display:none"><div class="obox" style="text-align:center"><button class="oclose" onclick="clOL('ol-ach')">✕</button><div style="font-size:36px;margin-bottom:4px" id="ac-icon">🏆</div><div class="otitle" id="ac-title">成就解锁</div><div style="color:var(--text2);font-size:12px" id="ac-desc"></div><div style="color:var(--gold2);font-size:12px;margin-top:4px" id="ac-rw"></div></div></div>
+<div id="mob-bar">
+  <button class="mob-btn" onclick="toggleMobPanel('side')"><span class="mb-icon">🏔️</span>场景</button>
+  <button class="mob-btn" onclick="toggleMobPanel('rpanel')"><span class="mb-icon">📋</span>任务</button>
+  <button class="mob-btn" id="mob-cast-btn" onclick="doCast()"><span class="mb-icon">🎣</span>抛竿</button>
+  <button class="mob-btn" onclick="swTab('shop',document.querySelectorAll('.ptab')[1]);toggleMobPanel('rpanel')"><span class="mb-icon">🏪</span>鱼店</button>
+  <button class="mob-btn" onclick="showBag()"><span class="mb-icon">🎒</span>背包</button>
+</div>
+<div id="toast"></div>
+<script>
+var SCENES=[
+  {id:'lake',name:'晨光湖',icon:'🌅',desc:'清晨薄雾的宁静湖泊',ulv:1,sky1:'#FFE4B5',sky2:'#FFEFD5',sky3:'#87CEEB',wc:'#7BB8D4'},
+  {id:'stream',name:'竹溪谷',icon:'🎋',desc:'翠竹环绕的清幽溪流',ulv:3,sky1:'#E8F5E9',sky2:'#C8E6C9',sky3:'#A5D6A7',wc:'#7EB8A0'},
+  {id:'bay',name:'晚霞湾',icon:'🌇',desc:'夕阳映照的温暖海湾',ulv:6,sky1:'#FF8A65',sky2:'#FF7043',sky3:'#FFE0B2',wc:'#4A90A8'},
+  {id:'pool',name:'月牙潭',icon:'🌙',desc:'月光如银的神秘水潭',ulv:10,sky1:'#1A1A2E',sky2:'#16213E',sky3:'#0F3460',wc:'#1A3050'}
+];
+var SPOTS={lake:[{id:'l1',name:'浅滩',s:1},{id:'l2',name:'荷花畔',s:2},{id:'l3',name:'深水区',s:3}],stream:[{id:'s1',name:'卵石滩',s:2},{id:'s2',name:'深潭',s:3},{id:'s3',name:'瀑布下',s:4}],bay:[{id:'b1',name:'礁石区',s:2},{id:'b2',name:'珊瑚林',s:4},{id:'b3',name:'深水沟',s:5}],pool:[{id:'p1',name:'萤火浅岸',s:3},{id:'p2',name:'月影渊',s:5}]};
+var WEATHERS=[
+  {id:'sunny',name:'☀️ 晴天',br:1.1,rr:.05,sr:0,f:25},
+  {id:'breeze',name:'🍃 微风',br:1.15,rr:0,sr:0,jb:.05,f:20},
+  {id:'cloudy',name:'☁️ 阴天',br:1,rr:.1,sr:0,f:18},
+  {id:'drizzle',name:'🌧️ 毛毛雨',br:1.2,rr:0,sr:0,f:15},
+  {id:'rain',name:'⛈️ 阵雨',br:.9,rr:.15,sr:.1,f:10},
+  {id:'dusk',name:'🌇 黄昏',br:1,rr:.1,sr:.25,lr:.3,f:7},
+  {id:'fog',name:'🌫️ 晨雾',br:.85,rr:.2,sr:.15,f:5}
+];
+var GEAR=[
+  {id:'rod_wood',t:'rod',nm:'木制竿',pr:0,pw:1,lk:0,sp:0,ds:'最基础的钓竿',r:'common'},
+  {id:'rod_iron',t:'rod',nm:'铁钓竿',pr:120,pw:2,lk:1,sp:0,ds:'结实耐用',r:'uncommon'},
+  {id:'rod_carbon',t:'rod',nm:'碳素竿',pr:380,pw:3,lk:2,sp:1,ds:'专业级碳素',r:'rare'},
+  {id:'rod_gold',t:'rod',nm:'黄金竿',pr:1200,pw:5,lk:4,sp:2,ds:'镀金钓竿',r:'epic'},
+  {id:'rod_legend',t:'rod',nm:'龙骨神竿',pr:5000,pw:8,lk:6,sp:4,ds:'传说级鱼竿',r:'legendary'},
+  {id:'line_nylon',t:'line',nm:'普通线',pr:0,pw:0,lk:0,sp:0,ds:'普通尼龙线',r:'common'},
+  {id:'line_strong',t:'line',nm:'高强度线',pr:90,pw:1,lk:0,sp:1,ds:'不易断线',r:'uncommon'},
+  {id:'line_steel',t:'line',nm:'钢丝线',pr:280,pw:3,lk:0,sp:0,ds:'极高耐久',r:'rare'},
+  {id:'line_magic',t:'line',nm:'魔法丝线',pr:900,pw:2,lk:2,sp:2,ds:'附魔鱼线',r:'epic'},
+  {id:'bait_worm',t:'bait',nm:'蚯蚓',pr:0,pp:0,pw:0,lk:0,sp:0,ds:'万能鱼饵',con:1,r:'common'},
+  {id:'bait_bread',t:'bait',nm:'面包球',pr:1,pp:25,pw:0,lk:1,sp:0,ds:'鲤鱼最爱',con:1,r:'common'},
+  {id:'bait_shrimp',t:'bait',nm:'活虾',pr:1,pp:80,pw:0,lk:2,sp:1,ds:'吸引力强',con:1,r:'uncommon'},
+  {id:'bait_lure',t:'bait',nm:'仿生饵',pr:1,pp:300,pw:1,lk:3,sp:0,ds:'专钓稀有鱼',con:1,r:'rare'},
+  {id:'bait_golden',t:'bait',nm:'黄金虫饵',pr:1,pp:1500,pw:2,lk:6,sp:0,ds:'传说级鱼饵',con:1,r:'legendary'},
+  {id:'flt_wood',t:'float',nm:'木质浮漂',pr:0,pw:0,lk:0,sp:0,ds:'普通浮漂',r:'common'},
+  {id:'flt_sensor',t:'float',nm:'传感浮漂',pr:160,pw:0,lk:1,sp:2,ds:'灵敏度超强',r:'uncommon'},
+  {id:'flt_led',t:'float',nm:'夜光浮漂',pr:420,pw:0,lk:2,sp:3,ds:'提升速度',r:'rare'},
+  {id:'flt_magic',t:'float',nm:'灵验浮漂',pr:1100,pw:0,lk:4,sp:4,ds:'感知稀有度',r:'epic'}
+];
+var UPGRADES=[
+  {id:'pw2',nm:'💪 肌肉强化',ds:'钓力+2',st:'power',v:2},
+  {id:'lk2',nm:'🍀 幸运眷顾',ds:'幸运+2',st:'luck',v:2},
+  {id:'sp2',nm:'⚡ 快手反应',ds:'判定区+2%',st:'speed',v:2},
+  {id:'gb',nm:'💰 财运亨通',ds:'售价+20%',st:'goldBonus',v:.2},
+  {id:'xb',nm:'📚 勤奋苦练',ds:'经验+25%',st:'xpBonus',v:.25},
+  {id:'wr',nm:'⏱️ 耐心专注',ds:'等待-15%',st:'waitReduce',v:.15},
+  {id:'pw4',nm:'🏋️ 大力水手',ds:'钓力+4',st:'power',v:4},
+  {id:'lk4',nm:'🌈 幸运加持',ds:'幸运+4',st:'luck',v:4},
+  {id:'sp4',nm:'🚀 神速反应',ds:'判定区+4%',st:'speed',v:4},
+  {id:'mh',nm:'🎯 多钩并用',ds:'10%双钩',st:'multiHook',v:.1},
+  {id:'rs',nm:'👁️ 稀有感知',ds:'感知稀有鱼',st:'rareSense',v:1},
+  {id:'pt',nm:'🧘 心如止水',ds:'张力-20%',st:'patience',v:.2}
+];
+var QUESTS=[
+  {id:'q1',nm:'初次垂钓',ds:'钓到第一条鱼',tp:'catch_any',tg:1,rw:{g:50,x:20},ic:'🎣',rlv:1,prev:null},
+  {id:'q2',nm:'渔获丰收',ds:'钓到10条鱼',tp:'catch_any',tg:10,rw:{g:150,x:80},ic:'🪣',rlv:1,prev:'q1'},
+  {id:'q3',nm:'卖鱼能手',ds:'累计获得500金',tp:'total_gold',tg:500,rw:{g:100,x:30},ic:'💸',rlv:2,prev:'q2'},
+  {id:'q4',nm:'新秀成长',ds:'达到3级',tp:'reach_level',tg:3,rw:{g:100,x:0},ic:'⬆️',rlv:2,prev:null},
+  {id:'q5',nm:'溪流专家',ds:'在竹溪谷钓到10条鱼',tp:'catch_scene',sn:'stream',tg:10,rw:{g:300,x:200,st:{speed:1}},ic:'🎋',rlv:3,prev:'q4'},
+  {id:'q6',nm:'稀有猎手',ds:'钓到2条稀有品质鱼',tp:'catch_rarity',rr:'rare',tg:2,rw:{g:300,x:200,st:{luck:1}},ic:'💎',rlv:3,prev:'q5'},
+  {id:'q7',nm:'巨物猎手',ds:'钓到超过3公斤的鱼',tp:'catch_size',tg:3,rw:{g:250,x:150,st:{power:1}},ic:'📏',rlv:4,prev:'q6'},
+  {id:'q8',nm:'初级收藏家',ds:'收集5种不同的鱼',tp:'collect',tg:5,rw:{g:200,x:150,st:{luck:1}},ic:'📚',rlv:4,prev:'q7'},
+  {id:'q9',nm:'钓鱼达人',ds:'钓到30条鱼',tp:'catch_any',tg:30,rw:{g:400,x:250},ic:'🏅',rlv:5,prev:'q8'},
+  {id:'q10',nm:'钓鱼高手',ds:'达到6级',tp:'reach_level',tg:6,rw:{g:500,x:0,st:{power:1}},ic:'🌟',rlv:5,prev:'q9'},
+  {id:'q11',nm:'月牙探秘',ds:'在月牙潭钓到5条鱼',tp:'catch_scene',sn:'pool',tg:5,rw:{g:600,x:400},ic:'🌙',rlv:6,prev:'q10'},
+  {id:'q12',nm:'史诗渔者',ds:'钓到1条史诗品质鱼',tp:'catch_rarity',rr:'epic',tg:1,rw:{g:800,x:500,st:{power:2}},ic:'🔮',rlv:6,prev:'q11'},
+  {id:'q13',nm:'高级收藏家',ds:'收集10种不同的鱼',tp:'collect',tg:10,rw:{g:600,x:400,st:{speed:1}},ic:'📖',rlv:7,prev:'q12'},
+  {id:'q14',nm:'海湾猎手',ds:'在晚霞湾钓到20条鱼',tp:'catch_scene',sn:'bay',tg:20,rw:{g:700,x:350,st:{luck:2}},ic:'🌅',rlv:7,prev:'q13'},
+  {id:'q15',nm:'深海霸主',ds:'钓到1条稀有以上的大鱼(>8kg)',tp:'catch_rare_big',tg:8,rw:{g:900,x:500,st:{power:2}},ic:'🦈',rlv:8,prev:'q14'},
+  {id:'q16',nm:'钓鱼大师',ds:'达到10级',tp:'reach_level',tg:10,rw:{g:1500,x:0,st:{luck:2,speed:1}},ic:'👑',rlv:8,prev:'q15'},
+  {id:'q17',nm:'资深收藏家',ds:'收集25种不同的鱼',tp:'collect',tg:25,rw:{g:1500,x:800,st:{power:2,luck:1}},ic:'📕',rlv:9,prev:'q16'},
+  {id:'q18',nm:'传说猎手',ds:'钓到1条传说品质的鱼',tp:'catch_rarity',rr:'legendary',tg:1,rw:{g:2000,x:1000,st:{power:2,luck:2}},ic:'✨',rlv:9,prev:'q17'},
+  {id:'q19',nm:'图鉴大师',ds:'收集50种不同的鱼',tp:'collect',tg:50,rw:{g:3000,x:1500,st:{power:2,luck:2,speed:2}},ic:'📖',rlv:10,prev:'q18'},
+  {id:'q20',nm:'百鱼斩',ds:'累计钓到100条鱼',tp:'catch_any',tg:100,rw:{g:2000,x:800,st:{power:1,luck:1,speed:1}},ic:'🏅',rlv:10,prev:'q19'},
+  {id:'q21',nm:'传说的终结',ds:'钓到传说鱼王！',tp:'catch_fish',fi:'kingfish',tg:1,rw:{g:9999,x:5000},ic:'👑',rlv:10,prev:'q20'}
+];
+function collBonus(f){var r=f.rarity;return r==='common'?{pw:0,lk:0,sp:0}:r==='uncommon'?{pw:0,lk:0,sp:1}:r==='rare'?{pw:0,lk:1,sp:0}:r==='epic'?{pw:1,lk:0,sp:0}:{pw:2,lk:2,sp:1}}
+
+var DAYNIGHT=[
+  {id:'dawn',nm:'黎明',icon:'🌅',br:1.05,rr:.05,sr:.1,color:'#FFB347',sky:0.15},
+  {id:'morning',nm:'上午',icon:'☀️',br:1.1,rr:0,sr:0,color:'#FFD700',sky:0.35},
+  {id:'noon',nm:'正午',icon:'🌞',br:1.0,rr:-.03,sr:-.05,color:'#FFA500',sky:0.55},
+  {id:'afternoon',nm:'下午',icon:'🌤️',br:1.0,rr:.03,sr:.05,color:'#87CEEB',sky:0.7},
+  {id:'dusk',nm:'黄昏',icon:'🌇',br:.95,rr:.1,sr:.2,lr:.15,color:'#FF6B6B',sky:0.85},
+  {id:'night',nm:'夜晚',icon:'🌙',br:.85,rr:.08,sr:.15,lr:.25,color:'#4A5568',sky:0.98}
+];
+
+var G={};
+var mgAF=null,mgLast=0,st=0;
+
+function initState(){
+  G={lv:1,xp:0,xpn:100,gold:200,caught:0,tgold:0,scene:'lake',spot:'l1',state:'idle',
+    castN:0,weather:WEATHERS[0],fs:{},curFish:null,
+    mgZP:30,mgZD:1,mgZS:30,mgNP:50,mgND:1,mgProg:0,mgTen:0,mgHold:false,
+    stats:{power:1,luck:1,speed:1,goldBonus:0,xpBonus:0,waitReduce:0,multiHook:0,rareSense:0,patience:0},
+    eq:{rod:'rod_wood',line:'line_nylon',bait:'bait_worm',flt:'flt_wood'},
+    own:{rod_wood:1,line_nylon:1,bait_worm:1,flt_wood:1},
+    bc:{bait_worm:99,bait_bread:5,bait_shrimp:3,bait_lure:2,bait_golden:0},
+    coll:{},qp:{},qd:{},cb:{power:0,luck:0,speed:0},achS:{},
+    dnTime:0,dnPhase:0,mobPanel:null};
+  if(typeof FISH_TEMPLATES!=='undefined'){
+    FISH_TEMPLATES.forEach(function(f){
+      var m=.7+Math.random()*.8;
+      G.fs[f.id]={szM:m,xpM:.7+Math.random()*.8,vlM:.7+Math.random()*.8,
+        esc:f.rarity==='common'?.05:f.rarity==='uncommon'?.1:f.rarity==='rare'?.18:f.rarity==='epic'?.28:.4};
+    });
+  }
+}
+function save(){try{localStorage.setItem('fg_save',JSON.stringify(G))}catch(e){}}
+function load(){try{var s=localStorage.getItem('fg_save');if(!s)return false;G=JSON.parse(s);if(!G.stats.patience)G.stats.patience=0;if(!G.bc)G.bc={bait_worm:99};if(!G.cb)G.cb={power:0,luck:0,speed:0};if(G.dnTime===undefined)G.dnTime=0;if(G.dnPhase===undefined)G.dnPhase=0;if(G.mobPanel===undefined)G.mobPanel=null;return true}catch(e){return false}}
+
+function totStats(){
+  var s={power:G.stats.power,luck:G.stats.luck,speed:G.stats.speed,goldBonus:G.stats.goldBonus,xpBonus:G.stats.xpBonus};
+  ['rod','line','bait','flt'].forEach(function(sl){var g=findG(G.eq[sl]);if(g){s.power+=g.pw;s.luck+=g.lk;s.speed+=g.sp}});
+  s.power+=G.cb.power;s.luck+=G.cb.luck;s.speed+=G.cb.speed;
+  return s;
+}
+function findG(id){return GEAR.find(function(g){return g.id===id})}
+function spotStars(){var spots=SPOTS[G.scene]||[];var sp=spots.find(function(s){return s.id===G.spot});return sp?sp.s:1}
+function rollWeather(){if(G.castN>0&&G.castN%5===0){var t=0;WEATHERS.forEach(function(w){t+=w.f});var r=Math.random()*t;for(var i=0;i<WEATHERS.length;i++){r-=WEATHERS[i].f;if(r<=0){G.weather=WEATHERS[i];return}}G.weather=WEATHERS[0]}}
+
+function selFish(){
+  var stars=spotStars(),ts=totStats(),w=G.weather,dn=getDN(),luck=ts.luck+(w.lr||0)+(w.rr||0)+(dn.lr||0);
+  var pool=(typeof FISH_TEMPLATES!=='undefined'?FISH_TEMPLATES:[]).filter(function(f){return f.scenes.indexOf(G.scene)>=0});
+  if(!pool.length)return null;
+  var wt=[];
+  pool.forEach(function(f){
+    var weight=f.rarity==='common'?60:f.rarity==='uncommon'?25:f.rarity==='rare'?10:f.rarity==='epic'?4:1;
+    weight*=(1+stars*.15);
+    if(f.rarity!=='common')weight*=(1+luck*.08);
+    if(f.rarity==='legendary')weight*=(1+luck*.15);
+    if(f.isKing){
+      var ok=G.lv>=10&&G.eq.rod==='rod_legend'&&G.eq.bait==='bait_golden'&&G.spot==='p2'&&ts.luck>=20;
+      var dnOk=dn.id==='dusk'||dn.id==='night';
+      var wOk=w.id==='dusk'||w.id==='fog';
+      if(!ok||(!dnOk&&!wOk))weight=0;else weight*=.03;
+    }
+    if(weight>0)wt.push({fish:f,w:weight});
+  });
+  if(!wt.length)return null;
+  var tw=0;wt.forEach(function(i){tw+=i.w});var r=Math.random()*tw;
+  for(var i=0;i<wt.length;i++){r-=wt[i].w;if(r<=0)return wt[i].fish;}
+  return wt[0].fish;
+}
+function fishActual(f){
+  var fs=G.fs[f.id]||{szM:1,xpM:1,vlM:1};
+  var sz=Math.round((f.baseSize[0]+Math.random()*(f.baseSize[1]-f.baseSize[0]))*fs.szM*100)/100;
+  var xp=Math.floor((f.baseXP[0]+Math.random()*(f.baseXP[1]-f.baseXP[0]))*fs.xpM);
+  var vl=Math.floor((f.baseVal[0]+Math.random()*(f.baseVal[1]-f.baseVal[0]))*fs.vlM);
+  return{sz:sz,xp:xp,vl:vl};
+}
+
+function doCast(){
+  if(G.state!=='idle')return;
+  var bait=G.eq.bait;
+  if(!G.bc[bait]||G.bc[bait]<=0){toast('没有鱼饵了！去鱼店购买吧');return}
+  var sc=SCENES.find(function(s){return s.id===G.scene});
+  if(sc&&G.lv<(sc.ulv||1)){toast('需要 Lv.'+sc.ulv+' 解锁');return}
+  G.state='casting';G.castN++;G.bc[bait]--;
+  rollWeather();
+  document.getElementById('cast-btn').disabled=true;
+  updWeather();
+  addLog('🎣 抛竿...','sys');
+  var dn=getDN(),ts=totStats(),baseW=3+Math.random()*5,wr=1-Math.min(ts.waitReduce||0,.6)-spotStars()*.03,wm=(G.weather.br||1)*(dn.br||1);
+  var wait=Math.max(1.5,baseW*wr/wm);
+  G.state='waiting';
+  G.waitT=setTimeout(function(){doBite()},wait*1000);
+}
+
+// 上钩逻辑（简化版：力量判定 + 自动收杆）
+function doBite(){
+  if(G.state!=='waiting')return;
+  var fish=selFish();
+  if(!fish){G.state='idle';document.getElementById('cast-btn').disabled=false;addLog('水面平静，没有鱼上钩。','fail');return}
+  
+  G.curFish = fish;
+  G.state = 'bite';
+  var ts = totStats();
+  var act = fishActual(fish);
+  var power = ts.power;
+  var fishSize = act.sz;
+
+  // 力量不足直接脱钩
+  if(power < fishSize){
+    addLog(`💨 ${fish.name} (${fishSize}kg) 力气太大，你的力量不足，鱼脱钩了！`, 'fail');
+    G.state = 'idle';
+    G.curFish = null;
+    resetBtn();
+    return;
+  }
+
+  // 力量足够 → 自动收杆（速度越快，收杆越快）
+  var baseWait = 2.0;
+  var speedFactor = 1 - (ts.speed * 0.08);
+  var finalWait = Math.max(0.5, baseWait * speedFactor);
+
+  document.getElementById('cast-btn').textContent = '⏳ 收线中...';
+  document.getElementById('cast-btn').disabled = true;
+  document.getElementById('fstatus').innerHTML = `🎣 正在拉起 <span class="hl">${fish.name}</span> (${fishSize}kg)`;
+
+  setTimeout(() => {
+    endFishing(true, act);
+  }, finalWait * 1000);
+}
+
+// 钓鱼结束
+function endFishing(won, act){
+  G.state = 'cooldown';
+  var fish = G.curFish;
+  var ts = totStats();
+
+  if(won){
+    var dn=getDN(),xg=Math.floor(act.xp*(1+(ts.xpBonus||0))),sb=(G.weather.sr||0)+(ts.goldBonus||0)+(dn.sr||0),vg=Math.floor(act.vl*(1+sb));
+    G.gold+=vg;G.tgold+=vg;G.caught++;addXP(xg);
+    var isNew=!G.coll[fish.id];
+    if(!G.coll[fish.id])G.coll[fish.id]={n:0,best:0};
+    G.coll[fish.id].n++;if(act.sz>G.coll[fish.id].best)G.coll[fish.id].best=act.sz;
+    if(isNew){var b=collBonus(fish);G.cb.power+=b.pw||0;G.cb.luck+=b.lk||0;G.cb.speed+=b.sp||0;
+      var bp=[];if(b.pw)bp.push('力量+'+b.pw);if(b.lk)bp.push('幸运+'+b.lk);if(b.sp)bp.push('速度+'+b.sp);
+      if(bp.length){toast('📖 新鱼种！图鉴奖励：'+bp.join(' '));addLog('📖 图鉴「'+fish.name+'」— '+bp.join('，'),'sys')}}
+    var rc=fish.rarity==='legendary'?'legendary':fish.rarity==='epic'?'epic':fish.rarity==='rare'?'rare':'catch';
+    addLog('🐟 钓到 '+fish.emoji+' '+fish.name+'！'+act.sz+'kg | 经验+'+xg+' | 💰+'+vg,rc);
+    if(ts.multiHook>0&&Math.random()<ts.multiHook&&fish.rarity!=='legendary'){var b2=Math.floor(act.xp*.5);addXP(b2);addLog('🎯 双钩！额外经验+'+b2,'catch')}
+    showCatch(fish,act,xg,vg);updQuests('catch',fish,act);particles(fish.rarity);chkAch();
+  }
+  
+  G.curFish=null;
+  setTimeout(function(){G.state='idle';resetBtn()},1000);
+  save();
+}
+
+// 空函数占位（删除小游戏）
+function startMG(){}
+function mgLoop(){}
+function endMG(){}
+
+function addXP(n){G.xp+=n;while(G.xp>=G.xpn){G.xp-=G.xpn;G.lv++;G.xpn=Math.floor(100*Math.pow(1.18,G.lv-1));showLvUp()}updHUD()}
+function showLvUp(){
+  document.getElementById('nlv').textContent=G.lv;
+  var opts=[],pool=UPGRADES.slice();
+  for(var i=0;i<3&&pool.length;i++){var idx=Math.floor(Math.random()*pool.length);opts.push(pool.splice(idx,1)[0])}
+  var c=document.getElementById('lv-opts');c.innerHTML='';
+  opts.forEach(function(o){
+    var d=document.createElement('div');d.className='cc';
+    d.innerHTML='<div class="cc-icon">'+o.nm.split(' ')[0]+'</div><div class="cc-info"><div class="cc-nm">'+o.nm+'</div><div class="cc-ds">'+o.ds+'</div></div>';
+    d.onclick=function(){G.stats[o.st]+=o.v;clOL('ol-lv');addLog('⬆️ Lv.'+G.lv+' — '+o.nm+' '+o.ds,'sys');toast('⬆️ Lv.'+G.lv+' '+o.nm);updQuests('lv');save()};
+    c.appendChild(d);
+  });
+  document.getElementById('ol-lv').style.display='flex';
+}
+function resetBtn(){var b=document.getElementById('cast-btn');b.disabled=false;b.textContent='🎣 抛竿';b.className='';b.onclick=doCast;document.getElementById('fstatus').innerHTML='准备就绪，点击抛竿~';var mb=document.getElementById('mob-cast-btn');if(mb)mb.textContent='🎣 抛竿';closeMobPanel()}
+
+function updQuests(ev,fish,act){
+  if(!G.qp)G.qp={};if(!G.qd)G.qd={};
+  QUESTS.forEach(function(q){
+    if(G.qd[q.id])return;
+    if(!isQuestAvail(q))return;
+    if(!G.qp[q.id])G.qp[q.id]=0;
+    var p=G.qp[q.id],done=false;
+    if(q.tp==='catch_any'&&ev==='catch')p++;
+    else if(q.tp==='catch_rarity'&&ev==='catch'&&fish&&fish.rarity===q.rr)p++;
+    else if(q.tp==='catch_scene'&&ev==='catch'&&fish&&G.scene===q.sn)p++;
+    else if(q.tp==='reach_level')p=G.lv;
+    else if(q.tp==='catch_size'&&ev==='catch'&&act&&act.sz>=q.tg)p=1;
+    else if(q.tp==='catch_fish'&&ev==='catch'&&fish&&fish.id===q.fi)p++;
+    else if(q.tp==='collect')p=Object.keys(G.coll).length;
+    else if(q.tp==='total_gold')p=G.tgold;
+    else if(q.tp==='catch_rare_big'&&ev==='catch'&&act&&fish&&fish.rarity!=='common'&&fish.rarity!=='uncommon'&&act.sz>=q.tg)p=1;
+    G.qp[q.id]=p;
+    if(p>=q.tg&&!G.qd[q.id]){
+      G.qd[q.id]=true;if(q.rw.g)G.gold+=q.rw.g;if(q.rw.x)addXP(q.rw.x);
+      if(q.rw.st){Object.keys(q.rw.st).forEach(function(k){G.stats[k]+=q.rw.st[k]})}
+      addLog('📋 任务完成「'+q.nm+'」！💰+'+(q.rw.g||0)+' ⭐+'+(q.rw.x||0),'sys');
+      toast('📋 任务完成：'+q.nm);
+      showAch(q.ic,q.nm+' 完成！',q.ds,'💰'+(q.rw.g||0));
+      save();
+    }
+  });
+  rQuests();
+}
+function isQuestAvail(q){
+  if(G.lv<(q.rlv||1))return false;
+  if(q.prev&&!G.qd[q.prev])return false;
+  return true;
+}
+function chkAch(){
+  var n=Object.keys(G.coll).length;
+  if(n===10&&!G.achS.a10){G.achS.a10=1;showAch('📚','收藏达人','收集了10种鱼！','')}
+  if(n===25&&!G.achS.a25){G.achS.a25=1;showAch('📕','收藏专家','收集了25种鱼！','')}
+  if(n===50&&!G.achS.a50){G.achS.a50=1;showAch('✨','图鉴大师','收集了50种鱼！','')}
+  if(G.caught===100&&!G.achS.c100){G.achS.c100=1;showAch('🏅','百鱼斩','累计100条！','')}
+  if(G.curFish&&G.curFish.isKing)showAch('👑','传说鱼王！！！','成功钓到传说鱼王！','🎉🎉🎉');
+}
+
+// 清空小游戏按键监听
+document.addEventListener('keydown',function(e){});
+document.addEventListener('keyup',function(e){});
+document.addEventListener('mousedown',function(e){});
+document.addEventListener('mouseup',function(){});
+document.addEventListener('touchstart',function(e){},{passive:true});
+document.addEventListener('touchend',function(e){},{passive:true});
+
+var lastTouch=0;
+document.addEventListener('touchend',function(e){var now=Date.now();if(now-lastTouch<300&&now-lastTouch>0)e.preventDefault();lastTouch=now},{passive:false});
+
+function toggleMobPanel(id){
+  var el=document.getElementById(id);
+  var side=document.getElementById('side');
+  var rp=document.getElementById('rpanel');
+  if(el.classList.contains('mob-show')){el.classList.remove('mob-show');G.mobPanel=null;return}
+  side.classList.remove('mob-show');rp.classList.remove('mob-show');
+  el.classList.add('mob-show');G.mobPanel=id;
+  if(id==='side')rScenes();
+  if(id==='rpanel'){rQuests();rShop();rGuide();}
+}
+function closeMobPanel(){document.getElementById('side').classList.remove('mob-show');document.getElementById('rpanel').classList.remove('mob-show');G.mobPanel=null;}
+
+var dnTimer=null,dnInterval=40000;
+function startDN(){
+  if(dnTimer)clearInterval(dnTimer);
+  dnTimer=setInterval(function(){G.dnTime+=dnInterval;updDN()},dnInterval);
+}
+function updDN(){
+  var phase=Math.floor(G.dnTime/dnInterval)%DAYNIGHT.length;
+  G.dnPhase=phase;
+  var d=DAYNIGHT[phase];
+  document.getElementById('dn-icon').textContent=d.icon;
+  document.getElementById('dn-time').textContent=d.nm;
+  var fill=document.getElementById('dn-fill');
+  var pct=((G.dnTime%dnInterval)/dnInterval*100);
+  fill.style.width=pct+'%';
+  fill.style.background=d.color;
+}
+function getDN(){return DAYNIGHT[G.dnPhase||0]}
+
+function renderAll(){rScenes();rSpots();rGear();rQuests();rShop();rGuide();updHUD();updWeather();updDN();startCV();startDN()}
+function rScenes(){
+  var el=document.getElementById('sc-list');el.innerHTML='';
+  SCENES.forEach(function(sc){
+    var lk=G.lv<(sc.ulv||1),ac=G.scene===sc.id;
+    var d=document.createElement('div');d.className='sc-item'+(ac?' act':'')+(lk?' lock':'');
+    d.innerHTML='<span class="sc-icon">'+sc.icon+'</span><div><div class="sc-nm">'+sc.name+'</div><div class="sc-ds">'+sc.desc+(lk?' (Lv.'+sc.ulv+')':'')+'</div></div>';
+    if(!lk)d.onclick=function(){selScene(sc.id)};
+    el.appendChild(d);
+  });
+}
+function rSpots(){
+  var el=document.getElementById('sp-list');el.innerHTML='';
+  (SPOTS[G.scene]||[]).forEach(function(sp){
+    var ac=G.spot===sp.id;
+    var d=document.createElement('button');d.className='sp-btn'+(ac?' act':'');
+    d.innerHTML='<span>'+sp.name+'</span><span class="sp-stars">'+'★'.repeat(sp.s)+'</span>';
+    d.onclick=function(){G.spot=sp.id;rSpots();save()};el.appendChild(d);
+  });
+}
+function rGear(){
+  var el=document.getElementById('gear-disp');el.innerHTML='';
+  [['rod','🎣 鱼竿'],['line','🧵 鱼线'],['bait','🪱 鱼饵'],['flt','🔴 浮漂']].forEach(function(a){
+    var g=findG(G.eq[a[0]]),bi=g&&g.con?' ('+(G.bc[G.eq[a[0]]]||0)+')':'';
+    var d=document.createElement('div');d.className='gr-row';
+    d.innerHTML='<span class="gr-icon">'+a[1].split(' ')[0]+'</span><span class="gr-nm">'+(g?g.nm:'?')+'</span><span class="gr-val">'+bi+'</span>';
+    el.appendChild(d);
+  });
+}
+function rQuests(){
+  var el=document.getElementById('q-list');el.innerHTML='';
+  var availCount=0;
+  QUESTS.forEach(function(q,i){
+    var p=G.qp[q.id]||0,done=G.qd[q.id],avail=isQuestAvail(q);
+    var pct=Math.min(100,Math.floor(p/q.tg*100));
+    var d=document.createElement('div');
+    if(done){
+      d.className='qi done';
+      d.innerHTML='<div class="qi-t">'+q.ic+' '+q.nm+'</div><div class="qi-d">'+q.ds+'</div><div class="qi-bar"><div class="qi-bar-in" style="width:100%"></div></div><div class="qi-r">✅ 已完成</div>';
+    }else if(avail){
+      availCount++;
+      d.className='qi'+(pct>0?' act-q':'');
+      var rwTxt='💰'+q.rw.g;
+      if(q.rw.x)rwTxt+=' ⭐'+q.rw.x;
+      if(q.rw.st){var bs=[];Object.keys(q.rw.st).forEach(function(k){var nm={power:'力量',luck:'幸运',speed:'速度'}[k]||k;bs.push(nm+'+'+q.rw.st[k])});rwTxt+=' '+bs.join(',')}
+      d.innerHTML='<div class="qi-t">'+q.ic+' '+q.nm+(i>0?' <span style="font-size:9px;color:var(--text3)">Lv.'+q.rlv+'</span>':'')+'</div><div class="qi-d">'+q.ds+'</div><div class="qi-bar"><div class="qi-bar-in" style="width:'+pct+'%"></div></div><div class="qi-r">'+Math.min(p,q.tg)+'/'+q.tg+' '+rwTxt+'</div>';
+    }else{
+      d.className='qi';d.style.opacity='.35';
+      var req='Lv.'+q.rlv;
+      if(q.prev){var pq=QUESTS.find(function(x){return x.id===q.prev});req+=(pq&&!G.qd[q.prev])?' + 完成「'+(pq?pq.nm:'?')+'」':''
+      }
+      d.innerHTML='<div class="qi-t">🔒 ???</div><div class="qi-d">需要 '+req+'</div>';
+    }
+    el.appendChild(d);
+  });
+  var hd=document.createElement('div');hd.style.cssText='text-align:center;font-size:10px;color:var(--text3);padding:4px 0;margin-top:4px;border-top:1px solid var(--border)';
+  hd.textContent='可接任务 '+availCount+' / 总计 '+QUESTS.length+' | 已完成 '+Object.keys(G.qd||{}).length;
+  el.appendChild(hd);
+}
+function rShop(){
+  var el=document.getElementById('sh-list');el.innerHTML='';
+  ['rod','line','bait','flt'].forEach(function(slot){
+    var lb={rod:'🎣 鱼竿',line:'🧵 鱼线',bait:'🪱 鱼饵',flt:'🔴 浮漂'}[slot];
+    var h=document.createElement('div');h.style.cssText='font-size:11px;color:var(--text3);margin:6px 0 3px;font-weight:600';h.textContent=lb;el.appendChild(h);
+    GEAR.filter(function(g){return g.t===slot}).forEach(function(g){
+      var owned=!!G.own[g.id],eq=G.eq[slot]===g.id;
+      var d=document.createElement('div');d.className='si'+(owned&&eq?' equipped':owned?' owned':'');
+      var pr=g.con?g.pp+'金/个':g.pr+'金';
+      var sts=[];if(g.pw)sts.push('力+'+g.pw);if(g.lk)sts.push('运+'+g.lk);if(g.sp)sts.push('速+'+g.sp);
+      var rl={common:'普通',uncommon:'非凡',rare:'稀有',epic:'史诗',legendary:'传说'};
+      d.innerHTML='<div class="si-top"><span class="si-nm"><span class="rb rb-'+g.r+'">'+rl[g.r]+'</span> '+g.nm+'</span><span class="si-pr">'+(owned?(eq?'✅':'已拥有'):'💰'+pr)+'</span></div><div class="si-ds">'+g.ds+'</div>'+(sts.length?'<div class="si-st">'+sts.join(' | ')+'</div>':'');
+      if(!owned&&!g.con)d.onclick=function(){buyG(g)};
+      else if(g.con&&!eq)d.onclick=function(){buyBt(g)};
+      else if(owned&&!eq&&!g.con){d.onclick=function(){G.eq[slot]=g.id;addLog('🔧 装备了 '+g.nm,'sys');rShop();rGear();save()};d.style.cursor='pointer';d.style.opacity='1'}
+      el.appendChild(d);
+    });
+  });
+}
+function buyG(g){if(G.gold<g.pr){toast('金币不足！');return}G.gold-=g.pr;G.own[g.id]=1;G.eq[g.t]=g.id;addLog('🛒 购买装备 '+g.nm,'sys');toast('装备了 '+g.nm);updHUD();rShop();rGear();save()}
+function buyBt(g){
+  var q=parseInt(prompt('购买'+g.nm+' ('+g.pp+'金/个)\n输入数量(1-20):','5'));
+  if(isNaN(q)||q<1||q>20)return;var c=q*g.pp;if(G.gold<c){toast('金币不足！');return}
+  G.gold-=c;G.own[g.id]=1;if(!G.bc[g.id])G.bc[g.id]=0;G.bc[g.id]+=q;
+  addLog('🛒 购买了'+q+'个'+g.nm,'sys');toast('购买了'+q+'个'+g.nm);updHUD();rShop();rGear();save();
+}
+function rGuide(){
+  var el=document.getElementById('gd-content'),n=Object.keys(G.coll).length,tt=typeof FISH_TEMPLATES!=='undefined'?FISH_TEMPLATES.length:0;
+  el.innerHTML='<div class="gs">已收集 <span>'+n+'</span> / '+tt+' 种</div><div class="fg" id="fgrid"></div>';
+  var grid=document.getElementById('fgrid');
+  if(typeof FISH_TEMPLATES==='undefined'){el.innerHTML+='<p>等待加载...</p>';return}
+  FISH_TEMPLATES.forEach(function(f){
+    var c=G.coll[f.id],d=document.createElement('div');
+    d.className='fc'+(c?' caught':'')+(f.rarity==='legendary'?' legendary-fish':'');
+    d.innerHTML='<div class="fe">'+f.emoji+'</div><div class="fn">'+(c?f.name:'???')+'</div>'+(c?'<div class="fcnt">×'+c.n+'</div>':'');
+    d.onclick=function(){showFD(f)};grid.appendChild(d);
+  });
+}
+function showFD(f){
+  var c=G.coll[f.id],fs=G.fs[f.id]||{};
+  var rl={common:'普通',uncommon:'非凡',rare:'稀有',epic:'史诗',legendary:'传说'};
+  var beh={steady:'匀速',sprint:'冲刺',sine:'波动',erratic:'不规则',random:'随机'};
+  document.getElementById('fish-det').innerHTML='<div style="text-align:center;margin-bottom:10px"><div style="font-size:42px">'+(c?f.emoji:'❓')+'</div><div style="font-size:18px;font-weight:700">'+(c?f.name:'???')+'</div><span class="rb rb-'+f.rarity+'">'+rl[f.rarity]+'</span></div><div style="font-size:12px;color:var(--text2);text-align:center;margin-bottom:8px">'+(c?f.flavorText:'尚未发现...')+'</div>'+(c?'<div class="fd-grid"><div class="fd-s"><div class="fd-l">已钓数量</div><div class="fd-v">'+c.n+'条</div></div><div class="fd-s"><div class="fd-l">最大重量</div><div class="fd-v">'+c.best+'kg</div></div><div class="fd-s"><div class="fd-l">基础重量</div><div class="fd-v">'+f.baseSize[0]+'-'+f.baseSize[1]+'kg</div></div><div class="fd-s"><div class="fd-l">难度</div><div class="fd-v">'+'⭐'.repeat(Math.ceil(f.difficulty/2))+'</div></div><div class="fd-s"><div class="fd-l">行为</div><div class="fd-v">'+(beh[f.behavior]||f.behavior)+'</div></div><div class="fd-s"><div class="fd-l">出现场景</div><div class="fd-v">'+f.scenes.map(function(s){return(SCENES.find(function(x){return x.id===s})||{}).name||s}).join(' ')+'</div></div></div><div style="margin-top:8px;font-size:10px;color:var(--text3)">本局倍率: 重量×'+(fs.szM||1).toFixed(2)+' 价值×'+(fs.vlM||1).toFixed(2)+'</div>':'');
+  document.getElementById('ol-fish').style.display='flex';
+}
+function showBag(){
+  var el=document.getElementById('bag-c');el.innerHTML='<div style="font-size:11px;color:var(--text3);margin-bottom:6px">鱼饵库存</div>';
+  GEAR.filter(function(g){return g.con}).forEach(function(g){
+    var d=document.createElement('div');d.style.cssText='display:flex;align-items:center;gap:6px;padding:3px 0;font-size:12px';
+    d.innerHTML='<span>'+g.nm+'</span><span style="color:var(--accent2);font-weight:600">'+(G.bc[g.id]||0)+'个</span><span style="color:var(--text3);font-size:10px">('+g.pp+'金/个)</span>';
+    el.appendChild(d);
+  });
+  var sep=document.createElement('div');sep.style.cssText='border-top:1px solid var(--border);margin:8px 0';el.appendChild(sep);
+  var ts=totStats();
+  el.innerHTML+='<div style="font-size:11px;color:var(--text3);margin-bottom:6px">总属性</div><div class="fd-grid"><div class="fd-s"><div class="fd-l">力量</div><div class="fd-v">'+ts.power+'</div></div><div class="fd-s"><div class="fd-l">幸运</div><div class="fd-v">'+ts.luck+'</div></div><div class="fd-s"><div class="fd-l">速度</div><div class="fd-v">'+ts.speed+'</div></div><div class="fd-s"><div class="fd-l">售价加成</div><div class="fd-v">+'+Math.floor((ts.goldBonus||0)*100)+'%</div></div></div>';
+  document.getElementById('ol-bag').style.display='flex';
+}
+function selScene(id){var sc=SCENES.find(function(s){return s.id===id});if(!sc||G.lv<(sc.ulv||1))return;G.scene=id;G.spot=(SPOTS[id]||[])[0].id;rScenes();rSpots();save();startCV()}
+function swTab(tab,el){document.querySelectorAll('.ptab').forEach(function(t){t.classList.remove('act')});document.querySelectorAll('.pcont').forEach(function(c){c.classList.remove('act')});el.classList.add('act');document.getElementById('tab-'+tab).classList.add('act');if(tab==='shop')rShop();if(tab==='guide')rGuide();if(tab==='quests')rQuests()}
+function updHUD(){document.getElementById('h-lv').textContent=G.lv;document.getElementById('h-xp').textContent=G.xp;document.getElementById('h-xpn').textContent=G.xpn;document.getElementById('h-gold').textContent=G.gold;document.getElementById('h-caught').textContent=G.caught;document.getElementById('lv-fill').style.width=(G.xp/G.xpn*100)+'%'}
+function updWeather(){document.getElementById('h-weather').textContent=G.weather.name}
+function addLog(m,c){var a=document.getElementById('log'),d=document.createElement('div');d.className='le'+(c?' '+c:'');d.textContent=m;a.appendChild(d);a.scrollTop=a.scrollHeight;while(a.children.length>80)a.removeChild(a.firstChild)}
+function clOL(id){document.getElementById(id).style.display='none'}
+function showCatch(f,act,xp,vl){var p=document.getElementById('cpop');document.getElementById('pe').textContent=f.emoji;document.getElementById('pn').textContent=f.name;document.getElementById('pn').style.color=f.rarity==='legendary'?'var(--legendary)':f.rarity==='epic'?'var(--epic)':f.rarity==='rare'?'var(--rare)':'var(--text)';document.getElementById('pd').textContent=act.sz+'kg | 💰'+vl;document.getElementById('px').textContent='经验 +'+xp;p.className='show';if(f.rarity==='legendary')p.classList.add('lc');setTimeout(function(){p.className=''},2000)}
+function showAch(ic,ti,ds,rw){document.getElementById('ac-icon').textContent=ic;document.getElementById('ac-title').textContent=ti;document.getElementById('ac-desc').textContent=ds;document.getElementById('ac-rw').textContent=rw;document.getElementById('ol-ach').style.display='flex';setTimeout(function(){clOL('ol-ach')},2500)}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2200)}
+function particles(r){var c=document.getElementById('particles'),n=r==='legendary'?25:r==='epic'?18:r==='rare'?12:6;var cs=r==='legendary'?['#FFD700','#FFA500']:r==='epic'?['#CC66FF','#9933CC']:r==='rare'?['#6699FF','#3366CC']:['#88CC88','#66AA66'];for(var i=0;i<n;i++){var p=document.createElement('div');p.className='ptcl';var sz=3+Math.random()*5;p.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+cs[i%cs.length]+';left:'+(40+Math.random()*20)+'%;top:'+(40+Math.random()*20)+'%;--tx:'+((Math.random()-.5)*100)+'px;--ty:'+(-30-Math.random()*60)+'px;--dur:'+(.5+Math.random()*.7)+'s';c.appendChild(p);(function(el){setTimeout(function(){el.remove()},1200)})(p)}}
+function confirmNew(){if(G.lv<=1||confirm('开始新游戏？进度将丢失！')){initState();renderAll();addLog('🌊 新冒险开始！鱼群已重新洗牌！','sys');save()}}
+
+var cv,cx;
+function startCV(){cv=document.getElementById('cv');cx=cv.getContext('2d');rsCV();window.addEventListener('resize',rsCV);st=0;drawF()}
+function rsCV(){var w=document.getElementById('cv-wrap');cv.width=w.clientWidth;cv.height=w.clientHeight}
+function drawF(){
+  var w=cv.width,h=cv.height;st+=.016;
+  var sc=SCENES.find(function(s){return s.id===G.scene})||SCENES[0];
+  cx.clearRect(0,0,w,h);
+  var sg=cx.createLinearGradient(0,0,0,h*.55);
+  sg.addColorStop(0,sc.sky1);sg.addColorStop(.5,sc.sky2);sg.addColorStop(1,sc.sky3);
+  cx.fillStyle=sg;cx.fillRect(0,0,w,h*.55);
+  if(G.scene==='lake')dLake(w,h);else if(G.scene==='stream')dStream(w,h);else if(G.scene==='bay')dBay(w,h);else dPool(w,h);
+  var wy=h*.55,wg=cx.createLinearGradient(0,wy,0,h);wg.addColorStop(0,sc.wc);wg.addColorStop(1,adjC(sc.wc,-.15));cx.fillStyle=wg;cx.fillRect(0,wy,w,h-wy);
+  cx.strokeStyle='rgba(255,255,255,0.15)';cx.lineWidth=1;
+  for(var i=0;i<4;i++){cx.beginPath();var y2=wy+6+i*14;for(var x=0;x<w;x+=2){var yy=y2+Math.sin((x+st*40+i*30)*.03)*3;x===0?cx.moveTo(x,yy):cx.lineTo(x,yy)}cx.stroke()}
+  drawChar(w*.65,wy-2);
+  if(G.state!=='idle'){cx.strokeStyle='rgba(100,80,60,0.5)';cx.lineWidth=1;cx.beginPath();var rtx=w*.65+32,rty=wy-38,flx=w*.55+Math.sin(st*2)*7,fly=wy+4+Math.sin(st*3)*2;cx.moveTo(rtx,rty);cx.quadraticCurveTo((rtx+flx)/2,wy-8,flx,fly);cx.stroke();if(G.state!=='casting'){cx.fillStyle=G.state==='bite'?'#FF6B6B':'#E85D5D';cx.beginPath();cx.ellipse(flx,fly,2.5,5,0,0,Math.PI*2);cx.fill()}}
+  var dn=getDN();var skyA=dn.sky||0;
+  if(skyA>.2&&G.scene!=='pool'){
+    cx.fillStyle='rgba(10,10,30,'+skyA*.35+')';cx.fillRect(0,0,w,wy);
+    cx.fillStyle='rgba(10,10,40,'+skyA*.2+')';cx.fillRect(0,wy,w,h-wy);
+  }
+  if((dn.id==='night'||dn.id==='dusk')&&G.scene!=='pool'){
+    var starA=dn.id==='night'?.6:.2;
+    for(var i=0;i<15;i++){var sx=(i*67+23)%w,sy=(i*41+7)%(wy-20),tw=.3+Math.sin(st*2+i)*.3;cx.fillStyle='rgba(255,255,240,'+(tw*starA)+')';cx.beginPath();cx.arc(sx,sy,1,0,Math.PI*2);cx.fill()}
+  }
+  requestAnimationFrame(drawF);
+}
+function dLake(w,h){var wy=h*.55;cx.fillStyle='rgba(139,169,139,0.4)';cx.beginPath();cx.moveTo(0,wy);cx.lineTo(w*.15,wy-45);cx.lineTo(w*.3,wy-28);cx.lineTo(w*.45,wy-62);cx.lineTo(w*.6,wy-22);cx.lineTo(w*.8,wy-50);cx.lineTo(w,wy-18);cx.lineTo(w,wy);cx.fill();cx.fillStyle='rgba(255,220,100,0.5)';cx.beginPath();cx.arc(w*.2,wy-55,18,0,Math.PI*2);cx.fill();for(var i=0;i<3;i++){var lx=w*.15+i*w*.25+Math.sin(st+i)*2,ly=wy+1;cx.fillStyle='#3A7A3A';cx.beginPath();cx.ellipse(lx,ly,10,5,0,Math.PI*2);cx.fill();if(i!==1){cx.fillStyle='#FFB6C1';for(var p=0;p<5;p++){var a=p*Math.PI*2/5+st*.1;cx.beginPath();cx.ellipse(lx+Math.cos(a)*5,ly-2+Math.sin(a)*2,3,5,a,0,Math.PI*2);cx.fill()}}}for(var i=0;i<2;i++){var bx=(st*18+i*180)%w,by=28+i*18+Math.sin(st+i)*4;cx.strokeStyle='rgba(60,40,30,0.25)';cx.lineWidth=1.5;cx.beginPath();cx.moveTo(bx-5,by);cx.quadraticCurveTo(bx,by-4,bx+5,by);cx.stroke()}}
+function dStream(w,h){var wy=h*.55;for(var i=0;i<10;i++){var bx=w*.04+i*w*.09,sw=Math.sin(st*1.5+i*.5)*1.5;cx.strokeStyle='#5B8C5B';cx.lineWidth=4;cx.beginPath();cx.moveTo(bx,0);cx.lineTo(bx+sw,wy);cx.stroke();cx.fillStyle='#6B9E6B';cx.beginPath();cx.ellipse(bx+sw+6,wy*.3+i*2,8,2.5,.3+sw*.04,0,Math.PI*2);cx.fill()}for(var i=0;i<6;i++){cx.fillStyle='rgba(140,130,110,'+(0.25+i*.04)+')';cx.beginPath();cx.ellipse(w*.1+i*w*.14,wy+12+i%3*6,7+i%3*2,4,0,Math.PI*2);cx.fill()}for(var i=0;i<3;i++){var bfx=w*.2+i*w*.3+Math.sin(st*2+i)*25,bfy=wy-25-i*12+Math.cos(st*1.5+i)*8;cx.fillStyle='rgba(255,'+(180+i*20)+','+(100+i*30)+',0.5)';cx.beginPath();cx.ellipse(bfx-4,bfy,4,5,-.2+Math.sin(st*8)*.3,0,Math.PI*2);cx.fill();cx.beginPath();cx.ellipse(bfx+4,bfy,4,5,.2-Math.sin(st*8)*.3,0,Math.PI*2);cx.fill()}}
+function dBay(w,h){var wy=h*.55;var sunY=wy-35+Math.sin(st*.1)*1.5;cx.fillStyle='rgba(255,140,60,0.7)';cx.beginPath();cx.arc(w*.75,sunY,22,0,Math.PI*2);cx.fill();cx.fillStyle='rgba(255,180,80,0.3)';cx.beginPath();cx.arc(w*.75,sunY,32,0,Math.PI*2);cx.fill();for(var i=0;i<3;i++){var ccx=(w*.2+i*w*.3+st*4+i*40)%(w+80)-40;cx.fillStyle='rgba(255,200,150,0.25)';cx.beginPath();cx.ellipse(ccx,wy-45+i*12,25,8,0,Math.PI*2);cx.fill();cx.beginPath();cx.ellipse(ccx+12,wy-48+i*12,15,6,0,Math.PI*2);cx.fill()}var boatX=(st*6)%(w+50)-25;cx.fillStyle='rgba(80,60,40,0.4)';cx.beginPath();cx.moveTo(boatX-12,wy+4);cx.lineTo(boatX+12,wy+4);cx.lineTo(boatX+8,wy-4);cx.lineTo(boatX-8,wy-4);cx.fill();for(var i=0;i<2;i++){var sx=w*.3+i*w*.35+Math.sin(st+i)*18,sy=wy-50-i*15+Math.sin(st*2+i)*4;cx.strokeStyle='rgba(60,40,30,0.25)';cx.lineWidth=1.5;cx.beginPath();cx.moveTo(sx-4,sy);cx.quadraticCurveTo(sx,sy-5,sx+4,sy);cx.stroke()}}
+function dPool(w,h){var wy=h*.55;for(var i=0;i<35;i++){var sx=(i*73+17)%w,sy=(i*47+11)%(wy-18),tw=.3+Math.sin(st*3+i)*.3+.3;cx.fillStyle='rgba(255,255,240,'+tw+')';cx.beginPath();cx.arc(sx,sy,1+(i%3===0?1:0),0,Math.PI*2);cx.fill()}cx.fillStyle='rgba(255,255,230,0.85)';cx.beginPath();cx.arc(w*.8,wy-50,20,0,Math.PI*2);cx.fill();cx.fillStyle='rgba(255,255,240,0.25)';cx.beginPath();cx.arc(w*.8,wy-50,32,0,Math.PI*2);cx.fill();cx.fillStyle='rgba(200,200,210,0.25)';cx.beginPath();cx.arc(w*.8-4,wy-52,4,0,Math.PI*2);cx.fill();cx.fillStyle='rgba(255,255,230,0.08)';cx.fillRect(w*.78,wy,6,h-wy);for(var i=0;i<8;i++){var fx=(w*.1+i*w*.1+Math.sin(st*1.2+i*2)*15)%w,fy=wy-15-i*6+Math.cos(st+i)*6,gl=.3+Math.sin(st*4+i)*.3;cx.fillStyle='rgba(200,230,100,'+gl+')';cx.beginPath();cx.arc(fx,fy,1.5,0,Math.PI*2);cx.fill();cx.fillStyle='rgba(200,230,100,'+(gl*.25)+')';cx.beginPath();cx.arc(fx,fy,5,0,Math.PI*2);cx.fill()}for(var i=0;i<2;i++){var lx=w*.2+i*w*.5,ly=wy+2;cx.fillStyle='rgba(150,100,180,0.5)';for(var p=0;p<5;p++){var a=p*Math.PI*2/5+st*.05;cx.beginPath();cx.ellipse(lx+Math.cos(a)*4,ly-1+Math.sin(a)*2.5,2.5,4,a,0,Math.PI*2);cx.fill()}}}
+function drawChar(x,gy){var b=Math.sin(st*2)*1.5;cx.strokeStyle='#5A5040';cx.lineWidth=4;cx.lineCap='round';cx.beginPath();cx.moveTo(x-2,gy-8);cx.lineTo(x-4,gy);cx.stroke();cx.beginPath();cx.moveTo(x+2,gy-8);cx.lineTo(x+4,gy);cx.stroke();cx.fillStyle='#6B8EB5';cx.fillRect(x-7,gy-30+b,14,22);cx.strokeStyle='#D4915A';cx.lineWidth=3.5;cx.beginPath();cx.moveTo(x-7,gy-26+b);cx.lineTo(x-13,gy-20+b);cx.stroke();cx.beginPath();cx.moveTo(x+7,gy-26+b);cx.lineTo(x+10,gy-18+b);cx.stroke();cx.fillStyle='#D4915A';cx.beginPath();cx.arc(x,gy-36+b,7,0,Math.PI*2);cx.fill();cx.fillStyle='#C2A570';cx.fillRect(x-9,gy-44+b,18,3);cx.fillRect(x-6,gy-47+b,12,5);cx.strokeStyle='#7A6040';cx.lineWidth=1.5;cx.beginPath();cx.moveTo(x-13,gy-20+b);cx.quadraticCurveTo(x+8,gy-50+b,x+30,gy-38+b);cx.stroke()}
+function adjC(hex,amt){var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);r=Math.max(0,Math.min(255,Math.floor(r*(1+amt))));g=Math.max(0,Math.min(255,Math.floor(g*(1+amt))));b=Math.max(0,Math.min(255,Math.floor(b*(1+amt))));return'rgb('+r+','+g+','+b+')'}
+
+initState();
+if(!load()){initState()}
+renderAll();
+addLog('⚓ 欢迎回来！当前 Lv.'+G.lv,'sys');
+setInterval(save,30000);
+</script>
+
+<!-- 鱼类模板数据 -->
+<script>
+const FISH_TEMPLATES = [
+  { id: 'silver_minnow', name: '小银鱼', emoji: '🐟', rarity: 'common', baseSize: [0.1, 2], baseXP: [5, 8], baseVal: [3, 6], scenes: ['lake', 'stream'], difficulty: 1, behavior: 'steady', flavorText: '湖面下最寻常的身影，银光一闪即逝。' },
+  { id: 'stream_crucian', name: '溪流鲫', emoji: '🐟', rarity: 'common', baseSize: [0.3, 2.5], baseXP: [5, 9], baseVal: [3, 7], scenes: ['lake', 'stream'], difficulty: 1, behavior: 'steady', flavorText: '小溪里最耐心的居民，静静地等待投喂。' },
+  { id: 'grass_carp', name: '草鱼', emoji: '🐟', rarity: 'common', baseSize: [0.5, 3], baseXP: [6, 10], baseVal: [4, 8], scenes: ['lake', 'stream'], difficulty: 1, behavior: 'steady', flavorText: '水草丛中游弋，最爱啃食嫩绿的水草。' },
+  { id: 'flower_bream', name: '花鲢', emoji: '🐟', rarity: 'common', baseSize: [0.4, 3.5], baseXP: [6, 10], baseVal: [3, 9], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '银色的鳞片上点缀着淡淡的花纹。' },
+  { id: 'loach', name: '泥鳅', emoji: '🐡', rarity: 'common', baseSize: [0.1, 1.5], baseXP: [5, 7], baseVal: [3, 5], scenes: ['lake', 'stream'], difficulty: 1, behavior: 'steady', flavorText: '在泥底钻来钻去，滑溜溜的小家伙。' },
+  { id: 'topmouth_gudgeon', name: '麦穗鱼', emoji: '🐟', rarity: 'common', baseSize: [0.2, 1], baseXP: [5, 7], baseVal: [3, 5], scenes: ['lake', 'stream'], difficulty: 1, behavior: 'steady', flavorText: '成群结队，像麦穗一样在浅水中摇曳。' },
+  { id: 'sharpbelly', name: '餐条鱼', emoji: '🐟', rarity: 'common', baseSize: [0.2, 1.5], baseXP: [5, 8], baseVal: [3, 6], scenes: ['lake', 'stream'], difficulty: 1, behavior: 'steady', flavorText: '体侧扁薄如刀，游动时反射出耀眼的白光。' },
+  { id: 'bitterling', name: '鳑鲏', emoji: '🐠', rarity: 'common', baseSize: [0.1, 1], baseXP: [5, 7], baseVal: [4, 7], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '繁殖季节会放射出绚丽的彩虹色，小巧而迷人。' },
+  { id: 'gudgeon', name: '棒花鱼', emoji: '🐟', rarity: 'common', baseSize: [0.3, 2], baseXP: [6, 9], baseVal: [3, 7], scenes: ['lake', 'stream'], difficulty: 1, behavior: 'steady', flavorText: '趴在沙石上，背上斑驳的花纹是最好的伪装。' },
+  { id: 'ricefish', name: '青鳉', emoji: '🐟', rarity: 'common', baseSize: [0.1, 0.8], baseXP: [5, 7], baseVal: [3, 5], scenes: ['lake', 'stream'], difficulty: 1, behavior: 'steady', flavorText: '水田和池塘的精灵，体型虽小却生命力顽强。' },
+  { id: 'paradise_fish', name: '斗鱼', emoji: '🐠', rarity: 'common', baseSize: [0.2, 1.2], baseXP: [6, 9], baseVal: [4, 8], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '色彩斑斓，生性好斗，是水中的勇士。' },
+  { id: 'yellow_catfish', name: '黄颡鱼', emoji: '🐡', rarity: 'common', baseSize: [0.5, 3], baseXP: [7, 12], baseVal: [5, 10], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '三根尖刺是它的武器，叫声嘎嘎作响。' },
+  { id: 'sleeper_goby', name: '塘鳢', emoji: '🐟', rarity: 'common', baseSize: [0.3, 2], baseXP: [6, 10], baseVal: [4, 8], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '喜欢趴在石头上，一动不动的耐心猎手。' },
+  { id: 'freshwater_goby', name: '虾虎鱼', emoji: '🐟', rarity: 'common', baseSize: [0.1, 1], baseXP: [5, 7], baseVal: [3, 6], scenes: ['lake', 'stream'], difficulty: 1, behavior: 'steady', flavorText: '腹鳍愈合成吸盘，牢牢吸附在石头上。' },
+  { id: 'sunfish', name: '太阳鱼', emoji: '🐠', rarity: 'common', baseSize: [0.5, 2.5], baseXP: [7, 10], baseVal: [4, 9], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '在阳光下闪耀着蓝绿色的光芒。' },
+  { id: 'pacu', name: '淡水白鲳', emoji: '🐟', rarity: 'common', baseSize: [1, 4], baseXP: [8, 12], baseVal: [5, 11], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '牙齿像人类一样整齐，以果实和坚果为食。' },
+  { id: 'tilapia', name: '罗非鱼', emoji: '🐟', rarity: 'common', baseSize: [0.5, 3.5], baseXP: [7, 12], baseVal: [5, 10], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '适应力极强的热带鱼，几乎任何水域都能生存。' },
+  { id: 'chinese_hooksnout', name: '马口鱼', emoji: '🐟', rarity: 'common', baseSize: [0.3, 2], baseXP: [6, 10], baseVal: [4, 8], scenes: ['stream'], difficulty: 2, behavior: 'steady', flavorText: '嘴边有一道独特的缺口，是溪流中的顶级小掠食者。' },
+  { id: 'widefin_minnow', name: '宽鳍鱲', emoji: '🐠', rarity: 'common', baseSize: [0.2, 1.8], baseXP: [6, 9], baseVal: [4, 8], scenes: ['stream'], difficulty: 2, behavior: 'steady', flavorText: '繁殖季节的雄性浑身散发金属般的光泽。' },
+  { id: 'chinese_golden_loach', name: '华鳈', emoji: '🐟', rarity: 'common', baseSize: [0.2, 1.5], baseXP: [6, 9], baseVal: [4, 7], scenes: ['stream'], difficulty: 2, behavior: 'steady', flavorText: '体侧的金色线条在阳光下若隐若现。' },
+  { id: 'spotted_steed', name: '花䱻', emoji: '🐟', rarity: 'common', baseSize: [0.4, 3], baseXP: [7, 11], baseVal: [5, 10], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '黑色的斑点散布全身，宛如繁星点点。' },
+  { id: 'snake_gudgeon', name: '蛇鮈', emoji: '🐟', rarity: 'common', baseSize: [0.3, 2.5], baseXP: [6, 10], baseVal: [4, 8], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '身体细长如蛇，在石缝间穿行。' },
+  { id: 'false_gudgeon', name: '似鮈', emoji: '🐟', rarity: 'common', baseSize: [0.2, 1.5], baseXP: [5, 8], baseVal: [3, 7], scenes: ['stream'], difficulty: 1, behavior: 'steady', flavorText: '与棒花鱼极为相似，但唇部构造不同。' },
+  { id: 'blackfin_gudgeon', name: '黑鳍鳈', emoji: '🐟', rarity: 'common', baseSize: [0.2, 1.8], baseXP: [6, 9], baseVal: [4, 7], scenes: ['stream'], difficulty: 2, behavior: 'steady', flavorText: '鳍条边缘的黑色条纹是它独特的标志。' },
+  { id: 'dwarf_gudgeon', name: '小鳈', emoji: '🐟', rarity: 'common', baseSize: [0.1, 0.8], baseXP: [5, 7], baseVal: [3, 5], scenes: ['stream'], difficulty: 1, behavior: 'steady', flavorText: '最小的鳈鱼之一，栖息在清澈的溪流中。' },
+  { id: 'longsnout_chub', name: '长吻鱥', emoji: '🐟', rarity: 'common', baseSize: [0.2, 1.5], baseXP: [6, 9], baseVal: [3, 7], scenes: ['stream'], difficulty: 2, behavior: 'steady', flavorText: '尖长的吻部帮助它在水底翻找食物。' },
+  { id: 'lin_dace', name: '林氏细鲫', emoji: '🐟', rarity: 'common', baseSize: [0.1, 1], baseXP: [5, 7], baseVal: [3, 5], scenes: ['stream'], difficulty: 1, behavior: 'steady', flavorText: '极小的体形让它能在最浅的水流中生活。' },
+  { id: 'striped_barb', name: '条纹小鲃', emoji: '🐠', rarity: 'common', baseSize: [0.2, 1.2], baseXP: [6, 9], baseVal: [4, 8], scenes: ['stream'], difficulty: 2, behavior: 'steady', flavorText: '体侧四条黑色纵纹清晰可见，活泼好动。' },
+  { id: 'variegated_barb', name: '异纹小鲃', emoji: '🐠', rarity: 'common', baseSize: [0.2, 1], baseXP: [5, 9], baseVal: [4, 7], scenes: ['stream'], difficulty: 2, behavior: 'steady', flavorText: '花纹变化多端，每一条都独一无二。' },
+  { id: 'acrossocheilus', name: '光唇鱼', emoji: '🐟', rarity: 'common', baseSize: [0.3, 2], baseXP: [7, 10], baseVal: [4, 9], scenes: ['stream'], difficulty: 2, behavior: 'steady', flavorText: '下唇特化为刮食器，能啃食石头上的藻类。' },
+  { id: 'white_snout_barb', name: '白甲鱼', emoji: '🐟', rarity: 'common', baseSize: [0.5, 3.5], baseXP: [7, 12], baseVal: [5, 10], scenes: ['stream'], difficulty: 2, behavior: 'steady', flavorText: '体型较大，是溪流中的优雅绅士。' },
+  { id: 'springfish', name: '泉水鱼', emoji: '🐟', rarity: 'common', baseSize: [0.3, 2], baseXP: [6, 10], baseVal: [4, 8], scenes: ['stream'], difficulty: 2, behavior: 'steady', flavorText: '只在最清澈的泉水中出现，水质不好的地方绝迹。' },
+  { id: 'lip_gudgeon', name: '唇䱻', emoji: '🐟', rarity: 'common', baseSize: [0.4, 3], baseXP: [7, 11], baseVal: [5, 9], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'steady', flavorText: '肉质厚实的嘴唇是它最显著的特征。' },
+  { id: 'copper_fish', name: '铜鱼', emoji: '🐟', rarity: 'common', baseSize: [0.5, 3], baseXP: [8, 13], baseVal: [6, 12], scenes: ['lake', 'stream'], difficulty: 3, behavior: 'steady', flavorText: '鳞片泛着古铜色的光泽，沉稳而古老。' },
+  { id: 'redeye_chub', name: '赤眼鳟', emoji: '🐟', rarity: 'common', baseSize: [0.5, 4], baseXP: [8, 14], baseVal: [5, 13], scenes: ['lake', 'stream'], difficulty: 3, behavior: 'steady', flavorText: '眼睛上缘有一抹鲜红，像是涂了胭脂。' },
+  { id: 'green_crab', name: '青蟹', emoji: '🦀', rarity: 'uncommon', baseSize: [0.5, 5], baseXP: [15, 22], baseVal: [18, 28], scenes: ['lake', 'stream', 'bay'], difficulty: 3, behavior: 'sprint', flavorText: '挥舞着大钳子横行霸道，肉质鲜美无比。' },
+  { id: 'grouper', name: '石斑鱼', emoji: '🐟', rarity: 'uncommon', baseSize: [1, 6], baseXP: [18, 28], baseVal: [20, 35], scenes: ['lake', 'bay'], difficulty: 4, behavior: 'sprint', flavorText: '岩石间的潜伏者，花纹与岩石融为一体。' },
+  { id: 'river_eel', name: '河鳗', emoji: '🐡', rarity: 'uncommon', baseSize: [0.5, 7], baseXP: [16, 28], baseVal: [18, 32], scenes: ['lake', 'stream', 'bay'], difficulty: 4, behavior: 'sprint', flavorText: '身材修长如蛇，滑不留手的逃脱大师。' },
+  { id: 'snakehead', name: '黑鱼', emoji: '🐟', rarity: 'uncommon', baseSize: [1, 7], baseXP: [20, 32], baseVal: [22, 38], scenes: ['lake', 'stream', 'bay'], difficulty: 5, behavior: 'sprint', flavorText: '凶猛的掠食者，能直接呼吸空气，离水也能存活。' },
+  { id: 'catfish', name: '鲶鱼', emoji: '🐡', rarity: 'uncommon', baseSize: [1.5, 8], baseXP: [18, 30], baseVal: [20, 35], scenes: ['lake', 'stream', 'bay'], difficulty: 4, behavior: 'sprint', flavorText: '夜间活动的巨兽，两根长须在水中探测一切。' },
+  { id: 'mandarin_fish', name: '鳜鱼', emoji: '🐟', rarity: 'uncommon', baseSize: [1, 5], baseXP: [22, 34], baseVal: [25, 40], scenes: ['lake', 'stream', 'bay'], difficulty: 5, behavior: 'sprint', flavorText: '桃花流水鳜鱼肥，肉质细嫩被誉为淡水鱼之王。' },
+  { id: 'rice_eel', name: '黄鳝', emoji: '🐡', rarity: 'uncommon', baseSize: [0.5, 6], baseXP: [16, 26], baseVal: [18, 30], scenes: ['lake', 'stream'], difficulty: 3, behavior: 'sprint', flavorText: '稻田里的长条居民，能在泥中掘洞生存。' },
+  { id: 'rainbow_trout', name: '虹鳟', emoji: '🐟', rarity: 'uncommon', baseSize: [0.8, 5], baseXP: [20, 30], baseVal: [22, 35], scenes: ['stream', 'bay'], difficulty: 4, behavior: 'sprint', flavorText: '体侧那一抹彩虹般的光泽，是大自然最绚丽的杰作。' },
+  { id: 'perch', name: '鲈鱼', emoji: '🐟', rarity: 'uncommon', baseSize: [1, 5.5], baseXP: [18, 30], baseVal: [20, 36], scenes: ['lake', 'bay'], difficulty: 3, behavior: 'sprint', flavorText: '江上往来人，但爱鲈鱼美。千年来文人墨客的挚爱。' },
+  { id: 'pikeperch', name: '梭鲈', emoji: '🐟', rarity: 'uncommon', baseSize: [1.5, 6], baseXP: [20, 32], baseVal: [22, 38], scenes: ['lake', 'bay'], difficulty: 4, behavior: 'sprint', flavorText: '牙齿锋利，身形如梭，是高效的猎手。' },
+  { id: 'largemouth_bass', name: '加州鲈', emoji: '🐟', rarity: 'uncommon', baseSize: [1.5, 6], baseXP: [20, 32], baseVal: [22, 38], scenes: ['lake', 'bay'], difficulty: 4, behavior: 'sprint', flavorText: '攻击欲望极强，见饵就咬，钓鱼人的最爱。' },
+  { id: 'blotched_snakehead', name: '斑鳢', emoji: '🐟', rarity: 'uncommon', baseSize: [1, 6.5], baseXP: [18, 30], baseVal: [20, 35], scenes: ['lake', 'stream'], difficulty: 4, behavior: 'sprint', flavorText: '与黑鱼近亲，斑纹更加明显绚丽。' },
+  { id: 'moon_snakehead', name: '月鳢', emoji: '🐟', rarity: 'uncommon', baseSize: [0.8, 5], baseXP: [17, 28], baseVal: [18, 32], scenes: ['lake', 'stream'], difficulty: 3, behavior: 'sprint', flavorText: '尾鳍基部有一个酷似月亮的圆形斑纹。' },
+  { id: 'dusky_sleeper', name: '沙塘鳢', emoji: '🐟', rarity: 'uncommon', baseSize: [0.5, 4], baseXP: [16, 26], baseVal: [18, 30], scenes: ['lake', 'bay'], difficulty: 3, behavior: 'sprint', flavorText: '肉质极为鲜嫩，是江南人最爱的河鲜之一。' },
+  { id: 'yellowcheek', name: '鳡鱼', emoji: '🐟', rarity: 'uncommon', baseSize: [2, 8], baseXP: [22, 34], baseVal: [24, 38], scenes: ['lake', 'stream', 'bay'], difficulty: 5, behavior: 'sprint', flavorText: '淡水中的鲨鱼，速度飞快，力量惊人。' },
+  { id: 'topmouth_culter', name: '翘嘴鲌', emoji: '🐟', rarity: 'uncommon', baseSize: [1, 6], baseXP: [20, 32], baseVal: [22, 36], scenes: ['lake', 'stream', 'bay'], difficulty: 4, behavior: 'sprint', flavorText: '向上翘起的嘴巴是它最明显的特征，以小鱼为食。' },
+  { id: 'mongolian_redfin', name: '蒙古红鲌', emoji: '🐟', rarity: 'uncommon', baseSize: [1, 5.5], baseXP: [18, 30], baseVal: [20, 34], scenes: ['lake', 'stream', 'bay'], difficulty: 4, behavior: 'sprint', flavorText: '尾鳍和臀鳍呈现鲜艳的橙红色。' },
+  { id: 'bigeye_mandarin', name: '大眼鳜', emoji: '🐟', rarity: 'uncommon', baseSize: [0.8, 4.5], baseXP: [18, 30], baseVal: [22, 36], scenes: ['lake', 'stream'], difficulty: 4, behavior: 'sprint', flavorText: '双眼突出，在昏暗的水中视力极佳。' },
+  { id: 'ripple_mandarin', name: '波纹鳜', emoji: '🐟', rarity: 'uncommon', baseSize: [0.8, 4], baseXP: [17, 28], baseVal: [20, 34], scenes: ['lake', 'stream'], difficulty: 3, behavior: 'sprint', flavorText: '身上的波纹图案如水波荡漾，极具美感。' },
+  { id: 'longbody_mandarin', name: '长身鳜', emoji: '🐟', rarity: 'uncommon', baseSize: [0.8, 5], baseXP: [18, 30], baseVal: [22, 36], scenes: ['lake', 'stream'], difficulty: 4, behavior: 'sprint', flavorText: '身体比一般鳜鱼更加修长，游泳速度更快。' },
+  { id: 'aulopus', name: '鳌花鱼', emoji: '🐟', rarity: 'uncommon', baseSize: [0.8, 4.5], baseXP: [20, 32], baseVal: [24, 38], scenes: ['lake', 'stream', 'bay'], difficulty: 4, behavior: 'sprint', flavorText: '与鳜鱼齐名的美味，桃花盛开时最肥美。' },
+  { id: 'silver_xenocypris', name: '银鲴', emoji: '🐟', rarity: 'uncommon', baseSize: [0.5, 4], baseXP: [16, 26], baseVal: [16, 28], scenes: ['lake', 'stream', 'bay'], difficulty: 3, behavior: 'sprint', flavorText: '全身银白，游动时反射出耀眼的金属光泽。' },
+  { id: 'yellowtail_xenocypris', name: '黄尾鲴', emoji: '🐟', rarity: 'uncommon', baseSize: [0.5, 4], baseXP: [16, 26], baseVal: [16, 28], scenes: ['lake', 'stream', 'bay'], difficulty: 3, behavior: 'sprint', flavorText: '尾鳍末端呈现出独特的金黄色。' },
+  { id: 'acheilognathus', name: '鱊鱼', emoji: '🐠', rarity: 'uncommon', baseSize: [0.3, 1.5], baseXP: [15, 22], baseVal: [15, 25], scenes: ['lake', 'stream'], difficulty: 2, behavior: 'sprint', flavorText: '精致的彩色小鱼，闪耀着珍珠般的光泽。' },
+  { id: 'spiny_eel', name: '刺鳅', emoji: '🐡', rarity: 'uncommon', baseSize: [0.5, 4.5], baseXP: [17, 26], baseVal: [18, 30], scenes: ['lake', 'stream', 'bay'], difficulty: 3, behavior: 'sprint', flavorText: '背鳍前方有一排尖锐的小刺，是它的防御武器。' },
+  { id: 'knife_eel', name: '刀鳅', emoji: '🐡', rarity: 'uncommon', baseSize: [0.5, 5], baseXP: [18, 28], baseVal: [20, 32], scenes: ['lake', 'stream', 'bay'], difficulty: 3, behavior: 'sprint', flavorText: '身体像一把弯刀，是水中的功夫高手。' },
+  { id: 'chinese_spiny_eel', name: '中华刺鳅', emoji: '🐡', rarity: 'uncommon', baseSize: [0.5, 4], baseXP: [17, 28], baseVal: [18, 30], scenes: ['lake', 'stream', 'bay'], difficulty: 3, behavior: 'sprint', flavorText: '中国特有的刺鳅品种，花纹更加精美。' },
+  { id: 'chinese_sucker', name: '胭脂鱼', emoji: '🐠', rarity: 'uncommon', baseSize: [1.5, 7], baseXP: [22, 34], baseVal: [25, 40], scenes: ['lake', 'stream', 'bay'], difficulty: 5, behavior: 'sprint', flavorText: '成年后体色如胭脂般艳丽，有"亚洲美人"之称。' },
+  { id: 'octopus', name: '章鱼', emoji: '🐙', rarity: 'rare', baseSize: [2, 12], baseXP: [50, 85], baseVal: [65, 125], scenes: ['bay', 'pool'], difficulty: 6, behavior: 'sine', flavorText: '八条触手灵活无比，是最聪明的无脊椎动物。' },
+  { id: 'tiger_shark', name: '虎鲨', emoji: '🦈', rarity: 'rare', baseSize: [3, 14], baseXP: [60, 95], baseVal: [80, 140], scenes: ['bay', 'pool'], difficulty: 7, behavior: 'sine', flavorText: '身上如虎纹般的条纹是它名字的由来，凶猛无畏。' },
+  { id: 'manta_ray', name: '魔鬼鱼', emoji: '🐟', rarity: 'rare', baseSize: [3, 15], baseXP: [55, 90], baseVal: [75, 145], scenes: ['bay', 'pool'], difficulty: 7, behavior: 'sine', flavorText: '展开宽大的胸鳍在水中滑翔，宛如一只黑色的风筝。' },
+  { id: 'sea_turtle', name: '海龟', emoji: '🐟', rarity: 'rare', baseSize: [5, 14], baseXP: [50, 80], baseVal: [70, 130], scenes: ['bay', 'pool'], difficulty: 5, behavior: 'sine', flavorText: '穿越了亿万年的时光，是海洋中的长寿智者。' },
+  { id: 'golden_arowana', name: '金龙', emoji: '🐟', rarity: 'rare', baseSize: [2, 10], baseXP: [70, 100], baseVal: [100, 150], scenes: ['pool'], difficulty: 7, behavior: 'sine', flavorText: '闪耀着金色光芒的远古鱼类，被视为祥瑞的象征。' },
+  { id: 'silver_arowana', name: '银龙', emoji: '🐟', rarity: 'rare', baseSize: [2, 10], baseXP: [65, 95], baseVal: [90, 140], scenes: ['pool'], difficulty: 7, behavior: 'sine', flavorText: '银白如镜的身体在水中缓缓游动，姿态优雅。' },
+  { id: 'peacock_bass', name: '皇冠三间', emoji: '🐟', rarity: 'rare', baseSize: [2, 10], baseXP: [60, 90], baseVal: [80, 130], scenes: ['stream', 'bay', 'pool'], difficulty: 6, behavior: 'sine', flavorText: '尾柄上三个黑色圆斑如同皇冠上的宝石。' },
+  { id: 'bahia_bass', name: '巴西亚', emoji: '🐟', rarity: 'rare', baseSize: [1.5, 8], baseXP: [55, 85], baseVal: [75, 125], scenes: ['stream', 'bay', 'pool'], difficulty: 6, behavior: 'sine', flavorText: '金灿灿的身体上撒满了金色的碎点。' },
+  { id: 'emperor_cichlid', name: '帝王三间', emoji: '🐟', rarity: 'rare', baseSize: [2, 12], baseXP: [65, 95], baseVal: [85, 140], scenes: ['stream', 'bay', 'pool'], difficulty: 6, behavior: 'sine', flavorText: '气场强大的大型慈鲷，名副其实的水中帝王。' },
+  { id: 'arapaima', name: '巨骨舌鱼', emoji: '🐟', rarity: 'rare', baseSize: [5, 15], baseXP: [80, 100], baseVal: [100, 150], scenes: ['pool'], difficulty: 7, behavior: 'sine', flavorText: '世界上最大的淡水鱼之一，鳞片坚硬如铠甲。' },
+  { id: 'red_arowana', name: '红龙鱼', emoji: '🐠', rarity: 'rare', baseSize: [1.5, 8], baseXP: [75, 100], baseVal: [110, 150], scenes: ['pool'], difficulty: 7, behavior: 'sine', flavorText: '通体鲜红如火，是龙鱼中的极品王者。' },
+  { id: 'crossback_golden', name: '过背金龙', emoji: '🐟', rarity: 'rare', baseSize: [1.5, 9], baseXP: [75, 100], baseVal: [105, 150], scenes: ['pool'], difficulty: 7, behavior: 'sine', flavorText: '金色鳞片越过背部最顶部的一排，品相顶级。' },
+  { id: 'snow_arowana', name: '雪龙', emoji: '🐟', rarity: 'rare', baseSize: [1.5, 8], baseXP: [80, 100], baseVal: [115, 150], scenes: ['pool'], difficulty: 7, behavior: 'sine', flavorText: '通体银白如雪，是一种极为罕见的白化变异。' },
+  { id: 'thai_tiger_fish', name: '泰国虎鱼', emoji: '🐟', rarity: 'rare', baseSize: [2, 9], baseXP: [55, 85], baseVal: [70, 120], scenes: ['stream', 'bay', 'pool'], difficulty: 5, behavior: 'sine', flavorText: '黑黄相间的条纹是对称均匀，如猛虎般威风。' },
+  { id: 'indonesian_tiger_fish', name: '印尼虎鱼', emoji: '🐟', rarity: 'rare', baseSize: [2, 8], baseXP: [50, 80], baseVal: [65, 115], scenes: ['stream', 'bay', 'pool'], difficulty: 5, behavior: 'sine', flavorText: '条纹不如泰国虎鱼规则，但也颇有野性之美。' },
+  { id: 'threestripe_tiger', name: '三纹虎', emoji: '🐟', rarity: 'rare', baseSize: [1.5, 7], baseXP: [55, 85], baseVal: [75, 125], scenes: ['stream', 'bay', 'pool'], difficulty: 5, behavior: 'sine', flavorText: '身上三条黑色纹路均匀分布，品相极佳。' },
+  { id: 'pearl_stingray', name: '珍珠魟', emoji: '🐡', rarity: 'rare', baseSize: [3, 13], baseXP: [60, 90], baseVal: [80, 135], scenes: ['bay', 'pool'], difficulty: 6, behavior: 'sine', flavorText: '圆盘般的身体上点缀着珍珠般的小斑点。' },
+  { id: 'flower_stingray', name: '梅花魟', emoji: '🐡', rarity: 'rare', baseSize: [3, 12], baseXP: [60, 90], baseVal: [85, 140], scenes: ['bay', 'pool'], difficulty: 6, behavior: 'sine', flavorText: '花纹如寒梅绽放，是魟鱼中花纹最美的品种。' },
+  { id: 'royal_pleco', name: '皇冠豹', emoji: '🐟', rarity: 'rare', baseSize: [2, 9], baseXP: [50, 80], baseVal: [65, 115], scenes: ['stream', 'bay', 'pool'], difficulty: 5, behavior: 'sine', flavorText: '头部隆起的肉冠是它的标志，异型鱼中的王者。' },
+  { id: 'blue_eye_pleco', name: '蓝眼皇冠豹', emoji: '🐟', rarity: 'rare', baseSize: [2, 8], baseXP: [55, 85], baseVal: [70, 120], scenes: ['stream', 'bay', 'pool'], difficulty: 5, behavior: 'sine', flavorText: '一双湛蓝色的眼睛格外迷人，令人沉醉。' },
+  { id: 'giant_squid', name: '大王乌贼', emoji: '🦑', rarity: 'epic', baseSize: [10, 28], baseXP: [200, 300], baseVal: [350, 500], scenes: ['bay', 'pool'], difficulty: 8, behavior: 'erratic', flavorText: '深海传说中最神秘的存在，与抹香鲸在深渊中搏斗。' },
+  { id: 'sperm_whale', name: '抹香鲸', emoji: '🐋', rarity: 'epic', baseSize: [15, 30], baseXP: [220, 300], baseVal: [380, 500], scenes: ['bay', 'pool'], difficulty: 9, behavior: 'erratic', flavorText: '深潜能力最强的鲸类，能潜入两千米以下的深渊。' },
+  { id: 'oarfish', name: '深海皇带鱼', emoji: '🐟', rarity: 'epic', baseSize: [8, 25], baseXP: [180, 280], baseVal: [300, 450], scenes: ['pool'], difficulty: 8, behavior: 'erratic', flavorText: '身体细长如银色丝带，古人认为是龙宫的使者。' },
+  { id: 'megamouth_shark', name: '巨口鲨', emoji: '🦈', rarity: 'epic', baseSize: [10, 25], baseXP: [160, 250], baseVal: [280, 420], scenes: ['bay', 'pool'], difficulty: 7, behavior: 'erratic', flavorText: '巨大的嘴巴张开如深渊，以滤食浮游生物为生。' },
+  { id: 'manta_king', name: '蝠鲼之王', emoji: '🐟', rarity: 'epic', baseSize: [12, 28], baseXP: [180, 280], baseVal: [320, 480], scenes: ['bay', 'pool'], difficulty: 8, behavior: 'erratic', flavorText: '翼展能达七米，跃出水面如飞鸟般壮观。' },
+  { id: 'swordfish', name: '剑鱼', emoji: '🐟', rarity: 'epic', baseSize: [8, 24], baseXP: [170, 260], baseVal: [280, 430], scenes: ['bay', 'pool'], difficulty: 8, behavior: 'erratic', flavorText: '上颌延长如利剑，能以闪电般的速度刺穿猎物。' },
+  { id: 'sailfish', name: '旗鱼', emoji: '🐟', rarity: 'epic', baseSize: [7, 22], baseXP: [180, 270], baseVal: [300, 450], scenes: ['bay', 'pool'], difficulty: 9, behavior: 'erratic', flavorText: '时速可达110公里，是海洋中最快的猎手。' },
+  { id: 'blue_marlin', name: '蓝马林', emoji: '🐟', rarity: 'epic', baseSize: [8, 25], baseXP: [190, 290], baseVal: [320, 480], scenes: ['bay', 'pool'], difficulty: 9, behavior: 'erratic', flavorText: '背上闪耀着电光蓝的条纹，海明威笔下的传奇。' },
+  { id: 'sunfish_king', name: '翻车鱼王', emoji: '🐡', rarity: 'epic', baseSize: [10, 28], baseXP: [140, 220], baseVal: [220, 360], scenes: ['bay', 'pool'], difficulty: 6, behavior: 'erratic', flavorText: '扁平如碟的巨型怪鱼，躺在海面上晒太阳。' },
+  { id: 'anglerfish', name: '深海鮟鱇', emoji: '🐟', rarity: 'epic', baseSize: [5, 15], baseXP: [150, 240], baseVal: [250, 400], scenes: ['pool'], difficulty: 8, behavior: 'erratic', flavorText: '头顶上发光的诱饵在黑暗中闪烁，引诱无知的小鱼。' },
+  { id: 'lanternfish_king', name: '灯笼鱼王', emoji: '🐟', rarity: 'epic', baseSize: [6, 18], baseXP: [160, 250], baseVal: [260, 410], scenes: ['pool'], difficulty: 8, behavior: 'erratic', flavorText: '全身布满发光器，在深海中如移动的星空。' },
+  { id: 'mosasaurus', name: '沧龙', emoji: '🐋', rarity: 'epic', baseSize: [18, 30], baseXP: [240, 300], baseVal: [400, 500], scenes: ['bay', 'pool'], difficulty: 9, behavior: 'erratic', flavorText: '白垩纪海洋的终极霸主，据说在深海中仍有幸存者。' },
+  { id: 'kingfish', name: '传说鱼王', emoji: '👑', rarity: 'legendary', baseSize: [30, 100], baseXP: [3000, 5000], baseVal: [9999, 9999], scenes: ['pool'], difficulty: 10, behavior: 'random', flavorText: '从远古时代存活至今的鱼中帝王，传说它的鳞片都是纯金打造。' },
+  { id: 'goldendragon', name: '金龙鱼', emoji: '🐉', rarity: 'legendary', baseSize: [15, 40], baseXP: [1000, 2000], baseVal: [2000, 4000], scenes: ['pool'], difficulty: 9, behavior: 'random', flavorText: '浑身散发着金色祥光的神话生物，相传能呼风唤雨。' },
+  { id: 'moonwhale', name: '月光鲸', emoji: '🐳', rarity: 'legendary', baseSize: [20, 60], baseXP: [1500, 3000], baseVal: [2500, 5000], scenes: ['pool'], difficulty: 9, behavior: 'random', flavorText: '只在满月之夜浮出水面，鲸身散发着柔和的月光。' },
+  { id: 'starsea', name: '星海精灵', emoji: '✨', rarity: 'legendary', baseSize: [8, 20], baseXP: [800, 1500], baseVal: [1500, 3000], scenes: ['pool'], difficulty: 8, behavior: 'random', flavorText: '身体透明如水晶，体内闪烁着银河般的点点星光。' },
+  { id: 'ancientcarp', name: '千年古鲤', emoji: '🐟', rarity: 'legendary', baseSize: [25, 50], baseXP: [2000, 3500], baseVal: [3000, 6000], scenes: ['pool'], difficulty: 8, behavior: 'random', flavorText: '修行千年的古鲤，据说越过龙门便可化身为龙。' },
+];
+</script>
+</body>
+</html>
