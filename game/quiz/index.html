@@ -2,1529 +2,2663 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>知识大冲关</title>
+    <script src="https://static.cloudbase.net/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
+    <script src="../../../common.js"></script>
     <script src="tiku.js"></script>
-    <title>知识问答大赛</title>
     <style>
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --accent: #4895ef;
-            --danger: #f72585;
-            --success: #4cc9f0;
-            --dark: #2b2d42;
-            --light: #f8f9fa;
-            --gray: #adb5bd;
-            --white: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #e0e7ff, #d1e7fa, #fae9fe);
-            color: var(--dark);
-            min-height: 100vh;
-            line-height: 1.6;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            width: 95%;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-        
-        h1 {
-            font-size: 3rem;
-            color: var(--primary);
-            font-weight: 800;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 20px;
-            box-shadow: var(--glass-shadow);
-            padding: 3rem;
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
-            border: 1px solid var(--glass-border);
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-        }
-        
-        .screen {
-            display: none;
-        }
-        
-        .screen.active {
-            display: block;
-            animation: fadeIn 0.4s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 2.2rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: none;
-            outline: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--secondary);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        }
-        
-        .btn-secondary {
-            background-color: var(--white);
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-        
-        .btn-secondary:hover {
-            background-color: rgba(67, 97, 238, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-            color: var(--white);
-        }
-        
-        .btn-danger:hover {
-            background-color: #d90452;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        }
-        
-        .btn-group {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-            justify-content: center;
-        }
-        
-        .btn-lg {
-            padding: 1.2rem 2.5rem;
-            font-size: 1.3rem;
-        }
-        
-        .form-group {
-            margin-bottom: 2rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.8rem;
-            font-weight: 700;
-            color: var(--dark);
-            font-size: 1.2rem;
-        }
-        
-        select {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            border: 2px solid rgba(173, 181, 189, 0.3);
-            border-radius: 12px;
-            font-size: 1.2rem;
-            transition: border 0.2s ease;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-        
-        select:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
-        }
-        
-        .question {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
-            text-align: center;
-            padding: 0;
-        }
-        
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
+:root {
+    --bg-dark: #f4f5f7; --bg-mid: #ffffff; --accent: #e88213; --accent2: #eef0f5;
+    --gold: #e88213; --green: #43a047; --red: #e53935; --blue: #448aff;
+    --text: #1a1a2e; --text-dim: #8a8fa0;
+    --card-bg: #ffffff; --card-border: rgba(0,0,0,.08);
+    --glass: rgba(255,255,255,.95);
+    --anime-glow: 0 0 15px rgba(232,130,19,.06);
+    --anime-shadow: 0 8px 32px rgba(0,0,0,.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: 'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    background: var(--bg-dark); color: var(--text);
+    min-height: 100vh; overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+.screen { display:none; min-height:100vh; flex-direction:column; align-items:center; justify-content:center; padding:16px; }
+.screen.active { display:flex; animation: fadeIn .4s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+@keyframes countIn { from{transform:scale(2);opacity:0} to{transform:scale(1);opacity:1} }
+@keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes scaleIn { from{transform:scale(.85);opacity:0} to{transform:scale(1);opacity:1} }
 
-        .option-box {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 18px;
-            padding: 1.5rem;
-            border: 1px solid rgba(67, 97, 238, 0.3);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+#menu-screen {
+    background: #ffffff;
+    position: relative; overflow: hidden;
+}
+#menu-screen::before {
+    content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+    background:
+        radial-gradient(ellipse 60% 50% at 25% 75%, rgba(255,165,0,.08) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 75% 25%, rgba(0,188,212,.06) 0%, transparent 70%);
+}
+#menu-screen::after {
+    content:''; position:absolute; inset:0; z-index:0;
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(0,0,0,.02) 49px, rgba(0,0,0,.02) 50px),
+        repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(0,0,0,.02) 49px, rgba(0,0,0,.02) 50px);
+    pointer-events: none;
+}
+.menu-title {
+    font-size: 3rem; font-weight: 900; letter-spacing: 16px;
+    color: #1a1a2e; text-transform: uppercase;
+    position: relative; z-index: 1; margin-bottom: 40px;
+    text-shadow: 0 2px 4px rgba(0,0,0,.08);
+}
+.menu-title::after {
+    content: ''; display: block; width: 60px; height: 3px;
+    background: linear-gradient(90deg, #ff8f00, #00acc1);
+    margin: 12px auto 0;
+}
+.menu-btns { display: flex; gap: 40px; position: relative; z-index:1; justify-content: center; align-items: stretch; }
+.menu-btn {
+    width: 240px; height: 120px; border-radius: 0; font-size: 1.3rem;
+    font-weight: 900; cursor: pointer;
+    transition: all .15s ease-out; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; position: relative; overflow: hidden;
+    border: 2px solid;
+    text-transform: uppercase; letter-spacing: 6px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+.menu-btn::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
+    pointer-events: none;
+}
+.menu-btn::after {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.06) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform .4s ease-out;
+    pointer-events: none;
+}
+.menu-btn:hover::after {
+    transform: translateX(100%);
+}
+.menu-btn:active { transform: scale(.97); }
+.menu-btn .mode-label { font-size: 1.8rem; font-weight: 900; letter-spacing: 10px; position:relative; z-index:1; }
+.menu-btn .mode-desc { font-size: .75rem; font-weight: 700; letter-spacing: 4px; position:relative; z-index:1; opacity:.7; }
+.btn-solo {
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f1923 100%);
+    color: #ff8f00;
+    border-color: #ff8f00;
+    box-shadow: 0 2px 0 #ff8f00, 0 4px 12px rgba(0,0,0,.2);
+}
+.btn-solo:hover {
+    background: linear-gradient(180deg, #1e2240 0%, #1a1a2e 100%);
+    box-shadow: 0 2px 0 #ffa000, 0 4px 20px rgba(255,143,0,.25);
+    border-color: #ffa000;
+}
+.btn-online {
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f1923 100%);
+    color: #00acc1;
+    border-color: #00acc1;
+    box-shadow: 0 2px 0 #00acc1, 0 4px 12px rgba(0,0,0,.2);
+}
+.btn-online:hover {
+    background: linear-gradient(180deg, #1e2240 0%, #1a1a2e 100%);
+    box-shadow: 0 2px 0 #26c6da, 0 4px 20px rgba(0,172,193,.25);
+    border-color: #26c6da;
+}
+@media (max-width: 420px) {
+    .menu-title { font-size: 2rem; letter-spacing: 10px; margin-bottom: 28px; }
+    .menu-title::after { width: 40px; height: 2px; margin-top: 8px; }
+    .menu-btns { flex-direction: column; align-items: center; gap: 16px; padding: 0 16px; }
+    .menu-btn { width: 100%; height: auto; min-height: 80px; padding: 20px 16px; aspect-ratio: auto; }
+    .menu-btn .mode-label { font-size: 1.5rem; letter-spacing: 8px; white-space: nowrap; }
+    .menu-btn .mode-desc { font-size: .7rem; letter-spacing: 3px; white-space: nowrap; }
+}
 
-        .option-text {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            font-weight: 600;
-            font-size: 1.3rem;
-        }
+#room-screen {
+    background: linear-gradient(160deg, #f4f5f7 0%, #ffffff 100%);
+    padding-top: 20px; justify-content: flex-start;
+}
+.room-top { display:flex; align-items:center; gap:12px; margin-bottom: 16px; width:100%; max-width:500px; }
+.room-header { font-size: 1.5rem; font-weight: 800; color: var(--gold); letter-spacing: 3px; }
+.room-actions { display:flex; gap:10px; margin-bottom: 16px; width:100%; max-width:500px; }
+.btn-create {
+    padding: 12px 24px; border-radius: 2px; font-size: .95rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
+    transition: all .2s; letter-spacing: 1px; flex:1;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.btn-create:active { transform: scale(.96); }
+.btn-refresh {
+    padding: 12px 20px; border-radius: 12px; font-size: .95rem; font-weight: 700;
+    cursor: pointer; border: 2px solid var(--card-border);
+    background: var(--card-bg); color: var(--text-dim); transition: all .2s;
+}
+.btn-back {
+    padding: 10px 28px; border-radius: 10px; font-size: .9rem; font-weight: 700;
+    cursor: pointer; border: 2px solid var(--card-border);
+    background: var(--card-bg); color: var(--text-dim); transition: all .2s; margin-top: 12px;
+}
+.btn-back:hover { border-color: var(--accent); color: var(--accent); }
+#status-bar {
+    font-size: .9rem; font-weight: 600; text-align: center;
+    color: var(--text-dim); min-height: 24px; margin-bottom: 12px;
+    padding: 6px 16px; border-radius: 20px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    width: 100%; max-width: 500px;
+}
+#status-bar.ok { color: var(--green); border-color: rgba(0,230,118,.2); }
+#status-bar.err { color: var(--red); border-color: rgba(255,23,68,.2); }
+.room-list {
+    width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 10px;
+    max-height: 55vh; overflow-y: auto; padding-right: 4px;
+}
+.room-list::-webkit-scrollbar { width: 4px; }
+.room-list::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 2px; }
+.room-list-empty { text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: .95rem; }
+.room-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 4px; padding: 14px 16px;
+    transition: all .25s; cursor: pointer;
+    display: flex; align-items: center; gap: 14px;
+}
+.room-card:hover { border-color: rgba(245,197,24,.3); }
+.room-card.full { opacity: .5; cursor: default; }
+.room-card.full:hover { border-color: var(--card-border); }
+.room-card.playing { opacity: .5; cursor: default; }
+.room-card.playing:hover { border-color: var(--card-border); }
+.room-card-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 900; color: var(--gold); flex-shrink:0;
+}
+.room-card-info { flex:1; min-width:0; }
+.room-card-name {
+    font-size: 1rem; font-weight: 700; color: var(--gold);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;
+}
+.room-card-meta { display:flex; gap:10px; font-size: .75rem; color: var(--text-dim); flex-wrap:wrap; }
+.room-card-meta span { display:flex; align-items:center; gap:3px; }
+.room-card-badge {
+    padding: 4px 10px; border-radius: 8px; font-size: .75rem; font-weight: 700; flex-shrink: 0;
+}
+.room-card-badge.open { background: rgba(0,230,118,.15); color: var(--green); }
+.room-card-badge.full-badge { background: rgba(255,23,68,.15); color: var(--red); }
+.room-card-badge.playing-badge { background: rgba(245,197,24,.15); color: var(--gold); }
+.room-card-lock { font-size: .85rem; margin-right: 2px; }
 
-        .option-text-visible {
-            opacity: 1;
-        }
+#create-overlay {
+    position: fixed; inset:0; background: rgba(0,0,0,.35);
+    display:none; align-items:center; justify-content:center; z-index: 80;
+}
+#create-overlay.show { display:flex; }
+.create-box {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f5f7 100%);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 0; padding: 32px 28px; width: 92%; max-width: 420px; max-height: 90vh; overflow-y: auto;
+    animation: slideUp .25s ease;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 16px 48px rgba(0,0,0,.12);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 8px 100%, 0 calc(100% - 8px));
+}
+.create-title { font-size: 1.2rem; font-weight: 900; color: var(--gold); margin-bottom: 24px; text-align: center; letter-spacing: 4px; text-transform: uppercase; }
+.create-field { margin-bottom: 14px; }
+.create-label { font-size: .75rem; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; display: block; letter-spacing: 1.5px; text-transform: uppercase; }
+.create-input {
+    width: 100%; padding: 11px 14px; border-radius: 0;
+    background: rgba(0,0,0,.03); border: 1px solid rgba(0,0,0,.08);
+    color: var(--text); font-size: .9rem; font-weight: 600;
+    outline: none; transition: border-color .2s;
+}
+.create-input:focus { border-color: var(--gold); box-shadow: 0 0 12px rgba(232,130,19,.15); }
+.create-input::placeholder { color: var(--text-dim); }
+.create-row { display:flex; gap:10px; }
+.create-row .create-field { flex:1; }
+.create-select {
+    width: 100%; padding: 11px 14px; border-radius: 0;
+    background: rgba(0,0,0,.03); border: 1px solid rgba(0,0,0,.08);
+    color: var(--text); font-size: .9rem; font-weight: 600;
+    outline: none; cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238a8fa0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+}
+.create-select option { background: #fff; color: var(--text); }
+.create-btns { display:flex; gap:12px; margin-top: 24px; }
+.btn-confirm {
+    flex:1; padding: 12px 20px; border-radius: 0; font-size: .95rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
+    transition: all .2s; letter-spacing: 2px; text-transform: uppercase;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.btn-confirm:active { transform: scale(.96); }
+.btn-cancel {
+    padding: 12px 20px; border-radius: 0; font-size: .85rem; font-weight: 700;
+    cursor: pointer; border: 1px solid rgba(0,0,0,.08);
+    background: rgba(0,0,0,.03); color: var(--text-dim); transition: all .2s;
+}
 
-        .options-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
+#password-overlay {
+    position: fixed; inset:0; background: rgba(0,0,0,.25);
+    display:none; align-items:center; justify-content:center; z-index: 80;
+}
+#password-overlay.show { display:flex; }
+.password-box {
+    background: #fff; border: 1px solid rgba(0,0,0,.1);
+    border-radius: 20px; padding: 28px 24px; width: 90%; max-width: 340px;
+    animation: slideUp .3s ease; text-align: center;
+}
+.password-title { font-size: 1.1rem; font-weight: 800; color: var(--gold); margin-bottom: 16px; letter-spacing: 1px; }
+.password-input {
+    width: 100%; padding: 12px 14px; border-radius: 10px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    color: var(--text); font-size: 1rem; font-weight: 600;
+    outline: none; text-align: center; letter-spacing: 4px; margin-bottom: 16px;
+}
+.password-input:focus { border-color: var(--gold); }
+.password-btns { display:flex; gap:12px; }
 
-        .question-click-area {
-            cursor: pointer;
-        }
+#lobby-screen { background: linear-gradient(160deg, #f4f5f7 0%, #ffffff 100%); }
+.lobby-box {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f5f7 100%);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 0; padding: 32px 24px; width: 100%; max-width: 440px; text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 12px) 100%, 8px 100%, 0 calc(100% - 10px));
+    box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 8px 32px rgba(0,0,0,.08);
+}
+.lobby-title { font-size: 1.2rem; font-weight: 900; color: var(--gold); margin-bottom: 4px; letter-spacing: 4px; text-transform: uppercase; }
+.lobby-settings { font-size: .72rem; color: var(--text-dim); margin-bottom: 20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.lobby-settings span { padding: 3px 10px; border-radius: 0; background: rgba(0,0,0,.03); border: 1px solid rgba(0,0,0,.06); }
+.lobby-players { display:flex; flex-direction:column; gap:8px; margin-bottom: 20px; }
+.lobby-player {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 0;
+    background: rgba(0,0,0,.02); border: 1px solid rgba(0,0,0,.06); transition: all .3s;
+}
+.lobby-player.ready { border-color: rgba(0,230,118,.35); background: rgba(0,230,118,.06); box-shadow: 0 0 8px rgba(0,230,118,.06); }
+.lobby-player .p-avatar {
+    width: 34px; height: 34px; border-radius: 0;
+    background: rgba(232,130,19,.08); display:flex; align-items:center; justify-content:center;
+    font-size: .9rem; font-weight: 900; color: var(--gold); flex-shrink:0;
+    clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
+}
+.lobby-player .p-name { flex:1; text-align:left; font-weight: 600; font-size: .88rem; color: var(--text); }
+.lobby-player .p-host { font-size: .65rem; color: var(--gold); font-weight: 700; letter-spacing: 1px; }
+.lobby-player .p-status { font-size: .72rem; font-weight: 700; }
+.lobby-player .p-status.ready { color: var(--green); text-shadow: 0 0 6px rgba(0,230,118,.2); }
+.lobby-player .p-status.waiting { color: var(--text-dim); }
+.lobby-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.btn-ready {
+    padding: 12px 36px; border-radius: 0; font-size: .95rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
+    transition: all .2s; letter-spacing: 2px; text-transform: uppercase;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.btn-ready:active { transform: scale(.96); }
+.btn-ready.cancel { background: linear-gradient(135deg, #ff1744, #d50000); border-color: rgba(255,23,68,.3); color: #fff; }
+.btn-leave {
+    padding: 12px 24px; border-radius: 0; font-size: .82rem; font-weight: 700;
+    cursor: pointer; border: 1px solid rgba(0,0,0,.08);
+    background: rgba(0,0,0,.03); color: var(--text-dim); transition: all .2s;
+    text-transform: uppercase; letter-spacing: 1px;
+}
+.btn-leave:active { transform: scale(.96); }
+.ow-toggle {
+    position: relative;
+    width: 100%;
+    margin-bottom: 2px;
+}
+.ow-toggle-track {
+    position: relative;
+    display: flex;
+    background: #f0f0f0;
+    border-radius: 6px;
+    padding: 3px;
+    border: 1px solid rgba(0,0,0,.08);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.06);
+}
+.ow-toggle-slider {
+    position: absolute;
+    top: 3px; left: 3px;
+    width: calc(50% - 3px);
+    height: calc(100% - 6px);
+    background: #ff8f00;
+    border-radius: 4px;
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 2px 8px rgba(255,143,0,.3), inset 0 1px 0 rgba(255,255,255,.2);
+    z-index: 1;
+    pointer-events: none;
+}
+.ow-toggle-slider.right {
+    transform: translateX(100%);
+}
+.ow-toggle-option {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    color: rgba(0,0,0,.35);
+    font-size: .82rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: color .3s, text-shadow .3s;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 4px;
+}
+.ow-toggle-option.active {
+    color: #fff;
+    text-shadow: 0 0 6px rgba(255,143,0,.3);
+}
+.ow-toggle-option:active { transform: scale(.97); }
+.lobby-team-wrap {
+    display: flex; flex-direction: column; align-items: center; gap: 0;
+    width: 100%; max-width: 440px;
+    margin-bottom: 20px;
+}
+.lobby-team-teams {
+    display: flex; gap: 0; position: relative; width: 100%;
+}
+.ow-lobby-team {
+    flex: 1; min-width: 0;
+    background: rgba(255,255,255,.98);
+    border: 1px solid rgba(0,0,0,.08);
+    display: flex; flex-direction: column; gap: 5px;
+    padding: 10px 8px;
+    position: relative; overflow: hidden;
+}
+.ow-lobby-team.team-a {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    border-right: none;
+}
+.ow-lobby-team.team-b {
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+}
+.ow-lobby-team::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; z-index: 2;
+}
+.ow-lobby-team.team-a::before {
+    background: linear-gradient(90deg, #2196f3, rgba(33,150,243,.15));
+}
+.ow-lobby-team.team-b::before {
+    background: linear-gradient(90deg, rgba(255,87,34,.15), #ff5722);
+}
+.ow-lobby-team::after {
+    content: ''; position: absolute; top: 3px; left: 0; right: 0; bottom: 0;
+    pointer-events: none; z-index: 0;
+}
+.ow-lobby-team.team-a::after {
+    background: repeating-linear-gradient(
+        -45deg, transparent, transparent 8px,
+        rgba(33,150,243,.03) 8px, rgba(33,150,243,.03) 9px
+    );
+}
+.ow-lobby-team.team-b::after {
+    background: repeating-linear-gradient(
+        45deg, transparent, transparent 8px,
+        rgba(255,87,34,.03) 8px, rgba(255,87,34,.03) 9px
+    );
+}
+.ow-slot {
+    display: flex; align-items: center;
+    padding: 10px 16px; position: relative; z-index: 1;
+    font-size: .78rem; font-weight: 700;
+    transition: all .25s;
+    min-height: 40px;
+    background: #fff;
+    border: 2px solid;
+    transform: skewX(-8deg);
+    color: #555;
+}
+.ow-slot > * { transform: skewX(8deg); }
+.ow-lobby-team.team-a .ow-slot {
+    border-color: #2196f3;
+}
+.ow-lobby-team.team-b .ow-slot {
+    border-color: #ff5722;
+}
+.ow-slot.filled {
+    color: #333;
+}
+.ow-lobby-team.team-a .ow-slot.filled {
+    border-color: #2196f3;
+}
+.ow-lobby-team.team-b .ow-slot.filled {
+    border-color: #ff5722;
+}
+.ow-slot.filled.ready {
+    background: #f1f8e9;
+}
+.ow-lobby-team.team-a .ow-slot.filled.ready {
+    border-color: #43a047;
+}
+.ow-lobby-team.team-b .ow-slot.filled.ready {
+    border-color: #43a047;
+}
+.ow-slot-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: .5px; color: #333; }
+.ow-slot-me { color: #ff8f00; font-weight: 900; }
+.ow-slot-host {
+    font-size: .5rem; font-weight: 900; color: #ff8f00;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 1px 5px; background: rgba(255,143,0,.1);
+    border: 1px solid rgba(255,143,0,.25);
+}
+.ow-slot-status {
+    font-size: .58rem; font-weight: 900; letter-spacing: 1.5px;
+    margin-left: auto; flex-shrink: 0; text-transform: uppercase;
+    display: flex; align-items: center; gap: 4px;
+}
+.ow-slot-status::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+}
+.ow-slot-status.ready { color: #43a047; }
+.ow-slot-status.ready::before { background: #43a047; }
+.ow-slot-status.waiting { color: #bbb; }
+.ow-slot-status.waiting::before { background: #ccc; }
+.ow-slot.empty {
+    cursor: pointer; opacity: .4;
+    border: 2px solid rgba(0,0,0,.1);
+    color: #aaa; font-size: .72rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    background: #fff;
+}
+.ow-slot.empty:hover {
+    opacity: 1; border-color: #ff8f00; color: #ff8f00;
+}
+.ow-slot-empty-icon {
+    width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; font-weight: 900; flex-shrink: 0;
+    border: 1px solid currentColor; opacity: .6;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+.ow-lobby-vs {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    z-index: 5;
+}
+.ow-lobby-vs-diamond {
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    font-size: .6rem; font-weight: 900; color: var(--text-dim); letter-spacing: 1px;
+    background: #fff; border: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+.ow-lobby-host {
+    display: flex; justify-content: center; margin-bottom: 10px;
+}
+.host-slot {
+    display: flex; align-items: center;
+    padding: 10px 20px; min-width: 220px;
+    background: #fff; border: 1px solid rgba(0,0,0,.1);
+    border-radius: 6px; font-size: .78rem; font-weight: 700;
+    color: #333; gap: 8px; justify-content: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.host-slot .host-label {
+    font-size: .58rem; font-weight: 900; color: #ff8f00;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 1px 6px; background: rgba(255,143,0,.1);
+    border: 1px solid rgba(255,143,0,.2); border-radius: 3px;
+}
+.host-slot .host-name { color: #333; }
+.host-slot .host-name .ow-slot-me { color: #ff8f00; font-weight: 900; }
+.host-slot.empty-host {
+    opacity: .4; color: #aaa; border-style: dashed;
+}
+.host-slot.empty-host:hover {
+    opacity: 1; border-color: #ff8f00; color: #ff8f00;
+}
+.host-settings {
+    display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;
+}
+.host-settings label {
+    font-size: .68rem; color: #888; font-weight: 700; display: flex; align-items: center; gap: 4px;
+}
+.host-settings input, .host-settings select {
+    width: 50px; padding: 3px 6px; border: 1px solid #ddd; border-radius: 3px;
+    font-size: .68rem; text-align: center;
+}
+.host-settings select { width: auto; }
+.lobby-player.team-a { border-left: 3px solid #2196f3; background: rgba(33,150,243,.04); }
+.lobby-player.team-b { border-left: 3px solid #ff5722; background: rgba(255,87,34,.04); }
+.lobby-player.empty-slot {
+    cursor: pointer; opacity: .5; transition: all .2s;
+}
+.lobby-player.empty-slot:hover { opacity: 1; border-color: var(--gold); background: rgba(232,130,19,.08); box-shadow: 0 0 10px rgba(232,130,19,.1); }
+.ow-team-scoreboard {
+    display: flex; align-items: stretch; gap: 0;
+    width: 100%; max-width: 500px;
+    background: rgba(255,255,255,.95);
+    border: 1px solid rgba(0,0,0,.08);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,.06);
+}
+.ow-team-side {
+    flex: 1; padding: 14px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    position: relative;
+}
+.ow-team-side.ow-team-a {
+    background: linear-gradient(135deg, rgba(33,150,243,.06) 0%, rgba(33,150,243,.02) 100%);
+    border-right: 1px solid rgba(0,0,0,.06);
+}
+.ow-team-side.ow-team-b {
+    background: linear-gradient(135deg, rgba(255,87,34,.02) 0%, rgba(255,87,34,.06) 100%);
+}
+.ow-team-side::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.ow-team-side.ow-team-a::before { background: linear-gradient(90deg, #2196f3, rgba(33,150,243,.2)); }
+.ow-team-side.ow-team-b::before { background: linear-gradient(90deg, rgba(255,87,34,.2), #ff5722); }
+.ow-team-label {
+    font-size: .72rem; font-weight: 900; letter-spacing: 3px; text-transform: uppercase;
+}
+.ow-team-side.ow-team-a .ow-team-label { color: #2196f3; }
+.ow-team-side.ow-team-b .ow-team-label { color: #ff5722; }
+.ow-team-score-val {
+    font-size: 2.2rem; font-weight: 900; line-height: 1;
+}
+.ow-team-side.ow-team-a .ow-team-score-val { color: #1565c0; text-shadow: 0 2px 8px rgba(33,150,243,.15); }
+.ow-team-side.ow-team-b .ow-team-score-val { color: #d84315; text-shadow: 0 2px 8px rgba(255,87,34,.15); }
+.ow-team-progress {
+    width: 100%; height: 4px; border-radius: 2px; background: rgba(0,0,0,.06); overflow: hidden; margin-top: 2px;
+}
+.ow-team-progress-fill {
+    height: 100%; border-radius: 2px; transition: width .4s ease;
+}
+.team-a-fill { background: linear-gradient(90deg, #2196f3, #64b5f6); }
+.team-b-fill { background: linear-gradient(90deg, #ff5722, #ff8a65); }
+.ow-team-vs {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 8px 10px; gap: 2px; flex-shrink: 0;
+}
+.ow-vs-diamond {
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    font-size: .7rem; font-weight: 900; color: var(--text-dim); letter-spacing: 1px;
+    background: rgba(0,0,0,.04); border: 1px solid rgba(0,0,0,.08);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+.ow-vs-target {
+    font-size: .6rem; font-weight: 700; color: var(--text-dim); letter-spacing: 1px; white-space: nowrap;
+}
+.team-score { font-size: .78rem; font-weight: 700; letter-spacing: .5px; }
+.team-score.team-a { color: #2196f3; text-shadow: 0 0 8px rgba(33,150,243,.2); }
+.team-score.team-b { color: #ff5722; text-shadow: 0 0 8px rgba(255,87,34,.2); }
 
-        .option-box.selected {
-            border-color: var(--primary);
-            background-color: rgba(67, 97, 238, 0.2);
-            box-shadow: 0 6px 18px rgba(67, 97, 238, 0.25);
-        }
+#game-screen {
+    background: linear-gradient(160deg, #f4f5f7 0%, #ffffff 100%);
+    padding: 12px; justify-content: flex-start; padding-top: 16px;
+}
+.game-top-bar {
+    width: 100%; max-width: 500px;
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+}
+.game-round { font-size: .85rem; font-weight: 700; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+.game-score { font-size: .85rem; font-weight: 700; color: var(--green); letter-spacing: 1px; }
+.game-timer-wrap { width: 100%; max-width: 500px; margin-bottom: 12px; }
+.game-timer-bar { height: 4px; border-radius: 0; background: rgba(0,0,0,.06); overflow: hidden; }
+.game-timer-fill {
+    height: 100%; border-radius: 0;
+    background: linear-gradient(90deg, var(--accent), #ffab40);
+    transition: width .15s linear; width: 100%;
+}
+.game-timer-fill.warn { background: linear-gradient(90deg, #ff9100, #ffab40); }
+.game-timer-fill.danger { background: linear-gradient(90deg, var(--red), #ff5252); animation: pulse .5s infinite; }
+.game-timer-text {
+    text-align: center; font-size: 1.6rem; font-weight: 900;
+    color: var(--text); margin-top: 4px; transition: color .3s;
+}
+.game-timer-text.warn { color: #ff9100; }
+.game-timer-text.danger { color: var(--red); animation: pulse .5s infinite; }
+.question-card {
+    width: 100%; max-width: 500px;
+    background: #fff; border: 1px solid rgba(0,0,0,.08);
+    border-radius: 4px; padding: 24px 20px; margin-bottom: 14px; animation: slideUp .4s ease;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+.question-text {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    font-weight: 700; line-height: 1.6; text-align: center; margin-bottom: 20px; color: #1a1a2e;
+}
+.options-list { display:flex; flex-direction:column; gap:10px; }
+.option-item {
+    padding: 14px 16px; border-radius: 4px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    cursor: pointer; transition: all .25s;
+    font-size: clamp(.85rem, 2.5vw, 1.05rem);
+    font-weight: 600; display: flex; align-items: center; gap: 12px;
+    -webkit-user-select: none; user-select: none;
+}
+.option-item:active { transform: scale(.98); }
+.option-letter {
+    width: 30px; height: 30px; border-radius: 4px;
+    background: #eef0f5; display:flex; align-items:center; justify-content:center;
+    font-weight: 800; font-size: .85rem; color: var(--gold); flex-shrink:0; transition: all .25s;
+}
+.option-item:hover { border-color: rgba(232,130,19,.3); }
+.option-item.selected { border-color: var(--blue); background: rgba(68,138,255,.1); }
+.option-item.selected .option-letter { background: var(--blue); color: #fff; }
+.option-item.correct { border-color: var(--green); background: rgba(0,230,118,.1); animation: pulse .5s; }
+.option-item.correct .option-letter { background: var(--green); color: #fff; }
+.option-item.wrong { border-color: var(--red); background: rgba(255,23,68,.1); animation: shake .4s; }
+.option-item.wrong .option-letter { background: var(--red); color: #fff; }
+.option-item.disabled { pointer-events: none; opacity: .7; }
+.explanation-box {
+    width: 100%; max-width: 500px;
+    background: rgba(245,197,24,.06); border: 1px solid rgba(245,197,24,.15);
+    border-radius: 16px; padding: 16px 18px; margin-bottom: 14px;
+    display: none; animation: slideUp .4s ease;
+}
+.explanation-box.show { display: block; }
+.explanation-title { font-size: .9rem; font-weight: 800; color: var(--gold); margin-bottom: 6px; }
+.explanation-text { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+.online-scoreboard {
+    width: 100%; max-width: 500px;
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 12px;
+}
+.online-scoreboard.compact {
+    flex-direction: column; gap: 4px; align-items: center;
+}
+.sb-player {
+    padding: 6px 14px; border-radius: 10px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    font-size: .8rem; font-weight: 700;
+    display: flex; align-items: center; gap: 6px; transition: all .3s;
+}
+.sb-player.me { border-color: rgba(245,197,24,.4); }
+.sb-player .sb-name { color: var(--text); }
+.sb-player .sb-pts { color: var(--gold); }
+.sb-player .sb-answered { color: var(--green); font-size: .7rem; }
+.online-scoreboard.compact .sb-player {
+    width: 100%; max-width: 340px; padding: 5px 12px; font-size: .75rem; gap: 8px;
+    border-radius: 8px;
+}
+.online-scoreboard.compact .sb-rank {
+    width: 20px; text-align: center; font-weight: 900; color: var(--gold); font-size: .8rem; flex-shrink: 0;
+}
+.online-scoreboard.compact .sb-rank.top1 { color: #FFD700; }
+.online-scoreboard.compact .sb-rank.top2 { color: #C0C0C0; }
+.online-scoreboard.compact .sb-rank.top3 { color: #CD7F32; }
+.online-scoreboard.compact .sb-bar-wrap {
+    flex: 1; height: 6px; border-radius: 3px; background: rgba(0,0,0,.06); overflow: hidden;
+}
+.online-scoreboard.compact .sb-bar-fill {
+    height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--gold), #ffe082);
+    transition: width .4s ease;
+}
+.online-scoreboard.compact .sb-player.me .sb-bar-fill {
+    background: linear-gradient(90deg, var(--blue), #82b1ff);
+}
+.game-bottom { width: 100%; max-width: 500px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.btn-next {
+    padding: 12px 36px; border-radius: 2px; font-size: 1rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
+    transition: all .2s; display: none; letter-spacing: 2px;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.btn-next:active { transform: scale(.96); }
+.btn-next.show { display: inline-flex; }
+.btn-exit {
+    padding: 10px 24px; border-radius: 10px; font-size: .85rem; font-weight: 700;
+    cursor: pointer; border: 2px solid var(--card-border);
+    background: var(--card-bg); color: var(--text-dim); transition: all .2s;
+}
+.btn-pause {
+    padding: 10px 24px; border-radius: 10px; font-size: .85rem; font-weight: 700;
+    cursor: pointer; border: 2px solid rgba(0,0,0,.1);
+    background: #fff; color: var(--text-dim); transition: all .2s;
+}
+.btn-pause:active { transform: scale(.96); }
+.btn-settings {
+    padding: 10px 24px; border-radius: 10px; font-size: .85rem; font-weight: 700;
+    cursor: pointer; border: 2px solid rgba(0,0,0,.1);
+    background: #fff; color: var(--text-dim); transition: all .2s;
+}
+.btn-settings:hover { border-color: var(--gold); color: var(--gold); }
+.btn-settings:active { transform: scale(.96); }
+#pause-overlay {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,.25); backdrop-filter: blur(8px);
+    justify-content: center; align-items: center;
+}
+#pause-overlay.show { display: flex; }
+.pause-box {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 4px; padding: 36px 32px; text-align: center;
+    max-width: 360px; width: 90%; animation: scaleIn .3s ease;
+    box-shadow: 0 8px 32px rgba(0,0,0,.1);
+    backdrop-filter: blur(12px);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+.pause-title { font-size: 1.4rem; font-weight: 900; color: var(--gold); margin-bottom: 8px; }
+.pause-subtitle { font-size: .9rem; color: var(--text-dim); margin-bottom: 24px; }
+.btn-resume {
+    padding: 14px 40px; border-radius: 2px; font-size: 1rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
+    transition: all .2s; display: block; width: 100%; margin-bottom: 12px;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.btn-resume:active { transform: scale(.96); }
+.btn-resume:disabled { opacity: .4; cursor: not-allowed; }
+.btn-pause-exit {
+    padding: 12px 32px; border-radius: 12px; font-size: .9rem; font-weight: 700;
+    cursor: pointer; border: 2px solid var(--card-border);
+    background: var(--card-bg); color: var(--text-dim); transition: all .2s;
+    width: 100%;
+}
+.btn-pause-exit:active { transform: scale(.96); }
+#solo-settings-overlay {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,.25); backdrop-filter: blur(8px);
+    justify-content: center; align-items: center;
+}
+#solo-settings-overlay.show { display: flex; }
 
-        .option-box.correct {
-            border-color: #28a745;
-            background-color: rgba(40, 167, 69, 0.2);
-            color: #28a745;
-            font-weight: bold;
-            animation: pulse 0.8s;
-        }
+#result-screen { background: linear-gradient(160deg, #f4f5f7 0%, #ffffff 100%); }
+.result-box {
+    background: #fff; border: 1px solid rgba(0,0,0,.08);
+    border-radius: 4px; padding: 32px 24px; width: 100%; max-width: 420px; text-align: center;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+.result-title { font-size: 1.6rem; font-weight: 900; color: var(--gold); margin-bottom: 8px; letter-spacing: 3px; }
+.result-subtitle { color: var(--text-dim); font-size: .9rem; margin-bottom: 24px; }
+.result-rank { display:flex; flex-direction:column; gap:10px; margin-bottom: 24px; }
+.rank-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; border-radius: 12px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+}
+.rank-item.top { border-color: rgba(245,197,24,.4); background: rgba(245,197,24,.06); }
+.rank-num { font-size: 1.2rem; font-weight: 900; color: var(--gold); width: 28px; }
+.rank-name { flex:1; text-align:left; font-weight: 700; }
+.rank-score { font-weight: 900; color: var(--green); font-size: 1.1rem; }
+.result-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.btn-replay {
+    padding: 12px 32px; border-radius: 2px; font-size: 1rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,200,83,.3);
+    background: linear-gradient(135deg, #00c853, #00e676); color: #fff;
+    transition: all .2s; letter-spacing: 2px;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.btn-replay:active { transform: scale(.96); }
+.btn-home {
+    padding: 12px 28px; border-radius: 12px; font-size: .9rem; font-weight: 700;
+    cursor: pointer; border: 2px solid var(--card-border);
+    background: var(--card-bg); color: var(--text-dim); transition: all .2s;
+}
 
-        .option-box.incorrect {
-            border-color: #dc3545;
-            background-color: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-            font-weight: bold;
-        }
+#countdown-overlay {
+    position: fixed; inset:0; background: rgba(0,0,0,.25);
+    display:none; align-items:center; justify-content:center; z-index: 100;
+}
+#countdown-overlay.show { display:flex; }
+.countdown-num {
+    font-size: 6rem; font-weight: 900; color: var(--gold);
+    animation: countIn .4s ease; text-shadow: 0 0 40px rgba(245,197,24,.4);
+}
+#waiting-overlay {
+    position: fixed; inset:0; background: rgba(255,255,255,.8);
+    display:none; align-items:center; justify-content:center;
+    z-index: 90; flex-direction: column; gap: 12px;
+}
+#waiting-overlay.show { display:flex; }
+.waiting-text { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+.waiting-dots::after { content:''; animation: dots 1.5s infinite; }
+@keyframes dots { 0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
+.toast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    padding: 10px 24px; border-radius: 12px;
+    background: #fff; border: 1px solid rgba(0,0,0,.08);
+    color: var(--text); font-weight: 700; font-size: .9rem;
+    z-index: 200; opacity: 0; transition: opacity .3s; pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,.1);
+}
+.toast.show { opacity: 1; }
+.toast.success { border-color: rgba(0,230,118,.4); color: var(--green); }
+.toast.error { border-color: rgba(255,23,68,.4); color: var(--red); }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
-        }
-        
-        .explanation-container {
-            margin-top: 1.5rem;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 18px;
-            box-shadow: var(--glass-shadow);
-            display: none;
-            animation: fadeIn 0.5s ease-out;
-            color: var(--dark);
-            border: 1px solid rgba(67, 97, 238, 0.1);
-        }
-        
-        .explanation-title {
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .explanation-title::before {
-            content: "✦";
-            margin-right: 10px;
-            font-size: 1.3em;
-        }
-        
-        .explanation-text {
-            color: var(--dark);
-            line-height: 1.7;
-            font-size: 1.3rem;
-        }
-        
-        .timer {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 1.5rem 0;
-            color: var(--primary);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .timer.warning {
-            color: var(--danger);
-            animation: pulse 0.5s infinite;
-            font-weight: 800;
-        }
-        
-        .progress-container {
-            display: flex;
-            align-items: center;
-            margin-top: 2rem;
-            margin-bottom: 1.5rem;
-            gap: 15px;
-            position: relative;
-        }
-        
-        .progress-bar {
-            flex-grow: 1;
-            height: 10px;
-            background-color: rgba(67, 97, 238, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress {
-            height: 100%;
-            background: linear-gradient(90deg, #2ecc71, #27ae60);
-            width: 100%;
-            transition: width 0.1s linear;
-            border-radius: 5px;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-        
-        .progress.warning {
-            background: linear-gradient(90deg, #e74c3c, #c0392b);
-            animation: pulse 0.5s infinite;
-        }
+.category-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+}
+.category-chip {
+    padding: 7px 16px; border-radius: 4px; font-size: .82rem; font-weight: 700;
+    cursor: pointer; border: 2px solid rgba(0,0,0,.08);
+    background: rgba(0,0,0,.03); color: var(--text-dim); transition: all .2s;
+    letter-spacing: 1px; user-select: none;
+}
+.category-chip:hover { border-color: var(--gold); color: var(--gold); }
+.category-chip.active {
+    background: linear-gradient(135deg, #ff8f00, #ffa000);
+    border-color: rgba(255,143,0,.4); color: #fff;
+    box-shadow: 0 2px 8px rgba(255,143,0,.2);
+}
+.category-chip:active { transform: scale(.96); }
+.category-chip-all {
+    padding: 7px 16px; border-radius: 4px; font-size: .78rem; font-weight: 800;
+    cursor: pointer; border: 2px solid rgba(0,0,0,.12);
+    background: rgba(0,0,0,.05); color: var(--text-dim); transition: all .2s;
+    letter-spacing: 1px; user-select: none;
+}
+.category-chip-all:hover { border-color: var(--gold); color: var(--gold); }
+.category-chip-all.active {
+    background: linear-gradient(135deg, #1a1a2e, #0f1923);
+    border-color: #ff8f00; color: #ff8f00;
+    box-shadow: 0 2px 0 #ff8f00, 0 4px 12px rgba(0,0,0,.2);
+}
+.category-chip-all:active { transform: scale(.96); }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.8; }
-            100% { opacity: 1; }
-        }
-        
-        .question-count {
-            font-weight: bold;
-            font-size: 1rem;
-            position: absolute;
-            left: 20px;
-            top: 20px;
-        }
-        
-        .pause-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-left: 10px;
-            padding: 5px;
-        }
-        
-        .teams-bar {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .team-block {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-width: 80px;
-            height: 70px;
-            padding: 0.6rem;
-            border-radius: 12px;
-            background-color: var(--white);
-            border: 1px solid transparent;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-        }
-
-        .team-block.active {
-            border: 2px solid;
-        }
-
-        .team-score-display {
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: #000;
-            text-shadow: 0 2px 2px rgba(0,0,0,0.1);
-            margin-top: 5px;
-            text-align: center;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-        
-        .speaker-control {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: var(--primary);
-            z-index: 10;
-        }
-        
-        .speech-control-group {
-            margin-bottom: 2rem;
-        }
-        
-        .speech-control-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            color: var(--dark);
-            font-size: 1.2rem;
-        }
-        
-        .speech-toggle {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-        }
-        
-        .speech-toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .speech-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 30px;
-        }
-        
-        .speech-slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .speech-slider {
-            background-color: var(--primary);
-        }
-        
-        input:checked + .speech-slider:before {
-            transform: translateX(30px);
-        }
-        
-        /* 新增的胜者样式 */
-        .winner-section {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 2px solid var(--primary);
-            animation: winnerPulse 2s infinite;
-        }
-        
-        .winner-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-        
-        .winner-name {
-            font-size: 3rem;
-            font-weight: 800;
-            margin: 1rem 0;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        @keyframes winnerPulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 15px rgba(67, 97, 238, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
-        }
-        
-        /* 新增的分数板样式 */
-        .team-score {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .team-score.leading {
-            background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            transform: scale(1.02);
-            border-left: 5px solid;
-        }
-        
-        .team-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            flex: 1;
-        }
-        
-        .team-points {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--dark);
-        }
-        
-        @media (max-width: 768px) {
-            /* 基础布局调整 */
-            body {
-                padding: 8px;
-                font-size: 14px;
-                line-height: 1.4;
-                min-width: 100%;
-                overflow-x: hidden;
-            }
-            
-            .container {
-                padding: 0;
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .card {
-                padding: 12px;
-                border-radius: 12px;
-                width: 100%;
-                margin: 0;
-            }
-            
-            /* 标题调整 */
-            h1 {
-                font-size: 1.4rem;
-                margin-bottom: 0.8rem;
-                padding: 0 8px;
-            }
-            
-            /* 问题区域 */
-            .question {
-                font-size: 0.9rem;
-                line-height: 1.4;
-                padding: 0 5px;
-                margin-bottom: 1rem;
-            }
-            
-            /* 选项区域 */
-            .options-container {
-                gap: 8px;
-                margin-bottom: 1rem;
-            }
-            
-            .option-box {
-                padding: 10px;
-                min-height: 45px;
-                border-radius: 10px;
-            }
-            
-            .option-text {
-                font-size: 0.85rem;
-            }
-            
-            /* 按钮调整 */
-            .btn {
-                padding: 0.7rem 1rem;
-                font-size: 0.85rem;
-                border-radius: 8px;
-                width: 100%;
-            }
-            
-            .btn-group {
-                gap: 8px;
-                margin-top: 1rem;
-            }
-            
-            /* 计时器 */
-            .timer {
-                font-size: 0.9rem;
-                margin: 0.8rem 0;
-            }
-            
-            /* 进度条 */
-            .progress-container {
-                margin: 0.8rem 0;
-            }
-            
-            /* 队伍栏 - 只保留数字 */
-            .teams-bar {
-                gap: 6px;
-                margin-bottom: 1rem;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                padding-bottom: 5px;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .team-block {
-                min-width: auto;
-                height: auto;
-                padding: 0;
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-            }
-            
-            .team-score-display {
-                font-size: 1.2rem;
-                padding: 0 0.3rem;
-                margin: 0;
-            }
-            
-            /* 解析区域 */
-            .explanation-container {
-                margin-top: 0.5rem;
-                margin-bottom: 0.3rem;
-                padding: 0.8rem;
-            }
-            
-            .explanation-title {
-                font-size: 0.9rem;
-                margin-bottom: 0.1rem;
-            }
-            
-            .explanation-text {
-                font-size: 0.85rem;
-                margin-top: 0;
-            }
-            
-            /* 操作按钮缩小 */
-            .action-buttons {
-                flex-direction: column;
-                gap: 0.8rem;
-                margin-top: 1.5rem;
-            }
-            
-            .action-buttons .btn {
-                padding: 0.8rem 1rem;
-                font-size: 0.9rem;
-                min-width: 120px;
-                width: 100%;
-            }
-            
-            #nextQuestion, #exitGame, #skipQuestion {
-                min-width: 120px !important;
-                padding: 0.8rem 1rem !important;
-                font-size: 0.9rem !important;
-            }
-            
-            /* 比赛设置调整 */
-            .setup-screen h2 {
-                font-size: 1.1rem;
-                margin-bottom: 0.8rem;
-            }
-            
-            .form-group label {
-                font-size: 0.8rem;
-                margin-bottom: 0.4rem;
-            }
-            
-            .form-group select {
-                padding: 0.6rem 0.7rem;
-                font-size: 0.8rem;
-            }
-            
-            /* 朗读功能调整 */
-            .speech-control-group {
-                margin-bottom: 1.2rem;
-            }
-            
-            .speech-control-label {
-                font-size: 0.9rem;
-                gap: 6px;
-            }
-            
-            .speech-toggle {
-                width: 50px;
-                height: 25px;
-            }
-            
-            .speech-slider:before {
-                height: 18px;
-                width: 18px;
-                left: 3px;
-                bottom: 3px;
-            }
-            
-            input:checked + .speech-slider:before {
-                transform: translateX(25px);
-            }
-            
-            #startGame {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
-            }
-            
-            #speechStatus {
-                font-size: 0.8rem;
-            }
-            
-            /* 其他元素 */
-            .question-count {
-                font-size: 0.75rem;
-                left: 8px;
-                top: 8px;
-            }
-            
-            .speaker-control, .pause-btn {
-                font-size: 1rem;
-                top: 8px;
-            }
-            
-            /* 防止文本换行问题 */
-            .option-text, .question, .explanation-text {
-                word-break: break-word;
-                hyphens: auto;
-            }
-            
-            /* 确保操作按钮不换行 */
-            .action-buttons .btn {
-                white-space: nowrap;
-            }
-            
-            /* 移动端胜者样式调整 */
-            .winner-section {
-                padding: 1rem;
-                margin-bottom: 1rem;
-            }
-            
-            .winner-title {
-                font-size: 1.1rem;
-            }
-            
-            .winner-name {
-                font-size: 1.8rem;
-            }
-            
-            .team-score {
-                padding: 1rem;
-            }
-            
-            .team-name {
-                font-size: 1.1rem;
-            }
-            
-            .team-points {
-                font-size: 1.3rem;
-            }
-        }
+@media(max-width:480px) {
+    .question-card { padding: 16px 14px; }
+    .option-item { padding: 10px 12px; }
+    .lobby-box { padding: 20px 16px; }
+    .room-card { padding: 10px 12px; gap: 10px; }
+    .room-card-icon { width: 36px; height: 36px; font-size: 1rem; }
+    .ow-team-score-val { font-size: 1.8rem; }
+    .ow-team-side { padding: 10px 10px; }
+    .ow-lobby-team.team-a { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%); }
+    .ow-lobby-team.team-b { clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%); }
+    .ow-slot { padding: 0; font-size: .72rem; min-height: 34px; }
+    .ow-slot-body { padding: 6px 8px; }
+    .ow-lobby-vs-diamond { width: 26px; height: 26px; font-size: .5rem; }
+}
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>知识问答大赛</h1>
-        </header>
-        
-        <div class="card">
-            <div class="screen setup-screen active">
-                <h2 style="font-size: 1.3rem; margin-bottom: 1rem;">比赛设置</h2>
-                
-                <div class="speech-control-group">
-                    <label class="speech-control-label">
-                        朗读功能:
-                        <label class="speech-toggle">
-                            <input type="checkbox" id="speechToggle" checked>
-                            <span class="speech-slider"></span>
-                        </label>
-                        <span id="speechStatus">开启</span>
-                    </label>
-                </div>
-                
-                <div class="form-group">
-                    <label for="teamCount">队伍数量</label>
-                    <select id="teamCount">
-                        <option value="2">2队</option>
-                        <option value="3">3队</option>
-                        <option value="4">4队</option>
-                        <option value="5">5队</option>
-                        <option value="6">6队</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="winScore">胜利积分</label>
-                    <select id="winScore">
-                        <option value="500">500分</option>
-                        <option value="1000" selected>1000分</option>
-                        <option value="1500">1500分</option>
-                        <option value="2000">2000分</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="timeLimit">每题时间限制 (秒)</label>
-                    <select id="timeLimit">
-                        <option value="10">10秒</option>
-                        <option value="15">15秒</option>
-                        <option value="20" selected>20秒</option>
-                        <option value="30">30秒</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="delayOptions">手动出现选项</label>
-                    <select id="delayOptions">
-                        <option value="true" selected>开启</option>
-                        <option value="false">关闭</option>
-                    </select>
-                </div>
 
-                <div class="form-group">
-                    <label for="categorySelect">题目分类</label>
-                    <select id="categorySelect" multiple>
-                        <!-- 分类选项将通过JavaScript动态生成 -->
-                    </select>
-                    <small>按住Ctrl键可多选</small>
-                </div>
-                
-                <div class="btn-group">
-                    <button id="startGame" class="btn btn-primary btn-lg">开始比赛</button>
-                </div>
+<div class="toast" id="toast"></div>
+<div id="countdown-overlay"><div class="countdown-num" id="countdown-num">3</div></div>
+<div id="waiting-overlay"><div class="waiting-text">等待其他玩家答题<span class="waiting-dots"></span></div></div>
+<div id="pause-overlay">
+    <div class="pause-box">
+        <div class="pause-title">⏸ 游戏暂停</div>
+        <div class="pause-subtitle" id="pause-subtitle">主机已暂停游戏</div>
+        <button class="btn-resume" id="btn-resume" onclick="resumeGame()">继续游戏</button>
+        <button class="btn-pause-exit" onclick="exitGame()">退出游戏</button>
+    </div>
+</div>
+<div id="solo-settings-overlay">
+    <div class="create-box">
+        <div class="create-title">单人模式设置</div>
+        <div class="create-row">
+            <div class="create-field">
+                <label class="create-label">答题时间(秒)</label>
+                <select class="create-select" id="ss-time">
+                    <option value="10">10秒</option>
+                    <option value="20">20秒</option>
+                    <option value="30">30秒</option>
+                    <option value="40">40秒</option>
+                    <option value="50">50秒</option>
+                    <option value="60">60秒</option>
+                </select>
             </div>
-            
-            <div class="screen question-screen">
-                <button class="speaker-control" id="speakerControl">🔊</button>
-                <div class="question-count">第 <span id="currentQuestionNum">1</span> 题</div>
-                
-                <div class="teams-bar" id="teamsBar"></div>
-                
-                <div class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress" id="progressBar"></div>
-                    </div>
-                    <button class="pause-btn" id="pauseBtn">⏸</button>
-                </div>
-                
-                <div class="question" id="questionText"></div>
-                
-                <div class="options-container" id="optionsContainer"></div>
-                
-                <div id="explanationContainer" class="explanation-container">
-                    <div class="explanation-title">题目解析</div>
-                    <div class="explanation-text" id="explanationText"></div>
-                </div>
-                
-                <div class="timer" id="timerDisplay"></div>
-                
-                <div class="action-buttons">
-                    <button id="skipQuestion" class="btn btn-secondary" style="display: none; min-width: 200px;">跳过此题</button>
-                    <button id="nextQuestion" class="btn btn-primary" style="display: none; min-width: 200px;">下一题</button>
-                    <button id="exitGame" class="btn btn-danger" style="display: none; min-width: 200px;">退出比赛</button>
-                </div>
+            <div class="create-field">
+                <label class="create-label">题目数量</label>
+                <select class="create-select" id="ss-count">
+                    <option value="5">5题</option>
+                    <option value="10">10题</option>
+                    <option value="15">15题</option>
+                    <option value="20">20题</option>
+                    <option value="30">30题</option>
+                    <option value="50">50题</option>
+                </select>
             </div>
-            
-            <div class="screen score-screen">
-                <div class="winner-section" id="winnerSection" style="display: none;">
-                    <div class="winner-title">比赛获胜者是</div>
-                    <div class="winner-name" id="winnerAnnouncement"></div>
-                </div>
-                
-                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">比赛结果</h2>
-                
-                <div class="scoreboard" id="scoreboard"></div>
-                
-                <div class="btn-group">
-                    <button id="newGame" class="btn btn-primary">新的比赛</button>
-                    <button id="changeSettings" class="btn btn-secondary">更改设置</button>
+        </div>
+        <div class="create-field">
+            <label class="create-label">题目类别</label>
+            <div class="category-chips" id="ss-categories"></div>
+        </div>
+        <div class="create-btns">
+            <button class="btn-cancel" onclick="hideSoloSettings()">取消</button>
+            <button class="btn-confirm" onclick="confirmSoloStart()">开始游戏</button>
+        </div>
+    </div>
+</div>
+
+<div class="screen active" id="menu-screen">
+    <div class="menu-title">知识竞赛</div>
+    <div class="menu-btns">
+        <button class="menu-btn btn-solo" onclick="showSoloSettings()">
+            <span class="mode-label">单人模式</span>
+            <span class="mode-desc">SOLO</span>
+        </button>
+        <button class="menu-btn btn-online" onclick="showRooms()">
+            <span class="mode-label">联机模式</span>
+            <span class="mode-desc">ONLINE</span>
+        </button>
+    </div>
+</div>
+
+<div class="screen" id="room-screen">
+    <div class="room-top">
+        <div class="room-header">联机大厅</div>
+    </div>
+    <div id="status-bar"></div>
+    <div class="room-actions">
+        <button class="btn-create" onclick="showCreateRoom()">创建房间</button>
+        <button class="btn-refresh" onclick="refreshRooms()">刷新</button>
+    </div>
+    <div class="room-list" id="room-list"></div>
+    <button class="btn-back" onclick="backToMenu()">返回</button>
+</div>
+
+<div id="create-overlay">
+    <div class="create-box">
+        <div class="create-title">创建房间</div>
+        <div class="create-field">
+            <label class="create-label">游戏模式</label>
+            <div class="ow-toggle" id="mode-toggle">
+                <div class="ow-toggle-track">
+                    <div class="ow-toggle-slider" id="mode-slider"></div>
+                    <button class="ow-toggle-option active" id="mode-solo" onclick="switchGameMode('solo')">个人战</button>
+                    <button class="ow-toggle-option" id="mode-team" onclick="switchGameMode('team')">组队战</button>
                 </div>
             </div>
         </div>
+        <div class="create-field">
+            <label class="create-label">房间名称</label>
+            <input class="create-input" id="cr-name" type="text" placeholder="输入房间名" maxlength="12">
+        </div>
+        <div class="create-row" id="cr-solo-row">
+            <div class="create-field">
+                <label class="create-label">人数上限</label>
+                <select class="create-select" id="cr-maxplayers">
+                    <option value="2">2人</option>
+                    <option value="3">3人</option>
+                    <option value="4" selected>4人</option>
+                    <option value="5">5人</option>
+                    <option value="6">6人</option>
+                    <option value="7">7人</option>
+                    <option value="8">8人</option>
+                    <option value="9">9人</option>
+                    <option value="10">10人</option>
+                    <option value="11">11人</option>
+                    <option value="12">12人</option>
+                    <option value="13">13人</option>
+                    <option value="14">14人</option>
+                    <option value="15">15人</option>
+                    <option value="16">16人</option>
+                    <option value="17">17人</option>
+                    <option value="18">18人</option>
+                    <option value="19">19人</option>
+                    <option value="20">20人</option>
+                </select>
+            </div>
+            <div class="create-field">
+                <label class="create-label">获胜分数</label>
+                <select class="create-select" id="cr-winscore">
+                    <option value="10">10分</option>
+                    <option value="20" selected>20分</option>
+                    <option value="30">30分</option>
+                    <option value="50">50分</option>
+                    <option value="100">100分</option>
+                </select>
+            </div>
+        </div>
+        <div class="create-row" id="cr-team-row" style="display:none;">
+            <div class="create-field">
+                <label class="create-label">每队人数</label>
+                <select class="create-select" id="cr-teamsize">
+                    <option value="2">2v2</option>
+                    <option value="3">3v3</option>
+                    <option value="4">4v4</option>
+                    <option value="5" selected>5v5</option>
+                </select>
+            </div>
+            <div class="create-field">
+                <label class="create-label">获胜分数</label>
+                <select class="create-select" id="cr-winscore2">
+                    <option value="10">10分</option>
+                    <option value="20" selected>20分</option>
+                    <option value="30">30分</option>
+                    <option value="50">50分</option>
+                    <option value="100">100分</option>
+                </select>
+            </div>
+        </div>
+        <div class="create-row">
+            <div class="create-field">
+                <label class="create-label">答题时间(秒)</label>
+                <select class="create-select" id="cr-time">
+                    <option value="10" selected>10秒</option>
+                    <option value="20">20秒</option>
+                    <option value="30">30秒</option>
+                    <option value="40">40秒</option>
+                    <option value="50">50秒</option>
+                    <option value="60">60秒</option>
+                </select>
+            </div>
+            <div class="create-field">
+                <label class="create-label">房间密码</label>
+                <input class="create-input" id="cr-password" type="text" placeholder="留空无密码" maxlength="6">
+            </div>
+        </div>
+        <div class="create-btns">
+            <button class="btn-confirm" onclick="createRoom()">创建</button>
+            <button class="btn-cancel" onclick="hideCreateRoom()">取消</button>
+        </div>
     </div>
+</div>
 
-    <script>
-// 游戏状态
-const gameState = {
-    teams: [],
-    teamColors: ['#e74c3c', '#2ecc71', '#3498db', '#f1c40f', '#9b59b6', '#1abc9c'],
-    teamNames: ['红队', '绿队', '蓝队', '黄队', '紫队', '青队'],
-    questions: [],
-    currentQuestionIndex: 0,
-    scores: {},
-    selectedOption: null,
-    timer: null,
-    timeLeft: 0,
-    winScore: 1000,
-    timeLimit: 20,
-    activeTeamIndex: 0,
-    buzzerLocked: false,
-    skippedQuestion: false,
-    delayOptions: true,
-    optionsVisible: false,
-    isPaused: false,
-    speechEnabled: true,
-    currentSpeech: null,
-    selectedCategories: []
+<div id="password-overlay">
+    <div class="password-box">
+        <div class="password-title">输入房间密码</div>
+        <input class="password-input" id="pw-input" type="text" placeholder="密码" maxlength="6">
+        <div class="password-btns">
+            <button class="btn-confirm" style="flex:1" onclick="submitPassword()">确认</button>
+            <button class="btn-cancel" onclick="hidePassword()">取消</button>
+        </div>
+    </div>
+</div>
+
+<div class="screen" id="lobby-screen">
+    <div class="lobby-box">
+        <div class="lobby-title" id="lobby-title">房间</div>
+        <div class="lobby-settings" id="lobby-settings"></div>
+        <div class="lobby-players" id="lobby-players"></div>
+        <div class="lobby-btns">
+            <button class="btn-ready" id="btn-ready" onclick="toggleReady()">准备</button>
+            <button class="btn-leave" onclick="leaveRoom()">离开</button>
+        </div>
+    </div>
+</div>
+
+<div class="screen" id="game-screen">
+    <div class="game-top-bar">
+        <div class="game-round" id="game-round">第 1 题</div>
+        <div class="game-score" id="game-score"></div>
+    </div>
+    <div class="online-scoreboard" id="online-scoreboard"></div>
+    <div class="game-timer-wrap">
+        <div class="game-timer-bar"><div class="game-timer-fill" id="timer-fill"></div></div>
+        <div class="game-timer-text" id="timer-text"></div>
+    </div>
+    <div class="question-card">
+        <div class="question-text" id="question-text"></div>
+        <div class="options-list" id="options-list"></div>
+    </div>
+    <div class="explanation-box" id="explanation-box">
+        <div class="explanation-title">解析</div>
+        <div class="explanation-text" id="explanation-text"></div>
+    </div>
+    <div class="game-bottom">
+        <button class="btn-next" id="btn-next" onclick="nextQuestion()">下一题</button>
+        <button class="btn-pause" id="btn-pause" onclick="pauseGame()">暂停</button>
+        <button class="btn-settings" id="btn-settings" onclick="showSoloSettings()" style="display:none;">设置</button>
+        <button class="btn-exit" onclick="exitGame()">退出</button>
+    </div>
+</div>
+
+<div class="screen" id="result-screen">
+    <div class="result-box">
+        <div class="result-title" id="result-title">比赛结束</div>
+        <div class="result-subtitle" id="result-subtitle"></div>
+        <div class="result-rank" id="result-rank"></div>
+        <div class="result-btns">
+            <button class="btn-replay" id="btn-replay" onclick="replay()">再来一局</button>
+            <button class="btn-home" onclick="backToMenu()">返回主页</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const COLLECTION = 'quiz1_rooms';
+const DEFAULT_ANSWER_TIME = 10;
+const DEFAULT_WIN_SCORE = 20;
+const DEFAULT_MAX_PLAYERS = 4;
+const REVEAL_DELAY = 3000;
+const ROOM_EXPIRE = 30 * 60 * 1000;
+
+let db = null;
+let watcher = null;
+let isWatchClosing = false;
+let myUserId = '';
+let myNickname = '';
+let currentRoomDocId = '';
+let myPlayerIndex = -1;
+let isOnlineMode = false;
+let isReady = false;
+let pendingJoinDocId = '';
+let currentRoomListCache = [];
+let currentGameMode = 'solo';
+
+let soloState = {
+    questions: [], currentIdx: 0, score: 0, selected: null, answered: false, timer: null, timeLeft: 0,
+    answerTime: DEFAULT_ANSWER_TIME, questionCount: 10, paused: false, pausedTimeLeft: 0,
+    categories: []
 };
 
-// 获取题库
+let onlineState = {
+    questions: [], currentIdx: -1, score: 0, selected: null, answered: false,
+    timer: null, timeLeft: 0, roomData: null, revealed: false,
+    advanceTimer: null, gameStarting: false, safetyTimer: null,
+    paused: false, pausedTimeLeft: 0
+};
+
 const questionBank = window.questionBank || [];
+const letters = ['A','B','C','D'];
 
-// DOM元素
-const setupScreen = document.querySelector('.setup-screen');
-const questionScreen = document.querySelector('.question-screen');
-const scoreScreen = document.querySelector('.score-screen');
-const startGameBtn = document.getElementById('startGame');
-const nextQuestionBtn = document.getElementById('nextQuestion');
-const newGameBtn = document.getElementById('newGame');
-const changeSettingsBtn = document.getElementById('changeSettings');
-const questionText = document.getElementById('questionText');
-const optionsContainer = document.getElementById('optionsContainer');
-const timerDisplay = document.getElementById('timerDisplay');
-const scoreboard = document.getElementById('scoreboard');
-const currentQuestionNum = document.getElementById('currentQuestionNum');
-const progressBar = document.getElementById('progressBar');
-const winnerAnnouncement = document.getElementById('winnerAnnouncement');
-const winnerSection = document.getElementById('winnerSection');
-const teamCountSelect = document.getElementById('teamCount');
-const explanationContainer = document.getElementById('explanationContainer');
-const explanationText = document.getElementById('explanationText');
-const exitGameBtn = document.getElementById('exitGame');
-const teamsBar = document.getElementById('teamsBar');
-const skipQuestionBtn = document.getElementById('skipQuestion');
-const delayOptionsSelect = document.getElementById('delayOptions');
-const speakerControl = document.getElementById('speakerControl');
-const pauseBtn = document.getElementById('pauseBtn');
-const speechToggle = document.getElementById('speechToggle');
-const speechStatus = document.getElementById('speechStatus');
-const categorySelect = document.getElementById('categorySelect');
-const winScoreSelect = document.getElementById('winScore');
-const timeLimitSelect = document.getElementById('timeLimit');
-
-// 语音合成管理器
-const speechManager = {
-    speak: function(text) {
-        if (!gameState.speechEnabled) return;
-        
-        this.stop();
-        
-        if ('speechSynthesis' in window) {
-            gameState.currentSpeech = new SpeechSynthesisUtterance(text);
-            gameState.currentSpeech.lang = 'zh-CN';
-            gameState.currentSpeech.rate = 0.9;
-            window.speechSynthesis.speak(gameState.currentSpeech);
-        }
-    },
-    
-    stop: function() {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            gameState.currentSpeech = null;
-        }
-    },
-    
-    toggle: function(enable) {
-        gameState.speechEnabled = enable;
-        speechStatus.textContent = enable ? '开启' : '关闭';
-        speakerControl.textContent = enable ? '🔊' : '🔇';
-        
-        if (!enable) {
-            this.stop();
-        } else if (questionScreen.classList.contains('active')) {
-            const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-            this.speak(currentQuestion.question);
-        }
-    }
-};
-
-// 初始化分类选择
-function initCategorySelect() {
-    const allCategories = new Set();
-    questionBank.forEach(question => {
-        if (question.category) {
-            allCategories.add(question.category);
-        }
-    });
-    
-    categorySelect.innerHTML = '';
-    
-    const allOption = document.createElement('option');
-    allOption.value = 'all';
-    allOption.textContent = '全部分类';
-    categorySelect.appendChild(allOption);
-    
-    Array.from(allCategories).sort().forEach(category => {
-        const option = document.createElement('option');
-        option.value = category;
-        option.textContent = category;
-        categorySelect.appendChild(option);
-    });
-    
-    categorySelect.value = 'all';
+// 恢复上次的单人设置
+loadSoloSettings();
+if (!soloState.categories || soloState.categories.length === 0) {
+    soloState.categories = getCategories();
 }
 
-// 初始化游戏
-function initGame() {
-    const teamCount = parseInt(teamCountSelect.value);
-    gameState.teams = [];
-    gameState.scores = {};
-    
-    for (let i = 0; i < teamCount; i++) {
-        const teamName = gameState.teamNames[i];
-        gameState.teams.push(teamName);
-        gameState.scores[teamName] = 0;
-    }
-    
-    gameState.winScore = parseInt(winScoreSelect.value);
-    gameState.timeLimit = parseInt(timeLimitSelect.value);
-    gameState.delayOptions = delayOptionsSelect.value === 'true';
-    gameState.optionsVisible = !gameState.delayOptions;
-    
-    // 获取选中的分类
-    gameState.selectedCategories = [];
-    const selectedOptions = categorySelect.selectedOptions;
-    for (let i = 0; i < selectedOptions.length; i++) {
-        const value = selectedOptions[i].value;
-        if (value !== 'all') {
-            gameState.selectedCategories.push(value);
-        }
-    }
-    
-    // 根据分类筛选题目
-    if (gameState.selectedCategories.length > 0) {
-        gameState.questions = questionBank.filter(question => 
-            question.category && gameState.selectedCategories.includes(question.category)
-        );
-    } else {
-        gameState.questions = [...questionBank];
-    }
-    
-    // 随机排序题目
-    gameState.questions = gameState.questions.sort(() => 0.5 - Math.random());
-    
-    gameState.currentQuestionIndex = 0;
-    gameState.activeTeamIndex = 0;
-    gameState.isPaused = false;
-    
-    setupScreen.classList.remove('active');
-    questionScreen.classList.add('active');
-    scoreScreen.classList.remove('active');
-    
-    explanationContainer.style.display = 'none';
-    
-    updateTeamsBar();
-    showQuestion();
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
 }
 
-// 更新队伍栏
-function updateTeamsBar() {
-    teamsBar.innerHTML = '';
-    
-    gameState.teams.forEach((team, index) => {
-        const teamBlock = document.createElement('div');
-        teamBlock.className = 'team-block';
-        
-        const teamIcon = document.createElement('div');
-        teamIcon.className = 'team-icon';
-        teamIcon.style.backgroundColor = gameState.teamColors[index];
-        
-        const scoreDisplay = document.createElement('div');
-        scoreDisplay.className = 'team-score-display';
-        scoreDisplay.textContent = gameState.scores[team];
-        scoreDisplay.style.color = gameState.teamColors[index];
-        
-        if(index === gameState.activeTeamIndex) {
-            teamBlock.classList.add('active');
-            teamBlock.style.borderColor = gameState.teamColors[index];
-        }
-        
-        teamBlock.appendChild(scoreDisplay);
-        teamBlock.appendChild(teamIcon);
-        teamsBar.appendChild(teamBlock);
-    });
+function showToast(msg, type) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'toast show ' + (type || '');
+    setTimeout(() => t.className = 'toast', 2200);
 }
 
-// 显示题目
-function showQuestion() {
-    gameState.skippedQuestion = false;
-    gameState.selectedOption = null;
-    gameState.isPaused = false;
-    pauseBtn.textContent = "⏸";
-    
-    // 清除之前的计时器
-    if (gameState.timer) {
-        clearInterval(gameState.timer);
-        gameState.timer = null;
+function setStatus(msg, type) {
+    const s = document.getElementById('status-bar');
+    s.textContent = msg; s.className = type || '';
+}
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
     }
-    
-    const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-    
-    currentQuestionNum.textContent = gameState.currentQuestionIndex + 1;
-    questionText.textContent = currentQuestion.question;
-    
-    // 朗读题目
-    speechManager.speak(currentQuestion.question);
-    
-    // 重置进度条为100%并恢复绿色
-    progressBar.style.width = '100%';
-    progressBar.classList.remove('warning');
-    
-    optionsContainer.innerHTML = '';
-    
-    const optionLetters = ['A', 'B', 'C', 'D'];
-    currentQuestion.options.forEach((option, index) => {
-        const optionBox = document.createElement('div');
-        optionBox.className = 'option-box';
-        optionBox.dataset.index = index;
-        
-        const optionText = document.createElement('div');
-        optionText.className = 'option-text';
-        optionText.textContent = `${optionLetters[index]}. ${option}`;
-        
-        const placeholder = document.createElement('div');
-        placeholder.className = 'options-placeholder';
-        placeholder.textContent = ` `;
-        
-        optionBox.appendChild(optionText);
-        optionBox.appendChild(placeholder);
-        optionsContainer.appendChild(optionBox);
-        
-        optionBox.addEventListener('click', function() {
-            if (gameState.optionsVisible) {
-                selectOption.call(this);
+    return a;
+}
+
+function getCategories() {
+    const cats = new Set();
+    questionBank.forEach(q => { if (q.category) cats.add(q.category); });
+    return [...cats];
+}
+
+function renderCategoryChips() {
+    const container = document.getElementById('ss-categories');
+    if (!container) return;
+    container.innerHTML = '';
+    const allCats = getCategories();
+    const selected = soloState.categories || [];
+    const allSelected = selected.length >= allCats.length;
+
+    const allChip = document.createElement('div');
+    allChip.className = 'category-chip-all' + (allSelected ? ' active' : '');
+    allChip.textContent = '全部';
+    allChip.onclick = () => {
+        soloState.categories = [...allCats];
+        renderCategoryChips();
+    };
+    container.appendChild(allChip);
+
+    allCats.forEach(cat => {
+        const chip = document.createElement('div');
+        chip.className = 'category-chip' + (selected.includes(cat) ? ' active' : '');
+        chip.textContent = cat;
+        chip.onclick = () => {
+            if (selected.includes(cat)) {
+                soloState.categories = selected.filter(c => c !== cat);
             } else {
-                handleQuestionClick();
+                selected.push(cat);
+                soloState.categories = [...selected];
             }
-        });
+            renderCategoryChips();
+        };
+        container.appendChild(chip);
     });
-    
-    if (gameState.delayOptions) {
-        gameState.optionsVisible = false;
-        questionScreen.classList.add('question-click-area');
+}
+
+function pickQuestions(count, categories) {
+    if (questionBank.length === 0) return [];
+    let pool = questionBank;
+    if (categories && categories.length > 0 && categories.length < getCategories().length) {
+        pool = questionBank.filter(q => categories.includes(q.category));
+    }
+    if (pool.length === 0) return [];
+    const shuffled = pool.length >= count
+        ? shuffle(pool)
+        : shuffle(pool).concat(shuffle(pool));
+    return shuffled.slice(0, count);
+}
+
+function showCountdown(callback) {
+    const overlay = document.getElementById('countdown-overlay');
+    const numEl = document.getElementById('countdown-num');
+    overlay.classList.add('show');
+    let count = 3; numEl.textContent = count;
+    const iv = setInterval(() => {
+        count--;
+        if (count <= 0) { clearInterval(iv); overlay.classList.remove('show'); callback(); }
+        else { numEl.textContent = count; numEl.style.animation = 'none'; numEl.offsetHeight; numEl.style.animation = 'countIn .4s ease'; }
+    }, 800);
+}
+
+function startSolo() {
+    isOnlineMode = false;
+    const count = soloState.questionCount || 10;
+    const time = soloState.answerTime || DEFAULT_ANSWER_TIME;
+    const categories = soloState.categories || [];
+    soloState = {
+        questions: pickQuestions(count, categories), currentIdx: 0, score: 0, selected: null,
+        answered: false, timer: null, timeLeft: 0,
+        answerTime: time, questionCount: count, paused: false, pausedTimeLeft: 0,
+        categories: categories
+    };
+    if (soloState.questions.length === 0) { showToast('所选类别题库为空', 'error'); return; }
+    updateGameButtons();
+    showCountdown(() => { showScreen('game-screen'); renderSoloQuestion(); });
+}
+
+function renderSoloQuestion() {
+    const s = soloState;
+    if (s.currentIdx >= s.questions.length) { endSolo(); return; }
+    const q = s.questions[s.currentIdx];
+    s.selected = null; s.answered = false; s.timeLeft = s.answerTime || DEFAULT_ANSWER_TIME;
+    document.getElementById('game-round').textContent = '第 ' + (s.currentIdx + 1) + '/' + s.questions.length + ' 题';
+    document.getElementById('game-score').textContent = '得分: ' + s.score;
+    document.getElementById('online-scoreboard').innerHTML = '';
+    document.getElementById('question-text').textContent = (s.currentIdx + 1) + '. ' + q.question;
+    document.getElementById('explanation-box').classList.remove('show');
+    document.getElementById('btn-next').classList.remove('show');
+    const ol = document.getElementById('options-list'); ol.innerHTML = '';
+    q.options.forEach((opt, i) => {
+        const div = document.createElement('div'); div.className = 'option-item';
+        div.innerHTML = '<span class="option-letter">' + letters[i] + '</span><span>' + opt + '</span>';
+        div.onclick = () => soloSelect(i); ol.appendChild(div);
+    });
+    startSoloTimer();
+}
+
+function soloSelect(idx) {
+    const s = soloState; if (s.answered || s.paused) return;
+    s.answered = true; s.selected = idx; clearInterval(s.timer);
+    const q = s.questions[s.currentIdx];
+    document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
+        it.classList.add('disabled');
+        if (i === q.answer) it.classList.add('correct');
+        if (i === idx && idx !== q.answer) it.classList.add('wrong');
+    });
+    if (idx === q.answer) { s.score++; document.getElementById('game-score').textContent = '得分: ' + s.score; }
+    document.getElementById('explanation-text').textContent = q.explanation || '暂无解析';
+    document.getElementById('explanation-box').classList.add('show');
+    document.getElementById('btn-next').classList.add('show');
+}
+
+function startSoloTimer() {
+    const s = soloState; clearInterval(s.timer);
+    const fill = document.getElementById('timer-fill'), text = document.getElementById('timer-text');
+    const start = Date.now();
+    const total = (s.answerTime || DEFAULT_ANSWER_TIME) * 1000;
+    function tick() {
+        const remain = Math.max(0, total - (Date.now() - start));
+        s.timeLeft = remain / 1000;
+        const pct = (remain / total) * 100;
+        fill.style.width = pct + '%';
+        fill.className = 'game-timer-fill' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
+        text.className = 'game-timer-text' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
+        text.textContent = Math.ceil(s.timeLeft);
+        if (remain <= 0) { clearInterval(s.timer); soloTimeUp(); }
+    }
+    s.timer = setInterval(tick, 100); tick();
+}
+
+function soloTimeUp() {
+    const s = soloState; if (s.answered) return; s.answered = true;
+    const q = s.questions[s.currentIdx];
+    document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
+        it.classList.add('disabled'); if (i === q.answer) it.classList.add('correct');
+    });
+    document.getElementById('explanation-text').textContent = q.explanation || '暂无解析';
+    document.getElementById('explanation-box').classList.add('show');
+    document.getElementById('btn-next').classList.add('show');
+    showToast('时间到！', 'error');
+}
+
+function nextQuestion() { if (isOnlineMode) { onlineNext(); return; } soloState.currentIdx++; renderSoloQuestion(); }
+
+function endSolo() {
+    clearInterval(soloState.timer); const s = soloState;
+    document.getElementById('result-title').textContent = '闯关结束';
+    document.getElementById('result-subtitle').textContent = '共 ' + s.questions.length + ' 题，答对 ' + s.score + ' 题';
+    document.getElementById('result-rank').innerHTML = '<div class="rank-item top"><div class="rank-num">1</div><div class="rank-name">你</div><div class="rank-score">' + s.score + ' 分</div></div>';
+    document.getElementById('btn-replay').textContent = '再来一局';
+    showScreen('result-screen');
+}
+
+function exitGame() {
+    // 关闭所有浮层
+    document.getElementById('pause-overlay').classList.remove('show');
+    document.getElementById('solo-settings-overlay').classList.remove('show');
+    soloState.paused = false;
+    if (isOnlineMode) { leaveRoom(); return; }
+    clearInterval(soloState.timer);
+    showScreen('menu-screen');
+}
+
+// ========== 暂停/继续 ==========
+function updateGameButtons() {
+    const btnPause = document.getElementById('btn-pause');
+    const btnSettings = document.getElementById('btn-settings');
+    if (isOnlineMode) {
+        // 联机模式：只有主机能暂停，不显示设置按钮
+        const room = onlineState.roomData;
+        const isHost = room && room.hostId === myUserId;
+        btnPause.style.display = isHost ? '' : 'none';
+        btnSettings.style.display = 'none';
     } else {
-        gameState.optionsVisible = true;
-        document.querySelectorAll('.option-text').forEach(text => {
-            text.classList.add('option-text-visible');
-        });
-        document.querySelectorAll('.options-placeholder').forEach(placeholder => {
-            placeholder.style.display = 'none';
-        });
-        questionScreen.classList.remove('question-click-area');
-        startTimer();
-    }
-    
-    nextQuestionBtn.style.display = 'none';
-    exitGameBtn.style.display = 'none';
-    skipQuestionBtn.style.display = 'block';
-    
-    explanationContainer.style.display = 'none';
-    
-    updateTimerDisplay();
-    updateTeamsBar();
-}
-
-// 处理问题点击
-function handleQuestionClick() {
-    if (gameState.delayOptions && !gameState.optionsVisible) {
-        gameState.optionsVisible = true;
-        
-        document.querySelectorAll('.option-text').forEach(text => {
-            text.classList.add('option-text-visible');
-        });
-        
-        document.querySelectorAll('.options-placeholder').forEach(placeholder => {
-            placeholder.style.display = 'none';
-        });
-        
-        questionScreen.classList.remove('question-click-area');
-        
-        // 点击显示选项后开始计时
-        startTimer();
+        // 单人模式：暂停和设置都显示
+        btnPause.style.display = '';
+        btnSettings.style.display = '';
     }
 }
 
-// 选择选项
-function selectOption() {
-    if (gameState.selectedOption !== null) return;
-    
-    const selectedIndex = parseInt(this.dataset.index);
-    gameState.selectedOption = selectedIndex;
-    this.classList.add('selected');
-    
-    const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-    const isCorrect = selectedIndex === currentQuestion.answer;
-    
-    const correctElement = optionsContainer.children[currentQuestion.answer];
-    correctElement.classList.add('correct');
-    
-    if (!isCorrect) {
-        this.classList.add('incorrect');
-    }
-    
-    // 停止计时器和进度条
-    clearInterval(gameState.timer);
-    gameState.timer = null;
-    
-    if (isCorrect) {
-        const score = 100;
-        const teamName = gameState.teams[gameState.activeTeamIndex];
-        gameState.scores[teamName] += score;
-        updateTeamsBar();
-    }
-    
-    explanationText.textContent = currentQuestion.explanation || "暂无题目解析";
-    explanationContainer.style.display = 'block';
-    
-    nextQuestionBtn.style.display = 'block';
-    exitGameBtn.style.display = 'block';
-    skipQuestionBtn.style.display = 'none';
-}
-
-// 跳过题目
-function skipQuestion() {
-    // 清除计时器
-    clearInterval(gameState.timer);
-    gameState.timer = null;
-    
-    gameState.skippedQuestion = true;
-    
-    // 显示选项文字
-    document.querySelectorAll('.option-text').forEach(text => {
-        text.classList.add('option-text-visible');
-    });
-    
-    // 隐藏占位符
-    document.querySelectorAll('.options-placeholder').forEach(placeholder => {
-        placeholder.style.display = 'none';
-    });
-    
-    gameState.optionsVisible = true;
-    questionScreen.classList.remove('question-click-area');
-    
-    timerDisplay.classList.remove('warning');
-    
-    const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-    const correctElement = optionsContainer.children[currentQuestion.answer];
-    correctElement.classList.add('correct');
-    
-    explanationText.textContent = currentQuestion.explanation || "暂无题目解析";
-    explanationContainer.style.display = 'block';
-    
-    nextQuestionBtn.style.display = 'block';
-    skipQuestionBtn.style.display = 'none';
-    exitGameBtn.style.display = 'block';
-}
-
-// 开始计时器
-function startTimer() {
-    if (gameState.timer) {
-        clearInterval(gameState.timer);
-    }
-    
-    gameState.timeLeft = gameState.timeLimit;
-    gameState.isPaused = false;
-    updateTimerDisplay();
-    
-    // 重置进度条为100%绿色
-    progressBar.style.width = '100%';
-    progressBar.classList.remove('warning');
-    
-    const startTime = Date.now();
-    const endTime = startTime + gameState.timeLimit * 1000;
-    
-    function updateTimer() {
-        if (gameState.isPaused) {
+function pauseGame() {
+    if (isOnlineMode) {
+        // 联机：只有主机可暂停
+        const room = onlineState.roomData;
+        if (!room || room.hostId !== myUserId) {
+            showToast('只有房主可以暂停', 'error');
             return;
         }
-        
-        const now = Date.now();
-        const remainingTime = Math.max(0, endTime - now);
-        gameState.timeLeft = remainingTime / 1000;
-        
-        // 更新进度条（从100%递减）
-        const progressPercentage = (remainingTime / (gameState.timeLimit * 1000)) * 100;
-        progressBar.style.width = `${progressPercentage}%`;
-        
-        // 最后5秒变为红色
-        if (gameState.timeLeft <= 5) {
-            progressBar.classList.add('warning');
-            timerDisplay.classList.add('warning');
-        }
-        
-        updateTimerDisplay();
-        
-        if (remainingTime <= 0) {
-            clearInterval(gameState.timer);
-            timeUp();
-        }
-    }
-    
-    gameState.timer = setInterval(updateTimer, 100);
-    updateTimer();
-}
-
-// 更新计时器显示
-function updateTimerDisplay() {
-    if (!gameState.optionsVisible) {
-        timerDisplay.classList.remove('warning');
-        timerDisplay.textContent = "";
-    } else if (gameState.isPaused) {
-        timerDisplay.classList.remove('warning');
-        timerDisplay.textContent = "⏸ " + Math.ceil(gameState.timeLeft) + "秒";
+        pauseOnline();
     } else {
-        const seconds = Math.ceil(gameState.timeLeft);
-        timerDisplay.textContent = seconds + "秒";
-        
-        if (gameState.timeLeft <= 5) {
-            timerDisplay.classList.add('warning');
-        } else {
-            timerDisplay.classList.remove('warning');
-        }
+        pauseSolo();
     }
 }
 
-// 时间到
-function timeUp() {
-    if (gameState.selectedOption !== null) return;
-    
-    clearInterval(gameState.timer);
-    
-    const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
-    const correctElement = optionsContainer.children[currentQuestion.answer];
-    correctElement.classList.add('correct');
-    
-    explanationText.textContent = currentQuestion.explanation || "暂无题目解析";
-    explanationContainer.style.display = 'block';
-    
-    nextQuestionBtn.style.display = 'block';
-    exitGameBtn.style.display = 'block';
-    skipQuestionBtn.style.display = 'none';
+function pauseSolo() {
+    const s = soloState;
+    if (s.paused) return;
+    s.paused = true;
+    s.pausedTimeLeft = s.timeLeft;
+    clearInterval(s.timer);
+    document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.add('disabled'));
+    document.getElementById('pause-subtitle').textContent = '游戏已暂停';
+    document.getElementById('btn-resume').disabled = false;
+    document.getElementById('pause-overlay').classList.add('show');
 }
 
-// 下一题
-function nextQuestion() {
-    gameState.currentQuestionIndex++;
-    
-    if (!gameState.skippedQuestion) {
-        gameState.activeTeamIndex = (gameState.activeTeamIndex + 1) % gameState.teams.length;
-    }
-    
-    // 检查是否有队伍达到胜利分数
-    const winner = Object.entries(gameState.scores).find(([team, score]) => score >= gameState.winScore);
-    
-    if (winner) {
-        endGame();
+function resumeGame() {
+    if (isOnlineMode) {
+        resumeOnline();
     } else {
-        // 当所有题目用完时，重新洗牌整个题库
-        if (gameState.currentQuestionIndex >= gameState.questions.length) {
-            gameState.currentQuestionIndex = 0;
-            gameState.questions = [...questionBank].sort(() => 0.5 - Math.random());
-            alert("已完成所有题目，开始新一轮随机题目！");
-        }
-        showQuestion();
+        resumeSolo();
     }
 }
 
-// 结束游戏
-function endGame() {
-    questionScreen.classList.remove('active');
-    scoreScreen.classList.add('active');
-    
-    updateScoreboard();
-    declareWinner();
+function resumeSolo() {
+    const s = soloState;
+    if (!s.paused) return;
+    s.paused = false;
+    document.getElementById('pause-overlay').classList.remove('show');
+    // 恢复计时器和选项可点击
+    if (!s.answered) {
+        document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
+        restartSoloTimer(s.pausedTimeLeft);
+    }
 }
 
-// 更新积分榜
-function updateScoreboard() {
-    scoreboard.innerHTML = '';
-    
-    const sortedTeams = Object.entries(gameState.scores)
-        .sort((a, b) => b[1] - a[1]);
-    
-    sortedTeams.forEach(([teamName, score], index) => {
-        const teamIndex = gameState.teams.indexOf(teamName);
-        const teamScoreElement = document.createElement('div');
-        teamScoreElement.className = 'team-score';
-        
-        if (index === 0 && sortedTeams.length > 1 && sortedTeams[0][1] > sortedTeams[1][1]) {
-            teamScoreElement.classList.add('leading');
-            teamScoreElement.style.borderLeftColor = gameState.teamColors[teamIndex];
-        }
-        
-        teamScoreElement.innerHTML = `
-            <div class="team-name" style="color: ${gameState.teamColors[teamIndex]}">${teamName}</div>
-            <div class="team-points">${score}分</div>
-        `;
-        
-        scoreboard.appendChild(teamScoreElement);
+function restartSoloTimer(remainingSec) {
+    const s = soloState; clearInterval(s.timer);
+    const fill = document.getElementById('timer-fill'), text = document.getElementById('timer-text');
+    const total = (s.answerTime || DEFAULT_ANSWER_TIME) * 1000;
+    const start = Date.now();
+    const offset = (remainingSec != null ? remainingSec : s.timeLeft) * 1000;
+    function tick() {
+        const remain = Math.max(0, offset - (Date.now() - start));
+        s.timeLeft = remain / 1000;
+        const pct = total > 0 ? (remain / total) * 100 : 0;
+        fill.style.width = pct + '%';
+        fill.className = 'game-timer-fill' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
+        text.className = 'game-timer-text' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
+        text.textContent = Math.ceil(s.timeLeft);
+        if (remain <= 0) { clearInterval(s.timer); soloTimeUp(); }
+    }
+    s.timer = setInterval(tick, 100); tick();
+}
+
+// 联机暂停/继续
+async function pauseOnline() {
+    const room = onlineState.roomData;
+    if (!room || room.hostId !== myUserId) return;
+    onlineState.paused = true;
+    onlineState.pausedTimeLeft = onlineState.timeLeft;
+    clearInterval(onlineState.timer);
+    clearTimeout(onlineState.safetyTimer);
+    clearTimeout(onlineState.advanceTimer);
+    // 写入数据库标记暂停状态
+    try {
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({
+            paused: true, pausedBy: myUserId, lastActiveAt: Date.now()
+        });
+    } catch (e) { console.error('暂停写入失败:', e); }
+    document.getElementById('pause-subtitle').textContent = '房主已暂停游戏';
+    document.getElementById('btn-resume').disabled = false;
+    document.getElementById('pause-overlay').classList.add('show');
+}
+
+async function resumeOnline() {
+    const room = onlineState.roomData;
+    if (!room || room.hostId !== myUserId) {
+        showToast('只有房主可以继续', 'error');
+        return;
+    }
+
+    // 隐藏暂停面板
+    document.getElementById('pause-overlay').classList.remove('show');
+
+    // 3-2-1 倒计时后继续游戏
+    showCountdown(async () => {
+        // 更新数据库，所有玩家通过监听恢复游戏
+        try {
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({
+                paused: false, questionStartTime: Date.now(), lastActiveAt: Date.now()
+            });
+        } catch (e) { console.error('恢复写入失败:', e); }
     });
 }
 
-// 宣布获胜者
-function declareWinner() {
-    const teams = Object.entries(gameState.scores);
-    if (teams.length === 0) return;
-    
-    teams.sort((a, b) => b[1] - a[1]);
+// ========== 单人设置 ==========
+function loadSoloSettings() {
+    try {
+        const saved = localStorage.getItem('quiz_solo_settings');
+        if (saved) {
+            const obj = JSON.parse(saved);
+            soloState.answerTime = obj.answerTime || DEFAULT_ANSWER_TIME;
+            soloState.questionCount = obj.questionCount || 10;
+            soloState.categories = obj.categories || [];
+        }
+    } catch (e) {}
+}
 
-    const topScore = teams[0][1];
-    const winners = teams.filter(team => team[1] === topScore);
-    
-    if (winners.length > 0) {
-        winnerSection.style.display = 'block';
+function saveSoloSettings() {
+    try {
+        localStorage.setItem('quiz_solo_settings', JSON.stringify({
+            answerTime: soloState.answerTime || DEFAULT_ANSWER_TIME,
+            questionCount: soloState.questionCount || 10,
+            categories: soloState.categories || []
+        }));
+    } catch (e) {}
+}
 
-        if (winners.length === 1) {
-            const winnerIndex = gameState.teams.indexOf(winners[0][0]);
-            winnerAnnouncement.innerHTML = `${winners[0][0]} <span style="font-size: 0.8em;">(${topScore}/${gameState.winScore}分)</span>`;
-            winnerAnnouncement.style.color = gameState.teamColors[winnerIndex];
-        } else {
-            const winnerNames = winners.map(winner => winner[0]).join(' 和 ');
-            winnerAnnouncement.innerHTML = `平局! ${winnerNames} <span style="font-size: 0.8em;">(${topScore}/${gameState.winScore}分)</span>`;
-            winnerAnnouncement.style.color = 'var(--dark)';
+function showSoloSettings() {
+    if (isOnlineMode) return;
+    // 如果在游戏中，先暂停
+    const s = soloState;
+    const inGame = document.getElementById('game-screen').classList.contains('active');
+    if (inGame && !s.paused) {
+        s.paused = true;
+        s.pausedTimeLeft = s.timeLeft;
+        clearInterval(s.timer);
+        document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.add('disabled'));
+    }
+    // 回显上次设置
+    document.getElementById('ss-time').value = s.answerTime || DEFAULT_ANSWER_TIME;
+    document.getElementById('ss-count').value = s.questionCount || 10;
+    renderCategoryChips();
+    const btnConfirm = document.querySelector('#solo-settings-overlay .btn-confirm');
+    btnConfirm.textContent = inGame ? '应用' : '开始游戏';
+    btnConfirm.setAttribute('onclick', inGame ? 'applySoloSettings()' : 'confirmSoloStart()');
+    document.getElementById('solo-settings-overlay').classList.add('show');
+}
+
+function hideSoloSettings() {
+    document.getElementById('solo-settings-overlay').classList.remove('show');
+    // 如果在游戏中且暂停了，恢复游戏
+    const s = soloState;
+    const inGame = document.getElementById('game-screen').classList.contains('active');
+    if (inGame && s.paused && !document.getElementById('pause-overlay').classList.contains('show')) {
+        s.paused = false;
+        if (!s.answered) {
+            document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
+            restartSoloTimer(s.pausedTimeLeft);
         }
     }
 }
 
-// 事件监听器
-startGameBtn.addEventListener('click', initGame);
-nextQuestionBtn.addEventListener('click', nextQuestion);
-newGameBtn.addEventListener('click', () => {
-    gameState.currentQuestionIndex = 0;
-    gameState.activeTeamIndex = 0;
-    for (const team in gameState.scores) {
-        gameState.scores[team] = 0;
+function confirmSoloStart() {
+    const newTime = parseInt(document.getElementById('ss-time').value) || DEFAULT_ANSWER_TIME;
+    const newCount = parseInt(document.getElementById('ss-count').value) || 10;
+    soloState.answerTime = newTime;
+    soloState.questionCount = newCount;
+    saveSoloSettings();
+    document.getElementById('solo-settings-overlay').classList.remove('show');
+    startSolo();
+}
+
+function applySoloSettings() {
+    const s = soloState;
+    const newTime = parseInt(document.getElementById('ss-time').value) || DEFAULT_ANSWER_TIME;
+    const newCount = parseInt(document.getElementById('ss-count').value) || 10;
+    const oldCategories = [...(s.categories || [])];
+    const newCategories = s.categories || [];
+    const timeChanged = newTime !== s.answerTime;
+    const countChanged = newCount !== s.questionCount;
+    const catChanged = oldCategories.length !== newCategories.length ||
+        oldCategories.some((c, i) => c !== newCategories[i]);
+
+    s.answerTime = newTime;
+    s.questionCount = newCount;
+    saveSoloSettings();
+
+    document.getElementById('solo-settings-overlay').classList.remove('show');
+
+    if (countChanged || catChanged) {
+        showToast('设置已更改，将重新开始', 'info');
+        startSolo();
+    } else if (timeChanged) {
+        showToast('答题时间已更新为 ' + newTime + ' 秒', 'success');
+        s.paused = false;
+        if (!s.answered) {
+            document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
+            restartSoloTimer(newTime);
+        }
+        document.getElementById('pause-overlay').classList.remove('show');
+    } else {
+        s.paused = false;
+        if (!s.answered) {
+            document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
+            restartSoloTimer(s.pausedTimeLeft);
+        }
+        document.getElementById('pause-overlay').classList.remove('show');
+    }
+}
+
+function replay() { if (isOnlineMode) { onlineReplay(); return; } startSolo(); }
+
+async function initCloudBase() {
+    if (db) return true;
+    try {
+        const app = await getCloudBaseApp();
+        if (!app) throw new Error('CloudBase 不可用');
+        db = app.database(); myUserId = getUserId(); myNickname = await fetchNickname();
+        return true;
+    } catch (e) { console.error('CloudBase 初始化失败:', e); return false; }
+}
+
+async function fetchNickname() {
+    const userId = getUserId();
+    if (userId.startsWith('visitor_')) return '游客';
+    const local = localStorage.getItem('game_nickname');
+    if (local && local !== '玩家') return local;
+    try {
+        const app = await getCloudBaseApp();
+        if (app) {
+            const cdb = app.database();
+            const res = await cdb.collection('users').where({ user_id: userId }).get();
+            if (res.data && res.data.length > 0) {
+                const name = res.data[0].username || res.data[0].nickname || '玩家';
+                localStorage.setItem('game_nickname', name); return name;
+            }
+        }
+    } catch (e) { console.warn('获取昵称失败:', e); }
+    return localStorage.getItem('game_nickname') || '玩家';
+}
+
+async function showRooms() {
+    showScreen('room-screen'); setStatus('连接中...', '');
+    const ok = await initCloudBase();
+    if (!ok) { setStatus('连接失败，请重试', 'err'); return; }
+    await refreshRooms();
+}
+
+async function refreshRooms() {
+    const list = document.getElementById('room-list');
+    list.innerHTML = '<div class="room-list-empty">加载中...</div>';
+    try {
+        await cleanupExpiredRooms();
+        const res = await db.collection(COLLECTION).orderBy('createdAt', 'desc').limit(50).get();
+        const rooms = (res.data || []).filter(r => {
+            if (r.started && Date.now() - (r.createdAt || 0) > ROOM_EXPIRE) return false;
+            return true;
+        });
+        currentRoomListCache = rooms;
+        renderRoomList(rooms);
+    } catch (e) {
+        list.innerHTML = '<div class="room-list-empty">加载失败，点击刷新重试</div>';
+    }
+}
+
+async function cleanupExpiredRooms() {
+    try {
+        const now = Date.now();
+        const res = await db.collection(COLLECTION).limit(100).get();
+        for (const room of (res.data || [])) {
+            if (now - (room.createdAt || 0) > ROOM_EXPIRE) {
+                await db.collection(COLLECTION).doc(room._id).remove();
+            }
+        }
+    } catch (e) { console.warn('清理过期房间失败:', e); }
+}
+
+function renderRoomList(rooms) {
+    const list = document.getElementById('room-list');
+    if (!rooms.length) {
+        list.innerHTML = '<div class="room-list-empty">暂无房间，点击「创建房间」开始</div>';
+        return;
+    }
+    let html = '';
+    rooms.forEach(room => {
+        const players = room.players || [];
+        const taken = players.filter(p => p.id).length;
+        const maxP = room.maxPlayers || DEFAULT_MAX_PLAYERS;
+        const isFull = taken >= maxP;
+        const isPlaying = !!room.started;
+        const hasPassword = !!room.password;
+        const cls = 'room-card' + (isFull ? ' full' : '') + (isPlaying ? ' playing' : '');
+        const onclick = (isFull || isPlaying) ? '' : "onclick=\"tryJoinRoom('" + room._id + "')\"";
+        const badgeCls = isPlaying ? 'room-card-badge playing-badge' : (isFull ? 'room-card-badge full-badge' : 'room-card-badge open');
+        const badgeText = isPlaying ? '游戏中' : (isFull ? '已满' : '可加入');
+        html += '<div class="' + cls + '" ' + onclick + '>';
+        html += '<div class="room-card-icon">' + (room.roomName || '房').charAt(0) + '</div>';
+        html += '<div class="room-card-info">';
+        html += '<div class="room-card-name">' + (hasPassword ? '<span class="room-card-lock">🔒</span> ' : '') + (room.roomName || '未命名') + '</div>';
+        html += '<div class="room-card-meta">';
+        html += '<span>👥 ' + taken + '/' + maxP + '</span>';
+        html += '<span>' + (room.gameMode === 'team' ? '🤝 组队' : '👤 个人') + '</span>';
+        html += '<span>🏆 ' + (room.winScore || DEFAULT_WIN_SCORE) + '分胜</span>';
+        html += '<span>⏱ ' + (room.answerTime || DEFAULT_ANSWER_TIME) + '秒</span>';
+        html += '</div></div>';
+        html += '<div class="' + badgeCls + '">' + badgeText + '</div>';
+        html += '</div>';
+    });
+    list.innerHTML = html;
+}
+
+function switchGameMode(mode) {
+    const isTeam = mode === 'team';
+    document.getElementById('mode-solo').classList.toggle('active', !isTeam);
+    document.getElementById('mode-team').classList.toggle('active', isTeam);
+    document.getElementById('mode-slider').classList.toggle('right', isTeam);
+    document.getElementById('cr-solo-row').style.display = isTeam ? 'none' : '';
+    document.getElementById('cr-team-row').style.display = isTeam ? '' : 'none';
+    currentGameMode = mode;
+}
+
+function showCreateRoom() {
+    document.getElementById('cr-name').value = myNickname + '的房间';
+    document.getElementById('cr-maxplayers').value = '4';
+    document.getElementById('cr-winscore').value = '20';
+    document.getElementById('cr-time').value = '10';
+    document.getElementById('cr-password').value = '';
+    currentGameMode = 'solo';
+    document.getElementById('mode-solo').classList.add('active');
+    document.getElementById('mode-team').classList.remove('active');
+    document.getElementById('mode-slider').classList.remove('right');
+    document.getElementById('cr-solo-row').style.display = '';
+    document.getElementById('cr-team-row').style.display = 'none';
+    document.getElementById('create-overlay').classList.add('show');
+}
+
+function hideCreateRoom() { document.getElementById('create-overlay').classList.remove('show'); }
+
+async function createRoom() {
+    const name = document.getElementById('cr-name').value.trim() || '未命名房间';
+    const gameMode = currentGameMode || 'solo';
+    let maxPlayers, teamSize = 0, winScore;
+
+    if (gameMode === 'team') {
+        teamSize = parseInt(document.getElementById('cr-teamsize').value) || 5;
+        maxPlayers = teamSize * 2;
+        winScore = parseInt(document.getElementById('cr-winscore2').value) || DEFAULT_WIN_SCORE;
+    } else {
+        maxPlayers = parseInt(document.getElementById('cr-maxplayers').value) || DEFAULT_MAX_PLAYERS;
+        winScore = parseInt(document.getElementById('cr-winscore').value) || DEFAULT_WIN_SCORE;
+    }
+    const answerTime = parseInt(document.getElementById('cr-time').value) || DEFAULT_ANSWER_TIME;
+    const password = document.getElementById('cr-password').value.trim();
+
+    if (!db) { showToast('未连接数据库', 'error'); return; }
+
+    try {
+        await cleanupMyOldRooms(null);
+        const players = [];
+        for (let p = 0; p < maxPlayers; p++) {
+            players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null });
+        }
+
+        const roomData = {
+            roomName: name, hostId: myUserId, maxPlayers: maxPlayers,
+            winScore: winScore, answerTime: answerTime, password: password || '',
+            players: players, started: false, currentQuestion: -1,
+            questions: [], questionStartTime: 0, paused: false,
+            gameMode: gameMode,
+            host: { id: myUserId, nickname: myNickname },
+            createdAt: Date.now(), lastActiveAt: Date.now()
+        };
+        if (gameMode === 'team') {
+            roomData.teamSize = teamSize;
+            roomData.teamScores = { A: 0, B: 0 };
+        }
+
+        const res = await db.collection(COLLECTION).add(roomData);
+
+        hideCreateRoom();
+        const docId = res._id || res.id || (res.data && res.data._id);
+        if (!docId || typeof docId !== 'string') {
+            showToast('创建失败：无法获取房间ID', 'error');
+            return;
+        }
+        currentRoomDocId = docId;
+        myPlayerIndex = -1;
+        isReady = false;
+        isOnlineMode = true;
+
+        const room = {
+            _id: res._id, roomName: name, hostId: myUserId, maxPlayers,
+            winScore, answerTime, password, players, started: false,
+            gameMode, teamSize: roomData.teamSize, teamScores: roomData.teamScores,
+            host: { id: myUserId, nickname: myNickname }
+        };
+        showScreen('lobby-screen');
+        renderLobby(room);
+        startWatchRoom();
+        showToast('房间创建成功', 'success');
+    } catch (e) {
+        showToast('创建失败: ' + e.message, 'error');
+    }
+}
+
+function tryJoinRoom(docId) {
+    pendingJoinDocId = docId;
+    const room = currentRoomListCache.find(r => r._id === docId);
+    if (room && room.password) {
+        document.getElementById('pw-input').value = '';
+        document.getElementById('password-overlay').classList.add('show');
+    } else {
+        joinRoom(docId);
+    }
+}
+
+function hidePassword() {
+    document.getElementById('password-overlay').classList.remove('show');
+    pendingJoinDocId = '';
+}
+
+async function submitPassword() {
+    const pw = document.getElementById('pw-input').value.trim();
+    const docId = pendingJoinDocId;
+    hidePassword();
+    if (!docId) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(docId).get();
+        if (!res.data || !res.data.length) { showToast('房间不存在', 'error'); return; }
+        const room = res.data[0];
+        if (room.password && room.password !== pw) { showToast('密码错误', 'error'); return; }
+        joinRoom(docId);
+    } catch (e) { showToast('验证失败', 'error'); }
+}
+
+async function joinRoom(docId) {
+    if (!db) { showToast('未连接数据库', 'error'); return; }
+    try {
+        await cleanupMyOldRooms(docId);
+        const res = await db.collection(COLLECTION).doc(docId).get();
+        if (!res.data || !res.data.length) { showToast('房间不存在', 'error'); return; }
+        const room = res.data[0];
+        if (room.started) { showToast('游戏已开始', 'error'); refreshRooms(); return; }
+
+        const players = room.players || [];
+        const maxP = room.maxPlayers || DEFAULT_MAX_PLAYERS;
+        const hostSlot = room.host || {};
+
+        if (hostSlot.id === myUserId) {
+            currentRoomDocId = docId;
+            myPlayerIndex = -1;
+            isReady = false;
+            isOnlineMode = true;
+            showScreen('lobby-screen');
+            renderLobby(room);
+            startWatchRoom();
+            return;
+        }
+
+        let mySpot = players.findIndex(p => p.id === myUserId);
+
+        if (mySpot === -1) {
+            mySpot = players.findIndex(p => !p.id);
+            if (mySpot === -1) { showToast('房间已满', 'error'); return; }
+            while (players.length < mySpot + 1) {
+                players.push({ id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null });
+            }
+            let team = null;
+            if (room.gameMode === 'team') {
+                const teamASize = players.filter(p => p.id && p.team === 'A').length;
+                const teamBSize = players.filter(p => p.id && p.team === 'B').length;
+                const maxTeamSize = room.teamSize || 5;
+                if (teamASize < maxTeamSize) team = 'A';
+                else if (teamBSize < maxTeamSize) team = 'B';
+                else { showToast('两队都已满', 'error'); return; }
+            }
+            players[mySpot] = { id: myUserId, nickname: myNickname, ready: false, score: 0, answered: false, answerChoice: -1, team };
+            await db.collection(COLLECTION).doc(docId).update({ players, lastActiveAt: Date.now() });
+        }
+
+        currentRoomDocId = docId;
+        myPlayerIndex = mySpot;
+        isReady = false;
+        isOnlineMode = true;
+
+        showScreen('lobby-screen');
+        renderLobby(room);
+        startWatchRoom();
+    } catch (e) { showToast('加入失败: ' + e.message, 'error'); }
+}
+
+async function cleanupMyOldRooms(excludeDocId) {
+    try {
+        const res = await db.collection(COLLECTION).limit(100).get();
+        for (const room of (res.data || [])) {
+            if (room._id === excludeDocId) continue;
+            const players = room.players || [];
+            const hostSlot = room.host || {};
+            let needUpdate = false;
+            const idx = players.findIndex(p => p.id === myUserId);
+            if (idx !== -1) {
+                players[idx] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null };
+                needUpdate = true;
+            }
+            if (hostSlot.id === myUserId) {
+                room.host = { id: null, nickname: null };
+                needUpdate = true;
+            }
+            if (!needUpdate) continue;
+            const anyoneLeft = players.some(p => p.id) || (room.host && room.host.id);
+            if (!anyoneLeft) {
+                await db.collection(COLLECTION).doc(room._id).remove();
+                continue;
+            }
+            const updateData = { players };
+            if (room.host) updateData.host = room.host;
+            if (room.hostId === myUserId) {
+                const nextHost = players.find(p => p.id) || (room.host && room.host.id ? { id: room.host.id } : null);
+                if (nextHost) updateData.hostId = nextHost.id;
+            }
+            await db.collection(COLLECTION).doc(room._id).update(updateData);
+        }
+    } catch (e) { console.warn('清理旧房间失败:', e); }
+}
+
+function renderLobby(room) {
+    const players = room.players || [];
+    const maxP = room.maxPlayers || DEFAULT_MAX_PLAYERS;
+    const isTeam = room.gameMode === 'team';
+    const hostSlot = room.host || {};
+    const amIHost = room.hostId === myUserId;
+    const amIInHostSeat = hostSlot.id === myUserId;
+    const amIInPlayerSeat = myPlayerIndex >= 0 && players[myPlayerIndex]?.id === myUserId;
+    document.getElementById('lobby-title').textContent = room.roomName || '房间';
+
+    const activePlayerCount = players.filter(p => p.id).length + (hostSlot.id ? 1 : 0);
+    const settings = document.getElementById('lobby-settings');
+    settings.innerHTML = '<span>👥 ' + activePlayerCount + '/' + (maxP + 1) + '</span>'
+        + '<span>' + (isTeam ? '🤝 组队' : '👤 个人') + '</span>'
+        + '<span>🏆 ' + (room.winScore || DEFAULT_WIN_SCORE) + '分胜</span>'
+        + '<span>⏱ ' + (room.answerTime || DEFAULT_ANSWER_TIME) + '秒</span>'
+
+        + (room.password ? '<span>🔒 有密码</span>' : '');
+
+    const container = document.getElementById('lobby-players');
+    container.innerHTML = '';
+
+    if (isTeam) {
+        container.className = 'lobby-team-wrap';
+
+        const hostSection = document.createElement('div');
+        hostSection.className = 'ow-lobby-host';
+        if (hostSlot.id) {
+            const isMe = hostSlot.id === myUserId;
+            const div = document.createElement('div');
+            div.className = 'host-slot';
+            div.innerHTML = '<span class="host-name">'
+                + (isMe ? '<span class="ow-slot-me">我</span> ' : '')
+                + (hostSlot.nickname || '主持人')
+                + '</span>'
+                + '<span class="host-label">HOST</span>';
+            hostSection.appendChild(div);
+        } else {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.className = 'host-slot empty-host';
+            if (amIHost && amIInPlayerSeat) {
+                emptyDiv.textContent = '← 回到主持人位';
+                emptyDiv.style.cursor = 'pointer';
+                emptyDiv.onclick = () => switchPlayerToHost();
+            } else {
+                emptyDiv.textContent = '主持人空缺';
+            }
+            hostSection.appendChild(emptyDiv);
+        }
+        container.appendChild(hostSection);
+
+        if (amIHost) {
+            const settingsBar = document.createElement('div');
+            settingsBar.className = 'host-settings';
+            settingsBar.innerHTML = '<label>🏆 <input type="number" id="hs-winscore" value="' + (room.winScore || DEFAULT_WIN_SCORE) + '" min="1" max="999">分胜</label>'
+                + '<label>⏱ <input type="number" id="hs-time" value="' + (room.answerTime || DEFAULT_ANSWER_TIME) + '" min="3" max="60">秒</label>'
+                + '<button style="padding:3px 10px;border:1px solid #ddd;border-radius:3px;font-size:.68rem;cursor:pointer;background:#fff;" onclick="saveHostSettings()">保存</button>';
+            container.appendChild(settingsBar);
+        }
+
+        const myTeam = amIInPlayerSeat ? players[myPlayerIndex]?.team : null;
+        const teamsWrap = document.createElement('div');
+        teamsWrap.className = 'lobby-team-teams';
+        ['A', 'B'].forEach(team => {
+            const teamPlayers = players.filter(p => p.id && p.team === team);
+            const col = document.createElement('div');
+            col.className = 'ow-lobby-team team-' + team.toLowerCase();
+            teamPlayers.forEach(p => {
+                const isMe = p.id === myUserId;
+                const div = document.createElement('div');
+                div.className = 'ow-slot filled' + (p.ready ? ' ready' : '');
+                div.innerHTML = '<span class="ow-slot-name">'
+                    + (isMe ? '<span class="ow-slot-me">我</span> ' : '')
+                    + (p.nickname || '玩家')
+                    + '</span>'
+                    + '<span class="ow-slot-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? 'READY' : 'WAIT') + '</span>';
+                col.appendChild(div);
+            });
+            for (let j = teamPlayers.length; j < (room.teamSize || 5); j++) {
+                const emptyDiv = document.createElement('div');
+                emptyDiv.className = 'ow-slot empty';
+                emptyDiv.innerHTML = '<div class="ow-slot-empty-icon">+</div>空位';
+                if (amIInHostSeat && amIHost) {
+                    emptyDiv.onclick = () => switchHostToTeam(team);
+                    emptyDiv.title = '点击加入' + team + '队';
+                } else if (myTeam && myTeam !== team) {
+                    emptyDiv.onclick = () => switchMyTeam(team);
+                    emptyDiv.title = '点击加入' + team + '队';
+                }
+                col.appendChild(emptyDiv);
+            }
+            teamsWrap.appendChild(col);
+        });
+        const vsDiv = document.createElement('div');
+        vsDiv.className = 'ow-lobby-vs';
+        vsDiv.innerHTML = '<div class="ow-lobby-vs-diamond">VS</div>';
+        teamsWrap.appendChild(vsDiv);
+        container.appendChild(teamsWrap);
+    } else {
+        container.className = '';
+        const hostSection = document.createElement('div');
+        hostSection.className = 'ow-lobby-host';
+        if (hostSlot.id) {
+            const isMe = hostSlot.id === myUserId;
+            const div = document.createElement('div');
+            div.className = 'host-slot';
+            div.innerHTML = '<span class="host-name">'
+                + (isMe ? '<span class="ow-slot-me">我</span> ' : '')
+                + (hostSlot.nickname || '主持人')
+                + '</span>'
+                + '<span class="host-label">HOST</span>';
+            hostSection.appendChild(div);
+        } else {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.className = 'host-slot empty-host';
+            if (amIHost && amIInPlayerSeat) {
+                emptyDiv.textContent = '← 回到主持人位';
+                emptyDiv.style.cursor = 'pointer';
+                emptyDiv.onclick = () => switchPlayerToHost();
+            } else {
+                emptyDiv.textContent = '主持人空缺';
+            }
+            hostSection.appendChild(emptyDiv);
+        }
+        container.appendChild(hostSection);
+
+        if (amIHost) {
+            const settingsBar = document.createElement('div');
+            settingsBar.className = 'host-settings';
+            settingsBar.innerHTML = '<label>🏆 <input type="number" id="hs-winscore" value="' + (room.winScore || DEFAULT_WIN_SCORE) + '" min="1" max="999">分胜</label>'
+                + '<label>⏱ <input type="number" id="hs-time" value="' + (room.answerTime || DEFAULT_ANSWER_TIME) + '" min="3" max="60">秒</label>'
+                + '<button style="padding:3px 10px;border:1px solid #ddd;border-radius:3px;font-size:.68rem;cursor:pointer;background:#fff;" onclick="saveHostSettings()">保存</button>';
+            container.appendChild(settingsBar);
+        }
+
+        players.forEach((p, i) => {
+            if (!p.id) return;
+            const isMe = p.id === myUserId;
+            const div = document.createElement('div');
+            div.className = 'lobby-player' + (p.ready ? ' ready' : '');
+            div.innerHTML = '<div class="p-avatar">' + (isMe ? '我' : (i + 1)) + '</div>'
+                + '<div class="p-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + '</div>'
+                + '<div class="p-status ' + (p.ready ? 'ready' : 'waiting') + '">' + (p.ready ? '已准备' : '等待中') + '</div>';
+            container.appendChild(div);
+        });
+    }
+
+    const btnReady = document.getElementById('btn-ready');
+    if (amIInHostSeat) {
+        btnReady.textContent = '主持人就绪';
+        btnReady.classList.remove('cancel');
+    } else {
+        const myP = myPlayerIndex >= 0 ? players[myPlayerIndex] : null;
+        if (myP && myP.ready) { btnReady.textContent = '取消准备'; btnReady.classList.add('cancel'); }
+        else { btnReady.textContent = '准备'; btnReady.classList.remove('cancel'); }
+    }
+}
+
+async function saveHostSettings() {
+    if (!currentRoomDocId) return;
+    const room = onlineState.roomData;
+    if (!room || room.hostId !== myUserId) return;
+    const winScore = parseInt(document.getElementById('hs-winscore')?.value) || room.winScore;
+    const answerTime = parseInt(document.getElementById('hs-time')?.value) || room.answerTime;
+    try {
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({
+            winScore: Math.max(1, winScore),
+            answerTime: Math.max(3, Math.min(60, answerTime)),
+            lastActiveAt: Date.now()
+        });
+        showToast('设置已保存', 'success');
+    } catch (e) { console.error('保存设置失败:', e); }
+}
+
+async function switchPlayerToHost() {
+    if (!currentRoomDocId || myPlayerIndex < 0) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const room = res.data[0];
+        const players = room.players || [];
+        if (myPlayerIndex >= 0 && players[myPlayerIndex]) {
+            players[myPlayerIndex] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null };
+        }
+        const host = { id: myUserId, nickname: myNickname };
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, host, lastActiveAt: Date.now() });
+        myPlayerIndex = -1;
+    } catch (e) { console.error('回到主持人位失败:', e); }
+}
+
+async function switchHostToTeam(team) {
+    if (!currentRoomDocId) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const room = res.data[0];
+        if (!room.teamSize) return;
+        const players = room.players || [];
+        const targetCount = players.filter(p => p.id && p.team === team).length;
+        if (targetCount >= room.teamSize) { showToast(team + '队已满', 'error'); return; }
+        const mySpot = players.findIndex(p => !p.id);
+        if (mySpot === -1) { showToast('没有空位', 'error'); return; }
+        players[mySpot] = { id: myUserId, nickname: myNickname, ready: false, score: 0, answered: false, answerChoice: -1, team };
+        const host = { id: null, nickname: null };
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, host, lastActiveAt: Date.now() });
+        myPlayerIndex = mySpot;
+    } catch (e) { console.error('主持人加入队伍失败:', e); }
+}
+
+async function switchMyTeam(newTeam) {
+    if (!currentRoomDocId || myPlayerIndex < 0) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const room = res.data[0];
+        if (!room.teamSize) return;
+        const players = room.players || [];
+        const targetCount = players.filter(p => p.id && p.team === newTeam).length;
+        if (targetCount >= room.teamSize) { showToast(newTeam + '队已满', 'error'); return; }
+        if (players[myPlayerIndex]) {
+            players[myPlayerIndex].team = newTeam;
+        }
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
+    } catch (e) { console.error('换队失败:', e); }
+}
+
+async function toggleReady() {
+    if (!currentRoomDocId) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const room = res.data[0];
+        const hostSlot = room.host || {};
+        if (hostSlot.id === myUserId) return;
+        const players = room.players || [];
+        if (myPlayerIndex < 0 || !players[myPlayerIndex]) return;
+        players[myPlayerIndex].ready = !players[myPlayerIndex].ready;
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
+        isReady = players[myPlayerIndex].ready;
+    } catch (e) { console.error('准备失败:', e); }
+}
+
+async function startWatchRoom() {
+    if (!currentRoomDocId || typeof currentRoomDocId !== 'string') {
+        console.error('startWatchRoom: invalid docId', currentRoomDocId);
+        return;
     }
     
-    scoreScreen.classList.remove('active');
-    questionScreen.classList.add('active');
+    if (watcher && !isWatchClosing) {
+        isWatchClosing = true;
+        watcher.close();
+        watcher = null;
+        setTimeout(() => { isWatchClosing = false; }, 100);
+    }
     
-    showQuestion();
-});
-changeSettingsBtn.addEventListener('click', () => {
-    scoreScreen.classList.remove('active');
-    setupScreen.classList.add('active');
-});
-exitGameBtn.addEventListener('click', () => {
-    if (confirm("确定要退出当前比赛吗？所有进度将丢失！")) {
-        questionScreen.classList.remove('active');
-        setupScreen.classList.add('active');
-        
-        if (gameState.timer) {
-            clearInterval(gameState.timer);
+    try {
+        watcher = db.collection(COLLECTION).doc(currentRoomDocId).watch({
+            onChange: snapshot => {
+                if (!snapshot.docs || !snapshot.docs.length) {
+                    showToast('房间已解散', 'error'); leaveRoom(); return;
+                }
+                handleRoomUpdate(snapshot.docs[0]);
+            },
+            onError: err => {
+                console.error('监听出错:', err);
+                if (currentRoomDocId) {
+                    setTimeout(() => { 
+                        if (currentRoomDocId && !isWatchClosing) startWatchRoom(); 
+                    }, 3000);
+                }
+            }
+        });
+    } catch (e) { console.error('启动监听失败:', e); }
+}
+
+function handleRoomUpdate(room) {
+    onlineState.roomData = room;
+    const players = room.players || [];
+    const hostSlot = room.host || {};
+
+    const playerIdx = players.findIndex(p => p.id === myUserId);
+    const inHostSeat = hostSlot.id === myUserId;
+    if (inHostSeat) {
+        myPlayerIndex = -1;
+    } else if (playerIdx !== -1) {
+        myPlayerIndex = playerIdx;
+    }
+
+    const activePlayers = players.filter(p => p.id);
+
+    if (room.started) {
+        if (onlineState.gameStarting) return;
+        if (!document.getElementById('game-screen').classList.contains('active') &&
+            !document.getElementById('result-screen').classList.contains('active')) {
+            onlineState.gameStarting = true;
+            onlineState.currentIdx = -1; onlineState.revealed = false;
+            onlineState.answered = false; onlineState.selected = null;
+            clearInterval(onlineState.timer); clearTimeout(onlineState.advanceTimer);
+            clearTimeout(onlineState.safetyTimer);
+            showCountdown(() => {
+                onlineState.gameStarting = false;
+                showScreen('game-screen'); updateGameButtons(); renderOnlineQuestion(room);
+            });
+        } else if (document.getElementById('game-screen').classList.contains('active')) {
+            renderOnlineQuestion(room);
+        }
+    } else {
+        if (document.getElementById('lobby-screen').classList.contains('active')) { renderLobby(room); }
+        const allReady = activePlayers.length >= 2 && activePlayers.every(p => p.ready);
+        if (allReady && room.hostId === myUserId) { startOnlineGame(room); }
+    }
+}
+
+async function startOnlineGame(room) {
+    try {
+        const winScore = room.winScore || DEFAULT_WIN_SCORE;
+        const estimatedQuestions = winScore * (room.maxPlayers || DEFAULT_MAX_PLAYERS) * 2;
+        const questions = pickQuestions(Math.max(20, estimatedQuestions));
+        if (questions.length === 0) { showToast('题库为空', 'error'); return; }
+        const players = room.players.map(p => ({ ...p, score: 0, ready: false, answered: false, answerChoice: -1 }));
+        const updateData = {
+            started: true, questions: questions.map(q => q.id), currentQuestion: 0,
+            players: players, questionStartTime: Date.now(), paused: false, lastActiveAt: Date.now()
+        };
+        if (room.gameMode === 'team') {
+            updateData.teamScores = { A: 0, B: 0 };
+        }
+        await db.collection(COLLECTION).doc(currentRoomDocId).update(updateData);
+    } catch (e) { console.error('开始游戏失败:', e); }
+}
+
+function renderOnlineQuestion(room) {
+    onlineState.roomData = room; // 确保roomData始终最新
+    const players = room.players || [];
+    const activePlayers = players.filter(p => p.id);
+    const qIds = room.questions || [];
+    const currentQ = room.currentQuestion != null ? room.currentQuestion : -1;
+    const winScore = room.winScore || DEFAULT_WIN_SCORE;
+    const answerTime = room.answerTime || DEFAULT_ANSWER_TIME;
+
+    // 处理联机暂停状态
+    if (room.paused) {
+        onlineState.paused = true;
+        clearInterval(onlineState.timer);
+        const isHost = room.hostId === myUserId;
+        document.getElementById('pause-subtitle').textContent = isHost ? '你已暂停游戏' : '房主已暂停游戏';
+        document.getElementById('btn-resume').disabled = !isHost;
+        document.getElementById('pause-overlay').classList.add('show');
+        return;
+    } else if (onlineState.paused) {
+        // 房间不再暂停，恢复
+        onlineState.paused = false;
+        document.getElementById('pause-overlay').classList.remove('show');
+        // 重新启用选项
+        document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.remove('disabled'));
+        // 重启计时器（同一道题，非新题，不会在 isNewQuestion 分支重启）
+        startOnlineTimer(room.questionStartTime || Date.now(), answerTime);
+    }
+
+    if (currentQ < 0 || currentQ >= qIds.length) {
+        if (qIds.length > 0 && currentQ >= qIds.length) {
+            if (!document.getElementById('result-screen').classList.contains('active')) endOnlineGame(room);
+        }
+        return;
+    }
+
+    const isTeam = room.gameMode === 'team';
+    const teamWin = isTeam && room.teamScores && (room.teamScores.A >= winScore || room.teamScores.B >= winScore);
+    const soloWinner = !isTeam && activePlayers.find(p => (p.score || 0) >= winScore);
+    if (soloWinner || teamWin) {
+        if (!document.getElementById('result-screen').classList.contains('active')) endOnlineGame(room);
+        return;
+    }
+
+    const qId = qIds[currentQ];
+    const q = questionBank.find(qq => qq.id === qId);
+    if (!q) return;
+    const hostSlot = room.host || {};
+    const amIHostObserver = hostSlot.id === myUserId;
+    const myP = myPlayerIndex >= 0 ? players[myPlayerIndex] : null;
+    if (!myP && !amIHostObserver) return;
+
+    const isNewQuestion = onlineState.currentIdx !== currentQ;
+    if (isNewQuestion) {
+        onlineState.currentIdx = currentQ; onlineState.selected = null; onlineState.answered = false;
+        onlineState.revealed = false;
+        if (myP) onlineState.score = myP.score || 0;
+        clearInterval(onlineState.timer); clearTimeout(onlineState.advanceTimer);
+        clearTimeout(onlineState.safetyTimer); onlineState.safetyTimer = null;
+        document.getElementById('waiting-overlay').classList.remove('show');
+        document.getElementById('explanation-box').classList.remove('show');
+        document.getElementById('btn-next').classList.remove('show');
+        document.getElementById('question-text').textContent = (currentQ + 1) + '. ' + q.question;
+        const ol = document.getElementById('options-list'); ol.innerHTML = '';
+        q.options.forEach((opt, i) => {
+            const div = document.createElement('div'); div.className = 'option-item';
+            if (amIHostObserver) div.classList.add('disabled');
+            div.innerHTML = '<span class="option-letter">' + letters[i] + '</span><span>' + opt + '</span>';
+            if (!amIHostObserver) div.onclick = () => onlineSelect(i);
+            ol.appendChild(div);
+        });
+        if (amIHostObserver) {
+            onlineState.answered = true;
+        } else {
+            startOnlineTimer(room.questionStartTime || Date.now(), answerTime);
         }
     }
-});
-skipQuestionBtn.addEventListener('click', skipQuestion);
 
-// 朗读控制按钮事件
-speakerControl.addEventListener('click', function() {
-    speechManager.toggle(!gameState.speechEnabled);
-});
+    if (myP) onlineState.score = myP.score || 0;
+    document.getElementById('game-round').textContent = '第 ' + (currentQ + 1) + ' 题';
+    document.getElementById('game-score').textContent = amIHostObserver ? '主持人观战' : '我的得分: ' + onlineState.score;
 
-// 设置界面朗读开关事件
-speechToggle.addEventListener('change', function() {
-    speechManager.toggle(this.checked);
-});
+    const sb = document.getElementById('online-scoreboard'); sb.innerHTML = '';
+    if (isTeam && room.teamScores) {
+        const teamBar = document.createElement('div');
+        teamBar.className = 'ow-team-scoreboard';
+        teamBar.innerHTML = '<div class="ow-team-side ow-team-a">'
+            + '<div class="ow-team-label">A队</div>'
+            + '<div class="ow-team-score-val">' + (room.teamScores.A || 0) + '</div>'
+            + '<div class="ow-team-progress"><div class="ow-team-progress-fill team-a-fill" style="width:' + (winScore > 0 ? Math.min(100, ((room.teamScores.A || 0) / winScore) * 100) : 0) + '%"></div></div>'
+            + '</div>'
+            + '<div class="ow-team-vs">'
+            + '<div class="ow-vs-diamond">VS</div>'
+            + '<div class="ow-vs-target">' + winScore + '分胜</div>'
+            + '</div>'
+            + '<div class="ow-team-side ow-team-b">'
+            + '<div class="ow-team-label">B队</div>'
+            + '<div class="ow-team-score-val">' + (room.teamScores.B || 0) + '</div>'
+            + '<div class="ow-team-progress"><div class="ow-team-progress-fill team-b-fill" style="width:' + (winScore > 0 ? Math.min(100, ((room.teamScores.B || 0) / winScore) * 100) : 0) + '%"></div></div>'
+            + '</div>';
+        sb.appendChild(teamBar);
+        sb.classList.remove('compact');
+    } else {
+        const useCompact = activePlayers.length > 6;
+        if (useCompact) sb.classList.add('compact'); else sb.classList.remove('compact');
 
-// 暂停按钮
-pauseBtn.addEventListener('click', function() {
-    gameState.isPaused = !gameState.isPaused;
-    this.textContent = gameState.isPaused ? "▶️" : "⏸";
-    updateTimerDisplay();
-});
+        if (useCompact) {
+            const sorted = [...activePlayers].sort((a, b) => (b.score || 0) - (a.score || 0));
+            const myRank = sorted.findIndex(p => p.id === myUserId);
+            const topN = sorted.slice(0, 5);
+            const showMe = myRank >= 5;
 
-// 点击问题区域显示选项
-questionScreen.addEventListener('click', function(e) {
-    if (!e.target.classList.contains('option-box') && 
-        !e.target.classList.contains('.btn') && 
-        !e.target.closest('.btn')) {
-        handleQuestionClick();
+            topN.forEach((p, i) => {
+                const pct = winScore > 0 ? Math.min(100, ((p.score || 0) / winScore) * 100) : 0;
+                const div = document.createElement('div');
+                div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
+                const rankCls = i === 0 ? ' top1' : i === 1 ? ' top2' : i === 2 ? ' top3' : '';
+                div.innerHTML = '<span class="sb-rank' + rankCls + '">' + (i + 1) + '</span>'
+                    + '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
+                    + '<div class="sb-bar-wrap"><div class="sb-bar-fill" style="width:' + pct + '%"></div></div>'
+                    + '<span class="sb-pts">' + (p.score || 0) + '</span>'
+                    + '<span class="sb-answered">' + (p.answered ? '✓' : '') + '</span>';
+                sb.appendChild(div);
+            });
+            if (showMe) {
+                const p = sorted[myRank];
+                const pct = winScore > 0 ? Math.min(100, ((p.score || 0) / winScore) * 100) : 0;
+                const div = document.createElement('div');
+                div.className = 'sb-player me';
+                div.innerHTML = '<span class="sb-rank">' + (myRank + 1) + '</span>'
+                    + '<span class="sb-name">我</span>'
+                    + '<div class="sb-bar-wrap"><div class="sb-bar-fill" style="width:' + pct + '%"></div></div>'
+                    + '<span class="sb-pts">' + (p.score || 0) + '</span>'
+                    + '<span class="sb-answered">' + (p.answered ? '✓' : '') + '</span>';
+                sb.appendChild(div);
+            }
+        } else {
+            activePlayers.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'sb-player' + (p.id === myUserId ? ' me' : '');
+                div.innerHTML = '<span class="sb-name">' + (p.nickname || '玩家') + '</span>'
+                    + '<span class="sb-pts">' + (p.score || 0) + '/' + winScore + '</span>'
+                    + '<span class="sb-answered">' + (p.answered ? ' ✓' : '') + '</span>';
+                sb.appendChild(div);
+            });
+        }
     }
-});
 
-// 页面加载时初始化分类选择
-document.addEventListener('DOMContentLoaded', function() {
-    initCategorySelect();
-});
-    </script>
+    if (myP && myP.answered && !onlineState.answered) {
+        onlineState.answered = true; onlineState.selected = myP.answerChoice;
+        clearInterval(onlineState.timer);
+        document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
+            it.classList.add('disabled');
+            if (i === myP.answerChoice && myP.answerChoice >= 0) it.classList.add('selected');
+        });
+        document.getElementById('waiting-overlay').classList.add('show');
+    }
+
+    const allAnswered = activePlayers.every(p => p.answered);
+    if (allAnswered && !onlineState.revealed) { revealAnswer(room, q); }
+
+    if (!onlineState.revealed && !onlineState.safetyTimer && room.hostId === myUserId) {
+        const elapsed = Date.now() - (room.questionStartTime || Date.now());
+        const safetyDelay = (answerTime + 5) * 1000 - elapsed;
+        if (safetyDelay > 0) {
+            onlineState.safetyTimer = setTimeout(() => { forceAdvanceIfStuck(room); }, safetyDelay);
+        }
+    }
+}
+
+function revealAnswer(room, q) {
+    onlineState.revealed = true; clearInterval(onlineState.timer);
+    document.getElementById('waiting-overlay').classList.remove('show');
+    document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
+        it.classList.add('disabled');
+        if (i === q.answer) it.classList.add('correct');
+        if (onlineState.selected === i && i !== q.answer) it.classList.add('wrong');
+    });
+    document.getElementById('explanation-text').textContent = q.explanation || '暂无解析';
+    document.getElementById('explanation-box').classList.add('show');
+
+    if (room.hostId === myUserId) {
+        document.getElementById('btn-next').classList.add('show');
+    }
+}
+
+async function advanceQuestion(room) {
+    if (!currentRoomDocId) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const freshRoom = res.data[0];
+        const activePlayers = (freshRoom.players || []).filter(p => p.id);
+        const isTeam = freshRoom.gameMode === 'team';
+        const teamWin = isTeam && freshRoom.teamScores && 
+            (freshRoom.teamScores.A >= (freshRoom.winScore || DEFAULT_WIN_SCORE) || 
+             freshRoom.teamScores.B >= (freshRoom.winScore || DEFAULT_WIN_SCORE));
+        const soloWinner = !isTeam && activePlayers.find(p => (p.score || 0) >= (freshRoom.winScore || DEFAULT_WIN_SCORE));
+        if (soloWinner || teamWin) { endOnlineGame(freshRoom); return; }
+        const nextQ = (freshRoom.currentQuestion != null ? freshRoom.currentQuestion : -1) + 1;
+        const players = freshRoom.players.map(p => ({ ...p, answered: false, answerChoice: -1 }));
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({
+            currentQuestion: nextQ, players: players,
+            questionStartTime: Date.now(), lastActiveAt: Date.now()
+        });
+    } catch (e) { console.error('推进题目失败:', e); }
+}
+
+async function onlineSelect(idx) {
+    if (onlineState.answered || onlineState.revealed || onlineState.paused) return;
+    if (myPlayerIndex < 0) return;
+    onlineState.answered = true; onlineState.selected = idx;
+    const qIds = onlineState.roomData.questions || [];
+    const currentQ = onlineState.roomData.currentQuestion || 0;
+    const q = questionBank.find(qq => qq.id === qIds[currentQ]);
+    if (!q) return;
+    const isCorrect = idx === q.answer;
+    document.querySelectorAll('#options-list .option-item').forEach((it, i) => {
+        it.classList.add('disabled'); if (i === idx) it.classList.add('selected');
+    });
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const room = res.data[0]; const players = room.players || [];
+        if (players[myPlayerIndex]) {
+            players[myPlayerIndex].answered = true;
+            players[myPlayerIndex].answerChoice = idx;
+            if (isCorrect) players[myPlayerIndex].score = (players[myPlayerIndex].score || 0) + 1;
+            const updateData = { players, lastActiveAt: Date.now() };
+            // Team mode: update team total score
+            if (room.gameMode === 'team' && isCorrect) {
+                const myTeam = players[myPlayerIndex].team;
+                if (myTeam && room.teamScores) {
+                    room.teamScores[myTeam] = (room.teamScores[myTeam] || 0) + 1;
+                    updateData.teamScores = room.teamScores;
+                }
+            }
+            await db.collection(COLLECTION).doc(currentRoomDocId).update(updateData);
+        }
+    } catch (e) { console.error('提交答案失败:', e); }
+    document.getElementById('waiting-overlay').classList.add('show');
+}
+
+function startOnlineTimer(questionStartTime, answerTime) {
+    clearInterval(onlineState.timer);
+    const fill = document.getElementById('timer-fill'), text = document.getElementById('timer-text');
+    const total = (answerTime || DEFAULT_ANSWER_TIME) * 1000;
+    const deadline = questionStartTime + total;
+    function tick() {
+        const remain = Math.max(0, deadline - Date.now());
+        onlineState.timeLeft = remain / 1000;
+        const pct = (remain / total) * 100;
+        fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+        fill.className = 'game-timer-fill' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
+        text.className = 'game-timer-text' + (pct < 20 ? ' danger' : pct < 40 ? ' warn' : '');
+        text.textContent = Math.ceil(onlineState.timeLeft);
+        if (remain <= 0) { clearInterval(onlineState.timer); onlineTimeUp(); }
+    }
+    onlineState.timer = setInterval(tick, 100); tick();
+}
+
+async function onlineTimeUp() {
+    if (onlineState.answered) return; onlineState.answered = true;
+    if (myPlayerIndex < 0) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const room = res.data[0]; const players = room.players || [];
+        if (players[myPlayerIndex] && !players[myPlayerIndex].answered) {
+            players[myPlayerIndex].answered = true;
+            players[myPlayerIndex].answerChoice = -1;
+            await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
+        }
+    } catch (e) { console.error('超时提交失败:', e); }
+    document.querySelectorAll('#options-list .option-item').forEach(it => it.classList.add('disabled'));
+    document.getElementById('waiting-overlay').classList.add('show');
+    showToast('时间到！', 'error');
+}
+
+async function forceAdvanceIfStuck(room) {
+    if (!currentRoomDocId || onlineState.revealed) return;
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) return;
+        const freshRoom = res.data[0]; const players = freshRoom.players || [];
+        const activePlayers = players.filter(p => p.id);
+        if (activePlayers.every(p => p.answered)) return;
+        for (let i = 0; i < players.length; i++) {
+            if (players[i].id && !players[i].answered) {
+                players[i].answered = true; players[i].answerChoice = -1;
+            }
+        }
+        await db.collection(COLLECTION).doc(currentRoomDocId).update({ players, lastActiveAt: Date.now() });
+    } catch (e) { console.error('强制推进失败:', e); }
+}
+
+function onlineNext() {
+    document.getElementById('btn-next').classList.remove('show');
+    if (myUserId === onlineState.roomData?.hostId) {
+        advanceQuestion(onlineState.roomData);
+    }
+}
+
+function endOnlineGame(room) {
+    clearInterval(onlineState.timer); clearTimeout(onlineState.advanceTimer);
+    clearTimeout(onlineState.safetyTimer); onlineState.safetyTimer = null;
+    document.getElementById('waiting-overlay').classList.remove('show');
+
+    const isTeam = room.gameMode === 'team';
+    const rank = document.getElementById('result-rank'); rank.innerHTML = '';
+
+    if (isTeam && room.teamScores) {
+        const teamWin = room.teamScores.A >= (room.winScore || DEFAULT_WIN_SCORE) ? 'A' :
+                        room.teamScores.B >= (room.winScore || DEFAULT_WIN_SCORE) ? 'B' : null;
+        const myTeam = (room.players || []).find(p => p.id === myUserId)?.team;
+        const hostSlot = room.host || {};
+        const amIHostObserver = hostSlot.id === myUserId;
+        const isWin = amIHostObserver ? true : (myTeam && myTeam === teamWin);
+        document.getElementById('result-title').textContent = amIHostObserver ? '比赛结束' : (isWin ? '🎉 你们赢了！' : '比赛结束');
+        document.getElementById('result-subtitle').textContent = (teamWin ? teamWin + '队' : '') + ' 先到 ' + (room.winScore || DEFAULT_WIN_SCORE) + ' 分获胜';
+
+        const teamResultDiv = document.createElement('div');
+        teamResultDiv.className = 'ow-team-scoreboard';
+        teamResultDiv.innerHTML = '<div class="ow-team-side ow-team-a">'
+            + '<div class="ow-team-label">A队</div>'
+            + '<div class="ow-team-score-val">' + (room.teamScores.A || 0) + '</div>'
+            + '<div class="ow-team-progress"><div class="ow-team-progress-fill team-a-fill" style="width:100%"></div></div>'
+            + '</div>'
+            + '<div class="ow-team-vs">'
+            + '<div class="ow-vs-diamond">VS</div>'
+            + '<div class="ow-vs-target">' + (room.winScore || DEFAULT_WIN_SCORE) + '分胜</div>'
+            + '</div>'
+            + '<div class="ow-team-side ow-team-b">'
+            + '<div class="ow-team-label">B队</div>'
+            + '<div class="ow-team-score-val">' + (room.teamScores.B || 0) + '</div>'
+            + '<div class="ow-team-progress"><div class="ow-team-progress-fill team-b-fill" style="width:100%"></div></div>'
+            + '</div>';
+        rank.appendChild(teamResultDiv);
+    } else {
+        // Solo mode: original display
+        const players = (room.players || []).filter(p => p.id).sort((a, b) => (b.score || 0) - (a.score || 0));
+        document.getElementById('result-title').textContent = '比赛结束';
+        document.getElementById('result-subtitle').textContent = '先到 ' + (room.winScore || DEFAULT_WIN_SCORE) + ' 分获胜';
+        players.forEach((p, i) => {
+            const isMe = p.id === myUserId;
+            const div = document.createElement('div');
+            div.className = 'rank-item' + (i === 0 ? ' top' : '');
+            div.innerHTML = '<div class="rank-num">' + (i + 1) + '</div><div class="rank-name">' + (p.nickname || '玩家') + (isMe ? ' (你)' : '') + '</div><div class="rank-score">' + (p.score || 0) + ' 分</div>';
+            rank.appendChild(div);
+        });
+    }
+
+    document.getElementById('btn-replay').textContent = '再来一局';
+    showScreen('result-screen');
+}
+
+async function onlineReplay() {
+    if (!currentRoomDocId) { backToMenu(); return; }
+    try {
+        const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+        if (!res.data || !res.data.length) { backToMenu(); return; }
+        const room = res.data[0];
+        if (room.hostId === myUserId) {
+            const players = room.players.map(p => p.id ? { ...p, score: 0, ready: false, answered: false, answerChoice: -1 } : p);
+            const updateData = {
+                started: false, currentQuestion: -1, questions: [],
+                questionStartTime: 0, paused: false, players, lastActiveAt: Date.now()
+            };
+            if (room.gameMode === 'team') {
+                updateData.teamScores = { A: 0, B: 0 };
+            }
+            await db.collection(COLLECTION).doc(currentRoomDocId).update(updateData);
+        }
+        isReady = false; onlineState = {
+            questions: [], currentIdx: -1, score: 0, selected: null, answered: false,
+            timer: null, timeLeft: 0, roomData: null, revealed: false,
+            advanceTimer: null, gameStarting: false, safetyTimer: null,
+            paused: false, pausedTimeLeft: 0
+        };
+        showScreen('lobby-screen'); renderLobby(room);
+    } catch (e) { backToMenu(); }
+}
+
+async function leaveRoom() {
+    clearInterval(onlineState.timer); clearTimeout(onlineState.advanceTimer);
+    clearTimeout(onlineState.safetyTimer); onlineState.safetyTimer = null;
+    document.getElementById('waiting-overlay').classList.remove('show');
+    if (watcher) { watcher.close(); watcher = null; }
+    if (currentRoomDocId && db) {
+        try {
+            const res = await db.collection(COLLECTION).doc(currentRoomDocId).get();
+            if (res.data && res.data.length) {
+                const room = res.data[0]; const players = room.players || [];
+                const hostSlot = room.host || {};
+                if (myPlayerIndex >= 0 && players[myPlayerIndex]) {
+                    players[myPlayerIndex] = { id: null, nickname: null, ready: false, score: 0, answered: false, answerChoice: -1, team: null };
+                }
+                if (hostSlot.id === myUserId) {
+                    room.host = { id: null, nickname: null };
+                }
+                const anyoneLeft = players.some(p => p.id) || (room.host && room.host.id);
+                if (!anyoneLeft) {
+                    await db.collection(COLLECTION).doc(currentRoomDocId).remove();
+                } else {
+                    const updateData = { players, lastActiveAt: Date.now() };
+                    if (room.host) updateData.host = room.host;
+                    if (room.hostId === myUserId) {
+                        const nextHost = players.find(p => p.id) || (room.host && room.host.id ? { id: room.host.id } : null);
+                        if (nextHost) updateData.hostId = nextHost.id;
+                    }
+                    await db.collection(COLLECTION).doc(currentRoomDocId).update(updateData);
+                }
+            }
+        } catch (e) { console.warn('离开房间清理失败:', e); }
+    }
+    currentRoomDocId = ''; myPlayerIndex = -1; isReady = false; isOnlineMode = false;
+    onlineState = {
+        questions: [], currentIdx: -1, score: 0, selected: null, answered: false,
+        timer: null, timeLeft: 0, roomData: null, revealed: false,
+        advanceTimer: null, gameStarting: false, safetyTimer: null
+    };
+    showScreen('menu-screen');
+}
+
+function backToMenu() {
+    clearInterval(soloState.timer); clearInterval(onlineState.timer);
+    clearTimeout(onlineState.advanceTimer); clearTimeout(onlineState.safetyTimer);
+    document.getElementById('waiting-overlay').classList.remove('show');
+    document.getElementById('pause-overlay').classList.remove('show');
+    document.getElementById('solo-settings-overlay').classList.remove('show');
+    soloState.paused = false; onlineState.paused = false;
+    if (isOnlineMode && currentRoomDocId) { leaveRoom(); return; }
+    if (watcher) { watcher.close(); watcher = null; }
+    isOnlineMode = false; currentRoomDocId = ''; myPlayerIndex = -1;
+    showScreen('menu-screen');
+}
+</script>
 </body>
 </html>
