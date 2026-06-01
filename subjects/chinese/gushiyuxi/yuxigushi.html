@@ -35,7 +35,7 @@
         }
         
         .main-container {
-            max-width: 900px;
+            max-width: 680px;
             margin: 10px auto;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 4px;
@@ -250,6 +250,9 @@
             border-bottom: 1px dashed var(--tang-light-brown);
             text-shadow: 0.5px 0.5px 1px rgba(139, 26, 26, 0.1);
             position: relative;
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-break: break-all;
         }
         .annotation-term {
     color: var(--tang-red);
@@ -265,17 +268,16 @@
 }
 /* pinyin标注样式 —— 修复不占高度 */
 .py-char {
-    display: inline-block;
+    display: inline;
     text-align: center;
     vertical-align: baseline;
     position: relative;
-    /* 👇 加这行 */
     max-width: none !important;
 }
 .py-char::before {
     content: attr(data-py);
     position: absolute; /* 关键：悬浮不占高度 */
-    top: -0.25em;
+    top: -1em;
     left: 50%;
     transform: translateX(-50%);
     display: block;
@@ -309,10 +311,6 @@
     /* 宽度：自适应内容，最大不超出屏幕左右各留 16px */
     width: max-content;
     max-width: min(420px, calc(100vw - 32px));
-    min-width: 120px;
-    /* 高度：过长内容滚动展示，不超出屏幕 */
-
-
     /* 默认隐藏，靠 active 类显示 */
     opacity: 0;
     visibility: hidden;
@@ -670,7 +668,7 @@
     .annotation-popup {
         font-size: 0.78rem;
         padding: 5px 9px;
-        max-width: calc(100% - 16px); /* 移动端左右各留8px边距，避免顶边 */
+        max-width: min(420px, calc(100vw - 32px));
     }
     
     .nav-btn {

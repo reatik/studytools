@@ -31,10 +31,11 @@
         }
         
         .container {
-            max-width: 100%;
+            max-width: 600px;
             margin: 0 auto;
             position: relative;
             padding: 10px;
+            box-sizing: border-box;
         }
         
         /* 顶部栏 */
@@ -297,6 +298,10 @@
             white-space: pre-line;
             line-height: 1.8;
             font-family: 'KaiTi', 'STKaiti', '楷体', serif;
+            word-break: break-all;
+            overflow-wrap: break-word;
+            max-width: 100%;
+            box-sizing: border-box;
         }
         
         /* 填空题样式 */
@@ -308,7 +313,7 @@
         
         .blank-input input {
             min-width: 80px;
-            max-width: 90%;
+            max-width: 100%;
             border: none;
             border-bottom: 1px solid var(--ink-medium);
             padding: 4px 8px;
@@ -318,6 +323,7 @@
             background-color: transparent;
             color: var(--ink-dark);
             outline: none;
+            box-sizing: border-box;
         }
         
         /* 结果反馈 */
@@ -864,7 +870,8 @@
 }
         
 function showFillBlankQuestion(fullContent, blankText, category) {
-    const inputWidth = Math.max(90, blankText.length * 18);
+    const containerWidth = poemContentElement.clientWidth || 500;
+    const inputWidth = Math.min(Math.max(90, blankText.length * 18), containerWidth - 30);
     
     if (category === "日积月累") {
         // 日积月累特殊处理：保持行结构，精确替换分句
@@ -938,9 +945,10 @@ function splitSentences(content, category) {
             const textWidth = tempSpan.getBoundingClientRect().width;
             document.body.removeChild(tempSpan);
             
-            // 设置最小宽度为80px，最大宽度不超过屏幕的90%
+            // 设置最小宽度为80px，最大宽度不超过容器宽度
             const minWidth = 80;
-            const maxWidth = window.innerWidth * 0.9;
+            const containerWidth = poemContentElement.clientWidth || window.innerWidth;
+            const maxWidth = containerWidth - 30;
             const newWidth = Math.min(maxWidth, Math.max(minWidth, textWidth + 15));
             
             inputElement.style.width = `${newWidth}px`;
