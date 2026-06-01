@@ -440,9 +440,6 @@
             <a href="game/quiz/index.html" class="feature-card games-card">
                 <i class="fas fa-question-circle custom-icon"></i>
             </a>
-            <a href="game/wuziqi2/index copy.html" class="feature-card games-card">
-                <img src="images/wuziqi.png" class="custom-icon">
-            </a>
             <a href="game/wuziqi2/index.html" class="feature-card games-card">
                 <img src="images/wuziqi2.png" class="custom-icon">
             </a>
@@ -464,9 +461,14 @@
             <a href="game/quiz/indexbeifen1.0.html" class="feature-card english-card">
                 test知识竞赛
             </a>
-            <a href="game/fish/index.html" class="feature-card english-card">
+            <a href="game/fish/index.html" class="feature-card english-card" id="test2Btn">
                 test2
             </a>
+            
+            <a href="game/nihuawocai/index.html" class="feature-card english-card" id="nihuawocaiBtn">
+                <img src="images/你画我猜.png" class="custom-icon">
+            </a>
+            
         </div>
     </section>
 </div>
@@ -559,6 +561,19 @@ if (performance.navigation.type === 1) {
     e.preventDefault();
     location.href='game/diancai/index.html';
 });
+
+    document.getElementById('test2Btn')?.addEventListener('click', e => {
+        e.preventDefault();
+        showCustomPrompt('test2 · 输入访问密码', p =>
+            p === '1007' ? location.href = 'game/fish/index.html' : alert('密码错误')
+        );
+    });
+    document.getElementById('nihuawocaiBtn')?.addEventListener('click', e => {
+        e.preventDefault();
+        showCustomPrompt('你画我猜 · 输入访问密码', p =>
+            p === '1007' ? location.href = 'game/nihuawocai/index.html' : alert('密码错误')
+        );
+    });
 
     document.querySelectorAll('.feature-card').forEach(card=>{
         card.querySelectorAll('span:not(.dev-tag)').forEach(s=>s.style.display='none');
