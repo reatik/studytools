@@ -94,9 +94,9 @@ body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;backgroun
 .p-name{flex:1;text-align:left;font-weight:700;font-size:.88rem;}
 .p-name .me-tag{color:#e8864b;font-weight:900;}
 .p-name .host-tag{font-size:.6rem;color:#e8864b;background:#fff0e0;padding:1px 8px;border-radius:8px;letter-spacing:1px;margin-left:4px;white-space:nowrap;}
-.p-status{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:10px;}
-.p-status.ready{background:#e8f5e9;color:#4caf50;}
-.p-status.waiting{background:#f5f5f5;color:#bbb;}
+.p-status{font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:12px;letter-spacing:1px;}
+.p-status.ready{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:#388e3c;}
+.p-status.waiting{background:linear-gradient(135deg,#f5f5f5,#eeeeee);color:#9e9e9e;}
 .lobby-empty{text-align:center;padding:20px;color:#ccc;font-size:.85rem;}
 .lobby-btns{display:flex;gap:12px;justify-content:center;}
 .btn-ready{padding:12px 36px;border-radius:60px;font-size:.9rem;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#66bb6a,#43a047);color:#fff;letter-spacing:2px;transition:all .2s;}
@@ -118,19 +118,21 @@ body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;backgroun
 .game-word-char.revealed{color:#43a047;animation:pop .3s ease;}
 .game-word-char.painter{color:#e8864b;}
 .game-info{font-size:.8rem;color:#b8a894;font-weight:600;text-align:center;margin-bottom:4px;}
-.game-content{width:100%;max-width:500px;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.game-content{width:100%;max-width:500px;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;}
 
 /* Canvas */
 .canvas-wrap{position:relative;width:100%;max-width:500px;aspect-ratio:5/4;border-radius:20px;overflow:hidden;background:#fff;border:3px solid #eae3d9;box-shadow:0 4px 16px rgba(0,0,0,.06);}
 .canvas-wrap canvas{width:100%;height:100%;display:block;touch-action:none;cursor:crosshair;}
-.canvas-watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2rem;font-weight:700;color:#e0d5c7;pointer-events:none;letter-spacing:2px;}
 
 /* Tools palette */
-.tools-bar{width:100%;max-width:500px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:8px 10px;background:#fff;border-radius:20px;border:2px solid #eae3d9;justify-content:center;}
-.color-btn{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .15s;flex-shrink:0;}
-.color-btn.active{border-color:#3d3d3d;transform:scale(1.15);}
+.tools-bar{width:100%;max-width:500px;display:flex;flex-direction:column;gap:6px;padding:8px 10px;background:#fff;border-radius:20px;border:2px solid #eae3d9;}
+.tools-row{display:flex;align-items:center;gap:6px;justify-content:center;flex-wrap:wrap;}
+.tools-row.colors{gap:5px;}
+.tools-row.actions{gap:8px;}
+.color-btn{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.color-btn.active{border-color:#3d3d3d;transform:scale(1.2);box-shadow:0 2px 8px rgba(0,0,0,.15);}
 .color-btn:active{transform:scale(.9);}
-.size-btn{width:28px;height:28px;border-radius:50%;border:2px solid #eae3d9;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .15s;flex-shrink:0;}
+.size-btn{width:30px;height:30px;border-radius:50%;border:2px solid #eae3d9;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .15s;flex-shrink:0;}
 .size-btn.active{border-color:#e8864b;background:#fff0e0;}
 .size-btn:active{transform:scale(.9);}
 .size-dot{border-radius:50%;background:#3d3d3d;}
@@ -138,6 +140,8 @@ body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;backgroun
 .tool-btn:active{transform:scale(.94);}
 .tool-btn.active{background:#e8864b;color:#fff;border-color:#e8864b;}
 .tool-btn.done{background:linear-gradient(135deg,#66bb6a,#43a047);color:#fff;border:none;}
+.tool-btn.reveal{background:linear-gradient(135deg,#ff9800,#f57c00);color:#fff;border:none;}
+.tools-divider{width:1px;height:20px;background:#eae3d9;flex-shrink:0;}
 
 /* Guess area */
 .guess-area{width:100%;max-width:500px;display:flex;gap:8px;align-items:center;}
@@ -148,6 +152,14 @@ body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;backgroun
 .guess-btn{padding:10px 24px;border-radius:60px;font-size:.85rem;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#66bb6a,#43a047);color:#fff;letter-spacing:1px;transition:all .2s;white-space:nowrap;}
 .guess-btn:active{transform:scale(.94);}
 .guess-btn:disabled{opacity:.4;cursor:default;}
+.guess-feed{position:absolute;bottom:80px;right:12px;display:flex;flex-direction:column-reverse;gap:6px;pointer-events:none;z-index:10;max-height:40vh;overflow:hidden;}
+.guess-feed-item{padding:6px 14px;border-radius:14px;font-size:.78rem;font-weight:700;white-space:nowrap;animation:guessFeedIn .3s ease-out,guessFeedOut .5s ease-in 3s forwards;background:rgba(255,255,255,.92);color:#555;box-shadow:0 2px 8px rgba(0,0,0,.1);backdrop-filter:blur(4px);}
+.guess-feed-item .gf-name{color:#e8864b;margin-right:6px;}
+.guess-feed-item .gf-text{color:#333;}
+.guess-feed-item.gf-correct{background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.3);}
+.guess-feed-item.gf-correct .gf-text{color:#388e3c;}
+@keyframes guessFeedIn{from{opacity:0;transform:translateX(30px);}to{opacity:1;transform:translateX(0);}}
+@keyframes guessFeedOut{from{opacity:1;}to{opacity:0;transform:translateX(20px);}}
 
 /* Scoreboard */
 .scoreboard{width:100%;max-width:500px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:4px;}
@@ -239,7 +251,7 @@ body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;backgroun
     <div class="field-row">
       <div class="field">
         <label class="field-label">人数上限</label>
-        <select class="field-select" id="cr-max"><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select>
+        <input class="field-input" id="cr-max" type="number" min="2" max="20" value="6" style="text-align:left;">
       </div>
       <div class="field">
         <label class="field-label">总轮数</label>
@@ -249,7 +261,7 @@ body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;backgroun
     <div class="field-row">
       <div class="field">
         <label class="field-label">绘画时间</label>
-        <select class="field-select" id="cr-drawtime"><option value="30">30秒</option><option value="45">45秒</option><option value="60" selected>60秒</option><option value="90">90秒</option><option value="120">120秒</option></select>
+        <select class="field-select" id="cr-drawtime"><option value="30">30秒</option><option value="45">45秒</option><option value="60" selected>60秒</option><option value="90">90秒</option><option value="120">2分钟</option><option value="180">3分钟</option><option value="240">4分钟</option><option value="0">无限</option></select>
       </div>
       <div class="field">
         <label class="field-label">房间密码</label>
@@ -305,21 +317,23 @@ body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;backgroun
   <div class="game-content">
     <div class="canvas-wrap" id="canvas-wrap">
       <canvas id="draw-canvas"></canvas>
-      <div class="canvas-watermark" id="canvas-watermark" style="display:none;">等待画手... ✏️</div>
     </div>
     <div class="tools-bar" id="tools-bar" style="display:none;">
-      <button class="tool-btn" id="btn-undo" onclick="undoStroke()" style="font-size:.7rem;">↩ 撤销</button>
-      <button class="tool-btn" id="btn-clear" onclick="clearCanvas()" style="font-size:.7rem;">🗑 清空</button>
-      <span style="color:#ddd;">|</span>
-      <div id="color-palette"></div>
-      <span style="color:#ddd;">|</span>
-      <div id="size-palette"></div>
-      <button class="tool-btn done" id="btn-done-draw" onclick="doneDraw()" style="display:none;">✅ 完成</button>
+      <div class="tools-row colors" id="color-palette"></div>
+      <div class="tools-row actions">
+        <div id="size-palette" style="display:flex;gap:4px;align-items:center;"></div>
+        <div class="tools-divider"></div>
+        <button class="tool-btn" id="btn-undo" onclick="undoStroke()">↩ 撤销</button>
+        <button class="tool-btn" id="btn-clear" onclick="clearCanvas()">🗑 清空</button>
+        <div class="tools-divider"></div>
+        <button class="tool-btn reveal" id="btn-reveal-answer" onclick="revealAnswer()" style="display:none;">公布答案</button>
+        </div>
     </div>
     <div class="guess-area" id="guess-area" style="display:none;">
       <input class="guess-input" id="guess-input" type="text" placeholder="输入你的猜测..." maxlength="8" autocomplete="off">
       <button class="guess-btn" id="guess-btn" onclick="submitGuess()">猜</button>
     </div>
+    <div class="guess-feed" id="guess-feed"></div>
   </div>
   <div class="game-bottom">
     <button class="btn-pause" id="btn-pause" onclick="pauseGame()">⏸ 暂停</button>
@@ -394,14 +408,15 @@ let gameState = {
   totalRounds: 5, currentRound: -1, roomData: null,
   word: '', wordChars: [], revealedMask: [],
   drawDataVersion: 0, allStrokes: [], localStrokeCount: 0,
-  isDrawer: false, phase: 'idle', // idle, drawing, guessing, reveal
+  isDrawer: false, phase: 'idle',
   timer: null, timeLeft: 0, drawTime: 60, 
-  uploadedDrawData: '', // last uploaded string for comparison
+  uploadedDrawData: '',
   paused: false, pausedTimeLeft: 0,
   roundStartTime: 0,
   allAnswered: false,
   hostNextPending: false,
-  animTimer: null
+  animTimer: null,
+  prevGuesses: {}
 };
 
 // ========== Canvas State ==========
@@ -504,7 +519,8 @@ function renderRoomList(rooms) {
     const badgeCls = isPlaying ? 'room-card-badge playing-badge' : (isFull ? 'room-card-badge full-badge' : 'room-card-badge open');
     const badgeText = isPlaying ? '🎮' : (isFull ? '满' : '🟢');
     const word = r.word ? '绘画中' : (r.started ? '游戏中' : '等待中');
-    html += `<div class="${cls}" ${onclick}><div class="room-card-icon">🎨</div><div class="room-card-info"><div class="room-card-name">${hasPwd?'🔒 ':''}${r.roomName||'未命名'}</div><div class="room-card-meta"><span>👥 ${taken}/${maxP}</span><span>⏱ ${r.drawTime||60}s</span><span>🔄 ${r.totalRounds||5}轮</span></div></div><div class="${badgeCls}">${badgeText}</div></div>`;
+    const dt = r.drawTime===0?'∞':(r.drawTime>=60?((r.drawTime/60)+'m'):(r.drawTime+'s'));
+    html += `<div class="${cls}" ${onclick}><div class="room-card-icon">🎨</div><div class="room-card-info"><div class="room-card-name">${hasPwd?'🔒 ':''}${r.roomName||'未命名'}</div><div class="room-card-meta"><span>👥 ${taken}/${maxP}</span><span>⏱ ${dt}</span><span>🔄 ${r.totalRounds||5}轮</span></div></div><div class="${badgeCls}">${badgeText}</div></div>`;
   });
   list.innerHTML = html;
 }
@@ -526,7 +542,8 @@ function hideCreate() { document.getElementById('create-overlay').classList.remo
 
 async function createRoom() {
   const name = document.getElementById('cr-name').value.trim() || '未命名';
-  const maxP = parseInt(document.getElementById('cr-max').value)||6;
+  let maxP = parseInt(document.getElementById('cr-max').value)||6;
+  if (maxP<2) maxP=2; if (maxP>20) maxP=20;
   const totalRounds = parseInt(document.getElementById('cr-rounds').value)||5;
   const drawTime = parseInt(document.getElementById('cr-drawtime').value)||60;
   const password = document.getElementById('cr-pwd').value.trim();
@@ -646,7 +663,7 @@ function renderLobby(room) {
   document.getElementById('lobby-meta').innerHTML =
     `<span>👥 ${players.filter(p=>p.id).length+(hostPlaying?1:0)}/${maxP+(hostPlaying?1:0)}人</span>`+
     `<span>🔄 ${room.totalRounds||5}轮</span>`+
-    `<span>⏱ ${room.drawTime||60}s</span>`+
+    `<span>⏱ ${room.drawTime===0?'∞':(room.drawTime>=60?((room.drawTime/60)+'m'):(room.drawTime+'s'))}</span>`+
     (room.password?'<span>🔒有密码</span>':'');
   const container = document.getElementById('lobby-players');
   container.innerHTML = '';
@@ -654,16 +671,14 @@ function renderLobby(room) {
   hostDiv.className = 'lobby-player host-seat'+(hostSlot.id?' ready':'')+(hostSlot.id===myUserId?' me':'');
   if (hostSlot.id) {
     const isMe = hostSlot.id===myUserId;
-    const hostStatus = hostPlaying ? '🎮 参战中' : '👀 观战中';
-    const hostStatusClass = hostPlaying ? 'ready' : 'waiting';
     let toggleHtml = '';
     if (isMe) {
       toggleHtml = `<div class="host-toggle">
-        <div class="host-toggle-btn${hostPlaying?' active':''}" onclick="toggleHostPlay(true)">🎮 参与游戏</div>
-        <div class="host-toggle-btn${!hostPlaying?' active':''}" onclick="toggleHostPlay(false)">👀 仅观战</div>
+        <div class="host-toggle-btn${hostPlaying?' active':''}" onclick="toggleHostPlay(true)">参与游戏</div>
+        <div class="host-toggle-btn${!hostPlaying?' active':''}" onclick="toggleHostPlay(false)">仅观战</div>
       </div>`;
     }
-    hostDiv.innerHTML = `<div class="p-avatar host">👑</div><div class="p-name">${hostSlot.nickname||'主持人'}${isMe?' <span class="me-tag">(你)</span>':''}</div><div class="p-status ${hostStatusClass}">${hostStatus}</div>`;
+    hostDiv.innerHTML = `<div class="p-avatar host">👑</div><div class="p-name">${hostSlot.nickname||'主持人'}${isMe?' <span class="me-tag">(你)</span>':''}</div>`;
     hostDiv.innerHTML += toggleHtml;
   } else {
     hostDiv.innerHTML = `<div class="p-avatar" style="background:#e0d5c7;">?</div><div class="p-name" style="color:#ccc;">主持人空缺</div><div class="p-status waiting">空缺</div>`;
@@ -674,7 +689,7 @@ function renderLobby(room) {
     const isMe = p.id===myUserId;
     const div = document.createElement('div');
     div.className = 'lobby-player'+(p.ready?' ready':'')+(isMe?' me':'');
-    div.innerHTML = `<div class="p-avatar">${isMe?'我':(i+1)}</div><div class="p-name">${p.nickname||'玩家'}${isMe?' <span class="me-tag">(你)</span>':''}</div><div class="p-status ${p.ready?'ready':'waiting'}">${p.ready?'✅ 已准备':'⏳ 等待'}</div>`;
+    div.innerHTML = `<div class="p-avatar">${isMe?'我':(i+1)}</div><div class="p-name">${p.nickname||'玩家'}${isMe?' <span class="me-tag">(你)</span>':''}</div><div class="p-status ${p.ready?'ready':'waiting'}">${p.ready?'已准备':'等待中'}</div>`;
     container.appendChild(div);
   });
   const taken = players.filter(p=>p.id).length + (hostPlaying ? 1 : 0);
@@ -687,8 +702,11 @@ function renderLobby(room) {
   }
   const btn = document.getElementById('btn-ready');
   if (hostSlot.id===myUserId) {
-    btn.textContent = '🎮 开始游戏';
+    const activePlayers = players.filter(p=>p.id);
+    const allReady = activePlayers.length >= 2 && activePlayers.every(p=>p.ready);
+    btn.textContent = allReady ? '开始游戏' : '开始游戏';
     btn.classList.remove('cancel');
+    btn.dataset.hostBtn = '1';
   } else if (myPlayerIndex>=0) {
     const myP = players[myPlayerIndex];
     if (myP&&myP.ready) { btn.textContent='取消准备'; btn.classList.add('cancel'); }
@@ -721,7 +739,11 @@ async function toggleReady() {
     const room = res.data[0];
     const hostSlot = room.host||{};
     if (hostSlot.id===myUserId) {
-      // Host starts game
+      const activePlayers = (room.players||[]).filter(p=>p.id);
+      const hostPlaying = hostSlot.playing||false;
+      const totalActive = activePlayers.length + (hostPlaying && hostSlot.id ? 1 : 0);
+      if (totalActive < 2) { showToast('至少需要2名玩家','error'); return; }
+      if (!activePlayers.every(p=>p.ready)) { showToast('还有玩家未准备','error'); return; }
       startGame(room); return;
     }
     if (myPlayerIndex<0) return;
@@ -808,9 +830,10 @@ function startRound(room) {
   gameState.drawDataVersion = 0;
   gameState.phase = 'drawing';
   gameState.roundStartTime = Date.now();
-  gameState.drawTime = room.drawTime || 60;
-  gameState.timeLeft = gameState.drawTime;
+  gameState.drawTime = room.drawTime===0 ? 0 : (room.drawTime||60);
+  gameState.timeLeft = gameState.drawTime === 0 ? 99999 : gameState.drawTime;
   gameState.allAnswered = false;
+  gameState.prevGuesses = {};
   gameState.isDrawer = (painterId === myUserId);
   gameState.roomData = room;
   gameState.hostNextPending = false;
@@ -876,7 +899,7 @@ function renderGameUI(room) {
     document.getElementById('game-info').textContent = '🎨 请画出上面的词语';
   } else if (amHostWatching) {
     wd.innerHTML = gameState.word.split('').map(c=>`<span class="game-word-char painter">${c}</span>`).join('');
-    document.getElementById('game-info').textContent = '👀 你是主持人，观战中';
+    document.getElementById('game-info').textContent = '你是主持人，观战中';
   } else {
     renderWordBlanks();
     document.getElementById('game-info').textContent = `✏️ ${painterNick} 正在画... 猜猜是什么？`;
@@ -891,13 +914,11 @@ function renderGameUI(room) {
   if (amDrawer) {
     toolsBar.style.display = 'flex';
     guessArea.style.display = 'none';
-    document.getElementById('btn-done-draw').style.display = '';
-    document.getElementById('canvas-watermark').style.display = 'none';
+    document.getElementById('btn-reveal-answer').style.display = '';
   } else if (amHostWatching) {
     toolsBar.style.display = 'none';
     guessArea.style.display = 'none';
-    document.getElementById('btn-done-draw').style.display = 'none';
-    document.getElementById('canvas-watermark').style.display = 'none';
+    document.getElementById('btn-reveal-answer').style.display = 'none';
   } else {
     toolsBar.style.display = 'none';
     guessArea.style.display = 'flex';
@@ -905,12 +926,12 @@ function renderGameUI(room) {
     guessBtn.disabled = false;
     guessInput.value = '';
     guessInput.focus();
-    document.getElementById('canvas-watermark').style.display = '';
+    document.getElementById('btn-reveal-answer').style.display = 'none';
   }
 
   // Host buttons
   const btnDone = document.getElementById('btn-host-done');
-  if (amHost && gameState.phase === 'reveal') {
+  if ((amHost || gameState.isDrawer) && gameState.phase === 'reveal') {
     btnDone.classList.add('show');
     btnDone.textContent = '⏭ 下一轮';
   } else {
@@ -931,6 +952,11 @@ function renderWordBlanks() {
 
 function updateTimerDisplay() {
   const el = document.getElementById('game-timer');
+  if (gameState.drawTime === 0) {
+    el.textContent = '∞';
+    el.className = 'game-timer';
+    return;
+  }
   const t = Math.ceil(gameState.timeLeft);
   el.textContent = t;
   el.className = 'game-timer'+(t<=10?' danger':t<=20?' warn':'');
@@ -938,6 +964,11 @@ function updateTimerDisplay() {
 
 function startRoundTimer() {
   clearInterval(gameState.timer);
+  if (gameState.drawTime === 0) {
+    gameState.timeLeft = 99999;
+    updateTimerDisplay();
+    return;
+  }
   gameState.timer = setInterval(() => {
     if (gameState.paused) return;
     gameState.timeLeft = Math.max(0, gameState.timeLeft - 0.1);
@@ -1132,6 +1163,21 @@ function doneDraw() {
   }, 300);
 }
 
+function revealAnswer() {
+  if (!gameState.isDrawer) return;
+  clearInterval(gameState.timer);
+  uploadDrawing();
+  setTimeout(() => {
+    if (currentRoomDocId) {
+      db.collection(COLLECTION).doc(currentRoomDocId).update({
+        phase: 'reveal',
+        revealedMask: gameState.wordChars.map(()=>true),
+        lastActiveAt: Date.now()
+      }).catch(e=>console.error(e));
+    }
+  }, 300);
+}
+
 // ========== Coloring from remote drawData ==========
 function applyRemoteDrawData(dataStr) {
   try {
@@ -1216,6 +1262,16 @@ async function submitGuess() {
   } catch(e) { console.error('Submit guess fail:', e); }
 }
 
+function showGuessFeed(nickname, guess, isCorrect) {
+  const feed = document.getElementById('guess-feed');
+  if (!feed) return;
+  const item = document.createElement('div');
+  item.className = 'guess-feed-item' + (isCorrect ? ' gf-correct' : '');
+  item.innerHTML = `<span class="gf-name">${nickname}</span><span class="gf-text">${guess}</span>`;
+  feed.appendChild(item);
+  setTimeout(()=>{ if (item.parentNode) item.parentNode.removeChild(item); }, 3500);
+}
+
 // ========== Reveal Answer ==========
 function revealAnswer() {
   gameState.phase = 'reveal';
@@ -1236,7 +1292,11 @@ function revealAnswer() {
 async function hostNextRound() {
   if (!currentRoomDocId) return;
   const room = gameState.roomData;
-  if (!room || (room.host && room.host.id !== myUserId)) return;
+  if (!room) return;
+  const currentPainterId = room.painterId || '';
+  const isHost = room.host && room.host.id === myUserId;
+  const isPainter = currentPainterId === myUserId;
+  if (!isHost && !isPainter) return;
   if (gameState.hostNextPending) return;
   gameState.hostNextPending = true;
   
@@ -1392,10 +1452,6 @@ function handleRoomUpdate(room) {
     const activePlayers = players.filter(p=>p.id);
     const hostPlaying = hostSlot.playing||false;
     const totalActive = activePlayers.length + (hostPlaying && hostSlot.id ? 1 : 0);
-    const allReady = totalActive >= 2 && activePlayers.every(p=>p.ready);
-    if (allReady && room.hostId===myUserId && !room.paused) {
-      startGame(room);
-    }
     return;
   }
 
@@ -1436,11 +1492,12 @@ function handleRoomUpdate(room) {
     const painterId = room.painterId || '';
     gameState.isDrawer = (painterId === myUserId);
     gameState.phase = 'drawing';
-    gameState.drawTime = room.drawTime||60;
-    gameState.timeLeft = gameState.drawTime;
+    gameState.drawTime = room.drawTime===0 ? 0 : (room.drawTime||60);
+    gameState.timeLeft = gameState.drawTime === 0 ? 99999 : gameState.drawTime;
     gameState.roundStartTime = room.roundStartTime||Date.now();
     gameState.allAnswered = false;
     gameState.hostNextPending = false;
+    gameState.prevGuesses = {};
 
     canvasReady = false;
     setTimeout(()=>initCanvas(),100);
@@ -1454,6 +1511,23 @@ function handleRoomUpdate(room) {
     gameState.drawDataVersion = room.drawDataVersion;
     gameState.allStrokes = JSON.parse(room.drawData) || [];
     if (ctx) redrawAllStrokes();
+  }
+
+  // Detect new guesses from other players
+  if (room.phase === 'drawing' || room.phase === 'reveal') {
+    const allGuessers = [];
+    players.forEach(p => { if (p.id && p.id !== myUserId) allGuessers.push(p); });
+    if (hostSlot.id && hostSlot.id !== myUserId && hostSlot.playing) allGuessers.push(hostSlot);
+    allGuessers.forEach(g => {
+      const prev = gameState.prevGuesses[g.id] || '';
+      const curr = g.lastGuess || '';
+      if (curr && curr !== prev) {
+        const word = gameState.word || '';
+        const isCorrect = word && curr === word;
+        showGuessFeed(g.nickname || '玩家', curr, isCorrect);
+        gameState.prevGuesses[g.id] = curr;
+      }
+    });
   }
 
   // Update revealed mask
@@ -1476,9 +1550,12 @@ function handleRoomUpdate(room) {
     document.getElementById('guess-input').disabled = true;
     document.getElementById('guess-btn').disabled = true;
     document.getElementById('guess-area').style.display = 'none';
+    document.getElementById('tools-bar').style.display = 'none';
+    document.getElementById('btn-reveal-answer').style.display = 'none';
 
     const btnDone = document.getElementById('btn-host-done');
-    if (room.host && room.host.id === myUserId) {
+    const painterId = room.painterId || '';
+    if ((room.host && room.host.id === myUserId) || painterId === myUserId) {
       btnDone.classList.add('show');
       btnDone.textContent = '⏭ 下一轮';
     }
@@ -1586,7 +1663,8 @@ async function leaveRoom() {
   }
   currentRoomDocId=''; myPlayerIndex=-1; isReady=false; isOnlineMode=false; amIHost=false;
   resetState();
-  showScreen('menu-screen');
+  showScreen('room-screen');
+  refreshRooms();
 }
 
 function exitGame() {
@@ -1594,7 +1672,8 @@ function exitGame() {
   if (isOnlineMode && currentRoomDocId) { leaveRoom(); return; }
   if (watcher) { watcher.close(); watcher=null; }
   resetState();
-  showScreen('menu-screen');
+  showScreen('room-screen');
+  refreshRooms();
 }
 
 function backMenu() {
@@ -1604,7 +1683,8 @@ function backMenu() {
   if (watcher) { watcher.close(); watcher=null; }
   isOnlineMode=false; currentRoomDocId=''; myPlayerIndex=-1;
   resetState();
-  showScreen('menu-screen');
+  showScreen('room-screen');
+  refreshRooms();
 }
 
 // ========== INIT ==========

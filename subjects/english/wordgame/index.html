@@ -10,280 +10,514 @@
     <script src="../words.js"></script>
     <title>单词配对游戏</title>
     <style>
+        /* ==================== 可爱白色系设计 ==================== */
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-        
+
         body {
-            font-family: sans-serif;
-            background: linear-gradient(180deg, #e8f1fb 0%, #edf8f4 100%);
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(180deg, #fdf6f0 0%, #fefefe 30%, #f4f9fc 70%, #f8f5f0 100%);
             margin: 0;
             padding: 0;
             overflow: hidden;
             touch-action: manipulation;
+            color: #444;
         }
-        
+
+        /* ==================== 顶部栏 ==================== */
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 10px;
-            gap: 8px;
+            padding: 10px 12px;
+            gap: 10px;
+            position: relative;
+            z-index: 10;
         }
-        
+
         .action-btn {
             background: #fff;
-            border-radius: 8px;
-            padding: 0 12px;
+            color: #666;
+            border-radius: 20px;
+            padding: 0 16px;
             height: 36px;
-            border: 1px solid #ccc;
+            border: 1.5px solid #e8e0d8;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 600;
             white-space: nowrap;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .action-btn:active {
+            background: #fef6ee;
+            border-color: #f0b060;
+            color: #d4863a;
+            transform: scale(0.97);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
 
+        /* ---- 模式切换滑动条 ---- */
         .mode-slider {
-    height: 36px;
-    width: 100px;
-    border-radius: 0;
-    background: #f0f0f0;
-    position: relative;
-    cursor: pointer;
-    overflow: hidden;
-    user-select: none;
-}
-.mode-slider-track {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 12px;
-}
-.mode-slider-thumb {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    border-radius: 0;
-    background: #1e5039; /* 练习：绿色 */
-    transition: all 0.3s ease;
-    z-index: 1;
-}
-.mode-slider.competition .mode-slider-thumb {
-    left: 50%;
-    background: #ff6b6b; /* 竞赛：红色 */
-}
-.mode-text {
-    font-size: 13px;
-    font-weight: bold;
-    z-index: 2;
-    transition: color 0.3s;
-    color: #666;
-}
-.mode-slider:not(.competition) .mode-text.practice {
-    color: #fff; /* 练习选中：白色文字 */
-}
-.mode-slider.competition .mode-text.competition {
-    color: #fff; /* 竞赛选中：白色文字 */
-}
+            height: 36px;
+            width: 104px;
+            border-radius: 20px;
+            background: #f5f3ef;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            user-select: none;
+            border: 1.5px solid #e8e0d8;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .mode-slider-track {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 14px;
+        }
+        .mode-slider-thumb {
+            position: absolute;
+            left: -1px;
+            top: -1px;
+            width: calc(50% + 2px);
+            height: calc(100% + 2px);
+            border-radius: 20px;
+            background: linear-gradient(135deg, #7ec8a4 0%, #5bb88d 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+            box-shadow: 0 2px 6px rgba(91,184,141,0.3);
+        }
+        .mode-slider.competition .mode-slider-thumb {
+            left: calc(50% - 1px);
+            background: linear-gradient(135deg, #f08a7d 0%, #e8665a 100%);
+            box-shadow: 0 2px 6px rgba(232,102,90,0.3);
+        }
+        .mode-text {
+            font-size: 13px;
+            font-weight: 700;
+            z-index: 2;
+            transition: color 0.3s;
+            color: #aaa;
+        }
+        .mode-slider:not(.competition) .mode-text.practice { color: #fff; }
+        .mode-slider.competition .mode-text.competition { color: #fff; }
 
+        /* ==================== 游戏主容器 ==================== */
         .game-container {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            padding: 10px;
+            padding: 0 10px;
             padding-bottom: 90px;
-            position: relative;  
+            position: relative;
         }
-        
+
         .game-area {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 5px 0;
             overflow: hidden;
-            padding-top: 0px;
+            position: relative;
         }
-        
+
         .cards-section {
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 5px;
+            padding: 6px;
             overflow-y: auto;
         }
-        
+
         .english-section { justify-content: flex-start; }
         .chinese-section { justify-content: flex-end; }
-        
+
         .cards-row {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 8px;
-            padding: 5px;
+            padding: 4px;
         }
-        
+
+        /* ==================== 卡片：圆润可爱风 ==================== */
         .card {
             min-width: 28%;
             max-width: 28%;
-            border-radius: 18px;
+            border-radius: 16px;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
             font-size: 12px;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 10px 5px;
+            font-weight: 700;
+            padding: 10px 6px;
             cursor: pointer;
             height: 50px;
+            transition: all 0.15s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.07);
+            border: 2px solid transparent;
+            position: relative;
         }
-        .card:active { transform: scale(0.92); }
-        
-        .chinese { background: #8cbbd1; color: #1c3547; }
-        .english { background: #adddc2; color: #1e5039; }
-        .chinese.selected, .english.selected {
-            border: 3px solid #2d5a7c;
-            transform: scale(1);
-            box-shadow: 0 10px 10px rgba(0,0,0,0.25);
+
+        /* 英文卡：糖果薄荷绿 */
+        .english {
+            background: linear-gradient(135deg, #d4efe2 0%, #c3e8d4 100%);
+            color: #2e6b4c;
+            border-color: #b8ddc8;
         }
-        .matched { opacity: 0.45; transform: scale(0.9); }
-        .wrong-card { animation: shake 0.5s; background: #f5d6d6; }
-        
-        @keyframes shake {
-            0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}50%{transform:translateX(3px)}
+
+        /* 中文卡：糖果暖粉 */
+        .chinese {
+            background: linear-gradient(135deg, #fce4dc 0%, #fdd8ce 100%);
+            color: #7a3e32;
+            border-color: #f0c8b8;
         }
-        
-        .combo-display {
-            position: absolute; 
-            left: 50%;
-            top: 47%;
-            transform: translate(-50%, -50%);
-            font-size: 26px;
-            font-weight: bold;
-            color: #ff3c50;
-            text-shadow: 0 0 10px #fff;
-            z-index: 9999;
-            opacity: 0;
+
+        .card:active { transform: scale(0.93); }
+
+        /* ---- 选中态 ---- */
+        .english.selected {
+            border-color: #4db88a !important;
+            box-shadow: 0 6px 18px rgba(77,184,138,0.25), 0 0 0 3px rgba(77,184,138,0.1);
+            transform: scale(1.05);
+            z-index: 5;
+            background: linear-gradient(135deg, #c7efdb 0%, #b5e6ce 100%);
+        }
+        .chinese.selected {
+            border-color: #f08a7d !important;
+            box-shadow: 0 6px 18px rgba(240,138,125,0.25), 0 0 0 3px rgba(240,138,125,0.1);
+            transform: scale(1.05);
+            z-index: 5;
+            background: linear-gradient(135deg, #fdddd5 0%, #fdd0c5 100%);
+        }
+
+        /* ---- 已配对：透明淡化 ---- */
+        .matched {
+            opacity: 0.35;
+            transform: scale(0.85);
+            filter: grayscale(0.3);
             pointer-events: none;
         }
 
-        @keyframes comboAnim {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        /* ---- 配错：抖动 + 变红 ---- */
+        .wrong-card {
+            animation: shake 0.45s ease;
+            background: #fde0e0 !important;
+            border-color: #e8665a !important;
+            box-shadow: 0 0 14px rgba(232,102,90,0.3) !important;
         }
 
+        @keyframes shake {
+            0%,100%{transform:translateX(0)}
+            15%{transform:translateX(-4px)}
+            30%{transform:translateX(4px)}
+            45%{transform:translateX(-3px)}
+            60%{transform:translateX(3px)}
+            75%{transform:translateX(-1px)}
+        }
+
+        /* ==================== 音游风格 Judgment + Combo 系统 ==================== */
+        .combo-display {
+            position: absolute;
+            left: 50%;
+            top: 47%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            white-space: nowrap;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        /* Judgment 评级词 */
+        .combo-display .judgment {
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: -4px;
+            animation: judgmentIn 0.35s cubic-bezier(0.2, 0, 0, 1) forwards,
+                       judgmentOut 0.35s ease 0.9s forwards;
+        }
+
+        /* Combo 连击数字 */
+        .combo-display .combo-num {
+            font-size: 52px;
+            font-weight: 900;
+            font-family: 'Segoe UI', 'Impact', 'Arial Black', sans-serif;
+            line-height: 1;
+            will-change: transform, opacity;
+            animation: comboNumIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                       comboNumOut 0.35s ease 1s forwards;
+        }
+
+        .combo-display .combo-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.85;
+            margin-top: 0px;
+            animation: comboNumOut 0.4s ease 1.1s forwards;
+        }
+
+        /* ==================== 层级配色（2-100+ 七级渐变） ==================== */
+
+        /* Tier 1: 2-4  NICE - 薄荷绿 */
+        .combo-level-2 .judgment, .combo-level-3 .judgment, .combo-level-4 .judgment { color: #6cc9a1; }
+        .combo-level-2 .combo-num, .combo-level-3 .combo-num, .combo-level-4 .combo-num { color: #3da874; }
+        .combo-level-2 .combo-label, .combo-level-3 .combo-label, .combo-level-4 .combo-label { color: #6cc9a1; }
+
+        /* Tier 2: 5-9  GREAT - 翠绿 */
+        .combo-level-5 .judgment, .combo-level-6 .judgment, .combo-level-7 .judgment,
+        .combo-level-8 .judgment, .combo-level-9 .judgment { color: #4db88a; text-shadow: 0 0 8px rgba(77,184,138,0.3); }
+        .combo-level-5 .combo-num, .combo-level-6 .combo-num, .combo-level-7 .combo-num,
+        .combo-level-8 .combo-num, .combo-level-9 .combo-num { color: #2e9460; font-size: 56px; }
+        .combo-level-5 .combo-label, .combo-level-6 .combo-label, .combo-level-7 .combo-label,
+        .combo-level-8 .combo-label, .combo-level-9 .combo-label { color: #4db88a; }
+
+        /* Tier 3: 10-19  COOL - 天蓝 */
+        .combo-level-10 .judgment { color: #5aade8; text-shadow: 0 0 10px rgba(90,173,232,0.35); }
+        .combo-level-10 .combo-num { color: #3a8ec8; font-size: 58px; }
+        .combo-level-10 .combo-label { color: #5aade8; }
+
+        /* Tier 4: 20-34  EXCELLENT - 靛蓝 */
+        .combo-level-20 .judgment { color: #7b7ef6; text-shadow: 0 0 12px rgba(123,126,246,0.4); }
+        .combo-level-20 .combo-num { color: #5c5fe0; font-size: 62px; }
+        .combo-level-20 .combo-label { color: #7b7ef6; }
+
+        /* Tier 5: 35-49  AMAZING - 紫罗兰 */
+        .combo-level-35 .judgment { color: #b06ee6; text-shadow: 0 0 14px rgba(176,110,230,0.4); }
+        .combo-level-35 .combo-num { color: #9548d0; font-size: 66px; }
+        .combo-level-35 .combo-label { color: #b06ee6; }
+
+        /* Tier 6: 50-74  FANTASTIC - 玫瑰粉 */
+        .combo-level-50 .judgment { color: #f06eaa; text-shadow: 0 0 16px rgba(240,110,170,0.45); font-size: 18px; }
+        .combo-level-50 .combo-num { color: #e04890; font-size: 70px; }
+        .combo-level-50 .combo-label { color: #f06eaa; }
+
+        /* Tier 7: 75-100+  LEGENDARY - 金色 + 发光 */
+        .combo-level-75 .judgment {
+            color: #f0c040; font-size: 20px;
+            text-shadow: 0 0 18px rgba(240,192,64,0.6), 0 0 40px rgba(240,160,40,0.3);
+        }
+        .combo-level-75 .combo-num {
+            color: #e8a020; font-size: 76px;
+            text-shadow: 0 2px 0 #c08010, 0 4px 12px rgba(232,160,32,0.35);
+        }
+        .combo-level-75 .combo-label { color: #f0c040; }
+
+        /* ---- 失败提示 ---- */
+        .combo-display.fail-msg .judgment { display: none; }
+        .combo-display.fail-msg .combo-num {
+            font-size: 20px;
+            color: #ccc;
+            letter-spacing: 1px;
+        }
+        .combo-display.fail-msg .combo-label { display: none; }
+
+        /* ==================== 音游关键帧 ==================== */
+
+        @keyframes judgmentIn {
+            0% { opacity: 0; transform: translateY(18px) scale(0.7); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes judgmentOut {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.85) translateY(-6px); }
+        }
+
+        @keyframes comboNumIn {
+            0% { opacity: 0; transform: scale(1.5); }
+            60% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes comboNumOut {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-16px); }
+        }
+
+        @keyframes comboAnim {
+            0% { opacity: 0; }
+            6% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* ==================== 排行榜弹窗 ==================== */
         .rank-modal {
             position: fixed;
             top:0;left:0;right:0;bottom:0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(4px);
             z-index: 2000;
             display: none;
             justify-content: center;
             align-items: center;
         }
         .rank-box {
-            background: white;
+            background: #fff;
             width: 90%;
             max-width: 400px;
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 24px;
+            padding: 24px 20px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            position: relative;
+        }
+        .rank-box h3 {
+            color: #e88213;
+            font-weight: 800;
+            font-size: 20px;
+            margin: 0 0 16px;
+            text-align: center;
+            width: 100%;
         }
         .rank-tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 8px;
+            margin-bottom: 14px;
         }
         .rank-tab {
-    flex:1;
-    padding: 8px 4px;      /* 左右padding减小 */
-    text-align: center;
-    background: #f0f0f0;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 12px;       /* 字体调小 */
-    white-space: nowrap;   /* 强制不换行 */
-}
+            flex: 1;
+            padding: 8px 4px;
+            text-align: center;
+            background: #f5f3ef;
+            border: 1.5px solid #e8e0d8;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            color: #999;
+            transition: all 0.2s;
+        }
         .rank-tab.active {
-            background: #4c85be;
-            color: white;
+            background: #fff5eb;
+            color: #e88213;
+            border-color: #f0b060;
         }
         .rank-list {
-            max-height: 400px;
+            max-height: 360px;
             overflow-y: auto;
         }
         .rank-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
+            padding: 10px 8px;
+            border-bottom: 1px solid #f3ede5;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            color: #555;
+            font-size: 13px;
         }
-        .rank-item .no { width: 30px; }
-        .rank-item .name { flex:1; }
-        .rank-item .val { width: 60px; text-align: right; }
+        .rank-item .no { width: 36px; font-weight: 700; color: #e88213; }
+        .rank-item .name { flex: 1; }
+        .rank-item .val { width: 56px; text-align: right; font-weight: 700; color: #5bb88d; }
 
-        /* 修复年级选择器样式 */
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 3000;
-}
-.grade-picker-content {
-    background: #fff;
-    width: 90%;
-    max-width: 400px;
-    border-radius: 20px;
-    padding: 20px;
-}
-.grade-picker-header {
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-align: center;
-}
-.grade-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 10px;
-}
-.grade-tag {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-}
-.grade-tag.active {
-    background: #4c85be;
-    color: #fff;
-    border-color: #4c85be;
-}
-.grade-picker-footer {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-.picker-btn {
-    flex: 1;
-    padding: 8px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-}
-.confirm { background: #4c85be; color: #fff; }
-.cancel { background: #eee; color: #333; }
+        .rank-box button {
+            width: 100%;
+            margin-top: 14px;
+            padding: 10px;
+            border-radius: 14px;
+            background: #f5f3ef;
+            color: #888;
+            border: 1.5px solid #e8e0d8;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .rank-box button:active {
+            background: #fff5eb;
+            border-color: #f0b060;
+            color: #e88213;
+        }
+
+        /* ==================== 年级选择弹窗 ==================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+        .grade-picker-content {
+            background: #fff;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 24px;
+            padding: 24px 20px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        .grade-picker-header {
+            font-weight: 800;
+            margin-bottom: 16px;
+            text-align: center;
+            color: #555;
+            font-size: 17px;
+        }
+        .grade-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .grade-tag {
+            padding: 8px 16px;
+            border: 1.5px solid #e8e0d8;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #888;
+            background: #fcfaf7;
+            transition: all 0.2s;
+        }
+        .grade-tag:active { background: #fff5eb; border-color: #f0b060; }
+        .grade-tag.active {
+            background: #fff5eb;
+            color: #e88213;
+            border-color: #f0b060;
+        }
+        .grade-picker-footer {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .picker-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 14px;
+            border: 1.5px solid #e8e0d8;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .confirm { 
+            background: #5bb88d; 
+            color: #fff; 
+            border-color: #5bb88d;
+        }
+        .confirm:active { background: #4da87c; }
+        .cancel { 
+            background: #f5f3ef; 
+            color: #999;
+        }
+        .cancel:active { background: #eee8dc; }
 
     </style>
 </head>
@@ -303,7 +537,11 @@
         </div>
     </div>
 
-    <div class="combo-display" id="comboDisplay"></div>
+    <div class="combo-display" id="comboDisplay">
+        <div class="judgment" id="comboJudgment"></div>
+        <div class="combo-num" id="comboNum"></div>
+        <div class="combo-label">COMBO</div>
+    </div>
     <div class="game-area">
         <div class="cards-section english-section"><div class="cards-row" id="englishCardsRow"></div></div>
         <div class="cards-section chinese-section"><div class="cards-row" id="chineseCardsRow"></div></div>
@@ -312,14 +550,14 @@
 
 <div class="rank-modal" id="rankModal">
     <div class="rank-box">
-        <h3 style="margin:0 0 10px; text-align: center; width: 100%;">🏆 排行榜</h3>
+        <h3>🏆 排行榜</h3>
         <div class="rank-tabs">
             <div class="rank-tab active" data-sort="max_combo">最高连击</div>
             <div class="rank-tab" data-sort="max_correct">最多答对</div>
             <div class="rank-tab" data-sort="total_correct">总答对数</div>
         </div>
         <div class="rank-list" id="rankList"></div>
-        <button style="width:100%;margin-top:10px;padding:8px;border-radius:8px;background:#eee;border:none;" onclick="closeRank()">关闭</button>
+        <button onclick="closeRank()">关闭</button>
     </div>
 </div>
 
@@ -472,7 +710,7 @@ function speakWord(word, lang='en-US'){
     if(!speechSynthesis) return;
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(word);
-    u.lang=lang; u.rate=0.9;
+    u.lang=lang; u.rate=0.9; u.volume=0.5;
     const v = speechSynthesis.getVoices().find(x=>x.lang==='en-US'||x.lang==='en-GB');
     if(v) u.voice=v;
     speechSynthesis.speak(u);
@@ -717,6 +955,10 @@ function handleCardClick(e){
     );
 
     if(ok){
+        speechSynthesis.cancel();
+        const audio = new Audio('../../../audio/欢快提示音.mp3');
+        audio.volume = 0.5;
+        audio.play().catch(()=>{});
         gameState.currentRoundStats.correct++;
         gameState.sessionCorrect++;
         gameState.sessionTotal++;
@@ -745,12 +987,19 @@ function handleCardClick(e){
         gameState.failCombo++;
         const txt = getFailText(gameState.failCombo);
         const cd = document.getElementById('comboDisplay');
+        const jEl = document.getElementById('comboJudgment');
+        const nEl = document.getElementById('comboNum');
         if(txt){
             cd.style.animation = 'none';
             cd.offsetHeight;
-            cd.className = 'combo-display combo-level-5';
-            cd.textContent = txt;
-            cd.style.animation = 'comboAnim 2s linear forwards';
+            cd.className = 'combo-display fail-msg combo-level-2';
+            jEl.textContent = '';
+            nEl.textContent = txt;
+            cd.querySelector('.combo-label').style.animation = 'none';
+            jEl.style.animation = 'none'; nEl.style.animation = 'none';
+            cd.offsetHeight;
+            nEl.style.animation = 'judgmentIn 0.3s ease forwards, judgmentOut 0.35s ease 0.7s forwards';
+            cd.style.animation = 'comboAnim 1.2s ease forwards';
         }
         sel.selected = false;
         card.selected = false;
@@ -759,15 +1008,43 @@ function handleCardClick(e){
     }
 }
 
+function getJudgmentText(c) {
+    if(c >= 75) return "LEGENDARY";
+    if(c >= 50) return "FANTASTIC";
+    if(c >= 35) return "AMAZING";
+    if(c >= 20) return "EXCELLENT";
+    if(c >= 10) return "COOL";
+    if(c >= 5)  return "GREAT";
+    return "NICE";
+}
+
+function getComboLevel(c) {
+    if(c >= 75) return 75;
+    if(c >= 50) return 50;
+    if(c >= 35) return 35;
+    if(c >= 20) return 20;
+    if(c >= 10) return 10;
+    if(c >= 5)  return 5;
+    return 2;
+}
+
 function showCombo(c){
     const txt = getComboText(c);
     if(!txt) return;
     const cd = document.getElementById('comboDisplay');
+    const jEl = document.getElementById('comboJudgment');
+    const nEl = document.getElementById('comboNum');
     cd.style.animation = 'none';
     cd.offsetHeight;
-    cd.className = `combo-display combo-level-${Math.min(c,10)}`;
-    cd.textContent = `${txt} ×${c}`;
-    cd.style.animation = 'comboAnim 2s linear forwards';
+    cd.className = `combo-display combo-level-${getComboLevel(c)}`;
+    jEl.textContent = getJudgmentText(c);
+    nEl.textContent = c;
+    jEl.style.animation = 'none'; nEl.style.animation = 'none';
+    cd.querySelector('.combo-label').style.animation = 'none';
+    cd.offsetHeight;
+    jEl.style.animation = ''; nEl.style.animation = '';
+    cd.querySelector('.combo-label').style.animation = '';
+    cd.style.animation = 'comboAnim 1.6s ease forwards';
 }
 
 function showGradePicker(){
