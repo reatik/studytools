@@ -956,7 +956,7 @@ function handleCardClick(e){
 
     if(ok){
         speechSynthesis.cancel();
-        const audio = new Audio('../../../audio/欢快提示音.mp3');
+        const audio = new Audio('../../../Audio/欢快提示音.mp3');
         audio.volume = 0.5;
         audio.play().catch(()=>{});
         gameState.currentRoundStats.correct++;
