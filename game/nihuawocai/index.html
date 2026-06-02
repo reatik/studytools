@@ -152,14 +152,14 @@ body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;backgroun
 .guess-btn{padding:10px 24px;border-radius:60px;font-size:.85rem;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#66bb6a,#43a047);color:#fff;letter-spacing:1px;transition:all .2s;white-space:nowrap;}
 .guess-btn:active{transform:scale(.94);}
 .guess-btn:disabled{opacity:.4;cursor:default;}
-.guess-feed{position:absolute;bottom:80px;right:12px;display:flex;flex-direction:column-reverse;gap:6px;pointer-events:none;z-index:10;max-height:40vh;overflow:hidden;}
-.guess-feed-item{padding:6px 14px;border-radius:14px;font-size:.78rem;font-weight:700;white-space:nowrap;animation:guessFeedIn .3s ease-out,guessFeedOut .5s ease-in 3s forwards;background:rgba(255,255,255,.92);color:#555;box-shadow:0 2px 8px rgba(0,0,0,.1);backdrop-filter:blur(4px);}
+.guess-feed{position:absolute;bottom:80px;right:12px;display:flex;flex-direction:column;gap:6px;pointer-events:none;z-index:10;max-height:40vh;overflow:hidden;}
+.guess-feed-item{padding:6px 14px;border-radius:10px;font-size:.78rem;font-weight:700;white-space:nowrap;animation:guessFeedUp 3.5s ease-out forwards;background:rgba(255,255,255,.92);color:#555;box-shadow:0 2px 8px rgba(0,0,0,.1);backdrop-filter:blur(4px);}
 .guess-feed-item .gf-name{color:#e8864b;margin-right:6px;}
-.guess-feed-item .gf-text{color:#333;}
+.guess-feed-item .gf-text{color:#333;letter-spacing:2px;}
+.guess-feed-item .gf-dot{color:#e8864b;font-size:.9rem;}
 .guess-feed-item.gf-correct{background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.3);}
 .guess-feed-item.gf-correct .gf-text{color:#388e3c;}
-@keyframes guessFeedIn{from{opacity:0;transform:translateX(30px);}to{opacity:1;transform:translateX(0);}}
-@keyframes guessFeedOut{from{opacity:1;}to{opacity:0;transform:translateX(20px);}}
+@keyframes guessFeedUp{0%{opacity:0;transform:translateY(10px);}8%{opacity:1;transform:translateY(0);}75%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-30px);}}
 
 /* Scoreboard */
 .scoreboard{width:100%;max-width:500px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:4px;}
@@ -1265,9 +1265,18 @@ async function submitGuess() {
 function showGuessFeed(nickname, guess, isCorrect) {
   const feed = document.getElementById('guess-feed');
   if (!feed) return;
+  const word = gameState.word || '';
+  let masked = '';
+  for (let i = 0; i < guess.length; i++) {
+    if (i < word.length && guess[i] === word[i]) {
+      masked += '<span class="gf-dot">●</span>';
+    } else {
+      masked += guess[i];
+    }
+  }
   const item = document.createElement('div');
   item.className = 'guess-feed-item' + (isCorrect ? ' gf-correct' : '');
-  item.innerHTML = `<span class="gf-name">${nickname}</span><span class="gf-text">${guess}</span>`;
+  item.innerHTML = `<span class="gf-name">${nickname}</span><span class="gf-text">${masked}</span>`;
   feed.appendChild(item);
   setTimeout(()=>{ if (item.parentNode) item.parentNode.removeChild(item); }, 3500);
 }
